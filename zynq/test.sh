@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ZYNQ_IP=192.168.7.10
-MAC_IP=172.20.10.5
+#MAC_IP=172.20.10.5
 
 #add date and time to log files
 adddate() {

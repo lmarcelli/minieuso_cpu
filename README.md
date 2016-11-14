@@ -6,7 +6,7 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
 
 1. Set up the CPU hardware with a keyboard, screen, USB connector and working ethernet connection
 
-2. Download and install the Debian i386 Standard Desktop, following the default options, onto the 32 GB flash storage of the CPU.
+2. Download and install the Debian i386 Standard Desktop from a bootable USB. Follow the default options and install onto the 32 GB flash storage of the CPU.
  * root password: minieusopass
  * user: minieusouser
  * user password: minieusopass
@@ -29,7 +29,7 @@ cd /home/minieusouser/CPU/CPUsetup/
  * sets up the directory structure
  * configures the network for use with the Zynq board
  * sets up autlogin to the root user on boot
- * restarts the shell ready for action!
+ * restarts the shell 
 
 
 

@@ -1,6 +1,6 @@
 # Mini-EUSO CPU Software
 
-The CPU software controls the startup, data acquisition and housekeeping of the Mini-EUSO instrument. The data acquisition chain of the main instrument is controlled by the Zynq board of the PDM-DP system and the software can be found in the zynq/ directory. The setup of the CPU environment needed to run the CPU software is automated by running the scripts in the CPUsetup/ directory as detailed below.
+The CPU software controls the startup, data acquisition and housekeeping of the Mini-EUSO instrument. The data acquisition chain of the main instrument is controlled by the Zynq board of the PDM-DP system and the software can be found in the ```zynq/``` directory. The setup of the CPU environment needed to run the CPU software is automated by running the scripts in the ```CPUsetup/``` directory as detailed below.
 
 # Install
 

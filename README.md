@@ -11,7 +11,7 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
   * user: minieusouser
   * user password: minieusopass
   * connect to the network mirror to allow updates
-  * install GRUB onto the 32 GB flash drive also
+  * install GRUB onto the 32 GB flash drive 
 
 3. Restart the system and boot into the OS, login as root
 

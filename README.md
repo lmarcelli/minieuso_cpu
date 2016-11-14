@@ -22,5 +22,12 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
 6. cd /home/minieusouser/CPU/CPUsetup/
 
 7. ./runsetup.sh
+ * downloads the necessary packages
+ * sets up the FTP server
+ * sets up the directory structure
+ * configures the network for use with the Zynq board
+ * sets up autlogin to the root user on boot
+ * restarts the shell ready for action!
+
 
 

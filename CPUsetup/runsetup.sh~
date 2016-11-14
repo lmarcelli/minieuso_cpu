@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#CPU SETUP SCRIPT for Mini-EUSO
+#Francesca Capel November 2016
+#capel.francesca@gmail.com
+#Please see README for correct setup procedure
+
+echo "Mini-EUSO CPU setup"
+echo "*******************"
+
+#Download the necessary packages
+if ping -q -c 1 -W 1 $TEST_IP > /dev/null 2>&1
+then
+   echo "Connected to internet..."
+   echo "Downloading packages..."
+   apt-get update && upgrade > /dev/null 2>&1
+   apt-get install build-essential vsftpd expect > /dev/null 2>&1
+else
+       echo "Could not connect to internet. Exiting.."
+       exit 1
+fi
+
+#Setup the FTP server
+echo "Setting up the FTP server..."
+mkdir /home/ftp-home
+#run expect script..
+adduser -home /home/ftp-home/minieusouser minieusouser
+
+
+
+   
+   
+       
+   
+
+

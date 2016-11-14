@@ -19,7 +19,7 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
 
 5. Mount the USB and copy over the directory to /home/minieusouser/CPU/
 
-6. ```cd /home/minieusouser/CPU/CPUsetup/``
+6. ```cd /home/minieusouser/CPU/CPUsetup/```
 
 7.```./runsetup.sh```
  * downloads the necessary packages

@@ -65,7 +65,7 @@ echo "Finished data acquisition" | adddate >> /var/log/testlog
 
 #Copy data to disk
 mount /dev/sdb2 /media/usb
-directory="/home/ftp-home/minieusouser/DONE/"
+directory="/home/minieusouser/DONE/"
 cp ${directory}*.ready /media/usb
 if [ $? -eq 0  ]
 then

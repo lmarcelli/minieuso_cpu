@@ -17,8 +17,8 @@ if ping -q -c 1 -W 1 $TEST_IP > /dev/null 2>&1
 then
    echo "Connected to internet..."
    echo "Downloading packages..."
-   #apt-get update && upgrade > /dev/null 2>&1
-   #apt-get install build-essential vsftpd expect > /dev/null 2>&1
+   apt-get -y update > /dev/null 2>&1
+   apt-get -y install build-essential vsftpd expect > /dev/null 2>&1
 else
        echo "Could not connect to internet. Exiting..."
        exit 1
@@ -32,6 +32,7 @@ mkdir /home/minieusouser/DONE > /dev/null 2>&1
 chown minieusouser /home/minieusouser/DONE 
 rm /etc/vsftpd.conf > /dev/null 2>&1
 cp /home/minieusouser/CPU/CPUsetup/vsftpd.conf /etc/ > /dev/null 2>&1
+mkdir /media/usb > /dev/null 2>&1
 
 #Setup symlinks for commands
 echo "Creating symlinks"
@@ -41,8 +42,9 @@ ln -s /home/minieusouser/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_tel
 
 #Network configuration
 echo "Setting up the network configuration..."
-echo "auto eth0" >> /etc/network/interfaces
-echo "iface eth0 inet static" >> /etc/network/interfaces
+echo "	" >> /etc/network/interfaces
+echo "auto eth1" >> /etc/network/interfaces
+echo "iface eth1 inet static" >> /etc/network/interfaces
 echo "	address 192.168.7.2" >> /etc/network/interfaces
 echo "	netmask 255.255.255.0" >> /etc/network/interfaces
 echo "	gateway 192.168.7.254" >> /etc/network/interfaces
@@ -56,6 +58,8 @@ echo "[Service]" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=-/sbin/agetty -a root --noclear %I $TERM" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 systemctl daemon-reload
+
+sleep 30
 
 #Restart the terminal
 systemctl restart getty@tty1.service

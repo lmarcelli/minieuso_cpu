@@ -485,7 +485,7 @@ int RunSingleCamera( PGRGuid guid , int imageCnt )
      int lenghtsum = lengthOfString1 + lengthOfString2 + 5;
 //        cout << lenghtsum  << endl; // uncomment for testing
      char filename[lenghtsum];
-     sprintf( filename, "%s-%d.png", str.c_str(),imageCnt );
+     sprintf( filename, "/home/minieusouser/DATA/%s-%d.png", str.c_str(),imageCnt );
 //        cout <<  filename << endl; //uncomment for testing
 
      // Save the image. If a file format is not passed in, then the file

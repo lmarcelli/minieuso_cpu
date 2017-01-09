@@ -42,7 +42,6 @@ int main(int argc, char *argv[])
 	uint16_t data = 0x0000;
 
 	unsigned long int minor_number = 0;
-	struct acq *acq_output = malloc(sizeof(struct acq));
 
 	FILE * logfile_pd = fopen("/home/minieusouser/log/test_photodiode_log.log","w");
     if (logfile_pd == NULL) {
@@ -60,6 +59,7 @@ int main(int argc, char *argv[])
 
 	/* Main acquisition code */
 	for(k=0; k<k_max; k++){ 
+		struct acq *acq_output = malloc(sizeof(struct acq));
 		char fname[64];
     	snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  
 		

@@ -52,9 +52,7 @@ int main(int argc, char *argv[])
     int i, k, k_max = atoi(argv[1]);
     float actR;
     uint16_t data = 0x0000;
-
-    unsigned long int minor_number = 0;
-    struct acq *acq_output = malloc(sizeof(struct acq));
+    unsigned long int minor_number = 0; 
 
     /* open the log files */
     FILE * logfile_pd = fopen("/home/minieusouser/log/test_photodiode_log.log","w");
@@ -224,6 +222,7 @@ int main(int argc, char *argv[])
         fprintf(logfile_pdm, "%s\n", buffer);
         /* could read in and check the status here */
 
+        struct acq *acq_output = malloc(sizeof(struct acq));
         char fname[64];
         snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  
         

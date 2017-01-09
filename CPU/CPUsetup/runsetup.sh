@@ -40,6 +40,7 @@ echo "Creating symlinks"
 ln -s /home/minieusouser/CPU/zynq/scripts/acqstart_telnet.sh /usr/local/bin/acqstart_telnet
 ln -s /home/minieusouser/CPU/zynq/scripts/cpu_poll.sh /usr/local/bin/cpu_poll
 ln -s /home/minieusouser/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_cmd
+ln -s /home/minieusouser/test/bin/test_systems /usr/local/bin/test_systems
 
 #Network configuration
 echo "Setting up the network configuration..."

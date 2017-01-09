@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
                 /* run pdm test */
                 //printf("Do nothing...\n");
                 printf("run pdm test\n");
-                execlp("/home/minieusouser/CPU/test/test_pdm", "test_pdm", argv[1], NULL);
+                execlp("/home/minieusouser/CPU/test/bin/test_pdm", "test_pdm", argv[1], NULL);
             }
             else if (i == 1){
                 /* run camera test */

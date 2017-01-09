@@ -36,5 +36,8 @@ cd /home/minieusouser/CPU/CPUsetup/
 test_systems 10
 ```
 * the output data is in /home/minieusouser/DATA/
-* logfiles are in /home/minieusouser/log/
+  * fr_000000.dat for the PDM frames
+  * output0.dat for the photodiode reading
+  * .png for the photos from the cameras
+* log files are in /home/minieusouser/log/
 

@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     DM75xx_Board_Descriptor *brd;
     DM75xx_Error dm75xx_status;
     dm75xx_cgt_entry_t cgt[CHANNELS];
-    int i, k, kmax = atoi(argv[1]);
+    int i, k, k_max = atoi(argv[1]);
     float actR;
     uint16_t data = 0x0000;
 

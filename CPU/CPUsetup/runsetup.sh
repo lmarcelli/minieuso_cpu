@@ -88,8 +88,7 @@ echo "[Service]" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=-/sbin/agetty -a root --noclear %I $TERM" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 
-sleep(10)
-
+sleep 10
 systemctl daemon-reload
 echo "OK"
 

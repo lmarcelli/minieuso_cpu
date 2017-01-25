@@ -43,6 +43,7 @@ echo "Creating symlinks"
 ln -s /home/minieusouser/CPU/zynq/scripts/acqstart_telnet.sh /usr/local/bin/acqstart_telnet
 ln -s /home/minieusouser/CPU/zynq/scripts/cpu_poll.sh /usr/local/bin/cpu_poll
 ln -s /home/minieusouser/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_cmd
+make -C /home/minieusouser/CPU/test/src 
 ln -s /home/minieusouser/test/bin/test_systems /usr/local/bin/test_systems
 echo "OK"
 
@@ -72,7 +73,6 @@ cp /home/minieusouser/CPU/analog/driver/rtd-dm75xx.ko /lib/modules/3.16.0-4-686-
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
 echo "OK"
-
 
 #Press enter to continue
 read -p "Press enter to continue"

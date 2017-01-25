@@ -17,10 +17,10 @@ if ping -q -c 1 -W 1 $TEST_IP > /dev/null 2>&1
 then
    echo "Connected to internet..."
    echo "Downloading packages..."
-   apt-get -y update > /dev/null 2>&1
+   apt-get -y update 
    apt-get -y install build-essential vsftpd expect libraw1394-11 libgtk2.0-0 \
    libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 \
-   stress > /dev/null 2>&1
+   stress 
    echo "OK"
 else
        echo "Could not connect to internet. Exiting..."

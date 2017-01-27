@@ -31,12 +31,12 @@ cd /home/minieusouser/CPU/CPUsetup/
  * restarts the shell 
 
 # Run system tests
-1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument is the number of acquisitions. For example, an argument of 10 gives 10 frames from the PDM, 10 photos from each camera and 10 output files from the photodiodes.
+1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.
 ```
 test_systems 10
 ```
 * the output data is in /home/minieusouser/DATA/
-  * fr_000000.dat for the PDM frames
+  * frm_000000.dat for the PDM frames
   * output0.dat for the photodiode reading
   * .png for the photos from the cameras
 * log files are in /home/minieusouser/log/

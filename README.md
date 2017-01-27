@@ -14,11 +14,12 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
 
 3. Restart the system and boot into the OS, login as root
 
-4. Download the CPU/ directory here onto a USB and plug into the CPU
+4. Download the software from the repository
+```
+git clone https://github.com/cescalara/MiniEUSO /home/minieusouser
+```
 
-5. Mount the USB and copy over the directory to /home/minieusouser/CPU/
-
-6. Run the setup script
+5. Run the setup script
 ```
 cd /home/minieusouser/CPU/CPUsetup/
 ./runsetup.sh 
@@ -35,6 +36,10 @@ cd /home/minieusouser/CPU/CPUsetup/
 ```
 test_systems 10
 ```
+* the data acquisition 
+  * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status
+  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5s between acquisitions
+  * data from the photodiodes is read out into a FIFO and collected every 5s
 * the output data is in /home/minieusouser/DATA/
   * frm_000000.dat for the PDM frames
   * output0.dat for the photodiode reading

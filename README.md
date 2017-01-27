@@ -2,9 +2,18 @@
 
 The CPU software controls the startup, data acquisition and housekeeping of the Mini-EUSO instrument. The data acquisition chain of the main instrument is controlled by the Zynq board of the PDM-DP system. The setup of the CPU environment needed to run the CPU software is automated by running the scripts in the ```CPUsetup/``` directory as detailed below.
 
+Further information on the status of the Mini-EUSO integration and testing, as well as documentation, can be found on the Mini-EUSO wiki page: http://jemeuso.riken.jp/TAEUSO/wiki/index.php?Mini-EUSO
+
 # Install
 
-1. Set up the CPU hardware with a keyboard, screen, USB connector and working ethernet connection
+1. Set up the CPU hardware with a keyboard, screen and working ethernet connection
+ * the ethernet connection can be configured by copying the following lines into the /etc/network/interfaces file
+ * the CPU has 2 ports (eth0 and eth1), so adjust as necessary
+```
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+```  
 
 2. Download and install the Debian i386 Standard Desktop from a bootable USB. Follow the default options and install onto the 32 GB flash storage of the CPU.
  * user: minieusouser
@@ -30,6 +39,9 @@ cd /home/minieusouser/CPU/CPUsetup/
  * configures the network for use with the Zynq board
  * sets up autlogin to the root user on boot
  * restarts the shell 
+
+# Update
+1. To Update the software following installation, con
 
 # Run system tests
 1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.

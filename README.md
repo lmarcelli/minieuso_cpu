@@ -14,11 +14,12 @@ The CPU software controls the startup, data acquisition and housekeeping of the 
 
 3. Restart the system and boot into the OS, login as root
 
-4. Download the CPU/ directory here onto a USB and plug into the CPU
+4. Download the software from the repository
+```
+git clone https://github.com/cescalara/MiniEUSO /home/minieusouser
+```
 
-5. Mount the USB and copy over the directory to /home/minieusouser/CPU/
-
-6. Run the setup script
+5. Run the setup script
 ```
 cd /home/minieusouser/CPU/CPUsetup/
 ./runsetup.sh 
@@ -31,12 +32,16 @@ cd /home/minieusouser/CPU/CPUsetup/
  * restarts the shell 
 
 # Run system tests
-1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument is the number of acquisitions. For example, an argument of 10 gives 10 frames from the PDM, 10 photos from each camera and 10 output files from the photodiodes.
+1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.
 ```
 test_systems 10
 ```
+* the data acquisition 
+  * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status
+  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5s between acquisitions
+  * data from the photodiodes is read out into a FIFO and collected every 5s
 * the output data is in /home/minieusouser/DATA/
-  * fr_000000.dat for the PDM frames
+  * frm_000000.dat for the PDM frames
   * output0.dat for the photodiode reading
   * .png for the photos from the cameras
 * log files are in /home/minieusouser/log/

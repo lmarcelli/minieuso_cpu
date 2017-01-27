@@ -46,7 +46,7 @@ To Update the software following installation:
 
 1. Connect to the internet by configuring the ```/etc/network/interfaces``` file as described above, commenting out the Mini-EUSO network configuration
 
-2. Run ```git pull``` from the command line 
+2. Run ```git pull``` from the command line within the ```/home/minieusouser``` directory
 
 # Run system tests
 1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.

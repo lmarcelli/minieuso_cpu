@@ -7,13 +7,14 @@ Further information on the status of the Mini-EUSO integration and testing, as w
 # Install
 
 1. Set up the CPU hardware with a keyboard, screen and working ethernet connection
- * the ethernet connection can be configured by copying the following lines into the /etc/network/interfaces file
+ * the ethernet connection can be configured by copying the following lines into the ```/etc/network/interfaces``` file
  * the CPU has 2 ports (eth0 and eth1), so adjust as necessary
 ```
 auto eth0
 allow-hotplug eth0
 iface eth0 inet dhcp
 ```  
+ * following this run ```service networking restart``` from the command line
 
 2. Download and install the Debian i386 Standard Desktop from a bootable USB. Follow the default options and install onto the 32 GB flash storage of the CPU.
  * user: minieusouser
@@ -41,7 +42,7 @@ cd /home/minieusouser/CPU/CPUsetup/
  * restarts the shell 
 
 # Update
-1. To Update the software following installation, con
+1. To Update the software following installation, connect to the internet by configuring the ```/etc/network/interfaces``` file as described above
 
 # Run system tests
 1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.

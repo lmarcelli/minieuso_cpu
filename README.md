@@ -44,7 +44,7 @@ cd /home/minieusouser/CPU/CPUsetup/
 # Update
 To Update the software following installation: 
 
-1. Connect to the internet by configuring the ```/etc/network/interfaces``` file as described above
+1. Connect to the internet by configuring the ```/etc/network/interfaces``` file as described above, commenting out the Mini-EUSO network configuration
 
 2. Run ```git pull``` from the command line 
 

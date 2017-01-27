@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
                 /* run pdm test */
                 //printf("Do nothing...\n");
                 printf("run pdm test\n");
-                execlp("/home/minieusouser/CPU/test/bin/test_pdm", "pdm_acq", argv[1], NULL);
+                execlp("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", argv[1], NULL);
             }
             else if (i == 1){
                 /* run camera test */
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
                 /* run photodiode test */
                 //printf("Do nothing\n");
                 printf("run photodiode test\n");
-                execlp("/home/minieusouser/CPU/analog/DM75xx_Linux_v03.00.00/bin/test_photodiode", "test_photodiode", argv[1] ,NULL);
+                execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode", argv[1] ,NULL);
             }
 
         /* not reached */        

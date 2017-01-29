@@ -22,19 +22,19 @@ int main()
                 /* run pdm test */
                 //printf("Do nothing...\n");
                 printf("run pdm test\n");
-                execv("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", NULL);
+                execl("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", 0, NULL);
             }
             else if (i == 1){
                 /* run camera test */
                 //printf("run nothing here\n");
                 printf("run camera test\n");
-                execv("/home/minieusouser/CPU/cameras/test/multiplecam_test.sh", "multiplecam_test.sh", NULL);
+                execl("/home/minieusouser/CPU/cameras/test/multiplecam_test.sh", "multiplecam_test.sh", 0, NULL);
             }
             //else if (i == 2){
                 /* run photodiode test */
                 //printf("Do nothing\n");
                 //printf("run photodiode test\n");
-                //execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode" ,NULL);
+                //execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode", argv[1], NULL);
             //}
 
         /* not reached */        

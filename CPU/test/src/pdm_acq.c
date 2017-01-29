@@ -105,7 +105,7 @@ int main()
     if (n < 0) 
          error("ERROR reading from socket");
     fprintf(logfile, "%s\n", buffer);
-    fprintf(stdout, "DAC: 500\n", buffer);
+    fprintf(stdout, "DAC: 500\n");
 
     /* start the aquisition */ 
     bzero(buffer,256);

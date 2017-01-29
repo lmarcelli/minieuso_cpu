@@ -34,7 +34,7 @@ int main()
                 /* run photodiode test */
                 //printf("Do nothing\n");
                 //printf("run photodiode test\n");
-                //execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode", argv[1], NULL);
+                //execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode", 0, NULL);
             //}
 
         /* not reached */        

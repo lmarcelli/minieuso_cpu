@@ -370,7 +370,7 @@ int main()
     	        }
     	      // Display the timestamps of the images grabbed for each camera
     	         TimeStamp timestamp = image.GetTimeStamp();
-    	         cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
+    	         //cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
 
     	         // Save the file
 
@@ -438,13 +438,14 @@ int main()
     	       printf( "Grabbed image %s \n", filename );
 //    	                 printf( "Frame rate is %3.1f fps\n", frmRate.absValue );
     	       printf( "Shutter is %3.1f ms\n", shutter.absValue );
-    	       if (camInfo.serialNumber == 15568736)
+    	       /*
+             if (camInfo.serialNumber == 15568736)
     	         {
     	           cout << "Temperature is " << res / 10.0 << " K/ " << res / 10.0	- 273.15 << " Celsius" << endl;
     	         }
     	       cout << "Raw Image Dimensions: " << rows  << " x " << cols << " Image Stride: " << stride << endl;
     	       cout << "Image Size: " << iImageSize << endl;
-
+            */
     	      // Save the image. If a file format is not passed in, then the file
     	     // extension is parsed to attempt to determine the file format.
     	       error = image.Save( filename );

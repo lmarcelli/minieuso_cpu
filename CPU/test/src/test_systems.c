@@ -4,15 +4,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int main(int argc, char *argv[])
+int main()
 {
     pid_t pids[3], pid;
-    int i, status, n = 3;
-    
-    if (argc != 2) {
-        printf("One argument expected: number of iterations\n");
-        exit(0);
-    } 
+    int i, status, n = 2;
 
 
     /* Start system processes */
@@ -27,20 +22,20 @@ int main(int argc, char *argv[])
                 /* run pdm test */
                 //printf("Do nothing...\n");
                 printf("run pdm test\n");
-                execlp("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", argv[1], NULL);
+                execlp("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", NULL);
             }
             else if (i == 1){
                 /* run camera test */
                 //printf("run nothing here\n");
                 printf("run camera test\n");
-                execlp("/home/minieusouser/CPU/cameras/test/bin/multiplecam", "multiplecam", argv[1], NULL);
+                execlp("/home/minieusouser/CPU/cameras/test/multiplecam_test.sh", "multiplecam_test.sh", NULL);
             }
-            else if (i == 2){
+            //else if (i == 2){
                 /* run photodiode test */
                 //printf("Do nothing\n");
-                printf("run photodiode test\n");
-                execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode", argv[1] ,NULL);
-            }
+                //printf("run photodiode test\n");
+                //execlp("/home/minieusouser/CPU/analog/bin/test_photodiode", "test_photodiode" ,NULL);
+            //}
 
         /* not reached */        
         exit(0);

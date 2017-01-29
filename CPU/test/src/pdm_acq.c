@@ -13,9 +13,9 @@ void error(const char *msg)
     exit(0);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    int sockfd, portno, n, acq_max = atoi(argv[1]);
+    int sockfd, portno, n;
     struct sockaddr_in serv_addr;
     struct hostent *server;
     char buffer[256];
@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     if (n < 0) 
          error("ERROR reading from socket");
     fprintf(logfile, "%s\n", buffer);
+    fprintf(stdout, "instrument status: %s\n", buffer);
 
     /* set to acquisition mode one */
     bzero(buffer,256);
@@ -76,6 +77,35 @@ int main(int argc, char *argv[])
     if (n < 0) 
          error("ERROR reading from socket");
     fprintf(logfile, "%s\n", buffer);
+    fprintf(stdout, "set acquisition mode to 1\n");
+
+    /* check the status */
+    bzero(buffer, 256);
+    strncpy(buffer, "instrument status\r", sizeof(buffer));
+    fprintf(logfile,"%s\n",buffer);
+    n = write(sockfd, buffer, strlen(buffer));
+    if (n < 0) 
+         error("ERROR writing to socket");
+    bzero(buffer, 256);
+    n = read(sockfd, buffer, 255);
+    if (n < 0) 
+         error("ERROR reading from socket");
+    fprintf(logfile, "%s\n", buffer);
+    fprintf(stdout, "instrument status: %s\n", buffer);
+
+    /* Set the DAC to 500 */
+    bzero(buffer, 256);
+    strncpy(buffer, "slowctrl all dac 500\r", sizeof(buffer));
+    fprintf(logfile,"%s\n",buffer);
+    n = write(sockfd, buffer, strlen(buffer));
+    if (n < 0) 
+         error("ERROR writing to socket");
+    bzero(buffer, 256);
+    n = read(sockfd, buffer, 255);
+    if (n < 0) 
+         error("ERROR reading from socket");
+    fprintf(logfile, "%s\n", buffer);
+    fprintf(stdout, "DAC: 500\n", buffer);
 
     /* start the aquisition */ 
     bzero(buffer,256);
@@ -89,23 +119,7 @@ int main(int argc, char *argv[])
     if (n < 0) 
          error("ERROR reading from socket");
     fprintf(logfile, "%s\n", buffer);
-    
-    /* sleep for a multiple of 5s */
-	sleep(acq_max*5);
-
-    /* stop the aquisition */ 
-    bzero(buffer,256);
-    strncpy(buffer, "instrument stop\r", sizeof(buffer));
-    fprintf(logfile, "%s\n", buffer);
-    n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0) 
-         error("ERROR writing to socket");
-    bzero(buffer, 256);
-    n = read(sockfd, buffer, 255);
-    if (n < 0) 
-         error("ERROR reading from socket");
-    fprintf(logfile, "%s\n", buffer);
-
+    fprintf(stdout, "starting the acquisition...\n");
 
     fprintf(logfile, "Exiting...");
     fclose(logfile);

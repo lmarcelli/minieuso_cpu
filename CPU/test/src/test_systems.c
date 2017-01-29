@@ -6,7 +6,7 @@
 
 int main()
 {
-    pid_t pids[3], pid;
+    pid_t pids[2], pid;
     int i, status, n = 2;
 
 
@@ -22,13 +22,13 @@ int main()
                 /* run pdm test */
                 //printf("Do nothing...\n");
                 printf("run pdm test\n");
-                execlp("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", NULL);
+                execv("/home/minieusouser/CPU/test/bin/pdm_acq", "pdm_acq", NULL);
             }
             else if (i == 1){
                 /* run camera test */
                 //printf("run nothing here\n");
                 printf("run camera test\n");
-                execlp("/home/minieusouser/CPU/cameras/test/multiplecam_test.sh", "multiplecam_test.sh", NULL);
+                execv("/home/minieusouser/CPU/cameras/test/multiplecam_test.sh", "multiplecam_test.sh", NULL);
             }
             //else if (i == 2){
                 /* run photodiode test */

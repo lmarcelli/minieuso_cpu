@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
                 /* run camera test */
                 //printf("run nothing here\n");
                 printf("run camera test\n");
-                execlp("/home/minieusouser/CPU/cameras/multiplecam/bin/multiplecam", "multiplecam", argv[1], NULL);
+                execlp("/home/minieusouser/CPU/cameras/test/bin/multiplecam", "multiplecam", argv[1], NULL);
             }
             else if (i == 2){
                 /* run photodiode test */

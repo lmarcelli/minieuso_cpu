@@ -49,9 +49,9 @@ To Update the software following installation:
 2. Run ```git pull``` from the command line within the ```/home/minieusouser``` directory
 
 # Run system tests
-1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). The argument controls the length of the acquisition. For example, an argument of 10 gives 10x5s automated data collecting from the PDM, 10 photos from each camera and 10 output files from the photodiodes.
+1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). 
 ```
-test_systems 10
+test_systems 
 ```
 * the data acquisition 
   * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status

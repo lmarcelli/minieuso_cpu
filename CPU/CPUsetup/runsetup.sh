@@ -59,7 +59,7 @@ echo "OK"
 #Setup the cameras 
 echo "Setting up the camera software..."
 chmod +x /home/minieusouser/CPU/cameras/flycapture2-2.3.2.14-i386/install_flycapture.sh
-sh /home/minieusouser/CPU/cameras/flycapture2-2.3.2.14-i386/install_flycapture.sh
+(cd /home/minieusouser/CPU/cameras/flycapture2-2.3.2.14-i386 && sh install_flycapture.sh)
 sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
 echo "cat /sys/module/usbcore/parameters/usbfs_memory_mb: "
 cat /sys/module/usbcore/parameters/usbfs_memory_mb

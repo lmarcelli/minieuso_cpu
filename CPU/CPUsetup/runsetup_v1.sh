@@ -75,8 +75,8 @@ echo "blacklist rtd520" >> /etc/modprobe.d/blacklist.conf
 echo "rtd_dm75xx" >> /etc/modules
 make -C /home/software/CPU/analog/driver
 (cd /home/software/CPU/analog/driver && make load)
-mkdir /lib/modules/3.16.0-4-686-pae/kernel/rtd/
-cp /home/software/CPU/analog/driver/rtd-dm75xx.ko /lib/modules/3.16.0-4-686-pae/kernel/rtd/
+mkdir /lib/modules/$(uname -r)/kernel/rtd/
+cp /home/software/CPU/analog/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
 (cd /home/software/CPU/analog/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd

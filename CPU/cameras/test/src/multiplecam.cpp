@@ -195,7 +195,7 @@ int main()
 
           printf( "Default Frame rate is %3.1f fps. \n" , frmRate.absValue );
 
-          if (camInfo.serialNumber == 15568736) // read the temperature registe ronly for NIR camera
+          if (camInfo.serialNumber == 16316649) // read the temperature registe ronly for NIR camera
             {
               error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register
               if (error != PGRERROR_OK)
@@ -370,7 +370,7 @@ int main()
     	        }
     	      // Display the timestamps of the images grabbed for each camera
     	         TimeStamp timestamp = image.GetTimeStamp();
-    	         //cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
+    	         cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
 
     	         // Save the file
 
@@ -394,7 +394,7 @@ int main()
     	          return -1;
     	        }
 
-    	       if (camInfo.serialNumber == 15568736)
+    	       if (camInfo.serialNumber == 16316649)
     	         {
     	           error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register for the NIR camera only
     	           unsigned r  = createMask(20, 31); // extract the bits of interest
@@ -416,7 +416,7 @@ int main()
     	       int lengthOfString1; //hold the number of characters in the string
     	       std::stringstream sstm;
     	       std::string head;
-    	       if (camInfo.serialNumber == 15568736)
+    	       if (camInfo.serialNumber == 16316649)
     	         {
     	          head = "NIR";
     	         }
@@ -438,14 +438,13 @@ int main()
     	       printf( "Grabbed image %s \n", filename );
 //    	                 printf( "Frame rate is %3.1f fps\n", frmRate.absValue );
     	       printf( "Shutter is %3.1f ms\n", shutter.absValue );
-    	       /*
-             if (camInfo.serialNumber == 15568736)
+    	       if (camInfo.serialNumber == 16316649)
     	         {
     	           cout << "Temperature is " << res / 10.0 << " K/ " << res / 10.0	- 273.15 << " Celsius" << endl;
     	         }
     	       cout << "Raw Image Dimensions: " << rows  << " x " << cols << " Image Stride: " << stride << endl;
     	       cout << "Image Size: " << iImageSize << endl;
-            */
+
     	      // Save the image. If a file format is not passed in, then the file
     	     // extension is parsed to attempt to determine the file format.
     	       error = image.Save( filename );

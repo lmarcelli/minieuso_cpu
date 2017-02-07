@@ -21,7 +21,7 @@ then
    apt-get -y install build-essential vsftpd expect libraw1394-11 libgtk2.0-0 \
    libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 \
    stress bridge-utils git-core
-   echo "OK"
+   echo "Packages downloaded"
 else
        echo "Could not connect to internet. Exiting..."
        exit 1
@@ -37,11 +37,13 @@ rm /etc/vsftpd.conf > /dev/null 2>&1
 cp /home/software/CPU/CPUsetup/vsftpd.conf /etc/ > /dev/null 2>&1
 mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
-echo "OK"
+echo "FTP server is set up"
 
 #Setup the test code
+echo "Compiling the test code..."
 mkdir /home/software/CPU/test/bin > /dev/null 2>&1
 make -C /home/software/CPU/test/src > /dev/null 2>&1
+echo "The test code has been compiled"
 
 #Setup symlinks for commands
 echo "Creating symlinks"
@@ -49,22 +51,23 @@ ln -s /home/software/CPU/zynq/scripts/acqstart_telnet.sh /usr/local/bin/acqstart
 ln -s /home/software/CPU/zynq/scripts/cpu_poll.sh /usr/local/bin/cpu_poll
 ln -s /home/software/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_cmd
 ln -s /home/software/test/bin/test_systems /usr/local/bin/test_systems
-echo "OK"
+echo "Symlinks created"
 
 #Network configuration (need to comment the previous setup)
 echo "Setting up the network configuration..."
 cp /home/software/CPU/CPUsetup/interfaces /etc/network/ > /dev/null 2>&1
-echo "OK"
+echo "Network configuration is set up"
 
 #Setup the cameras 
 echo "Setting up the camera software..."
 chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-i386/install_flycapture.sh
 (cd /home/software/CPU/cameras/flycapture2-2.3.2.14-i386 && sh install_flycapture.sh)
-echo "GRUB_DISABLE_OS_PROBER=true" >> /etc/default/grub
-
+rm /etc/default/grub
+cp /home/software/CPU/CPUsetup/grub /etc/default/
+update-grub
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
-make -C /home/software/CPU/cameras/test/src
-echo "OK"
+make -C /home/software/CPU/cameras/test/src 
+echo "Camera software is set up"
 
 #Setup the analog board
 echo "Setting up the analog board software..."
@@ -83,10 +86,7 @@ lsmod | grep rtd
 make -C /home/software/CPU/analog/lib
 mkdir /home/software/CPU/analog/bin
 make -C /home/software/CPU/analog/src
-echo "OK"
-
-#Press enter to continue
-read -p "Press enter to continue"
+echo "analog software is set up"
 
 #Setup autologin to root 
 echo "Setting up autologin to root user on boot..."
@@ -98,12 +98,14 @@ echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=-/sbin/agetty -a root --noclear %I $TERM" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "OK"
 
-sleep 10
+
+#Press enter to continue
+read -p "Press enter to continue, the system will reboot to make changes."
+
 systemctl daemon-reload
+#Restart the CPU
+reboot
 
-
-#Restart the terminal
-systemctl restart getty@tty1.service
 
 
 

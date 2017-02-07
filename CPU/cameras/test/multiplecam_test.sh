@@ -1,7 +1,7 @@
 #!/bin/bash          
           
 echo ST Multiple Cameras Manager
-PROGR="/home/minieusouser/CPU/cameras/test/bin" 
+PROGR="/home/software/CPU/cameras/test/bin" 
 # create a new directory to store images
 DATE=`date +%Y-%m-%d.%H-%M-%S`
 mkdir -p $DATE

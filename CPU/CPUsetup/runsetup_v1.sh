@@ -60,10 +60,10 @@ echo "OK"
 echo "Setting up the camera software..."
 chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-i386/install_flycapture.sh
 (cd /home/software/CPU/cameras/flycapture2-2.3.2.14-i386 && sh install_flycapture.sh)
+echo "GRUB_DISABLE_OS_PROBER=true" >> /etc/default/grub
+
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
-#echo "cat /sys/module/usbcore/parameters/usbfs_memory_mb: "
-#cat /sys/module/usbcore/parameters/usbfs_memory_mb
-make -C /home/software/CPU/cameras/multiplecam/src
+make -C /home/software/CPU/cameras/test/src
 echo "OK"
 
 #Setup the analog board

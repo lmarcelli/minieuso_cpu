@@ -3,18 +3,17 @@
 source /etc/network/interfaces.d/*
 
 # The loopback network interface
-auto lo br0
+# auto lo 
 iface lo inet loopback
 
-# For connection to the internet
-#auto eth1
-#allow-hotplug eth1
-#iface eth1 inet dhcp
+# For connection to the outside world
+auto eth0
+allow-hotplug eth0
+iface eth1 inet dhcp
 
 # The Mini-EUSO interface
-# Bridged ports
-iface br0 inet static
-	bridge_ports eth0 eth1
-		address 192.168.7.10
-		netmask 255.255.255.0
-		gateway 192.168.7.254
+auto eth1
+iface eth1 inet static
+	address 192.168.7.10
+	netmask 255.255.255.0
+	gateway 192.168.7.254

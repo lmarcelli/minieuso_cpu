@@ -60,8 +60,8 @@ echo "Network configuration is set up"
 
 #Setup the cameras 
 echo "Setting up the camera software..."
-chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-i386/install_flycapture.sh
-(cd /home/software/CPU/cameras/flycapture2-2.3.2.14-i386 && sh install_flycapture.sh)
+chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64/install_flycapture.sh
+(cd /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64 && sh install_flycapture.sh)
 rm /etc/default/grub
 cp /home/software/CPU/CPUsetup/grub /etc/default/
 update-grub

@@ -39,11 +39,12 @@ mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
 echo "FTP server is set up"
 
-#Setup the test code
+#Setup the test code and telnet scripts
 echo "Compiling the test code..."
 mkdir /home/software/CPU/test/bin > /dev/null 2>&1
 make -C /home/software/CPU/test/src > /dev/null 2>&1
 echo "The test code has been compiled"
+chmod +x /home/software/CPU/zynq/telnet/*.txt
 
 #Setup symlinks for commands
 echo "Creating symlinks"

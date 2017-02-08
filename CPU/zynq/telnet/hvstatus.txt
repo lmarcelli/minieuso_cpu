@@ -1,0 +1,1 @@
+echo "hvps status gpio" >pipe

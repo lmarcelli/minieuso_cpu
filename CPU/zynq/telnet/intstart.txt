@@ -1,0 +1,2 @@
+echo "instrument mode 1" >pipe
+echo "instrument start" >pipe

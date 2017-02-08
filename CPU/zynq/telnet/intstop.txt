@@ -1,0 +1,1 @@
+echo "instrument stop" >pipe

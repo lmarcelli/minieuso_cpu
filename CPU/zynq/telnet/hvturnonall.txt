@@ -1,0 +1,2 @@
+echo "hvps turnon 1 1 1 1 1 1 1 1 1" >pipe
+echo "hvps status gpio" >pipe

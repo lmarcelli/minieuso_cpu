@@ -1,0 +1,1 @@
+echo "slowctrl all dac" $1 >pipe

@@ -1,0 +1,6 @@
+echo "hvps status gpio" >pipe
+echo "hvps cathode 3 3 3 3 3 3 3 3 3" >pipe
+echo "hvps setdac" $1 $1 $1 $1 $1 $1 $1 $1 $1 >pipe
+echo "hvps turnon 1 1 1 1 1 1 1 1 1" >pipe
+echo "hvps status gpio" >pipe
+echo "slowctrl all dac" $2 >pipe

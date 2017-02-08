@@ -32,7 +32,7 @@ git clone https://github.com/cescalara/MiniEUSO /home/software
 
 5. Run the setup script
 ```
-cd /home/minieusouser/CPU/CPUsetup/
+cd /home/software/CPU/CPUsetup/
 ./runsetup.sh 
 ```
  * downloads the necessary packages

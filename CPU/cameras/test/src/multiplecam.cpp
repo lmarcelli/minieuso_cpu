@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : multiplecam.cpp
 // Author      : Sara Turriziani
-// Version     : 2.1
+// Version     : 2.11
 // Copyright   : Mini-EUSO copyright notice
 // Description : Cameras Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
@@ -195,7 +195,7 @@ int main()
 
           printf( "Default Frame rate is %3.1f fps. \n" , frmRate.absValue );
 
-          if (camInfo.serialNumber == 16316649) // read the temperature registe ronly for NIR camera
+          if (camInfo.serialNumber == 15568736) // read the temperature registe ronly for NIR camera
             {
               error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register
               if (error != PGRERROR_OK)
@@ -215,7 +215,7 @@ int main()
           std::string line;
           float frate, shutt, autexpo;
 
-          ifstream parfile ("/home/minieusouser/CPU/cameras/test/test.ini");
+          ifstream parfile ("/home/software/CPU/cameras/test/test.ini");
 
           // Set the new values from the parameters reading them from the parameter file
           if (parfile.is_open())
@@ -394,7 +394,7 @@ int main()
     	          return -1;
     	        }
 
-    	       if (camInfo.serialNumber == 16316649)
+    	       if (camInfo.serialNumber == 15568736)
     	         {
     	           error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register for the NIR camera only
     	           unsigned r  = createMask(20, 31); // extract the bits of interest
@@ -416,7 +416,7 @@ int main()
     	       int lengthOfString1; //hold the number of characters in the string
     	       std::stringstream sstm;
     	       std::string head;
-    	       if (camInfo.serialNumber == 16316649)
+    	       if (camInfo.serialNumber == 15568736)
     	         {
     	          head = "NIR";
     	         }
@@ -438,7 +438,7 @@ int main()
     	       printf( "Grabbed image %s \n", filename );
 //    	                 printf( "Frame rate is %3.1f fps\n", frmRate.absValue );
     	       printf( "Shutter is %3.1f ms\n", shutter.absValue );
-    	       if (camInfo.serialNumber == 16316649)
+    	       if (camInfo.serialNumber == 15568736)
     	         {
     	           cout << "Temperature is " << res / 10.0 << " K/ " << res / 10.0	- 273.15 << " Celsius" << endl;
     	         }

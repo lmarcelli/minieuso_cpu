@@ -67,6 +67,7 @@ rm /etc/default/grub
 cp /home/software/CPU/CPUsetup/grub /etc/default/
 update-grub
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+mkdir /home/software/CPU/cameras/test/bin > /dev/null 2>\&1
 make -C /home/software/CPU/cameras/test/src 
 chmod +x /home/software/CPU/cameras/test/multiplecam_test.sh
 echo "Camera software is set up"

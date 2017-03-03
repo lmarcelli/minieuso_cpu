@@ -1,0 +1,56 @@
+//============================================================================
+// Name        : multiplecam.cpp
+// Author      : Sara Turriziani
+// Version     : 3.0
+// Copyright   : Mini-EUSO copyright notice
+// Description : Cameras Acquisition Module in C++, ANSI-style, for linux
+//============================================================================
+
+What it is new in 3.0 version:
+
+- The NIR (or fake NIR camera) is now recognized within the code using the model name not the serial number. This will ensure no need for the serial number and no need to change configuration files between MiniEUSO's EM and FM.
+
+What it is new in 2.9 version:
+
+- the NIR serial number is passed from the command line. 
+
+What it is new in 2.8 version:
+
+- All the on/off checks are implemented to be case insensitive.
+
+What it is new in 2.7 version:
+
+- Add the possibility to set the AUTO_EXPOSURE property in the parfile
+
+What it is new in 2.6 version:
+
+- Add the possibility to set the BRIGHTNESS property in the parfile
+
+What it is new in 2.51 version:
+
+- The images are saved into different subdirectories for NIR and VIS cameras.
+
+What it is new in 2.5 version:
+
+- The parameters SHARPNESS, SATURATION, IRIS, WHITE_BALANCE, HUE, GAMMA, PAN, TILT, ZOOM, TRIGGER_MODE, TRIGGER_DELAY are set off
+if supported by the camera. Note that cameras may support different parameters. There is no check at the moment if 
+the parameter is set off yet by default when present.
+
+What it is new in 2.4 version:
+
+- Implemented the possibility to set the frame rate off or on in the parameter file.  If frame rate is set off, the shutter time is the only value 
+used to regulate camera's exposure. If it set on, frame rate and shutter are both used to to regulate 
+camera's exposure. Note that if the frame rate is set on and its value in the parfile is 
+outside the allowed range, the program is aborted. Note that if the shutter time value in the parfile
+is outside the allowed range, the shutter time is set by default to the maximum allowed value (this will need
+to be discussed and changed accordingly). 
+
+What it is new in 2.3 version:
+
+- Implemented the possibility to set a value for the GAIN parameter as the autoexposure is set off.
+
+What it is new in 2.2 version:
+
+- Each camera has its one parfile, so parameters can be set totally independently for the two cameras.
+
+

@@ -3,7 +3,7 @@ CFLAGS+=-g
 INCLUDE = -I../../include -I/usr/include/flycapture
 LIBS =   -lflycapture 
 
-OUTDIR = /home/software/CPU/cameras/multiplecam/bin/
+OUTDIR = /home/software/multiplecam/bin/
 
 PROG=multiplecam
 OBJS=$(PROG).o

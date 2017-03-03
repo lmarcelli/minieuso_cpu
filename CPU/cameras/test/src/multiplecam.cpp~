@@ -241,17 +241,17 @@ int main(int argc, char* argv[])
           int desiredBrightness;
 
           ifstream parfile;
-          
+          string destination;
 
           if (camInfo.serialNumber == serialnir)
             {
         	 parfile.open("/home/software/test/testNIR.ini");
-        	 
+        	 destination = "NIR";
             }
           else
           {
         	  parfile.open("/home/software/test/testVIS.ini");
-        	 
+        	  destination = "VIS";
           }
           // Set the new values from the parameters reading them from the parameter file
           if (parfile.is_open())

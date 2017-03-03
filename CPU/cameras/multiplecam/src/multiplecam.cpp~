@@ -218,6 +218,18 @@ int main(int argc, char* argv[])
 
           printf( "Default FRAME_RATE is %3.1f fps. \n" , frmRate.absValue );
 
+          printf("Test name %s\n", camInfo.modelName);
+
+             char* name1;
+             name1 = strtok(camInfo.modelName, " ");
+
+           //  cout << name1 << '\n'; uncomment for debugging
+
+           if ( strcmp("Chameleon", name1) == 0)
+           {
+        	   cout << "This is NIR camera" << endl;
+           }
+
           if (camInfo.serialNumber == serialnir) // read the temperature register only for NIR camera
             {
               error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register
@@ -241,17 +253,17 @@ int main(int argc, char* argv[])
           int desiredBrightness;
 
           ifstream parfile;
-          
+          string destination;
 
           if (camInfo.serialNumber == serialnir)
             {
-        	 parfile.open("/home/software/test/testNIR.ini");
-        	 
+        	 parfile.open("/home/lanfos/workspace/multiplecam/testNIR.ini");
+        	 destination = "NIR";
             }
           else
           {
-        	  parfile.open("/home/software/test/testVIS.ini");
-        	 
+        	  parfile.open("/home/lanfos/workspace/multiplecam/testVIS.ini");
+        	  destination = "VIS";
           }
           // Set the new values from the parameters reading them from the parameter file
           if (parfile.is_open())

@@ -44,7 +44,7 @@ echo "Compiling the test code..."
 mkdir /home/software/CPU/test/bin > /dev/null 2>&1
 make -C /home/software/CPU/test/src > /dev/null 2>&1
 echo "The test code has been compiled"
-chmod +x /home/software/CPU/zynq/telnet/*.txt
+chmod +x /home/software/CPU/zynq/telnet/*
 
 #Setup symlinks for commands
 echo "Creating symlinks"

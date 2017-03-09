@@ -5,7 +5,7 @@ Program to test acquisition from the photodiodes via the analog brd.
 All 16 analog channels are repeatedly read into the FIFO, resulting in 1024 samples. 
 This is read out into a structure of size 1024 and saved as the file "outputX.dat",
 where X is the packet number. 
-Pass the number of iterations of the test program as an input.
+Program loops infinitely to satisfy early engineering model tests
 
 */
 
@@ -37,7 +37,7 @@ int main()
 	DM75xx_Board_Descriptor *brd;
 	DM75xx_Error dm75xx_status;
 	dm75xx_cgt_entry_t cgt[CHANNELS];
-	int i;
+	int i, k;
 	//k, k_max = atoi(argv[1]);
 	float actR;
 	uint16_t data = 0x0000;
@@ -59,6 +59,7 @@ int main()
 	DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Init");
 
 	/* Main acquisition code */
+	k = 0;
 	for(;;){ 
 		struct acq *acq_output = malloc(sizeof(struct acq));
 		char fname[64];
@@ -162,6 +163,7 @@ int main()
 			fclose(file);
 		}
 		free(acq_output);
+		k++;
 		sleep(5);
 	}
 	

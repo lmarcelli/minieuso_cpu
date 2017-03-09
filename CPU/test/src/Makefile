@@ -8,11 +8,17 @@ OUTDIR = ../bin/
 
 TESTS = \
 	pdm_acq \
-	pdm_stop \ 
+	pdm_stop \
+	test_pdm \
+	test_systems \
+
+TESTS = \
+    pdm_acq \
+    pdm_stop \
     test_pdm \
     test_systems \
 
-all:	$(TESTS)
+all:    $(TESTS)
 
 pdm_acq: pdm_acq.c
 	$(CC) $(CFLAGS) -o pdm_acq pdm_acq.c 

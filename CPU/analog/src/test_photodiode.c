@@ -32,12 +32,13 @@ struct acq {
 };
 
 /* Main program code */
-int main(int argc, char *argv[])
+int main()
 {
 	DM75xx_Board_Descriptor *brd;
 	DM75xx_Error dm75xx_status;
 	dm75xx_cgt_entry_t cgt[CHANNELS];
-	int i, k, k_max = atoi(argv[1]);
+	int i;
+	//k, k_max = atoi(argv[1]);
 	float actR;
 	uint16_t data = 0x0000;
 
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
 	DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Init");
 
 	/* Main acquisition code */
-	for(k=0; k<k_max; k++){ 
+	for(;;){ 
 		struct acq *acq_output = malloc(sizeof(struct acq));
 		char fname[64];
     	snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  

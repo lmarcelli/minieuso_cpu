@@ -28,7 +28,7 @@ int main()
                 printf("run camera test\n");
                 execl("/home/software/CPU/cameras/multiplecam/multiplecam.sh", "multiplecam_test.sh", NULL);
             }
-           *else if (i == 2){
+           else if (i == 2){
 	        /* run photodiode test */
                 printf("run photodiode test\n");
                 execl("/home/software/CPU/analog/bin/test_photodiode", "test_photodiode", NULL);

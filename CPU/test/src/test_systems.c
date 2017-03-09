@@ -6,8 +6,8 @@
 
 int main()
 {
-    pid_t pids[2], pid;
-    int i, status, n = 2;
+    pid_t pids[3], pid;
+    int i, status, n = 3;
 
 
     /* Start system processes */

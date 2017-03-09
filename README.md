@@ -59,11 +59,11 @@ test_systems
   * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status
   * data from the cameras is collected by acquiring with one camera at a time,  waiting 5s between acquisitions
   * data from the photodiodes is read out into a FIFO and collected every 5s
-* the output data from the PDM and photodiodes is in /home/minieusouser/DATA/
-  * frm_XXXXXXXX.dat for the PDM frames
-  * outputX.dat for the photodiode reading
-  * log files are in /home/minieusouser/log/
- * the output data from the cameras is in /home/software/CPU/cameras/multiplecam/<current_date>
+* the output data from the PDM and photodiodes is in ```/home/minieusouser/DATA/```
+  * ```frm_XXXXXXXX.dat``` for the PDM frames
+  * ```outputX.dat``` for the photodiode reading
+  * log files are in ```/home/minieusouser/log/```
+* the output data from the cameras is in ```/home/software/CPU/cameras/multiplecam/<current_date>```
   * .png for the photos from the cameras
-  * log files are in /home/software/CPU/cameras/multiplecam/log/
+  * log files are in ```/home/software/CPU/cameras/multiplecam/log/```
 

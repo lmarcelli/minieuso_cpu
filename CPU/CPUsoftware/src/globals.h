@@ -1,7 +1,7 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define VERSION 1.1
+#define VERSION 1.2
 #define VERSION_DATE_STRING "13/04/2017"
 
 #include <stdlib.h>
@@ -16,9 +16,11 @@
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
-#include <iomanip>
 
+#include <thread>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -31,10 +33,11 @@
 /* definitions */
 #define HOME_DIR "/home/software/CPU/"
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
-#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/dummy.conf"
-#define ZYNQ_IP_ADDRESS "192.168.7.10"
+#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
+#define ZYNQ_IP "192.168.7.10"
+#define TELNET_PORT 23
 
-/* external variables (defined in globals.cpp) */
+/* external variables */
 extern std::string log_name;
 
 #endif

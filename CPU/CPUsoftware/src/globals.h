@@ -1,8 +1,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define VERSION 1.0
-#define VERSION_DATE_STRING "09/12/2016"
+#define VERSION 1.1
+#define VERSION_DATE_STRING "13/04/2017"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -14,17 +14,27 @@
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <iomanip>
 
-#include "CPU_functions.h"
-#include "general_functions.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <streambuf>
+
+#include "cpu_functions.h"
+#include "general.h"
+#include "log.h"
 
 /* definitions */
-#define USB_PORT "/dev/sdb2"
+#define HOME_DIR "/home/software/CPU/"
+#define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
+#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/dummy.conf"
 #define ZYNQ_IP_ADDRESS "192.168.7.10"
 
-/* external variables (defined in globals.c) */
-extern FILE * log_file;
+/* external variables (defined in globals.cpp) */
+extern std::string log_name;
 
 #endif

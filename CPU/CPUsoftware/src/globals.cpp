@@ -3,4 +3,4 @@
 
 #include "globals.h"
 
-FILE * log_file;
+std::string log_name = create_logname(); 

@@ -339,9 +339,115 @@ int hvps_turnon() {
   sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
-  status_string = send_recv_telnet("hvps status gpio\n", sockfd);
-  printf("HVPS status: %s\n", stat_str);
+  /* set the cathode voltage */
+  status_string = send_recv_telnet("hvps cathode 3 3 3 3 3 3 3 3 3\n", sockfd);
+  printf("status: %s\n", stat_str);
 
+  /* turn on */
+  status_string = send_recv_telnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
+  printf("status: %s\n", stat_str);
+
+  /* set the dynode voltage */
+  status_string = send_recv_telnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
+  printf("status: %s\n", stat_str);
+
+  
+  close(sockfd);
+  return 0;
+}
+
+/* take an scurve */
+int scurve() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  long status;
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  /* take an s-curve */
+  status_string = send_recv_telnet("acq sweep 0 10 1000 128\n", sockfd);
+  printf("status: %s\n", stat_str);
+
+  /* wait for scurve to be taken */
+  sleep(15);
+  
+  close(sockfd);
+  return 0;
+}
+
+int data_acquisition() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  long status;
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  /* switch to data acquisition mode 1*/
+  status_string = send_recv_telnet("instrument mode 1\n", sockfd);
+  printf("status: %s\n", stat_str);
+
+  /* check the status */
+  //ADD THIS
+
+  /* start data acquisition */
+  status_string = send_recv_telnet("instrument start\n", sockfd);
+  printf("status: %s\n", stat_str);
+  
+  
+  close(sockfd);
+  return 0;
+}
+
+
+int data_acquisition_stop() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  long status;
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  /* stop the data acquisition */
+  status_string = send_recv_telnet("instrument stop\n", sockfd);
+  printf("status: %s\n", stat_str);
+
+  /* check the status */
+  //ADD THIS
+
+  /* switch to instrument mode 0 */
+  status_string = send_recv_telnet("instrument mode 1\n", sockfd);
+  printf("status: %s\n", stat_str);
+  
+  
   close(sockfd);
   return 0;
 }

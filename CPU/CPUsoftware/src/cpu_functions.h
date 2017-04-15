@@ -15,5 +15,10 @@ int connect_telnet(std::string ip_address, int portno);
 int inst_status();
 int inst_status_test(std::string ip_address, int portno, std::string send_msg);
 int hvps_status();
+int hvps_turnon();
+int scurve();
+int data_acqusition();
+int data_acqusition_stop();
+
 
 #endif

@@ -1,15 +1,15 @@
 #include "globals.h"
 
 /* parsing a configuation file */
-void parse(std::string config_file_local) {
+config parse(std::string config_file_local) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   std::string line;
   std::string config_file_name;
 
-  /* define the parameters to parse */
-  float par_a, par_b, par_c; 
-   
+  /* define the parameters to parse */ 
+  config output;
+  
   std::ifstream cfg_file;
   std::stringstream cf;
   cf << config_file_local;
@@ -23,34 +23,37 @@ void parse(std::string config_file_local) {
       std::string type;
       in >> type;
       
-      if (type == "PARAMETER_A") {
-	in >> par_a;
-	printf("parameter A is: %f\n", par_a);
+      if (type == "CATHODE_VOLTAGE") {
+	in >> output.cathode_voltage;
+	printf("CATHODE_VOLTAGE is: %d\n", output.cathode_voltage);
       }
-      else if (type == "PARAMETER_B") {
-	in >> par_b;
-	printf("parameter B is: %f\n", par_b);
-      }
-      else if (type == "PARAMETER_C") {
-	in >> par_c;
-	printf("parameter C is: %f\n", par_c);
-      }  
+      else if (type == "DYNODE_VOLTAGE") {
+	in >> output.dynode_voltage;
+	printf("DYNODE_VOLTAGE is: %d\n", output.dynode_voltage);
+      } 
     }
     cfg_file.close();
   }
   else {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
-  } 
+  }
+  
+  return output;
 }
 
 
 /* reload and parse a configuration file */
-void configure(std::string config_file, std::string config_file_local) {
+config configure(std::string config_file, std::string config_file_local) {
+
+  /* definitions */
+  const char * cfg = config_file.c_str();
+  const char * cfg_local = config_file_local.c_str();
+  config parse_output;
+  
+  /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "running configuration" << std::endl;
-  const char * cfg = config_file.c_str();
-  const char * cfg_local = config_file_local.c_str();
 
   if (FILE *file = fopen(cfg, "r")) {
 
@@ -63,15 +66,18 @@ void configure(std::string config_file, std::string config_file_local) {
     }
 
     /* parse the file */
-    parse(config_file_local);
-
+    parse_output = parse(config_file_local);
+    
   }
   else {
     clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
   }
+
+  return parse_output;
 }
 
 /* check telnet connection on a certain IP address */
+/* closes the telnet connection after */
 int check_telnet(std::string ip_address, int portno) {
 
   /* definitions */
@@ -115,7 +121,7 @@ int check_telnet(std::string ip_address, int portno) {
     printf("connected to %s on port %u\n", ip, portno);
   }
 
-       
+  close(sockfd);
   return 0;  
 }
 
@@ -135,24 +141,27 @@ std::string send_recv_telnet(std::string send_msg, int sockfd) {
   /* prepare the message to send */
   bzero(buffer, 256);
   strncpy(buffer, s_msg, sizeof(buffer));
+  send_msg.erase(std::remove(send_msg.begin(), send_msg.end(), '\n'), send_msg.end());
   clog << "info: " << logstream::info << "sending via telnet: " << send_msg << std::endl;
  
   n = write(sockfd, buffer, strlen(buffer));
-  if (n < 0) 
+  if (n < 0) {
     clog << "error: " << logstream::error << "error writing to socket" << std::endl;
-   
+    exit(0);
+  }
   bzero(buffer, 256);
   n = read(sockfd, buffer, 255);
-  if (n < 0)
-     clog << "error: " << logstream::error << "error reading to socket" << std::endl;
-
+  if (n < 0) {
+    clog << "error: " << logstream::error << "error reading to socket" << std::endl;
+    exit(0);
+  }
   recv_msg = buffer;
-  clog << "error: " << logstream::error << "receiving via telnet: " << recv_msg << std::endl;
+  clog << "info: " << logstream::info << "receiving via telnet: " << recv_msg << std::endl;
   return recv_msg;
  }
 
 /* connect to telnet */
-/* to be called in a separate thread and wait for commands */
+/* leaves telnet open to be closed with a separate function */
 int connect_telnet(std::string ip_address, int portno) {
 
   /* definitions */
@@ -196,12 +205,13 @@ int connect_telnet(std::string ip_address, int portno) {
     printf("connected to %s on port %u\n", ip, portno);
   }
   
-  return 0;   
+  return sockfd;   
 }
 
 /* check the instrument status */
 int inst_status() {
 
+  /* definitions */
   std::string status_string;
   long status;
   const char * stat_str;
@@ -212,18 +222,126 @@ int inst_status() {
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking the instrument status" << std::endl;
 
-  /* setup the telnet connection in a separate thread */
-  //std::thread th1(connect_telnet(ZYNQ_IP,TELNET_PORT));
-  //sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
   
   /* send and receive commands in another */
   status_string = send_recv_telnet("instrument status\n", sockfd);
   stat_str = status_string.c_str();
-  status = std::stol(stat_str);
-  printf("status: %ld", status);
+  //status = std::stol(stat_str);
+  printf("status: %s\n", stat_str);
+
+  close(sockfd);
+  return 0;
+}
+
+
+/* check the instrument status */
+/* quick test approach with all telnet setup in one function */
+int inst_status_test(std::string ip_address, int portno, std::string send_msg) {
   
-  /* join the telnet thread */
-  //th1.join();
+  int sockfd, n;
+  struct sockaddr_in serv_addr;
+  struct hostent *server;
+  const char * ip = ip_address.c_str();
+  const char * s_msg = send_msg.c_str();
+  char buffer[256];
   
+  
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd < 0) { 
+    printf("ERROR opening socket\n");
+    exit(0);
+  }
+  
+  server = gethostbyname(ip);
+  if (server == NULL) {
+    fprintf(stderr,"ERROR, no such host\n");
+    exit(0);
+  }
+
+  bzero((char *) &serv_addr, sizeof(serv_addr));
+  serv_addr.sin_family = AF_INET;
+  bcopy((char *)server->h_addr, 
+	(char *)&serv_addr.sin_addr.s_addr,
+	server->h_length);
+  serv_addr.sin_port = htons(portno);
+
+  if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
+    printf("ERROR opening socket\n");
+    exit(0);
+  }
+
+  bzero(buffer,256);
+  strncpy(buffer, s_msg, sizeof(buffer));
+  
+  n = write(sockfd,buffer,strlen(buffer));
+  if (n < 0) {
+    printf("ERROR opening socket\n");
+    exit(0);
+  }
+  bzero(buffer,256);
+  n = read(sockfd,buffer,255);
+  if (n < 0) { 
+    printf("ERROR opening socket\n");
+    exit(0);
+  }
+  printf("%s\n",buffer);
+  close(sockfd);
+  
+  return 0;
+}
+
+
+/* check the HV status */
+int hvps_status() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  long status;
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "checking the HVPS status" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  status_string = send_recv_telnet("hvps status gpio\n", sockfd);
+  stat_str = status_string.c_str();
+  //status = std::stol(stat_str);
+  printf("HVPS status: %s\n", stat_str);
+  
+  close(sockfd);
+  return 0;
+}
+
+/* turn on the HV */
+int hvps_turnon() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  long status;
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  status_string = send_recv_telnet("hvps status gpio\n", sockfd);
+  printf("HVPS status: %s\n", stat_str);
+
+  close(sockfd);
   return 0;
 }

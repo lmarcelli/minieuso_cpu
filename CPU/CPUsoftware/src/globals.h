@@ -19,6 +19,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#include <algorithm>
 #include <thread>
 #include <iomanip>
 #include <fstream>

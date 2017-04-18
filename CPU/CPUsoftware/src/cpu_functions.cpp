@@ -30,6 +30,18 @@ config parse(std::string config_file_local) {
       else if (type == "DYNODE_VOLTAGE") {
 	in >> output.dynode_voltage;
 	printf("DYNODE_VOLTAGE is: %d\n", output.dynode_voltage);
+      }
+      else if (type == "SCURVE_START") {
+	in >> output.scurve_start;
+	printf("SCURVE_START is: %d\n", output.scurve_start);
+      }
+      else if (type == "SCURVE_STEP") {
+	in >> output.scurve_step;
+	printf("SCURVE_STEP is: %d\n", output.scurve_step);
+      }
+      else if (type == "SCURVE_STOP") {
+	in >> output.scurve_stop;
+	printf("SCURVE_STOP is: %d\n", output.scurve_stop);
       } 
     }
     cfg_file.close();
@@ -213,9 +225,9 @@ int inst_status() {
 
   /* definitions */
   std::string status_string;
-  long status;
   const char * stat_str;
   int sockfd;
+  //long status;
 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -301,7 +313,7 @@ int hvps_status() {
   std::string status_string;
   const char * stat_str;
   int sockfd;
-  long status;
+  //long status;
 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -322,13 +334,14 @@ int hvps_status() {
 }
 
 /* turn on the HV */
-int hvps_turnon() {
+int hvps_turnon(int cv, int dv) {
 
   /* definitions */
   std::string status_string;
   const char * stat_str;
   int sockfd;
-  long status;
+  std::string cmd;
+  std::stringstream conv;
 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -338,33 +351,45 @@ int hvps_turnon() {
   /* setup the telnet connection */
   sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
   
-  /* send and receive commands */
   /* set the cathode voltage */
-  status_string = send_recv_telnet("hvps cathode 3 3 3 3 3 3 3 3 3\n", sockfd);
+  /* make the command string from config file values */
+  conv << "hvps cathode " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << std::endl;
+  cmd = conv.str();
+  std::cout << cmd;
+  
+  status_string = send_recv_telnet(cmd, sockfd);
+  stat_str = status_string.c_str();
   printf("status: %s\n", stat_str);
 
   /* turn on */
   status_string = send_recv_telnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
+  stat_str = status_string.c_str();
   printf("status: %s\n", stat_str);
 
   /* set the dynode voltage */
-  status_string = send_recv_telnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
+  /* make the command string from config file values */
+  conv << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
+  cmd = conv.str();
+  std::cout << cmd;
+  
+  status_string = send_recv_telnet(cmd, sockfd);
+  stat_str = status_string.c_str();
   printf("status: %s\n", stat_str);
-
   
   close(sockfd);
   return 0;
 }
 
 /* take an scurve */
-int scurve() {
+int scurve(int start, int step, int stop) {
 
   /* definitions */
   std::string status_string;
   const char * stat_str;
   int sockfd;
-  long status;
-
+  std::string cmd;
+  std::stringstream conv;
+  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
@@ -375,7 +400,12 @@ int scurve() {
   
   /* send and receive commands */
   /* take an s-curve */
-  status_string = send_recv_telnet("acq sweep 0 10 1000 128\n", sockfd);
+  conv << "acq sweep " << start << " " << step << " " << stop << std::endl;
+  cmd = conv.str();
+  std::cout << cmd;
+  
+  status_string = send_recv_telnet(cmd, sockfd);
+  stat_str = status_string.c_str();
   printf("status: %s\n", stat_str);
 
   /* wait for scurve to be taken */
@@ -391,7 +421,6 @@ int data_acquisition() {
   std::string status_string;
   const char * stat_str;
   int sockfd;
-  long status;
 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -425,8 +454,7 @@ int data_acquisition_stop() {
   std::string status_string;
   const char * stat_str;
   int sockfd;
-  long status;
-
+  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);

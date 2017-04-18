@@ -54,6 +54,7 @@ chmod +x /home/software/CPU/zynq/telnet/*
 
 #Set up the EM software
 mkdir /home/software/CPU/CPUsoftware/log > /dev/null 2>&1
+make -C /home/software/CPUsoftware/src > /dev/null 2>&1
 
 #Setup symlinks for commands
 echo "Creating symlinks"

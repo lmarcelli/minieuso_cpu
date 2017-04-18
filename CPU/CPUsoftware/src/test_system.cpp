@@ -40,7 +40,11 @@ int main(void) {
   //hvps_status();
 
   /* turn on the HV */
-  
+  //hvps_turnon(config_out.cathode_voltage, config_out.dynode_voltage);
+  //sleep(5);
+
+  /* take an scurve */
+  //scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop);
   
   return 0; 
 }

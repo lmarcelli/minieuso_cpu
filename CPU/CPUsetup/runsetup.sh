@@ -12,6 +12,12 @@ TEST_IP=8.8.8.8
 echo "Mini-EUSO CPU setup"
 echo "*******************"
 
+#Turn off the annoying beeps
+setterm -blength 0
+
+#Set the timeout of raising the network interface
+cp /home/CPU/CPUsetup/reduce_timeout.conf /lib/systemd/system/networking.service.d/
+
 #Download the necessary packages
 if ping -q -c 1 -W 1 $TEST_IP > /dev/null 2>&1
 then
@@ -20,14 +26,14 @@ then
    apt-get -y update 
    apt-get -y install build-essential vsftpd expect libraw1394-11 libgtk2.0-0 \
    libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 \
-   stress bridge-utils git-core
+   stress bridge-utils git-core emacs usbmount
    echo "Packages downloaded"
 else
        echo "Could not connect to internet. Exiting..."
        exit 1
 fi
 
-#Setup the FTP server and necessary directories
+#Set up the FTP server and necessary directories
 echo "Setting up the FTP server and directories..."
 mkdir /home/minieusouser/DATA > /dev/null 2>&1
 chown minieusouser /home/minieusouser/DATA
@@ -39,12 +45,15 @@ mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
 echo "FTP server is set up"
 
-#Setup the test code and telnet scripts
+#Set up the test code and telnet scripts
 echo "Compiling the test code..."
 mkdir /home/software/CPU/test/bin > /dev/null 2>&1
 make -C /home/software/CPU/test/src > /dev/null 2>&1
 echo "The test code has been compiled"
 chmod +x /home/software/CPU/zynq/telnet/*
+
+#Set up the EM software
+mkdir /home/software/CPU/CPUsoftware/log > /dev/null 2>&1
 
 #Setup symlinks for commands
 echo "Creating symlinks"
@@ -54,12 +63,12 @@ ln -s /home/software/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_
 ln -s /home/software/test/bin/test_systems /usr/local/bin/test_systems
 echo "Symlinks created"
 
-#Network configuration (need to comment the previous setup)
+#Network configuration 
 echo "Setting up the network configuration..."
 cp /home/software/CPU/CPUsetup/interfaces /etc/network/ > /dev/null 2>&1
 echo "Network configuration is set up"
 
-#Setup the cameras 
+#Set up the cameras 
 echo "Setting up the camera software..."
 chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64/install_flycapture.sh
 (cd /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64 && sh install_flycapture.sh)
@@ -72,7 +81,7 @@ make -C /home/software/CPU/cameras/test/src
 chmod +x /home/software/CPU/cameras/test/multiplecam_test.sh
 echo "Camera software is set up"
 
-#Setup the analog board
+#Set up the analog board
 echo "Setting up the analog board software..."
 rmmod rtd520
 touch /etc/modprobe.d/blacklist.conf
@@ -91,7 +100,7 @@ mkdir /home/software/CPU/analog/bin
 make -C /home/software/CPU/analog/src
 echo "analog software is set up"
 
-#Setup autologin to root 
+#Set up autologin to root 
 echo "Setting up autologin to root user on boot..."
 mkdir /etc/systemd/system/getty@tty1.service.d
 touch /etc/systemd/system/getty@tty1.service.d/autologin.conf

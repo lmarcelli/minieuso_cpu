@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : multiplecam.cpp
 // Author      : Sara Turriziani
-// Version     : 3.1
+// Version     : 3.5
 // Copyright   : Mini-EUSO copyright notice
 // Description : Cameras Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
@@ -102,16 +102,22 @@ int main(int argc, char* argv[])
 	unsigned int ulValue;
 	CameraInfo camInfo;
 
-    // Check the number of parameters
-    if (argc < 2) {
-        // Tell the user how to run the program if the user enters the command incorrectly.
-        std::cerr << "Usage: " << argv[0] << " PATH" << std::endl; // Usage message
-        return 1;
-    }
+	// Check the number of parameters
+	    if (argc < 4) {
+	        // Tell the user how to run the program if the user enters the command incorrectly.
+	        std::cerr << "Usage: " << argv[0] << " PATH" << " currentNIRpresent" << " currentVISpresent" << std::endl; // Usage message
+	        return 1;
+	    }
 
-//    cout << "Input: " << argv[1] << endl; // uncomment for debugging
+	//    cout << "Input: " << argv[1] << endl; // uncomment for debugging
 
-    std:string pardir = argv[1];
+	    std:string pardir = argv[1];
+	    const char* fstatNIR = argv[2];
+	    const char* fstatVIS = argv[3];
+	    const char*  filestatus;
+
+	//    cout << fstatNIR << endl; // uncomment for debugging
+	//    cout << fstatVIS << endl; // uncomment for debugging
 
     PrintBuildInfo();
     Error error;
@@ -167,7 +173,6 @@ int main(int argc, char* argv[])
             }
 
           PrintCameraInfo(&camInfo);
-
 
           // Turn Timestamp on
 
@@ -238,8 +243,9 @@ int main(int argc, char* argv[])
 
           std::string line;
           std::string parfilename;
+          std::string parfilename1;
 
-
+          unsigned int checklines = 0;
 
           float frate, shutt, gain, autoexpo;
           char frset[3], brset[3], autexpset[3];
@@ -251,17 +257,17 @@ int main(int argc, char* argv[])
           if ( strcmp("Chameleon", name1) == 0)
             {
         	  std::stringstream pf;
-        	  pf << pardir  << "/testNIR.ini";
+        	  pf << pardir  << "/defaultNIR.ini";
         	  parfilename = pf.str();
         	  parfile.open(parfilename.c_str());
-        	 destination = "NIR";
+        	  destination = "NIR";
             }
           else
           {
         	  std::stringstream pf;
-        	  pf << pardir  << "/testVIS.ini";
+        	  pf << pardir  << "/defaultVIS.ini";
         	  parfilename = pf.str();
-        	 parfile.open(parfilename.c_str());
+              parfile.open(parfilename.c_str());
         	  destination = "VIS";
           }
 
@@ -311,7 +317,7 @@ int main(int argc, char* argv[])
                      if(type == "BRIGHTSET")
                       {
                        in >> brset;
-                    //            cout << "Setting the brightness " << frset << endl; // uncomment for debugging purposes
+                    //            cout << "Setting the brightness " << brset << endl; // uncomment for debugging purposes
                       }
                      if(type == "AUTOEXPOSET")
                        {
@@ -329,8 +335,110 @@ int main(int argc, char* argv[])
                  return -1;
                 }
 
+          ifstream parfile1;
+          if ( strcmp("Chameleon", name1) == 0)
+            {
+              std::stringstream pf1;
+              pf1 << pardir  << "/currentNIR.ini";
+              parfilename1 = pf1.str();
+              parfile1.open(parfilename1.c_str());
+              filestatus = fstatNIR;
+            }
+          else
+            {
+              std::stringstream pf1;
+              pf1 << pardir  << "/currentVIS.ini";
+              parfilename1 = pf1.str();
+              parfile1.open(parfilename1.c_str());
+              filestatus = fstatVIS;
+            }
+
+          float frate1, shutt1, gain1, autoexpo1;
+          char frset1[3], brset1[3], autexpset1[3];
+          int desiredBrightness1;
+
+          // Set the new values from the parameters reading them from the current parameter file
+                    if (parfile1.is_open())
+                     {
+                        printf( "Reading from parfile: %s \n", parfilename1.c_str() );
+                        while ( getline (parfile1,line) )
+                             {
+                               std::istringstream in(line);      //make a stream for the line itself
+                               std::string type;
+                               in >> type;                  //and read the first whitespace-separated token
 
 
+                               if(type == "FRAMERATE")       //and check its value
+                                {
+                                  in >> frate1;       //now read the whitespace-separated floats
+                                  cout << type << " " << frate1 << " fps " << endl;
+                                  checklines = checklines +1;
+                                }
+                               else if(type == "SHUTTER")
+                                {
+                                  in >> shutt1;
+                                  cout << type << " " << shutt1 << " ms " << endl;
+                                  checklines = checklines +1;
+                                }
+                               else if((type == "GAIN"))
+                                {
+                                  in >> gain1;
+                                  cout << type << " " << gain1 << endl;
+                                  checklines = checklines +1;
+                                }
+                               else if((type == "BRIGHTNESS"))
+                                {
+                                 in >> desiredBrightness1;
+                                 cout << type << " " << desiredBrightness1 << endl;
+                                 checklines = checklines +1;
+                                }
+                               else if((type == "AUTO_EXPOSURE"))
+                                {
+                                  in >> autoexpo1;
+                                  cout << type << " " << autoexpo1 << endl;
+                                  checklines = checklines +1;
+                                }
+
+                               if(type == "FRAMERATESET")
+                                {
+                                  in >> frset1;
+                                  checklines = checklines +1;
+                            //    cout << "Setting the frame rate " << frset1 << endl; // uncomment for debugging purposes
+                                }
+                               if(type == "BRIGHTSET")
+                                {
+                                 in >> brset1;
+                                 checklines = checklines +1;
+                              //            cout << "Setting the brightness " << brset1 << endl; // uncomment for debugging purposes
+                                }
+                               if(type == "AUTOEXPOSET")
+                                 {
+                                    in >> autexpset1;
+                                    checklines = checklines +1;
+                                //            cout << "Setting the autoexposure " << autexpset1 << endl; // uncomment for debugging purposes
+                                 }
+
+                          }
+                      parfile1.close();
+                     }
+                    else
+                      {
+                    	if (strcmp("Y", filestatus) == 0)
+                    	{
+                         printf( "Unable to open current parfile!!! Using default parfile \n" );
+                    	}
+                    	else
+                    	{
+                         printf( "As current parfile does not exist, continuing with default parfile \n" );
+                    	}
+                      }
+
+
+                    if (checklines != 8)
+                              {
+                               filestatus = "N";
+                               printf( "The current parfile has not passed the screening check, continuing with default parfile \n" );
+                              }
 
           // Turn off SHARPNESS if the camera supports this property
            PropertyInfo propInfo;
@@ -697,112 +805,237 @@ int main(int argc, char* argv[])
                                                       }
 
 
-         //  check if the camera supports the FRAME_RATE property
+           //  check if the camera supports the FRAME_RATE property
 
-             propInfo.type = FRAME_RATE;
-             error =  pCameras[i].GetPropertyInfo( &propInfo );
-             if (error != PGRERROR_OK)
-               {
-                 PrintError( error );
-                 delete[] pCameras;
-                 return -1;
-                }
-
-          if ( propInfo.present == true )
-           {
-              if ( strcmp("OFF",frset) == 0 || strcmp("OFf",frset)  == 0|| strcmp("OfF",frset)  == 0 || strcmp("Off",frset)  == 0 || strcmp("oFF",frset)  == 0  || strcmp("oFf",frset) == 0 || strcmp("ofF",frset) == 0 || strcmp("off",frset) == 0)
+               propInfo.type = FRAME_RATE;
+               error =  pCameras[i].GetPropertyInfo( &propInfo );
+               if (error != PGRERROR_OK)
                  {
-                  cout << "Setting " << frset << " FRAME_RATE "  << endl;
+                   PrintError( error );
+                   delete[] pCameras;
+                   return -1;
+                 }
+
+          if ( propInfo.present == true && strcmp("Y", filestatus) == 0)
+            {
+              if ( strcmp("OFF",frset1) == 0 || strcmp("OFf",frset1)  == 0|| strcmp("OfF",frset1)  == 0 || strcmp("Off",frset1)  == 0 || strcmp("oFF",frset1)  == 0  || strcmp("oFf",frset1) == 0 || strcmp("ofF",frset1) == 0 || strcmp("off",frset1) == 0)
+                {
+                  cout << "Setting " << frset1 << " FRAME_RATE as requested from current parfile"  << endl;
 
                   ExtendedShutterType shutterType = NO_EXTENDED_SHUTTER;
-                // Then turn off frame rate
-                Property prop;
-                prop.type = FRAME_RATE;
-                error =  pCameras[i].GetProperty( &prop );
-                if (error != PGRERROR_OK)
+                  // Then turn off frame rate
+                  Property prop;
+                  prop.type = FRAME_RATE;
+                  error =  pCameras[i].GetProperty( &prop );
+                  if (error != PGRERROR_OK)
+                    {
+                      PrintError( error );
+                      delete[] pCameras;
+                      return -1;
+                    }
+
+                 prop.autoManualMode = false;
+                 prop.onOff = false;
+                 error =  pCameras[i].SetProperty( &prop );
+                 if (error != PGRERROR_OK)
+                   {
+                     PrintError( error );
+                     delete[] pCameras;
+                     return -1;
+                   }
+                 shutterType = GENERAL_EXTENDED_SHUTTER;
+                 }
+                 else
+                     {
+                       PropertyInfo frRate;
+                       frRate.type = FRAME_RATE;
+                       error = pCameras[i].GetPropertyInfo( &frRate );
+                       if (error != PGRERROR_OK)
+                         {
+                           PrintError( error );
+                           delete[] pCameras;
+                           return -1;
+                         }
+                float minfrmRate = frRate.absMin;
+                float maxfrmRate = frRate.absMax;
+
+                Property frmRate;
+                frmRate.type = FRAME_RATE;
+                frmRate.absControl = true;
+                frmRate.onePush = false;
+                frmRate.autoManualMode = false;
+                frmRate.onOff = true;
+
+                if (frate1 >= minfrmRate && frate1 <= maxfrmRate)
                   {
-                    PrintError( error );
-                    delete[] pCameras;
-                    return -1;
+                   printf( "Frame rate set to %3.2f fps from current parfile \n", frate1 );
+                   frmRate.absValue = frate1;
                   }
+                else{
+                     if ( strcmp("OFF",frset) == 0 || strcmp("OFf",frset)  == 0|| strcmp("OfF",frset)  == 0 || strcmp("Off",frset)  == 0 || strcmp("oFF",frset)  == 0  || strcmp("oFf",frset) == 0 || strcmp("ofF",frset) == 0 || strcmp("off",frset) == 0)
+                       {
+                         cout << "Setting " << frset << " FRAME_RATE as requested in default file"  << endl;
+                         ExtendedShutterType shutterType = NO_EXTENDED_SHUTTER;
+                         // Then turn off frame rate
+                         Property prop;
+                         prop.type = FRAME_RATE;
+                         error =  pCameras[i].GetProperty( &prop );
+                         if (error != PGRERROR_OK)
+                           {
+                             PrintError( error );
+                             delete[] pCameras;
+                             return -1;
+                            }
 
-                prop.autoManualMode = false;
-                prop.onOff = false;
-                error =  pCameras[i].SetProperty( &prop );
-                if (error != PGRERROR_OK)
-                  {
-                    PrintError( error );
-                    delete[] pCameras;
-                    return -1;
-                  }
-               shutterType = GENERAL_EXTENDED_SHUTTER;
-            }
-              else
-                  {
-                    PropertyInfo frRate;
-                         	frRate.type = FRAME_RATE;
-                         	error = pCameras[i].GetPropertyInfo( &frRate );
-                         	if (error != PGRERROR_OK)
-                                     {
-                         	          PrintError( error );
-                         	          delete[] pCameras;
-                         	          return -1;
-                         	         }
-                         	 float minfrmRate = frRate.absMin;
-                         	 float maxfrmRate = frRate.absMax;
-
-                         	 Property frmRate;
-                         	 frmRate.type = FRAME_RATE;
-                         	 frmRate.absControl = true;
-                         	 frmRate.onePush = false;
-                         	 frmRate.autoManualMode = false;
-                         	 frmRate.onOff = true;
-
-                         	 if (frate >= minfrmRate && frate <= maxfrmRate)
-                         	   {
-                         		 printf( "Frame rate set to %3.2f fps\n", frate );
-                         	     frmRate.absValue = frate;
-                         	   }
-
-                         	 else{
-                         	        	 printf( "Frame Rate outside allowed range. Abort. \n" );
-                         	        	 delete[] pCameras;
-                         	        	 return -1;
-                         	      }
-
-                         	 error = pCameras[i].SetProperty( &frmRate );
-                         	 if (error != PGRERROR_OK)
-                         	        {
-                         	          PrintError( error );
-                         	          delete[] pCameras;
-                         	          return -1;
-                         	        }
+                         prop.autoManualMode = false;
+                         prop.onOff = false;
+                         error =  pCameras[i].SetProperty( &prop );
+                         if (error != PGRERROR_OK)
+                           {
+                             PrintError( error );
+                             delete[] pCameras;
+                             return -1;
+                           }
+                         shutterType = GENERAL_EXTENDED_SHUTTER;
+                       }
+                       else
+                           {
+                             PropertyInfo frRate;
+                             frRate.type = FRAME_RATE;
+                             error = pCameras[i].GetPropertyInfo( &frRate );
+                             if (error != PGRERROR_OK)
+                               {
+                                 PrintError( error );
+                                 delete[] pCameras;
+                                 return -1;
                                }
+                             float minfrmRate = frRate.absMin;
+                             float maxfrmRate = frRate.absMax;
+
+                             Property frmRate;
+                             frmRate.type = FRAME_RATE;
+                             frmRate.absControl = true;
+                             frmRate.onePush = false;
+                             frmRate.autoManualMode = false;
+                             frmRate.onOff = true;
+
+                             if (frate >= minfrmRate && frate <= maxfrmRate)
+                               {
+                                 cout << "Problems with the FRAME_RATE in current parfile. Continuing with default parfile." << endl;
+                                 printf( "Frame rate set to %3.2f fps from default file \n", frate );
+                                 frmRate.absValue = frate;
+                               }
+
+                             else{
+                                   printf( "Frame Rate outside allowed range.  \n" );
+                                   delete[] pCameras;
+                                   return -1;
+                                 }
+                         }
+
+                         error = pCameras[i].SetProperty( &frmRate );
+                         if (error != PGRERROR_OK)
+                           {
+                             PrintError( error );
+                             delete[] pCameras;
+                             return -1;
+                           }
+                       }
+                                                                               }
+                    }
+                    else
+                    {
+                    	  if ( propInfo.present == false )
+                    	  {
+                           printf( "Frame rate and extended shutter are not supported... exiting\n" );
+                           delete[] pCameras;
+                           return -1;
+                    	  }
+                    	  else
+                    	  {
+                    		  if ( strcmp("OFF",frset) == 0 || strcmp("OFf",frset)  == 0|| strcmp("OfF",frset)  == 0 || strcmp("Off",frset)  == 0 || strcmp("oFF",frset)  == 0  || strcmp("oFf",frset) == 0 || strcmp("ofF",frset) == 0 || strcmp("off",frset) == 0)
+                    		    {
+                    		       cout << "Setting " << frset << " FRAME_RATE as requested in default file"  << endl;
+                    		       ExtendedShutterType shutterType = NO_EXTENDED_SHUTTER;
+                    		       // Then turn off frame rate
+                    		       Property prop;
+                    		       prop.type = FRAME_RATE;
+                    		       error =  pCameras[i].GetProperty( &prop );
+                    		       if (error != PGRERROR_OK)
+                    		         {
+                    		           PrintError( error );
+                    		           delete[] pCameras;
+                    		           return -1;
+                    		         }
+
+                    		       prop.autoManualMode = false;
+                    		       prop.onOff = false;
+                    		       error =  pCameras[i].SetProperty( &prop );
+                    		       if (error != PGRERROR_OK)
+                    		         {
+                    		           PrintError( error );
+                    		           delete[] pCameras;
+                    		           return -1;
+                    		         }
+                    		       shutterType = GENERAL_EXTENDED_SHUTTER;
+                    		     }
+                    		  else{
+                    			    PropertyInfo frRate;
+                    			    frRate.type = FRAME_RATE;
+                    			    error = pCameras[i].GetPropertyInfo( &frRate );
+                    			    if (error != PGRERROR_OK)
+                    			      {
+                    			        PrintError( error );
+                    			        delete[] pCameras;
+                    			        return -1;
+                    			       }
+                    			    float minfrmRate = frRate.absMin;
+                    			    float maxfrmRate = frRate.absMax;
+
+                    			    Property frmRate;
+                    			    frmRate.type = FRAME_RATE;
+                    			    frmRate.absControl = true;
+                    			    frmRate.onePush = false;
+                    			    frmRate.autoManualMode = false;
+                    			    frmRate.onOff = true;
+
+                    			    if (frate >= minfrmRate && frate <= maxfrmRate)
+                    			      {
+                    			         printf( "Frame rate set to %3.2f fps from default file \n", frate );
+                    			         frmRate.absValue = frate;
+                    			      }
+                    			   else{
+                    			         printf( "Frame Rate outside allowed range.  \n" );
+                    			         delete[] pCameras;
+                    			         return -1;
+                           			  }
+
+                  		       error = pCameras[i].SetProperty( &frmRate );
+                    	    if (error != PGRERROR_OK)
+                    		  {
+                    			 PrintError( error );
+                    			 delete[] pCameras;
+                    			 return -1;
+                    	      }
+                    	}
+                    }
                   }
-            else
-             {
-               printf( "Frame rate and extended shutter are not supported... exiting\n" );
-               delete[] pCameras;
-               return -1;
-             }
-
-
-
 
             // Set the shutter property of the camera
 
             PropertyInfo Shut;
-                    Shut.type = SHUTTER;
-                    error = pCameras[i].GetPropertyInfo( &Shut );
-                    if (error != PGRERROR_OK)
-                    {
-                       PrintError( error );
-                       return -1;
-                    }
-                    float minShutter = Shut.absMin;
-                    float maxShutter = Shut.absMax;
+            Shut.type = SHUTTER;
+            error = pCameras[i].GetPropertyInfo( &Shut );
+            if (error != PGRERROR_OK)
+              {
+                PrintError( error );
+                delete[] pCameras;
+                return -1;
+              }
+            float minShutter = Shut.absMin;
+            float maxShutter = Shut.absMax;
 
-                    // printf( "Min %3.1f ms Max %3.1f ms  \n" , Shut.absMin, Shut.absMax ); // uncomment this line to debug
+            // printf( "Min %3.1f ms Max %3.1f ms  \n" , Shut.absMin, Shut.absMax ); // uncomment this line to debug
 
              Property shutter;
              shutter.type = SHUTTER;
@@ -810,17 +1043,30 @@ int main(int argc, char* argv[])
              shutter.onePush = false;
              shutter.autoManualMode = false;
              shutter.onOff = true;
-             shutter.absValue = shutt;
 
-             if (shutt >= minShutter && shutt <= maxShutter)
+
+             if (shutt1 >= minShutter && shutt1 <= maxShutter && strcmp("Y", filestatus) == 0)
                {
-                 shutter.absValue = shutt;
-                 printf( "Shutter time set to %3.2f ms\n", shutt );
+                 shutter.absValue = shutt1;
+                 printf( "Shutter time set to %3.2f ms from current parfile \n", shutt1 );
                }
-            else{
+             else
+             {
+              if (shutt >= minShutter && shutt <= maxShutter && strcmp("Y", filestatus) == 0)
+                {
+            	 shutter.absValue = shutt;
+                 printf( "WARNING! Shutter outside allowed range in current parfile: shutter time set to %3.2f ms using default parfile\n", shutt );
+                }
+              else if(shutt >= minShutter && shutt <= maxShutter && strcmp("Y", filestatus) != 0)
+              {
+            	 shutter.absValue = shutt;
+              	printf( "Shutter time set to %3.2f ms from default parfile \n", shutt );
+              }
+             else{
                   printf( "WARNING! Shutter outside allowed range: setting it to the maximum allowed value %3.2f ms \n", maxShutter );
                   shutter.absValue = maxShutter;
-                }
+                 }
+             }
 
            error = pCameras[i].SetProperty( &shutter );
            if (error != PGRERROR_OK)
@@ -842,76 +1088,215 @@ int main(int argc, char* argv[])
                  return -1;
               }
 
-           if ( propInfo.present == true )
-            {
-               if ( strcmp("OFF",autexpset) == 0 || strcmp("OFf",autexpset)  == 0|| strcmp("OfF",autexpset)  == 0 || strcmp("Off",autexpset)  == 0 || strcmp("oFF",autexpset)  == 0  || strcmp("oFf",autexpset) == 0 || strcmp("ofF",autexpset) == 0 || strcmp("off",autexpset) == 0)
+            propInfo.type = AUTO_EXPOSURE;
+              error =  pCameras[i].GetPropertyInfo( &propInfo );
+              if (error != PGRERROR_OK)
                 {
-                   cout << "Setting " << autexpset << " AUTO_EXPOSURE "  << endl;
+                   PrintError( error );
+                   delete[] pCameras;
+                   return -1;
+                }
 
-                  // Then turn off AUTO_EXPOSURE
-                     Property prop;
-                     prop.type = AUTO_EXPOSURE;
-                     error =  pCameras[i].GetProperty( &prop );
-                     if (error != PGRERROR_OK)
-                       {
+             if ( propInfo.present == true &&  (strcmp("Y", filestatus) == 0))
+              {
+                 if ( strcmp("OFF",autexpset1) == 0 || strcmp("OFf",autexpset1)  == 0|| strcmp("OfF",autexpset1)  == 0 || strcmp("Off",autexpset1)  == 0 || strcmp("oFF",autexpset1)  == 0  || strcmp("oFf",autexpset1) == 0 || strcmp("ofF",autexpset1) == 0 || strcmp("off",autexpset1) == 0)
+                  {
+                     cout << "Setting " << autexpset1 << " AUTO_EXPOSURE "  << endl;
+                    // Then turn off AUTO_EXPOSURE
+                       Property prop;
+                       prop.type = AUTO_EXPOSURE;
+                       error =  pCameras[i].GetProperty( &prop );
+                       if (error != PGRERROR_OK)
+                         {
+                           PrintError( error );
+                           delete[] pCameras;
+                           return -1;
+                         }
+
+                        prop.autoManualMode = false;
+                        prop.onOff = false;
+                        error =  pCameras[i].SetProperty( &prop );
+                        if (error != PGRERROR_OK)
+                        {
+                          PrintError( error );
+                          delete[] pCameras;
+                          return -1;
+                        }
+
+                    }
+                   else
+                    {
+                       PropertyInfo propinfo;
+                       propinfo.type = AUTO_EXPOSURE;
+                       error = pCameras[i].GetPropertyInfo( &propinfo );
+                       if (error != PGRERROR_OK)
+                        {
                          PrintError( error );
                          delete[] pCameras;
                          return -1;
-                       }
+                         }
 
-                                            prop.autoManualMode = false;
-                                            prop.onOff = false;
-                                            error =  pCameras[i].SetProperty( &prop );
-                                            if (error != PGRERROR_OK)
-                                              {
-                                                PrintError( error );
-                                                delete[] pCameras;
-                                                return -1;
-                                              }
+                        Property prop;
+                        prop.absControl = true;
+                        prop.type = AUTO_EXPOSURE;
+                        prop.onePush = false;
+                        prop.autoManualMode = false;
+                        prop.onOff = true;
 
-                                             }
-                                          else
-                                              {
-                                                PropertyInfo propinfo;
-                                                propinfo.type = AUTO_EXPOSURE;
-                                                error = pCameras[i].GetPropertyInfo( &propinfo );
-                                                if (error != PGRERROR_OK)
-                                                  {
-                                                    PrintError( error );
-                                                    delete[] pCameras;
-                                                    return -1;
-                                                   }
+                        if (autoexpo1 >= propInfo.absMin && autoexpo1 <= propInfo.absMax)
+                         {
+                           prop.absValue = autoexpo1;
+                           error = pCameras[i].SetProperty( &prop );
+                           if (error != PGRERROR_OK)
+                             {
+                               PrintError( error );
+                               delete[] pCameras;
+                               return -1;
+                             }
+                           printf( "AUTO_EXPOSURE set to %3.3f from current parfile \n", autoexpo1 );
+                         }
+                       else
+                        {
+                          if ( strcmp("OFF",autexpset) == 0 || strcmp("OFf",autexpset)  == 0|| strcmp("OfF",autexpset)  == 0 || strcmp("Off",autexpset)  == 0 || strcmp("oFF",autexpset)  == 0  || strcmp("oFf",autexpset) == 0 || strcmp("ofF",autexpset) == 0 || strcmp("off",autexpset) == 0)
+                           {
+                                cout << "Setting " << autexpset << " AUTO_EXPOSURE as requested in current parfile"  << endl;
 
-                                                   Property prop;
-                                                   prop.absControl = true;
-                                                   prop.type = AUTO_EXPOSURE;
-                                                   prop.onePush = false;
-                                                   prop.autoManualMode = false;
-                                                   prop.onOff = true;
+                                // Then turn off AUTO_EXPOSURE
+                                Property prop;
+                                prop.type = AUTO_EXPOSURE;
+                                error =  pCameras[i].GetProperty( &prop );
+                                if (error != PGRERROR_OK)
+                                 {
+                                  PrintError( error );
+                                  delete[] pCameras;
+                                  return -1;
+                                 }
 
-                                                if (autoexpo >= propInfo.absMin && autoexpo <= propInfo.absMax)
-                                                 {
-                                          	           prop.absValue = autoexpo;
-                                                      error = pCameras[i].SetProperty( &prop );
-                                                      if (error != PGRERROR_OK)
-                                                         {
-                                                             PrintError( error );
-                                                             delete[] pCameras;
-                                                             return -1;
-                                                         }
-                                                      printf( "AUTO_EXPOSURE set to %3.3f  \n", autoexpo );
-                                                 }
-                                               else
-                                                 {
-                                                  printf( "WARNING! AUTO_EXPOSURE outside allowed range [%3.2f, %3.2f] leaving it to default value \n", propInfo.absMin, propInfo.absMax);
-                                                }
-                                        }
-                                      }
+                                prop.autoManualMode = false;
+                                prop.onOff = false;
+                                error =  pCameras[i].SetProperty( &prop );
+                                if (error != PGRERROR_OK)
+                                  {
+                                    PrintError( error );
+                                    delete[] pCameras;
+                                    return -1;
+                                   }
 
+                               }
+                             else
+                               {
+                                 PropertyInfo propinfo;
+                                 propinfo.type = AUTO_EXPOSURE;
+                                 error = pCameras[i].GetPropertyInfo( &propinfo );
+                                 if (error != PGRERROR_OK)
+                                   {
+                                     PrintError( error );
+                                     delete[] pCameras;
+                                     return -1;
+                                   }
+
+                                 Property prop;
+                                 prop.absControl = true;
+                                 prop.type = AUTO_EXPOSURE;
+                                 prop.onePush = false;
+                                 prop.autoManualMode = false;
+                                 prop.onOff = true;
+
+                                 if (autoexpo >= propInfo.absMin && autoexpo <= propInfo.absMax)
+                                   {
+                                     prop.absValue = autoexpo;
+                                     error = pCameras[i].SetProperty( &prop );
+                                     if (error != PGRERROR_OK)
+                                       {
+                                         PrintError( error );
+                                         delete[] pCameras;
+                                         return -1;
+                                       }
+                                      printf( "AUTO_EXPOSURE set to %3.3f  from default parfile \n", autoexpo );
+                                    }
+                                      else
+                                       {
+                                         printf( "WARNING! AUTO_EXPOSURE outside allowed range [%3.2f, %3.2f] leaving it to the default camera register value \n", propInfo.absMin, propInfo.absMax);
+                                       }
+                                    }
+                     }
+                    }
+                 }
+                  else
+                      {
+                	  if (propInfo.present == false )
+                	    {
+                	     printf( "Warning: AUTO_EXPOSURE is not supported... \n" );
+                	    }
+                	  else
+                	  {
+                	     if ( strcmp("OFF",autexpset) == 0 || strcmp("OFf",autexpset)  == 0|| strcmp("OfF",autexpset)  == 0 || strcmp("Off",autexpset)  == 0 || strcmp("oFF",autexpset)  == 0  || strcmp("oFf",autexpset) == 0 || strcmp("ofF",autexpset) == 0 || strcmp("off",autexpset) == 0)
+                	       {
+                	         cout << "Setting " << autexpset << " AUTO_EXPOSURE as requested in default parfile"  << endl;
+
+                	         // Then turn off AUTO_EXPOSURE
+                	         Property prop;
+                	         prop.type = AUTO_EXPOSURE;
+                	         error =  pCameras[i].GetProperty( &prop );
+                	         if (error != PGRERROR_OK)
+                	           {
+                	             PrintError( error );
+                	             delete[] pCameras;
+                	             return -1;
+                	           }
+
+                	           prop.autoManualMode = false;
+                	           prop.onOff = false;
+                	           error =  pCameras[i].SetProperty( &prop );
+                	           if (error != PGRERROR_OK)
+                	             {
+                	               PrintError( error );
+                	               delete[] pCameras;
+                	               return -1;
+                	             }
+                	       }
+                	        else
+                	           {
+                	        	PropertyInfo propinfo;
+                	        	propinfo.type = AUTO_EXPOSURE;
+                	        	error = pCameras[i].GetPropertyInfo( &propinfo );
+                	        	if (error != PGRERROR_OK)
+                	        	  {
+                	        	    PrintError( error );
+                	        	    delete[] pCameras;
+                	        	    return -1;
+                	        	  }
+
+                	        	 Property prop;
+                	        	 prop.absControl = true;
+                	        	 prop.type = AUTO_EXPOSURE;
+                	        	 prop.onePush = false;
+                	        	 prop.autoManualMode = false;
+                	        	 prop.onOff = true;
+
+                	        	 if (autoexpo >= propInfo.absMin && autoexpo <= propInfo.absMax)
+                	        	   {
+                	        	     prop.absValue = autoexpo;
+                	        	     error = pCameras[i].SetProperty( &prop );
+                	        	     if (error != PGRERROR_OK)
+                	        	       {
+                	        	         PrintError( error );
+                	        	         delete[] pCameras;
+                	        	         return -1;
+                	        	       }
+                	            printf( "AUTO_EXPOSURE set to %3.3f  from default parfile \n", autoexpo );
+                	           }
+                	        	 else
+                	        	     {
+                	        	       printf( "WARNING! AUTO_EXPOSURE outside allowed range [%3.2f, %3.2f] leaving it to the default camera register value \n", propInfo.absMin, propInfo.absMax);
+                	        	     }
+                	           }
+
+                	  }
+                	  }
 
 
            //Set gain checking if the property is supported
-
 
              propInfo.type = GAIN;
              error =  pCameras[i].GetPropertyInfo( &propInfo );
@@ -921,8 +1306,8 @@ int main(int argc, char* argv[])
                  delete[] pCameras;
                  return -1;
                }
-             if ( propInfo.present == true )
-               {
+             if ( propInfo.present == true &&  (strcmp("Y", filestatus) == 0))
+              {
                   Property prop;
                   prop.type = GAIN;
                   prop.absControl = true;
@@ -931,9 +1316,9 @@ int main(int argc, char* argv[])
                   prop.onOff = true;
 
 
-                  if (gain >= propInfo.absMin && gain <= propInfo.absMax)
+                  if (gain1 >= propInfo.absMin && gain1 <= propInfo.absMax)
                          {
-                           	 prop.absValue = gain;
+                           	 prop.absValue = gain1;
                              error = pCameras[i].SetProperty( &prop );
                              if (error != PGRERROR_OK)
                                   {
@@ -941,101 +1326,277 @@ int main(int argc, char* argv[])
                                     delete[] pCameras;
                                     return -1;
                                   }
-                             printf( "Gain set to %3.2f dB \n", gain );
+                             printf( "Gain set to %3.2f dB from current parfile \n", gain1 );
                           }
-                else
+                  else
+                  {
+                	  if (gain >= propInfo.absMin && gain <= propInfo.absMax)
+                	     {
+                	       prop.absValue = gain;
+                	       error = pCameras[i].SetProperty( &prop );
+                	       if (error != PGRERROR_OK)
+                	         {
+                	           PrintError( error );
+                	           delete[] pCameras;
+                	           return -1;
+                	         }
+                	        printf( "Gain set to %3.2f dB from default parfile \n", gain );
+                	       }
+                   else
                        {
-                          printf( "WARNING! Gain outside allowed range [%3.2f, %3.2f] leaving it to default value \n", propInfo.absMin, propInfo.absMax);
+                          printf( "WARNING! Gain outside allowed range [%3.2f, %3.2f] leaving it to default camera register value \n", propInfo.absMin, propInfo.absMax);
                        }
+                    }
                    }
+            	else
+            	    {
+                  		Property prop;
+            		    prop.type = GAIN;
+            		    prop.absControl = true;
+            		    prop.onePush = false;
+            		    prop.autoManualMode = false;
+            		    prop.onOff = true;
+
+            		  if (gain >= propInfo.absMin && gain <= propInfo.absMax)
+            		    {
+            		      prop.absValue = gain;
+            		      error = pCameras[i].SetProperty( &prop );
+            		      if (error != PGRERROR_OK)
+            		        {
+            		          PrintError( error );
+            		          delete[] pCameras;
+            		          return -1;
+            		        }
+            		     printf( "Gain set to %3.2f dB from default parfile \n", gain );
+            		    }
+                  else
+            	       {
+            		     printf( "WARNING! Gain outside allowed range [%3.2f, %3.2f] leaving it to default camera register value \n", propInfo.absMin, propInfo.absMax);
+            		   }
+            //	     }
+                  }
+
 
              //  check if the camera supports the BRIGHTNESS property
 
-                          propInfo.type = BRIGHTNESS;
-                          error =  pCameras[i].GetPropertyInfo( &propInfo );
-                          if (error != PGRERROR_OK)
-                            {
-                              PrintError( error );
-                              delete[] pCameras;
-                              return -1;
-                             }
+                           propInfo.type = BRIGHTNESS;
+                           error =  pCameras[i].GetPropertyInfo( &propInfo );
+                           if (error != PGRERROR_OK)
+                             {
+                               PrintError( error );
+                               delete[] pCameras;
+                               return -1;
+                              }
 
-                       if ( propInfo.present == true )
-                        {
-                           if ( strcmp("OFF",brset) == 0 || strcmp("OFf",brset)  == 0|| strcmp("OfF",brset)  == 0 || strcmp("Off",brset)  == 0 || strcmp("oFF",brset)  == 0  || strcmp("oFf",brset) == 0 || strcmp("ofF",brset) == 0 || strcmp("off",brset) == 0)
-                              {
-                               cout << "Setting " << brset << " BRIGHTNESS "  << endl;
-
-
-                             // Then turn off BRIGHTNESS
-                             Property prop;
-                             prop.type = BRIGHTNESS;
-                             error =  pCameras[i].GetProperty( &prop );
-                             if (error != PGRERROR_OK)
+                        if ( propInfo.present == true &&  (strcmp("Y", filestatus) == 0) )
+                         {
+                            if ( strcmp("OFF",brset1) == 0 || strcmp("OFf",brset1)  == 0|| strcmp("OfF",brset1)  == 0 || strcmp("Off",brset1)  == 0 || strcmp("oFF",brset1)  == 0  || strcmp("oFf",brset1) == 0 || strcmp("ofF",brset1) == 0 || strcmp("off",brset1) == 0)
                                {
-                                 PrintError( error );
-                                 delete[] pCameras;
-                                 return -1;
-                               }
+                                cout << "Setting " << brset1 << " BRIGHTNESS as requested in current parfile"  << endl;
 
-                             prop.autoManualMode = false;
-                             prop.onOff = false;
-                             error =  pCameras[i].SetProperty( &prop );
-                             if (error != PGRERROR_OK)
-                               {
-                                 PrintError( error );
-                                 delete[] pCameras;
-                                 return -1;
-                               }
 
-                         }
-                           else
+                              // Then turn off BRIGHTNESS
+                              Property prop;
+                              prop.type = BRIGHTNESS;
+                              error =  pCameras[i].GetProperty( &prop );
+                              if (error != PGRERROR_OK)
+                                {
+                                  PrintError( error );
+                                  delete[] pCameras;
+                                  return -1;
+                                }
+
+                              prop.autoManualMode = false;
+                              prop.onOff = false;
+                              error =  pCameras[i].SetProperty( &prop );
+                              if (error != PGRERROR_OK)
+                                {
+                                  PrintError( error );
+                                  delete[] pCameras;
+                                  return -1;
+                                }
+
+                          }
+                            else
+                                {
+                                  PropertyInfo propinfo;
+                                  propinfo.type = BRIGHTNESS;
+                                  error = pCameras[i].GetPropertyInfo( &propinfo );
+                                  if (error != PGRERROR_OK)
+                                    {
+                                      PrintError( error );
+                                      delete[] pCameras;
+                                      return -1;
+                                     }
+
+
+              			   int minbr = propinfo.min;
+              			   int maxbr = propinfo.max;
+              			// cout << "Minimum: " << minbr << "  - maximum:  " << maxbr << endl; // uncomment for debugging
+
+                                     Property prop;
+                                     prop.type = BRIGHTNESS;
+                                     prop.onePush = false;
+                                     prop.autoManualMode = false;
+                                     prop.onOff = true;
+
+                                     if (desiredBrightness1 >= minbr && desiredBrightness1 <= maxbr)
+                                       {
+                                         prop.valueA = desiredBrightness1;
+                                         printf( "BRIGHTNESS set to %4d  from current file\n", desiredBrightness1 );
+                                         error = pCameras[i].SetProperty( &prop );
+                                         if (error != PGRERROR_OK)
+                                           {
+                                             PrintError( error );
+                                             delete[] pCameras;
+                                             return -1;
+                                           }
+                                       }
+                                    else{
+                                         cout << "There is a problems with current parfile. Using default parfile." << endl;
+                                         if ( strcmp("OFF",brset) == 0 || strcmp("OFf",brset)  == 0|| strcmp("OfF",brset)  == 0 || strcmp("Off",brset)  == 0 || strcmp("oFF",brset)  == 0  || strcmp("oFf",brset) == 0 || strcmp("ofF",brset) == 0 || strcmp("off",brset) == 0)
                                {
-                                 PropertyInfo propinfo;
-                                 propinfo.type = BRIGHTNESS;
-                                 error = pCameras[i].GetPropertyInfo( &propinfo );
-                                 if (error != PGRERROR_OK)
-                                   {
-                                     PrintError( error );
-                                     delete[] pCameras;
-                                     return -1;
+                                cout << "Setting " << brset << " BRIGHTNESS as requested in default parfile"  << endl;
+
+                              // Then turn off BRIGHTNESS
+                              Property prop;
+                              prop.type = BRIGHTNESS;
+                              error =  pCameras[i].GetProperty( &prop );
+                              if (error != PGRERROR_OK)
+                                {
+                                  PrintError( error );
+                                  delete[] pCameras;
+                                  return -1;
+                                }
+
+                              prop.autoManualMode = false;
+                              prop.onOff = false;
+                              error =  pCameras[i].SetProperty( &prop );
+                              if (error != PGRERROR_OK)
+                                {
+                                  PrintError( error );
+                                  delete[] pCameras;
+                                  return -1;
+                                }
+
+                            }
+                            else
+                                {
+                                  PropertyInfo propinfo;
+                                  propinfo.type = BRIGHTNESS;
+                                  error = pCameras[i].GetPropertyInfo( &propinfo );
+                                  if (error != PGRERROR_OK)
+                                    {
+                                      PrintError( error );
+                                      delete[] pCameras;
+                                      return -1;
+                                     }
+
+
+              			   int minbr = propinfo.min;
+              			   int maxbr = propinfo.max;
+              			// cout << "Minimum: " << minbr << "  - maximum:  " << maxbr << endl; // uncomment for debugging
+
+                                     Property prop;
+                                     prop.type = BRIGHTNESS;
+                                     prop.onePush = false;
+                                     prop.autoManualMode = false;
+                                     prop.onOff = true;
+
+                                     if (desiredBrightness >= minbr && desiredBrightness <= maxbr)
+                                       {
+                                         prop.valueA = desiredBrightness;
+                                         printf( "BRIGHTNESS set to %4d from default file  \n", desiredBrightness );
+                                         error = pCameras[i].SetProperty( &prop );
+                                         if (error != PGRERROR_OK)
+                                           {
+                                             PrintError( error );
+                                             delete[] pCameras;
+                                             return -1;
+                                           }
+                                       }
+                                    else{
+                                          printf( "WARNING! BRIGHTNESS outside allowed range [%4d, %4d] leaving it to default value \n", minbr, maxbr );
+                                        }
+                                  }
+
                                     }
 
+                                }
+                         }
+                        else
+                            {
+                             if (propInfo.present == false )
+                             {
+                               printf( "Warning: BRIGHTNESS is not supported... \n" );
+                             }
+                             else
+                             {
+                              if ( strcmp("OFF",brset) == 0 || strcmp("OFf",brset)  == 0|| strcmp("OfF",brset)  == 0 || strcmp("Off",brset)  == 0 || strcmp("oFF",brset)  == 0  || strcmp("oFf",brset) == 0 || strcmp("ofF",brset) == 0 || strcmp("off",brset) == 0)
+                               {
+                                 cout << "Setting " << brset << " BRIGHTNESS as requested in default parfile"  << endl;
+                                 // Then turn off BRIGHTNESS
+                                 Property prop;
+                                 prop.type = BRIGHTNESS;
+                                 error =  pCameras[i].GetProperty( &prop );
+                                 if (error != PGRERROR_OK)
+                                   {
+                                    PrintError( error );
+                                    delete[] pCameras;
+                                    return -1;
+                                   }
 
-             			   int minbr = propinfo.min;
-             			   int maxbr = propinfo.max;
-             			// cout << "Minimum: " << minbr << "  - maximum:  " << maxbr << endl; // uncomment for debugging
-
-                                    Property prop;
-                                    prop.type = BRIGHTNESS;
-                                    prop.onePush = false;
-                                    prop.autoManualMode = false;
-                                    prop.onOff = true;
-
-                                    if (desiredBrightness >= minbr && desiredBrightness <= maxbr)
-                                      {
-                                        prop.valueA = desiredBrightness;
-                                        printf( "BRIGHTNESS set to %4d \n", desiredBrightness );
-                                        error = pCameras[i].SetProperty( &prop );
-                                        if (error != PGRERROR_OK)
-                                          {
-                                            PrintError( error );
-                                            delete[] pCameras;
-                                            return -1;
-                                          }
-                                      }
-                                   else{
-                                         printf( "WARNING! BRIGHTNESS outside allowed range [%4d, %4d] leaving it to default value \n", minbr, maxbr );
-                                       }
+                                   prop.autoManualMode = false;
+                                   prop.onOff = false;
+                                   error =  pCameras[i].SetProperty( &prop );
+                                   if (error != PGRERROR_OK)
+                                     {
+                                       PrintError( error );
+                                       delete[] pCameras;
+                                       return -1;
+                                     }
                                  }
+                              else
+                              {
 
-                               }
-                         else
-                          {
-                            printf( "Warning: BRIGHTNESS is not supported... \n" );
-                          }
+                            	  PropertyInfo propinfo;
+                            	  propinfo.type = BRIGHTNESS;
+                            	  error = pCameras[i].GetPropertyInfo( &propinfo );
+                            	  if (error != PGRERROR_OK)
+                            	    {
+                            	      PrintError( error );
+                            	      delete[] pCameras;
+                            	      return -1;
+                            	    }
 
+                            	    int minbr = propinfo.min;
+                            	    int maxbr = propinfo.max;
+                            	    // cout << "Minimum: " << minbr << "  - maximum:  " << maxbr << endl; // uncomment for debugging
 
+                            	   Property prop;
+                            	   prop.type = BRIGHTNESS;
+                            	   prop.onePush = false;
+                            	   prop.autoManualMode = false;
+                            	   prop.onOff = true;
+
+                            	   if (desiredBrightness >= minbr && desiredBrightness <= maxbr)
+                            	     {
+                            	       prop.valueA = desiredBrightness;
+                            	       printf( "BRIGHTNESS set to %4d from default file  \n", desiredBrightness );
+                            	       error = pCameras[i].SetProperty( &prop );
+                            	       if (error != PGRERROR_OK)
+                            	         {
+                            	           PrintError( error );
+                            	           delete[] pCameras;
+                            	           return -1;
+                            	         }
+                            	      }
+                            	   else{
+                            	         printf( "WARNING! BRIGHTNESS outside allowed range [%4d, %4d] leaving it to default value \n", minbr, maxbr );
+                            	       }
+                              }
+                            }
+                            }
             
             // Start streaming on camera
             std::stringstream ss;

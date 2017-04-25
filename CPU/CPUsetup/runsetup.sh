@@ -5,6 +5,7 @@
 #capel.francesca@gmail.com
 #Please see README for correct setup procedure
 
+HOME_DIR="/home/software/CPU"
 ZYNQ_IP=192.168.7.10
 CPU_IP=192.168.7.2
 TEST_IP=8.8.8.8
@@ -16,7 +17,7 @@ echo "*******************"
 setterm -blength 0
 
 #Set the timeout of raising the network interface
-cp /home/CPU/CPUsetup/reduce_timeout.conf /lib/systemd/system/networking.service.d/
+cp $HOME_DIR/CPUsetup/reduce_timeout.conf /lib/systemd/system/networking.service.d/
 
 #Download the necessary packages
 if ping -q -c 1 -W 1 $TEST_IP > /dev/null 2>&1
@@ -40,46 +41,46 @@ chown minieusouser /home/minieusouser/DATA
 mkdir /home/minieusouser/DONE > /dev/null 2>&1
 chown minieusouser /home/minieusouser/DONE 
 rm /etc/vsftpd.conf > /dev/null 2>&1
-cp /home/software/CPU/CPUsetup/vsftpd.conf /etc/ > /dev/null 2>&1
+cp $HOME_DIR/CPUsetup/vsftpd.conf /etc/ > /dev/null 2>&1
 mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
 echo "FTP server is set up"
 
 #Set up the test code and telnet scripts
 echo "Compiling the test code..."
-mkdir /home/software/CPU/test/bin > /dev/null 2>&1
-make -C /home/software/CPU/test/src > /dev/null 2>&1
+mkdir $HOME_DIR/test/bin > /dev/null 2>&1
+make -C $HOME_DIR/test/src > /dev/null 2>&1
 echo "The test code has been compiled"
-chmod +x /home/software/CPU/zynq/telnet/*
+chmod +x $HOME_DIR/zynq/telnet/*
 
 #Set up the EM software
-mkdir /home/software/CPU/CPUsoftware/log > /dev/null 2>&1
-make -C /home/software/CPUsoftware/src > /dev/null 2>&1
+mkdir $HOME_DIR/CPUsoftware/log > /dev/null 2>&1
+make -C $HOME_DIR/CPU/CPUsoftware/src > /dev/null 2>&1
 
 #Setup symlinks for commands
 echo "Creating symlinks"
-ln -s /home/software/CPU/zynq/scripts/acqstart_telnet.sh /usr/local/bin/acqstart_telnet
-ln -s /home/software/CPU/zynq/scripts/cpu_poll.sh /usr/local/bin/cpu_poll
-ln -s /home/software/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_cmd
-ln -s /home/software/test/bin/test_systems /usr/local/bin/test_systems
+ln -s $HOME_DIR/zynq/scripts/acqstart_telnet.sh /usr/local/bin/acqstart_telnet
+ln -s $HOME_DIR/zynq/scripts/cpu_poll.sh /usr/local/bin/cpu_poll
+ln -s $HOME_DIR/zynq/scripts/send_telnet_cmd.sh /usr/local/bin/send_telnet_cmd
+ln -s $HOME_DIR/test/bin/test_systems /usr/local/bin/test_systems
 echo "Symlinks created"
 
 #Network configuration 
 echo "Setting up the network configuration..."
-cp /home/software/CPU/CPUsetup/interfaces /etc/network/ > /dev/null 2>&1
+cp $HOME_DIR/CPUsetup/interfaces /etc/network/ > /dev/null 2>&1
 echo "Network configuration is set up"
 
 #Set up the cameras 
 echo "Setting up the camera software..."
-chmod +x /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64/install_flycapture.sh
-(cd /home/software/CPU/cameras/flycapture2-2.3.2.14-amd64 && sh install_flycapture.sh)
+chmod +x $HOME_DIR/cameras/flycapture2-2.3.2.14-amd64/install_flycapture.sh
+(cd $HOME_DIR/cameras/flycapture2-2.3.2.14-amd64 && sh install_flycapture.sh)
 rm /etc/default/grub
-cp /home/software/CPU/CPUsetup/grub /etc/default/
+cp $HOME_DIR/CPUsetup/grub /etc/default/
 update-grub
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
-mkdir /home/software/CPU/cameras/test/bin > /dev/null 2>\&1
-make -C /home/software/CPU/cameras/test/src 
-chmod +x /home/software/CPU/cameras/test/multiplecam_test.sh
+mkdir $HOME_DIR/cameras/multiplecam/bin > /dev/null 2>\&1
+make -C $HOME_DIR/cameras/test/src 
+chmod +x $HOME_DIR/cameras/test/multiplecam_test.sh
 echo "Camera software is set up"
 
 #Set up the analog board
@@ -89,16 +90,16 @@ touch /etc/modprobe.d/blacklist.conf
 > /etc/modprobe.d/blacklist.conf 
 echo "blacklist rtd520" >> /etc/modprobe.d/blacklist.conf
 echo "rtd_dm75xx" >> /etc/modules
-make -C /home/software/CPU/analog/driver
-(cd /home/software/CPU/analog/driver && make load)
+make -C $HOME_DIR/analog/driver
+(cd $HOME_DIR/analog/driver && make load)
 mkdir /lib/modules/$(uname -r)/kernel/rtd/
-cp /home/software/CPU/analog/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
-(cd /home/software/CPU/analog/driver && depmod -a)
+cp $HOME_DIR/analog/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
+(cd $HOME_DIR/analog/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
-make -C /home/software/CPU/analog/lib
-mkdir /home/software/CPU/analog/bin
-make -C /home/software/CPU/analog/src
+make -C $HOME_DIR/analog/lib
+mkdir $HOME_DIR/analog/bin
+make -C $HOME_DIR/analog/src
 echo "analog software is set up"
 
 #Set up autologin to root 

@@ -44,7 +44,7 @@ int main(void) {
   //sleep(5);
 
   /* take an scurve */
-  //scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop);
+  //scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop, config_out.scurve_acc);
   
   return 0; 
 }

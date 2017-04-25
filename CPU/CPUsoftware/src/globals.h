@@ -35,11 +35,11 @@
 #define HOME_DIR "/home/software/CPU/"
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
-//#define ZYNQ_IP "192.168.7.10"
-//#define TELNET_PORT 23
+#define ZYNQ_IP "192.168.7.10"
+#define TELNET_PORT 23
 /* for testing in stockholm */
-#define ZYNQ_IP "172.29.110.236"
-#define TELNET_PORT 5003
+//#define ZYNQ_IP "172.29.110.236"
+//#define TELNET_PORT 5003
 
 /* external variables */
 extern std::string log_name;

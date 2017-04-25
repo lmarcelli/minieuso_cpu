@@ -176,7 +176,7 @@ std::string send_recv_telnet(std::string send_msg, int sockfd) {
     exit(0);
   }
   recv_msg = buffer;
-  recv_msg.erase(std::remove(recv_msg.begin(), recv_msg.end(), '\n'), recv_msg.end());
+  recv_msg.erase(std::remove(recv_msg.begin(), recv_msg.end(), '\r\n'), recv_msg.end());
   clog << "info: " << logstream::info << "receiving via telnet: " << recv_msg << std::endl;
   return recv_msg;
  }
@@ -481,7 +481,7 @@ int data_acquisition_stop() {
   //ADD THIS
 
   /* switch to instrument mode 0 */
-  status_string = send_recv_telnet("instrument mode 1\n", sockfd);
+  status_string = send_recv_telnet("instrument mode 0\n", sockfd);
   printf("status: %s\n", stat_str);
   
   
@@ -502,7 +502,7 @@ int set_dac(int dac_level) {
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+  clog << "info: " << logstream::info << "set the dac level to the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
   sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
@@ -535,7 +535,7 @@ int acq_shot() {
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+  clog << "info: " << logstream::info << "acquiring a single frame from the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
   sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);

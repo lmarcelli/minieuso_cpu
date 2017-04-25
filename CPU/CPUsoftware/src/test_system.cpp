@@ -31,20 +31,17 @@ int main(void) {
   config_out = configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */
-  //check_telnet(ZYNQ_IP, TELNET_PORT);
-  //sleep(10);
+  check_telnet(ZYNQ_IP, TELNET_PORT);
   
   /* check the instrument and HV status */
-  //inst_status();
-  //sleep(10);
-  //hvps_status();
+  inst_status();
+  hvps_status();
 
   /* turn on the HV */
-  //hvps_turnon(config_out.cathode_voltage, config_out.dynode_voltage);
-  //sleep(5);
+  hvps_turnon(config_out.cathode_voltage, config_out.dynode_voltage);
 
   /* take an scurve */
-  //scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop, config_out.scurve_acc);
+  scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop, config_out.scurve_acc);
   
   return 0; 
 }

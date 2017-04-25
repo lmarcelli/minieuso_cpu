@@ -8,6 +8,7 @@ struct config {
   int scurve_start;
   int scurve_step;
   int scurve_stop;
+  int scurve_acc;
 };
 
 config parse(std::string config_file_local);

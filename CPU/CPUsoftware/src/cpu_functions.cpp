@@ -1,6 +1,6 @@
 #include "globals.h"
 
-/* parsing a configuation file */
+/* parsing a configuration file */
 config parse(std::string config_file_local) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
@@ -42,6 +42,10 @@ config parse(std::string config_file_local) {
       else if (type == "SCURVE_STOP") {
 	in >> output.scurve_stop;
 	printf("SCURVE_STOP is: %d\n", output.scurve_stop);
+      }
+      else if (type == "SCURVE_ACC") {
+	in >> output.scurve_acc;
+	printf("SCURVE_ACC is: %d\n", output.scurve_acc);
       } 
     }
     cfg_file.close();
@@ -382,7 +386,7 @@ int hvps_turnon(int cv, int dv) {
 }
 
 /* take an scurve */
-int scurve(int start, int step, int stop) {
+int scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
   std::string status_string;
@@ -401,7 +405,7 @@ int scurve(int start, int step, int stop) {
   
   /* send and receive commands */
   /* take an s-curve */
-  conv << "acq sweep " << start << " " << step << " " << stop << std::endl;
+  conv << "acq sweep " << start << " " << step << " " << stop << "" << acc << std::endl;
   cmd = conv.str();
   std::cout << cmd;
   

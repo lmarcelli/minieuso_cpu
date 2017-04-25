@@ -168,6 +168,7 @@ std::string send_recv_telnet(std::string send_msg, int sockfd) {
     exit(0);
   }
   recv_msg = buffer;
+  recv_msg.erase(std::remove(recv_msg.begin(), recv_msg.end(), '\n'), recv_msg.end());
   clog << "info: " << logstream::info << "receiving via telnet: " << recv_msg << std::endl;
   return recv_msg;
  }

@@ -1,8 +1,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define VERSION 1.3
-#define VERSION_DATE_STRING "14/04/2017"
+#define VERSION 1.4
+#define VERSION_DATE_STRING "25/04/2017"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iostream>
 #include <streambuf>
+#include <csignal>
 
 #include "cpu_functions.h"
 #include "general.h"

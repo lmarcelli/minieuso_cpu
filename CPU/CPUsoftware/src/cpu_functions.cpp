@@ -46,6 +46,10 @@ config parse(std::string config_file_local) {
       else if (type == "SCURVE_ACC") {
 	in >> output.scurve_acc;
 	printf("SCURVE_ACC is: %d\n", output.scurve_acc);
+      }
+      else if (type == "DAC_LEVEL") {
+	in >> output.dac_level;
+	printf("DAC_LEVEL is: %d\n", output.dac_level);
       } 
     }
     cfg_file.close();
@@ -481,6 +485,71 @@ int data_acquisition_stop() {
   printf("status: %s\n", stat_str);
   
   
+  close(sockfd);
+  return 0;
+}
+
+/* set the DAC on the SPACIROCs */
+int set_dac(int dac_level) {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  std::string cmd;
+  std::stringstream conv;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  /* set the dac level */
+  conv << "slowctrl all dac " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << std::endl;
+  cmd = conv.str();
+  std::cout << cmd;
+  
+  status_string = send_recv_telnet(cmd, sockfd);
+  stat_str = status_string.c_str();
+  printf("status: %s\n", stat_str);
+
+  close(sockfd);
+  return 0;
+}
+
+
+/* Acquire one GTU frame from the SPACIROCs */
+int acq_shot() {
+
+  /* definitions */
+  std::string status_string;
+  const char * stat_str;
+  int sockfd;
+  std::string cmd;
+  std::stringstream conv;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  
+  /* send and receive commands */
+  /* take a dingle frame */
+  conv << "acq shot" << std::endl;
+  cmd = conv.str();
+  std::cout << cmd;
+  
+  status_string = send_recv_telnet(cmd, sockfd);
+  stat_str = status_string.c_str();
+  printf("status: %s\n", stat_str);
+
   close(sockfd);
   return 0;
 }

@@ -9,6 +9,7 @@ struct config {
   int scurve_step;
   int scurve_stop;
   int scurve_acc;
+  int dac_level;
 };
 
 config parse(std::string config_file_local);
@@ -21,8 +22,9 @@ int inst_status_test(std::string ip_address, int portno, std::string send_msg);
 int hvps_status();
 int hvps_turnon(int cv, int dv);
 int scurve(int start, int step, int stop, int acc);
-int data_acqusition();
-int data_acqusition_stop();
-
+int data_acquisition();
+int data_acquisition_stop();
+int set_dac(int dac_level);
+int acq_shot();
 
 #endif

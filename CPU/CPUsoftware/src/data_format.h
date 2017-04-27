@@ -1,6 +1,6 @@
 /* CPU data format definition 
  * for storage of packets coming from the Zynq board 
- *
+ * Francesca Capel: capel.francesca@gmail.com
 */
 
 #ifndef _DATA_FORMAT_H
@@ -47,7 +47,7 @@ typedef struct
 {
   CpuPktHeader cpu_packet_header;
   CpuTimeStamp cpu_time;
-  Z_DATA_TYPE_SCI_POLY_V3 zynq_data;
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_data;
 } CPU_PACKET;
 
 /* CPU file to store one run of ~40 min */

@@ -31,6 +31,8 @@
 #include "cpu_functions.h"
 #include "general.h"
 #include "log.h"
+#include "pdmdata.h"
+#include "data_format.h"
 
 /* definitions */
 #define HOME_DIR "/home/software/CPU/"

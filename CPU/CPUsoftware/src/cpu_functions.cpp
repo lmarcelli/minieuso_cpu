@@ -1,14 +1,14 @@
 #include "globals.h"
 
 /* parsing a configuration file */
-config parse(std::string config_file_local) {
+Config Parse(std::string config_file_local) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   std::string line;
   std::string config_file_name;
 
   /* define the parameters to parse */ 
-  config output;
+  Config Output;
   
   std::ifstream cfg_file;
   std::stringstream cf;
@@ -24,32 +24,32 @@ config parse(std::string config_file_local) {
       in >> type;
       
       if (type == "CATHODE_VOLTAGE") {
-	in >> output.cathode_voltage;
-	printf("CATHODE_VOLTAGE is: %d\n", output.cathode_voltage);
+	in >> Output.cathode_voltage;
+	printf("CATHODE_VOLTAGE is: %d\n", Output.cathode_voltage);
       }
       else if (type == "DYNODE_VOLTAGE") {
-	in >> output.dynode_voltage;
-	printf("DYNODE_VOLTAGE is: %d\n", output.dynode_voltage);
+	in >> Output.dynode_voltage;
+	printf("DYNODE_VOLTAGE is: %d\n", Output.dynode_voltage);
       }
       else if (type == "SCURVE_START") {
-	in >> output.scurve_start;
-	printf("SCURVE_START is: %d\n", output.scurve_start);
+	in >> Output.scurve_start;
+	printf("SCURVE_START is: %d\n", Output.scurve_start);
       }
       else if (type == "SCURVE_STEP") {
-	in >> output.scurve_step;
-	printf("SCURVE_STEP is: %d\n", output.scurve_step);
+	in >> Output.scurve_step;
+	printf("SCURVE_STEP is: %d\n", Output.scurve_step);
       }
       else if (type == "SCURVE_STOP") {
-	in >> output.scurve_stop;
-	printf("SCURVE_STOP is: %d\n", output.scurve_stop);
+	in >> Output.scurve_stop;
+	printf("SCURVE_STOP is: %d\n", Output.scurve_stop);
       }
       else if (type == "SCURVE_ACC") {
-	in >> output.scurve_acc;
-	printf("SCURVE_ACC is: %d\n", output.scurve_acc);
+	in >> Output.scurve_acc;
+	printf("SCURVE_ACC is: %d\n", Output.scurve_acc);
       }
       else if (type == "DAC_LEVEL") {
-	in >> output.dac_level;
-	printf("DAC_LEVEL is: %d\n", output.dac_level);
+	in >> Output.dac_level;
+	printf("DAC_LEVEL is: %d\n", Output.dac_level);
       } 
     }
     cfg_file.close();
@@ -58,27 +58,27 @@ config parse(std::string config_file_local) {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
   }
   
-  return output;
+  return Output;
 }
 
 
 /* reload and parse a configuration file */
-config configure(std::string config_file, std::string config_file_local) {
+Config Configure(std::string config_file, std::string config_file_local) {
 
   /* definitions */
-  const char * cfg = config_file.c_str();
-  const char * cfg_local = config_file_local.c_str();
-  config parse_output;
+  const char * kCfg = config_file.c_str();
+  const char * kCfgLocal = config_file_local.c_str();
+  Config ParseOutput;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "running configuration" << std::endl;
 
-  if (FILE *file = fopen(cfg, "r")) {
+  if (FILE *file = fopen(kCfg, "r")) {
 
     /* copy the file locally */ 
-    if (copy_file(cfg, cfg_local)) {
+    if (CopyFile(kCfg, kCfgLocal)) {
       clog << "info: " << logstream::info << "configuration file sucessfully copied over" << std::endl;     
     }
     else {
@@ -86,19 +86,19 @@ config configure(std::string config_file, std::string config_file_local) {
     }
 
     /* parse the file */
-    parse_output = parse(config_file_local);
+    ParseOutput = Parse(config_file_local);
     
   }
   else {
     clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
   }
 
-  return parse_output;
+  return ParseOutput;
 }
 
 /* check telnet connection on a certain IP address */
 /* closes the telnet connection after */
-int check_telnet(std::string ip_address, int portno) {
+int CheckTelnet(std::string ip_address, int portno) {
 
   /* definitions */
   int sockfd;
@@ -147,9 +147,9 @@ int check_telnet(std::string ip_address, int portno) {
 
 /* send and recieve commands over the telnet connection */
 /* to be used inside a function which opens the telnet connection */
-std::string send_recv_telnet(std::string send_msg, int sockfd) {
+std::string SendRecvTelnet(std::string send_msg, int sockfd) {
 
-  const char * s_msg = send_msg.c_str();
+  const char * kSendMsg = send_msg.c_str();
   char buffer[256];
   std::string recv_msg;
   int n;
@@ -160,7 +160,7 @@ std::string send_recv_telnet(std::string send_msg, int sockfd) {
 
   /* prepare the message to send */
   bzero(buffer, 256);
-  strncpy(buffer, s_msg, sizeof(buffer));
+  strncpy(buffer, kSendMsg, sizeof(buffer));
   send_msg.erase(std::remove(send_msg.begin(), send_msg.end(), '\n'), send_msg.end());
   clog << "info: " << logstream::info << "sending via telnet: " << send_msg << std::endl;
  
@@ -184,7 +184,7 @@ std::string send_recv_telnet(std::string send_msg, int sockfd) {
 
 /* connect to telnet */
 /* leaves telnet open to be closed with a separate function */
-int connect_telnet(std::string ip_address, int portno) {
+int ConnectTelnet(std::string ip_address, int portno) {
 
   /* definitions */
   int sockfd;
@@ -231,11 +231,11 @@ int connect_telnet(std::string ip_address, int portno) {
 }
 
 /* check the instrument status */
-int inst_status() {
+int InstStatus() {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   //long status;
 
@@ -245,14 +245,14 @@ int inst_status() {
   clog << "info: " << logstream::info << "checking the instrument status" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   
   /* send and receive commands in another */
-  status_string = send_recv_telnet("instrument status\n", sockfd);
-  stat_str = status_string.c_str();
-  //status = std::stol(stat_str);
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("instrument status\n", sockfd);
+  kStatStr = status_string.c_str();
+  //status = std::stol(kStatStr);
+  printf("status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;
@@ -261,13 +261,13 @@ int inst_status() {
 
 /* check the instrument status */
 /* quick test approach with all telnet setup in one function */
-int inst_status_test(std::string ip_address, int portno, std::string send_msg) {
+int InstStatusTest(std::string ip_address, int portno, std::string send_msg) {
   
   int sockfd, n;
   struct sockaddr_in serv_addr;
   struct hostent *server;
   const char * ip = ip_address.c_str();
-  const char * s_msg = send_msg.c_str();
+  const char * kSendMsg = send_msg.c_str();
   char buffer[256];
   
   
@@ -296,7 +296,7 @@ int inst_status_test(std::string ip_address, int portno, std::string send_msg) {
   }
 
   bzero(buffer,256);
-  strncpy(buffer, s_msg, sizeof(buffer));
+  strncpy(buffer, kSendMsg, sizeof(buffer));
   
   n = write(sockfd,buffer,strlen(buffer));
   if (n < 0) {
@@ -317,11 +317,11 @@ int inst_status_test(std::string ip_address, int portno, std::string send_msg) {
 
 
 /* check the HV status */
-int hvps_status() {
+int HvpsStatus() {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   //long status;
 
@@ -331,24 +331,24 @@ int hvps_status() {
   clog << "info: " << logstream::info << "checking the HVPS status" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
-  status_string = send_recv_telnet("hvps status gpio\n", sockfd);
-  stat_str = status_string.c_str();
-  //status = std::stol(stat_str);
-  printf("HVPS status: %s\n", stat_str);
+  status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
+  kStatStr = status_string.c_str();
+  //status = std::stol(kStatStr);
+  printf("HVPS status: %s\n", kStatStr);
   
   close(sockfd);
   return 0;
 }
 
 /* turn on the HV */
-int hvps_turnon(int cv, int dv) {
+int HvpsTurnon(int cv, int dv) {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -359,7 +359,7 @@ int hvps_turnon(int cv, int dv) {
   clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* set the cathode voltage */
   /* make the command string from config file values */
@@ -367,14 +367,14 @@ int hvps_turnon(int cv, int dv) {
   cmd = conv.str();
   std::cout << cmd;
   
-  status_string = send_recv_telnet(cmd, sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet(cmd, sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
 
   /* turn on */
-  status_string = send_recv_telnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
 
   /* set the dynode voltage */
   /* make the command string from config file values */
@@ -382,20 +382,20 @@ int hvps_turnon(int cv, int dv) {
   cmd = conv.str();
   std::cout << cmd;
   
-  status_string = send_recv_telnet(cmd, sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet(cmd, sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
   
   close(sockfd);
   return 0;
 }
 
 /* take an scurve */
-int scurve(int start, int step, int stop, int acc) {
+int Scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -406,7 +406,7 @@ int scurve(int start, int step, int stop, int acc) {
   clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
   /* take an s-curve */
@@ -414,9 +414,9 @@ int scurve(int start, int step, int stop, int acc) {
   cmd = conv.str();
   std::cout << cmd;
   
-  status_string = send_recv_telnet(cmd, sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet(cmd, sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
 
   /* wait for scurve to be taken */
   sleep(15);
@@ -425,11 +425,11 @@ int scurve(int start, int step, int stop, int acc) {
   return 0;
 }
 
-int data_acquisition() {
+int DataAcquisitionStart() {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
 
   /* set up logging */
@@ -438,19 +438,19 @@ int data_acquisition() {
   clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
   /* switch to data acquisition mode 1*/
-  status_string = send_recv_telnet("instrument mode 1\n", sockfd);
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
+  printf("status: %s\n", kStatStr);
 
   /* check the status */
   //ADD THIS
 
   /* start data acquisition */
-  status_string = send_recv_telnet("instrument start\n", sockfd);
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("instrument start\n", sockfd);
+  printf("status: %s\n", kStatStr);
   
   
   close(sockfd);
@@ -458,11 +458,11 @@ int data_acquisition() {
 }
 
 
-int data_acquisition_stop() {
+int DataAcquisitionStop() {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   
   /* set up logging */
@@ -471,19 +471,19 @@ int data_acquisition_stop() {
   clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
   /* stop the data acquisition */
-  status_string = send_recv_telnet("instrument stop\n", sockfd);
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("instrument stop\n", sockfd);
+  printf("status: %s\n", kStatStr);
 
   /* check the status */
   //ADD THIS
 
   /* switch to instrument mode 0 */
-  status_string = send_recv_telnet("instrument mode 0\n", sockfd);
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
+  printf("status: %s\n", kStatStr);
   
   
   close(sockfd);
@@ -491,11 +491,11 @@ int data_acquisition_stop() {
 }
 
 /* set the DAC on the SPACIROCs */
-int set_dac(int dac_level) {
+int SetDac(int dac_level) {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -506,17 +506,17 @@ int set_dac(int dac_level) {
   clog << "info: " << logstream::info << "set the dac level to the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
   /* set the dac level */
-  conv << "slowctrl all dac " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << " " << dac_level << std::endl;
+  conv << "slowctrl all dac " << dac_level << std::endl;
   cmd = conv.str();
   std::cout << cmd;
   
-  status_string = send_recv_telnet(cmd, sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet(cmd, sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;
@@ -524,11 +524,11 @@ int set_dac(int dac_level) {
 
 
 /* Acquire one GTU frame from the SPACIROCs */
-int acq_shot() {
+int AcqShot() {
 
   /* definitions */
   std::string status_string;
-  const char * stat_str;
+  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -539,7 +539,7 @@ int acq_shot() {
   clog << "info: " << logstream::info << "acquiring a single frame from the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = connect_telnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* send and receive commands */
   /* take a dingle frame */
@@ -547,9 +547,9 @@ int acq_shot() {
   cmd = conv.str();
   std::cout << cmd;
   
-  status_string = send_recv_telnet(cmd, sockfd);
-  stat_str = status_string.c_str();
-  printf("status: %s\n", stat_str);
+  status_string = SendRecvTelnet(cmd, sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;

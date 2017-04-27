@@ -2,7 +2,7 @@
 #define _CPU_FUNCTIONS_H
 
 /* struct for output of the configuration file */
-struct config {
+struct Config {
   int cathode_voltage;
   int dynode_voltage;
   int scurve_start;
@@ -12,19 +12,19 @@ struct config {
   int dac_level;
 };
 
-config parse(std::string config_file_local);
-config configure(std::string config_file, std::string config_file_local);
-int check_telnet(std::string ip_address, int portno);
-std::string send_recv_telnet(std::string send_msg, int sockfd);
-int connect_telnet(std::string ip_address, int portno);
-int inst_status();
-int inst_status_test(std::string ip_address, int portno, std::string send_msg);
-int hvps_status();
-int hvps_turnon(int cv, int dv);
-int scurve(int start, int step, int stop, int acc);
-int data_acquisition();
-int data_acquisition_stop();
-int set_dac(int dac_level);
-int acq_shot();
+Config Parse(std::string config_file_local);
+Config Configure(std::string config_file, std::string config_file_local);
+int CheckTelnet(std::string ip_address, int portno);
+std::string SendRecvTelnet(std::string send_msg, int sockfd);
+int ConnectTelnet(std::string ip_address, int portno);
+int InstStatus();
+int InstStatusTest(std::string ip_address, int portno, std::string send_msg);
+int HvpsStatus();
+int HvpsTurnon(int cv, int dv);
+int Scurve(int start, int step, int stop, int acc);
+int DataAcquisitionStart();
+int DataAcquisitionStop();
+int SetDac(int dac_level);
+int AcqShot();
 
 #endif

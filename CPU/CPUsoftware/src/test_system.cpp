@@ -14,7 +14,7 @@ capel.francesca@gmail.com
 int main(void) {
 
   /* definitions */
-  config config_out;
+  Config ConfigOut;
 
   /*----------*/
   /* start-up */
@@ -29,14 +29,14 @@ int main(void) {
   /* reload and parse the configuration file */
   std::string config_file = "../config/dummy.conf";
   std::string config_file_local = "../config/dummy_local.conf";
-  config_out = configure(config_file, config_file_local);
+  ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */
-  check_telnet(ZYNQ_IP, TELNET_PORT);
+  CheckTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* check the instrument and HV status */
-  inst_status();
-  hvps_status();
+  InstStatus();
+  HvpsStatus();
 
   /*---------------------*/
   /* A typical 40min run */
@@ -44,23 +44,23 @@ int main(void) {
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
   /* enable signal handling */
-  signal(SIGINT, signal_handler);  
+  signal(SIGINT, SignalHandler);  
   
   /* turn on the HV */
-  hvps_turnon(config_out.cathode_voltage, config_out.dynode_voltage);
+  HvpsTurnon(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
   /* take an scurve */
-  scurve(config_out.scurve_start, config_out.scurve_step, config_out.scurve_stop, config_out.scurve_acc);
+  Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
 
   /* set the DAC level */
-  set_dac(config_out.dac_level);
+  SetDac(ConfigOut.dac_level);
   
   /* start the triggered acquisition */
-  data_acquisition();
+  DataAcquisitionStart();
 
   /* wait for the stop signal */
   while (1) {
-    printf("Acquiring data...");
+    printf("Acquiring data...\n");
   }
   
   return 0; 

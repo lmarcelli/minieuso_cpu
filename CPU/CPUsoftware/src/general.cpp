@@ -39,7 +39,7 @@ void SignalHandler(int signum) {
 /* create cpu run file name */
 std::string CreateCpuRunName(void) {
   struct timeval tv;
-  char cpu_file_name[40];
+  char cpu_file_name[80];
   std::string done_str(DONE_DIR);
   std::string time_str("/CPU_RUN_%Y-%m-%d_%H:%M:%S.dat");
   std::string cpu_str = done_str + time_str;
@@ -106,6 +106,7 @@ void ProcessIncomingData() {
     clog << "error: " << logstream::error << "unable to start inotify service" << std::endl;
   }
   
+  clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
   wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
   
   while(1) {
@@ -122,10 +123,13 @@ void ProcessIncomingData() {
     if (event->len) {
       if ( event->mask & IN_CREATE ) {
 	if ( event->mask & IN_ISDIR ) {
-	  printf( "The directory %s was created.\n", event->name );       
+	  printf( "The directory %s was created.\n", event->name );
+	  clog << "info: " << logstream::info << "new directory created" << std::endl;
+
 	}
 	else {
 	  printf( "The file %s was created.\n", event->name );
+	  clog << "info: " << logstream::info << "new file created called" << event->name << std::endl;
 	}
       }
     }

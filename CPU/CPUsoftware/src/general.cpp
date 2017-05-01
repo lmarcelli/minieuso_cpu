@@ -88,7 +88,7 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData() {
+void ProcessIncomingData() {
 
   int length, i = 0;
   int fd;

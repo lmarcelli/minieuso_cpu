@@ -60,7 +60,7 @@ int main(void) {
   SetDac(ConfigOut.dac_level);
 
   /* start checking for new files and appending */
-  std::thread check_data (ProcessIncomingData);
+  std::thread check_data (ProcessIncomingData, current_run_file);
   
   /* start the triggered acquisition */
   DataAcquisitionStart();

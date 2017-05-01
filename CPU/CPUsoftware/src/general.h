@@ -7,7 +7,7 @@ void SignalHandler(int signum);
 std::string CreateCpuRunName(void);
 int CreateCpuRun(std::string cpu_file_name);
 int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name);
-void ProcessIncomingData();
+void ProcessIncomingData(std::string cpu_file_name);
 
 #endif
 

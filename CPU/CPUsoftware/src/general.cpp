@@ -88,13 +88,16 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-void ProcessIncomingData() {
+void ProcessIncomingData(std::string cpu_file_name) {
 
   int length, i = 0;
   int fd;
   int wd;
   char buffer[BUF_LEN];
 
+  std::string zynq_file_name;
+  std::string data_str(DATA_DIR);
+  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
@@ -123,13 +126,21 @@ void ProcessIncomingData() {
     if (event->len) {
       if ( event->mask & IN_CREATE ) {
 	if ( event->mask & IN_ISDIR ) {
-	  printf( "The directory %s was created.\n", event->name );
+	  /* process new directory creation */
+	  printf( "The directory %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new directory created" << std::endl;
 
 	}
 	else {
-	  printf( "The file %s was created.\n", event->name );
-	  clog << "info: " << logstream::info << "new file created called" << event->name << std::endl;
+
+	  /* process new file */
+	  printf( "The file %s was created\n", event->name);
+	  clog << "info: " << logstream::info << "new file created with name" << event->name << std::endl;
+	  zynq_file_name = data_str + "/" + event->name;
+    	  clog << "info: " << logstream::info << "path of file" << zynq_file_name << std::endl;
+
+	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
+	  
 	}
       }
     }

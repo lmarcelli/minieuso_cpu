@@ -40,7 +40,7 @@ int main(void) {
 
   /*---------------------*/
   /* A typical 40min run */
-  printf("Starting acquisition run");
+  printf("Starting acquisition run\n");
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
   /* enable signal handling */

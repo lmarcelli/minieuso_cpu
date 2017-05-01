@@ -137,9 +137,11 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	  printf( "The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name" << event->name << std::endl;
 	  zynq_file_name = data_str + "/" + event->name;
-    	  clog << "info: " << logstream::info << "path of file" << zynq_file_name << std::endl;
+    	  clog << "info: " << logstream::info << "path of file " << event->name << std::endl;
 
+	  sleep(1);
 	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
+	  
 	  
 	}
       }
@@ -156,15 +158,16 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
 
   FILE * ptr_zfile;
   FILE * ptr_cpufile;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_data_file;
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_data_file __attribute__ ((aligned (256)));
   CPU_PACKET cpu_packet;
   const char * kZynqFileName = zynq_file_name.c_str();
   const char * kCpuFileName = cpu_file_name.c_str();
+  size_t res;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << " and appending to  " << cpu_file_name << std::endl;
+  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << " and appending to " << cpu_file_name << std::endl;
 
   ptr_zfile = fopen(kZynqFileName, "rb");
   if (!ptr_zfile) {
@@ -173,13 +176,17 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   }
   
   /* read out the zynq structure, defined in "pdmdata.h" */
-  fread(&zynq_data_file, sizeof(zynq_data_file), 1, ptr_zfile);
-
+  res = fread(&zynq_data_file, sizeof(zynq_data_file), 1, ptr_zfile);
+  if (res != sizeof(zynq_data_file)) {
+    clog << "error: " << logstream::error << "fread from " << zynq_file_name << "failed" << std::endl;
+    return 1;   
+  }
+  
   /* DEBUG: print records to check */
-  printf("header = %d\n", zynq_data_file.zbh.header);
-  printf("payload_size = %d\n", zynq_data_file.zbh.payload_size);
-  printf("hv_status = %d\n", zynq_data_file.payload.hv_status);
-  printf("n_gtu = %llu\n", zynq_data_file.payload.ts.n_gtu);
+  printf("header = %u\n", zynq_data_file.zbh.header);
+  printf("payload_size = %u\n", zynq_data_file.zbh.payload_size);
+  printf("hv_status = %u\n", zynq_data_file.payload.hv_status);
+  printf("n_gtu = %lu\n", zynq_data_file.payload.ts.n_gtu);
 
   /* close the zynq file */
   fclose(ptr_zfile);

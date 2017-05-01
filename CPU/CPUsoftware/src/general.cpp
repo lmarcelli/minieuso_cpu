@@ -143,7 +143,7 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
 
 	  /* delete upon completion */
-	  std::remove(zynq_file_name);
+	  std::remove(zynq_file_name.c_str());
 	  
 	}
       }

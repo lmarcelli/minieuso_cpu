@@ -1,8 +1,5 @@
 #include "globals.h"
 
-#define EVENT_SIZE (sizeof(struct inotify_event))
-#define BUF_LEN (1024 * (EVENT_SIZE + 16))
-
 /* create log file name */
 std::string CreateLogname(void) {
   struct timeval tv;
@@ -16,10 +13,10 @@ std::string CreateLogname(void) {
 
 /* copy a file */
 bool CopyFile(const char *SRC, const char* DEST) {
-    std::ifstream src(SRC, std::ios::binary);
-    std::ofstream dest(DEST, std::ios::binary);
-    dest << src.rdbuf();
-    return src && dest;
+  std::ifstream src(SRC, std::ios::binary);
+  std::ofstream dest(DEST, std::ios::binary);
+  dest << src.rdbuf();
+  return src && dest;
 }
 
 /* handle SIGINT */
@@ -33,7 +30,6 @@ void SignalHandler(int signum) {
   
   /* terminate the program */
   exit(signum);  
-
 }
 
 /* create cpu run file name */

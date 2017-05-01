@@ -1,9 +1,6 @@
 #ifndef SRC_PDMDATA_H_
 #define SRC_PDMDATA_H_
 
-#include <stdint.h>
-#include <stdio.h>
-
 // Constants
 
 #define N_OF_PIXELS_PER_PMT		64 /* number of pixel on PMT */

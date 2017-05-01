@@ -158,7 +158,7 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
 
   FILE * ptr_zfile;
   FILE * ptr_cpufile;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_data_file __attribute__ ((aligned (256)));
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_data_file;
   CPU_PACKET cpu_packet;
   const char * kZynqFileName = zynq_file_name.c_str();
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -177,10 +177,13 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   
   /* read out the zynq structure, defined in "pdmdata.h" */
   res = fread(&zynq_data_file, sizeof(zynq_data_file), 1, ptr_zfile);
-  if (res != sizeof(zynq_data_file)) {
-    clog << "error: " << logstream::error << "fread from " << zynq_file_name << "failed" << std::endl;
+  printf("res = %u\n", res);
+  /*
+  if (res != 1) {
+    clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return 1;   
   }
+  */
   
   /* DEBUG: print records to check */
   printf("header = %u\n", zynq_data_file.zbh.header);

@@ -1,5 +1,8 @@
 #include "globals.h"
 
+#define EVENT_SIZE (sizeof(struct inotify_event))
+#define BUF_LEN (1024 * (EVENT_SIZE + 16))
+
 /* create log file name */
 std::string CreateLogname(void) {
   struct timeval tv;
@@ -33,6 +36,107 @@ void SignalHandler(int signum) {
 
 }
 
+/* create cpu run file name */
+std::string CreateCpuRunName(void) {
+  struct timeval tv;
+  char cpu_file_name[40];
+  std::string done_str(DONE_DIR);
+  std::string time_str("/CPU_RUN_%Y-%m-%d_%H:%M:%S.dat");
+  std::string cpu_str = done_str + time_str;
+  const char * kCpuCh = cpu_str.c_str();
+
+  gettimeofday(&tv,0);
+  time_t now = tv.tv_sec;
+  struct tm * now_tm = localtime(&now);
+  
+  strftime(cpu_file_name, sizeof(cpu_file_name), kCpuCh, now_tm);
+  return cpu_file_name;
+}
+
+
+/* make a cpu data file for a new run */
+int CreateCpuRun(std::string cpu_file_name) {
+
+  FILE * ptr_cpufile;
+  const char * kCpuFileName = cpu_file_name.c_str();
+  CpuFileHeader cpu_file_header;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
+
+
+  /* set up the cpu file structure */
+  cpu_file_header.header = 111;
+  cpu_file_header.run_size = RUN_SIZE;
+
+  /* open the cpu run file */
+  ptr_cpufile = fopen(kCpuFileName, "wb");
+  if (!ptr_cpufile) {
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    return 1;
+  }
+
+  /* write to the cpu run file */
+  fwrite(&cpu_file_header, sizeof(cpu_file_header), 1, ptr_cpufile);
+
+  /* close the cpu run file */
+  fclose(ptr_cpufile);
+  
+  return 0;
+}
+
+/* Look for new files in the data directory and process them */
+int ProcessIncomingData() {
+
+  int length, i = 0;
+  int fd;
+  int wd;
+  char buffer[BUF_LEN];
+
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
+
+  /* watch the data directory for incoming files */
+  fd = inotify_init();
+  if (fd < 0) {
+    clog << "error: " << logstream::error << "unable to start inotify service" << std::endl;
+  }
+  
+  wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
+  
+  while(1) {
+    
+    struct inotify_event * event;
+    
+    length = read(fd, buffer, BUF_LEN); 
+    if (length < 0) {
+      clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
+    } 
+    
+    event = (struct inotify_event *) &buffer[i];
+    
+    if (event->len) {
+      if ( event->mask & IN_CREATE ) {
+	if ( event->mask & IN_ISDIR ) {
+	  printf( "The directory %s was created.\n", event->name );       
+	}
+	else {
+	  printf( "The file %s was created.\n", event->name );
+	}
+      }
+    }
+  }
+  
+  inotify_rm_watch(fd, wd);
+  close(fd);
+
+  return 0;
+}
+
 /* read out a zynq data file and append to a cpu data file */
 int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
 
@@ -42,7 +146,6 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   CPU_PACKET cpu_packet;
   const char * kZynqFileName = zynq_file_name.c_str();
   const char * kCpuFileName = cpu_file_name.c_str();
-
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -86,5 +189,5 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   /* close the cpu file */
   fclose(ptr_cpufile);
   
-  return 0
+  return 0;
 }

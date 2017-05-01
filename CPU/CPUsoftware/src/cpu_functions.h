@@ -20,7 +20,7 @@ int ConnectTelnet(std::string ip_address, int portno);
 int InstStatus();
 int InstStatusTest(std::string ip_address, int portno, std::string send_msg);
 int HvpsStatus();
-int HvpsTurnon(int cv, int dv);
+int HvpsTurnOn(int cv, int dv);
 int Scurve(int start, int step, int stop, int acc);
 int DataAcquisitionStart();
 int DataAcquisitionStop();

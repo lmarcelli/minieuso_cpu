@@ -45,22 +45,29 @@ int main(void) {
 
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  
-  
+
+  /* create the run file */ 
+  std::string current_run_file = CreateCpuRunName();
+  CreateCpuRun(current_run_file);
+
   /* turn on the HV */
-  HvpsTurnon(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+  HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
   /* take an scurve */
   Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
 
   /* set the DAC level */
   SetDac(ConfigOut.dac_level);
+
+  /* start checking for new files and appending */
+  std::thread check_data(ProcessIncomingData);
   
   /* start the triggered acquisition */
   DataAcquisitionStart();
 
   /* wait for the stop signal */
   while (1) {
-    printf("Acquiring data...\n");
+    //printf("Acquiring data...\n");
   }
   
   return 0; 

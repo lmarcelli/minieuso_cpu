@@ -1,8 +1,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define VERSION 1.4
-#define VERSION_DATE_STRING "25/04/2017"
+#define VERSION 1.5
+#define VERSION_DATE_STRING "01/05/2017"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/inotify.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -34,8 +35,8 @@
 #include "pdmdata.h"
 #include "data_format.h"
 
-/* definitions */
-#define HOME_DIR "/home/software/CPU/"
+/* cpu definitions */
+#define HOME_DIR "/home/software/CPU"
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
 #define ZYNQ_IP "192.168.7.10"
@@ -43,6 +44,8 @@
 /* for testing in stockholm */
 //#define ZYNQ_IP "172.29.110.236"
 //#define TELNET_PORT 5003
+#define DONE_DIR "/home/minieusouser/DONE"
+#define DATA_DIR "/home/minieusouser/DATA"
 
 /* external variables */
 extern std::string log_name;

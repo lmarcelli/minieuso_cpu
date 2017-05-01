@@ -344,7 +344,7 @@ int HvpsStatus() {
 }
 
 /* turn on the HV */
-int HvpsTurnon(int cv, int dv) {
+int HvpsTurnOn(int cv, int dv) {
 
   /* definitions */
   std::string status_string;

@@ -139,7 +139,7 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	  zynq_file_name = data_str + "/" + event->name;
     	  clog << "info: " << logstream::info << "path of file " << event->name << std::endl;
 
-	  //sleep(1);
+	  usleep(100000);
 	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
 
 	  /* delete upon completion */

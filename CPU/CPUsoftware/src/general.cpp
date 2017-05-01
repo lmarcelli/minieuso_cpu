@@ -139,9 +139,11 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	  zynq_file_name = data_str + "/" + event->name;
     	  clog << "info: " << logstream::info << "path of file " << event->name << std::endl;
 
-	  sleep(1);
+	  //sleep(1);
 	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
-	  
+
+	  /* delete upon completion */
+	  std::remove(zynq_file_name);
 	  
 	}
       }
@@ -177,13 +179,10 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   
   /* read out the zynq structure, defined in "pdmdata.h" */
   res = fread(&zynq_data_file, sizeof(zynq_data_file), 1, ptr_zfile);
-  printf("res = %u\n", res);
-  /*
-  if (res != 1) {
+  if (res != 0) {
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return 1;   
   }
-  */
   
   /* DEBUG: print records to check */
   printf("header = %u\n", zynq_data_file.zbh.header);

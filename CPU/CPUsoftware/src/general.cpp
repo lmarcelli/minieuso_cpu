@@ -134,7 +134,6 @@ void ProcessIncomingData() {
   inotify_rm_watch(fd, wd);
   close(fd);
 
-  return 0;
 }
 
 /* read out a zynq data file and append to a cpu data file */

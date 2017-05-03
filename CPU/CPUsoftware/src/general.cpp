@@ -7,7 +7,7 @@ std::string CreateLogname(void) {
   std::string log_dir(LOG_DIR);
   std::string time_str("/CPU_MAIN_%Y-%m-%d_%H:%M:%S.log");
   std::string log_str = log_dir + time_str;
-  const char * kLogCh = cpu_str.c_str();
+  const char * kLogCh = log_str.c_str();
   
   gettimeofday(&tv,0);
   time_t now = tv.tv_sec;

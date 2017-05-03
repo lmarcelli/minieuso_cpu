@@ -48,6 +48,7 @@ typedef struct
   CpuPktHeader cpu_packet_header;
   CpuTimeStamp cpu_time;
   Z_DATA_TYPE_SCI_POLY_V5 zynq_data;
+  //  uint32_t crc;
 } CPU_PACKET;
 
 /* CPU file to store one run of ~40 min */
@@ -55,6 +56,7 @@ typedef struct
 {
   CpuFileHeader cpu_file_header;
   CPU_PACKET cpu_run_payload[RUN_SIZE];
+
 } CPU_FILE;
 
 

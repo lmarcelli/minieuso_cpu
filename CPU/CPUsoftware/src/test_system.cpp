@@ -15,6 +15,7 @@ int main(void) {
 
   /* definitions */
   Config ConfigOut;
+  std::string config_dir(CONFIG_DIR);
 
   /*----------*/
   /* start-up */
@@ -27,8 +28,8 @@ int main(void) {
   clog << "info: " << logstream::info << "log created" << std::endl;
  
   /* reload and parse the configuration file */
-  std::string config_file = "../config/dummy.conf";
-  std::string config_file_local = "../config/dummy_local.conf";
+  std::string config_file = config_dir + "/dummy.conf";
+  std::string config_file_local = config_dir + "/dummy_local.conf";
   ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */

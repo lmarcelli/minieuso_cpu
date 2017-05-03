@@ -61,7 +61,7 @@ int main(void) {
   Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
 
   /* set the DAC level */
-  SetDac(ConfigOut.dac_level);
+  SetDac(750);
 
   /* start checking for new files and appending */
   std::thread check_data (ProcessIncomingData, current_run_file);

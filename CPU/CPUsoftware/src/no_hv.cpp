@@ -29,7 +29,7 @@ int main(void) {
  
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/config/dummy.conf";
-  std::string config_file_local = cofig_dir + "/config/dummy_local.conf";
+  std::string config_file_local = config_dir + "/config/dummy_local.conf";
   ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */

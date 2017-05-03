@@ -5,7 +5,7 @@ std::string CreateLogname(void) {
   struct timeval tv;
   char logname[80];
   std::string log_dir(LOG_DIR);
-  std::string time_str("/CPU_MAIN_%Y-%m-%d_%H:%M:%S.log");
+  std::string time_str("/CPU_MAIN__%Y_%m_%d__%H_%M_%S.log");
   std::string log_str = log_dir + time_str;
   const char * kLogCh = log_str.c_str();
   
@@ -44,7 +44,7 @@ std::string CreateCpuRunName(void) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
-  std::string time_str("/CPU_RUN_%Y-%m-%d_%H:%M:%S.dat");
+  std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
   std::string cpu_str = done_str + time_str;
   const char * kCpuCh = cpu_str.c_str();
 

@@ -46,7 +46,7 @@
 //#define TELNET_PORT 5003
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
-#define LOG_DIR "/home/minieusouser/CPU/CPUsoftware/log"
+#define LOG_DIR "/home/software/CPU/CPUsoftware/log"
 /* external variables */
 extern std::string log_name;
 

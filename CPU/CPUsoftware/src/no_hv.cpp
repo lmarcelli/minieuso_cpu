@@ -28,8 +28,8 @@ int main(void) {
   clog << "info: " << logstream::info << "log created" << std::endl;
  
   /* reload and parse the configuration file */
-  std::string config_file = config_dir + "/config/dummy.conf";
-  std::string config_file_local = config_dir + "/config/dummy_local.conf";
+  std::string config_file = config_dir + "/dummy.conf";
+  std::string config_file_local = config_dir + "/dummy_local.conf";
   std::cout << config_file << std::endl;
   std::cout << config_file_local << std::endl;
   

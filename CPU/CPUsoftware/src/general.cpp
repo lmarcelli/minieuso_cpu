@@ -3,11 +3,17 @@
 /* create log file name */
 std::string CreateLogname(void) {
   struct timeval tv;
+  char logname[40];
+  std::string log_dir(LOG_DIR);
+  std::string time_str("/CPU_MAIN_%Y-%m-%d_%H:%M:%S.log");
+  std::string log_str = log_dir + time_str;
+  const char * kLogCh = cpu_str.c_str();
+  
   gettimeofday(&tv,0);
   time_t now = tv.tv_sec;
   struct tm * now_tm = localtime(&now);
-  char logname[40];
-  strftime(logname, sizeof(logname), "../log/CPU_MAIN_%Y-%m-%d_%H:%M:%S.log", now_tm);
+
+  strftime(logname, sizeof(logname), kLogCh, now_tm);
   return logname;
 }
 

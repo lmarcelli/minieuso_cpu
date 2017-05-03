@@ -47,6 +47,9 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 #define LOG_DIR "/home/software/CPU/CPUsoftware/log"
+#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+
+
 /* external variables */
 extern std::string log_name;
 

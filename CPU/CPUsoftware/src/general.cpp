@@ -1,12 +1,5 @@
 #include "globals.h"
 
-/* acquisition structure for analog readout */
-typedef struct
-{
-  float val [FIFO_DEPTH][CHANNELS];
-} AnalogAcq;
-
-
 /* create log file name */
 std::string CreateLogname(void) {
   struct timeval tv;

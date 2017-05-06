@@ -10,7 +10,7 @@
 
 /* for use with analog readout functions */
 #define CHANNELS 16
-#define FIF0_DEPTH 64
+#define FIFO_DEPTH 64
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
 #define PH_CHANNELS 4

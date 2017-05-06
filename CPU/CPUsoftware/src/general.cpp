@@ -139,7 +139,7 @@ AnalogAcq AnalogDataCollect() {
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
 
-  acq acq_output;
+  AnalogAcq acq_output;
   
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -242,7 +242,7 @@ AnalogAcq AnalogDataCollect() {
 /* write the HK data to cpu_packet */
 HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
-  int i, j, k;
+  int i, k;
   float sum_ph[PH_CHANNELS];
   float sum_sipm1;
   HK_PACKET hk_packet;
@@ -274,7 +274,12 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   FILE * ptr_cpufile;
   CPU_PACKET cpu_packet;
   const char * kCpuFileName = cpu_file_name.c_str();
- 
+
+  /* set up logging */
+  std::ofstream log_file(log_name, std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
+  
   /* create the cpu packet header */
   cpu_packet.cpu_packet_header.header = 888;
   cpu_packet.cpu_packet_header.pkt_size = 777;
@@ -359,7 +364,7 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	  usleep(100000);
 
 	  /* generate sub packets */
-	  zynq_packet = ZynqFileReadOut(zynq_file_name, cpu_file_name);
+	  zynq_packet = ZynqPktReadOut(zynq_file_name);
 	  acq = AnalogDataCollect();
 	  hk_packet = AnalogPktReadOut(acq);
 
@@ -405,7 +410,7 @@ int PhotodiodeTest() {
   /* Main acquisition code */
   k = 0;
   for( ; ; ) { 
-    acq acq_output;
+    AnalogAcq acq_output;
     char fname[64];
     snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  
     

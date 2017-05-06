@@ -1,9 +1,10 @@
 #include "globals.h"
 
 /* acquisition structure for analog readout */
-struct acq {
-	float val[1024];
-};
+typedef struct
+{
+  float val[1024];
+} acq;
 
 
 /* create log file name */
@@ -250,7 +251,7 @@ int PhotodiodeTest() {
   /* Main acquisition code */
   k = 0;
   for( ; ; ) { 
-    struct acq *acq_output = malloc(sizeof(struct acq));
+    acq acq_output;
     char fname[64];
     snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  
     
@@ -328,7 +329,7 @@ int PhotodiodeTest() {
 			   "DM75xx_ADC_FIFO_Read");
       printf("%2.2f\n",
       	((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10));
-      acq_output->val[i]=((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+      acq_output.val[i]=((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
       
       i++;
       
@@ -340,16 +341,15 @@ int PhotodiodeTest() {
     while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
 
     /* Print how many samples were received */
-    fprintf(logfile_pd, "Received %d samples\n", i);
     clog << "info: " << logstream::info << "received " << i << "analog samples" << std::endl;
 
     /* Save FIFO output to a file */	
     FILE * file = fopen(fname,"wb");
     if (file != NULL){
-      fwrite(acq_output, sizeof(struct acq), 1, file);
+      fwrite(acq_output, sizeof(acq_output), 1, file);
       fclose(file);
     }
-    free(acq_output);
+
     k++;
     sleep(5);
   }

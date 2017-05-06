@@ -101,19 +101,18 @@ Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << " and appending to " << cpu_file_name << std::endl;
-
+  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << std::endl;
   ptr_zfile = fopen(kZynqFileName, "rb");
   if (!ptr_zfile) {
     clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
-    return 1;
+    exit(1);
   }
   
   /* read out the zynq structure, defined in "pdmdata.h" */
   res = fread(&zynq_packet, sizeof(zynq_packet), 1, ptr_zfile);
   if (res != 0) {
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
-    return 1;   
+    exit(1);   
   }
   
   /* DEBUG: print records to check */
@@ -292,7 +291,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
     return 1;
   }
 
@@ -384,144 +383,3 @@ void ProcessIncomingData(std::string cpu_file_name) {
 
 }
 
-/* photodiode test code */
-int PhotodiodeTest() {
-  
-  DM75xx_Board_Descriptor * brd;
-  DM75xx_Error dm75xx_status;
-  dm75xx_cgt_entry_t cgt[CHANNELS];
-  int i, k;
-  float actR;
-  uint16_t data = 0x0000;  
-  unsigned long int minor_number = 0;
- 
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "running the photodiode test code" << std::endl;
-
-  /* Device initialisation */
-  clog << "info: " << logstream::info << "initialising the DM75xx device" << std::endl;
-  dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
-  dm75xx_status = DM75xx_Board_Init(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");
-  
-  /* Main acquisition code */
-  k = 0;
-  for( ; ; ) { 
-    AnalogAcq acq_output;
-    char fname[64];
-    snprintf(fname, sizeof(char) * 64, "/home/minieusouser/DATA/output%i.dat", k);  
-    
-    /* Clear the FIFO */
-    clog << "info: " << logstream::info << "clearing the DM75xx FIFO" << std::endl;
-    dm75xx_status = DM75xx_ADC_Clear(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Clear_AD_FIFO");
-    dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
-    printf("FIFO Status: 0x%4x\n", data);
-    
-    /* enable the channel gain table */
-    dm75xx_status = DM75xx_CGT_Enable(brd, 0xFF);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Enable");
-    
-    /* set the channel gain table for all channels */
-    for (i = 0; i < CHANNELS; i++) {
-      cgt[i].channel = i;
-      cgt[i].gain = 0;
-      cgt[i].nrse = 0;
-      cgt[i].range = 0;
-      cgt[i].ground = 0;
-      cgt[i].pause = 0;
-      cgt[i].dac1 = 0;
-      cgt[i].dac2 = 0;
-      cgt[i].skip = 0;
-      dm75xx_status = DM75xx_CGT_Write(brd, cgt[i]);
-      DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Write");
-    }
-    
-    /* set up clocks */
-    dm75xx_status = DM75xx_BCLK_Setup(brd,
-				      DM75xx_BCLK_START_PACER,
-				      DM75xx_BCLK_FREQ_8_MHZ,
-				      BURST_RATE, &actR);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
-    dm75xx_status = DM75xx_PCLK_Setup(brd,
-				      DM75xx_PCLK_INTERNAL,
-				      DM75xx_PCLK_FREQ_8_MHZ,
-						  DM75xx_PCLK_NO_REPEAT,
-				      DM75xx_PCLK_START_SOFTWARE,
-				      DM75xx_PCLK_STOP_SOFTWARE,
-				      PACER_RATE, &actR);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
-    
-    /* Set ADC Conversion Signal Select */
-    dm75xx_status =
-      DM75xx_ADC_Conv_Signal(brd, DM75xx_ADC_CONV_SIGNAL_BCLK);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_ADC_Conv_Signal");
-    
-    /* Start the pacer clock */
-    dm75xx_status = DM75xx_PCLK_Start(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Start");
-    
-    /* Read data into the FIFO */
-    printf("Collecting data until FIFO is full\n");
-    do {
-      dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-      DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   (char *)"DM75xx_FIFO_Get_Status");
-    }
-    while (data & DM75xx_FIFO_ADC_NOT_FULL);
-    
-    /* Stop the pacer clock */
-    dm75xx_status = DM75xx_PCLK_Stop(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
-    
-    /* Read out data from the FIFO */
-    i = 0;
-    do {
-      
-      /* Reading the FIFO */
-      dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
-      DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   (char *)"DM75xx_ADC_FIFO_Read");
-      printf("%2.2f\n",
-      	((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10));
-      acq_output.val[i]=((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
-      
-      i++;
-      
-      /* Check the FIFO status each time */
-      dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-      DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   (char *)"DM75xx_FIFO_Get_Status");
-    }
-    while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
-
-    /* Print how many samples were received */
-    clog << "info: " << logstream::info << "received " << i << "analog samples" << std::endl;
-
-    /* Save FIFO output to a file */	
-    FILE * file = fopen(fname,"wb");
-    if (file != NULL){
-      fwrite(&acq_output, sizeof(acq_output), 1, file);
-      fclose(file);
-    }
-
-    k++;
-    sleep(5);
-  }
-  
-  /* Program clean up */
-  clog << "info: " << logstream::info << "analog acquisition completed" << std::endl;
-
-  /* Reset the brd */
-  dm75xx_status = DM75xx_Board_Reset(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Reset");
-	
-  /* Close the device */
-  dm75xx_status = DM75xx_Board_Close(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
-  exit(EXIT_SUCCESS);
-}

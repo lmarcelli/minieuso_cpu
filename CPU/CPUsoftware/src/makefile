@@ -2,7 +2,7 @@ CC=g++
 OPTIMIZE_FLAGS=-O3
 WARNING_FLAGS=-Wall
 INCLUDE_FLAGS:=-I../include
-LIB_FLAGS:=-L../lib -lrtd-dm75xx -std=c++11 -pthread
+LIB_FLAGS:=-L../lib -lrtd-dm75xx -lm -std=c++11 -pthread
 CFLAGS:=$(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(LIB_FLAGS)
 
 OUTDIR = ../bin/

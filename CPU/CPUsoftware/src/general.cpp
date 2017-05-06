@@ -237,7 +237,9 @@ AnalogAcq AnalogDataCollect() {
 
   /* Reset the board and close the device */
   dm75xx_status = DM75xx_Board_Reset(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Reset");
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Reset");
+  dm75xx_status = DM75xx_Board_Close(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
   
   return acq_output;
 }

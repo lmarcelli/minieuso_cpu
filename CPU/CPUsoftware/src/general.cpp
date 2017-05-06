@@ -3,8 +3,8 @@
 /* acquisition structure for analog readout */
 typedef struct
 {
-  float val[1024];
-} acq;
+  float val [FIFO_DEPTH][CHANNELS];
+} AnalogAcq;
 
 
 /* create log file name */
@@ -97,16 +97,230 @@ int CreateCpuRun(std::string cpu_file_name) {
   return 0;
 }
 
+/* read out a zynq data file and append to a cpu data file */
+Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
+
+  FILE * ptr_zfile;
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
+  const char * kZynqFileName = zynq_file_name.c_str();
+  size_t res;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << " and appending to " << cpu_file_name << std::endl;
+
+  ptr_zfile = fopen(kZynqFileName, "rb");
+  if (!ptr_zfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
+    return 1;
+  }
+  
+  /* read out the zynq structure, defined in "pdmdata.h" */
+  res = fread(&zynq_packet, sizeof(zynq_packet), 1, ptr_zfile);
+  if (res != 0) {
+    clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+    return 1;   
+  }
+  
+  /* DEBUG: print records to check */
+  printf("header = %u\n", zynq_packet.zbh.header);
+  printf("payload_size = %u\n", zynq_packet.zbh.payload_size);
+  printf("hv_status = %u\n", zynq_packet.payload.hv_status);
+  printf("n_gtu = %lu\n", zynq_packet.payload.ts.n_gtu);
+
+  /* close the zynq file */
+  fclose(ptr_zfile);
+  
+  return zynq_packet;
+}
+
+/* analog board read out */
+AnalogAcq AnalogDataCollect() {
+
+  DM75xx_Board_Descriptor * brd;
+  DM75xx_Error dm75xx_status;
+  dm75xx_cgt_entry_t cgt[CHANNELS];
+  int i, j;
+  float actR;
+  uint16_t data = 0x0000;  
+  unsigned long int minor_number = 0;
+
+  acq acq_output;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name, std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "starting analog acquistion" << std::endl;
+
+  /* Device initialisation */
+  dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
+  dm75xx_status = DM75xx_Board_Init(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");
+  
+  /* Clear the FIFO */
+  dm75xx_status = DM75xx_ADC_Clear(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Clear_AD_FIFO");
+  dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
+  
+  /* enable the channel gain table */
+  dm75xx_status = DM75xx_CGT_Enable(brd, 0xFF);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Enable");
+  
+  /* set the channel gain table for all channels */
+  for (i = 0; i < CHANNELS; i++) {
+    cgt[i].channel = i;
+    cgt[i].gain = 0;
+    cgt[i].nrse = 0;
+    cgt[i].range = 0;
+    cgt[i].ground = 0;
+    cgt[i].pause = 0;
+    cgt[i].dac1 = 0;
+    cgt[i].dac2 = 0;
+    cgt[i].skip = 0;
+    dm75xx_status = DM75xx_CGT_Write(brd, cgt[i]);
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Write");
+  }
+  
+  /* set up clocks */
+  dm75xx_status = DM75xx_BCLK_Setup(brd,
+				    DM75xx_BCLK_START_PACER,
+				    DM75xx_BCLK_FREQ_8_MHZ,
+				    BURST_RATE, &actR);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
+  dm75xx_status = DM75xx_PCLK_Setup(brd,
+				    DM75xx_PCLK_INTERNAL,
+				    DM75xx_PCLK_FREQ_8_MHZ,
+				    DM75xx_PCLK_NO_REPEAT,
+				    DM75xx_PCLK_START_SOFTWARE,
+				    DM75xx_PCLK_STOP_SOFTWARE,
+				    PACER_RATE, &actR);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
+  
+  /* Set ADC Conversion Signal Select */
+  dm75xx_status =
+    DM75xx_ADC_Conv_Signal(brd, DM75xx_ADC_CONV_SIGNAL_BCLK);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_ADC_Conv_Signal");
+  
+  /* Start the pacer clock */
+  dm75xx_status = DM75xx_PCLK_Start(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Start");
+  
+  /* Read data into the FIFO */
+  do {
+    dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
+    DM75xx_Exit_On_Error(brd, dm75xx_status,
+			 (char *)"DM75xx_FIFO_Get_Status");
+  }
+  while (data & DM75xx_FIFO_ADC_NOT_FULL);
+  
+  /* Stop the pacer clock */
+  dm75xx_status = DM75xx_PCLK_Stop(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
+  
+  /* Read out data from the FIFO */
+  do {
+    
+    /* Reading the FIFO */
+    for (i = 0; i < FIFO_DEPTH; i++) {
+      for (j = 0; j < CHANNELS; j++) {
+	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
+	DM75xx_Exit_On_Error(brd, dm75xx_status,
+			     (char *)"DM75xx_ADC_FIFO_Read");
+	printf("%2.2f\n", ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10));
+	acq_output.val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+
+	/* Check the FIFO status each time */
+	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
+	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
+      }
+    }
+  }
+  while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
+  
+  /* Print how many samples were received */
+  clog << "info: " << logstream::info << "received " << i * j << "analog samples" << std::endl;
+
+  return acq_output;
+}
+
+/* write the HK data to cpu_packet */
+HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
+
+  int i, j, k;
+  float sum_ph[PH_CHANNELS];
+  float sum_sipm1;
+  HK_PACKET hk_packet;
+  
+  /* make the header of the hk packet and timestamp */
+  // Add this!
+  
+  /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
+  for(i = 0; i < FIFO_DEPTH; i++) {
+    sum_ph[0] += acq_output.val[i][0];
+    sum_ph[1] += acq_output.val[i][1];
+    sum_ph[2] += acq_output.val[i][2];
+    sum_ph[3] += acq_output.val[i][3];
+    sum_sipm1 += acq_output.val[i][4];
+    hk_packet.sipm_data[i] = acq_output.val[i][5];
+  }
+
+  for (k = 0; k < PH_CHANNELS; k++) {
+    hk_packet.photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
+  }
+  hk_packet.sipm_single = sum_sipm1/FIFO_DEPTH;
+
+  return hk_packet;
+}
+
+/* write the cpu packet to the cpu file */
+int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, std::string cpu_file_name) {
+
+  FILE * ptr_cpufile;
+  CPU_PACKET cpu_packet;
+  const char * kCpuFileName = cpu_file_name.c_str();
+ 
+  /* create the cpu packet header */
+  cpu_packet.cpu_packet_header.header = 888;
+  cpu_packet.cpu_packet_header.pkt_size = 777;
+  cpu_packet.cpu_time.cpu_time_stamp = 666;
+
+  /* add the zynq and hk packets */
+  cpu_packet.zynq_packet = zynq_packet_in;
+  cpu_packet.hk_packet = hk_packet_in;
+  
+  /* open the cpu file to append */
+  ptr_cpufile = fopen(kCpuFileName, "a+b");
+  if (!ptr_cpufile) {
+    clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
+    return 1;
+  }
+
+  /* write the cpu packet */
+  fwrite(&cpu_packet, sizeof(cpu_packet), 1, ptr_cpufile);
+  
+  /* close the cpu file */
+  fclose(ptr_cpufile);
+
+  return 0;
+}
+
+ 
 /* Look for new files in the data directory and process them */
 void ProcessIncomingData(std::string cpu_file_name) {
 
   int length, i = 0;
-  int fd;
-  int wd;
+  int fd, wd;
   char buffer[BUF_LEN];
 
   std::string zynq_file_name;
   std::string data_str(DATA_DIR);
+
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
+  AnalogAcq acq;
+  HK_PACKET hk_packet;	  
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -150,8 +364,15 @@ void ProcessIncomingData(std::string cpu_file_name) {
     	  clog << "info: " << logstream::info << "path of file " << event->name << std::endl;
 
 	  usleep(100000);
-	  ZynqFileReadOut(zynq_file_name, cpu_file_name);
 
+	  /* generate sub packets */
+	  zynq_packet = ZynqFileReadOut(zynq_file_name, cpu_file_name);
+	  acq = AnalogDataCollect();
+	  hk_packet = AnalogPktReadOut(acq);
+
+	  /* generate cpu packet and append to file */
+	  WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
+	  
 	  /* delete upon completion */
 	  std::remove(zynq_file_name.c_str());
 	  
@@ -165,75 +386,10 @@ void ProcessIncomingData(std::string cpu_file_name) {
 
 }
 
-/* read out a zynq data file and append to a cpu data file */
-int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
-
-  FILE * ptr_zfile;
-  FILE * ptr_cpufile;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_data_file;
-  CPU_PACKET cpu_packet;
-  const char * kZynqFileName = zynq_file_name.c_str();
-  const char * kCpuFileName = cpu_file_name.c_str();
-  size_t res;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << " and appending to " << cpu_file_name << std::endl;
-
-  ptr_zfile = fopen(kZynqFileName, "rb");
-  if (!ptr_zfile) {
-    clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
-    return 1;
-  }
-  
-  /* read out the zynq structure, defined in "pdmdata.h" */
-  res = fread(&zynq_data_file, sizeof(zynq_data_file), 1, ptr_zfile);
-  if (res != 0) {
-    clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
-    return 1;   
-  }
-  
-  /* DEBUG: print records to check */
-  printf("header = %u\n", zynq_data_file.zbh.header);
-  printf("payload_size = %u\n", zynq_data_file.zbh.payload_size);
-  printf("hv_status = %u\n", zynq_data_file.payload.hv_status);
-  printf("n_gtu = %lu\n", zynq_data_file.payload.ts.n_gtu);
-
-  /* close the zynq file */
-  fclose(ptr_zfile);
-
-  /* create the cpu packet from the zynq file */
-  cpu_packet.cpu_packet_header.header = 888;
-  cpu_packet.cpu_packet_header.pkt_size = 777;
-  cpu_packet.cpu_time.cpu_time_stamp = 666;
-  cpu_packet.zynq_packet = zynq_data_file;
-  
-  /* open the cpu file to append */
-  ptr_cpufile = fopen(kCpuFileName, "a+b");
-  if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
-    return 1;
-  }
-
-  /* write the cpu packet */
-  fwrite(&cpu_packet, sizeof(cpu_packet), 1, ptr_cpufile);
-  
-  /* close the cpu file */
-  fclose(ptr_cpufile);
-  
-  return 0;
-}
-
-/* analog board read out */
-int AnalogReadOut() {
-
-  return 0;
-}
-
 /* photodiode test code */
 int PhotodiodeTest() {
-  DM75xx_Board_Descriptor *brd;
+  
+  DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
   dm75xx_cgt_entry_t cgt[CHANNELS];
   int i, k;
@@ -242,7 +398,7 @@ int PhotodiodeTest() {
   unsigned long int minor_number = 0;
  
   /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
+  std::ofstream log_file(log_name, std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "running the photodiode test code" << std::endl;
 

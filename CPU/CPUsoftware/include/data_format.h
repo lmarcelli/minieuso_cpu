@@ -55,6 +55,7 @@ typedef struct
   CpuTimeStamp hk_time;
   float photodiode_data[4];
   float sipm_data[64];
+  float sipm_single;
   float therm_data[16];
 } HK_PACKET;
 

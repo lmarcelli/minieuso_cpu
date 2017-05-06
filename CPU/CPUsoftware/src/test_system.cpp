@@ -51,8 +51,6 @@ int main(void) {
   std::string current_run_file = CreateCpuRunName();
   CreateCpuRun(current_run_file);
 
-  /* test the photodiode code */
-  PhotodiodeTest();
   /* turn on the HV */
   //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 

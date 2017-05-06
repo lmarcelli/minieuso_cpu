@@ -3,7 +3,7 @@ OPTIMIZE_FLAGS=-O3
 WARNING_FLAGS=-Wall
 INCLUDE_FLAGS:=-I../include
 LIB_FLAGS:=-L../lib -lrtd-dm75xx -lm -std=c++11 -pthread
-CFLAGS:=$(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(LIB_FLAGS)
+CFLAGS:=$(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 
 OUTDIR = ../bin/
 
@@ -14,11 +14,11 @@ TESTS = \
 all:    $(TESTS)
 
 test_system: test_system.cpp
-	$(CC) $(CFLAGS) -o test test_system.cpp globals.cpp cpu_functions.cpp general.cpp 
+	$(CC) $(CFLAGS) test_system.cpp globals.cpp cpu_functions.cpp general.cpp $(LIB_FLAGS) -o test 
 	mv test $(OUTDIR)
 
 no_hv: no_hv.cpp
-	$(CC) $(CFLAGS) -o no_hv no_hv.cpp globals.cpp cpu_functions.cpp general.cpp 
+	$(CC) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp $(LIB_FLAGS) -o no_hv 
 	mv no_hv $(OUTDIR)
 
 clean:

@@ -235,6 +235,10 @@ AnalogAcq AnalogDataCollect() {
   /* Print how many samples were received */
   clog << "info: " << logstream::info << "received " << i * j << "analog samples" << std::endl;
 
+  /* Reset the board and close the device */
+  dm75xx_status = DM75xx_Board_Reset(brd);
+  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Reset");
+  
   return acq_output;
 }
 

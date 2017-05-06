@@ -200,7 +200,7 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   cpu_packet.cpu_packet_header.header = 888;
   cpu_packet.cpu_packet_header.pkt_size = 777;
   cpu_packet.cpu_time.cpu_time_stamp = 666;
-  cpu_packet.zynq_data = zynq_data_file;
+  cpu_packet.zynq_packet = zynq_data_file;
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");

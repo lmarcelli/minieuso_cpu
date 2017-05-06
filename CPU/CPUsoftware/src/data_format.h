@@ -48,17 +48,6 @@ typedef struct
 #define BuildCpuTimeStamp(year, month, date, hour, min, sec) \
   (((year)<<26) | ((month)<<22) | ((date)<<17) | ((hour)<<12) | ((min)<<6) | (sec))
 
-/* CPU packet for incoming data every 5.34 s */
-typedef struct
-{
-  CpuPktHeader cpu_packet_header;
-  CpuTimeStamp cpu_time;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
-  HK_PACKET hk_packet;
-  //  uint32_t crc;
-} CPU_PACKET;
-
-
 /* housekeeping packet for other data */
 typedef struct
 {
@@ -68,6 +57,16 @@ typedef struct
   uint32_t sipm_data[64];
   uint32_t therm_data[16];
 } HK_PACKET;
+
+/* CPU packet for incoming data every 5.34 s */
+typedef struct
+{
+  CpuPktHeader cpu_packet_header;
+  CpuTimeStamp cpu_time;
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
+  HK_PACKET hk_packet;
+  //  uint32_t crc;
+} CPU_PACKET;
 
 /* scurve packet for checking pixels */
 typedef struct

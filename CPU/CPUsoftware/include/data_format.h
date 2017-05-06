@@ -53,9 +53,9 @@ typedef struct
 {
   CpuPktHeader hk_packet_header;
   CpuTimeStamp hk_time;
-  uint32_t photodiode_data[4];
-  uint32_t sipm_data[64];
-  uint32_t therm_data[16];
+  float photodiode_data[4];
+  float sipm_data[64];
+  float therm_data[16];
 } HK_PACKET;
 
 /* CPU packet for incoming data every 5.34 s */

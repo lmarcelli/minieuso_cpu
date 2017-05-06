@@ -1,6 +1,7 @@
 #ifndef _GENERAL_FUNCTIONS_H
 #define _GENERAL_FUNCTIONS_H
 
+/* for use with inotify in ProcessIncomingData() */
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 

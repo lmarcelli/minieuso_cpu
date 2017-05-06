@@ -225,6 +225,12 @@ int ZynqFileReadOut(std::string zynq_file_name, std::string cpu_file_name) {
   return 0;
 }
 
+/* analog board read out */
+int AnalogReadOut() {
+
+  return 0;
+}
+
 /* photodiode test code */
 int PhotodiodeTest() {
   DM75xx_Board_Descriptor *brd;
@@ -232,10 +238,10 @@ int PhotodiodeTest() {
   dm75xx_cgt_entry_t cgt[CHANNELS];
   int i, k;
   float actR;
-  uint16_t data = 0x0000;
-  
+  uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
-  
+  const char * kStrCh;
+ 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
@@ -244,9 +250,9 @@ int PhotodiodeTest() {
   /* Device initialisation */
   clog << "info: " << logstream::info << "initialising the DM75xx device" << std::endl;
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Open");
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
   dm75xx_status = DM75xx_Board_Init(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Init");
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");
   
   /* Main acquisition code */
   k = 0;
@@ -258,14 +264,14 @@ int PhotodiodeTest() {
     /* Clear the FIFO */
     clog << "info: " << logstream::info << "clearing the DM75xx FIFO" << std::endl;
     dm75xx_status = DM75xx_ADC_Clear(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Clear_AD_FIFO");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Clear_AD_FIFO");
     dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_FIFO_Get_Status");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
     printf("FIFO Status: 0x%4x\n", data);
     
     /* enable the channel gain table */
     dm75xx_status = DM75xx_CGT_Enable(brd, 0xFF);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_CGT_Enable");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Enable");
     
     /* set the channel gain table for all channels */
     for (i = 0; i < CHANNELS; i++) {
@@ -287,7 +293,7 @@ int PhotodiodeTest() {
 				      DM75xx_BCLK_START_PACER,
 				      DM75xx_BCLK_FREQ_8_MHZ,
 				      BURST_RATE, &actR);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_PCLK_Setup");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
     dm75xx_status = DM75xx_PCLK_Setup(brd,
 				      DM75xx_PCLK_INTERNAL,
 				      DM75xx_PCLK_FREQ_8_MHZ,
@@ -295,29 +301,29 @@ int PhotodiodeTest() {
 				      DM75xx_PCLK_START_SOFTWARE,
 				      DM75xx_PCLK_STOP_SOFTWARE,
 				      PACER_RATE, &actR);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_PCLK_Setup");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
     
     /* Set ADC Conversion Signal Select */
     dm75xx_status =
       DM75xx_ADC_Conv_Signal(brd, DM75xx_ADC_CONV_SIGNAL_BCLK);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_ADC_Conv_Signal");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_ADC_Conv_Signal");
     
     /* Start the pacer clock */
     dm75xx_status = DM75xx_PCLK_Start(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_PCLK_Start");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Start");
     
     /* Read data into the FIFO */
     printf("Collecting data until FIFO is full\n");
     do {
       dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
       DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   "DM75xx_FIFO_Get_Status");
+			   (char *)"DM75xx_FIFO_Get_Status");
     }
     while (data & DM75xx_FIFO_ADC_NOT_FULL);
     
     /* Stop the pacer clock */
     dm75xx_status = DM75xx_PCLK_Stop(brd);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_PCLK_Stop");
+    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
     
     /* Read out data from the FIFO */
     i = 0;
@@ -326,7 +332,7 @@ int PhotodiodeTest() {
       /* Reading the FIFO */
       dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
       DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   "DM75xx_ADC_FIFO_Read");
+			   (char *)"DM75xx_ADC_FIFO_Read");
       printf("%2.2f\n",
       	((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10));
       acq_output.val[i]=((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
@@ -336,7 +342,7 @@ int PhotodiodeTest() {
       /* Check the FIFO status each time */
       dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
       DM75xx_Exit_On_Error(brd, dm75xx_status,
-			   "DM75xx_FIFO_Get_Status");
+			   (char *)"DM75xx_FIFO_Get_Status");
     }
     while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
 
@@ -359,11 +365,11 @@ int PhotodiodeTest() {
 
   /* Reset the brd */
   dm75xx_status = DM75xx_Board_Reset(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Reset");
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Reset");
 	
   /* Close the device */
   dm75xx_status = DM75xx_Board_Close(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_Board_Close");
+  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
+
   exit(EXIT_SUCCESS);
-  
 }

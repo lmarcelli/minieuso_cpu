@@ -346,7 +346,7 @@ int PhotodiodeTest() {
     /* Save FIFO output to a file */	
     FILE * file = fopen(fname,"wb");
     if (file != NULL){
-      fwrite(acq_output, sizeof(acq_output), 1, file);
+      fwrite(&acq_output, sizeof(acq_output), 1, file);
       fclose(file);
     }
 

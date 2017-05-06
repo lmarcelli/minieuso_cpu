@@ -240,7 +240,6 @@ int PhotodiodeTest() {
   float actR;
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
-  const char * kStrCh;
  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -285,7 +284,7 @@ int PhotodiodeTest() {
       cgt[i].dac2 = 0;
       cgt[i].skip = 0;
       dm75xx_status = DM75xx_CGT_Write(brd, cgt[i]);
-      DM75xx_Exit_On_Error(brd, dm75xx_status, "DM75xx_CGT_Write");
+      DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Write");
     }
     
     /* set up clocks */
@@ -370,6 +369,5 @@ int PhotodiodeTest() {
   /* Close the device */
   dm75xx_status = DM75xx_Board_Close(brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
-
   exit(EXIT_SUCCESS);
 }

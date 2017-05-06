@@ -87,7 +87,8 @@ Config Configure(std::string config_file, std::string config_file_local) {
 
     /* parse the file */
     ParseOutput = Parse(config_file_local);
-    
+
+    fclose(file);    
   }
   else {
     clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
@@ -429,7 +430,7 @@ int DataAcquisitionStart() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
+  const char * kStatStr = NULL;
   int sockfd;
 
   /* set up logging */
@@ -462,7 +463,7 @@ int DataAcquisitionStop() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
+  const char * kStatStr = NULL;
   int sockfd;
   
   /* set up logging */

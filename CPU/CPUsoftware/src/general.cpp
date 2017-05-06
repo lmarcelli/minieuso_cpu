@@ -243,12 +243,17 @@ HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
   int i, k;
   float sum_ph[PH_CHANNELS];
-  float sum_sipm1;
+  float sum_sipm1 = 0;
   HK_PACKET hk_packet;
   
   /* make the header of the hk packet and timestamp */
   // Add this!
   
+  /* initialise */
+  for(k = 0; k < PH_CHANNELS; k++) {
+    sum_ph[k] = 0;
+  }
+
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
   for(i = 0; i < FIFO_DEPTH; i++) {
     sum_ph[0] += acq_output.val[i][0];

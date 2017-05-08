@@ -92,10 +92,10 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* read out an scurve packet and append to a cpu data file */
-SC_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
+SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
 
   FILE * ptr_scfile;
-  SC_PACKET sc_packet;
+  SCURVE_PACKET sc_packet;
   const char * kScFileName = sc_file_name.c_str();
   size_t res;
   
@@ -362,7 +362,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
 
 
 /* write the sc packet to the cpu file */
-int WriteScPkt(SC_PACKET sc_packet_in, std::string cpu_file_name) {
+int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   CPU_PACKET cpu_packet;
@@ -403,7 +403,7 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
   Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
   AnalogAcq acq;
   HK_PACKET hk_packet;	  
-  SC_PACKET sc_packet;
+  SCURVE_PACKET sc_packet;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);

@@ -31,7 +31,7 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut);
 Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name);
 AnalogAcq AnalogDataCollect();
 HK_PACKET AnalogPktReadOut(AnalogAcq acq_output);
-int WriteScPkt(SC_PACKET sc_packet_in, std::string cpu_file_name);
+int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name);
 int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, std::string cpu_file_name);
 void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut);
 

@@ -113,12 +113,12 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
   scurve_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   gettimeofday(&tv, 0);
   time_t now = tv.tv_sec;
-  struct tm * now_tm = localtime(&now);
+  struct tm * tm = localtime(&now);
   scurve_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_sec);
   scurve_packet.sc_start = ConfigOut.scurve_start;
   scurve_packet.sc_step = ConfigOut.scurve_step;
   scurve_packet.sc_stop = ConfigOut.scurve_stop;
-  scurve_pacekt.sc_add = ConfigOut.scurve_acc;
+  scurve_packet.sc_add = ConfigOut.scurve_acc;
 
   /* read out the scurve data from the file */
   res = fread(&sc_packet.sc_data, sizeof(sc_packet.sc_data), 1, ptr_scfile);
@@ -365,7 +365,6 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
 int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
-  CPU_PACKET cpu_packet;
   const char * kCpuFileName = cpu_file_name.c_str();
 
   /* set up logging */
@@ -398,7 +397,9 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
   char buffer[BUF_LEN];
 
   std::string zynq_file_name;
+  std::string sc_file_name;
   std::string data_str(DATA_DIR);
+  std::string event_name;
 
   Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
   AnalogAcq acq;
@@ -443,8 +444,9 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 	  /* process new file */
 	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name" << event->name << std::endl;
-
-	  if ((event->name).compare(0, 3, "frm") == 0) {
+	  event_name = event->name;
+	  
+	  if (event_name.compare(0, 3, "frm") == 0) {
 	    zynq_file_name = data_str + "/" + event->name;
 	    usleep(100000);
 	    
@@ -460,7 +462,7 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 	    std::remove(zynq_file_name.c_str());
 
 	  }
-	  else if ((event->name).compare(0, 2, "sc") == 0) {
+	  else if (event_name.compare(0, 2, "sc") == 0) {
 
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(15);

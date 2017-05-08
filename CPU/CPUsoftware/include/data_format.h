@@ -51,7 +51,7 @@ typedef struct
 /* macros for building the headers */
 #define BuildCpuFileHeader(file_type, file_ver) \
   (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver))
-#define BuildCpuPktHeader(pkt_type, packet_ver) \
+#define BuildCpuPktHeader(pkt_type, pkt_ver) \
   (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((pkt_type)<<8) | (pkt_ver))
 
 /* Timestamp structure in binary format */

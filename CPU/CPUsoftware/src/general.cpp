@@ -64,7 +64,6 @@ int CreateCpuRun(std::string cpu_file_name) {
   const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileHeader cpu_file_header;
   SCURVE_PACKET scurve_packet;
-  struct timeval tv;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -98,27 +97,28 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
   SCURVE_PACKET sc_packet;
   const char * kScFileName = sc_file_name.c_str();
   size_t res;
-  
+  struct timeval tv; 
+  time_t now = tv.tv_sec;
+  struct tm * tm = localtime(&now);
+ 
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "reading out the file " << sc_file_name << std::endl;
-  ptr_zfile = fopen(kZynqFileName, "rb");
-  if (!ptr_zfile) {
+  ptr_scfile = fopen(kScFileName, "rb");
+  if (!ptr_scfile) {
     clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
     exit(1);
   }
   
   /* prepare the scurve packet */
-  scurve_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   gettimeofday(&tv, 0);
-  time_t now = tv.tv_sec;
-  struct tm * tm = localtime(&now);
-  scurve_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_sec);
-  scurve_packet.sc_start = ConfigOut.scurve_start;
-  scurve_packet.sc_step = ConfigOut.scurve_step;
-  scurve_packet.sc_stop = ConfigOut.scurve_stop;
-  scurve_packet.sc_add = ConfigOut.scurve_acc;
+  sc_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+  sc_packet.sc_start = ConfigOut.scurve_start;
+  sc_packet.sc_step = ConfigOut.scurve_step;
+  sc_packet.sc_stop = ConfigOut.scurve_stop;
+  sc_packet.sc_add = ConfigOut.scurve_acc;
 
   /* read out the scurve data from the file */
   res = fread(&sc_packet.sc_data, sizeof(sc_packet.sc_data), 1, ptr_scfile);

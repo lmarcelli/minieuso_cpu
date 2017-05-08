@@ -7,35 +7,52 @@
 #ifndef _DATA_FORMAT_H
 #define _DATA_FORMAT_H
 
+/* instrument definitions */
+#define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM*/
+#define ID_TAG 0xAA55
+#define RUN_SIZE 10
+
 /* cpu file header */
 typedef struct
 {
-  uint32_t header; /* 'CPU'(31:24) | instrument_id(23:16) | file_type(15:8) | file_ver(7:0) */
+  uint16_t spacer = ID_TAG; /* AA55 HEX */
+  uint32_t header; /* 'C'(31:24) | instrument_id(23:16) | file_type(15:8) | file_ver(7:0) */
   uint32_t run_size; /* number of cpu packets in the run */
 } CpuFileHeader; 
 
 
-/* generic packet header for all cpu packets */
+/* generic packet header for all cpu packets and hk/scurve sub packets */
+/* the zynq packet has its own header defined in pdmdata.h */
 typedef struct
 {
-  uint32_t header; /* 'PKT_CPU'(31:24) | instrument_id(23:16) | pkt_type(15:8) | pkt_ver(7:0) */
+  uint16_t spacer = ID_TAG; /* AA55 HEX */
+  uint32_t header; /* 'P'(31:24) | instrument_id(23:16) | pkt_type(15:8) | pkt_ver(7:0) */
   uint32_t pkt_size; /* size of packet */
   uint32_t pkt_num; /* counter for each pkt_type, reset each run */
 } CpuPktHeader; 
 
-
-#define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM*/
-#define RUN_SIZE 10
+/* scurve readout fixed size parameters */
 #define SCURVE_STEPS_MAX 100
 #define SCURVE_ADDS_MAX 128
 #define SCURVE_FRAMES_MAX (SCURVE_STEPS_MAX * SCURVE_ADDS_MAX)
 
-/* macros for building the headers */
-#define BuildCpuFileHeader(data_type, packet_ver) \
-  (('CPU'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver))
-#define BuildCpuPktHeader(data_type, packet_ver) \
-  (('PKT_CPU'<<24) | (INSTRUMENT_ME_PDM<<16) | ((pkt_type)<<8) | (pkt_ver))
+/* file types */
+#define CPU_FILE_TYPE 'C'
+#define CPU_FILE_VER 1
 
+/* packet types */
+#define HK_PACKET_TYPE 'H'
+#define SC_PACKET_TYPE 'S'
+#define CPU_PACKET_TYPE 'P'
+#define HK_PACKET_VER 1
+#define SC_PACKET_VER 1
+#define CPU_PACKET_VER 1
+
+/* macros for building the headers */
+#define BuildCpuFileHeader(file_type, file_ver) \
+  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver))
+#define BuildCpuPktHeader(pkt_type, packet_ver) \
+  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((pkt_type)<<8) | (pkt_ver))
 
 /* Timestamp structure in binary format */
 /* Year 0=2017, 1=2018, 2=2019, 3=... */

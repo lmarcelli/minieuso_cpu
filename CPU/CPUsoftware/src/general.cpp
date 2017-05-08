@@ -48,7 +48,7 @@ std::string CreateCpuRunName(void) {
   std::string cpu_str = done_str + time_str;
   const char * kCpuCh = cpu_str.c_str();
 
-  gettimeofday(&tv,0);
+  gettimeofday(&tv ,0);
   time_t now = tv.tv_sec;
   struct tm * now_tm = localtime(&now);
   
@@ -63,17 +63,18 @@ int CreateCpuRun(std::string cpu_file_name) {
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileHeader cpu_file_header;
+  SCURVE_PACKET scurve_packet;
+  struct timeval tv;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
-
   /* set up the cpu file structure */
-  cpu_file_header.header = 111;
+  cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header.run_size = RUN_SIZE;
-
+  
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "wb");
   if (!ptr_cpufile) {
@@ -89,6 +90,49 @@ int CreateCpuRun(std::string cpu_file_name) {
   
   return 0;
 }
+
+/* read out an scurve packet and append to a cpu data file */
+SC_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
+
+  FILE * ptr_scfile;
+  SC_PACKET sc_packet;
+  const char * kScFileName = sc_file_name.c_str();
+  size_t res;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "reading out the file " << sc_file_name << std::endl;
+  ptr_zfile = fopen(kZynqFileName, "rb");
+  if (!ptr_zfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
+    exit(1);
+  }
+  
+  /* prepare the scurve packet */
+  scurve_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  gettimeofday(&tv, 0);
+  time_t now = tv.tv_sec;
+  struct tm * now_tm = localtime(&now);
+  scurve_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_sec);
+  scurve_packet.sc_start = ConfigOut.scurve_start;
+  scurve_packet.sc_step = ConfigOut.scurve_step;
+  scurve_packet.sc_stop = ConfigOut.scurve_stop;
+  scurve_pacekt.sc_add = ConfigOut.scurve_acc;
+
+  /* read out the scurve data from the file */
+  res = fread(&sc_packet.sc_data, sizeof(sc_packet.sc_data), 1, ptr_scfile);
+  if (res != 0) {
+    clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
+    exit(1);   
+  }
+  
+  /* close the scurve file */
+  fclose(ptr_scfile);
+  
+  return sc_packet;
+}
+
 
 /* read out a zynq data file and append to a cpu data file */
 Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
@@ -244,7 +288,7 @@ AnalogAcq AnalogDataCollect() {
   return acq_output;
 }
 
-/* write the HK data to cpu_packet */
+/* build the hk packet */
 HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
   int i, k;
@@ -277,6 +321,7 @@ HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
   return hk_packet;
 }
+
 
 /* write the cpu packet to the cpu file */
 int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, std::string cpu_file_name) {
@@ -315,9 +360,38 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   return 0;
 }
 
+
+/* write the sc packet to the cpu file */
+int WriteScPkt(SC_PACKET sc_packet_in, std::string cpu_file_name) {
+
+  FILE * ptr_cpufile;
+  CPU_PACKET cpu_packet;
+  const char * kCpuFileName = cpu_file_name.c_str();
+
+  /* set up logging */
+  std::ofstream log_file(log_name, std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
+  
+  /* open the cpu file to append */
+  ptr_cpufile = fopen(kCpuFileName, "a+b");
+  if (!ptr_cpufile) {
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    return 1;
+  }
+
+  /* write the cpu packet */
+  fwrite(&sc_packet_in, sizeof(sc_packet_in), 1, ptr_cpufile);
+  
+  /* close the cpu file */
+  fclose(ptr_cpufile);
+
+  return 0;
+}
+
  
 /* Look for new files in the data directory and process them */
-void ProcessIncomingData(std::string cpu_file_name) {
+void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 
   int length, i = 0;
   int fd, wd;
@@ -329,6 +403,7 @@ void ProcessIncomingData(std::string cpu_file_name) {
   Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
   AnalogAcq acq;
   HK_PACKET hk_packet;	  
+  SC_PACKET sc_packet;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -356,33 +431,57 @@ void ProcessIncomingData(std::string cpu_file_name) {
     event = (struct inotify_event *) &buffer[i];
     
     if (event->len) {
-      if ( event->mask & IN_CREATE ) {
-	if ( event->mask & IN_ISDIR ) {
+      if (event->mask & IN_CREATE) {
+	if (event->mask & IN_ISDIR) {
 	  /* process new directory creation */
-	  printf( "The directory %s was created\n", event->name);
+	  printf("The directory %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new directory created" << std::endl;
 
 	}
 	else {
 
 	  /* process new file */
-	  printf( "The file %s was created\n", event->name);
+	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name" << event->name << std::endl;
-	  zynq_file_name = data_str + "/" + event->name;
-    	  clog << "info: " << logstream::info << "path of file " << event->name << std::endl;
 
-	  usleep(100000);
+	  if ((event->name).compare(0, 3, "frm") == 0) {
+	    zynq_file_name = data_str + "/" + event->name;
+	    usleep(100000);
+	    
+	    /* generate sub packets */
+	    zynq_packet = ZynqPktReadOut(zynq_file_name);
+	    acq = AnalogDataCollect();
+	    hk_packet = AnalogPktReadOut(acq);
+	    
+	    /* generate cpu packet and append to file */
+	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
+	    
+	    /* delete upon completion */
+	    std::remove(zynq_file_name.c_str());
 
-	  /* generate sub packets */
-	  zynq_packet = ZynqPktReadOut(zynq_file_name);
-	  acq = AnalogDataCollect();
-	  hk_packet = AnalogPktReadOut(acq);
+	  }
+	  else if ((event->name).compare(0, 2, "sc") == 0) {
 
-	  /* generate cpu packet and append to file */
-	  WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
-	  
-	  /* delete upon completion */
-	  std::remove(zynq_file_name.c_str());
+	    sc_file_name = data_str + "/" + event->name;
+	    sleep(15);
+
+	    /* generate sc packet and append to file */
+	    sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+	    WriteScPkt(sc_packet, cpu_file_name);
+
+	    /* delete upon completion */
+	    std::remove(sc_file_name.c_str());
+
+	    /* exit without waiting for more files */
+	    exit(0);
+	    
+	  }
+	  else {
+	    
+	    /* do nothing and exit */
+	    exit(0);
+	    
+	  }
 	  
 	}
       }

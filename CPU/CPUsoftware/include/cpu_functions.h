@@ -1,17 +1,6 @@
 #ifndef _CPU_FUNCTIONS_H
 #define _CPU_FUNCTIONS_H
 
-/* struct for output of the configuration file */
-struct Config {
-  int cathode_voltage;
-  int dynode_voltage;
-  int scurve_start;
-  int scurve_step;
-  int scurve_stop;
-  int scurve_acc;
-  int dac_level;
-};
-
 Config Parse(std::string config_file_local);
 Config Configure(std::string config_file, std::string config_file_local);
 int CheckTelnet(std::string ip_address, int portno);

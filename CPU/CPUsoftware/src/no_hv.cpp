@@ -59,7 +59,9 @@ int main(void) {
 
   /* take an scurve */
   Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
-
+  std::thread check_sc (ProcessIncomingData, current_run_file);
+  check_sc.join();
+  
   /* set the DAC level */
   SetDac(750);
 

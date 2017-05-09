@@ -83,7 +83,7 @@ uint32_t BuildCpuTimeStamp() {
   struct tm * now_tm = localtime(&now);
   
   gettimeofday(&tv, 0);
-  timestamp = ( ((now_tm->tm_year + 1900 - 2017) << 26) | ((now_tm->tm_month + 1) << 22) | ((now_tm->tm_mday) << 17) | ((now_tm->tm_hour) << 12) | ((now_tm->tm_min) << 6) | (now_tm->tm_sec));
+  timestamp = ( ((now_tm->tm_year + 1900 - 2017) << 26) | ((now_tm->tm_mon) << 22) | ((now_tm->tm_mday) << 17) | ((now_tm->tm_hour) << 12) | ((now_tm->tm_min) << 6) | (now_tm->tm_sec));
 
   return timestamp;
 }
@@ -374,7 +374,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   cpu_packet.cpu_packet_header.pkt_size = sizeof(cpu_packet);
   cpu_packet.cpu_packet_header.pkt_num = pkt_counter; 
   cpu_packet.cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
-`
+  
   /* add the zynq and hk packets */
   cpu_packet.zynq_packet = zynq_packet_in;
   cpu_packet.hk_packet = hk_packet_in;

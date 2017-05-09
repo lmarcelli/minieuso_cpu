@@ -444,7 +444,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << e)logstream::info << "starting background process of processing incoming data" << std::endl;
+  clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
 
   /* watch the data directory for incoming files */
   fd = inotify_init();

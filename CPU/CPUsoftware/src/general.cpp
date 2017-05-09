@@ -140,8 +140,8 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   }
   
   /* prepare the scurve packet */
-  sc_packet->sc_packet_header->header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
-  sc_packet->sc_packet_header->pkt_size = sizeof(sc_packet);
+  sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet->sc_packet_header.pkt_size = sizeof(sc_packet);
   sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
   sc_packet->sc_start = pConfigOut->scurve_start;
   sc_packet->sc_step = pConfigOut->scurve_step;

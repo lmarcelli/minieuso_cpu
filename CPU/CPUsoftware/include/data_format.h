@@ -32,7 +32,7 @@ typedef struct
 } CpuPktHeader; 
 
 /* scurve readout fixed size parameters */
-#define SCURVE_STEPS_MAX (100 - 1)
+#define SCURVE_STEPS_MAX (100 + 1)
 #define SCURVE_ADDS_MAX 1
 #define SCURVE_FRAMES_MAX (SCURVE_STEPS_MAX * SCURVE_ADDS_MAX)
 

@@ -150,7 +150,7 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
 
   /* read out the scurve data from the file */
   res = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
-  if (res != 0) {
+  if (res != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
   }

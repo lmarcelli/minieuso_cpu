@@ -78,13 +78,12 @@ uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 uint32_t BuildCpuTimeStamp() {
 
   uint32_t timestamp;
-  uint8_t pad_zero = 0;
   struct timeval tv; 
   time_t now = tv.tv_sec;
-  struct tm * tm = localtime(&now);
+  struct tm * now_tm = localtime(&now);
   
   gettimeofday(&tv, 0);
-  timestamp = ( ((tm->year + 1900 - 2017) << 26) | ((tm->month + 1) << 22) | ((tm->mday) << 17) | ((tm->hour) << 12) | ((tm->min) << 6) | (tm->sec));
+  timestamp = ( ((now_tm->tm_year + 1900 - 2017) << 26) | ((now_tm->tm_month + 1) << 22) | ((now_tm->tm_mday) << 17) | ((now_tm->tm_hour) << 12) | ((now_tm->tm_min) << 6) | (now_tm->tm_sec));
 
   return timestamp;
 }
@@ -411,7 +410,7 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
 
   /* set the packet number */
-  sc_packet_in.ac_packet_header.pkt_num = pkt_counter;
+  sc_packet_in.sc_packet_header.pkt_num = pkt_counter;
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");

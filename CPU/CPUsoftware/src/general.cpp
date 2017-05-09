@@ -510,8 +510,8 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	    printf("Scurve start = %u\n", pConfigOut->scurve_start);
 
 	    /* generate sc packet and append to file */
-	    sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
-	    WriteScPkt(sc_packet, cpu_file_name);
+	    //sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
+	    //WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());

@@ -68,7 +68,7 @@ int main(void) {
   SetDac(750);
 
   /* start checking for new files and appending */
-  std::thread check_data (ProcessIncomingData, current_run_file);
+  std::thread check_data (ProcessIncomingData, current_run_file, &ConfigOut);
   
   /* start the triggered acquisition */
   DataAcquisitionStart();

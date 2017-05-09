@@ -136,12 +136,12 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   ptr_scfile = fopen(kScFileName, "rb");
   if (!ptr_scfile) {
     clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
-    exit(1);
+    return NULL;
   }
   
   /* prepare the scurve packet */
   sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
-  sc_packet->sc_packet_header.pkt_size = sizeof(sc_packet);
+  sc_packet->sc_packet_header.pkt_size = sizeof(SCURVE_PACKET);
   sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
   sc_packet->sc_start = pConfigOut->scurve_start;
   sc_packet->sc_step = pConfigOut->scurve_step;
@@ -149,10 +149,10 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   sc_packet->sc_add = pConfigOut->scurve_acc;
 
   /* read out the scurve data from the file */
-  res = fread(sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
+  res = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (res != 0) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
-    exit(1);   
+    return NULL;   
   }
 
   

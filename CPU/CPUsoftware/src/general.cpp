@@ -125,7 +125,7 @@ int CreateCpuRun(std::string cpu_file_name) {
 SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
 
   FILE * ptr_scfile;
-  SCURVE_PACKET * sc_packet;
+  SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
   const char * kScFileName = sc_file_name.c_str();
   size_t res;
  

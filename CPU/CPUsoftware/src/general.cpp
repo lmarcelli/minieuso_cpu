@@ -430,7 +430,7 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData(std::string cpu_file_name) {
+int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 
   int length, i = 0;
   int fd, wd;
@@ -444,7 +444,7 @@ int ProcessIncomingData(std::string cpu_file_name) {
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
+  clog << "info: " << e)logstream::info << "starting background process of processing incoming data" << std::endl;
 
   /* watch the data directory for incoming files */
   fd = inotify_init();
@@ -478,7 +478,7 @@ int ProcessIncomingData(std::string cpu_file_name) {
 
 	  /* process new file */
 	  printf("The file %s was created\n", event->name);
-	  clog << "info: " << logstream::info << "new file created with name" << event->name << std::endl;
+	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
 	  if (event_name.compare(0, 3, "frm") == 0) {
@@ -506,7 +506,9 @@ int ProcessIncomingData(std::string cpu_file_name) {
 	    SCURVE_PACKET sc_packet;
   
 	    sc_file_name = data_str + "/" + event->name;
-	    printf("Scurve file found!");
+	    sleep(15);
+	    printf("Scurve file found!\n");
+	    printf("Scurve start = %u\n", ConfigOut->scurve_start)
 
 	    /* generate sc packet and append to file */
 	    // sc_packet = ScPktReadOut(sc_file_name, ConfigOut);

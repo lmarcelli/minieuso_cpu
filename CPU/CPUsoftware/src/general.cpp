@@ -75,11 +75,16 @@ uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu timestamp */
-uint64_t BuildCpuTimeStamp(uint64_t year, uint64_t month, uint64_t date, uint64_t hour, uint64_t min, uint64_t sec) {
+uint32_t BuildCpuTimeStamp() {
 
   uint32_t timestamp;
   uint8_t pad_zero = 0;
-  timestamp = ( ((year) << 56) | ((month) << 48) | ((date) << 40) | ((hour) << 32) | ((min) << 24) | ((sec) << 16) | ((pad_zero) << 8) | (pad_zero) );
+  struct timeval tv; 
+  time_t now = tv.tv_sec;
+  struct tm * tm = localtime(&now);
+  
+  gettimeofday(&tv, 0);
+  timestamp = ( ((tm->year + 1900 - 2017) << 26) | ((tm->month + 1) << 22) | ((tm->mday) << 17) | ((tm->hour) << 12) | ((tm->min) << 6) | (tm->sec));
 
   return timestamp;
 }
@@ -117,16 +122,13 @@ int CreateCpuRun(std::string cpu_file_name) {
   return 0;
 }
 
-/* read out an scurve packet and append to a cpu data file */
+/* read out an scurve file into an scurve packet */
 SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET sc_packet;
   const char * kScFileName = sc_file_name.c_str();
   size_t res;
-  struct timeval tv; 
-  time_t now = tv.tv_sec;
-  struct tm * tm = localtime(&now);
  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -140,8 +142,8 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
   
   /* prepare the scurve packet */
   sc_packet.sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
-  gettimeofday(&tv, 0);
-  sc_packet.sc_time.cpu_time_stamp = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+  sc_packet.sc_packet_header.pkt_size = sizeof(sc_packet);
+  sc_packet.sc_time.cpu_time_stamp = BuildCpuTimeStamp();
   sc_packet.sc_start = ConfigOut.scurve_start;
   sc_packet.sc_step = ConfigOut.scurve_step;
   sc_packet.sc_stop = ConfigOut.scurve_stop;
@@ -153,6 +155,7 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     exit(1);   
   }
+
   
   /* close the scurve file */
   fclose(ptr_scfile);
@@ -161,7 +164,7 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
 }
 
 
-/* read out a zynq data file and append to a cpu data file */
+/* read out a zynq data file into a zynq packet */
 Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
@@ -315,7 +318,7 @@ AnalogAcq AnalogDataCollect() {
   return acq_output;
 }
 
-/* build the hk packet */
+/* read out a hk packet */
 HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
   int i, k;
@@ -324,7 +327,11 @@ HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
   HK_PACKET hk_packet;
   
   /* make the header of the hk packet and timestamp */
-  // Add this!
+  hk_packet.hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
+  hk_packet.hk_packet_header.pkt_size = sizeof(hk_packet);
+  hk_packet.hk_packet_header.pkt_num = 1;
+  hk_packet.hk_time.cpu_time_stamp = BuildCpuTimeStamp();
+  
   
   /* initialise */
   for(k = 0; k < PH_CHANNELS; k++) {
@@ -356,6 +363,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   FILE * ptr_cpufile;
   CPU_PACKET cpu_packet;
   const char * kCpuFileName = cpu_file_name.c_str();
+  static unsigned int pkt_counter = 0;
 
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -363,10 +371,11 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
   
   /* create the cpu packet header */
-  cpu_packet.cpu_packet_header.header = 888;
-  cpu_packet.cpu_packet_header.pkt_size = 777;
-  cpu_packet.cpu_time.cpu_time_stamp = 666;
-
+  cpu_packet.cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
+  cpu_packet.cpu_packet_header.pkt_size = sizeof(cpu_packet);
+  cpu_packet.cpu_packet_header.pkt_num = pkt_counter; 
+  cpu_packet.cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
+`
   /* add the zynq and hk packets */
   cpu_packet.zynq_packet = zynq_packet_in;
   cpu_packet.hk_packet = hk_packet_in;
@@ -380,6 +389,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
 
   /* write the cpu packet */
   fwrite(&cpu_packet, sizeof(cpu_packet), 1, ptr_cpufile);
+  pkt_counter++;
   
   /* close the cpu file */
   fclose(ptr_cpufile);
@@ -393,11 +403,15 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
-
+  static unsigned int pkt_counter = 0;
+  
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
+
+  /* set the packet number */
+  sc_packet_in.ac_packet_header.pkt_num = pkt_counter;
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
@@ -406,8 +420,9 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
     return 1;
   }
 
-  /* write the cpu packet */
+  /* write the sc packet */
   fwrite(&sc_packet_in, sizeof(sc_packet_in), 1, ptr_cpufile);
+  pkt_counter++;
   
   /* close the cpu file */
   fclose(ptr_cpufile);

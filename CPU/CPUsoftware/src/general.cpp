@@ -328,7 +328,6 @@ HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
   /* make the header of the hk packet and timestamp */
   hk_packet.hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet.hk_packet_header.pkt_size = sizeof(hk_packet);
-  hk_packet.hk_packet_header.pkt_num = 1;
   hk_packet.hk_time.cpu_time_stamp = BuildCpuTimeStamp();
   
   
@@ -374,6 +373,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   cpu_packet.cpu_packet_header.pkt_size = sizeof(cpu_packet);
   cpu_packet.cpu_packet_header.pkt_num = pkt_counter; 
   cpu_packet.cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
+  hk_packet.hk_packet_header.pkt_num = pkt_counter;
   
   /* add the zynq and hk packets */
   cpu_packet.zynq_packet = zynq_packet_in;

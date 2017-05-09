@@ -56,6 +56,33 @@ std::string CreateCpuRunName(void) {
   return cpu_file_name;
 }
 
+/* build the cpu file header */
+uint32_t BuildCpuFileHeader(uint8_t type, uint8_t ver) {
+
+  uint32_t header;
+  header =  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver));
+ 
+  return header;
+}
+
+/* build the cpu packet header */
+uint32_t BuildCpuPktHeader(uint8_t type, uint8_t ver) {
+
+  uint32_t header;
+  header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver));
+ 
+  return header;
+}
+
+/* build the cpu timestamp */
+uint64_t BuildCpuTimeStamp(uint8_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec) {
+
+  uint32_t timestamp;
+  uint8_t pad_zero = 0;
+  timestamp = (((year) << 56) | ((month) << 48) | ((date) << 40) | ((hour) << 32) | ((min) << 24) | ((sec) << 16) | (pad_zero) << 8) | (pad_zero));
+
+  return timestamp;
+}
 
 /* make a cpu data file for a new run */
 int CreateCpuRun(std::string cpu_file_name) {
@@ -71,7 +98,7 @@ int CreateCpuRun(std::string cpu_file_name) {
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
   /* set up the cpu file structure */
-  //cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header.run_size = RUN_SIZE;
   
   /* open the cpu run file */
@@ -112,9 +139,9 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
   }
   
   /* prepare the scurve packet */
-  //sc_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   gettimeofday(&tv, 0);
-  //sc_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+  sc_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
   sc_packet.sc_start = ConfigOut.scurve_start;
   sc_packet.sc_step = ConfigOut.scurve_step;
   sc_packet.sc_stop = ConfigOut.scurve_stop;

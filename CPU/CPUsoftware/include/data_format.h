@@ -48,12 +48,6 @@ typedef struct
 #define SC_PACKET_VER 1
 #define CPU_PACKET_VER 1
 
-/* macros for building the headers */
-#define BuildCpuFileHeader(file_type, file_ver) \
-  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((file_type)<<8) | (file_ver))
-#define BuildCpuPktHeader(pkt_type, pkt_ver) \
-  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((pkt_type)<<8) | (pkt_ver))
-
 /* Timestamp structure in binary format */
 /* Year 0=2017, 1=2018, 2=2019, 3=... */
 typedef struct
@@ -61,9 +55,6 @@ typedef struct
   uint32_t cpu_time_stamp; // year(31:26) | month(25:22) | date(21:17) | hour(16:12) | min(11:6) | sec(5:0)
 } CpuTimeStamp;
 
-/* macro for building the timestamp */
-#define BuildCpuTimeStamp(year, month, date, hour, min, sec) \
-  (((year)<<26) | ((month)<<22) | ((date)<<17) | ((hour)<<12) | ((min)<<6) | (sec))
 
 /* housekeeping packet for other data */
 typedef struct

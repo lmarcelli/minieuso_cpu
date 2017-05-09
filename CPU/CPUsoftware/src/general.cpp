@@ -430,7 +430,7 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-void ProcessIncomingData(std::string cpu_file_name) {
+int ProcessIncomingData(std::string cpu_file_name) {
 
   int length, i = 0;
   int fd, wd;
@@ -516,13 +516,13 @@ void ProcessIncomingData(std::string cpu_file_name) {
 	    std::remove(sc_file_name.c_str());
 
 	    /* exit without waiting for more files */
-	    exit(0);
+	    return 0;
 	    
 	  }
 	  else {
 	    
 	    /* do nothing and exit */
-	    exit(0);
+	    return 0;
 	    
 	  }
 	  
@@ -533,7 +533,7 @@ void ProcessIncomingData(std::string cpu_file_name) {
   
   inotify_rm_watch(fd, wd);
   close(fd);
-
+  return 0;
 }
 
 

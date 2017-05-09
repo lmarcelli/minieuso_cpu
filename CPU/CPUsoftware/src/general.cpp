@@ -122,7 +122,7 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET ScPktReadOut(std::string sc_file_name, const Config& ConfigOut) {
+SCURVE_PACKET ScPktReadOut(std::string sc_file_name, const Config * pConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET sc_packet;
@@ -143,10 +143,10 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, const Config& ConfigOut) {
   sc_packet.sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   sc_packet.sc_packet_header.pkt_size = sizeof(sc_packet);
   sc_packet.sc_time.cpu_time_stamp = BuildCpuTimeStamp();
-  sc_packet.sc_start = ConfigOut.scurve_start;
-  sc_packet.sc_step = ConfigOut.scurve_step;
-  sc_packet.sc_stop = ConfigOut.scurve_stop;
-  sc_packet.sc_add = ConfigOut.scurve_acc;
+  sc_packet.sc_start = pConfigOut->scurve_start;
+  sc_packet.sc_step = pConfigOut->scurve_step;
+  sc_packet.sc_stop = pConfigOut->scurve_stop;
+  sc_packet.sc_add = pConfigOut->scurve_acc;
 
   /* read out the scurve data from the file */
   res = fread(&sc_packet.sc_data, sizeof(sc_packet.sc_data), 1, ptr_scfile);
@@ -294,7 +294,6 @@ AnalogAcq AnalogDataCollect() {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
-	printf("%2.2f\n", ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10));
 	acq_output.val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
 
 	/* Check the FIFO status each time */
@@ -511,8 +510,8 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	    printf("Scurve start = %u\n", pConfigOut->scurve_start);
 
 	    /* generate sc packet and append to file */
-	    // sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	    //WriteScPkt(sc_packet, cpu_file_name);
+	    sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
+	    WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());

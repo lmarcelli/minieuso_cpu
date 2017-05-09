@@ -58,11 +58,11 @@ int main(void) {
   //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
   /* take an scurve */
+  std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+
   Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
 
-  //std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
-  //check_sc.join();
-  ProcessIncomingData(current_run_file, ConfigOut);
+  check_sc.join();
   
   /* set the DAC level */
   SetDac(750);

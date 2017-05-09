@@ -71,7 +71,7 @@ int CreateCpuRun(std::string cpu_file_name) {
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
   /* set up the cpu file structure */
-  cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  //cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header.run_size = RUN_SIZE;
   
   /* open the cpu run file */
@@ -112,9 +112,9 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config ConfigOut) {
   }
   
   /* prepare the scurve packet */
-  sc_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  //sc_packet.sc_packet_header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   gettimeofday(&tv, 0);
-  sc_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+  //sc_packet.sc_time = BuildCpuTimeStamp((tm->tm_year + 1900) - 2017, (tm->tm_mon) + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
   sc_packet.sc_start = ConfigOut.scurve_start;
   sc_packet.sc_step = ConfigOut.scurve_step;
   sc_packet.sc_stop = ConfigOut.scurve_stop;

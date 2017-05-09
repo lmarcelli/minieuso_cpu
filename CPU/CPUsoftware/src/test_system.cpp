@@ -1,4 +1,4 @@
-x/*-------------------------------
+/*-------------------------------
                                  
 TEST CPU PROGRAM                 
 V1.5: May 2017                 
@@ -9,7 +9,7 @@ Francesca Capel
 capel.francesca@gmail.com         
                                  
 --------------------------------*/
-#geinclude "globals.h"
+#include "globals.h"
 
 int main(void) {
 

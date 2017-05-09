@@ -501,16 +501,14 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 
 	  }
 	  else if (event_name.compare(0, 2, "sc") == 0) {
-
-	    SCURVE_PACKET * sc_packet;
-  
+	    
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(15);
 	    printf("Scurve file found!\n");
 	    printf("Scurve start = %u\n", pConfigOut->scurve_start);
 
 	    /* generate sc packet and append to file */
-	    sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
+	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
 	    //WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */

@@ -33,7 +33,8 @@ AnalogAcq AnalogDataCollect();
 HK_PACKET AnalogPktReadOut(AnalogAcq acq_output);
 int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name);
 int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, std::string cpu_file_name);
-void ProcessIncomingData(std::string cpu_file_name, const Config& ConfigOut);
+void ProcessIncomingData(std::string cpu_file_name);
+void ProcessIncomingData_SF(std::string cpu_file_name, const Config& ConfigOut);
 
 #endif
 

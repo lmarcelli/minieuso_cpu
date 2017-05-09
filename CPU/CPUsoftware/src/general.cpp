@@ -79,10 +79,10 @@ uint32_t BuildCpuTimeStamp() {
 
   uint32_t timestamp;
   struct timeval tv; 
+  gettimeofday(&tv, 0);
   time_t now = tv.tv_sec;
   struct tm * now_tm = localtime(&now);
   
-  gettimeofday(&tv, 0);
   timestamp = ( ((now_tm->tm_year + 1900 - 2017) << 26) | ((now_tm->tm_mon) << 22) | ((now_tm->tm_mday) << 17) | ((now_tm->tm_hour) << 12) | ((now_tm->tm_min) << 6) | (now_tm->tm_sec));
 
   return timestamp;

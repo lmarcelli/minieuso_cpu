@@ -442,11 +442,6 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
   std::string data_str(DATA_DIR);
   std::string event_name;
 
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
-  AnalogAcq acq;
-  HK_PACKET hk_packet;	  
-  SCURVE_PACKET sc_packet;
-  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
@@ -488,6 +483,10 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 	  event_name = event->name;
 	  
 	  if (event_name.compare(0, 3, "frm") == 0) {
+	    Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
+	    AnalogAcq acq;
+	    HK_PACKET hk_packet;	  
+ 
 	    zynq_file_name = data_str + "/" + event->name;
 	    usleep(100000);
 	    
@@ -505,6 +504,8 @@ void ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 	  }
 	  else if (event_name.compare(0, 2, "sc") == 0) {
 
+	    SCURVE_PACKET sc_packet;
+  
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(15);
 

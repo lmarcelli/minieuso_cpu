@@ -79,7 +79,7 @@ uint64_t BuildCpuTimeStamp(uint64_t year, uint64_t month, uint64_t date, uint64_
 
   uint32_t timestamp;
   uint8_t pad_zero = 0;
-  timestamp = (((year) << 56) | ((month) << 48) | ((date) << 40) | ((hour) << 32) | ((min) << 24) | ((sec) << 16) | (pad_zero) << 8) | (pad_zero));
+  timestamp = ( ((year) << 56) | ((month) << 48) | ((date) << 40) | ((hour) << 32) | ((min) << 24) | ((sec) << 16) | ((pad_zero) << 8) | (pad_zero) );
 
   return timestamp;
 }

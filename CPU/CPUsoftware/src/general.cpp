@@ -122,7 +122,7 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET ScPktReadOut(std::string sc_file_name, const Config * pConfigOut) {
+SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET sc_packet;
@@ -429,7 +429,7 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData(std::string cpu_file_name, const Config * pConfigOut) {
+int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 
   int length, i = 0;
   int fd, wd;

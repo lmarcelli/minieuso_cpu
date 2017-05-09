@@ -52,7 +52,7 @@ typedef struct
 /* Year 0=2017, 1=2018, 2=2019, 3=... */
 typedef struct
 {
-  uint32_t cpu_time_stamp; // year(31:26) | month(25:22) | date(21:17) | hour(16:12) | min(11:6) | sec(5:0)
+  uint64_t cpu_time_stamp; // y | m | d | h | m | s | 0 | 0 
 } CpuTimeStamp;
 
 

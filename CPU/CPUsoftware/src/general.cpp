@@ -122,10 +122,10 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
+SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
 
   FILE * ptr_scfile;
-  SCURVE_PACKET sc_packet;
+  SCURVE_PACKET * sc_packet;
   const char * kScFileName = sc_file_name.c_str();
   size_t res;
  
@@ -140,16 +140,16 @@ SCURVE_PACKET ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   }
   
   /* prepare the scurve packet */
-  sc_packet.sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
-  sc_packet.sc_packet_header.pkt_size = sizeof(sc_packet);
-  sc_packet.sc_time.cpu_time_stamp = BuildCpuTimeStamp();
-  sc_packet.sc_start = pConfigOut->scurve_start;
-  sc_packet.sc_step = pConfigOut->scurve_step;
-  sc_packet.sc_stop = pConfigOut->scurve_stop;
-  sc_packet.sc_add = pConfigOut->scurve_acc;
+  sc_packet->sc_packet_header->header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet->sc_packet_header->pkt_size = sizeof(sc_packet);
+  sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
+  sc_packet->sc_start = pConfigOut->scurve_start;
+  sc_packet->sc_step = pConfigOut->scurve_step;
+  sc_packet->sc_stop = pConfigOut->scurve_stop;
+  sc_packet->sc_add = pConfigOut->scurve_acc;
 
   /* read out the scurve data from the file */
-  res = fread(&sc_packet.sc_data, sizeof(sc_packet.sc_data), 1, ptr_scfile);
+  res = fread(sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (res != 0) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     exit(1);   
@@ -502,7 +502,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	  }
 	  else if (event_name.compare(0, 2, "sc") == 0) {
 
-	    SCURVE_PACKET sc_packet;
+	    SCURVE_PACKET * sc_packet;
   
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(15);
@@ -510,7 +510,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	    printf("Scurve start = %u\n", pConfigOut->scurve_start);
 
 	    /* generate sc packet and append to file */
-	    //sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
+	    sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
 	    //WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */

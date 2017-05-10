@@ -3,8 +3,8 @@
 
 #include "config.h"
 
-Config Parse(std::string config_file_local);
-Config Configure(std::string config_file, std::string config_file_local);
+Config * Parse(std::string config_file_local);
+Config * Configure(std::string config_file, std::string config_file_local);
 int CheckTelnet(std::string ip_address, int portno);
 std::string SendRecvTelnet(std::string send_msg, int sockfd);
 int ConnectTelnet(std::string ip_address, int portno);

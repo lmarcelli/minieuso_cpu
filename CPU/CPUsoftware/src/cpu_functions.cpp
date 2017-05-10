@@ -1,14 +1,14 @@
 #include "globals.h"
 
 /* parsing a configuration file */
-Config Parse(std::string config_file_local) {
+Config * Parse(std::string config_file_local) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   std::string line;
   std::string config_file_name;
 
   /* define the parameters to parse */ 
-  Config Output;
+  Config * Output = new Config;
   
   std::ifstream cfg_file;
   std::stringstream cf;
@@ -24,32 +24,32 @@ Config Parse(std::string config_file_local) {
       in >> type;
       
       if (type == "CATHODE_VOLTAGE") {
-	in >> Output.cathode_voltage;
-	printf("CATHODE_VOLTAGE is: %d\n", Output.cathode_voltage);
+	in >> Output->cathode_voltage;
+	printf("CATHODE_VOLTAGE is: %d\n", Output->cathode_voltage);
       }
       else if (type == "DYNODE_VOLTAGE") {
-	in >> Output.dynode_voltage;
-	printf("DYNODE_VOLTAGE is: %d\n", Output.dynode_voltage);
+	in >> Output->dynode_voltage;
+	printf("DYNODE_VOLTAGE is: %d\n", Output->dynode_voltage);
       }
       else if (type == "SCURVE_START") {
-	in >> Output.scurve_start;
-	printf("SCURVE_START is: %d\n", Output.scurve_start);
+	in >> Output->scurve_start;
+	printf("SCURVE_START is: %d\n", Output->scurve_start);
       }
       else if (type == "SCURVE_STEP") {
-	in >> Output.scurve_step;
-	printf("SCURVE_STEP is: %d\n", Output.scurve_step);
+	in >> Output->scurve_step;
+	printf("SCURVE_STEP is: %d\n", Output->scurve_step);
       }
       else if (type == "SCURVE_STOP") {
-	in >> Output.scurve_stop;
-	printf("SCURVE_STOP is: %d\n", Output.scurve_stop);
+	in >> Output->scurve_stop;
+	printf("SCURVE_STOP is: %d\n", Output->scurve_stop);
       }
       else if (type == "SCURVE_ACC") {
-	in >> Output.scurve_acc;
-	printf("SCURVE_ACC is: %d\n", Output.scurve_acc);
+	in >> Output->scurve_acc;
+	printf("SCURVE_ACC is: %d\n", Output->scurve_acc);
       }
       else if (type == "DAC_LEVEL") {
-	in >> Output.dac_level;
-	printf("DAC_LEVEL is: %d\n", Output.dac_level);
+	in >> Output->dac_level;
+	printf("DAC_LEVEL is: %d\n", Output->dac_level);
       } 
     }
     cfg_file.close();
@@ -63,12 +63,11 @@ Config Parse(std::string config_file_local) {
 
 
 /* reload and parse a configuration file */
-Config Configure(std::string config_file, std::string config_file_local) {
+Config * Configure(std::string config_file, std::string config_file_local) {
 
   /* definitions */
   const char * kCfg = config_file.c_str();
   const char * kCfgLocal = config_file_local.c_str();
-  Config ParseOutput;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -86,7 +85,7 @@ Config Configure(std::string config_file, std::string config_file_local) {
     }
 
     /* parse the file */
-    ParseOutput = Parse(config_file_local);
+    Config * ParseOutput = Parse(config_file_local);
 
     fclose(file);    
   }

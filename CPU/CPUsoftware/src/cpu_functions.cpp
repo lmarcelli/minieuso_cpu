@@ -154,6 +154,7 @@ std::string SendRecvTelnet(std::string send_msg, int sockfd) {
   const char * kSendMsg = send_msg.c_str();
   char buffer[256];
   std::string recv_msg;
+  std::string err_msg = "error";
   int n;
   
   /* set up logging */
@@ -169,13 +170,13 @@ std::string SendRecvTelnet(std::string send_msg, int sockfd) {
   n = write(sockfd, buffer, strlen(buffer));
   if (n < 0) {
     clog << "error: " << logstream::error << "error writing to socket" << std::endl;
-    exit(0);
+    return err_msg;
   }
   bzero(buffer, 256);
   n = read(sockfd, buffer, 255);
   if (n < 0) {
     clog << "error: " << logstream::error << "error reading to socket" << std::endl;
-    exit(0);
+    return err_msg;
   }
   recv_msg = buffer;
   recv_msg.erase(std::remove(recv_msg.begin(), recv_msg.end(), '\r'), recv_msg.end());

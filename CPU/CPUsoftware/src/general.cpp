@@ -386,8 +386,8 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
   
   /* add the zynq and hk packets */
-  cpu_packet->zynq_packet = zynq_packet;
-  cpu_packet->hk_packet = hk_packet;
+  cpu_packet->zynq_packet = *zynq_packet;
+  cpu_packet->hk_packet = *hk_packet;
   delete zynq_packet;
   delete hk_packet;
   

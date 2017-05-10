@@ -133,21 +133,24 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "reading out the file " << sc_file_name << std::endl;
-  ptr_scfile = fopen(kScFileName, "rb");
-  if (!ptr_scfile) {
-    clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
-    return NULL;
-  }
   
   /* prepare the scurve packet */
   sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   sc_packet->sc_packet_header.pkt_size = sizeof(SCURVE_PACKET);
   sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
   sc_packet->sc_start = pConfigOut->scurve_start;
+  printf("scurve start = %u\n",  pConfigOut->scurve_start);
   sc_packet->sc_step = pConfigOut->scurve_step;
+  printf("scurve step = %u\n",  pConfigOut->scurve_step);
   sc_packet->sc_stop = pConfigOut->scurve_stop;
   sc_packet->sc_add = pConfigOut->scurve_acc;
 
+  ptr_scfile = fopen(kScFileName, "rb");
+  if (!ptr_scfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
+    return NULL;
+  }
+  
   /* read out the scurve data from the file */
   res = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (res != 1) {
@@ -397,7 +400,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
 
 
 /* write the sc packet to the cpu file */
-int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
+int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -409,7 +412,8 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
 
   /* set the packet number */
-  sc_packet_in.sc_packet_header.pkt_num = pkt_counter;
+  sc_packet_in->sc_packet_header.pkt_num = pkt_counter;
+  printf("sc_packet_in->sc_packet_header.pkt_num = %u\n", sc_packet_in->sc_packet_header.pkt_num);
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
@@ -419,7 +423,10 @@ int WriteScPkt(SCURVE_PACKET sc_packet_in, std::string cpu_file_name) {
   }
 
   /* write the sc packet */
-  fwrite(&sc_packet_in, sizeof(sc_packet_in), 1, ptr_cpufile);
+  printf("size of SCURVE_PACKET: %lu", sizeof(SCURVE_PACKET));
+  printf("size of *sc_packet_in: %lu", sizeof(*scurve_packet_in));
+  
+  fwrite(sc_packet_in, sizeof(*sc_packet_in), 1, ptr_cpufile);
   pkt_counter++;
   
   /* close the cpu file */

@@ -30,8 +30,6 @@ int main(void) {
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
-  std::cout << config_file << std::endl;
-  std::cout << config_file_local << std::endl;
   
   ConfigOut = Configure(config_file, config_file_local);
 
@@ -68,15 +66,15 @@ int main(void) {
   SetDac(750);
 
   /* start checking for new files and appending */
-  std::thread check_data (ProcessIncomingData, current_run_file, &ConfigOut);
+  //  std::thread check_data (ProcessIncomingData, current_run_file, &ConfigOut);
   
   /* start the triggered acquisition */
-  DataAcquisitionStart();
+  // DataAcquisitionStart();
 
   /* wait for the stop signal */
-  while (1) {
+  //while (1) {
     //printf("Acquiring data...\n");
-  }
+  //}
   
   return 0; 
 }

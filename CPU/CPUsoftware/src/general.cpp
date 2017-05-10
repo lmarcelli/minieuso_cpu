@@ -424,7 +424,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
 
   /* write the sc packet */
   printf("size of SCURVE_PACKET: %lu", sizeof(SCURVE_PACKET));
-  printf("size of *sc_packet_in: %lu", sizeof(*scurve_packet_in));
+  printf("size of *sc_packet_in: %lu", sizeof(*sc_packet_in));
   
   fwrite(sc_packet_in, sizeof(*sc_packet_in), 1, ptr_cpufile);
   pkt_counter++;
@@ -516,7 +516,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 
 	    /* generate sc packet and append to file */
 	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
-	    //WriteScPkt(sc_packet, cpu_file_name);
+	     WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());

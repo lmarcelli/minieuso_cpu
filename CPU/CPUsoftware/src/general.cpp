@@ -145,12 +145,12 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
   sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   sc_packet->sc_packet_header.pkt_size = sizeof(SCURVE_PACKET);
   sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
-  sc_packet->sc_start = pConfigOut->scurve_start;
-  printf("scurve start = %u\n",  pConfigOut->scurve_start);
-  sc_packet->sc_step = pConfigOut->scurve_step;
-  printf("scurve step = %u\n",  pConfigOut->scurve_step);
-  sc_packet->sc_stop = pConfigOut->scurve_stop;
-  sc_packet->sc_add = pConfigOut->scurve_acc;
+  sc_packet->sc_start = ConfigOut->scurve_start;
+  printf("scurve start = %u\n",  ConfigOut->scurve_start);
+  sc_packet->sc_step = ConfigOut->scurve_step;
+  printf("scurve step = %u\n",  ConfigOut->scurve_step);
+  sc_packet->sc_stop = ConfigOut->scurve_stop;
+  sc_packet->sc_add = ConfigOut->scurve_acc;
 
   ptr_scfile = fopen(kScFileName, "rb");
   if (!ptr_scfile) {
@@ -199,10 +199,10 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   }
   
   /* DEBUG: print records to check */
-  printf("header = %u\n", zynq_packet.zbh.header);
-  printf("payload_size = %u\n", zynq_packet.zbh.payload_size);
-  printf("hv_status = %u\n", zynq_packet.payload.hv_status);
-  printf("n_gtu = %lu\n", zynq_packet.payload.ts.n_gtu);
+  printf("header = %u\n", zynq_packet.zbh->header);
+  printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
+  printf("hv_status = %u\n", zynq_packet->payload.hv_status);
+  printf("n_gtu = %lu\n", zynq_packet->payload.ts.n_gtu);
 
   /* close the zynq file */
   fclose(ptr_zfile);
@@ -368,7 +368,7 @@ HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output) {
 int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
-  CPU_PACKET * cpu_packet new CPU_PACKET();
+  CPU_PACKET * cpu_packet = new CPU_PACKET();
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
@@ -440,7 +440,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
   }
 
   /* write the sc packet */
-  check = fwrite(sc_packet, sizeof(*sc_packet_in), 1, ptr_cpufile);
+  check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
     delete sc_packet;
@@ -456,7 +456,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
+int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 
   int length, i = 0;
   int fd, wd;

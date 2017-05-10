@@ -93,8 +93,8 @@ int CreateCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
-  CpuFileHeader cpu_file_header;
-  SCURVE_PACKET scurve_packet;
+  CpuFileHeader * cpu_file_header = new CpuFileHeader();
+  size_t check;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -102,8 +102,8 @@ int CreateCpuRun(std::string cpu_file_name) {
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
   /* set up the cpu file structure */
-  cpu_file_header.header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
-  cpu_file_header.run_size = RUN_SIZE;
+  cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  cpu_file_header->run_size = RUN_SIZE;
   
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "wb");
@@ -113,8 +113,15 @@ int CreateCpuRun(std::string cpu_file_name) {
   }
 
   /* write to the cpu run file */
-  fwrite(&cpu_file_header, sizeof(cpu_file_header), 1, ptr_cpufile);
+  check = fwrite(cpu_file_header, sizeof(*cpu_file_header), 1, ptr_cpufile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    delete cpu_file_header;
+    return 1;
+  }
+  delete cpu_file_header;
 
+  
   /* close the cpu run file */
   fclose(ptr_cpufile);
   
@@ -122,12 +129,12 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
+SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
   const char * kScFileName = sc_file_name.c_str();
-  size_t res;
+  size_t check;
  
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -152,8 +159,8 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
   }
   
   /* read out the scurve data from the file */
-  res = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
-  if (res != 1) {
+  check = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
+  if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
   }
@@ -167,12 +174,12 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * pConfigOut) {
 
 
 /* read out a zynq data file into a zynq packet */
-Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
+Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
+  Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
   const char * kZynqFileName = zynq_file_name.c_str();
-  size_t res;
+  size_t check;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -181,14 +188,14 @@ Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
   ptr_zfile = fopen(kZynqFileName, "rb");
   if (!ptr_zfile) {
     clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
-    exit(1);
+    return NULL;
   }
   
   /* read out the zynq structure, defined in "pdmdata.h" */
-  res = fread(&zynq_packet, sizeof(zynq_packet), 1, ptr_zfile);
-  if (res != 0) {
+  check = fread(&zynq_packet, sizeof(zynq_packet), 1, ptr_zfile);
+  if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
-    exit(1);   
+    return NULL;   
   }
   
   /* DEBUG: print records to check */
@@ -204,7 +211,7 @@ Z_DATA_TYPE_SCI_POLY_V5 ZynqPktReadOut(std::string zynq_file_name) {
 }
 
 /* analog board read out */
-AnalogAcq AnalogDataCollect() {
+AnalogAcq * AnalogDataCollect() {
 
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
@@ -214,7 +221,7 @@ AnalogAcq AnalogDataCollect() {
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
 
-  AnalogAcq acq_output;
+  AnalogAcq * acq_output = new AnalogAcq();
   
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -297,7 +304,7 @@ AnalogAcq AnalogDataCollect() {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
-	acq_output.val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+	acq_output->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
 
 	/* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
@@ -320,17 +327,17 @@ AnalogAcq AnalogDataCollect() {
 }
 
 /* read out a hk packet */
-HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
+HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output) {
 
   int i, k;
   float sum_ph[PH_CHANNELS];
   float sum_sipm1 = 0;
-  HK_PACKET hk_packet;
+  HK_PACKET * hk_packet = new HK_PACKET();
   
   /* make the header of the hk packet and timestamp */
-  hk_packet.hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
-  hk_packet.hk_packet_header.pkt_size = sizeof(hk_packet);
-  hk_packet.hk_time.cpu_time_stamp = BuildCpuTimeStamp();
+  hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
+  hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
+  hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
   
   
   /* initialise */
@@ -340,46 +347,49 @@ HK_PACKET AnalogPktReadOut(AnalogAcq acq_output) {
 
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
   for(i = 0; i < FIFO_DEPTH; i++) {
-    sum_ph[0] += acq_output.val[i][0];
-    sum_ph[1] += acq_output.val[i][1];
-    sum_ph[2] += acq_output.val[i][2];
-    sum_ph[3] += acq_output.val[i][3];
-    sum_sipm1 += acq_output.val[i][4];
-    hk_packet.sipm_data[i] = acq_output.val[i][5];
+    sum_ph[0] += acq_output->val[i][0];
+    sum_ph[1] += acq_output->val[i][1];
+    sum_ph[2] += acq_output->val[i][2];
+    sum_ph[3] += acq_output->val[i][3];
+    sum_sipm1 += acq_output->val[i][4];
+    hk_packet->sipm_data[i] = acq_output->val[i][5];
   }
 
   for (k = 0; k < PH_CHANNELS; k++) {
-    hk_packet.photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
+    hk_packet->photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
   }
-  hk_packet.sipm_single = sum_sipm1/FIFO_DEPTH;
+  hk_packet->sipm_single = sum_sipm1/FIFO_DEPTH;
 
   return hk_packet;
 }
 
 
 /* write the cpu packet to the cpu file */
-int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, std::string cpu_file_name) {
+int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
-  CPU_PACKET cpu_packet;
+  CPU_PACKET * cpu_packet new CPU_PACKET();
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
-
+  size_t check;
+  
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
   
   /* create the cpu packet header */
-  cpu_packet.cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
-  cpu_packet.cpu_packet_header.pkt_size = sizeof(cpu_packet);
-  cpu_packet.cpu_packet_header.pkt_num = pkt_counter; 
-  cpu_packet.cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
-  hk_packet_in.hk_packet_header.pkt_num = pkt_counter;
+  cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
+  cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
+  cpu_packet->cpu_packet_header.pkt_num = pkt_counter; 
+  cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
+  hk_packet->hk_packet_header.pkt_num = pkt_counter;
   
   /* add the zynq and hk packets */
-  cpu_packet.zynq_packet = zynq_packet_in;
-  cpu_packet.hk_packet = hk_packet_in;
+  cpu_packet->zynq_packet = zynq_packet;
+  cpu_packet->hk_packet = hk_packet;
+  delete zynq_packet;
+  delete hk_packet;
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
@@ -389,7 +399,13 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
   }
 
   /* write the cpu packet */
-  fwrite(&cpu_packet, sizeof(cpu_packet), 1, ptr_cpufile);
+  check = fwrite(cpu_packet, sizeof(*cpu_packet), 1, ptr_cpufile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    delete cpu_packet;
+    return 1;
+  }
+  delete cpu_packet; 
   pkt_counter++;
   
   /* close the cpu file */
@@ -400,11 +416,12 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 zynq_packet_in, HK_PACKET hk_packet_in, 
 
 
 /* write the sc packet to the cpu file */
-int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
+int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
+  size_t check;
   
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -412,8 +429,8 @@ int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
 
   /* set the packet number */
-  sc_packet_in->sc_packet_header.pkt_num = pkt_counter;
-  printf("sc_packet_in->sc_packet_header.pkt_num = %u\n", sc_packet_in->sc_packet_header.pkt_num);
+  sc_packet->sc_packet_header.pkt_num = pkt_counter;
+  printf("sc_packet->sc_packet_header.pkt_num = %u\n", sc_packet->sc_packet_header.pkt_num);
   
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
@@ -423,10 +440,13 @@ int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
   }
 
   /* write the sc packet */
-  printf("size of SCURVE_PACKET: %lu", sizeof(SCURVE_PACKET));
-  printf("size of *sc_packet_in: %lu", sizeof(*sc_packet_in));
-  
-  fwrite(sc_packet_in, sizeof(*sc_packet_in), 1, ptr_cpufile);
+  check = fwrite(sc_packet, sizeof(*sc_packet_in), 1, ptr_cpufile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    delete sc_packet;
+    return 1;
+  }
+  delete sc_packet;
   pkt_counter++;
   
   /* close the cpu file */
@@ -436,7 +456,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet_in, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
+int ProcessIncomingData(std::string cpu_file_name, Config ConfigOut) {
 
   int length, i = 0;
   int fd, wd;
@@ -488,17 +508,14 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	  event_name = event->name;
 	  
 	  if (event_name.compare(0, 3, "frm") == 0) {
-	    Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
-	    AnalogAcq acq;
-	    HK_PACKET hk_packet;	  
- 
+	    
 	    zynq_file_name = data_str + "/" + event->name;
 	    usleep(100000);
 	    
 	    /* generate sub packets */
-	    zynq_packet = ZynqPktReadOut(zynq_file_name);
-	    acq = AnalogDataCollect();
-	    hk_packet = AnalogPktReadOut(acq);
+	    Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = ZynqPktReadOut(zynq_file_name);
+	    AnalogAcq * acq = AnalogDataCollect();
+	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 	    
 	    /* generate cpu packet and append to file */
 	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
@@ -511,11 +528,9 @@ int ProcessIncomingData(std::string cpu_file_name, Config * pConfigOut) {
 	    
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(15);
-	    printf("Scurve file found!\n");
-	    printf("Scurve start = %u\n", pConfigOut->scurve_start);
 
 	    /* generate sc packet and append to file */
-	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, pConfigOut);
+	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
 	     WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */

@@ -55,9 +55,9 @@ int main(void) {
   //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
   /* take an scurve */
-  std::thread check_sc (ProcessIncomingData, current_run_file, &ConfigOut);
+  std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
 
-  Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut.scurve_stop, ConfigOut.scurve_acc);
+  Scurve(ConfigOut.scurve_start, ConfigOut.scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
 
   check_sc.join();
   
@@ -65,7 +65,7 @@ int main(void) {
   SetDac(750);
 
   /* start checking for new files and appending */
-  std::thread check_data (ProcessIncomingData, current_run_file, &ConfigOut);
+  std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
   
   /* start the triggered acquisition */
   DataAcquisitionStart();

@@ -8,7 +8,7 @@ Config * Parse(std::string config_file_local) {
   std::string config_file_name;
 
   /* define the parameters to parse */ 
-  Config * Output = new Config;
+  Config * Output = new Config();
   
   std::ifstream cfg_file;
   std::stringstream cf;
@@ -91,6 +91,8 @@ Config * Configure(std::string config_file, std::string config_file_local) {
   }
   else {
     clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
+    Config * ParseOutput = NULL;
+
   }
 
   return ParseOutput;

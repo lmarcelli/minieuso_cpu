@@ -68,6 +68,7 @@ Config * Configure(std::string config_file, std::string config_file_local) {
   /* definitions */
   const char * kCfg = config_file.c_str();
   const char * kCfgLocal = config_file_local.c_str();
+  Config * ParseOutput = NULL;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -85,13 +86,12 @@ Config * Configure(std::string config_file, std::string config_file_local) {
     }
 
     /* parse the file */
-    Config * ParseOutput = Parse(config_file_local);
+    ParseOutput = Parse(config_file_local);
 
     fclose(file);    
   }
   else {
     clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
-    Config * ParseOutput = NULL;
 
   }
 

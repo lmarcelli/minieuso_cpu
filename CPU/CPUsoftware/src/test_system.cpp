@@ -14,7 +14,6 @@ capel.francesca@gmail.com
 int main(void) {
 
   /* definitions */
-  Config ConfigOut;
   std::string config_dir(CONFIG_DIR);
 
   /*----------*/
@@ -30,7 +29,7 @@ int main(void) {
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
-  ConfigOut = Configure(config_file, config_file_local);
+  Config * ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */
   CheckTelnet(ZYNQ_IP, TELNET_PORT);
@@ -72,7 +71,9 @@ int main(void) {
   //while (1) {
     //printf("Acquiring data...\n");
   //}
-  
+
+  /* clean up */
+  delete ConfigOut;
   return 0; 
 }
 

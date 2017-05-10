@@ -12,6 +12,8 @@
 #define ID_TAG 0xAA55
 #define RUN_SIZE 10
 
+#pragma pack(push, 1) /* force no padding in structs */
+
 /* cpu file header */
 typedef struct
 {
@@ -98,5 +100,6 @@ typedef struct
   CPU_PACKET cpu_run_payload[RUN_SIZE];
 } CPU_FILE;
 
+#pragma pack(pop)
 
 #endif /* _DATA_FORMAT_H */

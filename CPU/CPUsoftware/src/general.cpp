@@ -199,7 +199,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   }
   
   /* DEBUG: print records to check */
-  printf("header = %u\n", zynq_packet.zbh->header);
+  printf("header = %u\n", zynq_packet->zbh.header);
   printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
   printf("hv_status = %u\n", zynq_packet->payload.hv_status);
   printf("n_gtu = %lu\n", zynq_packet->payload.ts.n_gtu);

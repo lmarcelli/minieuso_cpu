@@ -100,6 +100,6 @@ typedef struct
   CPU_PACKET cpu_run_payload[RUN_SIZE];
 } CPU_FILE;
 
-#pragma pack(pop)
+#pragma pack(pop) /* return to normal packing */
 
 #endif /* _DATA_FORMAT_H */

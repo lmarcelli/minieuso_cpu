@@ -27,7 +27,7 @@ then
    apt-get -y update 
    apt-get -y install build-essential vsftpd expect libraw1394-11 libgtk2.0-0 \
    libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 \
-   stress bridge-utils git-core emacs usbmount
+   stress bridge-utils git-core emacs usbmount gdb ntp
    echo "Packages downloaded"
 else
        echo "Could not connect to internet. Exiting..."

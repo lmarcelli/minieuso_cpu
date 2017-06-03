@@ -12,7 +12,7 @@
 #define N_OF_SCURVE_THRS		1024
 
 #pragma pack(push, 1) /* force no padding in structs */
-
+//Alexander prefers 64-bit alignment, double check
 //-----------------------------------------------------------------------------
 
 // Common Zynq board header

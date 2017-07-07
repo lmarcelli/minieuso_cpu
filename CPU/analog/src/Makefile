@@ -23,7 +23,7 @@ test_pdm_photodiode: test_pdm_photodiode.c
 test_dio: test_dio.c
 	$(CC) $(CFLAGS) -o ../bin/test_dio test_dio.c $(LIBRARY_FLAGS)
 
-test_dio: test_lvps_switch.c
+test_lvps_switch: test_lvps_switch.c
 	$(CC) $(CFLAGS) -o ../bin/test_lvps_switch test_lvps_switch.c $(LIBRARY_FLAGS)
 
 clean:

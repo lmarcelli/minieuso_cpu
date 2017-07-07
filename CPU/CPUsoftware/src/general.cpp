@@ -378,6 +378,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
   
+  clog << "info: " << logstream::info << "about to build the headers " << std::endl;
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -386,6 +387,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
   
   /* add the zynq and hk packets */
+  clog << "info: " << logstream::info << "about to point to cpu and hk packets " << std::endl;
   cpu_packet->zynq_packet = *zynq_packet;
   cpu_packet->hk_packet = *hk_packet;
   delete zynq_packet;

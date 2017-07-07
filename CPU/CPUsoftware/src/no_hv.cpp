@@ -72,7 +72,8 @@ int main(void) {
 
   /* wait for the stop signal */
   while (1) {
-    //printf("Acquiring data...\n");
+    printf("Acquiring data...\n");
+    sleep(5);
   }
 
   /* clean up */

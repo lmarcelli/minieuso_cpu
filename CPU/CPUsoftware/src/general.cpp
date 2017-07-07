@@ -557,4 +557,5 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
   return 0;
 }
 
-
+/* turn on subsystems via LVPS */
+/* test funciton to create a 1 on digital line for 50 ms */

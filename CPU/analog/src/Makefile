@@ -9,6 +9,7 @@ CFLAGS:=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 TESTS = \
     test_photodiode \
     test_pdm_photodiode \
+    test_dio \
 
 all:	$(TESTS)
 
@@ -17,6 +18,10 @@ test_photodiode: test_photodiode.c
 
 test_pdm_photodiode: test_pdm_photodiode.c
 	$(CC) $(CFLAGS) -o ../bin/test_pdm_photodiode test_pdm_photodiode.c $(LIBRARY_FLAGS)
+
+test_dio: test_dio.c
+	$(CC) $(CFLAGS) -o ../bin/test_dio test_dio.c $(LIBRARY_FLAGS)
+
 
 clean:
 	rm -f *.o *.dat *~ $(TESTS)

@@ -399,6 +399,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   }
 
   /* write the cpu packet */
+  clog << "info: " << logstream::info << "about to write cpu packet " << std::endl; 
   check = fwrite(cpu_packet, sizeof(*cpu_packet), 1, ptr_cpufile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
@@ -440,6 +441,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
   }
 
   /* write the sc packet */
+  clog << "info: " << logstream::info << "about to write scurve " << std::endl;
   check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;

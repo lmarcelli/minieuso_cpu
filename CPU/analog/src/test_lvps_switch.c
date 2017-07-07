@@ -84,6 +84,9 @@ int main() {
 			     "DM75xx_DIO_Set_Port");
 	fprintf(stdout, "Port 1 Output:0x%2x \n", off);
 	sleep(5);
+	fprintf(stdout, "Press enter to continue...");
+	getchar();
+	
 
 	/* Clean up */
 	/************/

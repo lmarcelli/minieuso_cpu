@@ -392,6 +392,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   delete hk_packet;
   
   /* open the cpu file to append */
+  clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
@@ -434,6 +435,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
   printf("sc_packet->sc_packet_header.pkt_num = %u\n", sc_packet->sc_packet_header.pkt_num);
   
   /* open the cpu file to append */
+  clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;

@@ -11,7 +11,7 @@
 #define N_OF_PIXEL_PER_PDM 2304
 #define N_OF_SCURVE_THRS		1024
 
-#pragma pack(push, 1) /* force no padding in structs */
+//#pragma pack(push, 1) /* force no padding in structs */
 //Alexander prefers 64-bit alignment, double check
 //-----------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ typedef struct
   uint32_t hv_status;
   // reserved field in order to make next fields of this structure 64-bytes aligned
   //uint32_t reserv[3+24];
-  uint32_t padding; /* added to catch discrepancy between filesize and struct size */
+  //uint32_t padding; /* added to catch discrepancy between filesize and struct size */
   // raw data (2.5 us GTU)
   uint8_t raw_data [N_OF_FRAMES_RAW_POLY_V0][N_OF_PIXEL_PER_PDM];
   // integrated data (320 us GTU)
@@ -89,7 +89,7 @@ typedef struct
   DATA_TYPE_SCI_POLY_V5 payload;
 } Z_DATA_TYPE_SCI_POLY_V5;
 
-#pragma pack(pop) /* return to normal packing */
+//#pragma pack(pop) /* return to normal packing */
 
 #endif /* SRC_PDMDATA_H_ */
 

@@ -11,7 +11,7 @@
 #define N_OF_PIXEL_PER_PDM 2304
 #define N_OF_SCURVE_THRS		1024
 
-//#pragma pack(push, 1) /* force no padding in structs */
+#pragma pack(push, 1) /* force no padding in structs */
 //Alexander prefers 64-bit alignment, double check
 //-----------------------------------------------------------------------------
 
@@ -89,7 +89,7 @@ typedef struct
   DATA_TYPE_SCI_POLY_V5 payload;
 } Z_DATA_TYPE_SCI_POLY_V5;
 
-//#pragma pack(pop) /* return to normal packing */
+#pragma pack(pop) /* return to normal packing */
 
 #endif /* SRC_PDMDATA_H_ */
 

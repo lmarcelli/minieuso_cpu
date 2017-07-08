@@ -207,7 +207,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
   
   /* read out the zynq structure, defined in "pdmdata.h" */
-  check = fread(zynq_packet, sizeof(*zynq_packet->zbh), 1, ptr_zfile);
+  check = fread(zynq_packet, sizeof(*zynq_packet), 1, ptr_zfile);
   //check = fread(&dummy_arr, sizeof(dummy_arr), 1, ptr_zfile);
 
   std::cout << "Check: " << check << std::endl;

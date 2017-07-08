@@ -159,7 +159,7 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
   }
   
   /* read out the scurve data from the file */
-  check = fread(&(sc_packet->sc_data), sizeof(sc_packet->sc_data), 1, ptr_scfile);
+  check = fread(&sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
@@ -185,11 +185,16 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << std::endl;
+
   ptr_zfile = fopen(kZynqFileName, "rb");
   if (!ptr_zfile) {
     clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
     return NULL;
   }
+
+  /* DEBUG: find out why fread won't work */
+  std::cout << "zynq_packet: " << zynq_packet << std::endl;
+  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
   
   /* read out the zynq structure, defined in "pdmdata.h" */
   check = fread(zynq_packet, sizeof(*zynq_packet), 1, ptr_zfile);
@@ -389,8 +394,8 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   /* add the zynq and hk packets */
   clog << "info: " << logstream::info << "about to point to cpu and hk packets " << std::endl;
   cpu_packet->zynq_packet = *zynq_packet;
-  cpu_packet->hk_packet = *hk_packet;
   delete zynq_packet;
+  cpu_packet->hk_packet = *hk_packet;
   delete hk_packet;
   
   /* open the cpu file to append */

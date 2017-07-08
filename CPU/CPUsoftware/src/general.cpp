@@ -193,6 +193,8 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   }
 
   /* DEBUG: find out why fread won't work */
+  std::cout << "zynq file name: " << zynq_file_name << std::endl;
+  std::cout << "zynq_file_name" << *kZynqFileName << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
   std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
   

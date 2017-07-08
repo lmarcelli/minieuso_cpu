@@ -180,6 +180,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
+  uint8_t dummy_arr[2064408];
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);
@@ -194,13 +195,15 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
 
   /* DEBUG: find out why fread won't work */
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
-  std::cout << "zynq_file_name.c_str(): " << *kZynqFileName << std::endl;
+  std::cout << "sizeof(dummy_arr): " << sizeof(dummy_arr) << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
   std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
   
   /* read out the zynq structure, defined in "pdmdata.h" */
-  check = fread(&zynq_packet->zbh, sizeof(zynq_packet->zbh), 1, ptr_zfile);
+  //check = fread(&zynq_packet->zbh, sizeof(zynq_packet->zbh), 1, ptr_zfile);
+  check = fread(&dummy_arr, sizeof(dummy_arr), 1, ptr_zfile);
+
   std::cout << "Check: " << check << std::endl;
   std::cout << "feof: " << feof(ptr_zfile) << std::endl;
   std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;

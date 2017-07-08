@@ -207,7 +207,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
   
   /* read out the zynq structure, defined in "pdmdata.h" */
-  check = fread(&zynq_packet->zbh, sizeof(zynq_packet->zbh), 1, ptr_zfile);
+  check = fread(zynq_packet, sizeof(*zynq_packet->zbh), 1, ptr_zfile);
   //check = fread(&dummy_arr, sizeof(dummy_arr), 1, ptr_zfile);
 
   std::cout << "Check: " << check << std::endl;
@@ -538,7 +538,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 	    
 	    zynq_file_name = data_str + "/" + event->name;
 	    //usleep(1000000);
-	    sleep(2)
+	    sleep(2);
 	      
 	    /* generate sub packets */
 	    Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = ZynqPktReadOut(zynq_file_name);
@@ -555,7 +555,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 	  else if (event_name.compare(0, 2, "sc") == 0) {
 	    
 	    sc_file_name = data_str + "/" + event->name;
-	    sleep(15);
+	    sleep(17);
 
 	    /* generate sc packet and append to file */
 	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);

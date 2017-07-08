@@ -9,14 +9,9 @@ CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(DEBUG_F
 OUTDIR = ../bin/
 
 TESTS = \
-	test_system \
 	no_hv \
 
 all:    $(TESTS)
-
-test_system: test_system.cpp
-	$(CC) $(CFLAGS) test_system.cpp globals.cpp cpu_functions.cpp general.cpp $(LIB_FLAGS) -o test 
-	mv test $(OUTDIR)
 
 no_hv: no_hv.cpp
 	$(CC) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp $(LIB_FLAGS) -o no_hv 

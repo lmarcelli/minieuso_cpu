@@ -180,6 +180,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
+  size_t fsize;
   uint8_t dummy_arr[2064408];
   
   /* set up logging */
@@ -193,12 +194,19 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
     return NULL;
   }
 
+  /* find the length of the file */
+  fseek(ptr_zfile, 0L, SEEK_END);
+  fsize = ftell(ptr_zfile);
+  rewind(ptr_zfile);
+  
   /* DEBUG: find out why fread won't work */
-  std::cout << "zynq file name: " << zynq_file_name << std::endl;
+  std::cout << "file size: " << fsize << std::endl;
   std::cout << "sizeof(dummy_arr): " << sizeof(dummy_arr) << std::endl;
+  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
+  
+  std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
-  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
   
   /* read out the zynq structure, defined in "pdmdata.h" */
   //check = fread(&zynq_packet->zbh, sizeof(zynq_packet->zbh), 1, ptr_zfile);

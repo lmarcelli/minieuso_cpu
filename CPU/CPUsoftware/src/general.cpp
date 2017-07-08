@@ -537,8 +537,9 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 	  if (event_name.compare(0, 3, "frm") == 0) {
 	    
 	    zynq_file_name = data_str + "/" + event->name;
-	    usleep(100000);
-	    
+	    //usleep(1000000);
+	    sleep(2)
+	      
 	    /* generate sub packets */
 	    Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = ZynqPktReadOut(zynq_file_name);
 	    AnalogAcq * acq = AnalogDataCollect();

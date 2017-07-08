@@ -180,8 +180,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
-  size_t fsize;
-  uint8_t dummy_arr[2064408];
+  int fsize;
   
   /* set up logging */
   std::ofstream log_file(log_name,std::ios::app);

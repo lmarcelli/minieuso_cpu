@@ -29,8 +29,8 @@ int main() {
 
 	DM75xx_Error dm75xx_status;
 	unsigned long int minor_number = 0;
-	uint8_t on = 0xFF;
-	uint8_t off = 0x00;
+	uint8_t high = 0xFF;
+	uint8_t low = 0x00;
 
 	/* Initialisation */
 	/******************/
@@ -64,29 +64,22 @@ int main() {
 	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT1, 0xFF);
 	DM75xx_Exit_On_Error(board, dm75xx_status, "DM75xx_DIO_Set_Direction");
 
-	/* Drive the output low */ 
-	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, off);
+	/* Drive the output low for 10 ms */ 
+	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, low);
 	DM75xx_Exit_On_Error(board, dm75xx_status,
 			     "DM75xx_DIO_Set_Port");
-	fprintf(stdout, "Port 1 Output:0x%2x \n", off);
-	sleep(5);
-
-	/* Drive the output high for 10ms */
-	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, on);
-	DM75xx_Exit_On_Error(board, dm75xx_status,
-			     "DM75xx_DIO_Set_Port");
-	fprintf(stdout, "Port 1 Output:0x%2x \n", on);
+	fprintf(stdout, "Port 1 Output:0x%2x \n", low);
 	nanosleep((const struct timespec[]){{0, 10000000L}}, NULL); // 10 ms
 
-	/* Drive the output low */
-	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, off);
+	/* Drive the output high */
+	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, high);
 	DM75xx_Exit_On_Error(board, dm75xx_status,
 			     "DM75xx_DIO_Set_Port");
-	fprintf(stdout, "Port 1 Output:0x%2x \n", off);
-	sleep(5);
+	fprintf(stdout, "Port 1 Output:0x%2x \n", high);
+
+	/* wait for user input */
 	fprintf(stdout, "Press enter to continue...");
 	getchar();
-	
 
 	/* Clean up */
 	/************/

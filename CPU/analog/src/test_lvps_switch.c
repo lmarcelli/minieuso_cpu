@@ -56,7 +56,7 @@ int main() {
 
 	/* Configure Port 0 Direction */
 	fprintf(stdout, "Configuring Port 0 Direction to input ... \n");
-	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT0, 0x00);
+	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT0, 0xFF);
 	DM75xx_Exit_On_Error(board, dm75xx_status, "DM75xx_DIO_Set_Direction");
 	
 	/* Configure Port 1 Direction */

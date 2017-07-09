@@ -55,8 +55,8 @@ int main() {
 	DM75xx_Exit_On_Error(board, dm75xx_status, "DM75xx_DIO_Clock");
 
 	/* Configure Port 0 Direction */
-	fprintf(stdout, "Configuring Port 0 Direction to input ... \n");
-	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT0, 0xFF);
+	fprintf(stdout, "Configuring Port 0 Direction to 1111 0000 ... \n");
+	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT0, 0xF0);
 	DM75xx_Exit_On_Error(board, dm75xx_status, "DM75xx_DIO_Set_Direction");
 	
 	/* Configure Port 1 Direction */
@@ -64,15 +64,15 @@ int main() {
 	dm75xx_status = DM75xx_DIO_Set_Direction(board, DM75xx_DIO_PORT1, 0xFF);
 	DM75xx_Exit_On_Error(board, dm75xx_status, "DM75xx_DIO_Set_Direction");
 
-	/* Drive the output high for 10 ms */
-	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, high);
+	/* Drive the output high on Port 0 for 10 ms */
+	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT0, high);
 	DM75xx_Exit_On_Error(board, dm75xx_status,
 			     "DM75xx_DIO_Set_Port");
 	fprintf(stdout, "Port 1 Output:0x%2x \n", high);
 	nanosleep((const struct timespec[]){{0, 10000000L}}, NULL); // 10 ms
 
-	/* Drive the output low */ 
-	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT1, low);
+	/* Drive the output low on Port 0 */ 
+	DM75xx_DIO_Set_Port(board, DM75xx_DIO_PORT0, low);
 	DM75xx_Exit_On_Error(board, dm75xx_status,
 			     "DM75xx_DIO_Set_Port");
 	fprintf(stdout, "Port 1 Output:0x%2x \n", low);

@@ -146,7 +146,7 @@ int CloseCpuRun(std::string cpu_file_name) {
   cpu_file_trailer->crc = 0; // 0 crc until implemented
   
   /* open the cpu run file */
-  ptr_cpufile = fopen(kCpuFileName, "wb");
+  ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
     return 1;

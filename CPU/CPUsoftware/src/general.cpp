@@ -143,7 +143,7 @@ int CloseCpuRun(std::string cpu_file_name) {
 
   /* set up the cpu file trailer */
   cpu_file_trailer->run_size = RUN_SIZE;
-  cpu_file_traile->crc = 0; // 0 crc until implemented
+  cpu_file_trailer->crc = 0; // 0 crc until implemented
   
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "wb");

@@ -77,7 +77,7 @@ int main(void) {
   DataAcquisitionStop();
   
   /* close the run file */
-  CloseCpuRun();
+  CloseCpuRun(current_run_file);
 
   /* clean up */
   delete ConfigOut;

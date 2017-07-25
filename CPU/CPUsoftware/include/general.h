@@ -5,6 +5,16 @@
 #include "data_format.h"
 #include "config.h"
 
+#include <boost/crc.hpp>  
+
+/* for use with CRC calculation in CloseCpuRun() */
+/* redefine this to change to processing buffer size */
+#ifndef PRIVATE_BUFFER_SIZE
+#define PRIVATE_BUFFER_SIZE  1024
+#endif
+/* global objects */
+std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
+
 /* for use with inotify in ProcessIncomingData() */
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
@@ -22,6 +32,7 @@ typedef struct
   float val [FIFO_DEPTH][CHANNELS];
 } AnalogAcq;
 
+/* function declarations */
 std::string CreateLogname(void);
 bool CopyFile(const char * SRC, const char * DEST);
 void SignalHandler(int signum);

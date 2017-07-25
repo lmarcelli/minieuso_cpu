@@ -128,7 +128,7 @@ int CreateCpuRun(std::string cpu_file_name) {
   return 0;
 }
 
-/* close the CPU file run */
+/* close the CPU file run and append CRC */
 int CloseCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
@@ -141,9 +141,27 @@ int CloseCpuRun(std::string cpu_file_name) {
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "closing the cpu run file called " << cpu_file_name << std::endl;
 
+  /* calculate the CRC */
+  boost::crc_32_type crc_result;
+  std::ifstream ifs(cpu_file_name, std::ios_base::binary);	
+  if(ifs) {
+    do {
+      char buffer[buffer_size];
+      ifs.read(buffer, buffer_size);
+      crc_result.process_bytes(buffer, ifs.gcount());
+    } while (ifs);
+  }
+  else {
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    return 1;
+  }
+  std::cout << std::hex << std::uppercase << "CRC = " << crc_result.checksum() << std::endl;
+  clog << "info: " << logstream::info << "CRC for " << cpu_file_name << " = "
+       << std::hex << std::uppercase << crc_result.checksum() << std::endl;
+  
   /* set up the cpu file trailer */
   cpu_file_trailer->run_size = RUN_SIZE;
-  cpu_file_trailer->crc = 0; // 0 crc until implemented
+  cpu_file_trailer->crc = crc_result.checksum(); 
   
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "a+b");

@@ -128,6 +128,46 @@ int CreateCpuRun(std::string cpu_file_name) {
   return 0;
 }
 
+/* close the CPU file run */
+int CloseCpuRun(std::string cpu_file_name) {
+
+  FILE * ptr_cpufile;
+  const char * kCpuFileName = cpu_file_name.c_str();
+  CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
+  size_t check;
+  
+  /* set up logging */
+  std::ofstream log_file(log_name,std::ios::app);
+  logstream clog(log_file, logstream::all);
+  clog << "info: " << logstream::info << "closing the cpu run file called " << cpu_file_name << std::endl;
+
+  /* set up the cpu file trailer */
+  cpu_file_trailer->run_size = RUN_SIZE;
+  cpu_file_traile->crc = 0; // 0 crc until implemented
+  
+  /* open the cpu run file */
+  ptr_cpufile = fopen(kCpuFileName, "wb");
+  if (!ptr_cpufile) {
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    return 1;
+  }
+
+  /* write to the cpu run file */
+  check = fwrite(cpu_file_trailer, sizeof(*cpu_file_trailer), 1, ptr_cpufile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    delete cpu_file_trailer;
+    return 1;
+  }
+  delete cpu_file_trailer;
+  
+  /* close the cpu run file */
+  fclose(ptr_cpufile);
+  
+  return 0;
+}
+
+
 /* read out an scurve file into an scurve packet */
 SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
@@ -507,8 +547,10 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
   
   clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
   wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
-  
-  while(1) {
+
+  int packet_counter = 0;
+    
+  while(packet_counter < RUN_SIZE) {
     
     struct inotify_event * event;
     
@@ -547,9 +589,12 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 	    
 	    /* generate cpu packet and append to file */
 	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
-	    
+
 	    /* delete upon completion */
 	    std::remove(zynq_file_name.c_str());
+
+	    /* increment the packet counter */
+	    packet_counter++;
 
 	  }
 	  else if (event_name.compare(0, 2, "sc") == 0) {
@@ -579,11 +624,9 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
       }
     }
   }
-  
+
+  /* stop watching the directory */
   inotify_rm_watch(fd, wd);
   close(fd);
   return 0;
 }
-
-/* turn on subsystems via LVPS */
-/* test funciton to create a 1 on digital line for 50 ms */

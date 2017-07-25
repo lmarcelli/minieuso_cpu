@@ -55,26 +55,29 @@ int main(void) {
   //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
   /* take an scurve */
-  //std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+  std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
 
-  //Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
 
-  //check_sc.join();
+  check_sc.join();
   
   /* set the DAC level */
-  SetDac(750);
+  SetDac(750); // in pedestal to give non-zero values with no HV
 
   /* start checking for new files and appending */
   std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
   
-  /* start the triggered acquisition */
+  /* start the data acquisition */
   DataAcquisitionStart();
 
-  /* wait for the stop signal */
-  while (1) {
-    printf("Acquiring data...\n");
-    sleep(5);
-  }
+  /* wait for data acquisition to complete */
+  check_data.join();
+
+  /* stop the data acquisition */
+  DataAcquisitionStop();
+  
+  /* close the run file */
+  CloseCpuRun();
 
   /* clean up */
   delete ConfigOut;

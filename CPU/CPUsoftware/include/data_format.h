@@ -1,7 +1,9 @@
 /* CPU data format definition 
- * for storage of packets coming from the Zynq board 
+ * for storage of packets coming from the Zynq board
+ * and ancillary instruments
+ * 
  * Francesca Capel: capel.francesca@gmail.com
- * NB:the Mini-EUSO CPU is LITTLE ENDIAN 
+ * NB:the Mini-EUSO CPU is little endian 
 */
 
 #ifndef _DATA_FORMAT_H
@@ -10,7 +12,7 @@
 /* instrument definitions */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM*/
 #define ID_TAG 0xAA55
-#define RUN_SIZE 10
+#define RUN_SIZE 25
 
 #pragma pack(push, 1) /* force no padding in structs */
 
@@ -22,6 +24,13 @@ typedef struct
   uint32_t run_size; /* number of cpu packets in the run */
 } CpuFileHeader; 
 
+/* cpu file trailer */
+typedef struct
+{
+  uint16_t spacer = ID_TAG; /* AA55 HEX */
+  uint32_t run_size; /* number of cpu packets in the run */
+  uint32_t crc;
+} CpuFileTrailer; 
 
 /* generic packet header for all cpu packets and hk/scurve sub packets */
 /* the zynq packet has its own header defined in pdmdata.h */
@@ -76,7 +85,7 @@ typedef struct
   CpuTimeStamp cpu_time;
   Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
   HK_PACKET hk_packet;
-  //  uint32_t crc;
+  // uint32_t crc;
 } CPU_PACKET;
 
 /* scurve packet for checking pixels */
@@ -92,12 +101,13 @@ typedef struct
 } SCURVE_PACKET;
 
 
-/* CPU file to store one run of ~40 min */
+/* CPU file to store one run */
 typedef struct
 {
   CpuFileHeader cpu_file_header;
   SCURVE_PACKET scurve_packet;
   CPU_PACKET cpu_run_payload[RUN_SIZE];
+  CpuFileTrailer cpu_file_trailer;
 } CPU_FILE;
 
 #pragma pack(pop) /* return to normal packing */

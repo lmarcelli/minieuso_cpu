@@ -27,6 +27,7 @@ bool CopyFile(const char * SRC, const char * DEST);
 void SignalHandler(int signum);
 std::string CreateCpuRunName(void);
 int CreateCpuRun(std::string cpu_file_name);
+int CloseCpuRun(std::string cpu_file_name);
 SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
 Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
 AnalogAcq * AnalogDataCollect();

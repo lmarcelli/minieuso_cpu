@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+/* functions for configuration and Zynq interface */
+/*------------------------------------------------*/
 Config * Parse(std::string config_file_local);
 Config * Configure(std::string config_file, std::string config_file_local);
 int CheckTelnet(std::string ip_address, int portno);

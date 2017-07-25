@@ -1,7 +1,7 @@
 /*-------------------------------
                                  
 TEST CPU PROGRAM                 
-V1.5: May 2017                 
+V1.8: July 2017                 
                                  
 Full PDM data acquisition chain	 
                                   
@@ -16,8 +16,8 @@ int main(void) {
   /* definitions */
   std::string config_dir(CONFIG_DIR);
 
-  /*----------*/
   /* start-up */
+  /*----------*/
   printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
 
   /* create the log file */
@@ -25,7 +25,10 @@ int main(void) {
   logstream clog(log_file, logstream::all);
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;
- 
+
+  /* check USB connection and set up data storage */
+  
+  
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
@@ -39,8 +42,8 @@ int main(void) {
   InstStatus();
   HvpsStatus();
 
-  /*---------------------*/
-  /* A typical 40min run */
+  /* typical run */
+  /*---------------*/
   printf("Starting acquisition run\n");
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 

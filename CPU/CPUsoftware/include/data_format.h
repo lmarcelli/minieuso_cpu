@@ -1,16 +1,14 @@
-/* CPU data format definition 
- * for storage of packets coming from the Zynq board
- * and ancillary instruments
- * 
- * Francesca Capel: capel.francesca@gmail.com
- * NB:the Mini-EUSO CPU is little endian 
-*/
-
 #ifndef _DATA_FORMAT_H
 #define _DATA_FORMAT_H
 
+/* CPU data format definition */
+/*----------------------------*/
+/* for storage of packets coming from the Zynq board and ancillary instruments */
+/* Francesca Capel: capel.francesca@gmail.com */
+/* NB:the Mini-EUSO CPU is little endian */
+
 /* instrument definitions */
-#define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM*/
+#define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */
 #define ID_TAG 0xAA55
 #define RUN_SIZE 25
 
@@ -29,7 +27,7 @@ typedef struct
 {
   uint16_t spacer = ID_TAG; /* AA55 HEX */
   uint32_t run_size; /* number of cpu packets in the run */
-  uint32_t crc;
+  uint32_t crc; /* checksum */
 } CpuFileTrailer; 
 
 /* generic packet header for all cpu packets and hk/scurve sub packets */
@@ -78,14 +76,13 @@ typedef struct
   float therm_data[16];
 } HK_PACKET;
 
-/* CPU packet for incoming data every 5.34 s */
+/* CPU packet for incoming data every 5.24 s */
 typedef struct
 {
   CpuPktHeader cpu_packet_header;
   CpuTimeStamp cpu_time;
   Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
   HK_PACKET hk_packet;
-  // uint32_t crc;
 } CPU_PACKET;
 
 /* scurve packet for checking pixels */
@@ -99,7 +96,6 @@ typedef struct
   uint16_t sc_add;
   uint8_t sc_data [SCURVE_FRAMES_MAX][N_OF_PIXEL_PER_PDM];
 } SCURVE_PACKET;
-
 
 /* CPU file to store one run */
 typedef struct

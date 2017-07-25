@@ -7,6 +7,9 @@
 
 #include <boost/crc.hpp>  
 
+/* functions for data organisation and writing to file */
+/*-----------------------------------------------------*/
+
 /* for use with CRC calculation in CloseCpuRun() */
 /* redefine this to change to processing buffer size */
 #ifndef PRIVATE_BUFFER_SIZE

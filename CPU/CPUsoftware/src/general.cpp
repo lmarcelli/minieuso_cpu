@@ -163,7 +163,7 @@ int CloseCpuRun(std::string cpu_file_name) {
   cpu_file_trailer->run_size = RUN_SIZE;
   cpu_file_trailer->crc = crc_result.checksum(); 
   
-  /* open the cpu run file */
+  /* open the cpu run file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
@@ -648,3 +648,4 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
   close(fd);
   return 0;
 }
+OB

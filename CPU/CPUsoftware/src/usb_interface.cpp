@@ -97,7 +97,8 @@ int lookup_usb() {
   libusb_context * ctx = NULL;
   int r;
   uint8_t port_nums[8];
-  ssize_t cnt, i, j;
+  ssize_t cnt, i;
+  size_t j;
 
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);

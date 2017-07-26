@@ -90,8 +90,8 @@ int check_usb() {
   return 0;
 }
 
-/* lookup usb devices connected and their ID */
-int lookup_usb() {
+/* lookup usb devices connected and identify them */
+uint8_t lookup_usb() {
   libusb_device ** all_devs;
   libusb_device * dev;
   libusb_context * ctx = NULL;
@@ -139,14 +139,14 @@ int lookup_usb() {
       //std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
       //std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
       
-      if (libusb_get_bus_number(dev) == STORAGE_BUS_1
-	  && libusb_get_port_number(dev) == STORAGE_PORT_1) {
-	std::cout << "storage device detected on port 1" << std::endl;
+      if (libusb_get_bus_number(dev) == STORAGE_BUS_0
+	  && libusb_get_port_number(dev) == STORAGE_PORT_0) {
+	std::cout << "storage device detected on port 0" << std::endl;
 	num_storage_dev++;
       }
-      else if (libusb_get_bus_number(dev) == STORAGE_BUS_2
-	       && libusb_get_port_number(dev) == STORAGE_PORT_2) {
-	std::cout << "storage device detected on port 2" << std::endl;
+      else if (libusb_get_bus_number(dev) == STORAGE_BUS_1
+	       && libusb_get_port_number(dev) == STORAGE_PORT_1) {
+	std::cout << "storage device detected on port 1" << std::endl;
 	num_storage_dev++;
       }      
     }
@@ -158,5 +158,5 @@ int lookup_usb() {
   libusb_free_device_list(all_devs, 1);
   libusb_exit(ctx);
   
-  return 0;  
+  return num_storage_dev;  
 }

@@ -26,10 +26,6 @@ int main(void) {
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;
 
-  /* check USB connection and set up data storage */
-  /* print the USB device connected */
-  lookup_usb();
-  
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
@@ -37,52 +33,51 @@ int main(void) {
   Config * ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */
-  //CheckTelnet(ZYNQ_IP, TELNET_PORT);
+  CheckTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* check the instrument and HV status */
-  //InstStatus();
-  //HvpsStatus();
+  InstStatus();
+  HvpsStatus();
 
   /* typical run */
-  /*---------------*/
- 
-  // printf("Starting acquisition run\n");
-  // clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
+  /*-------------*/
+  printf("Starting acquisition run\n");
+  clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
-  // /* enable signal handling */
-  // signal(SIGINT, SignalHandler);  
+  /* enable signal handling */
+  signal(SIGINT, SignalHandler);  
 
-  // /* create the run file */ 
-  // std::string current_run_file = CreateCpuRunName();
-  // CreateCpuRun(current_run_file);
+  /* create the run file */ 
+  std::string current_run_file = CreateCpuRunName(lookup_usb());
+  CreateCpuRun(current_run_file);
 
-  // /* turn on the HV */
-  // //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+  /* turn on the HV */
+  //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
 
-  // /* take an scurve */
-  // std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+  /* take an scurve */
+  std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
 
-  // Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
 
-  // check_sc.join();
+  check_sc.join();
   
-  // /* set the DAC level */
-  // SetDac(750); // in pedestal to give non-zero values with no HV
+  /* set the DAC level */
+  SetDac(750); // in pedestal to give non-zero values with no HV
 
-  // /* start checking for new files and appending */
-  // std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
+  /* start checking for new files and appending */
+  std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
   
-  // /* start the data acquisition */
-  // DataAcquisitionStart();
+  /* start the data acquisition */
+  DataAcquisitionStart();
 
-  // /* wait for data acquisition to complete */
-  // check_data.join();
+  /* wait for data acquisition to complete */
+  check_data.join();
 
-  // /* stop the data acquisition */
-  // DataAcquisitionStop();
+  /* stop the data acquisition */
+  DataAcquisitionStop();
   
-  // /* close the run file */
-  // CloseCpuRun(current_run_file);
+  /* close the run file */
+  CloseCpuRun(current_run_file);
   
   /* clean up */
   delete ConfigOut;

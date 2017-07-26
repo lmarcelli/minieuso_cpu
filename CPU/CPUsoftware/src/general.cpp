@@ -40,12 +40,20 @@ void SignalHandler(int signum) {
 }
 
 /* create cpu run file name */
-std::string CreateCpuRunName(void) {
+std::string CreateCpuRunName(uint8_t num_storage_dev) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
+  std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
-  std::string cpu_str = done_str + time_str;
+
+  /* write on USB if possible */
+  if (num_storage_dev == 1 || num_storage_dev == 2) {
+    std::string cpu_str = usb_str + time_str;
+  }
+  else {
+    std::string cpu_str = done_str + time_str;
+  }
   const char * kCpuCh = cpu_str.c_str();
 
   gettimeofday(&tv ,0);

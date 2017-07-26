@@ -47,7 +47,8 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 #define LOG_DIR "/home/software/CPU/CPUsoftware/log"
 #define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
-
+#define USB_MOUNTPOINT_0 "/media/usb0"
+#define USB_MOUNTPOINT_1 "/media/usb1"
 
 /* external variables */
 extern std::string log_name;

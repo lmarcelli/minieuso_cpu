@@ -94,6 +94,9 @@ int lookup_usb() {
   libusb_device ** all_devs;
   libusb_device * found = NULL;
   libusb_device * dev;
+  libusb_device * device;
+  
+  libusb_device_handle * handle;
   libusb_context * ctx = NULL;
   int r;
   ssize_t cnt, i;
@@ -123,8 +126,12 @@ int lookup_usb() {
   /* identify the devices */
   for (i = 0; i < cnt; i++) {
     dev = all_devs[i];
-    std::cout << "dev address: " << libusb_get_device_address(dev) << std::endl;
-    std::cout << "port no: " << libusb_get_port_number(dev) << std::endl;
+    found = dev;
+    libusb_open(found, &handle);
+    device = libusb_get_device(handle);
+    
+    std::cout << "dev address: " << libusb_get_device_address(device) << std::endl;
+    std::cout << "port no: " << libusb_get_port_number(device) << std::endl;
   }
   
   /* clean up */

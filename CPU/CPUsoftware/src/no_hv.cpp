@@ -48,8 +48,8 @@ int main(void) {
   signal(SIGINT, SignalHandler);  
 
   /* define data backup */
-  uint8_t num_storage_dev = lookup_usb();
-  std::thread run_backup (def_data_backup, num_storage_dev);
+  uint8_t num_storage_dev = LookupUsb();
+  std::thread run_backup (DefDataBackup, num_storage_dev);
   
   /* create the run file */ 
   std::string current_run_file = CreateCpuRunName(num_storage_dev);

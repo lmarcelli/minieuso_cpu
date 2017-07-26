@@ -46,13 +46,13 @@ std::string CreateCpuRunName(uint8_t num_storage_dev) {
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
-
+  std::string cpu_str;
   /* write on USB if possible */
   if (num_storage_dev == 1 || num_storage_dev == 2) {
-    std::string cpu_str = usb_str + time_str;
+    cpu_str = usb_str + time_str;
   }
   else {
-    std::string cpu_str = done_str + time_str;
+    cpu_str = done_str + time_str;
   }
   const char * kCpuCh = cpu_str.c_str();
 

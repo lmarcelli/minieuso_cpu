@@ -134,6 +134,11 @@ int lookup_usb() {
     /* identify the devices */
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
+
+      /* for debugging */
+      std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
+      std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
+      
       if (libusb_get_bus_number(dev) == STORAGE_BUS && libusb_get_port_number(dev) == STORAGE_PORT_1) {
 	std::cout << "storage device detected on port 1" << std::endl;
 	num_storage_dev++;
@@ -146,10 +151,11 @@ int lookup_usb() {
 	/* ignore the second duplicate entry */
 	ignore = 1;
       }
+      
     }
   }
 
-  std::cout << "There are " << num_storage_dev << "storage devices connected" << std::endl;
+  std::cout << "There are " << num_storage_dev << " storage devices connected" << std::endl;
  
   /* clean up */
   libusb_free_device_list(all_devs, 1);

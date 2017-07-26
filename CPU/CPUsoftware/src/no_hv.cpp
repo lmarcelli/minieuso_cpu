@@ -37,11 +37,11 @@ int main(void) {
   Config * ConfigOut = Configure(config_file, config_file_local);
 
   /* test the connection to the zynq board */
-  CheckTelnet(ZYNQ_IP, TELNET_PORT);
+  //CheckTelnet(ZYNQ_IP, TELNET_PORT);
   
   /* check the instrument and HV status */
-  InstStatus();
-  HvpsStatus();
+  //InstStatus();
+  //HvpsStatus();
 
   /* typical run */
   /*---------------*/

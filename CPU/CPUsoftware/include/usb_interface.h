@@ -7,5 +7,6 @@
 /*----------------------------------*/
 void printdev(libusb_device *dev);
 int check_usb();
+int lookup_usb();
 
 #endif

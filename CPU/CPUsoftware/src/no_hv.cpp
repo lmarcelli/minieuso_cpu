@@ -28,7 +28,7 @@ int main(void) {
 
   /* check USB connection and set up data storage */
   /* print the USB device connected */
-  check_usb();
+  lookup_usb();
   
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";

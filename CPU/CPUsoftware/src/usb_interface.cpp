@@ -93,7 +93,7 @@ int check_usb() {
 int lookup_usb() {
   libusb_device ** all_devs;
   libusb_device * found = NULL;
-  liusb_device * dev;
+  libusb_device * dev;
   libusb_context * ctx = NULL;
   int r;
   ssize_t cnt, i;

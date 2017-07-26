@@ -49,7 +49,7 @@ int main(void) {
 
   /* define data backup */
   uint8_t num_storage_dev = lookup_usb();
-  def_data_backup(num_storage_dev);
+  std::thread run_backup (def_data_backup, num_storage_dev);
   
   /* create the run file */ 
   std::string current_run_file = CreateCpuRunName(num_storage_dev);
@@ -82,6 +82,9 @@ int main(void) {
   
   /* close the run file */
   CloseCpuRun(current_run_file);
+
+  /* wait for backup to complete */
+  run_backup.join();
   
   /* clean up */
   delete ConfigOut;

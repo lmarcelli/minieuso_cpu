@@ -1,7 +1,7 @@
 #include "globals.h"
 
 /* print a description of usb devices connected */
-void printdev(libusb_device * dev) {
+void PrintDev(libusb_device * dev) {
 
   /* get the device descriptor */
   libusb_device_descriptor desc;
@@ -52,7 +52,7 @@ void printdev(libusb_device * dev) {
 }
 
 /* check the number of devices connected and print their info */
-int check_usb() {
+int CheckUsb() {
   libusb_device ** devs;
   libusb_context * ctx = NULL;
   int r;
@@ -79,7 +79,7 @@ int check_usb() {
 
   for (i = 0; i < cnt; i++) {
     /* print the specs of each device */
-    printdev(devs[i]);
+    PrintDev(devs[i]);
     std::cout << (int)libusb_get_port_number(devs[i]) << std::endl;
   }
 
@@ -91,7 +91,7 @@ int check_usb() {
 }
 
 /* lookup usb devices connected and identify them */
-uint8_t lookup_usb() {
+uint8_t LookupUsb() {
   libusb_device ** all_devs;
   libusb_device * dev;
   libusb_context * ctx = NULL;
@@ -162,7 +162,7 @@ uint8_t lookup_usb() {
 }
 
 /* define data backup based on usb_lookup() */
-int def_data_backup(uint8_t num_storage_dev) {
+int DefDataBackup(uint8_t num_storage_dev) {
 
   int ret = 0;
   std::string cmd;

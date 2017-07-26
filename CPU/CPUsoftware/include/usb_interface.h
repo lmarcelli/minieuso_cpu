@@ -16,9 +16,9 @@
 
 /* functions for the USB interfaces */
 /*----------------------------------*/
-void printdev(libusb_device *dev);
-int check_usb();
-uint8_t lookup_usb();
-int def_data_backup(uint8_t num_storage_dev);
+void PrintDev(libusb_device *dev);
+int CheckUsb();
+uint8_t LookupUsb();
+int DefDataBackup(uint8_t num_storage_dev);
 
 #endif

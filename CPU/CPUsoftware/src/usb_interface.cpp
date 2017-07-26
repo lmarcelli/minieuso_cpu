@@ -7,14 +7,14 @@ void printdev(libusb_device *dev) {
   libusb_device_descriptor desc;
   int r = libusb_get_device_descriptor(dev, &desc);
   if (r < 0) {
-    std::cout << "failed to get device descriptor" << endl;
+    std::cout << "failed to get device descriptor" << std::endl;
     return;
   }
   
   std::cout << "Number of possible configurations: " << (int)desc.bNumConfigurations << "  ";
   std::cout << "Device Class: " << (int)desc.bDeviceClass << "  ";
   std::cout << "VendorID: " << desc.idVendor << "  ";
-  std::cout << "ProductID: " << desc.idProduct << endl;
+  std::cout << "ProductID: " << desc.idProduct << std::endl;
 
   /* get the config descriptor */
   libusb_config_descriptor *config;

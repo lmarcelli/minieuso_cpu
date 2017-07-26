@@ -6,5 +6,6 @@
 /* functions for the USB interfaces */
 /*----------------------------------*/
 void printdev(libusb_device *dev);
+int check_usb();
 
 #endif

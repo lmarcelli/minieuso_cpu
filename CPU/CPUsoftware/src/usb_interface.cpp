@@ -95,10 +95,8 @@ int lookup_usb() {
   libusb_device ** all_devs;
   libusb_device * dev;
   libusb_context * ctx = NULL;
-  int r, num_storage_dev = 0;
-  uint8_t port_nums[8];
+  int r, num_storage_dev = 0, ignore = 0;
   ssize_t cnt, i;
-  size_t j;
 
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -136,12 +134,12 @@ int lookup_usb() {
     /* identify the devices */
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
-      if ((int)libusb_get_bus_number(dev) == STORAGE_BUS && (int)libusb_get_port_number == STORAGE_PORT_1) {
+      if (libusb_get_bus_number(dev) == STORAGE_BUS && libusb_get_port_number == STORAGE_PORT_1) {
 	std::cout << "storage device detected on port 1" << std::endl;
 	num_storage_dev++;
       }
-      else if (ignore = 0 && (int)libusb_get_bus_number(dev) == STORAGE_BUS
-	       && (int)libusb_get_port_number == STORAGE_PORT_2) {
+      else if (ignore == 0 && libusb_get_bus_number(dev) == STORAGE_BUS
+	       && libusb_get_port_number == STORAGE_PORT_2) {
 	std::cout << "storage device detected on port 2" << std::endl;
 	num_storage_dev++;
 

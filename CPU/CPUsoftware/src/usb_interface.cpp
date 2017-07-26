@@ -139,17 +139,18 @@ int lookup_usb() {
       std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
       std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
       
-      if (libusb_get_bus_number(dev) == STORAGE_BUS && libusb_get_port_number(dev) == STORAGE_PORT_1) {
+      if (libusb_get_bus_number(dev) == STORAGE_BUS_1
+	  && libusb_get_port_number(dev) == STORAGE_PORT_1) {
 	std::cout << "storage device detected on port 1" << std::endl;
 	num_storage_dev++;
       }
-      else if (ignore == 0 && libusb_get_bus_number(dev) == STORAGE_BUS
+      else if (libusb_get_bus_number(dev) == STORAGE_BUS_2
 	       && libusb_get_port_number(dev) == STORAGE_PORT_2) {
 	std::cout << "storage device detected on port 2" << std::endl;
 	num_storage_dev++;
-
-	/* ignore the second duplicate entry */
-	ignore = 1;
+      }
+      else {
+	std::cout << "no storage devices detected" << std::endl;
       }
       
     }

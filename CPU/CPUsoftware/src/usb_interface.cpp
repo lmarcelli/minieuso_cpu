@@ -80,6 +80,7 @@ int check_usb() {
   for (i = 0; i < cnt; i++) {
     /* print the specs of each device */
     printdev(devs[i]);
+    std::cout << (int)libusb_get_port_number(devs[i]) << std::endl;
   }
 
   /* clean up */
@@ -92,7 +93,7 @@ int check_usb() {
 /* lookup usb devices connected and their ID */
 int lookup_usb() {
   libusb_device ** all_devs;
-  libusb_device * found = NULL;
+  //libusb_device * found = NULL;
   libusb_device * dev;
   libusb_device * device;
   
@@ -126,12 +127,12 @@ int lookup_usb() {
   /* identify the devices */
   for (i = 0; i < cnt; i++) {
     dev = all_devs[i];
-    found = dev;
-    libusb_open(found, &handle);
-    device = libusb_get_device(handle);
+    //found = dev;
+    //libusb_open(found, &handle);
+    //device = libusb_get_device(handle);
     
-    std::cout << "dev address: " << libusb_get_device_address(device) << std::endl;
-    std::cout << "port no: " << libusb_get_port_number(device) << std::endl;
+    std::cout << "dev address: " << (int)libusb_get_device_address(dev) << std::endl;
+    std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
   }
   
   /* clean up */

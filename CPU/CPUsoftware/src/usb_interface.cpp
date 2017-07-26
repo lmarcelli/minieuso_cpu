@@ -166,6 +166,8 @@ int DefDataBackup(uint8_t num_storage_dev) {
 
   int ret = 0;
   std::string cmd;
+  std::string log_path(LOG_DIR);
+  std::string inotify_log = "/inotify.log";
   std::string mp_0(USB_MOUNTPOINT_0);
   std::string mp_1(USB_MOUNTPOINT_1);
 
@@ -179,7 +181,8 @@ int DefDataBackup(uint8_t num_storage_dev) {
 
     
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -d -r -e modify,create,delete " + mp_0 +
+    cmd = "while inotifywait -d -r -e modify,create,delete -o"
+      + log_path + inotify_log + " " + mp_0 +
       "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
 
     /* print the command */

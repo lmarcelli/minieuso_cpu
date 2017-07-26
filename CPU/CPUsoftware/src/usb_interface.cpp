@@ -93,14 +93,11 @@ int check_usb() {
 /* lookup usb devices connected and their ID */
 int lookup_usb() {
   libusb_device ** all_devs;
-  //libusb_device * found = NULL;
   libusb_device * dev;
-  libusb_device * device;
-  
-  libusb_device_handle * handle;
   libusb_context * ctx = NULL;
   int r;
-  ssize_t cnt, i;
+  uint8_t port_nums[8];
+  ssize_t cnt, i, j;
 
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -127,12 +124,17 @@ int lookup_usb() {
   /* identify the devices */
   for (i = 0; i < cnt; i++) {
     dev = all_devs[i];
-    //found = dev;
-    //libusb_open(found, &handle);
-    //device = libusb_get_device(handle);
+
+    (int)libusb_get_port_numbers(dev, port_nums, sizeof(port_nums));
     
     std::cout << "dev address: " << (int)libusb_get_device_address(dev) << std::endl;
+    std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
     std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
+    std::cout << "port no.s "; 
+    for (j = 0; j < sizeof(port_nums); j++) {
+      std::cout << port_nums[j]; 
+    }
+    std::cout << std::endl;
   }
   
   /* clean up */

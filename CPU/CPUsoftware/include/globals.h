@@ -32,6 +32,7 @@
 #include "dm75xx_library.h"
 #include "cpu_functions.h"
 #include "general.h"
+#include "usb_interface.h"
 #include "log.h"
 #include "pdmdata.h"
 #include "data_format.h"

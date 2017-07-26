@@ -14,7 +14,7 @@ TESTS = \
 all:    $(TESTS)
 
 no_hv: no_hv.cpp
-	$(CC) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp $(LIB_FLAGS) -o no_hv 
+	$(CC) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv 
 	mv no_hv $(OUTDIR)
 
 clean:

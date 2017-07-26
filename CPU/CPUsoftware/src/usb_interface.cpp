@@ -133,7 +133,7 @@ int lookup_usb() {
     std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
     std::cout << "port no.s "; 
     for (j = 0; j < sizeof(port_nums); j++) {
-      std::cout << port_nums[j]; 
+      std::cout << (int)port_nums[j]; 
     }
     std::cout << std::endl;
   }

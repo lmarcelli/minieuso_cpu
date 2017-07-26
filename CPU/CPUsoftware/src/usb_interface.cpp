@@ -177,9 +177,10 @@ int DefDataBackup(uint8_t num_storage_dev) {
   /* require 2+ storage devices for backup */
   if (num_storage_dev == 2) {
 
+    
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -r -e modify,create,delete " + mp_0 +
-      "; do rsync -avz " + mp_0 + " " + mp_1 + "; done";
+    cmd = "while inotifywait -d -e modify,create,delete " + mp_0 +
+      "/*; do rsync -avz " + mp_0 + " " + mp_1 + "; done > /dev/null 2>&1"; //quieten output
 
     /* print the command */
     std::cout << cmd << std::endl;

@@ -179,8 +179,8 @@ int DefDataBackup(uint8_t num_storage_dev) {
 
     
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -d -e modify,create,delete " + mp_0 +
-      "/*; do rsync -avz " + mp_0 + " " + mp_1 + "; done > /dev/null 2>&1"; //quieten output
+    cmd = "while inotifywait -d -r -e modify,create,delete " + mp_0 +
+      "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
 
     /* print the command */
     std::cout << cmd << std::endl;

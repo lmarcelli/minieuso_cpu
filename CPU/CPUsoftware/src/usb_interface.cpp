@@ -166,6 +166,8 @@ int def_data_backup(uint8_t num_storage_dev) {
 
   int ret = 0;
   std::string cmd;
+  std::string mp_0(USB_MOUNTPOINT_0);
+  std::string mp_1(USB_MOUNTPOINT_1);
 
   /* set up logging */
   std::ofstream log_file(log_name, std::ios::app);
@@ -176,8 +178,8 @@ int def_data_backup(uint8_t num_storage_dev) {
   if (num_storage_dev == 2) {
 
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -r -e modify,create,delete " + USB_MOUNTPOINT_1 +
-      "; do rsync -avz " + USB_MOUNTPOINT_1 + " " + USB_MOUNTPOINT_2 + "; done";
+    cmd = "while inotifywait -r -e modify,create,delete " + mp_0 +
+      "; do rsync -avz " + mp_0 + " " + mp_1 + "; done";
 
     /* print the command */
     std::cout << cmd << std::endl;

@@ -134,12 +134,12 @@ int lookup_usb() {
     /* identify the devices */
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
-      if (libusb_get_bus_number(dev) == STORAGE_BUS && libusb_get_port_number == STORAGE_PORT_1) {
+      if (libusb_get_bus_number(dev) == STORAGE_BUS && libusb_get_port_number(dev) == STORAGE_PORT_1) {
 	std::cout << "storage device detected on port 1" << std::endl;
 	num_storage_dev++;
       }
       else if (ignore == 0 && libusb_get_bus_number(dev) == STORAGE_BUS
-	       && libusb_get_port_number == STORAGE_PORT_2) {
+	       && libusb_get_port_number(dev) == STORAGE_PORT_2) {
 	std::cout << "storage device detected on port 2" << std::endl;
 	num_storage_dev++;
 

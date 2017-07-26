@@ -95,7 +95,7 @@ int lookup_usb() {
   libusb_device ** all_devs;
   libusb_device * dev;
   libusb_context * ctx = NULL;
-  int r, num_storage_dev = 0, ignore = 0;
+  int r, num_storage_dev = 0;
   ssize_t cnt, i;
 
   /* set up logging */
@@ -136,8 +136,8 @@ int lookup_usb() {
       dev = all_devs[i];
 
       /* for debugging */
-      std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-      std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
+      //std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
+      //std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
       
       if (libusb_get_bus_number(dev) == STORAGE_BUS_1
 	  && libusb_get_port_number(dev) == STORAGE_PORT_1) {
@@ -148,11 +148,7 @@ int lookup_usb() {
 	       && libusb_get_port_number(dev) == STORAGE_PORT_2) {
 	std::cout << "storage device detected on port 2" << std::endl;
 	num_storage_dev++;
-      }
-      else {
-	std::cout << "no storage devices detected" << std::endl;
-      }
-      
+      }      
     }
   }
 

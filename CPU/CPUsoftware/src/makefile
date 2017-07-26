@@ -3,7 +3,7 @@ OPTIMIZE_FLAGS=-O3
 DEBUG_FLAGS=-g
 WARNING_FLAGS=-Wall
 INCLUDE_FLAGS:=-I../include
-LIB_FLAGS:=-L../lib -lrtd-dm75xx -lm -lpthread
+LIB_FLAGS:=-L../lib -lrtd-dm75xx -lm -lpthread -lusb
 CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(DEBUG_FLAGS)
 
 OUTDIR = ../bin/

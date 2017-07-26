@@ -181,7 +181,7 @@ int DefDataBackup(uint8_t num_storage_dev) {
 
     
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -d -r -e modify,create,delete -o"
+    cmd = "while inotifywait -d -r -e modify,create,delete -o "
       + log_path + inotify_log + " " + mp_0 +
       "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
 

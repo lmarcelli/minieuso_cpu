@@ -19,5 +19,6 @@
 void printdev(libusb_device *dev);
 int check_usb();
 uint8_t lookup_usb();
+int def_data_backup(uin8_t num_storage_dev);
 
 #endif

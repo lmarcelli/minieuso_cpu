@@ -47,8 +47,12 @@ int main(void) {
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  
 
+  /* define data backup */
+  uint8_t num_storage_dev = lookup_usb();
+  def_data_backup(num_storage_dev);
+  
   /* create the run file */ 
-  std::string current_run_file = CreateCpuRunName(lookup_usb());
+  std::string current_run_file = CreateCpuRunName(num_storage_dev);
   CreateCpuRun(current_run_file);
 
   /* turn on the HV */

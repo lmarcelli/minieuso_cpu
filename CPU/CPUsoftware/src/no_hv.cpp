@@ -72,7 +72,7 @@ int main(void) {
   std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
   
   /* start the data acquisition */
-  DataAcquisitionStart();
+  //  DataAcquisitionStart();
 
   /* wait for data acquisition to complete */
   check_data.join();

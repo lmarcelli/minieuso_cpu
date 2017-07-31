@@ -66,7 +66,7 @@ int main(void) {
   check_sc.join();
   
   /* set the DAC level */
-  SetDac(750); // in pedestal to give non-zero values with no HV
+  SetDac(500); // in pedestal to give non-zero values with no HV
 
   /* start checking for new files and appending */
   std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);

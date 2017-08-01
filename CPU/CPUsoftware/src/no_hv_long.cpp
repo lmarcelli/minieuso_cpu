@@ -82,7 +82,7 @@ int main(void) {
     check_sc.join();
   
     /* set the DAC level */
-    SetDac(DAC_LEVEL); 
+    SetDac(ConfigOut.dac_level); 
 
     /* start checking for new files and appending */
     std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);

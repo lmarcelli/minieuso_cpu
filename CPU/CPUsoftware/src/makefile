@@ -1,4 +1,5 @@
-CC=g++
+CC=gcc
+CXX=g++
 OPTIMIZE_FLAGS=-O3
 DEBUG_FLAGS=-g
 WARNING_FLAGS=-Wall
@@ -10,11 +11,16 @@ OUTDIR = ../bin/
 
 TESTS = \
 	no_hv \
+	no_hv_long \
 
 all:    $(TESTS)
 
 no_hv: no_hv.cpp
-	$(CC) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv 
+	$(CXX) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv 
+	mv no_hv $(OUTDIR)
+
+no_hv_long: no_hv_long.cpp
+	$(CXX) $(CFLAGS) no_hv_long.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv_long 
 	mv no_hv $(OUTDIR)
 
 clean:

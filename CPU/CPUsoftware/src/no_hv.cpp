@@ -1,9 +1,10 @@
 /*-------------------------------
                                  
-TEST CPU PROGRAM                 
-V1.8: July 2017                 
+TEST CPU PROGRAM: 1 RUN                 
+V1.9: August 2017                 
                                  
 Full PDM data acquisition chain	 
+Acquires one ~2 min CPU file then stops
                                   
 Francesca Capel                  
 capel.francesca@gmail.com         

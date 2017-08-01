@@ -21,7 +21,7 @@ no_hv: no_hv.cpp
 
 no_hv_long: no_hv_long.cpp
 	$(CXX) $(CFLAGS) no_hv_long.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv_long 
-	mv no_hv $(OUTDIR)
+	mv no_hv_long $(OUTDIR)
 
 clean:
 	rm -f *.o *.dat *~ $(TESTS)

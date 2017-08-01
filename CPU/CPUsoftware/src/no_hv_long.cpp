@@ -49,12 +49,13 @@ int main(void) {
     clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
     /* clear the FTP directory */
-    DIR * theFolder = opendir(DATA_DIR);
+    std::string data_dir(DATA_DIR);
+    DIR * theFolder = opendir(data_dir);
     struct dirent * next_file;
     char filepath[256];
 
     while ((next_file = readdir(theFolder)) != NULL) {
-        sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
+        sprintf(filepath, "%s/%s", data_dir, next_file->d_name);
         remove(filepath);
     }
     closedir(theFolder);

@@ -49,13 +49,12 @@ int main(void) {
     clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
     /* clear the FTP directory */
-    std::string data_dir(DATA_DIR);
-    DIR * theFolder = opendir(data_dir);
+    DIR * theFolder = opendir(DATA_DIR);
     struct dirent * next_file;
     char filepath[256];
 
     while ((next_file = readdir(theFolder)) != NULL) {
-        sprintf(filepath, "%s/%s", data_dir, next_file->d_name);
+        sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
         remove(filepath);
     }
     closedir(theFolder);
@@ -82,7 +81,7 @@ int main(void) {
     check_sc.join();
   
     /* set the DAC level */
-    SetDac(ConfigOut.dac_level); 
+    SetDac(ConfigOut->dac_level); 
 
     /* start checking for new files and appending */
     std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);

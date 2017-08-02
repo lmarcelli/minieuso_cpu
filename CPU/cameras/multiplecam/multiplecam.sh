@@ -49,11 +49,15 @@ echo "FILE STATUS NIR $file_status_nir VIS $file_status_vis"
 
 # create a new directory to store images
 # edited to store directly on the USB
-STORAGE_DIR="/media/usb0"
+#STORAGE_DIR="/media/usb0"
 DATE=`date +%Y-%m-%d.%H-%M-%S`
-mkdir -p $STORAGE_DIR/$DATE
-mkdir -p $STORAGE_DIR/$DATE/NIR
-mkdir -p $STORAGE_DIR/$DATE/VIS
+#mkdir -p $STORAGE_DIR/$DATE
+#mkdir -p $STORAGE_DIR/$DATE/NIR
+#mkdir -p $STORAGE_DIR/$DATE/VIS
+mkdir -p $DATE
+mkdir -p $DATE/NIR
+mkdir -p $DATE/VIS
+
 #enter into the new directory
 cd $DATE
 # launch main camera acquisition streaming program and save screen output to log file 

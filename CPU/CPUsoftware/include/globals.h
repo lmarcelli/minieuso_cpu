@@ -1,8 +1,8 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define VERSION 1.9
-#define VERSION_DATE_STRING "01/08/2017"
+#define VERSION 2.0
+#define VERSION_DATE_STRING "21/09/2017"
 
 #include <stdlib.h>
 #include <unistd.h>

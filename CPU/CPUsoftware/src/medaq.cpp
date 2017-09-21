@@ -1,22 +1,51 @@
 /*-------------------------------
                                  
-TEST CPU PROGRAM: 1 RUN                 
-V1.9: August 2017                 
-                                 
-Full PDM data acquisition chain	 
-Acquires one ~2 min CPU file then stops
+Mini-EUSO CPU software                 
+V2.0: September 2017                 
                                   
 Francesca Capel                  
 capel.francesca@gmail.com         
                                  
 --------------------------------*/
 #include "globals.h"
+#include <algorithm>
 
-int main(void) {
+class InputParser{
+public:
+  InputParser(int &argc, char **argv) {
+    for (int i=1; i < argc; i++)
+      this->tokens.push_back(std::string(argv[i]));
+  }
+  
+  const std::string& getCmdOption(const std::string &option) const {
+    std::vector<std::string>::const_iterator itr;
+    itr =  std::find(this->tokens.begin(), this->tokens.end(), option);
+    if (itr != this->tokens.end() && itr++ != this->tokens.end()){
+      return *itr;
+    }
+    static const std::string empty_string("");
+    return empty_string;
+  }
+  
+  bool cmdOptionExists(const std::string &option) const{
+    return std::find(this->tokens.begin(), this->tokens.end(), option)
+      != this->tokens.end();
+  }
+private:
+  std::vector <std::string> tokens;
+};
+
+int main(int argc, char ** argv) {
 
   /* definitions */
   std::string config_dir(CONFIG_DIR);
-
+  InputParser input(arg, argv);
+  
+  /* parse command line options */
+  if(input.cmdOptionExists("-hv")){
+    bool hv_on = true;
+  }
+  
   /* start-up */
   /*----------*/
   printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
@@ -56,9 +85,12 @@ int main(void) {
   std::string current_run_file = CreateCpuRunName(num_storage_dev);
   CreateCpuRun(current_run_file);
 
-  /* turn on the HV */
-  //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
-
+  if(hv_on == true) {
+    std::cout << "hv on test!" << std::endl;
+    /* turn on the HV */
+    //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+  }
+  
   /* take an scurve */
   std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
 

@@ -10,18 +10,13 @@ CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(DEBUG_F
 OUTDIR = ../bin/
 
 TESTS = \
-	no_hv \
-	no_hv_long \
+	medaq \
 
 all:    $(TESTS)
 
-no_hv: no_hv.cpp
-	$(CXX) $(CFLAGS) no_hv.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv 
-	mv no_hv $(OUTDIR)
-
-no_hv_long: no_hv_long.cpp
-	$(CXX) $(CFLAGS) no_hv_long.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o no_hv_long 
-	mv no_hv_long $(OUTDIR)
+medaq: medaq.cpp
+	$(CXX) $(CFLAGS) medaq.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o medaq 
+	mv medaq $(OUTDIR)
 
 clean:
 	rm -f *.o *.dat *~ $(TESTS)

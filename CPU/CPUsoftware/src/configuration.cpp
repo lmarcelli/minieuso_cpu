@@ -1,7 +1,18 @@
 #include "configuration.h"
 
+ConfigManager::ConfigManager () {
+  config_file_local = CONFIG_FILE_LOCAL;
+  config_file = CONFIG_FILE_USB;
+    
+};
+
+ConfigManager::ConfigManager (std::string cfl, std::string cf) {
+  config_file_local = cfl;
+  config_file = cf;
+};
+
 /* copy a file */
-bool CopyFile(const char * SRC, const char * DEST) {
+bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
   std::ifstream src(SRC, std::ios::binary);
   std::ofstream dest(DEST, std::ios::binary);
   dest << src.rdbuf();
@@ -9,7 +20,7 @@ bool CopyFile(const char * SRC, const char * DEST) {
 }
 
 /* parsing a configuration file */
-Config * Parse(std::string config_file_local) {
+Config * ConfigManager::Parse(std::string config_file_local) {
   std::ofstream log_file(log_name,std::ios::app);
   logstream clog(log_file, logstream::all);
   std::string line;
@@ -71,7 +82,7 @@ Config * Parse(std::string config_file_local) {
 
 
 /* reload and parse a configuration file */
-Config * Configure(std::string config_file, std::string config_file_local) {
+Config * ConfigManager::Configure(std::string config_file, std::string config_file_local) {
 
   /* definitions */
   const char * kCfg = config_file.c_str();

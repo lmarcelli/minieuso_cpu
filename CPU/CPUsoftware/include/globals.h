@@ -33,8 +33,7 @@
 #include <streambuf>
 #include <csignal>
 
-#include "dm75xx_library.h"
-#include "cpu_functions.h"
+#include "configuration.h"
 #include "general.h"
 #include "usb_interface.h"
 #include "log.h"

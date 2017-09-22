@@ -1,7 +1,16 @@
 #ifndef __MODULE_LOG__
 #define __MODULE_LOG__
 
-#include "globals.h"
+#include <sys/time.h>
+
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+
+#define LOG_DIR "/home/software/CPU/CPUsoftware/log"
+
+/* function declarations */
+std::string CreateLogname(void);
 
 /*logging class with different output levels and timestamp */
 class logstream: public std::ostringstream {
@@ -99,6 +108,9 @@ inline logstream & operator<<(logstream & out, const __logstream_level & level )
 }
 
 namespace std { inline logstream & endl(logstream & out) { out.put('\n'); out.flush(); return out; } }
+
+/* external variables */
+extern std::string log_name;
 
 #endif
 /* __MODULE_LOG__ */

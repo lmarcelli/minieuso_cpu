@@ -3,8 +3,16 @@
 
 #include <libusb-1.0/libusb.h>
 
+#include <iostream>
+#include <fstream>
+
+#include "log.h"
+
 #define MIN_DEVICE_NUM 6 /* number of devices without extra storage or config USBs */
 #define NOMINAL_DEVICE_NUM 9 /* number of devices expected */
+
+#define USB_MOUNTPOINT_0 "/media/usb0"
+#define USB_MOUNTPOINT_1 "/media/usb1"
 
 /* configuration for spare CPU in Stockholm */
 #define STORAGE_BUS_0 1
@@ -22,3 +30,4 @@ uint8_t LookupUsb();
 int DefDataBackup(uint8_t num_storage_dev);
 
 #endif
+/* _USB_INTERFACE_H */

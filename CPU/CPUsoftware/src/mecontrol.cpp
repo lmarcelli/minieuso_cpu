@@ -39,11 +39,15 @@ int main(int argc, char ** argv) {
   /* definitions */
   std::string config_dir(CONFIG_DIR);
   InputParser input(argc, argv);
-  bool hv_on = false;
   
   /* parse command line options */
+  bool hv_on = false;
+  bool long_acq = false;
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
+  }
+  if(input.cmdOptionExists("-l")){
+    long_acq = true;
   }
   
   /* start-up */
@@ -69,56 +73,123 @@ int main(int argc, char ** argv) {
   InstStatus();
   HvpsStatus();
 
-  /* typical run */
-  /*-------------*/
-  printf("Starting acquisition run\n");
-  clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
-
-  /* enable signal handling */
-  signal(SIGINT, SignalHandler);  
-
-  /* define data backup */
-  uint8_t num_storage_dev = LookupUsb();
-  std::thread run_backup (DefDataBackup, num_storage_dev);
-  
-  /* create the run file */ 
-  std::string current_run_file = CreateCpuRunName(num_storage_dev);
-  CreateCpuRun(current_run_file);
-
-  if(hv_on == true) {
-    std::cout << "hv on test!" << std::endl;
-    /* turn on the HV */
-    //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+  if(long_acq == true){
+    /* start infinite loop over acquisition */
+    while(1) {
+      /* one file run */
+      /*-------------*/
+      printf("Starting infinite acquisition run\n");
+      clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
+      
+      /* clear the FTP directory */
+      DIR * theFolder = opendir(DATA_DIR);
+      struct dirent * next_file;
+      char filepath[256];
+      
+      while ((next_file = readdir(theFolder)) != NULL) {
+        sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
+        remove(filepath);
+      }
+      closedir(theFolder);
+    
+      /* enable signal handling */
+      signal(SIGINT, SignalHandler);  
+      
+      /* define data backup */
+      uint8_t num_storage_dev = LookupUsb();
+      std::thread run_backup (DefDataBackup, num_storage_dev);
+      
+      /* create the run file */ 
+      std::string current_run_file = CreateCpuRunName(num_storage_dev);
+      CreateCpuRun(current_run_file);
+      
+      /* turn on the HV */
+      //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+      
+      /* take an scurve */
+      std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+      
+      Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+      
+      check_sc.join();
+      
+      /* set the DAC level */
+      SetDac(ConfigOut->dac_level); 
+      
+      /* start checking for new files and appending */
+      std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
+      
+      /* start the data acquisition */
+      DataAcquisitionStart();
+      
+      /* wait for data acquisition to complete */
+      check_data.join();
+      
+      /* stop the data acquisition */
+      DataAcquisitionStop();
+      
+      /* close the run file */
+      CloseCpuRun(current_run_file);
+      
+    /* wait for backup to complete */
+      run_backup.join();
+    }
+    
+    /* never reached, clean up on interrupt */
+    return 0;
   }
-  
-  /* take an scurve */
-  std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+  else{
+    /* typical run */
+    /*-------------*/
+    printf("Starting acquisition run\n");
+    clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
-  Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+    /* enable signal handling */
+    signal(SIGINT, SignalHandler);  
+    
+    /* define data backup */
+    uint8_t num_storage_dev = LookupUsb();
+    std::thread run_backup (DefDataBackup, num_storage_dev);
+    
+    /* create the run file */ 
+    std::string current_run_file = CreateCpuRunName(num_storage_dev);
+    CreateCpuRun(current_run_file);
+    
+    if(hv_on == true) {
+      std::cout << "hv on test!" << std::endl;
+      /* turn on the HV */
+      //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+    }
+    
+    /* take an scurve */
+    std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
+    
+    Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+    
+    check_sc.join();
+    
+    /* set the DAC level */
+    SetDac(500); // in pedestal to give non-zero values with no HV
+    
+    /* start checking for new files and appending */
+    std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
+    
+    /* start the data acquisition */
+    DataAcquisitionStart();
+    
+    /* wait for data acquisition to complete */
+    check_data.join();
+    
+    /* stop the data acquisition */
+    DataAcquisitionStop();
+    
+    /* close the run file */
+    CloseCpuRun(current_run_file);
 
-  check_sc.join();
-  
-  /* set the DAC level */
-  SetDac(500); // in pedestal to give non-zero values with no HV
+    /* wait for backup to complete */
+    run_backup.join();
+  }
 
-  /* start checking for new files and appending */
-  std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
-  
-  /* start the data acquisition */
-  DataAcquisitionStart();
-
-  /* wait for data acquisition to complete */
-  check_data.join();
-
-  /* stop the data acquisition */
-  DataAcquisitionStop();
-  
-  /* close the run file */
-  CloseCpuRun(current_run_file);
-
-  /* wait for backup to complete */
-  run_backup.join();
-  
   /* clean up */
   delete ConfigOut;
   return 0; 

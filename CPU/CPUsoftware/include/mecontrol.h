@@ -2,7 +2,7 @@
 #define _MECONTROL_H
 
 #include <stdlib.h>
-
+#include <dirent.h>
 #include <string>
 #include <algorithm>
 #include <vector>

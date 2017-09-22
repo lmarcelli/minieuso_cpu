@@ -4,6 +4,10 @@
 #define VERSION 2.0
 #define VERSION_DATE_STRING "21/09/2017"
 
+#ifndef __APPLE__
+#include <sys/inotify.h>
+#endif
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -16,7 +20,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/inotify.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>

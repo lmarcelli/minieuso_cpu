@@ -9,6 +9,7 @@ capel.francesca@gmail.com
 --------------------------------*/
 #include "globals.h"
 #include <algorithm>
+#include <vector>
 
 class InputParser{
 public:
@@ -39,7 +40,7 @@ int main(int argc, char ** argv) {
 
   /* definitions */
   std::string config_dir(CONFIG_DIR);
-  InputParser input(arg, argv);
+  InputParser input(argc, argv);
   
   /* parse command line options */
   if(input.cmdOptionExists("-hv")){

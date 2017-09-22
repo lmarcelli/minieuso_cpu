@@ -7,6 +7,8 @@
 /* Francesca Capel: capel.francesca@gmail.com */
 /* NB:the Mini-EUSO CPU is little endian */
 
+#include "pdmdata.h"
+
 /* instrument definitions */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */
 #define ID_TAG 0xAA55
@@ -15,6 +17,7 @@
 #pragma pack(push, 1) /* force no padding in structs */
 
 /* cpu file header */
+/* 10 bytes */
 typedef struct
 {
   uint16_t spacer = ID_TAG; /* AA55 HEX */
@@ -23,6 +26,7 @@ typedef struct
 } CpuFileHeader; 
 
 /* cpu file trailer */
+/* 10 bytes */
 typedef struct
 {
   uint16_t spacer = ID_TAG; /* AA55 HEX */
@@ -32,6 +36,7 @@ typedef struct
 
 /* generic packet header for all cpu packets and hk/scurve sub packets */
 /* the zynq packet has its own header defined in pdmdata.h */
+/* 14 bytes */
 typedef struct
 {
   uint16_t spacer = ID_TAG; /* AA55 HEX */
@@ -59,6 +64,7 @@ typedef struct
 
 /* Timestamp structure in binary format */
 /* Year 0=2017, 1=2018, 2=2019, 3=... */
+/* 4 bytes */
 typedef struct
 {
   uint32_t cpu_time_stamp; // y | m | d | h | m | s | 0 | 0 
@@ -66,30 +72,33 @@ typedef struct
 
 
 /* housekeeping packet for other data */
+/* 358 bytes */
 typedef struct
 {
-  CpuPktHeader hk_packet_header;
-  CpuTimeStamp hk_time;
-  float photodiode_data[4];
+  CpuPktHeader hk_packet_header; /* 14 bytes */
+  CpuTimeStamp hk_time; /* 4 bytes */
+  float photodiode_data[4]; 
   float sipm_data[64];
   float sipm_single;
   float therm_data[16];
 } HK_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
+/* 2064784 bytes */
 typedef struct
 {
-  CpuPktHeader cpu_packet_header;
-  CpuTimeStamp cpu_time;
-  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet;
-  HK_PACKET hk_packet;
+  CpuPktHeader cpu_packet_header; /* 14 bytes */
+  CpuTimeStamp cpu_time; /* 4 bytes */
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet; /* 2064408 bytes */
+  HK_PACKET hk_packet; /* 358 bytes */
 } CPU_PACKET;
 
 /* scurve packet for checking pixels */
+/* 232730 bytes */
 typedef struct
 {
-  CpuPktHeader sc_packet_header;
-  CpuTimeStamp sc_time;
+  CpuPktHeader sc_packet_header; /* 14 bytes */
+  CpuTimeStamp sc_time; /* 4 bytes */
   uint16_t sc_start;
   uint16_t sc_step;
   uint16_t sc_stop;
@@ -98,12 +107,13 @@ typedef struct
 } SCURVE_PACKET;
 
 /* CPU file to store one run */
+/* 51852350 bytes */
 typedef struct
 {
-  CpuFileHeader cpu_file_header;
-  SCURVE_PACKET scurve_packet;
-  CPU_PACKET cpu_run_payload[RUN_SIZE];
-  CpuFileTrailer cpu_file_trailer;
+  CpuFileHeader cpu_file_header; /* 10 bytes */
+  SCURVE_PACKET scurve_packet; /* 232730 bytes */
+  CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 51619600 bytes */
+  CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } CPU_FILE;
 
 #pragma pack(pop) /* return to normal packing */

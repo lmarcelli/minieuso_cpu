@@ -12,6 +12,7 @@
 #include <arpa/inet.h>
 
 #include <fstream>
+#include <algorithm>
 
 #include "log.h"
 

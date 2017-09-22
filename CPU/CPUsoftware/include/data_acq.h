@@ -15,7 +15,7 @@
 
 /* functions for data organisation and writing to file */
 /*-----------------------------------------------------*/
-
+#define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
 #define USB_MOUNTPOINT_0 "/media/usb0"
 #define USB_MOUNTPOINT_1 "/media/usb1"

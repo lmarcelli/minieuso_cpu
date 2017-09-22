@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <copyfile.h>
-#include <dirent.h>
 
 #include <string>
 #include <fstream>

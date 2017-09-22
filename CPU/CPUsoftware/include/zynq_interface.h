@@ -2,6 +2,8 @@
 #define _ZYNQ_INTERFACE_H
 
 #include <unistd.h>
+#include <strings.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>

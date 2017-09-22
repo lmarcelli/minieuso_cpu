@@ -4,6 +4,7 @@
 #include <boost/crc.hpp>  
 #ifndef __APPLE__
 #include <sys/inotify.h>
+#include "dm75xx_library.h"
 #endif
 
 #include "log.h"

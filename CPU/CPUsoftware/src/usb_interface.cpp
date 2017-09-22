@@ -1,4 +1,4 @@
-#include "globals.h"
+#include "usb_interface.h"
 
 /* print a description of usb devices connected */
 void PrintDev(libusb_device * dev) {
@@ -198,3 +198,4 @@ int DefDataBackup(uint8_t num_storage_dev) {
 
   return 0;
 }
+

@@ -19,13 +19,13 @@ endif
 OUTDIR = ../bin/
 
 TESTS = \
-	medaq \
+	mecontrol \
 
 all:    $(TESTS)
 
-medaq: medaq.cpp
-	$(CXX) $(CFLAGS) medaq.cpp globals.cpp cpu_functions.cpp general.cpp usb_interface.cpp $(LIB_FLAGS) -o medaq 
-	mv medaq $(OUTDIR)
+mecontrol: mecontrol.cpp
+	$(CXX) $(CFLAGS) mecontrol.cpp log.cpp configuration.cpp zynq_interface.cpp data_acq.cpp usb_interface.cpp $(LIB_FLAGS) -o mecontrol 
+	mv mecontrol $(OUTDIR)
 
 clean:
 	rm -f *.o *.dat *~ $(TESTS)

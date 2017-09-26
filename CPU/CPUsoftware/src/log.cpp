@@ -2,6 +2,10 @@
 
 std::string log_name = CreateLogname(); 
 
+/* logging definition */
+std::ofstream log_file(log_name, std::ios::out);
+logstream clog(log_file, logstream::quiet);
+
 /* create log file name */
 std::string CreateLogname(void) {
   struct timeval tv;

@@ -17,22 +17,17 @@
 
 class ConfigManager {
 private:
-  std::string config_file_local;
-  std::string config_file;
   bool CopyFile(const char * SRC, const char * DEST);
-  Config * Parse(std::string config_file_local);
+  Config * Parse();
   
 public:
+  std::string config_file_local;
+  std::string config_file;
+  
   ConfigManager();
   ConfigManager(std::string, std::string);
-  Config * Configure(std::string config_file, std::string config_file_local);
+  Config * Configure();
   
 };
-
-/* functions for configuration */
-/*-----------------------------*/
-//bool CopyFile(const char * SRC, const char * DEST);
-//Config * Parse(std::string config_file_local);
-//Config * Configure(std::string config_file, std::string config_file_local);
 
 #endif

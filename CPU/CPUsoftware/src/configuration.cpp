@@ -1,28 +1,37 @@
 #include "configuration.h"
 
+/* default constructor */
 ConfigManager::ConfigManager () {
   config_file_local = CONFIG_FILE_LOCAL;
   config_file = CONFIG_FILE_USB;
     
 };
 
+/* constructor */
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   config_file_local = cfl;
   config_file = cf;
 };
 
 /* copy a file */
-bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
+bool ConfigManager::CopyFile(const char * SRC, const char * DEST) { 
+
   std::ifstream src(SRC, std::ios::binary);
   std::ofstream dest(DEST, std::ios::binary);
-  dest << src.rdbuf();
+
+  /* check file exists */
+  if (src.good() && dest.good()) {
+    clog << "info: " << logstream::info << "copying " << SRC << "to " << DEST << std::endl; 
+    dest << src.rdbuf();
+  }
+  else {
+    clog << "info: " << logstream::info << "reading from the configuration file" << std::endl; 
+  }
   return src && dest;
 }
 
-/* parsing a configuration file */
-Config * ConfigManager::Parse(std::string config_file_local) {
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+/* parse a configuration file */
+Config * ConfigManager::Parse() {
   std::string line;
   std::string config_file_name;
 
@@ -33,6 +42,7 @@ Config * ConfigManager::Parse(std::string config_file_local) {
   std::stringstream cf;
   cf << config_file_local;
   config_file_name = cf.str();
+
   cfg_file.open(config_file_name.c_str());
 
   if (cfg_file.is_open()) {
@@ -75,6 +85,7 @@ Config * ConfigManager::Parse(std::string config_file_local) {
   }
   else {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
+    std::cout << "error: cannot open the configuration file" << std::endl;
   }
   
   return Output;
@@ -82,18 +93,15 @@ Config * ConfigManager::Parse(std::string config_file_local) {
 
 
 /* reload and parse a configuration file */
-Config * ConfigManager::Configure(std::string config_file, std::string config_file_local) {
+Config * ConfigManager::Configure() {
 
   /* definitions */
   const char * kCfg = config_file.c_str();
   const char * kCfgLocal = config_file_local.c_str();
   Config * ParseOutput = NULL;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
-  clog << "info: " << logstream::info << "running configuration" << std::endl;
 
+  clog << "info: " << logstream::info << "running configuration" << std::endl;
+  
   if (FILE *file = fopen(kCfg, "r")) {
 
     /* copy the file locally */ 
@@ -105,7 +113,7 @@ Config * ConfigManager::Configure(std::string config_file, std::string config_fi
     }
 
     /* parse the file */
-    ParseOutput = Parse(config_file_local);
+    ParseOutput = Parse();
 
     fclose(file);    
   }

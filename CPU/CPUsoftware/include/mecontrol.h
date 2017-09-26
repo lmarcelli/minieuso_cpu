@@ -20,7 +20,6 @@
 #define HOME_DIR "/home/software/CPU"
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
-#define LOG_DIR "/home/software/CPU/CPUsoftware/log"
 
 #endif
 /* _MECONTROL_H */

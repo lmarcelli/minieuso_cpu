@@ -3,16 +3,21 @@
 
 #include <sys/time.h>
 
+#include <fstream>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
 
+#ifndef __APPLE__
 #define LOG_DIR "/home/software/CPU/CPUsoftware/log"
+#else
+#define LOG_DIR "../log"
+#endif
 
 /* function declarations */
 std::string CreateLogname(void);
 
-/*logging class with different output levels and timestamp */
+/* logging class with different output levels and timestamp */
 class logstream: public std::ostringstream {
  public:
   typedef
@@ -111,6 +116,7 @@ namespace std { inline logstream & endl(logstream & out) { out.put('\n'); out.fl
 
 /* external variables */
 extern std::string log_name;
+extern logstream clog;
 
 #endif
 /* __MODULE_LOG__ */

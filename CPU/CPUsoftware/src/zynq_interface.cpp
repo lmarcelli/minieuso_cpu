@@ -11,7 +11,7 @@ int CheckTelnet(std::string ip_address, int portno) {
   const char * ip = ip_address.c_str();
 
   /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
+  std::ofstream log_file(log_name, std::ios::app);
   logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking connection to IP " << ip_address  << std::endl;
  

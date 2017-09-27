@@ -34,6 +34,20 @@ private:
   std::vector <std::string> tokens;
 };
 
+/* handle SIGINT */
+void SignalHandler(int signum) {
+  ZynqManager ZqManager;
+  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
+  std::cout << "Stopping the acquisition" << std::endl;
+  
+  /* handle the signal*/
+  ZqManager.DataAcquisitionStop();
+  std::cout << "Acquisition stopped" << std::endl;  
+  
+  /* terminate the program */
+  exit(signum);  
+}
+
 /* main program */
 /*--------------*/
 int main(int argc, char ** argv) {

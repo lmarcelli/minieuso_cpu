@@ -13,8 +13,6 @@
 #include "data_format.h"
 #include "configuration.h"
 
-/* functions for data organisation and writing to file */
-/*-----------------------------------------------------*/
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
 #define USB_MOUNTPOINT_0 "/media/usb0"
@@ -46,7 +44,6 @@ typedef struct
 } AnalogAcq;
 
 /* function declarations */
-void SignalHandler(int signum);
 std::string CreateCpuRunName(uint8_t num_storage_dev);
 int CreateCpuRun(std::string cpu_file_name);
 int CloseCpuRun(std::string cpu_file_name);

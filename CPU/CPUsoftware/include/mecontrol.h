@@ -21,5 +21,7 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 
+void SignalHandler(int signum);
+
 #endif
 /* _MECONTROL_H */

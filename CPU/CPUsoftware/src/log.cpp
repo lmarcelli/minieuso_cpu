@@ -20,6 +20,5 @@ std::string CreateLogname(void) {
   struct tm * now_tm = localtime(&now);
 
   strftime(logname, sizeof(logname), kLogCh, now_tm);
-  std::cout << "Logname: " << logname << std::endl;
   return logname;
 }

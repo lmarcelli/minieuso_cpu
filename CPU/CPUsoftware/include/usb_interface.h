@@ -22,12 +22,14 @@
 #define CONFIG_BUS 0
 #define CONFIG_PORT 0
 
-/* functions for the USB interfaces */
-/*----------------------------------*/
-void PrintDev(libusb_device *dev);
-int CheckUsb();
-uint8_t LookupUsb();
-int DefDataBackup(uint8_t num_storage_dev);
+class UsbManager {
+public:
+  UsbManager();
+  void PrintDev(libusb_device *dev);
+  int CheckUsb();
+  uint8_t LookupUsb();
+  int DataBackup(uint8_t num_storage_dev);
 
+};
 #endif
 /* _USB_INTERFACE_H */

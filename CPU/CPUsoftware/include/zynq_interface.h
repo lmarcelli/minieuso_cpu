@@ -25,13 +25,13 @@ private:
   int portno;  
 
   std::string SendRecvTelnet(std::string send_msg, int sockfd);
+  int InstStatusTest(std::string send_msg);
 
 public:
   ZynqManager();
   int CheckTelnet();
   int ConnectTelnet();
   int InstStatus();
-  int InstStatusTest(std::string send_msg);
   int HvpsStatus();
   int HvpsTurnOn(int cv, int dv);
   int Scurve(int start, int step, int stop, int acc);

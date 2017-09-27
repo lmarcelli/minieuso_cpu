@@ -1,19 +1,5 @@
 #include "data_acq.h"
 
-/* handle SIGINT */
-void SignalHandler(int signum) {
-  ZynqManager ZqManager;
-  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
-  std::cout << "Stopping the acquisition" << std::endl;
-  
-  /* handle the signal*/
-  ZqManager.DataAcquisitionStop();
-  std::cout << "Acquisition stopped" << std::endl;  
-  
-  /* terminate the program */
-  exit(signum);  
-}
-
 /* create cpu run file name */
 std::string CreateCpuRunName(uint8_t num_storage_dev) {
   struct timeval tv;

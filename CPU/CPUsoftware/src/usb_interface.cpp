@@ -1,7 +1,11 @@
 #include "usb_interface.h"
 
+/* default constructor */
+UsbManager::UsbManager() {
+  // num_storage_dev = ;
+}
 /* print a description of usb devices connected */
-void PrintDev(libusb_device * dev) {
+void UsbManager::PrintDev(libusb_device * dev) {
 
   /* get the device descriptor */
   libusb_device_descriptor desc;
@@ -52,7 +56,7 @@ void PrintDev(libusb_device * dev) {
 }
 
 /* check the number of devices connected and print their info */
-int CheckUsb() {
+int UsbManager::CheckUsb() {
   libusb_device ** devs;
   libusb_context * ctx = NULL;
   int r;
@@ -91,7 +95,7 @@ int CheckUsb() {
 }
 
 /* lookup usb devices connected and identify them */
-uint8_t LookupUsb() {
+uint8_t UsbManager::LookupUsb() {
   libusb_device ** all_devs;
   libusb_device * dev;
   libusb_context * ctx = NULL;
@@ -159,7 +163,7 @@ uint8_t LookupUsb() {
 }
 
 /* define data backup based on usb_lookup() */
-int DefDataBackup(uint8_t num_storage_dev) {
+int UsbManager::DataBackup(uint8_t num_storage_dev) {
 
   int ret = 0;
   std::string cmd;
@@ -173,18 +177,23 @@ int DefDataBackup(uint8_t num_storage_dev) {
   /* require 2+ storage devices for backup */
   if (num_storage_dev == 2) {
 
-    
+    /* run backup */
     /* synchronise /media/usb0 to /media/usb1 */
     cmd = "while inotifywait -m -r -e modify,create,delete -o "
       + log_path + inotify_log + " " + mp_0 +
       "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
 
-    /* print the command */
-    std::cout << cmd << std::endl;
-    
+    clog << "info: " << logstream::info << "running backup with: " << cmd << std::endl;
+ 
     const char * command = cmd.c_str();
     ret = system(command);
-    std::cout << "system call returns " << ret << std::endl;
+    if (ret == 0) {
+      clog << "info: " << logstream::info << "the following: " << cmd << " exited successfully" << std::endl;
+    }
+    else{
+      clog << "error: " << logstream::error << "the following: " << cmd << " exited with an error" << std::endl;
+    }
+    
   }
   else {
     clog << "info: " << logstream::info << "not enough storage devices for backup" << std::endl;

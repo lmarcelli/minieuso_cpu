@@ -42,7 +42,8 @@ int main(int argc, char ** argv) {
   std::string config_dir(CONFIG_DIR);
   InputParser input(argc, argv);
   ZynqManager ZqManager;
-  
+  UsbManager UManager;
+
   /* parse command line options */
   bool hv_on = false;
   bool long_acq = false;
@@ -141,9 +142,10 @@ int main(int argc, char ** argv) {
       signal(SIGINT, SignalHandler);  
       
       /* define data backup */
-      uint8_t num_storage_dev = LookupUsb();
-      std::thread run_backup (DefDataBackup, num_storage_dev);
-      
+      uint8_t num_storage_dev = UManager.LookupUsb();
+      //std::thread run_backup (UManager.DefDataBackup, num_storage_dev);
+      uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
+    
       /* create the run file */ 
       std::string current_run_file = CreateCpuRunName(num_storage_dev);
       CreateCpuRun(current_run_file);
@@ -177,7 +179,7 @@ int main(int argc, char ** argv) {
       CloseCpuRun(current_run_file);
       
     /* wait for backup to complete */
-      run_backup.join();
+      // run_backup.join();
     }
     
     /* never reached, clean up on interrupt */
@@ -193,8 +195,9 @@ int main(int argc, char ** argv) {
     signal(SIGINT, SignalHandler);  
     
     /* define data backup */
-    uint8_t num_storage_dev = LookupUsb();
-    std::thread run_backup (DefDataBackup, num_storage_dev);
+    uint8_t num_storage_dev = UManager.LookupUsb();
+    //std::thread run_backup (DefDataBackup, num_storage_dev);
+    uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
     
     /* create the run file */ 
     std::string current_run_file = CreateCpuRunName(num_storage_dev);
@@ -232,7 +235,7 @@ int main(int argc, char ** argv) {
     CloseCpuRun(current_run_file);
 
     /* wait for backup to complete */
-    run_backup.join();
+    //run_backup.join();
   }
 
   /* clean up */

@@ -98,9 +98,6 @@ uint8_t LookupUsb() {
   int r, num_storage_dev = 0;
   ssize_t cnt, i;
 
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "looking up USB devices" << std::endl;
   
   /* initialise a libusb session */
@@ -171,9 +168,6 @@ int DefDataBackup(uint8_t num_storage_dev) {
   std::string mp_0(USB_MOUNTPOINT_0);
   std::string mp_1(USB_MOUNTPOINT_1);
 
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "defining data backup procedure" << std::endl;
   
   /* require 2+ storage devices for backup */

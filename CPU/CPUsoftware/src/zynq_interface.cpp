@@ -10,9 +10,6 @@ int CheckTelnet(std::string ip_address, int portno) {
   struct hostent * server;
   const char * ip = ip_address.c_str();
 
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking connection to IP " << ip_address  << std::endl;
  
   /* set up the telnet connection */
@@ -59,10 +56,6 @@ std::string SendRecvTelnet(std::string send_msg, int sockfd) {
   std::string err_msg = "error";
   int n;
   
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
-
   /* prepare the message to send */
   bzero(buffer, 256);
   strncpy(buffer, kSendMsg, sizeof(buffer));
@@ -88,7 +81,7 @@ std::string SendRecvTelnet(std::string send_msg, int sockfd) {
  }
 
 /* connect to telnet */
-/* leaves telnet open to be closed with a separate function */
+/* NB: leaves telnet open to be closed with a separate function */
 int ConnectTelnet(std::string ip_address, int portno) {
 
   /* definitions */
@@ -97,9 +90,6 @@ int ConnectTelnet(std::string ip_address, int portno) {
   struct hostent * server;
   const char * ip = ip_address.c_str();
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking connection to IP " << ip_address  << std::endl;
  
   /* set up the telnet connection */
@@ -144,14 +134,10 @@ int InstStatus() {
   int sockfd;
   //long status;
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking the instrument status" << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
-  
   
   /* send and receive commands in another */
   status_string = SendRecvTelnet("instrument status\n", sockfd);
@@ -230,9 +216,6 @@ int HvpsStatus() {
   int sockfd;
   //long status;
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "checking the HVPS status" << std::endl;
 
   /* setup the telnet connection */
@@ -258,9 +241,6 @@ int HvpsTurnOn(int cv, int dv) {
   std::string cmd;
   std::stringstream conv;
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
 
   /* setup the telnet connection */
@@ -304,10 +284,7 @@ int Scurve(int start, int step, int stop, int acc) {
   int sockfd;
   std::string cmd;
   std::stringstream conv;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
 
   /* setup the telnet connection */
@@ -337,9 +314,6 @@ int DataAcquisitionStart() {
   const char * kStatStr = NULL;
   int sockfd;
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
 
   /* setup the telnet connection */
@@ -369,10 +343,7 @@ int DataAcquisitionStop() {
   std::string status_string;
   const char * kStatStr = NULL;
   int sockfd;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
 
   /* setup the telnet connection */
@@ -404,10 +375,7 @@ int SetDac(int dac_level) {
   int sockfd;
   std::string cmd;
   std::stringstream conv;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "set the dac level to the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
@@ -437,10 +405,7 @@ int AcqShot() {
   int sockfd;
   std::string cmd;
   std::stringstream conv;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "acquiring a single frame from the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */

@@ -77,10 +77,7 @@ int CreateCpuRun(std::string cpu_file_name) {
   const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
   /* set up the cpu file structure */
@@ -117,10 +114,7 @@ int CloseCpuRun(std::string cpu_file_name) {
   const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   size_t check;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "closing the cpu run file called " << cpu_file_name << std::endl;
 
   /* calculate the CRC */
@@ -175,10 +169,7 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
   SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
   const char * kScFileName = sc_file_name.c_str();
   size_t check;
- 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "reading out the file " << sc_file_name << std::endl;
   
   /* prepare the scurve packet */
@@ -221,10 +212,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
   int fsize;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << std::endl;
 
   ptr_zfile = fopen(kZynqFileName, "rb");
@@ -283,10 +271,7 @@ AnalogAcq * AnalogDataCollect() {
   unsigned long int minor_number = 0;
 
   AnalogAcq * acq_output = new AnalogAcq();
-  
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "starting analog acquistion" << std::endl;
 
   /* Device initialisation */
@@ -434,13 +419,8 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
-  
-  clog << "info: " << logstream::info << "about to build the headers " << std::endl;
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -449,14 +429,12 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
   
   /* add the zynq and hk packets */
-  clog << "info: " << logstream::info << "about to point to cpu and hk packets " << std::endl;
   cpu_packet->zynq_packet = *zynq_packet;
   delete zynq_packet;
   cpu_packet->hk_packet = *hk_packet;
   delete hk_packet;
   
   /* open the cpu file to append */
-  clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
@@ -464,7 +442,6 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
   }
 
   /* write the cpu packet */
-  clog << "info: " << logstream::info << "about to write cpu packet " << std::endl; 
   check = fwrite(cpu_packet, sizeof(*cpu_packet), 1, ptr_cpufile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
@@ -488,10 +465,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
-  
-  /* set up logging */
-  std::ofstream log_file(log_name, std::ios::app);
-  logstream clog(log_file, logstream::all);
+
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
 
   /* set the packet number */
@@ -535,9 +509,6 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
   std::string data_str(DATA_DIR);
   std::string event_name;
 
-  /* set up logging */
-  std::ofstream log_file(log_name,std::ios::app);
-  logstream clog(log_file, logstream::all);
   clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
 
   /* watch the data directory for incoming files */

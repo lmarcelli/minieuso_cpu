@@ -1,8 +1,14 @@
 #include "zynq_interface.h"
 
+/* default constructor */
+ZynqManager::ZynqManager () {   
+  ip_address = ZYNQ_IP;
+  portno = TELNET_PORT;
+};
+
 /* check telnet connection on a certain IP address */
 /* closes the telnet connection after */
-int CheckTelnet(std::string ip_address, int portno) {
+int ZynqManager::CheckTelnet() {
 
   /* definitions */
   int sockfd;
@@ -48,7 +54,7 @@ int CheckTelnet(std::string ip_address, int portno) {
 
 /* send and recieve commands over the telnet connection */
 /* to be used inside a function which opens the telnet connection */
-std::string SendRecvTelnet(std::string send_msg, int sockfd) {
+std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
 
   const char * kSendMsg = send_msg.c_str();
   char buffer[256];
@@ -82,7 +88,7 @@ std::string SendRecvTelnet(std::string send_msg, int sockfd) {
 
 /* connect to telnet */
 /* NB: leaves telnet open to be closed with a separate function */
-int ConnectTelnet(std::string ip_address, int portno) {
+int ZynqManager::ConnectTelnet() {
 
   /* definitions */
   int sockfd;
@@ -126,7 +132,7 @@ int ConnectTelnet(std::string ip_address, int portno) {
 }
 
 /* check the instrument status */
-int InstStatus() {
+int ZynqManager::InstStatus() {
 
   /* definitions */
   std::string status_string;
@@ -137,7 +143,7 @@ int InstStatus() {
   clog << "info: " << logstream::info << "checking the instrument status" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands in another */
   status_string = SendRecvTelnet("instrument status\n", sockfd);
@@ -152,7 +158,7 @@ int InstStatus() {
 
 /* check the instrument status */
 /* quick test approach with all telnet setup in one function */
-int InstStatusTest(std::string ip_address, int portno, std::string send_msg) {
+int ZynqManager::InstStatusTest(std::string send_msg) {
   
   int sockfd, n;
   struct sockaddr_in serv_addr;
@@ -160,7 +166,6 @@ int InstStatusTest(std::string ip_address, int portno, std::string send_msg) {
   const char * ip = ip_address.c_str();
   const char * kSendMsg = send_msg.c_str();
   char buffer[256];
-  
   
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) { 
@@ -208,7 +213,7 @@ int InstStatusTest(std::string ip_address, int portno, std::string send_msg) {
 
 
 /* check the HV status */
-int HvpsStatus() {
+int ZynqManager::HvpsStatus() {
 
   /* definitions */
   std::string status_string;
@@ -219,7 +224,7 @@ int HvpsStatus() {
   clog << "info: " << logstream::info << "checking the HVPS status" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
@@ -232,7 +237,7 @@ int HvpsStatus() {
 }
 
 /* turn on the HV */
-int HvpsTurnOn(int cv, int dv) {
+int ZynqManager::HvpsTurnOn(int cv, int dv) {
 
   /* definitions */
   std::string status_string;
@@ -244,7 +249,7 @@ int HvpsTurnOn(int cv, int dv) {
   clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* set the cathode voltage */
   /* make the command string from config file values */
@@ -276,7 +281,7 @@ int HvpsTurnOn(int cv, int dv) {
 }
 
 /* take an scurve */
-int Scurve(int start, int step, int stop, int acc) {
+int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
   std::string status_string;
@@ -288,7 +293,7 @@ int Scurve(int start, int step, int stop, int acc) {
   clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* take an s-curve */
@@ -307,7 +312,7 @@ int Scurve(int start, int step, int stop, int acc) {
   return 0;
 }
 
-int DataAcquisitionStart() {
+int ZynqManager::DataAcquisitionStart() {
 
   /* definitions */
   std::string status_string;
@@ -317,7 +322,7 @@ int DataAcquisitionStart() {
   clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* switch to data acquisition mode 1*/
@@ -337,7 +342,7 @@ int DataAcquisitionStart() {
 }
 
 
-int DataAcquisitionStop() {
+int ZynqManager::DataAcquisitionStop() {
 
   /* definitions */
   std::string status_string;
@@ -347,7 +352,7 @@ int DataAcquisitionStop() {
   clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* stop the data acquisition */
@@ -367,7 +372,7 @@ int DataAcquisitionStop() {
 }
 
 /* set the DAC on the SPACIROCs */
-int SetDac(int dac_level) {
+int ZynqManager::SetDac(int dac_level) {
 
   /* definitions */
   std::string status_string;
@@ -379,7 +384,7 @@ int SetDac(int dac_level) {
   clog << "info: " << logstream::info << "set the dac level to the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* set the dac level */
@@ -397,7 +402,7 @@ int SetDac(int dac_level) {
 
 
 /* Acquire one GTU frame from the SPACIROCs */
-int AcqShot() {
+int ZynqManager::AcqShot() {
 
   /* definitions */
   std::string status_string;
@@ -409,7 +414,7 @@ int AcqShot() {
   clog << "info: " << logstream::info << "acquiring a single frame from the SPACIROCs" << std::endl;
 
   /* setup the telnet connection */
-  sockfd = ConnectTelnet(ZYNQ_IP, TELNET_PORT);
+  sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* take a single frame */

@@ -11,7 +11,7 @@
 #include "zynq_interface.h"
 #include "pdmdata.h"
 #include "data_format.h"
-#include "config.h"
+#include "configuration.h"
 
 /* functions for data organisation and writing to file */
 /*-----------------------------------------------------*/
@@ -26,7 +26,7 @@
 #define PRIVATE_BUFFER_SIZE  1024
 #endif
 /* global objects */
-std::streamsize const  buffer_size = PRIVATE_BUFFER_SIZE;
+std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 
 /* for use with inotify in ProcessIncomingData() */
 #define EVENT_SIZE (sizeof(struct inotify_event))

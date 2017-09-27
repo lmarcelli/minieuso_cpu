@@ -41,6 +41,7 @@ int main(int argc, char ** argv) {
   /* definitions */
   std::string config_dir(CONFIG_DIR);
   InputParser input(argc, argv);
+  ZynqManager ZqManager;
   
   /* parse command line options */
   bool hv_on = false;
@@ -64,7 +65,7 @@ int main(int argc, char ** argv) {
   /*-----------------*/
   if(debug_mode == true) {
     std::cout << "Mini-EUSO software debug mode" << std::endl;
-
+    
     /* check the log level */
     if (log_on == true) {
       clog.change_log_level(logstream::all);     
@@ -111,11 +112,11 @@ int main(int argc, char ** argv) {
   Config * ConfigOut = CfManager.Configure();
   
   /* test the connection to the zynq board */
-  CheckTelnet(ZYNQ_IP, TELNET_PORT);
+  ZqManager.CheckTelnet();
   
   /* check the instrument and HV status */
-  InstStatus();
-  HvpsStatus();
+  ZqManager.InstStatus();
+  ZqManager.HvpsStatus();
 
   if(long_acq == true){
     /* start infinite loop over acquisition */
@@ -153,24 +154,24 @@ int main(int argc, char ** argv) {
       /* take an scurve */
       std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
       
-      Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+      ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
       
       check_sc.join();
       
       /* set the DAC level */
-      SetDac(ConfigOut->dac_level); 
+      ZqManager.SetDac(ConfigOut->dac_level); 
       
       /* start checking for new files and appending */
       std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
       
       /* start the data acquisition */
-      DataAcquisitionStart();
+      ZqManager.DataAcquisitionStart();
       
       /* wait for data acquisition to complete */
       check_data.join();
       
       /* stop the data acquisition */
-      DataAcquisitionStop();
+      ZqManager.DataAcquisitionStop();
       
       /* close the run file */
       CloseCpuRun(current_run_file);
@@ -208,24 +209,24 @@ int main(int argc, char ** argv) {
     /* take an scurve */
     std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
     
-    Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+    ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
     
     check_sc.join();
     
     /* set the DAC level */
-    SetDac(500); // in pedestal to give non-zero values with no HV
+    ZqManager.SetDac(500); // in pedestal to give non-zero values with no HV
     
     /* start checking for new files and appending */
     std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
     
     /* start the data acquisition */
-    DataAcquisitionStart();
+    ZqManager.DataAcquisitionStart();
     
     /* wait for data acquisition to complete */
     check_data.join();
     
     /* stop the data acquisition */
-    DataAcquisitionStop();
+    ZqManager.DataAcquisitionStop();
     
     /* close the run file */
     CloseCpuRun(current_run_file);

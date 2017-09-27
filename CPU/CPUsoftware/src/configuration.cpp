@@ -25,13 +25,19 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
     dest << src.rdbuf();
   }
   else {
-    clog << "info: " << logstream::info << "reading from the configuration file" << std::endl; 
+    if (!src.good()) {
+      clog << "error: " << logstream::error << "cannot find file to copy" << std::endl; 
+    }
+    if (!src.good()) {
+      clog << "error: " << logstream::error << "cannot find destination to copy to" << std::endl; 
+    }
   }
   return src && dest;
 }
 
 /* parse a configuration file */
 Config * ConfigManager::Parse() {
+
   std::string line;
   std::string config_file_name;
 
@@ -85,7 +91,6 @@ Config * ConfigManager::Parse() {
   }
   else {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
-    std::cout << "error: cannot open the configuration file" << std::endl;
   }
   
   return Output;

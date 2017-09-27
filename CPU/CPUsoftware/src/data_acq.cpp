@@ -2,11 +2,12 @@
 
 /* handle SIGINT */
 void SignalHandler(int signum) {
+  ZynqManager ZqManager;
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
   std::cout << "Stopping the acquisition" << std::endl;
   
   /* handle the signal*/
-  DataAcquisitionStop();
+  ZqManager.DataAcquisitionStop();
   std::cout << "Acquisition stopped" << std::endl;  
   
   /* terminate the program */

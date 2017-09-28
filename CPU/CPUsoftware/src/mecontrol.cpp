@@ -171,19 +171,21 @@ int main(int argc, char ** argv) {
       UManager.DataBackup();
     
       /* create the run file */ 
-      DaqManager.CreateCpuRun();
-      
+      std::string current_run_file = DaqManager.CreateCpuRunName();
+      DaqManager.CreateCpuRun(current_run_file);
+      clog << "info: " << logstream::info << "created new cpu run file: " << current_run_file << std::endl;
+       		
       /* turn on the HV */
       if (hv_on == true) {
 	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
       }
       
       /* take an scurve, then data */
-      DaqManager.CollectSc(ConfigOut);
-      DaqManager.CollectData(ConfigOut);
+      DaqManager.CollectSc(current_run_file, ConfigOut);
+      DaqManager.CollectData(current_run_file, ConfigOut);
       
       /* close the run file */
-      DaqManager.CloseCpuRun();
+      DaqManager.CloseCpuRun(current_run_file);
       
     /* wait for backup to complete */
       // run_backup.join();
@@ -207,25 +209,21 @@ int main(int argc, char ** argv) {
     /* define data backup */
     UManager.DataBackup();
     
-    std::cout << "CPU file name 1: " << DaqManager.cpu_file_name << std::endl; 
     /* create the run file */ 
-    DaqManager.CreateCpuRun();
-    std::cout << "CPU file name 2: " << DaqManager.cpu_file_name << std::endl; 
+    std::string current_run_file = DaqManager.CreateCpuRunName();
+    DaqManager.CreateCpuRun(current_run_file);
+    clog << "info: " << logstream::info << "created new cpu run file: " << current_run_file << std::endl;
     
     if(hv_on == true) {
       ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
 
-    std::cout << "CPU file name 3: " << DaqManager.cpu_file_name << std::endl; 
     /* take an scurve, then data */
-    DaqManager.CollectSc(ConfigOut);
-    std::cout << "CPU file name 4: " << DaqManager.cpu_file_name << std::endl; 
-    DaqManager.CollectData(ConfigOut);
-    std::cout << "CPU file name 5: " << DaqManager.cpu_file_name << std::endl; 
-  
+    DaqManager.CollectSc(current_run_file, ConfigOut);
+    DaqManager.CollectData(current_run_file, ConfigOut);
      
     /* close the run file */
-    DaqManager.CloseCpuRun();
+    DaqManager.CloseCpuRun(current_run_file);
 
     /* wait for backup to complete */
     //run_backup.join();

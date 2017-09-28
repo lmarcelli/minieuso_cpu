@@ -48,6 +48,18 @@ void SignalHandler(int signum) {
   exit(signum);  
 }
 
+/* clear the FTP directory */
+void ClearFTP() {
+  DIR * theFolder = opendir(DATA_DIR);
+  struct dirent * next_file;
+  char filepath[256];   
+  while ((next_file = readdir(theFolder)) != NULL) {
+    sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
+    remove(filepath);
+  }
+  closedir(theFolder);    
+}
+
 /* main program */
 /*--------------*/
 int main(int argc, char ** argv) {
@@ -145,15 +157,8 @@ int main(int argc, char ** argv) {
       clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
       
       /* clear the FTP directory */
-      DIR * theFolder = opendir(DATA_DIR);
-      struct dirent * next_file;
-      char filepath[256];   
-      while ((next_file = readdir(theFolder)) != NULL) {
-        sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
-        remove(filepath);
-      }
-      closedir(theFolder);
-    
+      ClearFTP();
+      
       /* enable signal handling */
       signal(SIGINT, SignalHandler);  
       
@@ -188,6 +193,9 @@ int main(int argc, char ** argv) {
     std::cout << "starting acqusition run..." <<std::endl; 
     clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
+    /* clear the FTP server */
+    ClearFTP();
+    
     /* enable signal handling */
     signal(SIGINT, SignalHandler);  
     

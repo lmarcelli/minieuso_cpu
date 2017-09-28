@@ -135,7 +135,6 @@ int main(int argc, char ** argv) {
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
-
   ConfigManager CfManager(config_file, config_file_local);
   Config * ConfigOut = CfManager.Configure();
   
@@ -153,7 +152,7 @@ int main(int argc, char ** argv) {
 
       /* one file run */
       /*-------------*/
-      std::cout << "starting infinite acquisition run... " <<std::endl;
+      std::cout << "starting acquisition run... " <<std::endl;
       clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
       
       /* clear the FTP directory */

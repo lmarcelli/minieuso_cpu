@@ -567,7 +567,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 	    
 	    /* generate cpu packet and append to file */
-	    WriteCpuPkt(zynq_packet, hk_packet);
+	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
 
 	    /* delete upon completion */
 	    std::remove(zynq_file_name.c_str());
@@ -583,7 +583,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 
 	    /* generate sc packet and append to file */
 	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	     WriteScPkt(sc_packet);
+	     WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());

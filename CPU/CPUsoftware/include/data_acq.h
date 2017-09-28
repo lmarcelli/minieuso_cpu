@@ -48,7 +48,6 @@ typedef struct
 /* class for controlling the acquisition */
 class DataAcqManager {
 private:
-  std::string cpu_file_name;
   uint8_t channels;
   uint8_t fifo_depth;
   uint32_t burst_rate;
@@ -67,6 +66,7 @@ private:
   int ProcessIncomingData(Config * ConfigOut);
    
 public:  
+  std::string cpu_file_name;
   DataAcqManager();
   std::string CreateCpuRunName();
   int CreateCpuRun();

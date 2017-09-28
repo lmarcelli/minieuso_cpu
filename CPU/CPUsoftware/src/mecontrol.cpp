@@ -207,16 +207,22 @@ int main(int argc, char ** argv) {
     /* define data backup */
     UManager.DataBackup();
     
+    std::cout << "CPU file name 1: " << DaqManager.cpu_file_name << std::endl; 
     /* create the run file */ 
     DaqManager.CreateCpuRun();
+    std::cout << "CPU file name 2: " << DaqManager.cpu_file_name << std::endl; 
     
     if(hv_on == true) {
       ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
-    
+
+    std::cout << "CPU file name 3: " << DaqManager.cpu_file_name << std::endl; 
     /* take an scurve, then data */
     DaqManager.CollectSc(ConfigOut);
+    std::cout << "CPU file name 4: " << DaqManager.cpu_file_name << std::endl; 
     DaqManager.CollectData(ConfigOut);
+    std::cout << "CPU file name 5: " << DaqManager.cpu_file_name << std::endl; 
+  
      
     /* close the run file */
     DaqManager.CloseCpuRun();

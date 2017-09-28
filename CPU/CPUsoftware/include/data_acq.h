@@ -6,6 +6,7 @@
 #include <sys/inotify.h>
 #include "dm75xx_library.h"
 #endif
+#include <thread>
 
 #include "log.h"
 #include "zynq_interface.h"
@@ -44,16 +45,33 @@ typedef struct
 } AnalogAcq;
 
 /* function declarations */
-std::string CreateCpuRunName(uint8_t num_storage_dev);
-int CreateCpuRun(std::string cpu_file_name);
-int CloseCpuRun(std::string cpu_file_name);
-SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
-Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
-AnalogAcq * AnalogDataCollect();
-HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
-int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name);
-int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
-int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut);
+class DataAcqManager {
+private:
+  uint8_t channels;
+  uint8_t fifo_depth;
+  uint32_t burst_rate;
+  uint32_t pacer_rate;
+  uint8_t ph_channels;
+
+  uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
+  uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
+  uint32_t BuildCpuTimeStamp();
+  SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
+  AnalogAcq * AnalogDataCollect();
+  HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
+  int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name);
+  int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
+  int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut);
+ 
+  
+public:
+  DataAcqManager();
+  std::string CreateCpuRunName(uint8_t num_storage_dev);
+  int CreateCpuRun(std::string cpu_file_name);
+  int CloseCpuRun(std::string cpu_file_name);
+  int CollectData(std::string cpu_file_name, Config * ConfigOut);
+};
 
 #endif
 /* _DATA_ACQ_H */

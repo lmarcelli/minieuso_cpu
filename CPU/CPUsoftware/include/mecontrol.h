@@ -6,7 +6,6 @@
 #include <string>
 #include <algorithm>
 #include <vector>
-#include <thread>
 
 #include "log.h"
 #include "configuration.h"

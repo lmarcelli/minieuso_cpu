@@ -57,7 +57,8 @@ int main(int argc, char ** argv) {
   InputParser input(argc, argv);
   ZynqManager ZqManager;
   UsbManager UManager;
-
+  DataAcqManager DaqManager;
+  
   /* parse command line options */
   bool hv_on = false;
   bool long_acq = false;
@@ -161,36 +162,28 @@ int main(int argc, char ** argv) {
       uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
     
       /* create the run file */ 
-      std::string current_run_file = CreateCpuRunName(num_storage_dev);
-      CreateCpuRun(current_run_file);
+      std::string current_run_file = DaqManager.CreateCpuRunName(num_storage_dev);
+      DaqManager.CreateCpuRun(current_run_file);
       
       /* turn on the HV */
       //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
       
       /* take an scurve */
-      std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
-      
+      DaqManager.CollectData(current_run_file, ConfigOut);
       ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-      
-      check_sc.join();
       
       /* set the DAC level */
       ZqManager.SetDac(ConfigOut->dac_level); 
       
-      /* start checking for new files and appending */
-      std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
-      
       /* start the data acquisition */
+      DaqManager.CollectData(current_run_file, ConfigOut);
       ZqManager.DataAcquisitionStart();
-      
-      /* wait for data acquisition to complete */
-      check_data.join();
-      
+           
       /* stop the data acquisition */
       ZqManager.DataAcquisitionStop();
       
       /* close the run file */
-      CloseCpuRun(current_run_file);
+      DaqManager.CloseCpuRun(current_run_file);
       
     /* wait for backup to complete */
       // run_backup.join();
@@ -214,8 +207,8 @@ int main(int argc, char ** argv) {
     uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
     
     /* create the run file */ 
-    std::string current_run_file = CreateCpuRunName(num_storage_dev);
-    CreateCpuRun(current_run_file);
+    std::string current_run_file = DaqManager.CreateCpuRunName(num_storage_dev);
+    DaqManager.CreateCpuRun(current_run_file);
     
     if(hv_on == true) {
       std::cout << "hv on test!" << std::endl;
@@ -224,29 +217,21 @@ int main(int argc, char ** argv) {
     }
     
     /* take an scurve */
-    std::thread check_sc (ProcessIncomingData, current_run_file, ConfigOut);
-    
+    DaqManager.CollectData(current_run_file, ConfigOut);
     ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-    
-    check_sc.join();
     
     /* set the DAC level */
     ZqManager.SetDac(500); // in pedestal to give non-zero values with no HV
     
-    /* start checking for new files and appending */
-    std::thread check_data (ProcessIncomingData, current_run_file, ConfigOut);
-    
     /* start the data acquisition */
+    DaqManager.CollectData(current_run_file, ConfigOut);
     ZqManager.DataAcquisitionStart();
-    
-    /* wait for data acquisition to complete */
-    check_data.join();
     
     /* stop the data acquisition */
     ZqManager.DataAcquisitionStop();
     
     /* close the run file */
-    CloseCpuRun(current_run_file);
+    DaqManager.CloseCpuRun(current_run_file);
 
     /* wait for backup to complete */
     //run_backup.join();

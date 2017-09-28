@@ -1,7 +1,16 @@
 #include "data_acq.h"
 
+/* default constructor */
+DataAcqManager::DataAcqManager() {
+  channels = CHANNELS;
+  fifo_depth = FIFO_DEPTH;
+  burst_rate = BURST_RATE;
+  pacer_rate = PACER_RATE;
+  ph_channels = PH_CHANNELS;
+}
+  
 /* create cpu run file name */
-std::string CreateCpuRunName(uint8_t num_storage_dev) {
+std::string DataAcqManager::CreateCpuRunName(uint8_t num_storage_dev) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -26,7 +35,7 @@ std::string CreateCpuRunName(uint8_t num_storage_dev) {
 }
 
 /* build the cpu file header */
-uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcqManager::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -35,7 +44,7 @@ uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu packet header */
-uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -44,7 +53,7 @@ uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu timestamp */
-uint32_t BuildCpuTimeStamp() {
+uint32_t DataAcqManager::BuildCpuTimeStamp() {
 
   uint32_t timestamp;
   struct timeval tv; 
@@ -58,7 +67,7 @@ uint32_t BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int CreateCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -95,7 +104,7 @@ int CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* close the CPU file run and append CRC */
-int CloseCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -150,7 +159,7 @@ int CloseCpuRun(std::string cpu_file_name) {
 
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
@@ -192,7 +201,7 @@ SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
 
 /* read out a zynq data file into a zynq packet */
-Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
+Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
   Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
@@ -247,7 +256,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name) {
 }
 
 /* analog board read out */
-AnalogAcq * AnalogDataCollect() {
+AnalogAcq * DataAcqManager::AnalogDataCollect() {
 #ifndef __APPLE__
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
@@ -361,7 +370,7 @@ AnalogAcq * AnalogDataCollect() {
 }
 
 /* read out a hk packet */
-HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output) {
+HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
   int i, k;
   float sum_ph[PH_CHANNELS];
@@ -399,7 +408,7 @@ HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -446,7 +455,7 @@ int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, st
 
 
 /* write the sc packet to the cpu file */
-int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -485,7 +494,7 @@ int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
 }
 
 /* Look for new files in the data directory and process them */
-int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -497,7 +506,7 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
   std::string event_name;
 
   clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
-
+  
   /* watch the data directory for incoming files */
   fd = inotify_init();
   if (fd < 0) {
@@ -592,3 +601,16 @@ int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 
 }
 
+/* spawn thread to ProcessIncomingData() */
+int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut) {
+
+  /* declare ptr to member fcn */
+  //int (DataAcqManager::*ptrProcessIncomingData) (std::string, Config *);
+  //ptrProcessIncomingData = &DataAcqManager::ProcessIncomingData;
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager() ,cpu_file_name, ConfigOut);
+  
+  /* wait for process to complete */
+  collect_data.join();
+     
+  return 0;
+}

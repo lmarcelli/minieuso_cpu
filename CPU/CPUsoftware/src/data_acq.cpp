@@ -83,6 +83,7 @@ int DataAcqManager::CreateCpuRun() {
   cpu_file_name = CreateCpuRunName();
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
   const char * kCpuFileName = cpu_file_name.c_str();
+  clog << "info: " << logstream::info << "created a new cpu run file called " << cpu_file_name << std::endl;
  
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
@@ -470,6 +471,8 @@ int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET
 /* write the sc packet to the cpu file */
 int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet) {
 
+  clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
+ 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;

@@ -116,6 +116,12 @@ int main(int argc, char ** argv) {
     else {
       std::cout << "NULL" << std::endl;
     }
+
+    /* testing the CPU file name */
+    std::string cpu_file_name = "file_name_1";
+    std::cout << cpu_file_name << std::endl;
+    const char * kCpuFileName = cpu_file_name.c_str();
+    std::cout << cpu_file_name << std::endl;
     
     delete ConfigOut;
     return 0;

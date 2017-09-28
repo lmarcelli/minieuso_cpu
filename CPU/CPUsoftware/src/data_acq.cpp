@@ -619,7 +619,6 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
-
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      

@@ -48,6 +48,7 @@ typedef struct
 /* class for controlling the acquisition */
 class DataAcqManager {
 private:
+  std::string cpu_file_name;
   uint8_t channels;
   uint8_t fifo_depth;
   uint32_t burst_rate;
@@ -65,9 +66,7 @@ private:
   int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet);
   int ProcessIncomingData(Config * ConfigOut);
    
-public:
-  std::string cpu_file_name;
-  
+public:  
   DataAcqManager();
   std::string CreateCpuRunName();
   int CreateCpuRun();

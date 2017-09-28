@@ -13,8 +13,7 @@ DataAcqManager::DataAcqManager() {
 /* create cpu run file name */
 std::string DataAcqManager::CreateCpuRunName() {
   struct timeval tv;
-  //char cpu_file_name[80];
-  std::string cpu_file_name;
+  char cpu_file_name[80];
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");

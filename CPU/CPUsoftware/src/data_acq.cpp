@@ -13,7 +13,8 @@ DataAcqManager::DataAcqManager() {
 /* create cpu run file name */
 std::string DataAcqManager::CreateCpuRunName() {
   struct timeval tv;
-  char cpu_file_name[80];
+  //char cpu_file_name[80];
+  std::string cpu_file_name;
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
@@ -82,7 +83,7 @@ int DataAcqManager::CreateCpuRun() {
   /* make a new file name */
   cpu_file_name = CreateCpuRunName();
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_file_name.c_str();
   clog << "info: " << logstream::info << "created a new cpu run file called " << cpu_file_name << std::endl;
  
   /* set up the cpu file structure */
@@ -116,7 +117,7 @@ int DataAcqManager::CreateCpuRun() {
 int DataAcqManager::CloseCpuRun() {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_file_name.c_str();
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   size_t check;
 
@@ -426,7 +427,7 @@ int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
 
@@ -474,7 +475,7 @@ int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet) {
   clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
  
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
 

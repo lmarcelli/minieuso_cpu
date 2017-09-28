@@ -83,6 +83,8 @@ int DataAcqManager::CreateCpuRun() {
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
 
+  /* make a new file name */
+  cpu_file_name = CreateCpuRunName();
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
 
   /* set up the cpu file structure */

@@ -1,10 +1,7 @@
 #include "data_acq.h"
 
 /* default constructor */
-DataAcqManager::DataAcqManager() {
-  /* cpu file definition */
-  cpu_file_name = CreateCpuRunName();
- 
+DataAcqManager::DataAcqManager() { 
   /* analog acquisition */
   channels = CHANNELS;
   fifo_depth = FIFO_DEPTH;

@@ -162,7 +162,7 @@ uint8_t UsbManager::LookupUsb() {
   return num_storage_dev;  
 }
 
-/* define data backup based on usb_lookup() */
+/* define data backup based on UsbLookup() */
 int UsbManager::DataBackup() {
 
   int ret = 0;

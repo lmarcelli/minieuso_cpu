@@ -7,7 +7,11 @@
 /* Francesca Capel: capel.francesca@gmail.com */
 /* NB:the Mini-EUSO CPU is little endian */
 
-#include "pdmdata.h"
+/* old single event format for backward compatibility */
+#include "pdmdata_se.h"
+
+/* new multi event data format */
+//#include "pdmdata.h"
 
 /* instrument definitions */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */

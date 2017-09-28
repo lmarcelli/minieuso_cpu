@@ -2,6 +2,10 @@
 
 /* default constructor */
 DataAcqManager::DataAcqManager() {
+  /* cpu file definition */
+  cpu_file_name = CreateCpuRunName();
+ 
+  /* analog acquisition */
   channels = CHANNELS;
   fifo_depth = FIFO_DEPTH;
   burst_rate = BURST_RATE;
@@ -10,13 +14,18 @@ DataAcqManager::DataAcqManager() {
 }
   
 /* create cpu run file name */
-std::string DataAcqManager::CreateCpuRunName(uint8_t num_storage_dev) {
+std::string DataAcqManager::CreateCpuRunName() {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
   std::string cpu_str;
+
+  /* get the number of devices */
+  UsbManager UManager;
+  uint8_t num_storage_dev = UManager.num_storage_dev;
+  
   /* write on USB if possible */
   if (num_storage_dev == 1 || num_storage_dev == 2) {
     cpu_str = usb_str + time_str;
@@ -67,7 +76,7 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CreateCpuRun() {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -104,7 +113,7 @@ int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CloseCpuRun() {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -244,10 +253,14 @@ Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_n
   }
   
   /* DEBUG: print records to check */
-  printf("header = %u\n", zynq_packet->zbh.header);
-  printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
-  printf("hv_status = %u\n", zynq_packet->payload.hv_status);
-  printf("n_gtu = %lu\n", zynq_packet->payload.ts.n_gtu);
+  std::cout << "header = " << zynq_packet->zbh.header << std::endl;
+  std::cout <<  "payload_size = " << zynq_packet->zbh.payload_size << std::endl;
+  std::cout << "hv_status = " << zynq_packet->payload.hv_status << std::endl;
+  std::cout << "n_gtu = " << zynq_packet->payload.ts.n_gtu << std::endl; 
+  //printf("header = %u\n", zynq_packet->zbh.header);
+  //printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
+  //printf("hv_status = %u\n", zynq_packet->payload.hv_status);
+  //printf("n_gtu = %lu\n", zynq_packet->payload.ts.n_gtu);
 
   /* close the zynq file */
   fclose(ptr_zfile);
@@ -257,6 +270,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_n
 
 /* analog board read out */
 AnalogAcq * DataAcqManager::AnalogDataCollect() {
+  AnalogAcq * acq_output = new AnalogAcq();
 #ifndef __APPLE__
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
@@ -266,7 +280,6 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
 
-  AnalogAcq * acq_output = new AnalogAcq();
 
   clog << "info: " << logstream::info << "starting analog acquistion" << std::endl;
 
@@ -367,6 +380,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   
   return acq_output;
 #endif
+  return acq_output;
 }
 
 /* read out a hk packet */
@@ -408,7 +422,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -455,7 +469,7 @@ int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -494,7 +508,7 @@ int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_n
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -598,19 +612,31 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
   close(fd);
   return 0;
 #endif /* #ifndef __APPLE__ */
-
+  return 0;
 }
 
-/* spawn thread to ProcessIncomingData() */
-int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut) {
+/* spawn thread to collect an S-curve */
+int DataAcqManager::CollectSc(Config * ConfigOut) {
 
-  /* declare ptr to member fcn */
-  //int (DataAcqManager::*ptrProcessIncomingData) (std::string, Config *);
-  //ptrProcessIncomingData = &DataAcqManager::ProcessIncomingData;
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager() ,cpu_file_name, ConfigOut);
-  
-  /* wait for process to complete */
+  ZynqManager ZqManager;
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+
+  ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      
+  return 0;
+}
+
+/* spawn thread to collect data */
+int DataAcqManager::CollectData(Config * ConfigOut) {
+
+  ZynqManager ZqManager;
+  ZqManager.SetDac(ConfigOut->dac_level); 
+
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+  ZqManager.DataAcquisitionStart();
+  collect_data.join();         
+  ZqManager.DataAcquisitionStop();
+  
   return 0;
 }

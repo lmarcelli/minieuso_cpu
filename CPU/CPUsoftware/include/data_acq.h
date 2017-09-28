@@ -9,6 +9,7 @@
 #include <thread>
 
 #include "log.h"
+#include "usb_interface.h"
 #include "zynq_interface.h"
 #include "pdmdata.h"
 #include "data_format.h"
@@ -44,7 +45,7 @@ typedef struct
   float val [FIFO_DEPTH][CHANNELS];
 } AnalogAcq;
 
-/* function declarations */
+/* class for controlling the acquisition */
 class DataAcqManager {
 private:
   uint8_t channels;
@@ -60,17 +61,19 @@ private:
   Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
-  int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name);
-  int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
-  int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut);
- 
-  
+  int WriteScPkt(SCURVE_PACKET * sc_packet);
+  int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet);
+  int ProcessIncomingData(Config * ConfigOut);
+   
 public:
+  std::string cpu_file_name;
+  
   DataAcqManager();
-  std::string CreateCpuRunName(uint8_t num_storage_dev);
-  int CreateCpuRun(std::string cpu_file_name);
-  int CloseCpuRun(std::string cpu_file_name);
-  int CollectData(std::string cpu_file_name, Config * ConfigOut);
+  std::string CreateCpuRunName();
+  int CreateCpuRun();
+  int CloseCpuRun();
+  int CollectSc(Config * ConfgOut);
+  int CollectData(Config * ConfigOut);
 };
 
 #endif

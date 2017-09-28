@@ -135,18 +135,19 @@ int main(int argc, char ** argv) {
   ZqManager.HvpsStatus();
 
   if(long_acq == true){
+
     /* start infinite loop over acquisition */
     while(1) {
+
       /* one file run */
       /*-------------*/
-      printf("Starting infinite acquisition run\n");
+      std::cout << "starting infinite acquisition run... " <<std::endl;
       clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
       
       /* clear the FTP directory */
       DIR * theFolder = opendir(DATA_DIR);
       struct dirent * next_file;
-      char filepath[256];
-      
+      char filepath[256];   
       while ((next_file = readdir(theFolder)) != NULL) {
         sprintf(filepath, "%s/%s", DATA_DIR, next_file->d_name);
         remove(filepath);
@@ -157,33 +158,22 @@ int main(int argc, char ** argv) {
       signal(SIGINT, SignalHandler);  
       
       /* define data backup */
-      uint8_t num_storage_dev = UManager.LookupUsb();
-      //std::thread run_backup (UManager.DefDataBackup, num_storage_dev);
-      uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
+      UManager.DataBackup();
     
       /* create the run file */ 
-      std::string current_run_file = DaqManager.CreateCpuRunName(num_storage_dev);
-      DaqManager.CreateCpuRun(current_run_file);
+      DaqManager.CreateCpuRun();
       
       /* turn on the HV */
-      //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+      if (hv_on == true) {
+	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
+      }
       
-      /* take an scurve */
-      DaqManager.CollectData(current_run_file, ConfigOut);
-      ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-      
-      /* set the DAC level */
-      ZqManager.SetDac(ConfigOut->dac_level); 
-      
-      /* start the data acquisition */
-      DaqManager.CollectData(current_run_file, ConfigOut);
-      ZqManager.DataAcquisitionStart();
-           
-      /* stop the data acquisition */
-      ZqManager.DataAcquisitionStop();
+      /* take an scurve, then data */
+      DaqManager.CollectSc(ConfigOut);
+      DaqManager.CollectData(ConfigOut);
       
       /* close the run file */
-      DaqManager.CloseCpuRun(current_run_file);
+      DaqManager.CloseCpuRun();
       
     /* wait for backup to complete */
       // run_backup.join();
@@ -195,43 +185,28 @@ int main(int argc, char ** argv) {
   else{
     /* typical run */
     /*-------------*/
-    printf("Starting acquisition run\n");
+    std::cout << "starting acqusition run..." <<std::endl; 
     clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
     /* enable signal handling */
     signal(SIGINT, SignalHandler);  
     
     /* define data backup */
-    uint8_t num_storage_dev = UManager.LookupUsb();
-    //std::thread run_backup (DefDataBackup, num_storage_dev);
-    uint8_t backup_ret = UManager.DataBackup(num_storage_dev);
+    UManager.DataBackup();
     
     /* create the run file */ 
-    std::string current_run_file = DaqManager.CreateCpuRunName(num_storage_dev);
-    DaqManager.CreateCpuRun(current_run_file);
+    DaqManager.CreateCpuRun();
     
     if(hv_on == true) {
-      std::cout << "hv on test!" << std::endl;
-      /* turn on the HV */
-      //HvpsTurnOn(ConfigOut.cathode_voltage, ConfigOut.dynode_voltage);
+      ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
     
-    /* take an scurve */
-    DaqManager.CollectData(current_run_file, ConfigOut);
-    ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-    
-    /* set the DAC level */
-    ZqManager.SetDac(500); // in pedestal to give non-zero values with no HV
-    
-    /* start the data acquisition */
-    DaqManager.CollectData(current_run_file, ConfigOut);
-    ZqManager.DataAcquisitionStart();
-    
-    /* stop the data acquisition */
-    ZqManager.DataAcquisitionStop();
-    
+    /* take an scurve, then data */
+    DaqManager.CollectSc(ConfigOut);
+    DaqManager.CollectData(ConfigOut);
+     
     /* close the run file */
-    DaqManager.CloseCpuRun(current_run_file);
+    DaqManager.CloseCpuRun();
 
     /* wait for backup to complete */
     //run_backup.join();

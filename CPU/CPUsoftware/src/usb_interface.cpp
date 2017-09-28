@@ -2,7 +2,7 @@
 
 /* default constructor */
 UsbManager::UsbManager() {
-  // num_storage_dev = ;
+  num_storage_dev = LookupUsb();
 }
 /* print a description of usb devices connected */
 void UsbManager::PrintDev(libusb_device * dev) {
@@ -163,7 +163,7 @@ uint8_t UsbManager::LookupUsb() {
 }
 
 /* define data backup based on usb_lookup() */
-int UsbManager::DataBackup(uint8_t num_storage_dev) {
+int UsbManager::DataBackup() {
 
   int ret = 0;
   std::string cmd;

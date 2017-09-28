@@ -24,11 +24,13 @@
 
 class UsbManager {
 public:
+  uint8_t num_storage_dev;
+  
   UsbManager();
   void PrintDev(libusb_device *dev);
   int CheckUsb();
   uint8_t LookupUsb();
-  int DataBackup(uint8_t num_storage_dev);
+  int DataBackup();
 
 };
 #endif

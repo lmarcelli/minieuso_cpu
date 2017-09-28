@@ -76,14 +76,14 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 int DataAcqManager::CreateCpuRun() {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
 
   /* make a new file name */
   cpu_file_name = CreateCpuRunName();
   clog << "info: " << logstream::info << "creating a new cpu run file called " << cpu_file_name << std::endl;
-
+  const char * kCpuFileName = cpu_file_name.c_str();
+ 
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;

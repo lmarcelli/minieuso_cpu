@@ -115,7 +115,7 @@ typedef struct
 } CPU_PACKET;
 
 /* CPU file to store one run */
-/* Shown here as demonstration only */
+/* shown here as demonstration only */
 /* 127415912 bytes (~127 MB) */
 typedef struct
 {
@@ -124,6 +124,16 @@ typedef struct
   CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 4719148 * RUN_SIZE bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } CPU_FILE;
+
+/* SC file to store a single S-curve */
+/* shown here as demonstration only */
+/* 9437212 bytes (~9 MB) */
+typedef struct
+{
+  CpuFileHeader cpu_file_header; /* 10 bytes */
+  Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
+  CpuFileTrailer cpu_file_trailer; /* 10 bytes */
+} SC_FILE;
 
 #pragma pack(pop) /* return to normal packing */
 

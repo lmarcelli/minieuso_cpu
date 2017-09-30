@@ -96,13 +96,23 @@ typedef struct
 } HK_PACKET;
 
 /* zynq packet passed to the CPU every 5.24 s */
+/* MODE2 - no triggers, 1 packet L1 and L2 */
+/* MODE3 - triggers, max 4 packets L1 and L2 */
+/* 2064444 bytes */
+typedef struct
+{
+  Z_DATA_TYPE_SCI_L1_V1 level1_data; /* 294932 bytes */
+  Z_DATA_TYPE_SCI_L2_V1 level2_data; /* 589844 bytes */
+  Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
+} ZYNQ_PACKET_MODE2;
+
 /* 4718772 bytes */
 typedef struct
 {
   Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
   Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
   Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
-} ZYNQ_PACKET;
+} ZYNQ_PACKET_MODE3;
 
 /* CPU packet for incoming data every 5.24 s */
 /* 4719148 bytes */

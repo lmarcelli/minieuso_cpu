@@ -11,6 +11,7 @@
 #include "configuration.h"
 #include "zynq_interface.h"
 #include "usb_interface.h"
+#include "data_acq_se.h"
 #include "data_acq.h"
 
 #define VERSION 2.0

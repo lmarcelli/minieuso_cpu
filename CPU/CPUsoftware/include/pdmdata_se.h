@@ -1,5 +1,5 @@
-#ifndef SRC_PDMDATA_H_
-#define SRC_PDMDATA_H_
+#ifndef SRC_PDMDATA_SE_H_
+#define SRC_PDMDATA_SE_H_
 
 // Constants
 
@@ -91,5 +91,5 @@ typedef struct
 
 #pragma pack(pop) /* return to normal packing */
 
-#endif /* SRC_PDMDATA_H_ */
+#endif /* SRC_PDMDATA_SE_H_ */
 

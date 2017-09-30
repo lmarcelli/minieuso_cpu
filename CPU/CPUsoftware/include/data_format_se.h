@@ -1,15 +1,15 @@
-#ifndef _DATA_FORMAT_H
-#define _DATA_FORMAT_H
+#ifndef _DATA_FORMAT_SE_H
+#define _DATA_FORMAT_SE_H
 
 /* CPU data format definition */
 /*----------------------------*/
-/* NEW MULTI EVENT FORMAT FROM SEPT 2017 */
+/* OLD SINGLE EVENT FORMAT USED IN EM TESTS JAN - AUG 2017  */
 /* for storage of packets coming from the Zynq board and ancillary instruments */
 /* Francesca Capel: capel.francesca@gmail.com */
-/* NB:the Mini-EUSO CPU is little endian */
+/* NB: the Mini-EUSO CPU is little endian */
 
-/* new multi event data format */
-#include "pdmdata.h"
+/* old single event format for backward compatibility */
+#include "pdmdata_se.h"
 
 /* instrument definitions */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */
@@ -64,16 +64,6 @@ typedef struct
 #define SC_PACKET_VER 1
 #define CPU_PACKET_VER 1
 
-/* for the analog readout */
-#define N_CHANNELS_PHOTODIODE 4
-#define N_CHANNELS_SIPM 64
-#define N_CHANNELS_THERM 16
-
-/* size of the zynq packets */
-#define MAX_PACKETS_L1 4
-#define MAX_PACKETS_L2 4
-#define MAX_PACKETS_L3 1
-
 /* Timestamp structure in binary format */
 /* Year 0=2017, 1=2018, 2=2019, 3=... */
 /* 4 bytes */
@@ -89,28 +79,19 @@ typedef struct
 {
   CpuPktHeader hk_packet_header; /* 14 bytes */
   CpuTimeStamp hk_time; /* 4 bytes */
-  float photodiode_data[N_CHANNELS_PHOTODIODE]; 
-  float sipm_data[N_CHANNELS_SIPM];
+  float photodiode_data[4]; 
+  float sipm_data[64];
   float sipm_single;
-  float therm_data[N_CHANNELS_THERM];
+  float therm_data[16];
 } HK_PACKET;
 
-/* zynq packet passed to the CPU every 5.24 s */
-/*  */
-typedef struct
-{
-  Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1];
-  Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2];
-  Z_DATA_TYPE_SCI_L3_V1 level3_data;
-} ZYNQ_PACKET;
-
 /* CPU packet for incoming data every 5.24 s */
-/*  bytes */
+/* 2064784 bytes */
 typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 14 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET zynq_packet; /*  bytes */
+  Z_DATA_TYPE_SCI_POLY_V5 zynq_packet; /* 2064408 bytes */
   HK_PACKET hk_packet; /* 358 bytes */
 } CPU_PACKET;
 
@@ -139,4 +120,4 @@ typedef struct
 
 #pragma pack(pop) /* return to normal packing */
 
-#endif /* _DATA_FORMAT_H */
+#endif /* _DATA_FORMAT_SE_H */

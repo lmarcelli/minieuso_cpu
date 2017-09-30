@@ -96,44 +96,32 @@ typedef struct
 } HK_PACKET;
 
 /* zynq packet passed to the CPU every 5.24 s */
-/*  */
+/* 4718772 bytes */
 typedef struct
 {
-  Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1];
-  Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2];
-  Z_DATA_TYPE_SCI_L3_V1 level3_data;
+  Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
+  Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
+  Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
 } ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
-/*  bytes */
+/* 4719148 bytes */
 typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 14 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET zynq_packet; /*  bytes */
+  ZYNQ_PACKET zynq_packet; /* 4718772 bytes */
   HK_PACKET hk_packet; /* 358 bytes */
 } CPU_PACKET;
 
-/* scurve packet for checking pixels */
-/* 232730 bytes */
-typedef struct
-{
-  CpuPktHeader sc_packet_header; /* 14 bytes */
-  CpuTimeStamp sc_time; /* 4 bytes */
-  uint16_t sc_start;
-  uint16_t sc_step;
-  uint16_t sc_stop;
-  uint16_t sc_add;
-  uint8_t sc_data [SCURVE_FRAMES_MAX][N_OF_PIXEL_PER_PDM];
-} SCURVE_PACKET;
-
 /* CPU file to store one run */
-/* 51852350 bytes */
+/* Shown here as demonstration only */
+/* 127415912 bytes (~127 MB) */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 10 bytes */
-  SCURVE_PACKET scurve_packet; /* 232730 bytes */
-  CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 51619600 bytes */
+  Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
+  CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 4719148 * RUN_SIZE bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } CPU_FILE;
 

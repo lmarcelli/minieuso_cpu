@@ -45,7 +45,7 @@ typedef struct
 } AnalogAcq;
 
 /* class for controlling the acquisition */
-class DataAcqManager {
+class DataAcqManagerSe {
 private:
   uint8_t channels;
   uint8_t fifo_depth;
@@ -69,7 +69,7 @@ private:
    
 public:  
   //std::string cpu_file_name;
-  DataAcqManager();
+  DataAcqManagerSe();
   std::string CreateCpuRunName();
   //int CreateCpuRun();
   //int CloseCpuRun();

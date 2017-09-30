@@ -1,7 +1,7 @@
 #include "data_acq.h"
 
 /* default constructor */
-DataAcqManager::DataAcqManager() { 
+DataAcqManagerSe::DataAcqManagerSe() { 
   /* analog acquisition */
   channels = CHANNELS;
   fifo_depth = FIFO_DEPTH;
@@ -11,7 +11,7 @@ DataAcqManager::DataAcqManager() {
 }
   
 /* create cpu run file name */
-std::string DataAcqManager::CreateCpuRunName() {
+std::string DataAcqManagerSe::CreateCpuRunName() {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -41,7 +41,7 @@ std::string DataAcqManager::CreateCpuRunName() {
 }
 
 /* build the cpu file header */
-uint32_t DataAcqManager::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcqManagerSe::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -50,7 +50,7 @@ uint32_t DataAcqManager::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu packet header */
-uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcqManagerSe::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -59,7 +59,7 @@ uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu timestamp */
-uint32_t DataAcqManager::BuildCpuTimeStamp() {
+uint32_t DataAcqManagerSe::BuildCpuTimeStamp() {
 
   uint32_t timestamp;
   struct timeval tv; 
@@ -73,7 +73,7 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
+int DataAcqManagerSe::CreateCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -108,7 +108,7 @@ int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
+int DataAcqManagerSe::CloseCpuRun(std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -163,7 +163,7 @@ int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
 
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+SCURVE_PACKET * DataAcqManagerSe::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
   SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
@@ -205,7 +205,7 @@ SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * 
 
 
 /* read out a zynq data file into a zynq packet */
-Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
+Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManagerSe::ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
   Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
@@ -264,7 +264,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_n
 }
 
 /* analog board read out */
-AnalogAcq * DataAcqManager::AnalogDataCollect() {
+AnalogAcq * DataAcqManagerSe::AnalogDataCollect() {
   AnalogAcq * acq_output = new AnalogAcq();
 #ifndef __APPLE__
   DM75xx_Board_Descriptor * brd;
@@ -379,7 +379,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
 }
 
 /* read out a hk packet */
-HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
+HK_PACKET * DataAcqManagerSe::AnalogPktReadOut(AnalogAcq * acq_output) {
 
   int i, k;
   float sum_ph[PH_CHANNELS];
@@ -417,7 +417,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManagerSe::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -464,7 +464,7 @@ int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
+int DataAcqManagerSe::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
 
   clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
  
@@ -505,7 +505,7 @@ int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_n
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -613,10 +613,10 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
 
   ZynqManager ZqManager;
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, DataAcqManagerSe(), cpu_file_name, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      
@@ -624,12 +624,12 @@ int DataAcqManager::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
 }
 
 /* spawn thread to collect data */
-int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::CollectData(std::string cpu_file_name, Config * ConfigOut) {
 
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, DataAcqManagerSe(), cpu_file_name, ConfigOut);
   ZqManager.DataAcquisitionStart();
   collect_data.join();         
   ZqManager.DataAcquisitionStop();

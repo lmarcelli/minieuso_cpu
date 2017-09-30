@@ -208,7 +208,7 @@ SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * 
 Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
-  Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = new Z_DATA_TYPE_SCI_POLY_V5();
+  ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
   int fsize;
@@ -237,7 +237,7 @@ Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_n
   /* read out the zynq structure, defined in "pdmdata.h" */
   check = fread(zynq_packet, sizeof(*zynq_packet), 1, ptr_zfile);
 
- /* DEBUG */
+  /* DEBUG */
   std::cout << "Check: " << check << std::endl;
   std::cout << "feof: " << feof(ptr_zfile) << std::endl;
   std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
@@ -248,10 +248,10 @@ Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_n
   }
   
   /* DEBUG: print records to check */
-  std::cout << "header = " << zynq_packet->zbh.header << std::endl;
-  std::cout <<  "payload_size = " << zynq_packet->zbh.payload_size << std::endl;
-  std::cout << "hv_status = " << zynq_packet->payload.hv_status << std::endl;
-  std::cout << "n_gtu = " << zynq_packet->payload.ts.n_gtu << std::endl; 
+  std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
+  std::cout <<  "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
+  std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
+  std::cout << "n_gtu = L1 " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
   //printf("header = %u\n", zynq_packet->zbh.header);
   //printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
   //printf("hv_status = %u\n", zynq_packet->payload.hv_status);

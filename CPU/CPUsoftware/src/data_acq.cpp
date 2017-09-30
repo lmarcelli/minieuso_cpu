@@ -163,26 +163,15 @@ int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
 
 
 /* read out an scurve file into an scurve packet */
-SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+Z_DATA_TYPE_SCURVE_V1 * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
-  SCURVE_PACKET * sc_packet = new SCURVE_PACKET();
+  Z_DATA_TYPE_SCURVE_V1 * sc_packet = new Z_DATA_TYPE_SCURVE_V1();
   const char * kScFileName = sc_file_name.c_str();
   size_t check;
 
   clog << "info: " << logstream::info << "reading out the file " << sc_file_name << std::endl;
   
-  /* prepare the scurve packet */
-  sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
-  sc_packet->sc_packet_header.pkt_size = sizeof(SCURVE_PACKET);
-  sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
-  sc_packet->sc_start = ConfigOut->scurve_start;
-  printf("scurve start = %u\n",  ConfigOut->scurve_start);
-  sc_packet->sc_step = ConfigOut->scurve_step;
-  printf("scurve step = %u\n",  ConfigOut->scurve_step);
-  sc_packet->sc_stop = ConfigOut->scurve_stop;
-  sc_packet->sc_add = ConfigOut->scurve_acc;
-
   ptr_scfile = fopen(kScFileName, "rb");
   if (!ptr_scfile) {
     clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
@@ -190,7 +179,7 @@ SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * 
   }
   
   /* read out the scurve data from the file */
-  check = fread(&sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
+  check = fread(sc_packet, sizeof(*sc_packet), 1, ptr_scfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
@@ -205,7 +194,7 @@ SCURVE_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * 
 
 
 /* read out a zynq data file into a zynq packet */
-Z_DATA_TYPE_SCI_POLY_V5 * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
+ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
 
   FILE * ptr_zfile;
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
@@ -417,7 +406,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -464,7 +453,7 @@ int DataAcqManager::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet, std::string cpu_file_name) {
 
   clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
  
@@ -475,10 +464,6 @@ int DataAcqManager::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_n
 
   clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
 
-  /* set the packet number */
-  sc_packet->sc_packet_header.pkt_num = pkt_counter;
-  printf("sc_packet->sc_packet_header.pkt_num = %u\n", sc_packet->sc_packet_header.pkt_num);
-  
   /* open the cpu file to append */
   clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
@@ -562,7 +547,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 	    sleep(2);
 	      
 	    /* generate sub packets */
-	    Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet = ZynqPktReadOut(zynq_file_name);
+	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name);
 	    AnalogAcq * acq = AnalogDataCollect();
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 	    
@@ -582,7 +567,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 	    sleep(17);
 
 	    /* generate sc packet and append to file */
-	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+	     Z_DATA_TYPE_SCURVE_V1 * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
 	     WriteScPkt(sc_packet, cpu_file_name);
 
 	    /* delete upon completion */

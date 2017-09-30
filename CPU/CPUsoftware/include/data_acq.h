@@ -57,14 +57,14 @@ private:
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
-  SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
-  Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
+  Z_DATA_TYPE_SCURVE_V1 * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   //int WriteScPkt(SCURVE_PACKET * sc_packet);
-  int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name);  
+  int WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet, std::string cpu_file_name);  
   //int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet);
-  int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
+  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
   //int ProcessIncomingData(Config * ConfigOut);
   int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut);
    

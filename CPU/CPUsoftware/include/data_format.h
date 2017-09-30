@@ -98,13 +98,14 @@ typedef struct
 /* zynq packet passed to the CPU every 5.24 s */
 /* MODE2 - no triggers, 1 packet L1 and L2 */
 /* MODE3 - triggers, max 4 packets L1 and L2 */
+/* should be only MODE3 style by next integration OCT 2017 */
 /* 2064444 bytes */
-typedef struct
-{
-  Z_DATA_TYPE_SCI_L1_V1 level1_data; /* 294932 bytes */
-  Z_DATA_TYPE_SCI_L2_V1 level2_data; /* 589844 bytes */
-  Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
-} ZYNQ_PACKET_MODE2;
+// typedef struct
+// {
+//   Z_DATA_TYPE_SCI_L1_V1 level1_data; /* 294932 bytes */
+//   Z_DATA_TYPE_SCI_L2_V1 level2_data; /* 589844 bytes */
+//   Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
+// } ZYNQ_PACKET_MODE2;
 
 /* 4718772 bytes */
 typedef struct
@@ -112,37 +113,37 @@ typedef struct
   Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
   Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
   Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
-} ZYNQ_PACKET_MODE3;
+} ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
 /* 2064820 bytes */
-typedef struct
-{
-  CpuPktHeader cpu_packet_header; /* 14 bytes */
-  CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET_MODE2 zynq_packet; /* 2064444 bytes */
-  HK_PACKET hk_packet; /* 358 bytes */
-} CPU_PACKET_MODE2;
+// typedef struct
+// {
+//   CpuPktHeader cpu_packet_header; /* 14 bytes */
+//   CpuTimeStamp cpu_time; /* 4 bytes */
+//   ZYNQ_PACKET_MODE2 zynq_packet; /* 2064444 bytes */
+//   HK_PACKET hk_packet; /* 358 bytes */
+// } CPU_PACKET_MODE2;
 
 /* 4719148 bytes */
 typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 14 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET_MODE3 zynq_packet; /* 4718772 bytes */
+  ZYNQ_PACKET zynq_packet; /* 4718772 bytes */
   HK_PACKET hk_packet; /* 358 bytes */
-} CPU_PACKET_MODE3;
+} CPU_PACKET;
 
 /* CPU file to store one run */
 /* shown here as demonstration only */
 /* 61057712 (~61 MB) bytes */
-typedef struct
-{
-  CpuFileHeader cpu_file_header; /* 10 bytes */
-  Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
-  CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 2064820 * RUN_SIZE bytes */
-  CpuFileTrailer cpu_file_trailer; /* 10 bytes */
-} CPU_FILE_MODE2;
+// typedef struct
+// {
+//   CpuFileHeader cpu_file_header; /* 10 bytes */
+//   Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
+//   CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 2064820 * RUN_SIZE bytes */
+//   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
+// } CPU_FILE_MODE2;
 
 /* 127415912 bytes (~127 MB) */
 typedef struct
@@ -151,7 +152,7 @@ typedef struct
   Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
   CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 4719148 * RUN_SIZE bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
-} CPU_FILE_MODE3;
+} CPU_FILE;
 
 /* SC file to store a single S-curve */
 /* shown here as demonstration only */

@@ -70,14 +70,21 @@ mecontrol -db -log -hv -long -trig
 * trig: runs with triggered data acquisition
 
 ## Functionality
-* the data acquisition 
+* the data acquisition: 
   * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1.
+  * analog and housekeeping data is also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
+  * one CPU packet is appended to the current CPU run file every 5.24s
   * data from the cameras is collected by acquiring with one camera at a time,  waiting 5.24s between acquisitions
-  * data from the photodiodes is read out into a FIFO and collected every 5.24s
 * the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN__<current_date>__<current_time>.dat```
   * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
   * log files are in ```/home/minieusouser/log/```
 * the output data from the cameras is in ```cameras/multiplecam/<current_date>```
   * .png for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```
+
+## Backwards compatibility
+The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
+
+1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
+2. recompile the code by running ```make``` in ```CPUsoftware/src```
 

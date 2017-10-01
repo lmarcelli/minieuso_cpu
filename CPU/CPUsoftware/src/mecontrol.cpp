@@ -41,7 +41,11 @@ void SignalHandler(int signum) {
   std::cout << "Stopping the acquisition" << std::endl;
   
   /* handle the signal*/
+#ifdef SINGLE_EVENT
   ZqManager.DataAcquisitionStop();
+#else
+  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+#endif
   std::cout << "Acquisition stopped" << std::endl;  
   
   /* terminate the program */
@@ -76,6 +80,7 @@ int main(int argc, char ** argv) {
   bool long_acq = false;
   bool debug_mode = false;
   bool log_on = false;
+  bool trig_on = false;
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
@@ -88,6 +93,10 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-log")){
     log_on = true;
   }
+  if(input.cmdOptionExists("-trig")){
+    trig_on = true;
+  }
+
 
   /* debug/test mode */
   /*-----------------*/
@@ -119,8 +128,6 @@ int main(int argc, char ** argv) {
 
     /* testing the CPU file name */
     std::string cpu_file_name = "file_name_1";
-    std::cout << cpu_file_name << std::endl;
-    const char * kCpuFileName = cpu_file_name.c_str();
     std::cout << cpu_file_name << std::endl;
     
     delete ConfigOut;
@@ -182,7 +189,12 @@ int main(int argc, char ** argv) {
       
       /* take an scurve, then data */
       DaqManager.CollectSc(current_run_file, ConfigOut);
-      DaqManager.CollectData(current_run_file, ConfigOut);
+      if (trig_on == true) {
+	DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE3);
+      }
+      else {
+	DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE2);
+      }
       
       /* close the run file */
       DaqManager.CloseCpuRun(current_run_file);
@@ -220,7 +232,12 @@ int main(int argc, char ** argv) {
 
     /* take an scurve, then data */
     DaqManager.CollectSc(current_run_file, ConfigOut);
-    DaqManager.CollectData(current_run_file, ConfigOut);
+    if (trig_on == true) {
+      DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE3);
+    }
+    else {
+      DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE2);
+    }
      
     /* close the run file */
     DaqManager.CloseCpuRun(current_run_file);

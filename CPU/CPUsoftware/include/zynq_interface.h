@@ -23,11 +23,18 @@ class ZynqManager {
 private:
   std::string ip_address; 
   int portno;  
-
   std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
 
 public:
+  enum InstrumentMode : uint8_t {
+    MODE0 = 0,
+    MODE1 = 1,
+    MODE2 = 2,
+    MODE3 = 3,
+  };
+  InstrumentMode instrument_mode;
+ 
   ZynqManager();
   int CheckTelnet();
   int ConnectTelnet();
@@ -37,6 +44,7 @@ public:
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
+  InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
   /* depreciated commands for compatibility */
 #ifdef SINGLE_EVENT
   int DataAcquisitionStart();

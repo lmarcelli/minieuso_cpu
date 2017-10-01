@@ -2,8 +2,8 @@
 
 /* default constructor */
 ZynqManager::ZynqManager () {   
-  ip_address = ZYNQ_IP;
-  portno = TELNET_PORT;
+  this->ip_address = ZYNQ_IP;
+  this->portno = TELNET_PORT;
 };
 
 /* check telnet connection on a certain IP address */
@@ -14,9 +14,9 @@ int ZynqManager::CheckTelnet() {
   int sockfd;
   struct sockaddr_in serv_addr;
   struct hostent * server;
-  const char * ip = ip_address.c_str();
+  const char * ip = this->ip_address.c_str();
 
-  clog << "info: " << logstream::info << "checking connection to IP " << ip_address  << std::endl;
+  clog << "info: " << logstream::info << "checking connection to IP " << this->ip_address  << std::endl;
  
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -27,7 +27,7 @@ int ZynqManager::CheckTelnet() {
  
   server = gethostbyname(ip);
   if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << ip_address << std::endl;  
+    clog << "error: " << logstream::error << "no host found for " << this->ip_address << std::endl;  
     return 1;
   }
   
@@ -40,11 +40,11 @@ int ZynqManager::CheckTelnet() {
   
   /* try to connect */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << ip_address << " on port " << portno << std::endl;
+    clog << "error: " << logstream::error << "error connecting to " << this->ip_address << " on port " << portno << std::endl;
     return 1;
   }
   else {
-    clog << "info: " << logstream::info << "connected to " << ip_address << " on port " << portno  << std::endl;
+    clog << "info: " << logstream::info << "connected to " << this->ip_address << " on port " << portno  << std::endl;
     printf("connected to %s on port %u\n", ip, portno);
   }
 
@@ -94,9 +94,9 @@ int ZynqManager::ConnectTelnet() {
   int sockfd;
   struct sockaddr_in serv_addr;
   struct hostent * server;
-  const char * ip = ip_address.c_str();
+  const char * ip = this->ip_address.c_str();
 
-  clog << "info: " << logstream::info << "checking connection to IP " << ip_address  << std::endl;
+  clog << "info: " << logstream::info << "checking connection to IP " << this->ip_address  << std::endl;
  
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -107,7 +107,7 @@ int ZynqManager::ConnectTelnet() {
  
   server = gethostbyname(ip);
   if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << ip_address << std::endl;  
+    clog << "error: " << logstream::error << "no host found for " << this->ip_address << std::endl;  
     return 1;
   }
   
@@ -120,11 +120,11 @@ int ZynqManager::ConnectTelnet() {
   
   /* connect */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << ip_address << " on port " << portno << std::endl;
+    clog << "error: " << logstream::error << "error connecting to " << this->ip_address << " on port " << portno << std::endl;
     return 1;
   }
   else {
-    clog << "info: " << logstream::info << "connected to " << ip_address << " on port " << portno  << std::endl;
+    clog << "info: " << logstream::info << "connected to " << this->ip_address << " on port " << portno  << std::endl;
     printf("connected to %s on port %u\n", ip, portno);
   }
   
@@ -163,7 +163,7 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
   int sockfd, n;
   struct sockaddr_in serv_addr;
   struct hostent *server;
-  const char * ip = ip_address.c_str();
+  const char * ip = this->ip_address.c_str();
   const char * kSendMsg = send_msg.c_str();
   char buffer[256];
   
@@ -369,6 +369,54 @@ int ZynqManager::AcqShot() {
 
   close(sockfd);
   return 0;
+}
+
+/* set the acquisition mode */
+ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::InstrumentMode input_mode) {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr = NULL;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  
+  /* check input mode and update accordingly */
+  switch (input_mode) {
+  case MODE0:
+    this->instrument_mode = MODE0; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case MODE1:
+    this->instrument_mode = MODE1; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case MODE2:
+    this->instrument_mode = MODE2; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("instrument mode 2\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case MODE3:
+     this->instrument_mode = MODE3; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("instrument mode 3\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  }
+  
+  /* check the status */
+  //ADD THIS
+  
+  close(sockfd);
+  return this->instrument_mode;
 }
 
 /* depreciated commands for compatibilty */

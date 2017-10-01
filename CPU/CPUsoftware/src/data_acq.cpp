@@ -609,15 +609,34 @@ int DataAcqManager::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
 }
 
 /* spawn thread to collect data */
-int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut, uint8_t instrument_mode) {
 
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), cpu_file_name, ConfigOut);
+
+#ifdef SINGLE_EVENT
   ZqManager.DataAcquisitionStart();
   collect_data.join();         
   ZqManager.DataAcquisitionStop();
-  
+#else
+  switch(instrument_mode) {
+  case ZynqManager::MODE0:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+    break;
+  case ZynqManager::MODE1:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+    break;
+  case ZynqManager::MODE2:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+    break;
+  case ZynqManager::MODE3:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+    break;
+  }
+  collect_data.join();         
+  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+#endif /* SINGLE_EVENT */
   return 0;
 }

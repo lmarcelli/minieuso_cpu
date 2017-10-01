@@ -79,8 +79,11 @@ public:
   int CreateCpuRun(std::string cpu_file_name);
   int CloseCpuRun(std::string cpu_file_name);
   int CollectSc(std::string cpu_file_name, Config * ConfgOut);
+#ifdef SINGLE_EVENT
   int CollectData(std::string cpu_file_name, Config * ConfigOut);
-
+#else
+  int CollectData(std::string cpu_file_name, Config * ConfigOut, uint8_t instrument_mode);
+#endif /* SINGLE_EVENT */
 };
 
 #endif

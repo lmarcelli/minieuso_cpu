@@ -27,7 +27,7 @@ iface eth0 inet dhcp
 4. Download the software from the repository
 ```
 apt-get install git-core
-git clone https://github.com/cescalara/MiniEUSO /home/software
+git clone https://github.com/cescalara/minieuso_cpu /home/software
 ```
 
 5. Run the setup script
@@ -40,30 +40,58 @@ cd /home/software/CPU/CPUsetup/
  * sets up the directory structure
  * configures the network for use with the Zynq board
  * installs and sets up the test software for all systems
- * sets up autlogin to the root user on boot
+ * sets up autologin to the root user on boot
  * restarts the shell 
 
-# Update
-To Update the software following installation: 
+## Update
+To update the software following installation: 
 
 1. Connect to the internet 
 
 2. Run ```git pull``` from the command line within the ```/home/software``` directory
 
-# Run system tests
-1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). 
+## SSH connection
+Mini-EUSO has 2 ethernet ports, eth0 as a connection to the outside world and eth1 configured for a statuc connection to the Zynq board. eth0 can be used both for connection to the internet and over ssh. Simply check the IP adress of eth0 once connected to your machine and run the following command:
 ```
-test_systems 
+ssh minieusouser@<ip_adress>
 ```
-* the data acquisition 
-  * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status
-  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5s between acquisitions
-  * data from the photodiodes is read out into a FIFO and collected every 5s
-* the output data from the PDM and photodiodes is in ```/home/minieusouser/DATA/```
-  * ```frm_XXXXXXXX.dat``` for the PDM frames
-  * ```outputX.dat``` for the photodiode reading
+Once logged in, run ```su -l``` to run as superuser. 
+
+# The software
+The source code is inside the ```CPUsoftware/``` directory and divided into ```src/```,  ```lib/``` and ```include/```. To build the software run ```make``` inside ```CPUsoftware/src```. This will create the executable ```mecontrol``` in ```CPUsoftware/bin```.
+
+To run the software in default mode (standard untriggered data gathering without high voltage) simply run:
+```
+mecontrol
+```
+
+The following command line options are available:
+```
+mecontrol -db -log -hv -long -trig
+```
+
+* db: runs in debug mode (test functionallity executed)
+* log: produces a log with all levels of output printed
+* hv: switches the high voltage on to normal operational level (1100 V)
+* long: takes a long acquisition (i.e. until interrupted)
+* trig: runs with triggered data acquisition
+
+## Functionality
+* the data acquisition: 
+  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1.
+  * analog and housekeeping data is also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
+  * one CPU packet is appended to the current CPU run file every 5.24s
+  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5.24s between acquisitions
+* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN__<current_date>__<current_time>.dat```
+  * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
   * log files are in ```/home/minieusouser/log/```
-* the output data from the cameras is in ```/home/software/CPU/cameras/multiplecam/<current_date>```
+* the output data from the cameras is in ```cameras/multiplecam/<current_date>```
   * .png for the photos from the cameras
-  * log files are in ```/home/software/CPU/cameras/multiplecam/log/```
+  * log files are in ```cameras/multiplecam/log/```
+
+## Backwards compatibility
+The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
+
+1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
+2. Recompile the code by running ```make``` in ```CPUsoftware/src```
 

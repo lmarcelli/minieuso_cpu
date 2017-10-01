@@ -3,11 +3,11 @@
 /* default constructor */
 DataAcqManager::DataAcqManager() { 
   /* analog acquisition */
-  channels = CHANNELS;
-  fifo_depth = FIFO_DEPTH;
-  burst_rate = BURST_RATE;
-  pacer_rate = PACER_RATE;
-  ph_channels = PH_CHANNELS;
+  this->channels = CHANNELS;
+  this->fifo_depth = FIFO_DEPTH;
+  this->burst_rate = BURST_RATE;
+  this->pacer_rate = PACER_RATE;
+  this->ph_channels = PH_CHANNELS;
 }
   
 /* create cpu run file name */
@@ -258,7 +258,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
 #ifndef __APPLE__
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
-  dm75xx_cgt_entry_t cgt[CHANNELS];
+  dm75xx_cgt_entry_t cgt[this->channels];
   int i, j;
   float actR;
   uint16_t data = 0x0000;  
@@ -284,7 +284,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Enable");
   
   /* set the channel gain table for all channels */
-  for (i = 0; i < CHANNELS; i++) {
+  for (i = 0; i < this->channels; i++) {
     cgt[i].channel = i;
     cgt[i].gain = 0;
     cgt[i].nrse = 0;
@@ -302,7 +302,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   dm75xx_status = DM75xx_BCLK_Setup(brd,
 				    DM75xx_BCLK_START_PACER,
 				    DM75xx_BCLK_FREQ_8_MHZ,
-				    BURST_RATE, &actR);
+				    this->burst_rate, &actR);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
   dm75xx_status = DM75xx_PCLK_Setup(brd,
 				    DM75xx_PCLK_INTERNAL,
@@ -310,7 +310,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
 				    DM75xx_PCLK_NO_REPEAT,
 				    DM75xx_PCLK_START_SOFTWARE,
 				    DM75xx_PCLK_STOP_SOFTWARE,
-				    PACER_RATE, &actR);
+				    this->pacer_rate, &actR);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
   
   /* Set ADC Conversion Signal Select */
@@ -338,8 +338,8 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   do {
     
     /* Reading the FIFO */
-    for (i = 0; i < FIFO_DEPTH; i++) {
-      for (j = 0; j < CHANNELS; j++) {
+    for (i = 0; i < this->fifo_depth; i++) {
+      for (j = 0; j < this->channels; j++) {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
@@ -371,7 +371,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
 HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
   int i, k;
-  float sum_ph[PH_CHANNELS];
+  float sum_ph[this->ph_channels];
   float sum_sipm1 = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
   
@@ -382,12 +382,12 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
   
   
   /* initialise */
-  for(k = 0; k < PH_CHANNELS; k++) {
+  for(k = 0; k < this->ph_channels; k++) {
     sum_ph[k] = 0;
   }
 
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
-  for(i = 0; i < FIFO_DEPTH; i++) {
+  for(i = 0; i < this->fifo_depth; i++) {
     sum_ph[0] += acq_output->val[i][0];
     sum_ph[1] += acq_output->val[i][1];
     sum_ph[2] += acq_output->val[i][2];
@@ -396,10 +396,10 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
     hk_packet->sipm_data[i] = acq_output->val[i][5];
   }
 
-  for (k = 0; k < PH_CHANNELS; k++) {
-    hk_packet->photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
+  for (k = 0; k < this->ph_channels; k++) {
+    hk_packet->photodiode_data[k] = sum_ph[k]/this->fifo_depth;
   }
-  hk_packet->sipm_single = sum_sipm1/FIFO_DEPTH;
+  hk_packet->sipm_single = sum_sipm1/this->fifo_depth;
 
   return hk_packet;
 }

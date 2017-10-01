@@ -2,15 +2,15 @@
 
 /* default constructor */
 ConfigManager::ConfigManager () {
-  config_file_local = CONFIG_FILE_LOCAL;
-  config_file = CONFIG_FILE_USB;
+  this->config_file_local = CONFIG_FILE_LOCAL;
+  this->config_file = CONFIG_FILE_USB;
     
 };
 
 /* constructor */
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
-  config_file_local = cfl;
-  config_file = cf;
+  this->config_file_local = cfl;
+  this->config_file = cf;
 };
 
 /* copy a file */
@@ -46,7 +46,7 @@ Config * ConfigManager::Parse() {
   
   std::ifstream cfg_file;
   std::stringstream cf;
-  cf << config_file_local;
+  cf << this->config_file_local;
   config_file_name = cf.str();
 
   cfg_file.open(config_file_name.c_str());
@@ -101,8 +101,8 @@ Config * ConfigManager::Parse() {
 Config * ConfigManager::Configure() {
 
   /* definitions */
-  const char * kCfg = config_file.c_str();
-  const char * kCfgLocal = config_file_local.c_str();
+  const char * kCfg = this->config_file.c_str();
+  const char * kCfgLocal = this->config_file_local.c_str();
   Config * ParseOutput = NULL;
 
   clog << "info: " << logstream::info << "running configuration" << std::endl;

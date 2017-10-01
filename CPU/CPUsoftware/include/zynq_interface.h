@@ -35,12 +35,13 @@ public:
   int HvpsStatus();
   int HvpsTurnOn(int cv, int dv);
   int Scurve(int start, int step, int stop, int acc);
-  int DataAcquisitionStart();
-  int DataAcquisitionStop();
   int SetDac(int dac_level);
   int AcqShot();
-  
+  /* depreciated commands for compatibility */
+#ifdef SINGLE_EVENT
+  int DataAcquisitionStart();
+  int DataAcquisitionStop();
+#endif /* SINGLE_EVENT */
 };
 
-#endif
-/* _ZYNQ_INTERFACE_H */
+#endif /* _ZYNQ_INTERFACE_H */

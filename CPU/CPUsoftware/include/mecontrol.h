@@ -13,8 +13,8 @@
 #include "usb_interface.h"
 
 /* definition to select event mode */
-#define MULTI_EVENT
-#ifndef MULTI_EVENT
+//#define SINGLE_EVENT
+#ifdef SINGLE_EVENT
 #include "data_acq_se.h"
 #else
 #include "data_acq.h"

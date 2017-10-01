@@ -312,65 +312,6 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   return 0;
 }
 
-int ZynqManager::DataAcquisitionStart() {
-
-  /* definitions */
-  std::string status_string;
-  const char * kStatStr = NULL;
-  int sockfd;
-
-  clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
-
-  /* setup the telnet connection */
-  sockfd = ConnectTelnet();
-  
-  /* send and receive commands */
-  /* switch to data acquisition mode 1*/
-  status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
-  printf("status: %s\n", kStatStr);
-
-  /* check the status */
-  //ADD THIS
-
-  /* start data acquisition */
-  status_string = SendRecvTelnet("instrument start\n", sockfd);
-  printf("status: %s\n", kStatStr);
-  
-  
-  close(sockfd);
-  return 0;
-}
-
-
-int ZynqManager::DataAcquisitionStop() {
-
-  /* definitions */
-  std::string status_string;
-  const char * kStatStr = NULL;
-  int sockfd;
-
-  clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
-
-  /* setup the telnet connection */
-  sockfd = ConnectTelnet();
-  
-  /* send and receive commands */
-  /* stop the data acquisition */
-  status_string = SendRecvTelnet("instrument stop\n", sockfd);
-  printf("status: %s\n", kStatStr);
-
-  /* check the status */
-  //ADD THIS
-
-  /* switch to instrument mode 0 */
-  status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-  printf("status: %s\n", kStatStr);
-  
-  
-  close(sockfd);
-  return 0;
-}
-
 /* set the DAC on the SPACIROCs */
 int ZynqManager::SetDac(int dac_level) {
 
@@ -430,3 +371,64 @@ int ZynqManager::AcqShot() {
   return 0;
 }
 
+/* depreciated commands for compatibilty */
+#ifdef SINGLE_EVENT
+int ZynqManager::DataAcquisitionStart() {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr = NULL;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  
+  /* send and receive commands */
+  /* switch to data acquisition mode 1*/
+  status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
+  printf("status: %s\n", kStatStr);
+
+  /* check the status */
+  //ADD THIS
+
+  /* start data acquisition */
+  status_string = SendRecvTelnet("instrument start\n", sockfd);
+  printf("status: %s\n", kStatStr);
+  
+  
+  close(sockfd);
+  return 0;
+}
+
+
+int ZynqManager::DataAcquisitionStop() {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr = NULL;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  
+  /* send and receive commands */
+  /* stop the data acquisition */
+  status_string = SendRecvTelnet("instrument stop\n", sockfd);
+  printf("status: %s\n", kStatStr);
+
+  /* check the status */
+  //ADD THIS
+
+  /* switch to instrument mode 0 */
+  status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
+  printf("status: %s\n", kStatStr);
+  
+  
+  close(sockfd);
+  return 0;
+}
+#endif /* SINGLE_EVENT */

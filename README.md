@@ -40,15 +40,22 @@ cd /home/software/CPU/CPUsetup/
  * sets up the directory structure
  * configures the network for use with the Zynq board
  * installs and sets up the test software for all systems
- * sets up autlogin to the root user on boot
+ * sets up autologin to the root user on boot
  * restarts the shell 
 
-# Update
+## Update
 To update the software following installation: 
 
 1. Connect to the internet 
 
 2. Run ```git pull``` from the command line within the ```/home/software``` directory
+
+## SSH connection
+Mini-EUSO has 2 ethernet ports, eth0 as a connection to the outside world and eth1 configured for a statuc connection to the Zynq board. eth0 can be used both for connection to the internet and over ssh. Simply check the IP adress of eth0 once connected to your machine and run the following command:
+```
+ssh minieusouser@<ip_adress>
+```
+Once logged in, run ```su -l``` to run as superuser. 
 
 # The software
 The source code is inside the ```CPUsoftware/``` directory and divided into ```src/```,  ```lib/``` and ```include/```. To build the software run ```make``` inside ```CPUsoftware/src```. This will create the executable ```mecontrol``` in ```CPUsoftware/bin```.

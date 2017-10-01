@@ -27,7 +27,7 @@ iface eth0 inet dhcp
 4. Download the software from the repository
 ```
 apt-get install git-core
-git clone https://github.com/cescalara/MiniEUSO /home/software
+git clone https://github.com/cescalara/minieuso_cpu /home/software
 ```
 
 5. Run the setup script
@@ -44,26 +44,40 @@ cd /home/software/CPU/CPUsetup/
  * restarts the shell 
 
 # Update
-To Update the software following installation: 
+To update the software following installation: 
 
 1. Connect to the internet 
 
 2. Run ```git pull``` from the command line within the ```/home/software``` directory
 
-# Run system tests
-1. Use the following command to test the simultaneous aquisition from the PDM (via the Zynq board), NIR and visible cameras (via USB) and the photodiode sensors (via the analog board). 
+# The software
+The source code is inside the ```CPUsoftware/``` directory and divided into ```src/```,  ```lib/``` and ```include/```. To build the software run ```make``` inside ```CPUsoftware/src```. This will create the executable ```mecontrol``` in ```CPUsoftware/bin```.
+
+To run the software in default mode (standard untriggered data gathering without high voltage) simply run:
 ```
-test_systems 
+mecontrol
 ```
+
+The following command line options are available:
+```
+mecontrol -db -log -hv -long -trig
+```
+
+* db: runs in debug mode (test functionallity executed)
+* log: produces a log with all levels of output printed
+* hv: switches the high voltage on to normal operational level (1100 V)
+* long: takes a long acquisition (i.e. until interrupted)
+* trig: runs with triggered data acquisition
+
+## Functionality
 * the data acquisition 
-  * data from the PDM is collected in a non-triggered way, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status
-  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5s between acquisitions
-  * data from the photodiodes is read out into a FIFO and collected every 5s
-* the output data from the PDM and photodiodes is in ```/home/minieusouser/DATA/```
-  * ```frm_XXXXXXXX.dat``` for the PDM frames
-  * ```outputX.dat``` for the photodiode reading
+  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1.
+  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5.24s between acquisitions
+  * data from the photodiodes is read out into a FIFO and collected every 5.24s
+* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN__<current_date>__<current_time>.dat```
+  * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
   * log files are in ```/home/minieusouser/log/```
-* the output data from the cameras is in ```/home/software/CPU/cameras/multiplecam/<current_date>```
+* the output data from the cameras is in ```cameras/multiplecam/<current_date>```
   * .png for the photos from the cameras
-  * log files are in ```/home/software/CPU/cameras/multiplecam/log/```
+  * log files are in ```cameras/multiplecam/log/```
 

@@ -86,5 +86,5 @@ mecontrol -db -log -hv -long -trig
 The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
 
 1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
-2. recompile the code by running ```make``` in ```CPUsoftware/src```
+2. Recompile the code by running ```make``` in ```CPUsoftware/src```
 

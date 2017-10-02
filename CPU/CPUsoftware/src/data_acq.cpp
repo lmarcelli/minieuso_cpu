@@ -15,12 +15,20 @@ DataAcqManager::DataAcqManager() {
 }
   
 /* create cpu run file name */
-std::string DataAcqManager::CreateCpuRunName() {
+std::string DataAcqManager::CreateCpuRunName(RunType run_type) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
-  std::string time_str("/CPU_RUN__%Y_%m_%d__%H_%M_%S.dat");
+  std::string time_str;
+  switch (run_type) {
+  case CPU:
+    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
+    break;
+  case SC:
+    time_str = "/CPU_RUN _SC__%Y_%m_%d__%H_%M_%S.dat";
+    break;
+  }
   std::string cpu_str;
 
   /* get the number of devices */
@@ -62,12 +70,6 @@ uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
   return header;
 }
 
-/* get the current run file name */
-std::string DataAcqManager::GetCpuRunName() {
-  std::string run_name = this->cpu_main_file_name;
-  return run_name;
-}
-
 /* build the cpu timestamp */
 uint32_t DataAcqManager::BuildCpuTimeStamp() {
 
@@ -83,18 +85,26 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun() {
+int DataAcqManager::CreateCpuRun(RunType run_type) {
 
   FILE * ptr_cpufile;
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
-
-  /* set the main cpu file name */
-  this->cpu_main_file_name = CreateCpuRunName();
+  const char * kCpuFileName;
   
-  /* DEBUG */
-  clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
-  const char * kCpuFileName = cpu_main_file_name.c_str();
+  /* set the cpu file name */
+  switch (run_type) {
+  case CPU: 
+    this->cpu_main_file_name = CreateCpuRunName(CPU);
+    clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
+    kCpuFileName = cpu_main_file_name.c_str();
+    break;
+  case SC: 
+    this->cpu_sc_file_name = CreateCpuRunName(SC);
+    clog << "info: " << logstream::info << "Set cpu_sc_file_name to: " << cpu_sc_file_name << std::endl;
+    kCpuFileName = cpu_sc_file_name.c_str();
+    break;
+  }
  
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
@@ -472,17 +482,17 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet) {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_main_file_name.c_str();
+  const char * kCpuFileName = cpu_sc_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
 
-  clog << "info: " << logstream::info << "writing new packet to " << cpu_main_file_name << std::endl;
+  clog << "info: " << logstream::info << "writing new packet to " << cpu_sc_file_name << std::endl;
 
   /* open the cpu file to append */
   clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_sc_file_name << std::endl;
     return 1;
   }
 
@@ -490,7 +500,7 @@ int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet) {
   clog << "info: " << logstream::info << "about to write scurve " << std::endl;
   check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_sc_file_name << std::endl;
     delete sc_packet;
     return 1;
   }

@@ -128,7 +128,7 @@ int main(int argc, char ** argv) {
 
     /* testing the CPU file name */
     std::cout << "Before setting: " << DaqManager.cpu_main_file_name << std::endl;
-    DaqManager.CreateCpuRun();
+    DaqManager.CreateCpuRun(DataAcqManager::CPU);
     std::cout << "After setting: " << DaqManager.cpu_main_file_name << std::endl;
     DaqManager.CloseCpuRun();
     std::cout << "After closing: " << DaqManager.cpu_main_file_name << std::endl;
@@ -181,7 +181,7 @@ int main(int argc, char ** argv) {
       UManager.DataBackup();
     
       /* create the run file */ 
-      DaqManager.CreateCpuRun();
+      DaqManager.CreateCpuRun(DataAcqManager::CPU);
       clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
        		
       /* turn on the HV */
@@ -224,7 +224,7 @@ int main(int argc, char ** argv) {
     UManager.DataBackup();
     
     /* create the run file */ 
-    DaqManager.CreateCpuRun();
+    DaqManager.CreateCpuRun(DataAcqManager::CPU);
     clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
     
     if(hv_on == true) {

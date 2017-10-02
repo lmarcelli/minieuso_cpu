@@ -46,17 +46,34 @@ typedef struct
 } AnalogAcq;
 
 /* class for controlling the acquisition */
-class DataAcqManager {
+class DataAcqManager {   
+public:  
+  std::string cpu_main_file_name;
+  std::string cpu_sc_file_name;
+
+  enum RunType : uint8_t {
+    CPU = 0,
+    SC = 1,
+  };
+
+  DataAcqManager();
+  int CreateCpuRun(RunType run_type);
+  int CloseCpuRun();
+  int CollectSc(Config * ConfgOut);
+#ifdef SINGLE_EVENT
+  int CollectData(Config * ConfigOut);
+#else
+  int CollectData(Config * ConfigOut, uint8_t instrument_mode);
+#endif /* SINGLE_EVENT */
+
 private:
-  std::string _cpu_main_file_name;
   uint8_t channels;
   uint8_t fifo_depth;
   uint32_t burst_rate;
   uint32_t pacer_rate;
   uint8_t ph_channels;
 
-  std::string CreateCpuRunName();
-  std::string GetCpuRunName();
+  std::string CreateCpuRunName(RunType run_type);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
@@ -67,20 +84,7 @@ private:
   int WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
   int ProcessIncomingData(Config * ConfigOut);
-   
-public:  
-  std::string cpu_main_file_name;
-  std::string cpu_sc_file_name;
-  
-  DataAcqManager();
-  int CreateCpuRun();
-  int CloseCpuRun();
-  int CollectSc(Config * ConfgOut);
-#ifdef SINGLE_EVENT
-  int CollectData(Config * ConfigOut);
-#else
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode);
-#endif /* SINGLE_EVENT */
+
 };
 
 #endif

@@ -145,11 +145,10 @@ typedef struct
 //   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 // } CPU_FILE_MODE2;
 
-/* 127415912 bytes (~127 MB) */
+/* 117978720 bytes (~118 MB) */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 10 bytes */
-  Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
   CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 4719148 * RUN_SIZE bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } CPU_FILE;

@@ -256,7 +256,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout <<  "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
-  std::cout << "n_gtu = L1 " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
+  std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
   //printf("header = %u\n", zynq_packet->zbh.header);
   //printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
   //printf("hv_status = %u\n", zynq_packet->payload.hv_status);
@@ -370,7 +370,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
   
   /* Print how many samples were received */
-  clog << "info: " << logstream::info << "received " << i * j << "analog samples" << std::endl;
+  clog << "info: " << logstream::info << "received " << i * j << " analog samples" << std::endl;
 
   /* Reset the board and close the device */
   dm75xx_status = DM75xx_Board_Reset(brd);
@@ -615,7 +615,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
-  //std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
@@ -629,7 +628,6 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
-  //std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
 
 #ifdef SINGLE_EVENT

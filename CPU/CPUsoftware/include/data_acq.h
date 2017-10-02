@@ -56,6 +56,7 @@ private:
   uint8_t ph_channels;
 
   std::string CreateCpuRunName();
+  std::string GetCpuRunName();
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();

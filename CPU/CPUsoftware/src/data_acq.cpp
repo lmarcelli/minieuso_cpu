@@ -425,8 +425,8 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet) {
 
   FILE * ptr_cpufile;
-  CPU_PACKET * cpu_packet = new CPU_PACKET();
   const char * kCpuFileName = cpu_main_file_name.c_str();
+  CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
   size_t check;
 
@@ -437,13 +437,13 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   cpu_packet->cpu_packet_header.pkt_num = pkt_counter; 
   cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
-  
+
   /* add the zynq and hk packets */
   cpu_packet->zynq_packet = *zynq_packet;
   delete zynq_packet;
   cpu_packet->hk_packet = *hk_packet;
   delete hk_packet;
-  
+
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
@@ -615,7 +615,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+  //std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      
@@ -628,7 +629,8 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+  //std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
 
 #ifdef SINGLE_EVENT
   ZqManager.DataAcquisitionStart();

@@ -1,5 +1,5 @@
-#ifndef _DATA_ACQ_H
-#define _DATA_ACQ_H
+#ifndef _DATA_ACQ_SE_H
+#define _DATA_ACQ_SE_H
 
 #include <boost/crc.hpp>  
 #ifndef __APPLE__
@@ -9,11 +9,10 @@
 #include <thread>
 
 #include "log.h"
-#include "usb_interface.h"
-#include "zynq_interface.h"
-#include "pdmdata.h"
-#include "data_format.h"
-#include "configuration.h"
+#include "UsbManager.h"
+#include "ZynqManager.h"
+#include "data_format_se.h"
+#include "ConfigManager.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
@@ -46,26 +45,7 @@ typedef struct
 } AnalogAcq;
 
 /* class for controlling the acquisition */
-class DataAcqManager {   
-public:  
-  std::string cpu_main_file_name;
-  std::string cpu_sc_file_name;
-
-  enum RunType : uint8_t {
-    CPU = 0,
-    SC = 1,
-  };
-
-  DataAcqManager();
-  int CreateCpuRun(RunType run_type);
-  int CloseCpuRun();
-  int CollectSc(Config * ConfgOut);
-#ifdef SINGLE_EVENT
-  int CollectData(Config * ConfigOut);
-#else
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode);
-#endif /* SINGLE_EVENT */
-
+class DataAcqManagerSe {
 private:
   uint8_t channels;
   uint8_t fifo_depth;
@@ -73,19 +53,34 @@ private:
   uint32_t pacer_rate;
   uint8_t ph_channels;
 
-  std::string CreateCpuRunName(RunType run_type);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
-  Z_DATA_TYPE_SCURVE_V1 * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
-  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);
+  SCURVE_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  Z_DATA_TYPE_SCI_POLY_V5 * ZynqPktReadOut(std::string zynq_file_name);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
-  int WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet);
-  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
-  int ProcessIncomingData(Config * ConfigOut);
+  //int WriteScPkt(SCURVE_PACKET * sc_packet);
+  int WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name);  
+  //int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet);
+  int WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name);
+  //int ProcessIncomingData(Config * ConfigOut);
+  int ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut);
+   
+public:  
+  //std::string cpu_file_name;
+  DataAcqManagerSe();
+  std::string CreateCpuRunName();
+  //int CreateCpuRun();
+  //int CloseCpuRun();
+  //int CollectSc(Config * ConfgOut);
+  //int CollectData(Config * ConfigOut);
+  int CreateCpuRun(std::string cpu_file_name);
+  int CloseCpuRun(std::string cpu_file_name);
+  int CollectSc(std::string cpu_file_name, Config * ConfgOut);
+  int CollectData(std::string cpu_file_name, Config * ConfigOut);
 
 };
 
 #endif
-/* _DATA_ACQ_H */
+/* _DATA_ACQ_SE_H */

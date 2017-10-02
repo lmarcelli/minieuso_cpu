@@ -1,4 +1,4 @@
-#include "configuration.h"
+#include "ConfigManager.h"
 
 /* default constructor */
 ConfigManager::ConfigManager () {

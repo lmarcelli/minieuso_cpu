@@ -1,4 +1,4 @@
-#include "usb_interface.h"
+#include "UsbManager.h"
 
 /* default constructor */
 UsbManager::UsbManager() {

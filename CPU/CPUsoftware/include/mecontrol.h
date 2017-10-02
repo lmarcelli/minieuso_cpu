@@ -8,16 +8,16 @@
 #include <vector>
 
 #include "log.h"
-#include "configuration.h"
-#include "zynq_interface.h"
-#include "usb_interface.h"
+#include "ConfigManager.h"
+#include "ZynqManager.h"
+#include "UsbManager.h"
 
 /* definition to select event mode */
 //#define SINGLE_EVENT
 #ifdef SINGLE_EVENT
-#include "data_acq_se.h"
+#include "DataAcqManagerSe.h"
 #else
-#include "data_acq.h"
+#include "DataAcqManager.h"
 #endif
 
 #define VERSION 2.0

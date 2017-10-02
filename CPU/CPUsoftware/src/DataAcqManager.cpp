@@ -1,4 +1,4 @@
-#include "data_acq.h"
+#include "DataAcqManager.h"
 
 /* default constructor */
 DataAcqManager::DataAcqManager() { 

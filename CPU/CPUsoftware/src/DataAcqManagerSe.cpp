@@ -1,4 +1,5 @@
-#include "data_acq.h"
+#include "DataAcqManagerSe.h"
+#ifdef SINGLE_EVENT
 
 /* default constructor */
 DataAcqManagerSe::DataAcqManagerSe() { 
@@ -636,3 +637,4 @@ int DataAcqManagerSe::CollectData(std::string cpu_file_name, Config * ConfigOut)
   
   return 0;
 }
+#endif /* SINGLE_EVENT */

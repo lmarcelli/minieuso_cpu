@@ -1,4 +1,4 @@
-#include "zynq_interface.h"
+#include "ZynqManager.h"
 
 /* default constructor */
 ZynqManager::ZynqManager () {   

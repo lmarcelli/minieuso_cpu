@@ -5,7 +5,6 @@ DataAcqManager::DataAcqManager() {
   /* filename initialisation */
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";
-  _cpu_main_file_name = "";
   
   /* analog acquisition */
   this->channels = CHANNELS;
@@ -65,7 +64,7 @@ uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
 /* get the current run file name */
 std::string DataAcqManager::GetCpuRunName() {
-  std::string run_name = this->_cpu_main_file_name;
+  std::string run_name = this->cpu_main_file_name;
   return run_name;
 }
 
@@ -91,11 +90,11 @@ int DataAcqManager::CreateCpuRun() {
   size_t check;
 
   /* set the main cpu file name */
-  this->_cpu_main_file_name = CreateCpuRunName();
-  this->cpu_main_file_name = _cpu_main_file_name;
+  this->cpu_main_file_name = CreateCpuRunName();
+  
   /* DEBUG */
-  clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << _cpu_main_file_name << std::endl;
-  const char * kCpuFileName = _cpu_main_file_name.c_str();
+  clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
+  const char * kCpuFileName = cpu_main_file_name.c_str();
  
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
@@ -104,14 +103,14 @@ int DataAcqManager::CreateCpuRun() {
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "wb");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << _cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << cpu_main_file_name << std::endl;
     return 1;
   }
 
   /* write to the cpu run file */
   check = fwrite(cpu_file_header, sizeof(*cpu_file_header), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << _cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << cpu_main_file_name << std::endl;
     delete cpu_file_header;
     return 1;
   }
@@ -128,7 +127,6 @@ int DataAcqManager::CreateCpuRun() {
 int DataAcqManager::CloseCpuRun() {
 
   FILE * ptr_cpufile;
-  std::string cpu_main_file_name = GetCpuRunName();
   const char * kCpuFileName = cpu_main_file_name.c_str();
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   size_t check;
@@ -428,7 +426,6 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
-  std::string cpu_main_file_name = GetCpuRunName();
   const char * kCpuFileName = cpu_main_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
@@ -475,7 +472,6 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet) {
 
   FILE * ptr_cpufile;
-  std::string cpu_main_file_name = GetCpuRunName();
   const char * kCpuFileName = cpu_main_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;

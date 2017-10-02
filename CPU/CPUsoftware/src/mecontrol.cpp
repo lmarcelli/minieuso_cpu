@@ -129,8 +129,9 @@ int main(int argc, char ** argv) {
     /* testing the CPU file name */
     std::cout << "Before setting: " << DaqManager.cpu_main_file_name << std::endl;
     DaqManager.CreateCpuRun();
-    std::string current_run_file = DaqManager.cpu_main_file_name;
-    std::cout << "After setting: " << current_run_file << std::endl;
+    std::cout << "After setting: " << DaqManager.cpu_main_file_name << std::endl;
+    DaqManager.CloseCpuRun();
+    std::cout << "After closing: " << DaqManager.cpu_main_file_name << std::endl;
     
     delete ConfigOut;
     return 0;

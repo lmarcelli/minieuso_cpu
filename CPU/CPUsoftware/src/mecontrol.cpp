@@ -231,7 +231,7 @@ int main(int argc, char ** argv) {
     }
 
     /* take an scurve, then data */
-    DaqManager.CollectSc(current_run_file, ConfigOut);
+    //    DaqManager.CollectSc(current_run_file, ConfigOut);
     if (trig_on == true) {
       DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE3);
     }

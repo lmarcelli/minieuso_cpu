@@ -2,6 +2,10 @@
 
 /* default constructor */
 DataAcqManager::DataAcqManager() { 
+  /* filename initialisation */
+  this->cpu_main_file_name = "";
+  this->cpu_sc_file_name = "";
+  
   /* analog acquisition */
   this->channels = CHANNELS;
   this->fifo_depth = FIFO_DEPTH;
@@ -73,13 +77,18 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CreateCpuRun() {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
 
+  /* set the main cpu file name */
+  this->cpu_main_file_name = CreateCpuRunName();
+  /* DEBUG */
+  std::cout << "Set cpu_main_file_name to: " << this->cpu_main_file_name << std::endl;
+  const char * kCpuFileName = this->cpu_main_file_name.c_str();
+ 
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;
@@ -87,14 +96,14 @@ int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
   /* open the cpu run file */
   ptr_cpufile = fopen(kCpuFileName, "wb");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->cpu_main_file_name << std::endl;
     return 1;
   }
 
   /* write to the cpu run file */
   check = fwrite(cpu_file_header, sizeof(*cpu_file_header), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << this->cpu_main_file_name << std::endl;
     delete cpu_file_header;
     return 1;
   }
@@ -108,18 +117,18 @@ int DataAcqManager::CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
+int DataAcqManager::CloseCpuRun() {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_main_file_name.c_str();
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   size_t check;
 
-  clog << "info: " << logstream::info << "closing the cpu run file called " << cpu_file_name << std::endl;
+  clog << "info: " << logstream::info << "closing the cpu run file called " << this->cpu_main_file_name << std::endl;
 
   /* calculate the CRC */
   boost::crc_32_type crc_result;
-  std::ifstream ifs(cpu_file_name, std::ios_base::binary);	
+  std::ifstream ifs(this->cpu_main_file_name, std::ios_base::binary);	
   if(ifs) {
     do {
       char buffer[buffer_size];
@@ -128,11 +137,11 @@ int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
     } while (ifs);
   }
   else {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->cpu_main_file_name << std::endl;
     return 1;
   }
   std::cout << std::hex << std::uppercase << "CRC = " << crc_result.checksum() << std::endl;
-  clog << "info: " << logstream::info << "CRC for " << cpu_file_name << " = "
+  clog << "info: " << logstream::info << "CRC for " << this->cpu_main_file_name << " = "
        << std::hex << std::uppercase << crc_result.checksum() << std::endl;
   
   /* set up the cpu file trailer */
@@ -142,14 +151,14 @@ int DataAcqManager::CloseCpuRun(std::string cpu_file_name) {
   /* open the cpu run file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->cpu_main_file_name << std::endl;
     return 1;
   }
 
   /* write to the cpu run file */
   check = fwrite(cpu_file_trailer, sizeof(*cpu_file_trailer), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << this->cpu_main_file_name << std::endl;
     delete cpu_file_trailer;
     return 1;
   }
@@ -406,15 +415,15 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_main_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
 
-  clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
+  clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -431,14 +440,14 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   /* open the cpu file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->cpu_main_file_name << std::endl;
     return 1;
   }
 
   /* write the cpu packet */
   check = fwrite(cpu_packet, sizeof(*cpu_packet), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << this->cpu_main_file_name << std::endl;
     delete cpu_packet;
     return 1;
   }
@@ -453,22 +462,22 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet, std::string cpu_file_name) {
+int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet) {
 
-  clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
+  clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << this->cpu_main_file_name << std::endl;
  
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_file_name.c_str();
+  const char * kCpuFileName = this->cpu_main_file_name.c_str();
   static unsigned int pkt_counter = 0;
   size_t check;
 
-  clog << "info: " << logstream::info << "writing new packet to " << cpu_file_name << std::endl;
+  clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
 
   /* open the cpu file to append */
   clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->cpu_main_file_name << std::endl;
     return 1;
   }
 
@@ -476,7 +485,7 @@ int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet, std::string cp
   clog << "info: " << logstream::info << "about to write scurve " << std::endl;
   check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << this->cpu_main_file_name << std::endl;
     delete sc_packet;
     return 1;
   }
@@ -490,7 +499,7 @@ int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet, std::string cp
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -552,7 +561,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 	    
 	    /* generate cpu packet and append to file */
-	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
+	    WriteCpuPkt(zynq_packet, hk_packet);
 
 	    /* delete upon completion */
 	    std::remove(zynq_file_name.c_str());
@@ -568,7 +577,7 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 
 	    /* generate sc packet and append to file */
 	     Z_DATA_TYPE_SCURVE_V1 * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	     WriteScPkt(sc_packet, cpu_file_name);
+	     WriteScPkt(sc_packet);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());
@@ -598,10 +607,10 @@ int DataAcqManager::ProcessIncomingData(std::string cpu_file_name, Config * Conf
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      
@@ -609,12 +618,12 @@ int DataAcqManager::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
 }
 
 /* spawn thread to collect data */
-int DataAcqManager::CollectData(std::string cpu_file_name, Config * ConfigOut, uint8_t instrument_mode) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
 
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, DataAcqManager(), ConfigOut);
 
 #ifdef SINGLE_EVENT
   ZqManager.DataAcquisitionStart();

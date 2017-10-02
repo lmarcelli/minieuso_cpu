@@ -127,8 +127,10 @@ int main(int argc, char ** argv) {
     }
 
     /* testing the CPU file name */
-    std::string cpu_file_name = "file_name_1";
-    std::cout << cpu_file_name << std::endl;
+    std::cout << "Before setting: " << DaqManager.cpu_main_file_name << std::endl;
+    DaqManager.CreateCpuRun();
+    std::string current_run_file = DaqManager.cpu_main_file_name;
+    std::cout << "After setting: " << current_run_file << std::endl;
     
     delete ConfigOut;
     return 0;
@@ -178,9 +180,8 @@ int main(int argc, char ** argv) {
       UManager.DataBackup();
     
       /* create the run file */ 
-      std::string current_run_file = DaqManager.CreateCpuRunName();
-      DaqManager.CreateCpuRun(current_run_file);
-      clog << "info: " << logstream::info << "created new cpu run file: " << current_run_file << std::endl;
+      DaqManager.CreateCpuRun();
+      clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
        		
       /* turn on the HV */
       if (hv_on == true) {
@@ -188,16 +189,16 @@ int main(int argc, char ** argv) {
       }
       
       /* take an scurve, then data */
-      DaqManager.CollectSc(current_run_file, ConfigOut);
+      DaqManager.CollectSc(ConfigOut);
       if (trig_on == true) {
-	DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE3);
+	DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
       }
       else {
-	DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE2);
+	DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
       }
       
       /* close the run file */
-      DaqManager.CloseCpuRun(current_run_file);
+      DaqManager.CloseCpuRun();
       
     /* wait for backup to complete */
       // run_backup.join();
@@ -222,25 +223,24 @@ int main(int argc, char ** argv) {
     UManager.DataBackup();
     
     /* create the run file */ 
-    std::string current_run_file = DaqManager.CreateCpuRunName();
-    DaqManager.CreateCpuRun(current_run_file);
-    clog << "info: " << logstream::info << "created new cpu run file: " << current_run_file << std::endl;
+    DaqManager.CreateCpuRun();
+    clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
     
     if(hv_on == true) {
       ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
 
     /* take an scurve, then data */
-    //    DaqManager.CollectSc(current_run_file, ConfigOut);
+    //    DaqManager.CollectSc(ConfigOut);
     if (trig_on == true) {
-      DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE3);
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
     }
     else {
-      DaqManager.CollectData(current_run_file, ConfigOut, ZynqManager::MODE2);
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
     }
      
     /* close the run file */
-    DaqManager.CloseCpuRun(current_run_file);
+    DaqManager.CloseCpuRun();
 
     /* wait for backup to complete */
     //run_backup.join();

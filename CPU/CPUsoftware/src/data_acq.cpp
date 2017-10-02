@@ -90,7 +90,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type) {
   FILE * ptr_cpufile;
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   size_t check;
-  const char * kCpuFileName;
+  const char * kCpuFileName = NULL;
   
   /* set the cpu file name */
   switch (run_type) {

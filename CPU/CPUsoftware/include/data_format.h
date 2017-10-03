@@ -128,7 +128,7 @@ typedef struct
   uint16_t sc_start;
   uint16_t sc_step;
   uint16_t sc_stop;
-  uint16_t sc_add;
+  uint16_t sc_acc;
   Z_DATA_TYPE_SCURVE_V1 sc_data; /* 9437192 bytes */
 } SC_PACKET;
 

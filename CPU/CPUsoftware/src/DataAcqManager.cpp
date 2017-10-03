@@ -222,7 +222,7 @@ SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * Conf
   sc_packet->sc_start = ConfigOut->scurve_start;
   sc_packet->sc_step = ConfigOut->scurve_step;
   sc_packet->sc_stop = ConfigOut->scurve_stop;
-  sc_packet->sc_add = ConfigOut->scurve_acc;
+  sc_packet->sc_acc = ConfigOut->scurve_acc;
 
   ptr_scfile = fopen(kScFileName, "rb");
   if (!ptr_scfile) {
@@ -592,7 +592,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	  if (event_name.compare(0, 3, "frm") == 0) {
 	    
 	    zynq_file_name = data_str + "/" + event->name;
-	    //usleep(1000000);
 	    sleep(2);
 	      
 	    /* generate sub packets */

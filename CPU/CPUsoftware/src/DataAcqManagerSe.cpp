@@ -274,7 +274,7 @@ AnalogAcq * DataAcqManagerSe::AnalogDataCollect() {
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
   dm75xx_cgt_entry_t cgt[CHANNELS];
-  int i, j;
+  uint32_t i = 0, j = 0;
   float actR;
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;

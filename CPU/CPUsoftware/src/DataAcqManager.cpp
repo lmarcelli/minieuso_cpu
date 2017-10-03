@@ -26,7 +26,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type) {
     time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
     break;
   case SC:
-    time_str = "/CPU_RUN _SC__%Y_%m_%d__%H_%M_%S.dat";
+    time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S.dat";
     break;
   }
   std::string cpu_str;

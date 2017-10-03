@@ -616,7 +616,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	    sleep(17);
 
 	    /* generate sc packet and append to file */
-	     Z_DATA_TYPE_SCURVE_V1 * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+	     SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
 	     WriteScPkt(sc_packet);
 
 	    /* delete upon completion */

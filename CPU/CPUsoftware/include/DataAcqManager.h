@@ -63,11 +63,11 @@ public:
   int CollectData(Config * ConfigOut, uint8_t instrument_mode);
 
 private:
-  uint8_t channels;
-  uint8_t fifo_depth;
+  uint32_t channels;
+  uint32_t fifo_depth;
   uint32_t burst_rate;
   uint32_t pacer_rate;
-  uint8_t ph_channels;
+  uint32_t ph_channels;
 
   std::string CreateCpuRunName(RunType run_type);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);

@@ -514,7 +514,6 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
   clog << "info: " << logstream::info << "writing new packet to " << cpu_sc_file_name << std::endl;
 
   /* open the cpu file to append */
-  clog << "info: " << logstream::info << "about to open the cpu file" << std::endl;
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
     clog << "error: " << logstream::error << "cannot open the file " << cpu_sc_file_name << std::endl;
@@ -522,7 +521,6 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
   }
 
   /* write the sc packet */
-  clog << "info: " << logstream::info << "about to write scurve " << std::endl;
   check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fwrite failed to " << cpu_sc_file_name << std::endl;

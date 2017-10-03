@@ -134,11 +134,11 @@ typedef struct
 
 /* SC file to store a single S-curve */
 /* shown here as demonstration only */
-/* 9437212 bytes (~9 MB) */
+/* 9437238 bytes (~9 MB) */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 10 bytes */
-  SC_PACKET scurve_packet; /*  bytes */
+  SC_PACKET scurve_packet; /* 9437218 bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } SC_FILE;
 

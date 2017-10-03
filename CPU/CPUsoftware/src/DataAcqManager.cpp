@@ -613,7 +613,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	  else if (event_name.compare(0, 2, "sc") == 0) {
 	    
 	    sc_file_name = data_str + "/" + event->name;
-	    sleep(17);
+	    sleep(27);
 
 	    /* generate sc packet and append to file */
 	     SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);

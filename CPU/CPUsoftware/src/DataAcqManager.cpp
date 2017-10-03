@@ -4,14 +4,7 @@
 DataAcqManager::DataAcqManager() { 
   /* filename initialisation */
   this->cpu_main_file_name = "";
-  this->cpu_sc_file_name = "";
-  
-  /* analog acquisition */
-  this->channels = CHANNELS;
-  this->fifo_depth = FIFO_DEPTH;
-  this->burst_rate = BURST_RATE;
-  this->pacer_rate = PACER_RATE;
-  this->ph_channels = PH_CHANNELS;
+  this->cpu_sc_file_name = "";  
 }
   
 /* create cpu run file name */
@@ -292,10 +285,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
   std::cout <<  "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
-  //printf("header = %u\n", zynq_packet->zbh.header);
-  //printf("payload_size = %u\n", zynq_packet->zbh.payload_size);
-  //printf("hv_status = %u\n", zynq_packet->payload.hv_status);
-  //printf("n_gtu = %lu\n", zynq_packet->payload.ts.n_gtu);
 
   /* close the zynq file */
   fclose(ptr_zfile);

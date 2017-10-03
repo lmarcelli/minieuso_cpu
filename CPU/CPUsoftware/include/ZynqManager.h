@@ -20,12 +20,6 @@
 #define TELNET_PORT 23
 
 class ZynqManager {
-private:
-  std::string ip_address; 
-  int portno;  
-  std::string SendRecvTelnet(std::string send_msg, int sockfd);
-  int InstStatusTest(std::string send_msg);
-
 public:
   enum InstrumentMode : uint8_t {
     MODE0 = 0,
@@ -50,6 +44,13 @@ public:
   int DataAcquisitionStart();
   int DataAcquisitionStop();
 #endif /* SINGLE_EVENT */
+
+private:
+  std::string ip_address; 
+  int portno;  
+  std::string SendRecvTelnet(std::string send_msg, int sockfd);
+  int InstStatusTest(std::string send_msg);
+
 };
 
 #endif /* _ZYNQ_INTERFACE_H */

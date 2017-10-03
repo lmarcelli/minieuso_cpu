@@ -26,11 +26,7 @@ struct Config {
 };
 
 /* class for configuring the instrument */
-class ConfigManager {
-private:
-  bool CopyFile(const char * SRC, const char * DEST);
-  Config * Parse();
-  
+class ConfigManager {  
 public:
   std::string config_file_local;
   std::string config_file;
@@ -38,7 +34,11 @@ public:
   ConfigManager();
   ConfigManager(std::string, std::string);
   Config * Configure();
-  
+
+private:
+  bool CopyFile(const char * SRC, const char * DEST);
+  Config * Parse();
+
 };
 
 #endif

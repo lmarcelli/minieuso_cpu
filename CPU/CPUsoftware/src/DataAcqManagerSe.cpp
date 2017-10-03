@@ -3,6 +3,9 @@
 
 /* default constructor */
 DataAcqManagerSe::DataAcqManagerSe() { 
+  /* cpu file definition */
+  this->cpu_file_name = "";
+
   /* analog acquisition */
   channels = CHANNELS;
   fifo_depth = FIFO_DEPTH;
@@ -74,7 +77,7 @@ uint32_t DataAcqManagerSe::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManagerSe::CreateCpuRun(std::string cpu_file_name) {
+int DataAcqManagerSe::CreateCpuRun() {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -109,7 +112,7 @@ int DataAcqManagerSe::CreateCpuRun(std::string cpu_file_name) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManagerSe::CloseCpuRun(std::string cpu_file_name) {
+int DataAcqManagerSe::CloseCpuRun() {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_file_name.c_str();
@@ -418,7 +421,7 @@ HK_PACKET * DataAcqManagerSe::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManagerSe::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet, std::string cpu_file_name) {
+int DataAcqManagerSe::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACKET * hk_packet) {
 
   FILE * ptr_cpufile;
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -465,7 +468,7 @@ int DataAcqManagerSe::WriteCpuPkt(Z_DATA_TYPE_SCI_POLY_V5 * zynq_packet, HK_PACK
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManagerSe::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file_name) {
+int DataAcqManagerSe::WriteScPkt(SCURVE_PACKET * sc_packet) {
 
   clog << "info: " << logstream::info << "cpu run file in the scope of WriteScPkt: " << cpu_file_name << std::endl;
  
@@ -506,7 +509,7 @@ int DataAcqManagerSe::WriteScPkt(SCURVE_PACKET * sc_packet, std::string cpu_file
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManagerSe::ProcessIncomingData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::ProcessIncomingData(Config * ConfigOut) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -568,7 +571,7 @@ int DataAcqManagerSe::ProcessIncomingData(std::string cpu_file_name, Config * Co
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 	    
 	    /* generate cpu packet and append to file */
-	    WriteCpuPkt(zynq_packet, hk_packet, cpu_file_name);
+	    WriteCpuPkt(zynq_packet, hk_packet);
 
 	    /* delete upon completion */
 	    std::remove(zynq_file_name.c_str());
@@ -584,7 +587,7 @@ int DataAcqManagerSe::ProcessIncomingData(std::string cpu_file_name, Config * Co
 
 	    /* generate sc packet and append to file */
 	     SCURVE_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	     WriteScPkt(sc_packet, cpu_file_name);
+	     WriteScPkt(sc_packet);
 
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());
@@ -614,10 +617,10 @@ int DataAcqManagerSe::ProcessIncomingData(std::string cpu_file_name, Config * Co
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManagerSe::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
-  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, DataAcqManagerSe(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, this, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
      
@@ -625,12 +628,12 @@ int DataAcqManagerSe::CollectSc(std::string cpu_file_name, Config * ConfigOut) {
 }
 
 /* spawn thread to collect data */
-int DataAcqManagerSe::CollectData(std::string cpu_file_name, Config * ConfigOut) {
+int DataAcqManagerSe::CollectData(Config * ConfigOut) {
 
   ZynqManager ZqManager;
   ZqManager.SetDac(ConfigOut->dac_level); 
 
-  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, DataAcqManagerSe(), cpu_file_name, ConfigOut);
+  std::thread collect_data (&DataAcqManagerSe::ProcessIncomingData, this, ConfigOut);
   ZqManager.DataAcquisitionStart();
   collect_data.join();         
   ZqManager.DataAcquisitionStop();

@@ -134,18 +134,29 @@ int DataAcqManager::CreateCpuRun(RunType run_type) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManager::CloseCpuRun() {
+int DataAcqManager::CloseCpuRun(RunType run_type) {
 
   FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_main_file_name.c_str();
+  const char * kCpuFileName = NULL;
+  std::string file_name = "";
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   size_t check;
 
-  clog << "info: " << logstream::info << "closing the cpu run file called " << cpu_main_file_name << std::endl;
+  switch (run_type) {
+  case CPU:
+    file_name = cpu_main_file_name;
+    break;
+  case SC:
+    file_name = cpu_sc_file_name;
+    break;
+  }
 
+  clog << "info: " << logstream::info << "closing the cpu run file called " << file_name << std::endl;
+  kCpuFileName = file_name.c_str();
+  
   /* calculate the CRC */
   boost::crc_32_type crc_result;
-  std::ifstream ifs(cpu_main_file_name, std::ios_base::binary);	
+  std::ifstream ifs(file_name, std::ios_base::binary);	
   if(ifs) {
     do {
       char buffer[buffer_size];
@@ -154,11 +165,11 @@ int DataAcqManager::CloseCpuRun() {
     } while (ifs);
   }
   else {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << file_name << std::endl;
     return 1;
   }
   std::cout << std::hex << std::uppercase << "CRC = " << crc_result.checksum() << std::endl;
-  clog << "info: " << logstream::info << "CRC for " << cpu_main_file_name << " = "
+  clog << "info: " << logstream::info << "CRC for " << file_name << " = "
        << std::hex << std::uppercase << crc_result.checksum() << std::endl;
   
   /* set up the cpu file trailer */
@@ -168,14 +179,14 @@ int DataAcqManager::CloseCpuRun() {
   /* open the cpu run file to append */
   ptr_cpufile = fopen(kCpuFileName, "a+b");
   if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << file_name << std::endl;
     return 1;
   }
 
   /* write to the cpu run file */
   check = fwrite(cpu_file_trailer, sizeof(*cpu_file_trailer), 1, ptr_cpufile);
   if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_main_file_name << std::endl;
+    clog << "error: " << logstream::error << "fwrite failed to " << file_name << std::endl;
     delete cpu_file_trailer;
     return 1;
   }
@@ -625,10 +636,18 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
+
+  /* create an SC file */
+  CreateCpuRun(SC);
+
+  /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
-     
+
+  /* close the SC file */
+  CloseCpuRun(SC);
+  
   return 0;
 }
 
@@ -636,15 +655,16 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
 
   ZynqManager ZqManager;
+
+  /* set the DAC to the config DAC level */
   ZqManager.SetDac(ConfigOut->dac_level); 
 
+  /* create a CPU file */
+  CreateCpuRun(CPU);
+
+  /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
 
-#ifdef SINGLE_EVENT
-  ZqManager.DataAcquisitionStart();
-  collect_data.join();         
-  ZqManager.DataAcquisitionStop();
-#else
   switch(instrument_mode) {
   case ZynqManager::MODE0:
     ZqManager.SetInstrumentMode(ZynqManager::MODE0);
@@ -661,6 +681,9 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
   }
   collect_data.join();         
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-#endif /* SINGLE_EVENT */
+
+  /* close the CPU file */
+  CloseCpuRun(CPU);
+  
   return 0;
 }

@@ -58,13 +58,9 @@ public:
 
   DataAcqManager();
   int CreateCpuRun(RunType run_type);
-  int CloseCpuRun();
+  int CloseCpuRun(RunType run_type);
   int CollectSc(Config * ConfgOut);
-#ifdef SINGLE_EVENT
-  int CollectData(Config * ConfigOut);
-#else
   int CollectData(Config * ConfigOut, uint8_t instrument_mode);
-#endif /* SINGLE_EVENT */
 
 private:
   uint8_t channels;

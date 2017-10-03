@@ -73,7 +73,11 @@ int main(int argc, char ** argv) {
   InputParser input(argc, argv);
   ZynqManager ZqManager;
   UsbManager UManager;
+#ifdef SINGLE_EVENT
+  DataAcqManagerSe DaqManager;
+#else
   DataAcqManager DaqManager;
+#endif /* SINGLE_EVENT */
   
   /* parse command line options */
   bool hv_on = false;
@@ -130,7 +134,7 @@ int main(int argc, char ** argv) {
     std::cout << "Before setting: " << DaqManager.cpu_main_file_name << std::endl;
     DaqManager.CreateCpuRun(DataAcqManager::CPU);
     std::cout << "After setting: " << DaqManager.cpu_main_file_name << std::endl;
-    DaqManager.CloseCpuRun();
+    DaqManager.CloseCpuRun(DataAcqManager::CPU);
     std::cout << "After closing: " << DaqManager.cpu_main_file_name << std::endl;
     
     delete ConfigOut;
@@ -180,16 +184,23 @@ int main(int argc, char ** argv) {
       /* define data backup */
       UManager.DataBackup();
     
-      /* create the run file */ 
-      DaqManager.CreateCpuRun(DataAcqManager::CPU);
-      clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
-       		
-      /* turn on the HV */
-      if (hv_on == true) {
+      if(hv_on == true) {
 	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
       }
+
+#ifdef SINGLE_EVENT    
+      /* create the run file */ 
+      DaqManager.CreateCpuRun();
       
       /* take an scurve, then data */
+      DaqManager.CollectSc(ConfigOut);
+      DaqManager.CollectData();
+      
+      /* close the run file */
+      DaqManager.CloseCpuRun();
+      
+#else
+      /* take an scruve, then data */
       DaqManager.CollectSc(ConfigOut);
       if (trig_on == true) {
 	DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
@@ -197,9 +208,7 @@ int main(int argc, char ** argv) {
       else {
 	DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
       }
-      
-      /* close the run file */
-      DaqManager.CloseCpuRun();
+#endif /* SINGLE_EVENT */
       
     /* wait for backup to complete */
       // run_backup.join();
@@ -208,7 +217,8 @@ int main(int argc, char ** argv) {
     /* never reached, clean up on interrupt */
     return 0;
   }
-  else{
+  else {
+
     /* typical run */
     /*-------------*/
     std::cout << "starting acqusition run..." <<std::endl; 
@@ -222,26 +232,33 @@ int main(int argc, char ** argv) {
     
     /* define data backup */
     UManager.DataBackup();
-    
-    /* create the run file */ 
-    DaqManager.CreateCpuRun(DataAcqManager::CPU);
-    clog << "info: " << logstream::info << "created new cpu run file: " << DaqManager.cpu_main_file_name << std::endl;
-    
+
     if(hv_on == true) {
       ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
 
+#ifdef SINGLE_EVENT    
+    /* create the run file */ 
+    DaqManager.CreateCpuRun();
+    
     /* take an scurve, then data */
-    //    DaqManager.CollectSc(ConfigOut);
+    DaqManager.CollectSc(ConfigOut);
+    DaqManager.CollectData();
+
+    /* close the run file */
+    DaqManager.CloseCpuRun();
+
+#else
+    /* take an scruve, then data */
+    DaqManager.CollectSc(ConfigOut);
     if (trig_on == true) {
       DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
     }
     else {
       DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
     }
+#endif /* SINGLE_EVENT */
      
-    /* close the run file */
-    DaqManager.CloseCpuRun();
 
     /* wait for backup to complete */
     //run_backup.join();

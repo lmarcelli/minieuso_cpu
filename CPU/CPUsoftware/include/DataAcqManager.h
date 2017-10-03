@@ -73,11 +73,11 @@ private:
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
-  Z_DATA_TYPE_SCURVE_V1 * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
-  int WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet);
+  int WriteScPkt(SC_PACKET * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
   int ProcessIncomingData(Config * ConfigOut);
 

@@ -47,11 +47,6 @@ typedef struct
   uint32_t pkt_num; /* counter for each pkt_type, reset each run */
 } CpuPktHeader; 
 
-/* scurve readout fixed size parameters */
-#define SCURVE_STEPS_MAX (100 + 1)
-#define SCURVE_ADDS_MAX 1
-#define SCURVE_FRAMES_MAX (SCURVE_STEPS_MAX * SCURVE_ADDS_MAX)
-
 /* file types */
 #define CPU_FILE_TYPE 'C'
 #define CPU_FILE_VER 1
@@ -61,8 +56,8 @@ typedef struct
 #define SC_PACKET_TYPE 'S'
 #define CPU_PACKET_TYPE 'P'
 #define HK_PACKET_VER 1
-#define SC_PACKET_VER 1
-#define CPU_PACKET_VER 1
+#define SC_PACKET_VER 2
+#define CPU_PACKET_VER 2
 
 /* for the analog readout */
 #define N_CHANNELS_PHOTODIODE 4
@@ -96,17 +91,6 @@ typedef struct
 } HK_PACKET;
 
 /* zynq packet passed to the CPU every 5.24 s */
-/* MODE2 - no triggers, 1 packet L1 and L2 */
-/* MODE3 - triggers, max 4 packets L1 and L2 */
-/* should be only MODE3 style by next integration OCT 2017 */
-/* 2064444 bytes */
-// typedef struct
-// {
-//   Z_DATA_TYPE_SCI_L1_V1 level1_data; /* 294932 bytes */
-//   Z_DATA_TYPE_SCI_L2_V1 level2_data; /* 589844 bytes */
-//   Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
-// } ZYNQ_PACKET_MODE2;
-
 /* 4718772 bytes */
 typedef struct
 {
@@ -116,15 +100,6 @@ typedef struct
 } ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
-/* 2064820 bytes */
-// typedef struct
-// {
-//   CpuPktHeader cpu_packet_header; /* 14 bytes */
-//   CpuTimeStamp cpu_time; /* 4 bytes */
-//   ZYNQ_PACKET_MODE2 zynq_packet; /* 2064444 bytes */
-//   HK_PACKET hk_packet; /* 358 bytes */
-// } CPU_PACKET_MODE2;
-
 /* 4719148 bytes */
 typedef struct
 {
@@ -136,15 +111,6 @@ typedef struct
 
 /* CPU file to store one run */
 /* shown here as demonstration only */
-/* 61057712 (~61 MB) bytes */
-// typedef struct
-// {
-//   CpuFileHeader cpu_file_header; /* 10 bytes */
-//   Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
-//   CPU_PACKET cpu_run_payload[RUN_SIZE]; /* 2064820 * RUN_SIZE bytes */
-//   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
-// } CPU_FILE_MODE2;
-
 /* 117978720 bytes (~118 MB) */
 typedef struct
 {
@@ -153,13 +119,26 @@ typedef struct
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } CPU_FILE;
 
+/* SC packet to store S-curve from Zynq  */
+/* 9437218 */
+typedef struct
+{
+  CpuPktHeader sc_packet_header; /* 14 bytes */
+  CpuTimeStamp sc_time; /* 4 bytes */
+  uint16_t sc_start;
+  uint16_t sc_step;
+  uint16_t sc_stop;
+  uint16_t sc_add;
+  Z_DATA_TYPE_SCURVE_V1 sc_data; /* 9437192 bytes */
+} SC_PACKET;
+
 /* SC file to store a single S-curve */
 /* shown here as demonstration only */
 /* 9437212 bytes (~9 MB) */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 10 bytes */
-  Z_DATA_TYPE_SCURVE_V1 scurve_packet; /* 9437192 bytes */
+  SC_PACKET scurve_packet; /*  bytes */
   CpuFileTrailer cpu_file_trailer; /* 10 bytes */
 } SC_FILE;
 

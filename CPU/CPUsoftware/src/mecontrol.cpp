@@ -259,7 +259,6 @@ int main(int argc, char ** argv) {
     }
 #endif /* SINGLE_EVENT */
      
-
     /* wait for backup to complete */
     //run_backup.join();
   }

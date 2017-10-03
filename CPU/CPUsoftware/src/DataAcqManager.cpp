@@ -200,10 +200,10 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
 
 
 /* read out an scurve file into an scurve packet */
-Z_DATA_TYPE_SCURVE_V1 * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
-  Z_DATA_TYPE_SCURVE_V1 * sc_packet = new Z_DATA_TYPE_SCURVE_V1();
+  SC_PACKET * sc_packet = new SC_PACKET();
   const char * kScFileName = sc_file_name.c_str();
   size_t check;
 
@@ -215,13 +215,27 @@ Z_DATA_TYPE_SCURVE_V1 * DataAcqManager::ScPktReadOut(std::string sc_file_name, C
     return NULL;
   }
   
+  /* prepare the scurve packet */
+  sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet->sc_packet_header.pkt_size = sizeof(SC_PACKET);
+  sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
+  sc_packet->sc_start = ConfigOut->scurve_start;
+  sc_packet->sc_step = ConfigOut->scurve_step;
+  sc_packet->sc_stop = ConfigOut->scurve_stop;
+  sc_packet->sc_add = ConfigOut->scurve_acc;
+
+  ptr_scfile = fopen(kScFileName, "rb");
+  if (!ptr_scfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
+    return NULL;
+  }
+  
   /* read out the scurve data from the file */
-  check = fread(sc_packet, sizeof(*sc_packet), 1, ptr_scfile);
+  check = fread(&sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
   }
-
   
   /* close the scurve file */
   fclose(ptr_scfile);
@@ -490,7 +504,7 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(Z_DATA_TYPE_SCURVE_V1 * sc_packet) {
+int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 
   FILE * ptr_cpufile;
   const char * kCpuFileName = cpu_sc_file_name.c_str();

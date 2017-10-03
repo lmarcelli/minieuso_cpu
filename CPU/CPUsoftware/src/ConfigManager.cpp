@@ -21,7 +21,7 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
 
   /* check file exists */
   if (src.good() && dest.good()) {
-    clog << "info: " << logstream::info << "copying " << SRC << "to " << DEST << std::endl; 
+    clog << "info: " << logstream::info << "copying " << SRC << " to " << DEST << std::endl; 
     dest << src.rdbuf();
   }
   else {

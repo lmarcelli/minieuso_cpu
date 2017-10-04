@@ -67,7 +67,7 @@ mecontrol
 
 The following command line options are available:
 ```
-mecontrol -db -log -hv -long -trig
+mecontrol -db -log -hv -long -trig -cam
 ```
 
 * db: runs in debug mode (test functionallity executed)
@@ -75,6 +75,7 @@ mecontrol -db -log -hv -long -trig
 * hv: switches the high voltage on to normal operational level (1100 V)
 * long: takes a long acquisition (i.e. until interrupted)
 * trig: runs with triggered data acquisition
+* cam: runs 2 min camera acquisition for every CPU_RUN_MAIN
 
 ## Functionality
 * the data acquisition: 

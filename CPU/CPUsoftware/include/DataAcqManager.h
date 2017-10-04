@@ -33,9 +33,7 @@ std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
 /* for use with analog readout functions */
-#undef CHANNELS
 #define CHANNELS 16
-#undef FIFO_DEPTH
 #define FIFO_DEPTH 64
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
@@ -44,7 +42,7 @@ std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 /* acquisition structure for analog readout */
 typedef struct
 {
-  float val [64][16];
+  float val [FIFO_DEPTH][CHANNELS];
 } AnalogAcq;
 
 /* class for controlling the acquisition */
@@ -65,8 +63,6 @@ public:
   int CollectData(Config * ConfigOut, uint8_t instrument_mode);
 
 private:
-  static const int _NUM_CHANNELS = 16;
-  static const int _FIFO_DEPTH = 64;
   std::string CreateCpuRunName(RunType run_type);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);

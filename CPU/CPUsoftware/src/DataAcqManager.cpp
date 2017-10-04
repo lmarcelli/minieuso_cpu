@@ -304,13 +304,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
 
-
   clog << "info: " << logstream::info << "starting analog acquistion" << std::endl;
-
-  /* DEBUG */
-  std::cout << "CHANNELS = " << CHANNELS << std::endl;
-  std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
-  std::cout << "sizeof(*acq_output) = " << sizeof(*acq_output) << std::endl;
 
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
@@ -399,7 +393,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
   
   /* Print how many samples were received */
-  clog << "info: " << logstream::info << "received " << i * j << " analog samples" << std::endl;
+  clog << "info: " << logstream::info << "received " << (int)(i * j) << " analog samples" << std::endl;
 
   /* Reset the board and close the device */
   dm75xx_status = DM75xx_Board_Reset(brd);

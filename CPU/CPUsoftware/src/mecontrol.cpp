@@ -138,9 +138,11 @@ int main(int argc, char ** argv) {
     std::cout << "After closing: " << DaqManager.cpu_main_file_name << std::endl;
 
     /* testing the analog acquisition */
-    std::cout << "CHANNELS = " << CHANNELS << std::endl;
+    int c = CHANNELS;
+    std::cout << "CHANNELS = " << c << std::endl;
     std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
     std::cout << sizeof(AnalogAcq) << std::endl;
+    printf("CHANNELS dec = %u", CHANNELS);
     
     delete ConfigOut;
     return 0;

@@ -33,7 +33,9 @@ std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
 /* for use with analog readout functions */
+#undef CHANNELS
 #define CHANNELS 16
+#undef FIFO_DEPTH
 #define FIFO_DEPTH 64
 #define BURST_RATE 1000000
 #define PACER_RATE 100000

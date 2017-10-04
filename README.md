@@ -104,7 +104,7 @@ The data format holds for both triggered and non-triggered readout.
 2. The CPU_RUN_SC file format
 ![](CPU/images/sc_data_format.png?raw=true)
 
-The CPU_RUN_SC has a fixed size which represents the maximum number of threshold steps (0 - 1023). For S-curves taken over a smaller threshold ranges, the file is simply padded with the value 0xFFFFFFFF. S-curve accumulation is calculated on-board the Zynq FPGA using the HLS scurve_adder (https://github.com/cescalara/zynq_ip_hls) allowing for very high statistics S-curves to be stored in a small file size. 
+The CPU_RUN_SC has a fixed size which represents the maximum number of threshold steps (0 - 1023). For S-curves taken over a smaller threshold ranges, the file is simply padded with the value 0xFFFFFFFF. S-curve accumulation is calculated on-board the Zynq FPGA using the HLS scurve_adder (https://github.com/cescalara/zynq_ip_hls) allowing for S-curves to be taken with high statistics and stored in a small file size. 
 
 The format is described in detail by the two header files ```pdmdata.h``` (the Zynq data format - depends on the firmware version) and ```data_format.h``` (the CPU data format - depends on the CPU software version).
 

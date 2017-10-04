@@ -89,9 +89,19 @@ mecontrol -db -log -hv -long -trig
   * .png for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```
 
+## The data format
+PDM data is acquired, triggered and time-stamped in the Zynq board. This data is then passed to the CPU. The CPU also acquires data from the other subsystems and packages this together with the PDM data during nominal night-time observations. Data is acquired every 5.24 s (128 x 128 x 128 x 1 GTU, 1 GTU = 2.5 us). The CPU generates 2 types of files, CPU_RUN_MAIN containing the standard data acquistion and CPU_RUN_SC for S-curve data. Both data file have a matryoshka structure that is summarised below.
+
+1. The CPU_RUN_MAIN file format
+![](CPU/images/cpu_format.png?raw=true)
+
+2. The CPU_RUN_SC file format
+
+
 ## Backwards compatibility
 The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
 
 1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
 2. Recompile the code by running ```make``` in ```CPUsoftware/src```
+
 

@@ -296,8 +296,8 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
 AnalogAcq * DataAcqManager::AnalogDataCollect() {
   AnalogAcq * acq_output = new AnalogAcq();
 #ifndef __APPLE__
-  const int num_channels = 16;
-  const int fifo_depth = 64;
+  int aa = 16;
+  int bb = 64;
   
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
@@ -314,8 +314,8 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   std::cout << "CHANNELS = " << CHANNELS << std::endl;
   std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
   std::cout << "sizeof(*acq_output) = " << sizeof(*acq_output) << std::endl;
-  std::cout << "num_channels = " << num_channels << std::endl;
-  std::cout << "fifo_depth = " << fifo_depth << std::endl;
+  std::cout << "num_channels = " << aa << std::endl;
+  std::cout << "fifo_depth = " << bb << std::endl;
 
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);

@@ -299,7 +299,7 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
   dm75xx_cgt_entry_t cgt[CHANNELS];
-  uint32_t i = 0, j = 0;
+  int i, j;
   float actR;
   uint16_t data = 0x0000;  
   unsigned long int minor_number = 0;
@@ -310,6 +310,8 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   /* DEBUG */
   std::cout << "CHANNELS = " << CHANNELS << std::endl;
   std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
+  std::cout << "sizeof(*acq_output) = " << sizeof(*acq_output) << std::endl;
+  
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");

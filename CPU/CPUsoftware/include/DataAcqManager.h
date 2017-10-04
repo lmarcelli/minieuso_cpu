@@ -5,7 +5,7 @@
 #ifndef __APPLE__
 #include <sys/inotify.h>
 #include "dm75xx_library.h"
-#endif
+#endif /* __APPLE__ */
 #include <thread>
 
 #include "log.h"

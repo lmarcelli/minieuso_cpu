@@ -63,6 +63,8 @@ public:
   int CollectData(Config * ConfigOut, uint8_t instrument_mode);
 
 private:
+  static const int _NUM_CHANNELS = 16;
+  static const int _FIFO_DEPTH = 64;
   std::string CreateCpuRunName(RunType run_type);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);

@@ -311,7 +311,9 @@ AnalogAcq * DataAcqManager::AnalogDataCollect() {
   std::cout << "CHANNELS = " << CHANNELS << std::endl;
   std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
   std::cout << "sizeof(*acq_output) = " << sizeof(*acq_output) << std::endl;
-  
+  std::cout << "_NUM_CHANNELS = " << _NUM_CHANNELS << std::endl;
+  std::cout << "_FIFO_DEPTH = " << _FIFO_DEPTH << std::endl;
+
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");

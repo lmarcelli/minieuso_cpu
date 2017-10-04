@@ -63,7 +63,7 @@ void ClearFTP() {
 
 /* a single 2.5 min acquisition run */
 int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   bool hv_on, bool trig_on, bool cam_on) {
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on) {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -93,13 +93,17 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   DaqManager->CloseCpuRun();
   
 #else
-  /* take an scruve, then data */
+  /* take an scurve, then data */
   DaqManager->CollectSc(ConfigOut);
   if (trig_on == true) {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
   }
   else {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
+    /* collext camera data if required */
+    if (cam_on == true) {
+      CManager->CollectData();
+    }
   }
 #endif /* SINGLE_EVENT */
   
@@ -117,6 +121,7 @@ int main(int argc, char ** argv) {
   InputParser input(argc, argv);
   ZynqManager ZqManager;
   UsbManager UManager;
+  CamManager CManager;
 #ifdef SINGLE_EVENT
   DataAcqManagerSe DaqManager;
 #else
@@ -198,12 +203,14 @@ int main(int argc, char ** argv) {
   if(long_acq == true){
     /* loop over single acquisition */
     while(1) {
-      single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager, hv_on, trig_on, cam_on);
+      single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
+		     &CManager, hv_on, trig_on, cam_on);
     }
   }
   else {
     /* single acquisition run */
-    single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager, hv_on, trig_on, cam_on);
+    single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
+		   &CManager, hv_on, trig_on, cam_on);
   }
 
   /* clean up */

@@ -24,7 +24,7 @@ TESTS = \
 all:    $(TESTS)
 
 mecontrol: mecontrol.cpp
-	$(CXX) $(CFLAGS) mecontrol.cpp log.cpp ConfigManager.cpp ZynqManager.cpp DataAcqManager.cpp DataAcqManagerSe.cpp UsbManager.cpp $(LIB_FLAGS) -o mecontrol 
+	$(CXX) $(CFLAGS) mecontrol.cpp log.cpp ConfigManager.cpp ZynqManager.cpp DataAcqManager.cpp DataAcqManagerSe.cpp UsbManager.cpp CamManager.cpp $(LIB_FLAGS) -o mecontrol 
 	mv mecontrol $(OUTDIR)
 
 clean:

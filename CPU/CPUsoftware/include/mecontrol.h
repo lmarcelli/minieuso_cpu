@@ -11,6 +11,7 @@
 #include "ConfigManager.h"
 #include "ZynqManager.h"
 #include "UsbManager.h"
+#include "CamManager.h"
 
 /* definition to select event mode */
 //#define SINGLE_EVENT

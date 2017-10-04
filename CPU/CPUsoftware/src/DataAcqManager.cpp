@@ -645,7 +645,7 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
-  ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  // ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
   /* close the SC file */
@@ -676,7 +676,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
     ZqManager.SetInstrumentMode(ZynqManager::MODE1);
     break;
   case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+    //ZqManager.SetInstrumentMode(ZynqManager::MODE2);
     break;
   case ZynqManager::MODE3:
     ZqManager.SetInstrumentMode(ZynqManager::MODE3);

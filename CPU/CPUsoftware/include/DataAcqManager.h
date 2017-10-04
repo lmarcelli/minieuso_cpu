@@ -42,7 +42,7 @@ std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 /* acquisition structure for analog readout */
 typedef struct
 {
-  float val [FIFO_DEPTH][CHANNELS];
+  float val [64][16];
 } AnalogAcq;
 
 /* class for controlling the acquisition */

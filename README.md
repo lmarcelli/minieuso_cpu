@@ -86,8 +86,8 @@ mecontrol -db -log -hv -long -trig -cam
 * the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN__<current_date>__<current_time>.dat```
   * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
   * log files are in ```/home/minieusouser/log/```
-* the output data from the cameras is in ```cameras/multiplecam/<current_date>```
-  * .png for the photos from the cameras
+* the output data from the cameras is in ```cameras/multiplecam/<NIR/VIS>/<current_date>```
+  * .raw for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```
 
 ## The data format

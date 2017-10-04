@@ -18,7 +18,7 @@ int CamManager::StartAcquisition() {
 
   if (pid == 0) {
     /* child process */
-    execl(CAMERA_EXEC, NULL);
+    execl(CAMERA_EXEC, (char *)NULL);
   }
   else if (pid > 0) {
     /* parent process */

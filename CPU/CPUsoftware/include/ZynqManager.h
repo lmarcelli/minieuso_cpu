@@ -30,15 +30,16 @@ public:
   InstrumentMode instrument_mode;
  
   ZynqManager();
-  int CheckTelnet();
-  int ConnectTelnet();
-  int InstStatus();
-  int HvpsStatus();
-  int HvpsTurnOn(int cv, int dv);
+  static int CheckTelnet();
+  static int ConnectTelnet();
+  static int InstStatus();
+  static int HvpsStatus();
+  static int HvpsTurnOn(int cv, int dv);
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
   InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
+  static int StopAcquisition();
   /* depreciated commands for compatibility */
 #ifdef SINGLE_EVENT
   int DataAcquisitionStart();
@@ -46,10 +47,8 @@ public:
 #endif /* SINGLE_EVENT */
 
 private:
-  std::string ip_address; 
-  int portno;  
-  std::string SendRecvTelnet(std::string send_msg, int sockfd);
-  int InstStatusTest(std::string send_msg);
+  static std::string SendRecvTelnet(std::string send_msg, int sockfd);
+  static int InstStatusTest(std::string send_msg);
 
 };
 

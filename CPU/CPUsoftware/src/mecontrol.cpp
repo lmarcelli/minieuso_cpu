@@ -36,16 +36,13 @@ private:
 
 /* handle SIGINT */
 void SignalHandler(int signum) {
-  ZynqManager ZqManager;
-  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;
-  std::cout << "Stopping the acquisition" << std::endl;
-  
-  /* handle the signal*/
+  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
+  /* handle the signal */
 #ifdef SINGLE_EVENT
-  ZqManager.DataAcquisitionStop();
+  ZynqManager::DataAcquisitionStop();
 #else
-  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-#endif
+  ZynqManager::StopAcquisition();
+#endif /* SINGLE_EVENT */
   std::cout << "Acquisition stopped" << std::endl;  
   
   /* terminate the program */
@@ -62,6 +59,53 @@ void ClearFTP() {
     remove(filepath);
   }
   closedir(theFolder);    
+}
+
+/* a single 2.5 min acquisition run */
+int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
+		   bool hv_on, bool trig_on, bool cam_on) {
+
+  std::cout << "starting acqusition run..." <<std::endl; 
+  clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
+  
+  /* clear the FTP server */
+  ClearFTP();
+  
+  /* enable signal handling */
+  signal(SIGINT, SignalHandler);  
+  
+  /* define data backup */
+  UManager->DataBackup();
+  
+  if(hv_on == true) {
+    ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
+  }
+  
+#ifdef SINGLE_EVENT    
+  /* create the run file */ 
+  DaqManager->CreateCpuRun();
+  
+  /* take an scurve, then data */
+  DaqManager->CollectSc(ConfigOut);
+  DaqManager->CollectData();
+  
+  /* close the run file */
+  DaqManager->CloseCpuRun();
+  
+#else
+  /* take an scruve, then data */
+  DaqManager->CollectSc(ConfigOut);
+  if (trig_on == true) {
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
+  }
+  else {
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
+  }
+#endif /* SINGLE_EVENT */
+  
+  /* wait for backup to complete */
+  //run_backup.join();
+  return 0;
 }
 
 /* main program */
@@ -85,6 +129,7 @@ int main(int argc, char ** argv) {
   bool debug_mode = false;
   bool log_on = false;
   bool trig_on = false;
+  bool cam_on = false;
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
@@ -100,7 +145,9 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-trig")){
     trig_on = true;
   }
-
+  if(input.cmdOptionExists("-cam")){
+    cam_on = true;
+  }
 
   /* debug/test mode */
   /*-----------------*/
@@ -114,37 +161,13 @@ int main(int argc, char ** argv) {
     clog << std::endl;
     clog << "info: " << logstream::info << "log created" << std::endl;
 
-    /* perform configuration */
-    std::string config_dir_mac = "../config";
-    std::string config_file = config_dir_mac + "/dummy.conf";
-    std::string config_file_local = config_dir_mac + "/dummy_local.conf";
-    ConfigManager CfManager(config_file, config_file_local);
-    Config * ConfigOut = CfManager.Configure();
-   
-    if (ConfigOut != NULL) {
-      std::cout << "configured parameters: " << std::endl;
-      std::cout << ConfigOut->scurve_start << std::endl;
-      std::cout << ConfigOut->cathode_voltage << std::endl;
-    }
-    else {
-      std::cout << "NULL" << std::endl;
-    }
-
-    /* testing the CPU file name */
-    std::cout << "Before setting: " << DaqManager.cpu_main_file_name << std::endl;
-    DaqManager.CreateCpuRun(DataAcqManager::CPU);
-    std::cout << "After setting: " << DaqManager.cpu_main_file_name << std::endl;
-    DaqManager.CloseCpuRun(DataAcqManager::CPU);
-    std::cout << "After closing: " << DaqManager.cpu_main_file_name << std::endl;
-
     /* testing the analog acquisition */
     int c = CHANNELS;
     std::cout << "CHANNELS = " << c << std::endl;
     std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
     std::cout << sizeof(AnalogAcq) << std::endl;
     printf("CHANNELS dec = %u", CHANNELS);
-    
-    delete ConfigOut;
+
     return 0;
   }
 
@@ -171,103 +194,16 @@ int main(int argc, char ** argv) {
   /* check the instrument and HV status */
   ZqManager.InstStatus();
   ZqManager.HvpsStatus();
-
+  
   if(long_acq == true){
-
-    /* start infinite loop over acquisition */
+    /* loop over single acquisition */
     while(1) {
-
-      /* one file run */
-      /*-------------*/
-      std::cout << "starting acquisition run... " <<std::endl;
-      clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
-      
-      /* clear the FTP directory */
-      ClearFTP();
-      
-      /* enable signal handling */
-      signal(SIGINT, SignalHandler);  
-      
-      /* define data backup */
-      UManager.DataBackup();
-    
-      if(hv_on == true) {
-	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
-      }
-
-#ifdef SINGLE_EVENT    
-      /* create the run file */ 
-      DaqManager.CreateCpuRun();
-      
-      /* take an scurve, then data */
-      DaqManager.CollectSc(ConfigOut);
-      DaqManager.CollectData();
-      
-      /* close the run file */
-      DaqManager.CloseCpuRun();
-      
-#else
-      /* take an scruve, then data */
-      DaqManager.CollectSc(ConfigOut);
-      if (trig_on == true) {
-	DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
-      }
-      else {
-	DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
-      }
-#endif /* SINGLE_EVENT */
-      
-    /* wait for backup to complete */
-      // run_backup.join();
+      single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager, hv_on, trig_on, cam_on);
     }
-    
-    /* never reached, clean up on interrupt */
-    return 0;
   }
   else {
-
-    /* typical run */
-    /*-------------*/
-    std::cout << "starting acqusition run..." <<std::endl; 
-    clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
-
-    /* clear the FTP server */
-    ClearFTP();
-    
-    /* enable signal handling */
-    signal(SIGINT, SignalHandler);  
-    
-    /* define data backup */
-    UManager.DataBackup();
-
-    if(hv_on == true) {
-      ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
-    }
-
-#ifdef SINGLE_EVENT    
-    /* create the run file */ 
-    DaqManager.CreateCpuRun();
-    
-    /* take an scurve, then data */
-    DaqManager.CollectSc(ConfigOut);
-    DaqManager.CollectData();
-
-    /* close the run file */
-    DaqManager.CloseCpuRun();
-
-#else
-    /* take an scruve, then data */
-    DaqManager.CollectSc(ConfigOut);
-    if (trig_on == true) {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
-    }
-    else {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
-    }
-#endif /* SINGLE_EVENT */
-     
-    /* wait for backup to complete */
-    //run_backup.join();
+    /* single acquisition run */
+    single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager, hv_on, trig_on, cam_on);
   }
 
   /* clean up */

@@ -2,8 +2,6 @@
 
 /* default constructor */
 ZynqManager::ZynqManager () {   
-  this->ip_address = ZYNQ_IP;
-  this->portno = TELNET_PORT;
 };
 
 /* check telnet connection on a certain IP address */
@@ -14,9 +12,9 @@ int ZynqManager::CheckTelnet() {
   int sockfd;
   struct sockaddr_in serv_addr;
   struct hostent * server;
-  const char * ip = this->ip_address.c_str();
+  const char * ip = ZYNQ_IP;
 
-  clog << "info: " << logstream::info << "checking connection to IP " << this->ip_address  << std::endl;
+  clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
  
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -27,7 +25,7 @@ int ZynqManager::CheckTelnet() {
  
   server = gethostbyname(ip);
   if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << this->ip_address << std::endl;  
+    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
     return 1;
   }
   
@@ -36,16 +34,16 @@ int ZynqManager::CheckTelnet() {
   bcopy((char *)server->h_addr, 
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
-  serv_addr.sin_port = htons(portno);
+  serv_addr.sin_port = htons(TELNET_PORT);
   
   /* try to connect */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << this->ip_address << " on port " << portno << std::endl;
+    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
     return 1;
   }
   else {
-    clog << "info: " << logstream::info << "connected to " << this->ip_address << " on port " << portno  << std::endl;
-    printf("connected to %s on port %u\n", ip, portno);
+    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+    printf("connected to %s on port %u\n", ip, TELNET_PORT);
   }
 
   close(sockfd);
@@ -94,9 +92,9 @@ int ZynqManager::ConnectTelnet() {
   int sockfd;
   struct sockaddr_in serv_addr;
   struct hostent * server;
-  const char * ip = this->ip_address.c_str();
+  const char * ip = ZYNQ_IP;
 
-  clog << "info: " << logstream::info << "checking connection to IP " << this->ip_address  << std::endl;
+  clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
  
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -107,7 +105,7 @@ int ZynqManager::ConnectTelnet() {
  
   server = gethostbyname(ip);
   if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << this->ip_address << std::endl;  
+    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
     return 1;
   }
   
@@ -116,16 +114,16 @@ int ZynqManager::ConnectTelnet() {
   bcopy((char *)server->h_addr, 
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
-  serv_addr.sin_port = htons(portno);
+  serv_addr.sin_port = htons(TELNET_PORT);
   
   /* connect */
   if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << this->ip_address << " on port " << portno << std::endl;
+    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
     return 1;
   }
   else {
-    clog << "info: " << logstream::info << "connected to " << this->ip_address << " on port " << portno  << std::endl;
-    printf("connected to %s on port %u\n", ip, portno);
+    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+    printf("connected to %s on port %u\n", ip, TELNET_PORT);
   }
   
   return sockfd;   
@@ -163,7 +161,7 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
   int sockfd, n;
   struct sockaddr_in serv_addr;
   struct hostent *server;
-  const char * ip = this->ip_address.c_str();
+  const char * ip = ZYNQ_IP;
   const char * kSendMsg = send_msg.c_str();
   char buffer[256];
   
@@ -184,7 +182,7 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
   bcopy((char *)server->h_addr, 
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
-  serv_addr.sin_port = htons(portno);
+  serv_addr.sin_port = htons(TELNET_PORT);
 
   if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
     printf("ERROR opening socket\n");
@@ -421,6 +419,28 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
   
   close(sockfd);
   return this->instrument_mode;
+}
+
+/* static function to turn off acquisition */
+int ZynqManager::StopAcquisition() {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr = NULL;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "switching off the Zynq acquisition" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
+  printf("status: %s\n", kStatStr);
+   
+  /* check the status */
+  //ADD THIS
+  
+  close(sockfd);
+  return 0;
 }
 
 /* depreciated commands for compatibilty */

@@ -369,7 +369,7 @@ AnalogAcq * DataAcqManagerSe::AnalogDataCollect() {
   while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
   
   /* Print how many samples were received */
-  clog << "info: " << logstream::info << "received " << i * j << "analog samples" << std::endl;
+  clog << "info: " << logstream::info << "received " << (unsigned)(i * j) << "analog samples" << std::endl;
 
   /* Reset the board and close the device */
   dm75xx_status = DM75xx_Board_Reset(brd);

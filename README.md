@@ -95,8 +95,20 @@ PDM data is acquired, triggered and time-stamped in the Zynq board. This data is
 1. The CPU_RUN_MAIN file format
 ![](CPU/images/cpu_format.png?raw=true)
 
-2. The CPU_RUN_SC file format
+At present the Zynq data format is fixed so that each ZYNQ_PACKET contains:
+* 4 x 128 GTU packet of L1 data (1 byte/pixel)
+* 4 x 128 GTU_L2 packet of L2 data (2 bytes/pixel) 
+* 1 x 128 GTU_L3 packet of L3 data (4 bytes/pixel)
+The data format holds for both triggered and non-triggered readout.
 
+2. The CPU_RUN_SC file format
+![](CPU/images/sc_data_format.png?raw=true)
+
+The CPU_RUN_SC has a fixed size which represents the maximum number of threshold steps (0 - 1023). For S-curves taken over a smaller threshold ranges, the file is simply padded with the value 0xFFFFFFFF. S-curve accumulation is calculated on-board the Zynq FPGA using the HLS scurve_adder (https://github.com/cescalara/zynq_ip_hls) allowing for S-curves to be taken with high statistics and stored in a small file size. 
+
+The format is described in detail by the two header files ```pdmdata.h``` (the Zynq data format - depends on the firmware version) and ```data_format.h``` (the CPU data format - depends on the CPU software version).
+
+A 32 bit CRC is calculated for each CPU_RUN file prior to adding the CpuFileTrailer (the last 10 bytes). This CRC is appended to each CPU_RUN file as part of the CpuFileTrailer. 
 
 ## Backwards compatibility
 The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
@@ -104,4 +116,7 @@ The software is designed to be compatible with previous versions of the Zynq boa
 1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
 2. Recompile the code by running ```make``` in ```CPUsoftware/src```
 
-
+Some key differences of the old mode of operation relative to the current version:
+* The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
+* S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
+* S-curve accumulation is not calculated, the frames are simply stored for post-processing

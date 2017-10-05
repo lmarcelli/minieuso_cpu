@@ -11,7 +11,7 @@
 #define ONE_MILLISEC	1000
 DeviceHandle aDIO_Device;
 
-/* Program to pulse port 0 high for 10 ms */
+/* Program to test the CPU aDIO ports for the LVPS switching */
 int main () {
   uint32_t minor_number = 0;
   int aDIO_ReturnVal;
@@ -83,6 +83,113 @@ int main () {
   printf("Press ENTER to contine...\n");
   getchar();
 
+  /* Now set only port 0.0 to output */
+  /* write the direction of port 0 */
+  printf("Write the direction of port 0 to OUTPUT (0x01)\n");
+  dir_val = 0x01;
+  for (Bit = 0; Bit < 8; Bit++) {
+    P0Bits[Bit] = (dir_val >> Bit) & 0x01;
+  }
+  
+  /* set the bits of port 0 */
+  aDIO_ReturnVal =
+    LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
+			 P0Bits[6], P0Bits[5],
+			 P0Bits[4], P0Bits[3],
+			 P0Bits[2], P0Bits[1],
+			 P0Bits[0]);
+  /* sleep 1 ms */
+  usleep(ONE_MILLISEC);
+  
+  /* check the return value */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
+  }
+  
+  /* write the value of port 0 = HIGH */
+  printf("Write port 0 HIGH\n");
+  aDIO_ReturnVal =
+    WritePort_aDIO(aDIO_Device, 0, HIGH);
+  /* sleep for 1 ms */
+  usleep(ONE_MILLISEC); 
+  /* check the return */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  WritePort_aDIO() FAILED");
+  }
+
+  /* sleep for 9 ms */
+  usleep(9 * ONE_MILLISEC);
+
+  /* write the value of port 0 = LOW */
+  printf("Write port 0 LOW\n");
+  aDIO_ReturnVal =
+    WritePort_aDIO(aDIO_Device, 0, LOW);
+  /* sleep for 1 ms */
+  usleep(ONE_MILLISEC); 
+  /* check the return */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  WritePort_aDIO() FAILED");
+  }
+
+  printf("Press ENTER to contine...\n");
+  getchar();
+
+  /* Now set only port 0.2 to output */
+  /* write the direction of port 0 */
+  printf("Write the direction of port 0 to OUTPUT (0x04)\n");
+  dir_val = 0x04;
+  for (Bit = 0; Bit < 8; Bit++) {
+    P0Bits[Bit] = (dir_val >> Bit) & 0x01;
+  }
+  
+  /* set the bits of port 0 */
+  aDIO_ReturnVal =
+    LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
+			 P0Bits[6], P0Bits[5],
+			 P0Bits[4], P0Bits[3],
+			 P0Bits[2], P0Bits[1],
+			 P0Bits[0]);
+  /* sleep 1 ms */
+  usleep(ONE_MILLISEC);
+  
+  /* check the return value */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
+  }
+  
+  /* write the value of port 0 = HIGH */
+  printf("Write port 0 HIGH\n");
+  aDIO_ReturnVal =
+    WritePort_aDIO(aDIO_Device, 0, HIGH);
+  /* sleep for 1 ms */
+  usleep(ONE_MILLISEC); 
+  /* check the return */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  WritePort_aDIO() FAILED");
+  }
+
+  /* sleep for 9 ms */
+  usleep(9 * ONE_MILLISEC);
+
+  /* write the value of port 0 = LOW */
+  printf("Write port 0 LOW\n");
+  aDIO_ReturnVal =
+    WritePort_aDIO(aDIO_Device, 0, LOW);
+  /* sleep for 1 ms */
+  usleep(ONE_MILLISEC); 
+  /* check the return */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  WritePort_aDIO() FAILED");
+  }
+
+  printf("Press ENTER to contine...\n");
+  getchar();
   
   /* close the device */
   printf("Close the device\n");

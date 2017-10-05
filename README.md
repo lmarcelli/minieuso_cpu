@@ -67,7 +67,7 @@ mecontrol
 
 The following command line options are available:
 ```
-mecontrol -db -log -hv -long -trig -cam
+mecontrol -db -log -hv -long -trig -cam -lvps
 ```
 
 * db: runs in debug mode (test functionallity executed)
@@ -76,16 +76,18 @@ mecontrol -db -log -hv -long -trig -cam
 * long: takes a long acquisition (i.e. until interrupted)
 * trig: runs with triggered data acquisition
 * cam: runs 2 min camera acquisition for every CPU_RUN_MAIN
+* lvps: allows power control of subsystems via the LVPS interface
 
 ## Functionality
-* the data acquisition: 
-  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1.
-  * analog and housekeeping data is also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
+* Full power control of the instrument subsystems via the LVPS (low voltage power supply), the HV (high voltage) to the PMTs is controlled by the Zynq board.
+* Data acquisition: 
+  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1  packet.
+  * analog and housekeeping data are also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
   * one CPU packet is appended to the current CPU run file every 5.24s
   * data from the cameras is collected by acquiring with one camera at a time,  waiting 5.24s between acquisitions
-* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN__<current_date>__<current_time>.dat```
+* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN_<run_type>__<current_date>__<current_time>.dat```
   * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
-  * log files are in ```/home/minieusouser/log/```
+  * log files are in ```/home/minieusouser/log/```, if log output is switched on
 * the output data from the cameras is in ```cameras/multiplecam/<NIR/VIS>/<current_date>```
   * .raw for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```
@@ -121,3 +123,20 @@ Some key differences of the old mode of operation relative to the current versio
 * The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
 * S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
 * S-curve accumulation is not calculated, the frames are simply stored for post-processing
+
+# Hardware interfaces
+The software is designed to cater to a specific hardware setup, with well defined ethernet interfaces and analog and digital I/O channels. These are desribed here.
+
+## Ethernet ports
+The CPU system has two ethernet ports: 
+1. eth0 - external internet or ssh connection - CN30
+2. eth1 - static IP connection to the Zynq board - CN20
+
+The location of these two ports is shown in here:
+![](CPU/images/cpu_ethernet_ports.png?raw=true)
+
+## aDIO ports (LVPS)
+Coming soon!
+
+## DM75xx ports (SiPM/photodiodes/thermistors)
+Coming soon!

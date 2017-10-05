@@ -122,6 +122,7 @@ int main(int argc, char ** argv) {
   ZynqManager ZqManager;
   UsbManager UManager;
   CamManager CManager;
+  LvpsManager Lvps;
 #ifdef SINGLE_EVENT
   DataAcqManagerSe DaqManager;
 #else
@@ -135,6 +136,7 @@ int main(int argc, char ** argv) {
   bool log_on = false;
   bool trig_on = false;
   bool cam_on = false;
+  bool lvps_on = false;
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
@@ -153,6 +155,9 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-cam")){
     cam_on = true;
   }
+  if(input.cmdOptionExists("-lvps")){
+    lvps_on = true;
+  }
 
   /* debug/test mode */
   /*-----------------*/
@@ -166,13 +171,16 @@ int main(int argc, char ** argv) {
     clog << std::endl;
     clog << "info: " << logstream::info << "log created" << std::endl;
 
-    /* testing the analog acquisition */
-    int c = CHANNELS;
-    std::cout << "CHANNELS = " << c << std::endl;
-    std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
-    std::cout << sizeof(AnalogAcq) << std::endl;
-    printf("CHANNELS dec = %u", CHANNELS);
-
+    if (lvps_on == true) {
+      /* testing the LVPS switching */
+      LvpsManager::Status camera_status;
+      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
+      std::cout << "camera status: " << camera_status << std::endl;
+      Lvps.SwitchOn(LvpsManager::CAMERAS);
+      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
+      std::cout << "camera status on: " << camera_status << std::endl;
+    }
+    
     return 0;
   }
 
@@ -192,6 +200,16 @@ int main(int argc, char ** argv) {
   std::string config_file_local = config_dir + "/dummy_local.conf";
   ConfigManager CfManager(config_file, config_file_local);
   Config * ConfigOut = CfManager.Configure();
+
+  if (lvps_on == true) {
+    /* turn on all systems */
+    std::cout << "switching on all systems..." << std::endl;
+    Lvps.SwitchOn(LvpsManager::CAMERAS);
+    Lvps.SwitchOn(LvpsManager::HK);
+
+    /* wait for boot */
+    sleep(5);
+  }
   
   /* test the connection to the zynq board */
   ZqManager.CheckTelnet();
@@ -206,6 +224,7 @@ int main(int argc, char ** argv) {
       single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 		     &CManager, hv_on, trig_on, cam_on);
     }
+    /* never reached */
   }
   else {
     /* single acquisition run */
@@ -213,6 +232,15 @@ int main(int argc, char ** argv) {
 		   &CManager, hv_on, trig_on, cam_on);
   }
 
+  if (lvps_on == true) {
+    /* turn off all systems */
+    std::cout << "switching off all systems..." << std::endl;
+    Lvps.SwitchOff(LvpsManager::CAMERAS);
+    Lvps.SwitchOff(LvpsManager::HK);
+
+    /* wait for switch off */
+    sleep(5);
+  }
   /* clean up */
   delete ConfigOut;
   return 0; 

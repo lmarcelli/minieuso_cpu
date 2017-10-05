@@ -11,10 +11,10 @@ ifeq ($(platform), Darwin)
 LIB_FLAGS:=-L../lib -lm -lpthread -lusb-1.0
 CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) 
 else
-LIB_FLAGS:=-L../lib -lrtd-dm75xx -lm -lpthread -lusb-1.0
+LIB_FLAGS:=-L../lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(DEBUG_FLAGS)
 endif
-
+SOURCES := $(shell find . -name '*.cpp')
 
 OUTDIR = ../bin/
 
@@ -24,7 +24,7 @@ TESTS = \
 all:    $(TESTS)
 
 mecontrol: mecontrol.cpp
-	$(CXX) $(CFLAGS) mecontrol.cpp log.cpp ConfigManager.cpp ZynqManager.cpp DataAcqManager.cpp DataAcqManagerSe.cpp UsbManager.cpp CamManager.cpp $(LIB_FLAGS) -o mecontrol 
+	$(CXX) $(CFLAGS) $(SOURCES) $(LIB_FLAGS) -o mecontrol 
 	mv mecontrol $(OUTDIR)
 
 clean:

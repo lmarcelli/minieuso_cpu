@@ -30,7 +30,7 @@ int main () {
   }
   
   /* write the direction of port 0 */
-  dir_val = FF;
+  dir_val = 0xFF;
   for (Bit = 0; Bit < 8; Bit++) {
     P0Bits[Bit] = (dir_val >> Bit) & 0x01;
   }

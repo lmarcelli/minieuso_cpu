@@ -22,6 +22,7 @@ ADIO_LIBRARY=-lrtd-aDIO
 
 EXAMPLES=ports \
 	ints
+	test_lvps
 
 all:	$(EXAMPLES)
 
@@ -30,6 +31,9 @@ ports:	ports.c
 
 ints:	ints.c
 	$(CC) $(CFLAGS) -o ints -lpthread ints.c $(LIBRARY_FLAGS) $(ADIO_LIBRARY)
+
+test_lvps:	test_lvps.c
+	$(CC) $(CFLAGS) -o test_lvps -lpthread test_lvps.c $(LIBRARY_FLAGS) $(ADIO_LIBRARY)
 
 clean:
 	rm -f *.o *~ $(EXAMPLES)

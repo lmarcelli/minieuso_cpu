@@ -54,7 +54,7 @@ private:
     HIGH = 0xFF,
     LOW = 0x00,
   };
-
+  
   int InitPorts();
   int CloseDev();
   int SetDirP0(uint8_t port_config);

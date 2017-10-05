@@ -111,7 +111,7 @@ int LvpsManager::SetDirP0(uint8_t port_config) {
 
 int LvpsManager::SetValP0(PortValue port_value) {
 #ifndef __APPLE__
-  int aDIO_ReturnVal;
+  int aDIO_ReturnVal = 0;
   
   switch (port_value) {
   case HIGH:

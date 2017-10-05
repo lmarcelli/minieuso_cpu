@@ -136,7 +136,27 @@ The location of these two ports is shown in here:
 ![](CPU/images/cpu_ethernet_ports.png?raw=true)
 
 ## aDIO ports (LVPS)
-Coming soon!
+The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface to the LVPS, in order to control the power to the instrument subsystems. The Port0 8-bit programmable port is used for handling these commands. The pinout of this connecter is:
+
+| Pin      | I/O Port | Function | Pin      | I/O Port | Function | 
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| **1**    | P0-0     | CAM ON   | **2**    | P0-1     | CAM OFF  |
+| **3**    | P0-2     | HK ON    | **4**    | P0-3     | HK OFF   |
+| **5**    | P0-4     | CCLVPS1  | **6**    | P0-5     | RETLVPS1 |
+| **7**    | P0-6     | CCLVPS2  | **8**    | P0-7     | RETLVPS2 |
+| **9**    |          | STROBE0  | **10**   |          | STROBE1  |
+| **11**   | P1-0     |          | **12**   | P1-1     |          |
+| **13**   | P1-2     |          | **14**   | P1-3     |          |
+| **15**   |          | DGND     | **16**   |          | +5 V     |
+
 
 ## DM75xx ports (SiPM/photodiodes/thermistors)
-Coming soon!
+The DM75xx series board is used in addition to the main CPU board to handle the analog acquisition. An external 68 pin I/O connector (CN3) is used to interface to the analog signals, but only the utlised channels are shown here. For the full pinout, refer to the Mini-EUSO wiki page (http://jemeuso2.riken.jp/TAEUSO/wiki/index.php?Mini-EUSO).
+
+| Pin      | Analog channel | Function  | Pin      | Analog channel | Function  | 
+| -------- | -------------- | --------- | -------- | -------------- | --------- |
+| **1**    | 1              | PH 1.1    | **3**    | 2              | PH 2.1    |
+| **5**    | 3              | PH 1.2    | **7**    | 4              | PH 2.2    |
+| **11**   | 5              | SiPM 1    | **13**   | 6              | SiPM 64.1 |
+| **15**   | 7              | SiPM 64.2 | **17**   | 8              | SiPM 64.1 |
+| **9**    |                | AINSENSE  | **10**   |                | AGND      |

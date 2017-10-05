@@ -104,6 +104,19 @@ make -C $HOME_DIR/analog/lib
 mkdir $HOME_DIR/analog/bin
 make -C $HOME_DIR/analog/src
 echo "analog software is set up"
+ 
+#Set up the aDIO ports on CPU
+echo "Setting up the aDIO port software..."
+make -C $HOME_DIR/aDIO_cpu/driver
+(cd $HOME_DIR/aDIO_cpu/driver && make load)
+cp $HOME_DIR/aDIO_cpu/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
+(cd $HOME_DIR/aDIO_cpu/driver && depmod -a)
+echo "lsmod | grep rtd:"
+lsmod | grep rtd
+make -C $HOME_DIR/aDIO_cpu/lib
+mkdir $HOME_DIR/aDIO_cpu/bin
+make -C $HOME_DIR/aDIO_cpu/src
+echo "aDIO software is set up"
 
 #Set up autologin to root 
 echo "Setting up autologin to root user on boot..."

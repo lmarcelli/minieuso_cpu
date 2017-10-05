@@ -232,6 +232,15 @@ int main(int argc, char ** argv) {
 		   &CManager, hv_on, trig_on, cam_on);
   }
 
+  if (lvps_on == true) {
+    /* turn off all systems */
+    std::cout << "switching off all systems..." << std::endl;
+    Lvps.SwitchOff(LvpsManager::CAMERAS);
+    Lvps.SwitchOff(LvpsManager::HK);
+
+    /* wait for switch off */
+    sleep(5);
+  }
   /* clean up */
   delete ConfigOut;
   return 0; 

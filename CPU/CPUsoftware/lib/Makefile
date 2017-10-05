@@ -23,7 +23,8 @@ OPTIMIZE_FLAGS=-O6
 WARNING_FLAGS=-Wall
 CFLAGS:=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 
-all:	librtd-dm75xx.a librtd-aDIO.a 
+all:	librtd-dm75xx.a \
+	librtd-aDIO.a \
 
 librtd-dm75xx.a:	librtd-dm75xx.o
 	ar -cru librtd-dm75xx.a librtd-dm75xx.o
@@ -34,7 +35,7 @@ librtd-dm75xx.o:	librtd-dm75xx.c
 librtd-aDIO.a:	librtd-aDIO.o
 	ar -cru librtd-aDIO.a librtd-aDIO.o
 
-librtd-aDIO.o:	librtd-.DIO.c
+librtd-aDIO.o:	librtd-aDIO.c
 	$(CC) $(CFLAGS) -c librtd-aDIO.c
 
 clean:

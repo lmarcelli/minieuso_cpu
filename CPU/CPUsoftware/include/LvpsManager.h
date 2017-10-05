@@ -47,6 +47,9 @@ public:
 
 private:
   static const uint32_t minor_number = 0;
+#ifndef __APPLE__
+  DeviceHandle aDIO_Device;
+#endif /* __APPLE__ */
   enum PortValue : uint8_t {
     HIGH = 0xFF,
     LOW = 0x00,

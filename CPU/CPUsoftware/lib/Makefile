@@ -25,7 +25,6 @@ CFLAGS:=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 
 all:	librtd-dm75xx.a \
 	librtd-aDIO.a \
-
 librtd-dm75xx.a:	librtd-dm75xx.o
 	ar -cru librtd-dm75xx.a librtd-dm75xx.o
 

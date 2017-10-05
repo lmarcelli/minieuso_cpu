@@ -107,6 +107,7 @@ echo "analog software is set up"
  
 #Set up the aDIO ports on CPU
 echo "Setting up the aDIO port software..."
+echo "rtd_aDIO" >> /etc/modules
 make -C $HOME_DIR/aDIO_cpu/driver
 (cd $HOME_DIR/aDIO_cpu/driver && make load)
 cp $HOME_DIR/aDIO_cpu/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/

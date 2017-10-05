@@ -12,6 +12,7 @@
 #include "ZynqManager.h"
 #include "UsbManager.h"
 #include "CamManager.h"
+#include "LvpsManager.h"
 
 /* definition to select event mode */
 //#define SINGLE_EVENT
@@ -21,8 +22,8 @@
 #include "DataAcqManager.h"
 #endif
 
-#define VERSION 2.5
-#define VERSION_DATE_STRING "03/10/2017"
+#define VERSION 3.0
+#define VERSION_DATE_STRING "05/10/2017"
 
 #define HOME_DIR "/home/software/CPU"
 #define DONE_DIR "/home/minieusouser/DONE"

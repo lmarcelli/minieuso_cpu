@@ -10,17 +10,6 @@
 
 #define ONE_MILLISEC	1000
 DeviceHandle aDIO_Device;
-uint8_t PortValue[2];
-uint8_t Strobe[2];
-uint8_t P0Direction = 0;
-char *P1Direction = "Output";
-char *Str0 = "High";
-char *Str1 = "High";
-static char *program_name;
-
-static void usage(void);
-void PrintHelp();
-void PrintValues();
 
 /* Program to pulse port 0 high for 10 ms */
 int main () {
@@ -29,8 +18,8 @@ int main () {
   uint8_t dir_val;
   uint8_t P0Bits[8];
   int Bit = 0;
-  uint8_t HIGH = FF;
-  uint8_t LOW = 0;
+  uint8_t HIGH = 0xFF;
+  uint8_t LOW = 0x00;
   
   /* initialise the board */
   aDIO_ReturnVal = OpenDIO_aDIO(&aDIO_Device, minor_number);
@@ -38,7 +27,8 @@ int main () {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  OpenDIO_aDIO(%u) FAILED: MinorNumber(= %u) maybe incorrect",
 	  minor_number, minor_number);
-    
+  }
+  
   /* write the direction of port 0 */
   dir_val = FF;
   for (Bit = 0; Bit < 8; Bit++) {
@@ -86,7 +76,7 @@ int main () {
 	  "ERROR:  WritePort_aDIO() FAILED");
   }
 
-  printf("Press ENTER to contine...")
+  printf("Press ENTER to contine...");
   getchar();
 
   

@@ -2,31 +2,27 @@
 
 /* default constructor */
 LvpsManager::LvpsManager() {
+  /* status initialisation */
   this->cam_status = UNDEF;
   this->hk_status = UNDEF;
 }
 
-#ifndef __APPLE__
 /* get the status of a subsystem */
-Status LvpsManager::GetStatus(SubSystem sub_system) {
-  Status sub_system_status = UNDEF;
+LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
 
   switch (sub_system) {
   case CAMERAS:
-    sub_system_status = this->cam_status;
+    return this->cam_status;
     break;
   case HK:
-    sub_system_status = this->HK_status;
+    return this->hk_status;
     break;   
   }
-
-  return sub_system_status;
+  return UNDEF;
 }
 
 /* switch on a subsystem */
 int LvpsManager::SwitchOn(SubSystem sub_system) {
-  Status sub_system_status = UNDEF;
-  int exec_check = 0;
   
   switch (sub_system) {
   case CAMERAS:
@@ -44,8 +40,6 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
 
 /* switch off a subsystem */
 int LvpsManager::SwitchOff(SubSystem sub_system) {
-  Status sub_system_status = UNDEF;
-  int exec_check = 0;
   
   switch (sub_system) {
   case CAMERAS:
@@ -64,6 +58,7 @@ int LvpsManager::SwitchOff(SubSystem sub_system) {
 
 /* initialise the aDIO ports */
 int LvpsManager::InitPorts() {
+#ifndef __APPLE__
   int aDIO_ReturnVal;
  
   aDIO_ReturnVal = OpenDIO_aDIO(&aDIO_Device, minor_number);
@@ -76,9 +71,12 @@ int LvpsManager::InitPorts() {
   }
   
   return 0;
+#endif /* __APPLE__ */
+  return 0;
 }
 /* write the direction of P0 */
-int LvpdManager::SetDirP0(uint8_t port_config) {
+int LvpsManager::SetDirP0(uint8_t port_config) {
+#ifndef __APPLE__
   int aDIO_ReturnVal;
   uint8_t P0Bits[8];
   int Bit = 0;
@@ -105,11 +103,14 @@ int LvpdManager::SetDirP0(uint8_t port_config) {
     clog << "error: " << logstream::error << "could not set direction of CPU aDIO ports to " << port_config << std::endl;
     return 1;
   }
-  
+
+  return 0;
+#endif /* __APPLE__ */
   return 0;
 }
 
 int LvpsManager::SetValP0(PortValue port_value) {
+#ifndef __APPLE__
   int aDIO_ReturnVal;
   
   switch (port_value) {
@@ -134,10 +135,13 @@ int LvpsManager::SetValP0(PortValue port_value) {
   }
 
   return 0;
+#endif /* __APPLE__ */
+  return 0;
 }
 
 int LvpsManager::CloseDev() {
- int aDIO_ReturnVal;
+#ifndef __APPLE__
+  int aDIO_ReturnVal;
   
   aDIO_ReturnVal = CloseDIO_aDIO(aDIO_Device);
   if (aDIO_ReturnVal) {
@@ -145,11 +149,12 @@ int LvpsManager::CloseDev() {
   }
 
   return 0;
+#endif /*  __APPLE__ */
+  return 0;
 }
 
 /* deliver a 5V, 10 ms pulse to a certain pin of P0 */
 int LvpsManager::SetPulseP0(uint8_t port_config) {
-  int exec_ret = 0;
 
   /* initialise */
   InitPorts();
@@ -172,4 +177,3 @@ int LvpsManager::SetPulseP0(uint8_t port_config) {
   return 0;
 }
 
-#endif /* __APPLE__ */

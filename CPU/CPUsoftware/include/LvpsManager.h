@@ -2,12 +2,12 @@
 #define _LVPS_MANAGER_H
 
 #include <errno.h>
-#include <error.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <unistd.h>
 
 #ifndef __APPLE__
+#include <error.h>
 #include "aDIO_library.h"
 #endif /* __APPLE__ */
 #include "log.h"
@@ -39,18 +39,21 @@ public:
   Status cam_status;
   Status hk_status;
   
+  LvpsManager();
   Status GetStatus(SubSystem sub_system);
   int SwitchOn(SubSystem sub_system);
   int SwitchOff(SubSystem sub_system);
   static int Check(SubSystem sub_system);
 
 private:
-  static uint32_t minor_number = 0;
+  static const uint32_t minor_number = 0;
   enum PortValue : uint8_t {
     HIGH = 0xFF,
     LOW = 0x00,
   };
 
+  int InitPorts();
+  int CloseDev();
   int SetDirP0(uint8_t port_config);
   int SetValP0(PortValue port_value);
   int SetPulseP0(uint8_t port_config);

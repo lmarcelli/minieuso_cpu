@@ -172,11 +172,11 @@ int main(int argc, char ** argv) {
     clog << "info: " << logstream::info << "log created" << std::endl;
 
     /* testing the LVPS switching */
-    Status camera_status;
-    camera_status = Lvps.GetStatus(CAMERAS);
+    LvpsManager::Status camera_status;
+    camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
     std::cout << "camera status: " << camera_status << std::endl;
-    Lvps.SwitchOn(CAMERAS);
-    camera_status = Lvps.GetStatus(CAMERAS);
+    Lvps.SwitchOn(LvpsManager::CAMERAS);
+    camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
     std::cout << "camera status on: " << camera_status << std::endl;
    
     return 0;

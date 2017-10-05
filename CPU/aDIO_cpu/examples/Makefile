@@ -21,7 +21,7 @@ CFLAGS:=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 ADIO_LIBRARY=-lrtd-aDIO
 
 EXAMPLES=ports \
-	ints
+	ints \
 	test_lvps
 
 all:	$(EXAMPLES)

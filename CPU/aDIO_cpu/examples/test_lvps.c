@@ -22,6 +22,7 @@ int main () {
   uint8_t LOW = 0x00;
   
   /* initialise the board */
+  printf("Initialise the board");
   aDIO_ReturnVal = OpenDIO_aDIO(&aDIO_Device, minor_number);
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
@@ -30,6 +31,7 @@ int main () {
   }
   
   /* write the direction of port 0 */
+  printf("Write the direction of port 0 to OUTPUT (0xFF)");
   dir_val = 0xFF;
   for (Bit = 0; Bit < 8; Bit++) {
     P0Bits[Bit] = (dir_val >> Bit) & 0x01;
@@ -52,6 +54,7 @@ int main () {
   }
   
   /* write the value of port 0 = HIGH */
+  printf("Write port 0 HIGH");
   aDIO_ReturnVal =
     WritePort_aDIO(aDIO_Device, 0, HIGH);
   /* sleep for 1 ms */
@@ -66,6 +69,7 @@ int main () {
   usleep(9 * ONE_MILLISEC);
 
   /* write the value of port 0 = LOW */
+  printf("Write port 0 LOW");
   aDIO_ReturnVal =
     WritePort_aDIO(aDIO_Device, 0, LOW);
   /* sleep for 1 ms */
@@ -81,6 +85,7 @@ int main () {
 
   
   /* close the device */
+  printf("Close the device");
   aDIO_ReturnVal = CloseDIO_aDIO(aDIO_Device);
   if (aDIO_ReturnVal) {
     printf("Error while closing ADIO = %d\n", aDIO_ReturnVal);

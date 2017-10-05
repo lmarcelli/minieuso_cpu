@@ -6,6 +6,7 @@ LvpsManager::LvpsManager() {
   this->hk_status = UNDEF;
 }
 
+#ifndef __APPLE__
 /* get the status of a subsystem */
 Status LvpsManager::GetStatus(SubSystem sub_system) {
   Status sub_system_status = UNDEF;
@@ -25,17 +26,41 @@ Status LvpsManager::GetStatus(SubSystem sub_system) {
 /* switch on a subsystem */
 int LvpsManager::SwitchOn(SubSystem sub_system) {
   Status sub_system_status = UNDEF;
-
+  int exec_check = 0;
+  
   switch (sub_system) {
   case CAMERAS:
- 
+    SetPulseP0(CAMERA_PORT_ON); 
+    this->cam_status = ON;
     break;
   case HK:
+    SetPulseP0(HK_PORT_ON);
+    this->hk_status = ON;
     break;
-
   }
+  
   return 0;
 }
+
+/* switch off a subsystem */
+int LvpsManager::SwitchOff(SubSystem sub_system) {
+  Status sub_system_status = UNDEF;
+  int exec_check = 0;
+  
+  switch (sub_system) {
+  case CAMERAS:
+    SetPulseP0(CAMERA_PORT_OFF); 
+    this->cam_status = OFF;
+    break;
+  case HK:
+    SetPulseP0(HK_PORT_OFF);
+    this->hk_status = OFF;
+    break;
+  }
+  
+  return 0;
+}
+
 
 /* initialise the aDIO ports */
 int LvpsManager::InitPorts() {
@@ -46,6 +71,7 @@ int LvpsManager::InitPorts() {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  OpenDIO_aDIO(%u) FAILED: MinorNumber(= %u) maybe incorrect",
 	  minor_number, minor_number);
+    clog << "error: " << logstream::error << "could not initialise CPU aDIO ports" << std::endl;
     return 1;
   }
   
@@ -76,6 +102,7 @@ int LvpdManager::SetDirP0(uint8_t port_config) {
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
+    clog << "error: " << logstream::error << "could not set direction of CPU aDIO ports to " << port_config << std::endl;
     return 1;
   }
   
@@ -102,41 +129,47 @@ int LvpsManager::SetValP0(PortValue port_value) {
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  WritePort_aDIO() FAILED");
+    clog << "error: " << logstream::error << "could not set value of CPU aDIO P0 " << port_value << std::endl; 
     return 1;
   }
 
   return 0;
 }
+
+int LvpsManager::CloseDev() {
+ int aDIO_ReturnVal;
+  
+  aDIO_ReturnVal = CloseDIO_aDIO(aDIO_Device);
+  if (aDIO_ReturnVal) {
+    clog << "error: " << logstream::error << "could not close CPU aDIO " << aDIO_ReturnVal << std::endl;
+  }
+
+  return 0;
+}
+
 /* deliver a 5V, 10 ms pulse to a certain pin of P0 */
 int LvpsManager::SetPulseP0(uint8_t port_config) {
   int exec_ret = 0;
 
   /* initialise */
-  exec_ret = InitPorts();
-  if (exec_ret != 0) {
-    clog << "error: " << logstream::error << "could not initialise CPU aDIO ports" << std::endl;
-  }
+  InitPorts();
   
   /* set specified output */
   SetDirP0(port_config);
-  if (exec_ret != 0) {
-    clog << "error: " << logstream::error << "could not set direction of CPU aDIO ports to " << port_config << std::endl;
-  }
-  
+ 
   /* write high */
-  exec_ret = SetValP0(HIGH);
-  if (exec_ret != 0) {
-    clog << "error: " << logstream::error << "could not set value of CPU aDIO P0 " << HIGH << std::endl;
-  }
-  
+  SetValP0(HIGH);
+   
   /* sleep for 9 ms */
   usleep(9 * ONE_MILLISEC);
 
   /* write low */
-  exec_ret = SetValP0(LOW);
-  if (exec_ret != 0) {
-    clog << "error: " << logstream::error << "could not set value of CPU aDIO P0 " << HIGH << std::endl;
-  }
-  
+  SetValP0(LOW);
+
+  /* clean up and exit */
+  CloseDev();
+    
   return 0;
 }
+
+#endif /* __APPLE__ */

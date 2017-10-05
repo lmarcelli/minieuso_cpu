@@ -12,6 +12,7 @@
 #include "ZynqManager.h"
 #include "UsbManager.h"
 #include "CamManager.h"
+#include "LvpsManager.h"
 
 /* definition to select event mode */
 //#define SINGLE_EVENT

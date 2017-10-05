@@ -7,7 +7,9 @@
 #include <ctype.h>
 #include <unistd.h>
 
+#ifndef __APPLE__
 #include "aDIO_library.h"
+#endif /* __APPLE__ */
 #include "log.h"
 
 #define ONE_MILLISEC 1000

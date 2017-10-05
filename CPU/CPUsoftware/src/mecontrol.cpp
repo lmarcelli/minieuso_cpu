@@ -122,6 +122,7 @@ int main(int argc, char ** argv) {
   ZynqManager ZqManager;
   UsbManager UManager;
   CamManager CManager;
+  LvpsManager Lvps;
 #ifdef SINGLE_EVENT
   DataAcqManagerSe DaqManager;
 #else
@@ -135,6 +136,7 @@ int main(int argc, char ** argv) {
   bool log_on = false;
   bool trig_on = false;
   bool cam_on = false;
+  bool lvps_on = false;
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
@@ -153,6 +155,9 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-cam")){
     cam_on = true;
   }
+  if(input.cmdOptionExists("-lvps")){
+    lvps_on = true;
+  }
 
   /* debug/test mode */
   /*-----------------*/
@@ -166,13 +171,14 @@ int main(int argc, char ** argv) {
     clog << std::endl;
     clog << "info: " << logstream::info << "log created" << std::endl;
 
-    /* testing the analog acquisition */
-    int c = CHANNELS;
-    std::cout << "CHANNELS = " << c << std::endl;
-    std::cout << "FIFO_DEPTH = " << FIFO_DEPTH << std::endl;
-    std::cout << sizeof(AnalogAcq) << std::endl;
-    printf("CHANNELS dec = %u", CHANNELS);
-
+    /* testing the LVPS switching */
+    Status camera_status;
+    camera_status = Lvps.GetStatus(CAMERAS);
+    std::cout << "camera status: " << camera_status << std::endl;
+    Lvps.SwitchOn(CAMERAS);
+    camera_status = Lvps.GetStatus(CAMERAS);
+    std::cout << "camera status on: " << camera_status << std::endl;
+   
     return 0;
   }
 

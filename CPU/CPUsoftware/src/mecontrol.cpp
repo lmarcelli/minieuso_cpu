@@ -200,6 +200,16 @@ int main(int argc, char ** argv) {
   std::string config_file_local = config_dir + "/dummy_local.conf";
   ConfigManager CfManager(config_file, config_file_local);
   Config * ConfigOut = CfManager.Configure();
+
+  if (lvps_on == true) {
+    /* turn on all systems */
+    std::cout << "switching on all systems..." << std::endl;
+    Lvps.SwitchOn(LvpsManager::CAMERAS);
+    Lvps.SwitchOn(LvpsManager::HK);
+
+    /* wait for boot */
+    sleep(5);
+  }
   
   /* test the connection to the zynq board */
   ZqManager.CheckTelnet();
@@ -214,6 +224,7 @@ int main(int argc, char ** argv) {
       single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 		     &CManager, hv_on, trig_on, cam_on);
     }
+    /* never reached */
   }
   else {
     /* single acquisition run */

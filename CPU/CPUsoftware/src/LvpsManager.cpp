@@ -9,7 +9,7 @@ LvpsManager::LvpsManager() {
 
 /* get the status of a subsystem */
 LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
-
+  
   switch (sub_system) {
   case CAMERAS:
     return this->cam_status;
@@ -23,7 +23,9 @@ LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
 
 /* switch on a subsystem */
 int LvpsManager::SwitchOn(SubSystem sub_system) {
-  
+
+  clog << "info: " << logstream::info << "switching on " << sub_system << std::endl;
+
   switch (sub_system) {
   case CAMERAS:
     SetPulseP0(CAMERA_PORT_ON); 
@@ -40,6 +42,8 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
 
 /* switch off a subsystem */
 int LvpsManager::SwitchOff(SubSystem sub_system) {
+  
+  clog << "info: " << logstream::info << "switching off " << sub_system << std::endl;
   
   switch (sub_system) {
   case CAMERAS:

@@ -26,18 +26,19 @@ void PrintValues();
 int main () {
   uint32_t minor_number = 0;
   int aDIO_ReturnVal;
-  char CommandBuffer[20];
-  char *Command;
-  char *Arg;
   uint8_t dir_val;
   uint8_t P0Bits[8];
-  int clear_count;
-  int Quit = 0;
   int Bit = 0;
-  int u = 0;
   uint8_t HIGH = FF;
   uint8_t LOW = 0;
   
+  /* initialise the board */
+  aDIO_ReturnVal = OpenDIO_aDIO(&aDIO_Device, minor_number);
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  OpenDIO_aDIO(%u) FAILED: MinorNumber(= %u) maybe incorrect",
+	  minor_number, minor_number);
+    
   /* write the direction of port 0 */
   dir_val = FF;
   for (Bit = 0; Bit < 8; Bit++) {
@@ -85,7 +86,15 @@ int main () {
 	  "ERROR:  WritePort_aDIO() FAILED");
   }
 
+  printf("Press ENTER to contine...")
   getchar();
+
   
+  /* close the device */
+  aDIO_ReturnVal = CloseDIO_aDIO(aDIO_Device);
+  if (aDIO_ReturnVal) {
+    printf("Error while closing ADIO = %d\n", aDIO_ReturnVal);
+  }
+
   return 0;
 }

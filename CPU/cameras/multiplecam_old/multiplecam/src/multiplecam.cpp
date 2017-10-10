@@ -1,11 +1,10 @@
 //============================================================================
 // Name        : multiplecam.cpp
 // Author      : Sara Turriziani
-// Version     : 4.0
+// Version     : 3.5
 // Copyright   : Mini-EUSO copyright notice
 // Description : Cameras Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
-
 
 #include <stdlib.h>
 #include <iostream>
@@ -14,28 +13,11 @@
 #include <fstream>
 #include <math.h>
 #include <time.h>
-#include <ctime>
 #include <sys/time.h>
 #include <unistd.h>
-#include <signal.h>
 #include "/usr/include/flycapture/FlyCapture2.h"
 using namespace FlyCapture2;
 using namespace std;
-
-// using global pointer/handler for test
-//Camera *pCameras;
-FlyCapture2::CallbackHandle m_resetHandle;
-FlyCapture2::CallbackHandle m_arrivalHandle;
-FlyCapture2::CallbackHandle m_removalHandle;
-
-volatile sig_atomic_t done = 0;
-
-
-
-void term(int signum)
-{
-    done = 1;
-}
 
 unsigned createMask(unsigned a, unsigned b)
 {
@@ -63,13 +45,6 @@ const std::string currentDateTime2() {
  return currentTime;
 
   }
-
-inline void delay( unsigned long ms )
-    {
-    usleep( ms * 1000 );
-    }
-
-
 
 void PrintBuildInfo()
 {
@@ -120,137 +95,9 @@ enum ExtendedShutterType
     GENERAL_EXTENDED_SHUTTER
 };
 
-std::string GetCurrentTimeString() {
-	time_t rawtime;
-	struct tm * timeinfo;
-	time( &rawtime );
-	timeinfo = localtime( &rawtime );
-
-	std::ostringstream formatTime;
-	formatTime << (timeinfo->tm_year + 1900) << "-"
-		<< (timeinfo->tm_mon + 1) << "-"
-		<< (timeinfo->tm_mday) << " "
-		<< (timeinfo->tm_hour) << ":"
-		<< (timeinfo->tm_min) << ":"
-		<< (timeinfo->tm_sec);
-
-	return formatTime.str();
-}
-
-
-void OnBusReset( void* pParam, unsigned int serialNumber )
-{
-	std::cout << GetCurrentTimeString() << " - *** BUS RESET ***" << std::endl;
-	
-//	delete[] pCameras;
-//	exit(EXIT_SUCCESS);
-	exit(EXIT_FAILURE);
-
-}
-
-void OnBusArrival( void* pParam, unsigned int serialNumber )
-{
-	std::cout << GetCurrentTimeString() << " - *** BUS ARRIVAL (" << serialNumber << ") ***" << std::endl;
-
-//	delete[] pCameras;
-//	exit(EXIT_SUCCESS);
-	exit(EXIT_FAILURE);
-
-}
-
-void OnBusRemoval( void* pParam, unsigned int serialNumber )
-{
-	std::cout << GetCurrentTimeString() << " - *** BUS REMOVAL (" << serialNumber << ") ***" << std::endl;
-
-//	delete[] pCameras;
-//	exit(EXIT_SUCCESS);
-	exit(EXIT_FAILURE);
-
-}
- 
-
-int BusResetLoop()
-{
-	BusManager busMgr;
-
-//	FlyCapture2::CallbackHandle m_resetHandle;
-//	FlyCapture2::CallbackHandle m_arrivalHandle;
-//	FlyCapture2::CallbackHandle m_removalHandle;
-
-	// Register bus events
-	Error error;
-	error = busMgr.RegisterCallback(&OnBusReset,BUS_RESET,NULL,&m_resetHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.RegisterCallback(&OnBusArrival,ARRIVAL,NULL,&m_arrivalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.RegisterCallback(&OnBusRemoval, REMOVAL,NULL,&m_removalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-
-
-        // 
-
-/*
-	// Unregister bus events
-	error = busMgr.UnregisterCallback( m_resetHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.UnregisterCallback( m_arrivalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.UnregisterCallback( m_removalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-*/
-
-	return 0;
-}
-
-
 //int main(int /*argc*/, char** /*argv*/)
 int main(int argc, char* argv[])
 {
-
-    struct sigaction action;
-    memset(&action, 0, sizeof(struct sigaction));
-    action.sa_handler = term;
-    if (sigaction(SIGTERM, &action, NULL) == -1) {
-        perror("Error: cannot handle SIGTERM"); // Should not happen
-    }   
-
-    if (sigaction(SIGINT, &action, NULL) == -1) {
-        perror("Error: cannot handle SIGINT"); // Should not happen
-    }
-
-        if (sigaction(SIGHUP, &action, NULL) == -1) {
-        perror("Error: cannot handle SIGHUP"); // Should not happen
-    }
-
 
 	unsigned int ulValue;
 	CameraInfo camInfo;
@@ -288,16 +135,6 @@ int main(int argc, char* argv[])
 
     BusManager busMgr;
     unsigned int numCameras;
-
-    int retValue = BusResetLoop();
-	if ( retValue != 0 )
-	{
-        PrintError( error );	
-	return -1;
-	}
-
-    delay(5);
-
     error = busMgr.GetNumOfCameras(&numCameras);
     if (error != PGRERROR_OK)
     {
@@ -305,7 +142,6 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-   
     printf( "Number of cameras detected: %u\n", numCameras );
 
     Camera *pCameras = new Camera[numCameras]; // initialize an array of cameras
@@ -327,7 +163,6 @@ int main(int argc, char* argv[])
                 delete[] pCameras;
                 return -1;
                }
-
 
           error = pCameras[i].GetCameraInfo(&camInfo);
           if (error != PGRERROR_OK)
@@ -403,17 +238,6 @@ int main(int argc, char* argv[])
               unsigned int res = r & ulValue;  // here you have already the Kelvin temperature * 10
               cout << "Initial Temperature is " << res / 10.0 << " K - " << res / 10.0	- 273.15 << " Celsius" << endl;
           }
-
-
-    // Get the camera configuration
-    FC2Config config;
-    error = pCameras[i].GetConfiguration(&config);
-    if (error != PGRERROR_OK)
-      {
-        PrintError(error);
-        return -1;
-     }
-
 
           //Update the register of each camera reading from parfile
 
@@ -1225,8 +1049,6 @@ int main(int argc, char* argv[])
                {
                  shutter.absValue = shutt1;
                  printf( "Shutter time set to %3.2f ms from current parfile \n", shutt1 );
-                 // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt1;
                }
              else
              {
@@ -1234,21 +1056,15 @@ int main(int argc, char* argv[])
                 {
             	 shutter.absValue = shutt;
                  printf( "WARNING! Shutter outside allowed range in current parfile: shutter time set to %3.2f ms using default parfile\n", shutt );
-                // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
                 }
               else if(shutt >= minShutter && shutt <= maxShutter && strcmp("Y", filestatus) != 0)
               {
             	 shutter.absValue = shutt;
               	printf( "Shutter time set to %3.2f ms from default parfile \n", shutt );
-                // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
               }
              else{
                   printf( "WARNING! Shutter outside allowed range: setting it to the maximum allowed value %3.2f ms \n", maxShutter );
                   shutter.absValue = maxShutter;
-                  // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*maxShutter;
                  }
              }
 
@@ -1259,16 +1075,6 @@ int main(int argc, char* argv[])
                delete[] pCameras;
                return -1;
              }
-
-        // Set the camera configuration
-	error = pCameras[i].SetConfiguration(&config);
-	if (error != PGRERROR_OK)
-	  {
-		PrintError(error);
-                delete[] pCameras;
-		return -1;
-	  }
-
 
 
            //  check if the camera supports the AUTO_EXPOSURE property
@@ -1810,55 +1616,21 @@ int main(int argc, char* argv[])
               }
           }
 
-
-   
-
   //  for ( int imageCnt=0; imageCnt < k_numImages; imageCnt++ )
     int imageCnt=0; // uncomment this and other lines beginning with /// & comment previous line to get an indefinite loop
- ////   for ( ; ;  )    
- while (!done)
+    for ( ; ;  )
      {
 
-
-         int retValue = BusResetLoop();
-	 if ( retValue != 0 )
-	   {
-	     PrintError(error);
-	     delete[] pCameras;
-	     return -1;
-	   }
-          
     	 for (unsigned int i = 0; i < numCameras; i++)
     	    {
     	      Image image;
     	      error = pCameras[i].RetrieveBuffer(&image);
-              
-              retValue = BusResetLoop();
-	      if ( retValue != 0 )
-		{
-		  PrintError(error);
-	          delete[] pCameras;
-		  return -1;
-		}
-
-
-
-
     	      if (error != PGRERROR_OK)
     	        {
     	          PrintError(error);
     	          delete[] pCameras;
     	          return -1;
     	        }
-
-               int retValue = BusResetLoop();
-	        if ( retValue != 0 )
-	         {
-                 PrintError(error);
-    	         delete[] pCameras;
-		 return -1;
-	         }
-
     	      // Display the timestamps of the images grabbed for each camera
     	         TimeStamp timestamp = image.GetTimeStamp();
     	         cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
@@ -1959,12 +1731,10 @@ int main(int argc, char* argv[])
     std::string st1= ss1.str();
     char pippo1[st1.length()];
     sprintf(pippo1 , "%s" , st1.c_str() );
-    printf("Kill signal received. Exiting. \n");
     printf( "End time time %s \n", pippo1 );
 
     // disconnect the camera
 
-    
     for (unsigned int  i= 0; i < numCameras; i++)
         {
           pCameras[i].StopCapture();

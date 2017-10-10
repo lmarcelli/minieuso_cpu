@@ -3,7 +3,7 @@ CFLAGS+=-g
 INCLUDE = -I../../include -I/usr/include/flycapture
 LIBS =   -lflycapture 
 
-OUTDIR = /home/lanfos/workspace/multiplecam/bin/
+OUTDIR = /home/lanfos/workspace/nircam/bin/
 
 PROG=multiplecam
 OBJS=$(PROG).o

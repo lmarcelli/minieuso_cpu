@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : multiplecam.cpp
 // Author      : Sara Turriziani
-// Version     : 3.1
+// Version     : 3.3
 // Copyright   : Mini-EUSO copyright notice
 // Description : Cameras Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
@@ -103,15 +103,20 @@ int main(int argc, char* argv[])
 	CameraInfo camInfo;
 
     // Check the number of parameters
-    if (argc < 2) {
+    if (argc < 4) {
         // Tell the user how to run the program if the user enters the command incorrectly.
-        std::cerr << "Usage: " << argv[0] << " PATH" << std::endl; // Usage message
+        std::cerr << "Usage: " << argv[0] << " PATH" << " currentNIRpresent" << " currentVISpresent" << std::endl; // Usage message
         return 1;
     }
 
 //    cout << "Input: " << argv[1] << endl; // uncomment for debugging
 
     std:string pardir = argv[1];
+    const char* fstatNIR = argv[2];
+    const char* fstatVIS = argv[3];
+
+//    cout << fstatNIR << endl; // uncomment for debugging
+//    cout << fstatVIS << endl; // uncomment for debugging
 
     PrintBuildInfo();
     Error error;
@@ -236,16 +241,16 @@ int main(int argc, char* argv[])
 
           //Update the register of each camera reading from parfile
 
-          std::string line;
+          std::string line, line1;
           std::string parfilename;
-
-
+          std::string parfilename1;
 
           float frate, shutt, gain, autoexpo;
           char frset[3], brset[3], autexpset[3];
           int desiredBrightness;
 
           ifstream parfile;
+          ifstream parfile1;
           string destination;
 
           if ( strcmp("Chameleon", name1) == 0)
@@ -266,10 +271,10 @@ int main(int argc, char* argv[])
           }
 
 
-          // Set the new values from the parameters reading them from the parameter file
+          // Set the new values from the parameters reading them from the default parameter file
           if (parfile.is_open())
            {
-              printf( "Reading from parfile: %s \n", parfilename.c_str() );
+              printf( "Reading from default parfile: %s \n", parfilename.c_str() );
               while ( getline (parfile,line) )
                    {
                      std::istringstream in(line);      //make a stream for the line itself
@@ -311,7 +316,7 @@ int main(int argc, char* argv[])
                      if(type == "BRIGHTSET")
                       {
                        in >> brset;
-                    //            cout << "Setting the brightness " << frset << endl; // uncomment for debugging purposes
+                    //            cout << "Setting the brightness " << brset << endl; // uncomment for debugging purposes
                       }
                      if(type == "AUTOEXPOSET")
                        {
@@ -320,6 +325,7 @@ int main(int argc, char* argv[])
                        }
 
                 }
+            parfile.clear();
             parfile.close();
 
            }
@@ -328,8 +334,6 @@ int main(int argc, char* argv[])
                  printf( "Unable to open parfile!!! \n" );
                  return -1;
                 }
-
-
 
 
           // Turn off SHARPNESS if the camera supports this property
@@ -1035,8 +1039,62 @@ int main(int argc, char* argv[])
                             printf( "Warning: BRIGHTNESS is not supported... \n" );
                           }
 
+                       // Now if a current parfile is present re-update new values from the parameters
 
-            
+                       if ( strcmp("Chameleon", name1) == 0)
+                          {
+                              std::stringstream pf;
+                              pf << pardir  << "/currentNIR.ini";
+                              parfilename1 = pf.str();
+                             //  cout << parfilename << endl; // uncomment for debugging
+                              if ( strcmp("Y",fstatNIR) == 0 )
+                                {
+                                  parfile1.open(parfilename1.c_str());
+                                }
+                              else
+                              {
+                            	  printf( "No current parfile in the folder! Continuing with default parameters for the camera \n" );
+                              }
+                          }
+
+                       else
+                           {
+                             std::stringstream pf;
+                             pf << pardir  << "/currentVIS.ini";
+                             parfilename1 = pf.str();
+                             // cout << parfilename1 << endl; // uncomment for debugging
+                              parfile1.open(parfilename1.c_str());
+                              if ( strcmp("Y",fstatVIS) == 0 )
+                                {
+                                   parfile1.open(parfilename1.c_str());
+                                }
+                              else
+                                {
+                                  printf( "No current parfile in the folder!  \n" );
+                                }
+                           }
+
+                       
+                       float frate1, shutt1, gain1, autoexpo1;
+                       char frset1[3], brset1[3], autexpset1[3];
+                       int desiredBrightness1;
+
+                       if (parfile1.is_open())
+                        {
+                    	   printf( "Reading from current parfile: %s \n", parfilename1.c_str() );
+                    	   while ( getline (parfile1,line1) )
+                    	      {
+                    	       std::istringstream in(line1);      //make a stream for the line itself
+                    	       std::string type;
+                    	       cout << "help me" << endl;
+                    	       }
+                    	   parfile.close();
+                        }
+                       else
+                       {
+                    	printf( "Unable to open current parfile %s! Continuing with default parameters for the camera \n", parfilename1.c_str()  );
+                       }
+
             // Start streaming on camera
             std::stringstream ss;
             ss << currentDateTime2();

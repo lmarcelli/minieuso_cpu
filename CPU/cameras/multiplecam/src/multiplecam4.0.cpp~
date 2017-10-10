@@ -1226,7 +1226,7 @@ int main(int argc, char* argv[])
                  shutter.absValue = shutt1;
                  printf( "Shutter time set to %3.2f ms from current parfile \n", shutt1 );
                  // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt1;
+            	config.grabTimeout = 3*shutt1;
                }
              else
              {
@@ -1235,20 +1235,20 @@ int main(int argc, char* argv[])
             	 shutter.absValue = shutt;
                  printf( "WARNING! Shutter outside allowed range in current parfile: shutter time set to %3.2f ms using default parfile\n", shutt );
                 // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
+            	config.grabTimeout = 3*shutt;
                 }
               else if(shutt >= minShutter && shutt <= maxShutter && strcmp("Y", filestatus) != 0)
               {
             	 shutter.absValue = shutt;
               	printf( "Shutter time set to %3.2f ms from default parfile \n", shutt );
                 // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
+            	config.grabTimeout = 3*shutt;
               }
              else{
                   printf( "WARNING! Shutter outside allowed range: setting it to the maximum allowed value %3.2f ms \n", maxShutter );
                   shutter.absValue = maxShutter;
                   // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*maxShutter;
+            	config.grabTimeout = 3*maxShutter;
                  }
              }
 

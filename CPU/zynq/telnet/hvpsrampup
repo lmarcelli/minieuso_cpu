@@ -1,23 +1,31 @@
 echo "hvps cathode 3 3 3 3 3 3 3 3 3" >pipe
+sleep .5
 echo "hvps setdac 500 500 500 500 500 500 500 500 500" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps turnon 1 1 1 1 1 1 1 1 1" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps setdac 1000 1000 1000 1000 1000 1000 1000 1000 1000" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps setdac 1500 1500 1500 1500 1500 1500 1500 1500 1500" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps setdac 2000 2000 2000 2000 2000 2000 2000 2000 2000" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps setdac 2500 2500 2500 2500 2500 2500 2500 2500 2500" >pipe
 echo "hvps status gpio" >pipe
+sleep .5
 echo "hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000" >pipe
 echo "hvps status gpio" >pipe
-
+sleep .5
 if [ $1 -gt 3500 ]
 then
 	echo "hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500" >pipe
 	echo "hvps status gpio" >pipe
+	sleep .5
 fi
 
 echo "hvps setdac" $1 $1 $1 $1 $1 $1 $1 $1 $1 >pipe

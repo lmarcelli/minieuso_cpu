@@ -14,7 +14,7 @@ echo "hvps status gpio" >pipe
 echo "hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000" >pipe
 echo "hvps status gpio" >pipe
 
-if [$1 -gt 3500]
+if [ $1 -gt 3500 ]
 then
 	echo "hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500" >pipe
 	echo "hvps status gpio" >pipe

@@ -164,7 +164,7 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-lvps")){
     lvps_on = true;
   }
-  if(input.cmdOptionExists("-lvps")){
+  if(input.cmdOptionExists("-scurve")){
     sc_on = true;
   }
 

@@ -79,6 +79,13 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   
   if(hv_on == true) {
     ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
+
+    /* set the DAC to the config DAC level */
+    ZqManager->SetDac(ConfigOut->dac_level); 
+  }
+  else {
+    /* set the DAC to the pedestal */
+    ZqManager->SetDac(750); 
   }
   
 #ifdef SINGLE_EVENT    

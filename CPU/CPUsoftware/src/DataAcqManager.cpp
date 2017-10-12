@@ -655,9 +655,6 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
 
   ZynqManager ZqManager;
 
-  /* set the DAC to the config DAC level */
-  ZqManager.SetDac(ConfigOut->dac_level); 
-
   /* create a CPU file */
   CreateCpuRun(CPU);
 

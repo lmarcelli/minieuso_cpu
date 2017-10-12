@@ -67,7 +67,7 @@ mecontrol
 
 The following command line options are available:
 ```
-mecontrol -db -log -hv -long -trig -cam -lvps
+mecontrol -db -log -hv -long -trig -cam -lvps -scurve
 ```
 
 * db: runs in debug mode (test functionallity executed)
@@ -77,6 +77,7 @@ mecontrol -db -log -hv -long -trig -cam -lvps
 * trig: runs with triggered data acquisition
 * cam: runs 2 min camera acquisition for every CPU_RUN_MAIN
 * lvps: allows power control of subsystems via the LVPS interface
+* scurve: takes an S-curve for every cpu file acquired
 
 ## Functionality
 * Full power control of the instrument subsystems via the LVPS (low voltage power supply), the HV (high voltage) to the PMTs is controlled by the Zynq board.

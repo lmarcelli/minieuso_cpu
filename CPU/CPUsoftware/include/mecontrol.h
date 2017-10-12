@@ -30,6 +30,9 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 void SignalHandler(int signum);
+int single_acq_run(UsbManager * UManager, Config * ConfigOut,
+		   ZynqManager * ZqManager, DataAcqManager * DaqManager,
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on) {
 
 #endif
 /* _MECONTROL_H */

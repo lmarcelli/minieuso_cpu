@@ -63,7 +63,7 @@ void ClearFTP() {
 
 /* a single 2.5 min acquisition run */
 int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on) {
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on) {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -84,9 +84,13 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
 #ifdef SINGLE_EVENT    
   /* create the run file */ 
   DaqManager->CreateCpuRun();
-  
-  /* take an scurve, then data */
-  DaqManager->CollectSc(ConfigOut);
+
+  if (sc_on == true) {
+    /* take an scurve */
+    DaqManager->CollectSc(ConfigOut);
+  }
+
+  /* take data */
   DaqManager->CollectData();
   
   /* close the run file */
@@ -137,6 +141,8 @@ int main(int argc, char ** argv) {
   bool trig_on = false;
   bool cam_on = false;
   bool lvps_on = false;
+  bool sc_on = false;
+  
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
@@ -157,6 +163,9 @@ int main(int argc, char ** argv) {
   }
   if(input.cmdOptionExists("-lvps")){
     lvps_on = true;
+  }
+  if(input.cmdOptionExists("-lvps")){
+    sc_on = true;
   }
 
   /* debug/test mode */
@@ -222,14 +231,14 @@ int main(int argc, char ** argv) {
     /* loop over single acquisition */
     while(1) {
       single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		     &CManager, hv_on, trig_on, cam_on);
+		     &CManager, hv_on, trig_on, cam_on, sc_on);
     }
     /* never reached */
   }
   else {
     /* single acquisition run */
     single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		   &CManager, hv_on, trig_on, cam_on);
+		   &CManager, hv_on, trig_on, cam_on, sc_on);
   }
 
   if (lvps_on == true) {

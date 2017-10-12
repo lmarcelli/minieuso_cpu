@@ -1,0 +1,1 @@
+echo "acq scurve 0 8 1023 16384" >pipe

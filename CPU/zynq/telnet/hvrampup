@@ -1,7 +1,9 @@
 ./hvcat3
-sleep.5
+sleep .5
 ./hvdacall 500
 sleep .5
+./hvturnonall
+sleep 1 
 ./hvdacall 1000
 sleep .5
 ./hvdacall 1500

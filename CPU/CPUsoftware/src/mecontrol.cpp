@@ -97,8 +97,12 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   DaqManager->CloseCpuRun();
   
 #else
-  /* take an scurve, then data */
-  DaqManager->CollectSc(ConfigOut);
+
+  if (sc_on == true) {
+    /* take an scurve */
+    DaqManager->CollectSc(ConfigOut);
+  }
+  /* take data */
   if (trig_on == true) {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
   }

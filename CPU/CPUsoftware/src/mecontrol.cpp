@@ -63,8 +63,9 @@ void ClearFTP() {
 
 /* a single 2.5 min acquisition run */
 int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on) {
-
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on,
+		   int hvdac, int dv) {
+  
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
   
@@ -78,10 +79,24 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   UManager->DataBackup();
   
   if(hv_on == true) {
-    ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
-
-    /* set the DAC to the config DAC level */
-    ZqManager->SetDac(ConfigOut->dac_level); 
+    
+    /* check for command line override */
+    if (dv != -1){
+        ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, dv);
+    }
+    else {
+      ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
+    }
+    
+    /* set the DAC  */
+    /* check for command line override */
+    if (hvdac != -1){
+       ZqManager->SetDac(hvdac); 
+    }
+    else {
+      ZqManager->SetDac(ConfigOut->dac_level); 
+    }
+    
   }
   else {
     /* set the DAC to the pedestal */
@@ -170,6 +185,18 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-scurve")){
     sc_on = true;
   }
+  
+  int dv = -1;
+  const std::string &dynode_voltage = input.getCmdOption("-dv");
+  if (!dynode_voltage.empty()){
+    dv = std::stoi(dynode_voltage);
+  }
+  int hvdac = -1;
+  const std::string &hv_dac = input.getCmdOption("-hvdac");
+  if (!hv_dac.empty()){
+    hvdac = std::stoi(hv_dac);
+  }
+
 
   /* debug/test mode */
   /*-----------------*/
@@ -192,6 +219,18 @@ int main(int argc, char ** argv) {
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
       std::cout << "camera status on: " << camera_status << std::endl;
     }
+
+    /* testing the passing of voltage via command line */
+    const std::string &dynode_voltage = input.getCmdOption("-dv");
+    if (!dynode_voltage.empty()){
+      std::cout << "dynode voltage: " << dynode_voltage << std::endl;
+      int dv = std::stoi(dynode_voltage);
+      std::cout << dv << std::endl;
+    }
+    else {
+      std::cout << "no dynode voltage found" << std::endl;
+    }
+    
     
     return 0;
   }
@@ -243,14 +282,14 @@ int main(int argc, char ** argv) {
     /* loop over single acquisition */
     while(1) {
       single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		     &CManager, hv_on, trig_on, cam_on, sc_on);
+		     &CManager, hv_on, trig_on, cam_on, sc_on, hvdac, dv);
     }
     /* never reached */
   }
   else {
     /* single acquisition run */
     single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		   &CManager, hv_on, trig_on, cam_on, sc_on);
+		   &CManager, hv_on, trig_on, cam_on, sc_on, hvdac, dv);
   }
 
   if (lvps_on == true) {

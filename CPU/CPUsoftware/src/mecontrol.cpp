@@ -92,11 +92,6 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   /* create the run file */ 
   DaqManager->CreateCpuRun();
 
-  if (sc_on == true) {
-    /* take an scurve */
-    DaqManager->CollectSc(ConfigOut);
-  }
-
   /* take data */
   DaqManager->CollectData();
   
@@ -237,6 +232,15 @@ int main(int argc, char ** argv) {
   /* check the instrument and HV status */
   ZqManager.InstStatus();
   ZqManager.HvpsStatus();
+
+  if (sc_on == true) {
+    /* take an scurve */
+    DaqManager.CollectSc(ConfigOut);
+
+    /* then exit */
+    return 0;
+  }
+
   
   if(long_acq == true){
     /* loop over single acquisition */

@@ -285,7 +285,7 @@ int main(int argc, char ** argv) {
 
       /* check the status */
       ZqManager.HvpsStatus();
-      
+    }
       /* take an scurve */
       DaqManager.CollectSc(ConfigOut);
 

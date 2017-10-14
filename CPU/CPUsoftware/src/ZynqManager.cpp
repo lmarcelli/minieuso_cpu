@@ -318,6 +318,35 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   return 0;
 }
 
+
+/* turn off the HV */
+int ZynqManager::HvpsTurnOff() {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr;
+  int sockfd;
+  std::string cmd;
+  std::stringstream conv;
+
+  int sleep_time = 500000;
+  
+  clog << "info: " << logstream::info << "turning off the HVPS" << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+
+  /* turn off */
+  status_string = SendRecvTelnet("hvps turnoff 1 1 1 1 1 1 1 1 1\n", sockfd);
+  kStatStr = status_string.c_str();
+  printf("status: %s\n", kStatStr);
+  usleep(sleep_time);
+    
+  close(sockfd);
+  return 0;
+}
+
+
 /* take an scurve */
 int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 

@@ -112,7 +112,13 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   /* take data */
   DaqManager->CollectSc(ConfigOut);
   DaqManager->CollectData(ConfigOut);
-  
+
+  /* turn off the HV */
+  ZqManager->HvpsTurnOff();
+
+  /* check the status */
+  ZqManager->HvpsStatus();
+    
   /* close the run file */
   DaqManager->CloseCpuRun();
   

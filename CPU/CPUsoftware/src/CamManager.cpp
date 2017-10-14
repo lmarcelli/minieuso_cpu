@@ -12,7 +12,7 @@ int CamManager::StartAcquisition() {
   if (status != 0) {
     clog << "error: " << logstream::error << "could not cd into " << CAMERA_DIR << std::endl;
   }
-  
+
   /* fork a process */
   pid_t pid = fork();
 
@@ -47,5 +47,6 @@ int CamManager::CollectData() {
   clog << "info: " << logstream::info << "stopping camera acquisition" << std::endl;
   global_stop_exec = true;
   collect_data.join();
+
   return 0;
 }

@@ -124,17 +124,19 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   
 #else
 
+  /* collect camera data if required */
+  if (cam_on == true) {
+    CManager->CollectData();
+    std::thread collect_cam_data (&CamManager::CollectData, CManager);
+  }
+  
   /* take data */
   if (trig_on == true) {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
   }
   else {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
-    /* collext camera data if required */
-    if (cam_on == true) {
-      CManager->CollectData();
     }
-  }
 #endif /* SINGLE_EVENT */
   
   /* wait for backup to complete */

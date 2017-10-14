@@ -123,20 +123,6 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   DaqManager->CloseCpuRun();
   
 #else
-
-  /* collect camera data if required */
-  if (cam_on == true) {
-    std::thread collect_cam_data (&CamManager::CollectData, CManager);
-
-    /* take data */
-    if (trig_on == true) {
-      DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
-    }
-    else {
-      DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
-    }
-    collect_cam_data.join();
-  }
   
   /* take data */
   if (trig_on == true) {
@@ -316,6 +302,20 @@ int main(int argc, char ** argv) {
     return 0;
   }
 
+  /* collect camera data if required */
+  if (cam_on == true) {
+    std::thread collect_cam_data (&CamManager::CollectData, CManager);
+    
+    /* take data */
+    if (trig_on == true) {
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
+    }
+    else {
+	  DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
+    }
+    collect_cam_data.join();
+  }
+  
   
   if(long_acq == true){
     /* loop over single acquisition */
@@ -326,6 +326,8 @@ int main(int argc, char ** argv) {
     /* never reached */
   }
   else {
+
+    
     /* single acquisition run */
     single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 		   &CManager, hv_on, trig_on, cam_on, sc_on, hvdac, dv);

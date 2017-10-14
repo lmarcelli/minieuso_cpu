@@ -87,6 +87,8 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
     else {
       ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
     }
+
+    ZqManager.HvpsStatus();
     
     /* set the DAC  */
     /* check for command line override */

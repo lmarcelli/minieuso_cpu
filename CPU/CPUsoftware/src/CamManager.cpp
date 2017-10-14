@@ -26,7 +26,7 @@ int CamManager::StartAcquisition() {
 
     }
     /* kill the process */
-    kill(pid, SIGKILL);
+    kill(pid, SIGTERM);
   }
 
  return 0;

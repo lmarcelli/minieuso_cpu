@@ -272,8 +272,22 @@ int main(int argc, char ** argv) {
   ZqManager.HvpsStatus();
 
   if (sc_on == true) {
-    /* take an scurve */
-    DaqManager.CollectSc(ConfigOut);
+    if (hv_on == true) {
+      /* turn on the HV */
+
+      /* check for command line override */
+      if (dv != -1){
+        ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, dv);
+      }
+      else {
+	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
+      }
+
+      /* check the status */
+      ZqManager.HvpsStatus();
+      
+      /* take an scurve */
+      DaqManager.CollectSc(ConfigOut);
 
     /* then exit */
     return 0;

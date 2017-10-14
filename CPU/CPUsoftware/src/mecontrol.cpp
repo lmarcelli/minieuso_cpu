@@ -295,6 +295,12 @@ int main(int argc, char ** argv) {
       /* take an scurve */
       DaqManager.CollectSc(ConfigOut);
 
+      /* turn off the HV */  
+      ZqManager.HvpsTurnOff();
+      
+      /* check the status */
+      ZqManager.HvpsStatus();
+      
     /* then exit */
     return 0;
   }

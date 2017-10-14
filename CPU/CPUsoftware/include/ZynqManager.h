@@ -35,6 +35,7 @@ public:
   static int InstStatus();
   static int HvpsStatus();
   static int HvpsTurnOn(int cv, int dv);
+  static int HvpsTurnOff();
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();

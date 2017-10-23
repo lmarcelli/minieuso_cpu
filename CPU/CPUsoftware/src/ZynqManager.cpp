@@ -241,8 +241,8 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   std::string status_string;
   const char * kStatStr;
   int sockfd;
-  std::string cmd;
-  std::stringstream conv;
+  std::string cmd0, cmd1;
+  std::stringstream conv0, conv1;
 
   int sleep_time = 500000;
   
@@ -253,11 +253,12 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   
   /* set the cathode voltage */
   /* make the command string from config file values */
-  conv << "hvps cathode " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << std::endl;
-  cmd = conv.str();
-  std::cout << cmd;
+  conv0 << "hvps cathode " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << std::endl;
+  cmd0 = conv0.str();
+  std::cout << cmd0;
   
-  status_string = SendRecvTelnet(cmd, sockfd);
+  
+  status_string = SendRecvTelnet(cmd0, sockfd);
   kStatStr = status_string.c_str();
   printf("status: %s\n", kStatStr);
   usleep(sleep_time);
@@ -301,14 +302,16 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
     kStatStr = status_string.c_str();
     printf("status: %s\n", kStatStr);
     usleep(sleep_time);
+
+    
   }
   
   /* set the final DAC */
-  conv << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
-  cmd = conv.str();
-  std::cout << cmd;
+  conv1 << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
+  cmd1 = conv1.str();
+  std::cout << cmd1;
   
-  status_string = SendRecvTelnet(cmd, sockfd);
+  status_string = SendRecvTelnet(cmd1, sockfd);
   kStatStr = status_string.c_str();
   printf("status: %s\n", kStatStr);
   usleep(sleep_time);

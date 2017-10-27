@@ -93,6 +93,9 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   else {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
     }
+
+  /* turn off the HV */
+  ZqManager->HvpsTurnOff();
   
 #endif /* SINGLE_EVENT */
   

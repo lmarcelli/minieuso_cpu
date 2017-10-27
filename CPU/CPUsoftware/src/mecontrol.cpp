@@ -38,8 +38,7 @@ void ClearFTP() {
 
 /* a single 2.5 min acquisition run */
 int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on,
-		   int hvdac, int dv) {
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on) {
   
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -55,24 +54,12 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   
   if(hv_on == true) {
     
-    /* check for command line override */
-    if (dv != -1){
-        ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, dv);
-    }
-    else {
-      ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
-    }
+    ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
 
     ZqManager->HvpsStatus();
     
-    /* set the DAC  */
-    /* check for command line override */
-    if (hvdac != -1){
-       ZqManager->SetDac(hvdac); 
-    }
-    else {
-      ZqManager->SetDac(ConfigOut->dac_level); 
-    }
+    /* set the DAC */
+    ZqManager->SetDac(ConfigOut->dac_level); 
     
   }
   else {
@@ -232,6 +219,14 @@ int main(int argc, char ** argv) {
   ConfigManager CfManager(config_file, config_file_local);
   Config * ConfigOut = CfManager.Configure();
 
+  /* check for command line override to config */
+  if (dv != -1) {
+    ConfigOut->dynode_voltage = dv;
+  }
+  if (hvdac != -1) {
+    ConfigOut->dac_level = hvdac;
+  }
+  
   if (lvps_on == true) {
     /* turn on all systems */
     std::cout << "switching on all systems..." << std::endl;
@@ -250,20 +245,17 @@ int main(int argc, char ** argv) {
   ZqManager.HvpsStatus();
 
   if (sc_on == true) {
-    if (hv_on == true) {
-      /* turn on the HV */
 
+    if (hv_on == true) {
+
+      /* turn on the HV */
       /* check for command line override */
-      if (dv != -1){
-        ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, dv);
-      }
-      else {
-	ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
-      }
+      ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);	
 
       /* check the status */
       ZqManager.HvpsStatus();
     }
+    
       /* take an scurve */
       DaqManager.CollectSc(ConfigOut);
 
@@ -296,7 +288,7 @@ int main(int argc, char ** argv) {
     /* loop over single acquisition */
     while(1) {
       single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		     &CManager, hv_on, trig_on, cam_on, sc_on, hvdac, dv);
+		     &CManager, hv_on, trig_on, cam_on, sc_on);
     }
     /* never reached */
   }
@@ -305,7 +297,7 @@ int main(int argc, char ** argv) {
     
     /* single acquisition run */
     single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		   &CManager, hv_on, trig_on, cam_on, sc_on, hvdac, dv);
+		   &CManager, hv_on, trig_on, cam_on, sc_on);
   }
 
   if (lvps_on == true) {

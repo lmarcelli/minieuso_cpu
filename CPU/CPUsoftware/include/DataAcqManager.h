@@ -57,13 +57,13 @@ public:
   };
 
   DataAcqManager();
-  int CreateCpuRun(RunType run_type);
+  int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
-  int CollectSc(Config * ConfgOut);
+  int CollectSc(Config * ConfigOut);
   int CollectData(Config * ConfigOut, uint8_t instrument_mode);
 
 private:
-  std::string CreateCpuRunName(RunType run_type);
+  std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();

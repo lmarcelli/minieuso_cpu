@@ -8,7 +8,7 @@ DataAcqManager::DataAcqManager() {
 }
   
 /* create cpu run file name */
-std::string DataAcqManager::CreateCpuRunName(RunType run_type) {
+std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOut) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -19,7 +19,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type) {
     time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
     break;
   case SC:
-    time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S.dat";
+    time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__" + std::to_string(ConfigOut->dynode_voltage) + ".dat";
     break;
   }
   std::string cpu_str;
@@ -80,7 +80,7 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun(RunType run_type) {
+int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
 
   FILE * ptr_cpufile;
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
@@ -90,12 +90,12 @@ int DataAcqManager::CreateCpuRun(RunType run_type) {
   /* set the cpu file name */
   switch (run_type) {
   case CPU: 
-    this->cpu_main_file_name = CreateCpuRunName(CPU);
+    this->cpu_main_file_name = CreateCpuRunName(CPU, ConfigOut);
     clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
     kCpuFileName = cpu_main_file_name.c_str();
     break;
   case SC: 
-    this->cpu_sc_file_name = CreateCpuRunName(SC);
+    this->cpu_sc_file_name = CreateCpuRunName(SC, ConfigOut);
     clog << "info: " << logstream::info << "Set cpu_sc_file_name to: " << cpu_sc_file_name << std::endl;
     kCpuFileName = cpu_sc_file_name.c_str();
     break;
@@ -639,7 +639,7 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
   ZynqManager ZqManager;
 
   /* create an SC file */
-  CreateCpuRun(SC);
+  CreateCpuRun(SC, ConfigOut);
 
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
@@ -658,7 +658,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
   ZynqManager ZqManager;
 
   /* create a CPU file */
-  CreateCpuRun(CPU);
+  CreateCpuRun(CPU, ConfigOut);
 
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);

@@ -552,7 +552,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
   int packet_counter = 0;
   int bad_packet_counter = 0;
     
-  while(packet_counter < RUN_SIZE) {
+  while(1) {
     
     struct inotify_event * event;
     
@@ -566,6 +566,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
     if (event->len) {
       if (event->mask & IN_CREATE) {
 	if (event->mask & IN_ISDIR) {
+
 	  /* process new directory creation */
 	  printf("The directory %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new directory created" << std::endl;
@@ -578,7 +579,17 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
+	  /* for CPU run files */
 	  if (event_name.compare(0, 3, "frm") == 0) {
+
+	    /* new run file every RUN_SIZE packets*/
+	    if (packet_counter == RUN_SIZE) {
+	      CloseCpuRun(CPU);
+	      packet_counter = 0;
+	    }
+	    if (packet_counter == 0) {
+	      CreateCpuRun(CPU, ConfigOut);
+	    }
 	    
 	    zynq_file_name = data_str + "/" + event->name;
 	    sleep(2);
@@ -611,13 +622,17 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(27);
 
+	    CreateCpuRun(SC, ConfigOut);
+	    
 	    /* generate sc packet and append to file */
-	     SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	     WriteScPkt(sc_packet);
-
+	    SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+	    WriteScPkt(sc_packet);
+	    
+	    CloseCpuRun(SC);
+	    
 	    /* delete upon completion */
 	    std::remove(sc_file_name.c_str());
-
+	    
 	    /* exit without waiting for more files */
 	    return 0;
 	    
@@ -647,17 +662,12 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
 
-  /* create an SC file */
-  CreateCpuRun(SC, ConfigOut);
 
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
-  /* close the SC file */
-  CloseCpuRun(SC);
-  
   return 0;
 }
 
@@ -687,9 +697,9 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
     break;
   }
   collect_data.join();         
-  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
 
-  /* close the CPU file */
+  /* never reached */
+  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   
   return 0;

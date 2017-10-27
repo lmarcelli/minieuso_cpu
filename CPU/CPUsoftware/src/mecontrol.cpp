@@ -11,14 +11,19 @@ capel.francesca@gmail.com
 
 /* handle SIGINT */
 void SignalHandler(int signum) {
+
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
-  /* handle the signal */
+
+  /* stop the data acquisition */
 #ifdef SINGLE_EVENT
   ZynqManager::DataAcquisitionStop();
 #else
   ZynqManager::StopAcquisition();
 #endif /* SINGLE_EVENT */
   std::cout << "Acquisition stopped" << std::endl;  
+
+  /* turn off the HV */
+  ZynqManager::HvpsTurnOff();
   
   /* terminate the program */
   exit(signum);  

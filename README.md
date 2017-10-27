@@ -85,10 +85,11 @@ mecontrol -db -log -hv -long -trig -cam -lvps -scurve
   * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1  packet.
   * analog and housekeeping data are also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
   * one CPU packet is appended to the current CPU run file every 5.24s
-  * data from the cameras is collected by acquiring with one camera at a time,  waiting 5.24s between acquisitions
-* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames ```CPU_RUN_<run_type>__<current_date>__<current_time>.dat```
+  * data from the cameras is collected every 5.24 s with both cameras operating simultaneously
+* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames of the form ```CPU_RUN_<run_type>__<current_date>__<current_time>.dat```
+  * S-curve files also have the configured dynode voltage appended to the filename, even if the HV is not switched on 
   * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
-  * log files are in ```/home/minieusouser/log/```, if log output is switched on
+  * log files are in ```/home/minieusouser/log/```, if log output is switched on with ```-log```
 * the output data from the cameras is in ```cameras/multiplecam/<NIR/VIS>/<current_date>```
   * .raw for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```

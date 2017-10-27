@@ -284,7 +284,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
   
   /* DEBUG: print records to check */
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
-  std::cout <<  "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
+  std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
 
@@ -550,6 +550,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
   wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
 
   int packet_counter = 0;
+  int bad_packet_counter = 0;
     
   while(packet_counter < RUN_SIZE) {
     
@@ -586,15 +587,23 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name);
 	    AnalogAcq * acq = AnalogDataCollect();
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
+
+	    /* check for NULL packets */
+	    if (zynq_packet != NULL && hk_packet != NULL) {
 	    
-	    /* generate cpu packet and append to file */
-	    WriteCpuPkt(zynq_packet, hk_packet);
-
-	    /* delete upon completion */
-	    std::remove(zynq_file_name.c_str());
-
-	    /* increment the packet counter */
-	    packet_counter++;
+	      /* generate cpu packet and append to file */
+	      WriteCpuPkt(zynq_packet, hk_packet);
+	      
+	      /* delete upon completion */
+	      std::remove(zynq_file_name.c_str());
+	      
+	      /* increment the packet counter */
+	      packet_counter++;
+	    }
+	    else {
+	      /* skip this packet */
+	      bad_packet_counter++;
+	    }
 
 	  }
 	  else if (event_name.compare(0, 2, "sc") == 0) {

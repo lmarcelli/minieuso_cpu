@@ -95,7 +95,9 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
     }
 
   /* turn off the HV */
-  ZqManager->HvpsTurnOff();
+  if (hv_on == true) {
+    ZqManager->HvpsTurnOff();
+  }
   
 #endif /* SINGLE_EVENT */
   

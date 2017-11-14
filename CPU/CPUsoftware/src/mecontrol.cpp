@@ -15,11 +15,7 @@ void SignalHandler(int signum) {
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
 
   /* stop the data acquisition */
-#ifdef SINGLE_EVENT
-  ZynqManager::DataAcquisitionStop();
-#else
   ZynqManager::StopAcquisition();
-#endif /* SINGLE_EVENT */
   std::cout << "Acquisition stopped" << std::endl;  
 
   /* turn off the HV */
@@ -72,25 +68,6 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
     ZqManager->SetDac(750); 
   }
   
-#ifdef SINGLE_EVENT    
-  /* create the run file */ 
-  DaqManager->CreateCpuRun();
-
-  /* take data */
-  DaqManager->CollectSc(ConfigOut);
-  DaqManager->CollectData(ConfigOut);
-
-  /* turn off the HV */
-  ZqManager->HvpsTurnOff();
-
-  /* check the status */
-  ZqManager->HvpsStatus();
-    
-  /* close the run file */
-  DaqManager->CloseCpuRun();
-  
-#else
-  
   /* take data */
   if (trig_on == true) {
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run);
@@ -104,9 +81,7 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
     ZqManager->HvpsTurnOff();
   }
   
-#endif /* SINGLE_EVENT */
-  
-  /* wait for backup to complete */
+/* wait for backup to complete */
   //run_backup.join();
   return 0;
 }
@@ -122,11 +97,7 @@ int main(int argc, char ** argv) {
   UsbManager UManager;
   CamManager CManager;
   LvpsManager Lvps;
-#ifdef SINGLE_EVENT
-  DataAcqManagerSe DaqManager;
-#else
   DataAcqManager DaqManager;
-#endif /* SINGLE_EVENT */
   
   /* parse command line options */
   bool hv_on = false;

@@ -13,14 +13,7 @@
 #include "UsbManager.h"
 #include "CamManager.h"
 #include "LvpsManager.h"
-
-/* definition to select event mode */
-//#define SINGLE_EVENT
-#ifdef SINGLE_EVENT
-#include "DataAcqManagerSe.h"
-#else
 #include "DataAcqManager.h"
-#endif
 
 #define VERSION 3.1
 #define VERSION_DATE_STRING "26/10/2017"

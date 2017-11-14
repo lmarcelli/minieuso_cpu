@@ -67,13 +67,13 @@ mecontrol
 
 The following command line options are available:
 ```
-mecontrol -db -log -hv -long -trig -cam -lvps -scurve
+mecontrol -db -log -hv -short -trig -cam -lvps -scurve
 ```
 
 * db: runs in debug mode (test functionallity executed)
 * log: produces a log with all levels of output printed
 * hv: switches the high voltage on to normal operational level (1100 V)
-* long: takes a long acquisition (i.e. until interrupted)
+* short: produces a single run file then exits 
 * trig: runs with triggered data acquisition
 * cam: runs 2 min camera acquisition for every CPU_RUN_MAIN
 * lvps: allows power control of subsystems via the LVPS interface
@@ -116,15 +116,18 @@ The format is described in detail by the two header files ```pdmdata.h``` (the Z
 A 32 bit CRC is calculated for each CPU_RUN file prior to adding the CpuFileTrailer (the last 10 bytes). This CRC is appended to each CPU_RUN file as part of the CpuFileTrailer. 
 
 ## Backwards compatibility
-The software is designed to be compatible with previous versions of the Zynq board firmware used during the integration and testing of the Mini-EUSO engineering model. Most of the compaitibilty is taken care of automatically. However in order to use the original "single event" readout used during testing from Jan - Aug 2017, it is necessary to follow these steps:
+Stable ersions of the software used in previous integration tests of the Mini-EUSO instrument are stored in the following branches named after the integration date. The current stable version of the software is in the ```master``` branch. 
 
-1. In ```CPUsoftware/include/data_format.h``` uncomment L16 ```#define SINGLE_EVENT```
-2. Recompile the code by running ```make``` in ```CPUsoftware/src```
+1. ```aug_06_2017```: August integration in Tor Vergata, Rome
+2. ```oct_16_2017```: October integration in TorVergata, Rome
 
-Some key differences of the old mode of operation relative to the current version:
-* The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
-* S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
-* S-curve accumulation is not calculated, the frames are simply stored for post-processing
+Some key differences of the previous software current version:
+*```aug_06_2017```
+ * The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
+ * S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
+ * S-curve accumulation is not calculated, the frames are simply stored for post-processing
+*```oct_16_2017```
+ * to be update once updates completed
 
 # Hardware interfaces
 The software is designed to cater to a specific hardware setup, with well defined ethernet interfaces and analog and digital I/O channels. These are desribed here.

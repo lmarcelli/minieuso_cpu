@@ -59,7 +59,7 @@ void SignalHandler(int signum);
 void ClearFTP();
 int single_acq_run(UsbManager * UManager, Config * ConfigOut,
 		   ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on);
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run);
 
 #endif
 /* _MECONTROL_H */

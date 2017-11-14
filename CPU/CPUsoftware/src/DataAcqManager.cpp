@@ -527,7 +527,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -610,6 +610,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut) {
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
+	      /* leave loop for a single run file */
+	      if (packet counter == 25 && single_run == true) {
+		break;
+	      }
 	    }
 	    else {
 	      /* skip this packet */
@@ -664,7 +668,7 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -672,15 +676,12 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 }
 
 /* spawn thread to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run) {
 
   ZynqManager ZqManager;
 
-  /* create a CPU file */
-  CreateCpuRun(CPU, ConfigOut);
-
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
 
   switch(instrument_mode) {
   case ZynqManager::MODE0:
@@ -698,7 +699,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode) {
   }
   collect_data.join();         
 
-  /* never reached */
+  /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   

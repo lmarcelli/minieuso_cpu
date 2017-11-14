@@ -43,7 +43,7 @@ void ClearFTP() {
 
 /* a single 2.5 min acquisition run */
 int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on) {
+		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run) {
   
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -93,10 +93,10 @@ int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqMa
   
   /* take data */
   if (trig_on == true) {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, single_run);
     }
 
   /* turn off the HV */
@@ -130,19 +130,19 @@ int main(int argc, char ** argv) {
   
   /* parse command line options */
   bool hv_on = false;
-  bool long_acq = false;
   bool debug_mode = false;
   bool log_on = false;
   bool trig_on = false;
   bool cam_on = false;
   bool lvps_on = false;
   bool sc_on = false;
+  bool single_run = false; 
   
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
   }
-  if(input.cmdOptionExists("-long")){
-    long_acq = true;
+  if(input.cmdOptionExists("-short")){
+    single_run = true;
   }
   if(input.cmdOptionExists("-db")){
     debug_mode = true;
@@ -285,30 +285,17 @@ int main(int argc, char ** argv) {
     
     /* take data */
     if (trig_on == true) {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3);
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3, single_run);
     }
     else {
-	  DaqManager.CollectData(ConfigOut, ZynqManager::MODE2);
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2, single_run);
     }
     collect_cam_data.join();
   }
   
-  
-  if(long_acq == true){
-    /* loop over single acquisition */
-    while(1) {
-      single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		     &CManager, hv_on, trig_on, cam_on, sc_on);
-    }
-    /* never reached */
-  }
-  else {
-
-    
-    /* single acquisition run */
-    single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		   &CManager, hv_on, trig_on, cam_on, sc_on);
-  }
+  /* data acquisition */
+  single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
+		 &CManager, hv_on, trig_on, cam_on, sc_on, single_run);
 
   if (lvps_on == true) {
     /* turn off all systems */

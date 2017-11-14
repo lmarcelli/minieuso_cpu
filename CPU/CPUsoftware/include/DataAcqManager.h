@@ -60,7 +60,7 @@ public:
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
   int CollectSc(Config * ConfigOut);
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode);
+  int CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run);
 
 private:
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
@@ -73,7 +73,7 @@ private:
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
-  int ProcessIncomingData(Config * ConfigOut);
+  int ProcessIncomingData(Config * ConfigOut, bool single_run);
 
 };
 

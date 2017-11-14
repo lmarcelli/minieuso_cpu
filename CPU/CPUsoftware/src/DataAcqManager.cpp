@@ -611,7 +611,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	      /* increment the packet counter */
 	      packet_counter++;
 	      /* leave loop for a single run file */
-	      if (packet counter == 25 && single_run == true) {
+	      if (packet_counter == 25 && single_run == true) {
 		break;
 	      }
 	    }

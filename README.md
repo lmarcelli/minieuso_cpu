@@ -123,11 +123,11 @@ Stable ersions of the software used in previous integration tests of the Mini-EU
 
 Some key differences of the previous software current version:
 * ```aug_06_2017```
- * The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
- * S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
- * S-curve accumulation is not calculated, the frames are simply stored for post-processing
+  * The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
+  * S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
+  * S-curve accumulation is not calculated, the frames are simply stored for post-processing
 * ```oct_16_2017```
- * to be update once updates completed
+  * to be update once updates completed
 
 # Hardware interfaces
 The software is designed to cater to a specific hardware setup, with well defined ethernet interfaces and analog and digital I/O channels. These are desribed here.

@@ -69,12 +69,11 @@ typedef struct
 #define MAX_PACKETS_L2 4
 #define MAX_PACKETS_L3 1
 
-/* Timestamp structure in binary format */
-/* Year 0=2017, 1=2018, 2=2019, 3=... */
+/* timestamp */
 /* 4 bytes */
 typedef struct
 {
-  uint32_t cpu_time_stamp; // y | m | d | h | m | s | 0 | 0 
+  uint32_t cpu_time_stamp; // unix time in s
 } CpuTimeStamp;
 
 

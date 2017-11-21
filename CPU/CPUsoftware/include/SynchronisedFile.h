@@ -11,8 +11,21 @@ public:
   SynchronisedFile(std::string path); 
   ~SynchronisedFile();
   template <class GenericType>
-  size_t Write(GenericType payload);  
-  
+  size_t Write(GenericType payload) {
+
+    /* lock to one thread at a time */
+    std::lock_guard<std::mutex> lock(_writerMutex);
+    
+    /*  write the payload to the file */
+    size_t check = fwrite(payload, sizeof(*payload), 1, this->_ptr_to_file);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fwrite failed to " << this->_path << std::endl;
+      return check;
+    }
+
+    return check;
+  }
+
 private:
   std::string _path;
   std::mutex _writerMutex;
@@ -25,7 +38,11 @@ public:
   Writer(std::shared_ptr<SynchronisedFile> sf);
   
   template <class GenericType>
-  void WriteToSynchFile(GenericType payload); 
+  void WriteToSynchFile(GenericType payload) {
+    /* call write to file */
+    _sf->Write(payload);
+  }
+
   
 private:
   std::shared_ptr<SynchronisedFile> _sf;

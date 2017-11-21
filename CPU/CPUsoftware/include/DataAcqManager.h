@@ -14,6 +14,7 @@
 #include "pdmdata.h"
 #include "data_format.h"
 #include "ConfigManager.h"
+#include "SynchronisedFile.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
@@ -50,7 +51,9 @@ class DataAcqManager {
 public:  
   std::string cpu_main_file_name;
   std::string cpu_sc_file_name;
-
+  std::shared_ptr<SynchronisedFile> CpuFile;
+  Writer * CpuWriter;
+  
   enum RunType : uint8_t {
     CPU = 0,
     SC = 1,

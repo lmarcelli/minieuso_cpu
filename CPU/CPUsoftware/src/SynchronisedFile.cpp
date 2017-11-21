@@ -2,13 +2,13 @@
 
 /* default constructor */
 SynchronisedFile::SynchronisedFile(std::string path) {
-  this->_path = path;
+  this->path = path;
   const char * file_name = path.c_str();
   
   /* open file for writing */
   this->_ptr_to_file = fopen(file_name, "wb");
   if (!this->_ptr_to_file) {
-    clog << "error: " << logstream::error << "cannot open the file " << this->_path << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << this->path << std::endl;
   }
 
 }

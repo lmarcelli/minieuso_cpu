@@ -2,6 +2,7 @@
 #define _SYNCHRONISED_FILE_H
 
 #include <mutex>
+#include <memory>
 
 #include "log.h"
 

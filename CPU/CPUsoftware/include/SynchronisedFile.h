@@ -25,6 +25,7 @@ public:
   ~SynchronisedFile();
   
   uint32_t Checksum();
+  void Close();
   template <class GenericType>
   size_t Write(GenericType payload) {
 
@@ -50,12 +51,13 @@ private:
 class Access {
 public:
   Access(std::shared_ptr<SynchronisedFile> sf);
+
   uint32_t GetChecksum();
-  
+  void CloseSynchFile();
   template <class GenericType>
   void WriteToSynchFile(GenericType payload) {
     /* call write to file */
-    _sf->Write(payload);
+    this->_sf->Write(payload);
   }
   
 private:

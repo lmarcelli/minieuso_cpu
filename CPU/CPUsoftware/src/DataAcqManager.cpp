@@ -119,7 +119,6 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
-
   
   /* set up the cpu file trailer */
   cpu_file_trailer->run_size = RUN_SIZE;
@@ -128,7 +127,9 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
   /* write to file */
   this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer);
   delete cpu_file_trailer;
-  
+
+  /* close the current SynchronisedFile */
+  this->RunAccess->CloseSynchFile();
   return 0;
 }
 
@@ -388,11 +389,8 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 /* write the cpu packet to the cpu file */
 int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet) {
 
-  FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_main_file_name.c_str();
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
-  size_t check;
 
   clog << "info: " << logstream::info << "writing new packet to " << cpu_main_file_name << std::endl;
   /* create the cpu packet header */
@@ -408,26 +406,11 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   cpu_packet->hk_packet = *hk_packet;
   delete hk_packet;
 
-  /* open the cpu file to append */
-  ptr_cpufile = fopen(kCpuFileName, "a+b");
-  if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_main_file_name << std::endl;
-    return 1;
-  }
-
-  /* write the cpu packet */
-  check = fwrite(cpu_packet, sizeof(*cpu_packet), 1, ptr_cpufile);
-  if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_main_file_name << std::endl;
-    delete cpu_packet;
-    return 1;
-  }
+  /* write the CPU packet */
+  this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet);
   delete cpu_packet; 
   pkt_counter++;
   
-  /* close the cpu file */
-  fclose(ptr_cpufile);
-
   return 0;
 }
 
@@ -435,33 +418,15 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 /* write the sc packet to the cpu file */
 int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 
-  FILE * ptr_cpufile;
-  const char * kCpuFileName = cpu_sc_file_name.c_str();
   static unsigned int pkt_counter = 0;
-  size_t check;
 
   clog << "info: " << logstream::info << "writing new packet to " << cpu_sc_file_name << std::endl;
 
-  /* open the cpu file to append */
-  ptr_cpufile = fopen(kCpuFileName, "a+b");
-  if (!ptr_cpufile) {
-    clog << "error: " << logstream::error << "cannot open the file " << cpu_sc_file_name << std::endl;
-    return 1;
-  }
-
-  /* write the sc packet */
-  check = fwrite(sc_packet, sizeof(*sc_packet), 1, ptr_cpufile);
-  if (check != 1) {
-    clog << "error: " << logstream::error << "fwrite failed to " << cpu_sc_file_name << std::endl;
-    delete sc_packet;
-    return 1;
-  }
+  /* write the SC packet */
+  this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet);
   delete sc_packet;
   pkt_counter++;
   
-  /* close the cpu file */
-  fclose(ptr_cpufile);
-
   return 0;
 }
 

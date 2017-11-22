@@ -168,17 +168,15 @@ int main(int argc, char ** argv) {
       std::cout << "camera status on: " << camera_status << std::endl;
     }
 
-    /* testing the passing of voltage via command line */
-    const std::string &dynode_voltage = input.getCmdOption("-dv");
-    if (!dynode_voltage.empty()){
-      std::cout << "dynode voltage: " << dynode_voltage << std::endl;
-      int dv = std::stoi(dynode_voltage);
-      std::cout << dv << std::endl;
-    }
-    else {
-      std::cout << "no dynode voltage found" << std::endl;
-    }
+    /* reload and parse the configuration file */
+    std::string config_file = config_dir + "/dummy.conf";
+    std::string config_file_local = config_dir + "/dummy_local.conf";
+    ConfigManager CfManager(config_file, config_file_local);
+    Config * ConfigOut = CfManager.Configure();
     
+    /* testing of new file access */
+    DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
+    DaqManager.CloseCpuRun(DataAcqManager::CPU);
     
     return 0;
   }

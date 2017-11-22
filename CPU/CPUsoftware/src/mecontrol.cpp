@@ -37,8 +37,8 @@ void ClearFTP() {
   closedir(theFolder);    
 }
 
-/* a single 2.5 min acquisition run */
-int single_acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
+/* an acquisition run */
+int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
 		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run) {
   
   std::cout << "starting acqusition run..." <<std::endl; 
@@ -263,7 +263,7 @@ int main(int argc, char ** argv) {
   }
   
   /* data acquisition */
-  single_acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
+  acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 		 &CManager, hv_on, trig_on, cam_on, sc_on, single_run);
 
   if (lvps_on == true) {

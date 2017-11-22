@@ -99,14 +99,14 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_sc_file_name);
     break;
   }
- this->CpuWriter = new Writer(this->CpuFile); 
+  this->RunAccess = new Access(this->CpuFile); 
    
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;
 
   /* write to file */
-  this->CpuWriter->WriteToSynchFile<CpuFileHeader *>(cpu_file_header);
+  this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header);
   delete cpu_file_header;
   
   
@@ -119,31 +119,14 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
-  
-  /* calculate the CRC */
-  boost::crc_32_type crc_result;
-  std::ifstream ifs(this->CpuFile->path, std::ios_base::binary);	
-  if(ifs) {
-    do {
-      char buffer[buffer_size];
-      ifs.read(buffer, buffer_size);
-      crc_result.process_bytes(buffer, ifs.gcount());
-    } while (ifs);
-  }
-  else {
-    clog << "error: " << logstream::error << "cannot open the file " << this->CpuFile->path << std::endl;
-    return 1;
-  }
-  std::cout << std::hex << std::uppercase << "CRC = " << crc_result.checksum() << std::endl;
-  clog << "info: " << logstream::info << "CRC for " << this->CpuFile->path << " = "
-       << std::hex << std::uppercase << crc_result.checksum() << std::endl;
+
   
   /* set up the cpu file trailer */
   cpu_file_trailer->run_size = RUN_SIZE;
-  cpu_file_trailer->crc = crc_result.checksum(); 
+  cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 
   /* write to file */
-  this->CpuWriter->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer);
+  this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer);
   delete cpu_file_trailer;
   
   return 0;

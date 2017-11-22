@@ -1,7 +1,6 @@
 #ifndef _DATA_ACQ_H
 #define _DATA_ACQ_H
 
-#include <boost/crc.hpp>  
 #ifndef __APPLE__
 #include <sys/inotify.h>
 #include "dm75xx_library.h"
@@ -20,14 +19,6 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define USB_MOUNTPOINT_0 "/media/usb0"
 #define USB_MOUNTPOINT_1 "/media/usb1"
-
-/* for use with CRC calculation in CloseCpuRun() */
-/* redefine this to change to processing buffer size */
-#ifndef PRIVATE_BUFFER_SIZE
-#define PRIVATE_BUFFER_SIZE  1024
-#endif
-/* global objects */
-std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 
 /* for use with inotify in ProcessIncomingData() */
 #define EVENT_SIZE (sizeof(struct inotify_event))
@@ -52,7 +43,7 @@ public:
   std::string cpu_main_file_name;
   std::string cpu_sc_file_name;
   std::shared_ptr<SynchronisedFile> CpuFile;
-  Writer * CpuWriter;
+  Access * RunAccess;
   
   enum RunType : uint8_t {
     CPU = 0,

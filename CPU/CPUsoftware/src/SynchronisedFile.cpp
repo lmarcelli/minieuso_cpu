@@ -6,8 +6,8 @@ SynchronisedFile::SynchronisedFile(std::string path) {
   this->path = path;
   const char * file_name = path.c_str();
   
-  /* open file for reading and writing */
-  this->_ptr_to_file = fopen(file_name, "w+b");
+  /* open file for writing */
+  this->_ptr_to_file = fopen(file_name, "wb");
   if (!this->_ptr_to_file) {
     clog << "error: " << logstream::error << "cannot open the file " << this->path << std::endl;
   }
@@ -25,6 +25,9 @@ uint32_t SynchronisedFile::Checksum() {
 
   /* lock to one thread at a time */
   std::lock_guard<std::mutex> lock(_accessMutex);
+
+  /* close the file */
+  fclose(this->_ptr_to_file);
   
   /* calculate the CRC */
   boost::crc_32_type crc_result;
@@ -44,6 +47,13 @@ uint32_t SynchronisedFile::Checksum() {
   clog << "info: " << logstream::info << "CRC for " << this->path << " = "
        << std::hex << std::uppercase << crc_result.checksum() << std::endl;
 
+  /* reopen the file for further writing */
+  const char * file_name = this->path.c_str();
+  this->_ptr_to_file = fopen(file_name, "wb");
+  if (!this->_ptr_to_file) {
+    clog << "error: " << logstream::error << "cannot open the file " << this->path << std::endl;
+  }
+  
   return crc_result.checksum();
 }
 

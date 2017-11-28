@@ -15,6 +15,7 @@ Further information on the status of the Mini-EUSO integration and testing, as w
  * install GRUB onto the 32 GB flash drive 
 
 3. Restart the system and boot into the OS, login as root
+ * ensure the analog board is also connected (necessary to load the drivers)
  * the ethernet connection can be configured by copying the following lines into the ```/etc/network/interfaces``` file
  * the CPU has 2 ports (eth0 and eth1), so adjust as necessary.
 ```
@@ -42,6 +43,8 @@ cd /home/software/CPU/CPUsetup/
  * installs and sets up the test software for all systems
  * sets up autologin to the root user on boot
  * restarts the shell 
+ 
+6. Set the local time to UTC 
 
 ## Update
 To update the software following installation: 
@@ -139,6 +142,8 @@ The CPU system has two ethernet ports:
 
 The location of these two ports is shown in here:
 ![](CPU/images/cpu_ethernet_ports.png?raw=true)
+
+NB: this is true for the CMX34GS model (original CPU), for the CMX34BTS model (new CPU) the ethernet ports are switched.
 
 ## aDIO ports (LVPS)
 The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface to the LVPS, in order to control the power to the instrument subsystems. The Port0 8-bit programmable port is used for handling these commands. The pinout of this connecter is:

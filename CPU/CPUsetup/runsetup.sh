@@ -120,6 +120,10 @@ mkdir $HOME_DIR/aDIO_cpu/bin
 make -C $HOME_DIR/aDIO_cpu/src
 echo "aDIO software is set up"
 
+# Set the local time to UTC
+timedatectl set-timezone UTC
+hwclock --systohc
+
 # Set up autologin to root 
 echo "Setting up autologin to root user on boot..."
 mkdir /etc/systemd/system/getty@tty1.service.d

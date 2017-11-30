@@ -45,7 +45,7 @@ public:
   std::string cpu_sc_file_name;
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
-  ThermManager * ThManager;
+  ThermManager * ThManager = new ThermManager();
   
   enum RunType : uint8_t {
     CPU = 0,

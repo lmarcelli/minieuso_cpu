@@ -176,7 +176,7 @@ int main(int argc, char ** argv) {
     
     /* testing of new file access */
     DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
-    //DaqManager.CollectThermData();
+    DaqManager.CollectThermData();
     DaqManager.CloseCpuRun(DataAcqManager::CPU);
 
     

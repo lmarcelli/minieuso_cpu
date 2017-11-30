@@ -20,7 +20,7 @@ uint32_t ThermManager::BuildCpuTimeStamp() {
   uint32_t timestamp = time(NULL);
 
   return timestamp;
-
+}
 
 
 /* get the temperature */

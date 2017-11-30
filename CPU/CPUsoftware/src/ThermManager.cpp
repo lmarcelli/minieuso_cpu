@@ -17,11 +17,24 @@ TemperatureAcq * ThermManager::GetTemperature() {
   std::string output = CpuTools::CommandToStr(cmd);
   
   /* parse the output */
-  /* for debug just print */
-  std::cout << output << std::endl;
-
+  ParseDigitempOutput(output);
+  
   /* make the results struct */
   TemperatureAcq * temperature_result = NULL;
   
   return temperature_result;
+}
+
+
+/* parse the digitemp output */
+float ThermManager::ParseDigitempOutput(std::string input_string) {
+  std::regex num_with_two_dp("[0-9]+\\.[0-9]{2}");
+  std::smatch match;
+  std::regex_search(input_string, match, num_with_two_dp);
+  float val;
+  for(auto v: match) {
+    std::cout << v << std::endl;
+  }
+  val = std::stof(match[1]);
+  return val;
 }

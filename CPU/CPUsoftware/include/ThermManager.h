@@ -1,6 +1,8 @@
 #ifndef _THERM_MANAGER_H
 #define _THERM_MANAGER_H
 
+#include <regex>
+
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 
@@ -25,6 +27,7 @@ public:
   TemperatureAcq * GetTemperature();
   
 private:
+  float ParseDigitempOutput(std::string input_string);
 
 };
 

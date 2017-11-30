@@ -29,7 +29,7 @@ TemperatureAcq * ThermManager::GetTemperature() {
 /* parse the digitemp output */
 float ThermManager::ParseDigitempOutput(std::string input_string) {
 
-  std::regex num_with_two_dp("([0-9]+\\.[0-9]{2}) ([0-9]+\\.[0-9]{2})");
+  std::regex num_with_two_dp("([0-9]+\\.[0-9]{2})");
   std::smatch match;
   float val;
 

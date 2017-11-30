@@ -27,28 +27,30 @@ TemperatureAcq * ThermManager::GetTemperature() {
 
 
 /* parse the digitemp output */
-float ThermManager::ParseDigitempOutput(std::string input_string) {
+TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
 
   std::regex num_with_two_dp("([0-9]+\\.[0-9]{2})");
   std::smatch match;
-  float val;
+  TemperatureAcq * temperature_results = new TemperatureAcq();
 
-  /* search for numbers with 2 decimal places */
+  /* search for numbers with 2 decimal places */ 
   std::string::const_iterator searchStart(input_string.cbegin());
+  int i = 0;
+  int j = 0;
   while (std::regex_search(searchStart, input_string.cend(), match, num_with_two_dp)) {
-      std::cout << (searchStart == input_string.cbegin() ? "" : " " ) << match[0];
-      val = std::stof(match[0]);
-	searchStart += match.position() + match.length();
-    }
-  
-    /*
-  std::regex_search(input_string, match, num_with_two_dp); 
-  for(auto v: match) {
-    std::cout << v << std::endl;
-    val = std::stof(v);
-    std::cout << val << std::endl;
-  }
-    */
+    //std::cout << (searchStart == input_string.cbegin() ? "" : " " ) << match[0];
     
-  return val;
+    /* fill the results for even values only (ignore Fahrenheit results) */
+
+    if (i % 2 == 0) {
+      temperature_results->val[j] = std::stof(match[0]);
+      std::cout << std::stof(match[0]);
+      j++;
+    }
+    
+    i++;
+    searchStart += match.position() + match.length();
+  }
+    
+  return temperature results;
 }

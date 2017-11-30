@@ -66,7 +66,7 @@ typedef struct
 //} TimeStamp_natural;
 
 // Macros for a timestamp build
-//#define BuildTimeStamp_TS_dword(year, month, date, hour, min, sec) \
+//#define BuildTimeStamp_TS_dword(year, month, date, hour, min, sec) 
 //	(((year)<<26) | ((month)<<22) | ((date)<<17) | ((hour)<<12) | ((min)<<6) | (sec))
 
 //typedef struct

@@ -498,7 +498,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	      CreateCpuRun(CPU, ConfigOut);
 
 	      /* notify the ThermManager */
-	      this->ThManager->cond_var.notify_all;
+	      this->ThManager->cpu_file_is_set = true;
+	      this->ThManager->cond_var.notify_all();
 	      
 	    }
 	    

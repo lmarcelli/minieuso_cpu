@@ -117,7 +117,7 @@ int ThermManager::ProcessThermData() {
     
     /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
     std::unique_lock<std::mutex> lock(m);
-    this->cond_var.wait(lock, [this]{return this->cpu_file_is_set == true;});
+    this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
     
     
     /* write to file */

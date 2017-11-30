@@ -177,10 +177,12 @@ SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * Conf
 
 
 /* read out a zynq data file into a zynq packet */
-ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
+ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
 
   FILE * ptr_zfile;
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
+  Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
+  Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
   int fsize;
@@ -206,23 +208,43 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
   
-  /* read out the zynq structure, defined in "pdmdata.h" */
-  check = fread(zynq_packet, sizeof(*zynq_packet), 1, ptr_zfile);
+  /* read out a number of Zynq packets, depending on ConfigOut->N1 and ConfigOut->N2 */
+  /* data level D1 */
+  for (int i = 0; i < ConfigOut->N1; i++) {
+    check = fread(zynq_d1_packet_holder, sizeof(*zynq_d1_packet_holder), 1, ptr_zfile);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+      return NULL;
+    }
+    zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
+  }
+ 
+  /* data level D2 */
+  for (int i = 0; i < ConfigOut->N2; i++) {
+    check = fread(zynq_d2_packet_holder, sizeof(zynq_d2_packet_holder), 1, ptr_zfile);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+      return NULL;
+    }
+    zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
+  }
 
-  /* DEBUG */
-  std::cout << "Check: " << check << std::endl;
-  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
-  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
-  
+  /* data level D3 */
+  check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return NULL;
   }
   
+  /* DEBUG */
+  std::cout << "Check: " << check << std::endl;
+  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
+ 
   /* DEBUG: print records to check */
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
-  std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
 
   /* close the zynq file */
@@ -501,7 +523,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    sleep(2);
 	      
 	    /* generate sub packets */
-	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name);
+	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
 	    AnalogAcq * acq = AnalogDataCollect();
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 

@@ -104,9 +104,9 @@ typedef struct
 /* variable size, depending on configurable N1 and N2 */
 typedef struct
 {
-  vector<Z_DATA_TYPE_SCI_L1_V1> level1_data; /* 294932 * N1 bytes */
-  vector<Z_DATA_TYPE_SCI_L2_V1> level2_data; /* 589844 * N2 bytes */
-  Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
+  std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294932 * N1 bytes */
+  std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589844 * N2 bytes */
+  Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179668 bytes */
 } ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
@@ -115,7 +115,7 @@ typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 14 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET zynq_packet; /* 4718772 bytes */
+  ZYNQ_PACKET zynq_packet; /* variable size */
   HK_PACKET hk_packet; /* 358 bytes */
 } CPU_PACKET;
 

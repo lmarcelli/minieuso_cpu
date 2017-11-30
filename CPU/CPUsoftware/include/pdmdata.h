@@ -231,19 +231,6 @@ typedef struct
 	DATA_TYPE_SCI_L3_V2 payload;
 } Z_DATA_TYPE_SCI_L3_V2;
 
-/* zynq packet passed to the CPU every 5.24 s */
-/* 4718772 bytes */
-#define MAX_PACKETS_L1 4
-#define MAX_PACKETS_L2 4
-#define MAX_PACKETS_L3 1
-typedef struct
-{
-  Z_DATA_TYPE_SCI_L1_V2 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
-  Z_DATA_TYPE_SCI_L2_V2 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
-  Z_DATA_TYPE_SCI_L3_V2 level3_data[MAX_PACKETS_L3]; /* 1179668 bytes */
-} ZYNQ_PACKET;
-
-
 //Trigger types:
 #define TRIG_AUTO		0 /* Auto triggered data (in absence of others triggers)*/
 #define TRIG_SELF		1 /* Data triggered on trigger algorithm*/

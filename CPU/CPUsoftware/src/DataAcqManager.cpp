@@ -246,6 +246,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
+  std::cout << "sizeof(zynq_packet) after = " << sizeof(*zynq_packet) << std::endl; 
 
   /* close the zynq file */
   fclose(ptr_zfile);

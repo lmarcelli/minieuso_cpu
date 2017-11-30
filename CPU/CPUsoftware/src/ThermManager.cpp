@@ -87,7 +87,7 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
   delete temperature_results;
   
   /* write the therm packet */
-  this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet);
+  this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet, SynchronisedFile::CONSTANT);
   delete therm_packet; 
   pkt_counter++;
 

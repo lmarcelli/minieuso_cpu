@@ -68,7 +68,7 @@ private:
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
-  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
+  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
   int ProcessIncomingData(Config * ConfigOut, bool single_run);
   int ProcessThermData();
   

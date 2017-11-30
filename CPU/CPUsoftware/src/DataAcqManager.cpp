@@ -103,7 +103,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   cpu_file_header->run_size = RUN_SIZE;
 
   /* write to file */
-  this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header);
+  this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;
   
   
@@ -122,7 +122,7 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 
   /* write to file */
-  this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer);
+  this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer, SynchronisedFile::CONSTANT);
   delete cpu_file_trailer;
 
   /* close the current SynchronisedFile */
@@ -246,7 +246,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
-  std::cout << "sizeof(zynq_packet) after = " << sizeof(*zynq_packet) << std::endl; 
 
   /* close the zynq file */
   fclose(ptr_zfile);
@@ -407,7 +406,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet) {
+int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
 
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
@@ -427,7 +426,7 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   delete hk_packet;
 
   /* write the CPU packet */
-  this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet);
+  this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
   delete cpu_packet; 
   pkt_counter++;
   
@@ -443,7 +442,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_sc_file_name << std::endl;
 
   /* write the SC packet */
-  this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet);
+  this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet, SynchronisedFile::CONSTANT);
   delete sc_packet;
   pkt_counter++;
   
@@ -532,7 +531,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    if (zynq_packet != NULL && hk_packet != NULL) {
 	    
 	      /* generate cpu packet and append to file */
-	      WriteCpuPkt(zynq_packet, hk_packet);
+	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
 	      std::remove(zynq_file_name.c_str());

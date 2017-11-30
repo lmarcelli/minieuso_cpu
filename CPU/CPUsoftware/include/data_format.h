@@ -9,6 +9,8 @@
 /* NB:the Mini-EUSO CPU is little endian */
 
 /* new multi event data format */
+#include <vector>
+
 #include "pdmdata.h"
 
 /* instrument definitions */

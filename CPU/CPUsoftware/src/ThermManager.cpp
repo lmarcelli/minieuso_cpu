@@ -95,11 +95,10 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
   std::cout <<  "therm_data[0]: " << therm_packet->therm_data[0] << std::endl;
 
   /* write the therm packet */
-  this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet);
+  //this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet);
   delete therm_packet; 
   pkt_counter++;
 
-  
   return 0;
 }
 

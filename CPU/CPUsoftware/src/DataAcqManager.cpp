@@ -4,9 +4,7 @@
 DataAcqManager::DataAcqManager() { 
   /* filename initialisation */
   this->cpu_main_file_name = "";
-  this->cpu_sc_file_name = "";  
-
-  
+  this->cpu_sc_file_name = "";    
 }
   
 /* create cpu run file name */

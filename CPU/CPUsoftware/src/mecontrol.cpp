@@ -176,7 +176,14 @@ int main(int argc, char ** argv) {
     
     /* testing of new file access */
     DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
+
+    /* testing thermistor readout */
+    ThermManager ThManager(DaqManager.CpuFile);
+    ThManager.GetTemperature();
+    
     DaqManager.CloseCpuRun(DataAcqManager::CPU);
+
+
     
     return 0;
   }

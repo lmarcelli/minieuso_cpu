@@ -61,6 +61,7 @@ public:
 private:
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
+  static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
   SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);

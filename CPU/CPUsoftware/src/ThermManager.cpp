@@ -17,16 +17,10 @@ uint32_t ThermManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 /* build the cpu timestamp */
 uint32_t ThermManager::BuildCpuTimeStamp() {
 
-  uint32_t timestamp;
-  struct timeval tv; 
-  gettimeofday(&tv, 0);
-  time_t now = tv.tv_sec;
-  struct tm * now_tm = localtime(&now);
-  
-  timestamp = ( ((now_tm->tm_year + 1900 - 2017) << 26) | ((now_tm->tm_mon) << 22) | ((now_tm->tm_mday) << 17) | ((now_tm->tm_hour) << 12) | ((now_tm->tm_min) << 6) | (now_tm->tm_sec));
+  uint32_t timestamp = time(NULL);
 
   return timestamp;
-}
+
 
 
 /* get the temperature */

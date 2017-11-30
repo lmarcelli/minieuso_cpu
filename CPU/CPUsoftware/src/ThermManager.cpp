@@ -28,13 +28,18 @@ TemperatureAcq * ThermManager::GetTemperature() {
 
 /* parse the digitemp output */
 float ThermManager::ParseDigitempOutput(std::string input_string) {
+
   std::regex num_with_two_dp("[0-9]+\\.[0-9]{2}");
   std::smatch match;
-  std::regex_search(input_string, match, num_with_two_dp);
   float val;
+
+  /* search for numbers with 2 decimal places */
+  std::regex_search(input_string, match, num_with_two_dp); 
   for(auto v: match) {
     std::cout << v << std::endl;
+    val = std::stof(v);
+    std::cout << val << std::endl;
   }
-  val = std::stof(match[1]);
+  
   return val;
 }

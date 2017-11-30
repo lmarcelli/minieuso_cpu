@@ -71,7 +71,8 @@ private:
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
   int ProcessIncomingData(Config * ConfigOut, bool single_run);
-
+  int ProcessThermData();
+  
 };
 
 #endif

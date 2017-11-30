@@ -25,11 +25,11 @@ public:
 
   ThermManager();
   int ProcessThermData();
+  TemperatureAcq * GetTemperature();
+  int WriteThermPkt(TemperatureAcq * temperature_results);
   
 private:
   TemperatureAcq * ParseDigitempOutput(std::string input_string);
-  TemperatureAcq * GetTemperature();
-  int WriteThermPkt(TemperatureAcq * temperature_results);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
 

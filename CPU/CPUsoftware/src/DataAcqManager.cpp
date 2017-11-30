@@ -616,10 +616,33 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
 
 
 /* testing just the therm data */
+int DataAcqManager::ProcessThermData() {
+
+  /* start infinite loop */
+  while(1) {
+    
+    /* collect data */
+    TemperatureAcq * temperature_results = this->ThManager->GetTemperature();
+    
+    /* write to file */
+    if (temperature_results != NULL) {
+      this->ThManager->WriteThermPkt(temperature_results);
+    }
+    
+    /* sleep */
+    sleep(THERM_ACQ_SLEEP);
+    
+  }
+  
+  /* never reached */
+  return 0;
+
+}
+
 int DataAcqManager::CollectThermData() {
 
   /* collect the data */
-  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  std::thread collect_therm_data (&DataAcqManager::ProcessThermData, this);
   collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */

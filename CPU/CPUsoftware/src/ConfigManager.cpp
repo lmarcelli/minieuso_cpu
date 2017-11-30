@@ -91,7 +91,7 @@ Config * ConfigManager::Parse() {
 	printf("N1 is: %d\n", Output->N1);
       }
       else if (type == "N2") {
-	in >> Output->N1;
+	in >> Output->N2;
 	printf("N2 is: %d\n", Output->N2);
       }
 

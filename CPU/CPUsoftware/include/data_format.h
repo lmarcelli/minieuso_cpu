@@ -52,6 +52,7 @@ typedef struct
 #define CPU_FILE_VER 1
 
 /* packet types */
+#define THERM_PACKET_TYPE 'T'
 #define HK_PACKET_TYPE 'H'
 #define SC_PACKET_TYPE 'S'
 #define CPU_PACKET_TYPE 'P'
@@ -62,7 +63,7 @@ typedef struct
 /* for the analog readout */
 #define N_CHANNELS_PHOTODIODE 4
 #define N_CHANNELS_SIPM 64
-#define N_CHANNELS_THERM 16
+#define N_CHANNELS_THERM 10
 
 /* size of the zynq packets */
 #define MAX_PACKETS_L1 4
@@ -77,16 +78,25 @@ typedef struct
 } CpuTimeStamp;
 
 
+/* thermistor packet for temperature data */
+/* 58 bytes */
+typedef struct
+{
+  CpuPktHeader therm_packet_header; /* 14 bytes */
+  CpuTimeStamp therm_time; /* 4 bytes */
+  float therm_data[N_CHANNELS_THERM]; /* 40 bytes */
+} THERM_PACKET;
+
+
 /* housekeeping packet for other data */
-/* 358 bytes */
+/* 294 bytes */
 typedef struct
 {
   CpuPktHeader hk_packet_header; /* 14 bytes */
   CpuTimeStamp hk_time; /* 4 bytes */
-  float photodiode_data[N_CHANNELS_PHOTODIODE]; 
-  float sipm_data[N_CHANNELS_SIPM];
-  float sipm_single;
-  float therm_data[N_CHANNELS_THERM];
+  float photodiode_data[N_CHANNELS_PHOTODIODE]; /* 16 bytes */ 
+  float sipm_data[N_CHANNELS_SIPM]; /* 256 bytes */
+  float sipm_single; /* 4 bytes */
 } HK_PACKET;
 
 /* zynq packet passed to the CPU every 5.24 s */

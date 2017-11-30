@@ -21,7 +21,6 @@ typedef struct
 /* class to control the thermistor acquisition */
 class ThermManager {
 public:
-  std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
 
   ThermManager();

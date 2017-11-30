@@ -52,8 +52,10 @@ class Access {
 public:
   Access(std::shared_ptr<SynchronisedFile> sf);
 
+  std::string path;
   uint32_t GetChecksum();
   void CloseSynchFile();
+ 
   template <class GenericType>
   void WriteToSynchFile(GenericType payload) {
     /* call write to file */

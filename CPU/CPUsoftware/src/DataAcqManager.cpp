@@ -100,7 +100,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   this->RunAccess = new Access(this->CpuFile);
 
   /* access for ThermManager */
-  this->ThManager->CpuFile = std::make_shared<SynchronisedFile>(*(this->CpuFile));
+  //this->ThManager->CpuFile = std::make_shared<SynchronisedFile>(*(this->CpuFile));
   this->ThManager->RunAccess = new Access(this->CpuFile);
   
   

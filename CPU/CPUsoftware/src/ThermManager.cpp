@@ -2,10 +2,6 @@
 
 /* default constructor */
 ThermManager::ThermManager() { 
-
-  /* initialise run access to be set by DataAcqManager */
-  this->RunAccess = NULL; 
-  
 }
 
 /* build the cpu packet header */

@@ -14,6 +14,7 @@
 #include "CamManager.h"
 #include "LvpsManager.h"
 #include "DataAcqManager.h"
+#include "ThermManager.h"
 
 #define VERSION 3.1
 #define VERSION_DATE_STRING "26/10/2017"

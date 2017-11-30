@@ -66,6 +66,7 @@ void SynchronisedFile::Close() {
 /* default constructor */
 Access::Access(std::shared_ptr<SynchronisedFile> sf) {
   this->_sf = sf;
+  this->path = sf->path;
 }
 
 uint32_t Access::GetChecksum() {

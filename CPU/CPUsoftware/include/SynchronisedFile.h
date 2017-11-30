@@ -31,7 +31,9 @@ public:
 
     /* lock to one thread at a time */
     std::lock_guard<std::mutex> lock(_accessMutex);
-    
+
+    clog << "info: " << logstream::info << "writing to SynchronisedFile " << this->path << std::endl;
+      
     /*  write the payload to the file */
     size_t check = fwrite(payload, sizeof(*payload), 1, this->_ptr_to_file);
     if (check != 1) {
@@ -52,8 +54,10 @@ class Access {
 public:
   Access(std::shared_ptr<SynchronisedFile> sf);
 
+  std::string path;
   uint32_t GetChecksum();
   void CloseSynchFile();
+ 
   template <class GenericType>
   void WriteToSynchFile(GenericType payload) {
     /* call write to file */

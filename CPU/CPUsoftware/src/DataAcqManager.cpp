@@ -606,7 +606,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
     break;
   }
   collect_main_data.join();
-  collect_therm_data.join();
+  // collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);

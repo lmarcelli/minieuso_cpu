@@ -2,6 +2,7 @@
 #define _THERM_MANAGER_H
 
 #include <regex>
+#include <condition_variable>
 
 #include "log.h"
 #include "data_format.h"
@@ -22,6 +23,8 @@ typedef struct
 class ThermManager {
 public:
   Access * RunAccess;
+  std::condition_variable cond_var;
+  bool cpu_file_is_set;
 
   ThermManager();
   int ProcessThermData();

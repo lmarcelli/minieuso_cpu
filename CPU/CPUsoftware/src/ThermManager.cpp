@@ -2,6 +2,7 @@
 
 /* default constructor */
 ThermManager::ThermManager() { 
+  this->cpu_file_is_set = false;
 }
 
 /* build the cpu packet header */
@@ -105,11 +106,19 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
 
 int ThermManager::ProcessThermData() {
 
+  std::mutex m;
+  
   /* start infinite loop */
   while(1) {
     
     /* collect data */
     TemperatureAcq * temperature_results = GetTemperature();
+
+    
+    /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
+    std::unique_lock<std::mutex> lock(m);
+    this->cond_var.wait(lock, [this]{return this->cpu_file_is_set == true;});
+    
     
     /* write to file */
     if (temperature_results != NULL) {

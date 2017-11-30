@@ -496,6 +496,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    }
 	    if (packet_counter == 0) {
 	      CreateCpuRun(CPU, ConfigOut);
+
+	      /* notify the ThermManager */
+	      this->ThManager->cond_var.notify_all;
+	      
 	    }
 	    
 	    zynq_file_name = data_str + "/" + event->name;
@@ -587,9 +591,8 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
   ZynqManager ZqManager;
 
   /* collect the data */
-  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
-  //std::thread collect_therm_data (&DataAcqManager::ProcessThermData, this);
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
+  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
   switch(instrument_mode) {
   case ZynqManager::MODE0:
@@ -606,7 +609,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
     break;
   }
   collect_main_data.join();
-  // collect_therm_data.join();
+  collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);
@@ -616,38 +619,3 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
 }
 
 
-/* testing just the therm data */
-int DataAcqManager::ProcessThermData() {
-
-  /* start infinite loop */
-  while(1) {
-    
-    /* collect data */
-    TemperatureAcq * temperature_results = this->ThManager->GetTemperature();
-    
-    /* write to file */
-    if (temperature_results != NULL) {
-      this->ThManager->WriteThermPkt(temperature_results);
-    }
-    
-    /* sleep */
-    sleep(THERM_ACQ_SLEEP);
-    
-  }
-  
-  /* never reached */
-  return 0;
-
-}
-
-int DataAcqManager::CollectThermData() {
-
-  /* collect the data */
-  std::thread collect_therm_data (&DataAcqManager::ProcessThermData, this);
-  collect_therm_data.join();
-
-  /* never reached for infinite acquisition right now */
-  CloseCpuRun(CPU);
-  
-  return 0;
-}

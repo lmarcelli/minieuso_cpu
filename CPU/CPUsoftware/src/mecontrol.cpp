@@ -176,11 +176,7 @@ int main(int argc, char ** argv) {
     
     /* testing of new file access */
     DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
-    std::cout << "stop here" << std::endl;
-    sleep(5);
-    DaqManager.CollectThermData();
     DaqManager.CloseCpuRun(DataAcqManager::CPU);
-
     
     return 0;
   }

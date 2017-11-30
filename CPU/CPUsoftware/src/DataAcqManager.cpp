@@ -587,7 +587,8 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  //std::thread collect_therm_data (&DataAcqManager::ProcessThermData, this);
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
 
   switch(instrument_mode) {

@@ -32,9 +32,7 @@ private:
   TemperatureAcq * ParseDigitempOutput(std::string input_string);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
-
-
   
 };
 
-#endif/* _THERM_MANAGER_H */
+#endif /* _THERM_MANAGER_H */

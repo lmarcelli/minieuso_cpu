@@ -609,7 +609,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
 
   /* collect the data */
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
-  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
   if (test_mode == true) {
     switch(test_mode) {
@@ -653,7 +653,7 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
   }
 
   collect_main_data.join();
-  //collect_therm_data.join();
+  collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);

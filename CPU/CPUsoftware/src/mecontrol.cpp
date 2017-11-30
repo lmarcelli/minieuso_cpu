@@ -77,7 +77,7 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_mode_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::T_MODE3, single_run);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_mode_on);
   }
 
   /* turn off the HV */

@@ -17,11 +17,8 @@ TemperatureAcq * ThermManager::GetTemperature() {
   std::string output = CpuTools::CommandToStr(cmd);
   
   /* parse the output */
-  ParseDigitempOutput(output);
-  
-  /* make the results struct */
-  TemperatureAcq * temperature_result = NULL;
-  
+  TemperatureAcq * temperature_result = ParseDigitempOutput(output);
+    
   return temperature_result;
 }
 
@@ -41,10 +38,9 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
     //std::cout << (searchStart == input_string.cbegin() ? "" : " " ) << match[0];
     
     /* fill the results for even values only (ignore Fahrenheit results) */
-
     if (i % 2 == 0) {
       temperature_results->val[j] = std::stof(match[0]);
-      std::cout << std::stof(match[0]);
+      std::cout << std::stof(match[0]) << std::endl;
       j++;
     }
     
@@ -52,5 +48,5 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
     searchStart += match.position() + match.length();
   }
     
-  return temperature results;
+  return temperature_results;
 }

@@ -3,6 +3,7 @@
 
 #include <regex>
 
+#include "data_format.h"
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 
@@ -27,7 +28,7 @@ public:
   TemperatureAcq * GetTemperature();
   
 private:
-  float ParseDigitempOutput(std::string input_string);
+  TemperatureAcq * ParseDigitempOutput(std::string input_string);
 
 };
 

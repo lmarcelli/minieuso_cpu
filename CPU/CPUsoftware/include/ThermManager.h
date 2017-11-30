@@ -1,10 +1,11 @@
 #ifndef _THERM_MANAGER_H
 #define _THERM_MANAGER_H
 
+#include "CpuTools.h"
 #include "SynchronisedFile.h"
 
 /* deinfe the number of channels */
-#deinfe N_THERMISTOR 10
+#define N_THERMISTOR 10
 
 /* acquisition structure for temperature readout */
 typedef struct
@@ -19,11 +20,12 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
 
-  ThermManager();
+  ThermManager(std::shared_ptr<SynchronisedFile> CpuFile);
   int WriteThermPkt();
+  TemperatureAcq * GetTemperature();
   
 private:
-  TemperatureAcq * GetTemperature();
+
 };
 
 #endif/* _THERM_MANAGER_H */

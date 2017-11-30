@@ -86,6 +86,15 @@ Config * ConfigManager::Parse() {
 	in >> Output->dac_level;
 	printf("DAC_LEVEL is: %d\n", Output->dac_level);
       } 
+      else if (type == "N1") {
+	in >> Output->N1;
+	printf("N1 is: %d\n", Output->N1);
+      }
+      else if (type == "N2") {
+	in >> Output->N1;
+	printf("N2 is: %d\n", Output->N2);
+      }
+
     }
     cfg_file.close();
   }

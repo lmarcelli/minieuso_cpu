@@ -3,7 +3,7 @@
 
 /* CPU data format definition */
 /*----------------------------*/
-/* NEW MULTI EVENT FORMAT FROM SEPT 2017 */
+/* NEW VARIABLE PACKET FORMAT FROM NOV 2017 */
 /* for storage of packets coming from the Zynq board and ancillary instruments */
 /* Francesca Capel: capel.francesca@gmail.com */
 /* NB:the Mini-EUSO CPU is little endian */
@@ -101,11 +101,11 @@ typedef struct
 } HK_PACKET;
 
 /* zynq packet passed to the CPU every 5.24 s */
-/* 4718772 bytes */
+/* variable size, depending on configurable N1 and N2 */
 typedef struct
 {
-  Z_DATA_TYPE_SCI_L1_V1 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
-  Z_DATA_TYPE_SCI_L2_V1 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
+  vector<Z_DATA_TYPE_SCI_L1_V1> level1_data; /* 294932 * N1 bytes */
+  vector<Z_DATA_TYPE_SCI_L2_V1> level2_data; /* 589844 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V1 level3_data; /* 1179668 bytes */
 } ZYNQ_PACKET;
 

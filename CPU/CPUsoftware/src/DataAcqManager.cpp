@@ -97,8 +97,13 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_sc_file_name);
     break;
   }
-  this->RunAccess = new Access(this->CpuFile); 
-   
+  this->RunAccess = new Access(this->CpuFile);
+
+  /* access for ThermManager */
+  this->ThManager->CpuFile = this->CpuFile;
+  this->ThManager->RunAccess = new Access(this->CpuFile);
+  
+  
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;
@@ -390,7 +395,7 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
 
-  clog << "info: " << logstream::info << "writing new packet to " << cpu_main_file_name << std::endl;
+  clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -418,7 +423,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 
   static unsigned int pkt_counter = 0;
 
-  clog << "info: " << logstream::info << "writing new packet to " << cpu_sc_file_name << std::endl;
+  clog << "info: " << logstream::info << "writing new packet to " << this->cpu_sc_file_name << std::endl;
 
   /* write the SC packet */
   this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet);
@@ -568,7 +573,6 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 
   ZynqManager ZqManager;
 
-
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
@@ -577,13 +581,14 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
   return 0;
 }
 
-/* spawn thread to collect data */
+/* spawn threads to collect data */
 int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run) {
 
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
+  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
 
   switch(instrument_mode) {
   case ZynqManager::MODE0:
@@ -599,10 +604,25 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
     ZqManager.SetInstrumentMode(ZynqManager::MODE3);
     break;
   }
-  collect_data.join();         
+  collect_main_data.join();
+  collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+  CloseCpuRun(CPU);
+  
+  return 0;
+}
+
+
+/* testing just the therm data */
+int DataAcqManager::CollectThermData() {
+
+  /* collect the data */
+  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  collect_therm_data.join();
+
+  /* never reached for infinite acquisition right now */
   CloseCpuRun(CPU);
   
   return 0;

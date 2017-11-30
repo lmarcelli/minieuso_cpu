@@ -56,6 +56,7 @@ typedef struct
 #define HK_PACKET_TYPE 'H'
 #define SC_PACKET_TYPE 'S'
 #define CPU_PACKET_TYPE 'P'
+#define THERM_PACKET_VER 1
 #define HK_PACKET_VER 1
 #define SC_PACKET_VER 2
 #define CPU_PACKET_VER 2

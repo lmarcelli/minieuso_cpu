@@ -3,17 +3,18 @@
 
 #include <regex>
 
+#include "log.h"
 #include "data_format.h"
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 
-/* deinfe the number of channels */
-#define N_THERMISTOR 10
+/* number of seconds between temperature acquisitions */
+#define THERM_ACQ_SLEEP 60
 
 /* acquisition structure for temperature readout */
 typedef struct
 {
-  float val [N_THERMISTOR];
+  float val [N_CHANNELS_THERM];
 } TemperatureAcq;
 
 
@@ -23,13 +24,18 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
 
-  ThermManager(std::shared_ptr<SynchronisedFile> CpuFile);
-  int WriteThermPkt();
-  TemperatureAcq * GetTemperature();
+  ThermManager();
+  int ProcessThermData();
   
 private:
   TemperatureAcq * ParseDigitempOutput(std::string input_string);
+  TemperatureAcq * GetTemperature();
+  int WriteThermPkt(TemperatureAcq * temperature_results);
+  uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
+  uint32_t BuildCpuTimeStamp();
 
+
+  
 };
 
 #endif/* _THERM_MANAGER_H */

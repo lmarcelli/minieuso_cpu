@@ -10,6 +10,7 @@
 #include "log.h"
 #include "UsbManager.h"
 #include "ZynqManager.h"
+#include "ThermManager.h"
 #include "pdmdata.h"
 #include "data_format.h"
 #include "ConfigManager.h"
@@ -44,6 +45,7 @@ public:
   std::string cpu_sc_file_name;
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
+  ThermManager * ThManager;
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -55,12 +57,13 @@ public:
   int CloseCpuRun(RunType run_type);
   int CollectSc(Config * ConfigOut);
   int CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run);
-
+  int CollectThermData();
+  static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
+  static uint32_t BuildCpuTimeStamp();
+  
 private:
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
-  uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
-  uint32_t BuildCpuTimeStamp();
   SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);
   AnalogAcq * AnalogDataCollect();

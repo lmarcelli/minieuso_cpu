@@ -40,6 +40,10 @@ void ClearFTP() {
 /* an acquisition run */
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
 		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run) {
+
+  /* define test mode */
+  /* TODO: move this to a command line input */
+  bool test_mode_on = true;
   
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -70,11 +74,11 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
   
   /* take data */
   if (trig_on == true) {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_mode_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, single_run);
-    }
+    DaqManager->CollectData(ConfigOut, ZynqManager::T_MODE3, single_run);
+  }
 
   /* turn off the HV */
   if (hv_on == true) {

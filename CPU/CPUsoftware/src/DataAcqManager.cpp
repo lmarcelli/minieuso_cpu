@@ -603,27 +603,55 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_one) {
 
   ZynqManager ZqManager;
 
   /* collect the data */
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
   //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  if (test_mode == true) {
+    switch(instrument_mode) {
+    case ZynqManager::MODE0:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+      break;
+    case ZynqManager::MODE1:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+      break;
+    case ZynqManager::MODE2:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+      break;
+    case ZynqManager::MODE3:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+      break;
+    }
+  }
+  else {
+    switch(test_mode) {
+    case ZynqManager::T_MODE0:
+      ZqManager.SetTestMode(ZynqManager::T_MODE0);
+      break;
+    case ZynqManager::T_MODE1:
+      ZqManager.SetTestMode(ZynqManager::T_MODE1);
+      break;
+    case ZynqManager::T_MODE2:
+      ZqManager.SetTestMode(ZynqManager::T_MODE2);
+      break;
+    case ZynqManager::T_MODE3:
+      ZqManager.SetTestMode(ZynqManager::T_MODE3);
+      break;
+    case ZynqManager::T_MODE4:
+      ZqManager.SetTestMode(ZynqManager::T_MODE4);
+      break;
+    case ZynqManager::T_MODE5:
+      ZqManager.SetTestMode(ZynqManager::T_MODE5);
+      break;
+    case ZynqManager::T_MODE6:
+      ZqManager.SetTestMode(ZynqManager::T_MODE6);
+      break;
 
-  switch(instrument_mode) {
-  case ZynqManager::MODE0:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-    break;
-  case ZynqManager::MODE1:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-    break;
-  case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-    break;
-  case ZynqManager::MODE3:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-    break;
+    }
+    
   }
   collect_main_data.join();
   //collect_therm_data.join();

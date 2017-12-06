@@ -217,6 +217,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
       return NULL;
     }
     zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
+    zynq_packet->level1_data.shrink_to_fit();
   }
  
   /* data level D2 */
@@ -227,6 +228,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
       return NULL;
     }
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
+    zynq_packet->level2_data.shrink_to_fit();
   }
 
   /* data level D3 */

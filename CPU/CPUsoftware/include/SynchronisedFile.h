@@ -66,10 +66,11 @@ public:
 
       /* DEBUG: print actual size */
       std::cout << "actual_size = " << actual_size << std::endl;
-      
+      std::cout << "ferror before: " << ferror(this->_ptr_to_file) << std::endl;
       check = fwrite(payload, actual_size, 1, this->_ptr_to_file);
       if (check != 1) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+
 	/* DEBUG check why fwrite fails */
 	std::cout << "FWRITE FAIL" << std::endl;
 	std::cout << "check = " << check << std::endl;

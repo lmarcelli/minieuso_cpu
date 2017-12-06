@@ -70,9 +70,14 @@ public:
       check = fwrite(payload, actual_size, 1, this->_ptr_to_file);
       if (check != 1) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+	/* DEBUG check why fwrite fails */
+	std::cout << "FWRITE FAIL" << std::endl;
+	std::cout << "check = " << check << std::endl;
+	std::cout << "feof: " << feof(this->_ptr_to_file) << std::endl;
+	std::cout << "ferror: " << ferror(this->_ptr_to_file) << std::endl;
+  
 	return check;
       }
-      
 
       break;
     }

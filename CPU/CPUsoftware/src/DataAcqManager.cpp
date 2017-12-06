@@ -222,7 +222,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
  
   /* data level D2 */
   for (int i = 0; i < ConfigOut->N2; i++) {
-    check = fread(zynq_d2_packet_holder, sizeof(zynq_d2_packet_holder), 1, ptr_zfile);
+    check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
     if (check != 1) {
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
       return NULL;

@@ -171,16 +171,19 @@ int main(int argc, char ** argv) {
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
       std::cout << "camera status on: " << camera_status << std::endl;
     }
-
-    /* reload and parse the configuration file */
-    std::string config_file = config_dir + "/dummy.conf";
-    std::string config_file_local = config_dir + "/dummy_local.conf";
-    ConfigManager CfManager(config_file, config_file_local);
-    Config * ConfigOut = CfManager.Configure();
+    
+    ///* reload and parse the configuration file */
+    //std::string config_file = config_dir + "/dummy.conf";
+    //std::string config_file_local = config_dir + "/dummy_local.conf";
+    //ConfigManager CfManager(config_file, config_file_local);
+    //Config * ConfigOut = CfManager.Configure();
     
     /* testing of new file access */
-    DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
-    DaqManager.CloseCpuRun(DataAcqManager::CPU);
+    //DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
+    //DaqManager.CloseCpuRun(DataAcqManager::CPU);
+
+    /* make a test Zynq packet */
+    DataAcqManager::WriteFakeZynqPkt();
     
     return 0;
   }

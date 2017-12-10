@@ -688,4 +688,87 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
   return 0;
 }
 
+/* function to generate and write a fake Zynq packet */
+/* used for testing data format updates */
+int DataAcqManager::WriteFakeZynqPkt() {
 
+  ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
+  Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
+  Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
+  Config * ConfigOut = new Config();
+  
+  int i, j, k = 0;
+
+  /* set Config to dummy values */
+  ConfigOut->N1 = 4;
+  ConfigOut->N2 = 4;
+  
+  /* set data to dummy values */
+  /* N packets */
+  zynq_packet->N1 = ConfigOut->N1;
+  zynq_packet->N2 = ConfigOut->N2;
+  /* D1 */
+  zynq_d1_packet_holder->payload.ts.n_gtu = 1;
+  zynq_d1_packet_holder->payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_d1_packet_holder->payload.cathode_status[i] = 3;
+  }
+  for (i = 0; i < N_OF_FRAMES_L1_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_d1_packet_holder->payload.raw_data[i][j] = 5;
+    }
+  }
+  for (k = 0; k < zynq_packet->N1; k++) {
+    zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
+  }
+  delete zynq_d1_packet_holder;
+  /* D2 */
+  zynq_d2_packet_holder->payload.ts.n_gtu = 1;
+  zynq_d2_packet_holder->payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_d2_packet_holder->payload.cathode_status[i] = 3;
+  }
+  for (i = 0; i < N_OF_FRAMES_L2_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_d2_packet_holder->payload.int16_data[i][j] = 5;
+    }
+  }
+  for (k = 0; k < zynq_packet->N2; k++) {
+    zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
+  }
+  delete zynq_d2_packet_holder;
+  /* D3 */
+  zynq_packet->level3_data.payload.ts.n_gtu = 1;
+  zynq_packet->level3_data.payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_packet->level3_data.payload.cathode_status[i] = 3;
+  } 
+  for (i = 0; i < N_OF_FRAMES_L3_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_packet->level3_data.payload.int32_data[i][j] = 5;
+    }
+  }
+  
+  /* open a SynchronisedFile */
+  std::shared_ptr<SynchronisedFile> TestFile;
+  Access * TestAccess;
+ 
+  TestFile = std::make_shared<SynchronisedFile>("test_zynq_packet.dat");
+  TestAccess = new Access(TestFile);
+  
+  /* write to file "test_zynq_file.dat" in current directory */
+  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
+					  SynchronisedFile::CONSTANT);
+  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
+					  SynchronisedFile::CONSTANT);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&zynq_packet->level1_data[0],
+							SynchronisedFile::VARIABLE_D1, ConfigOut);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&zynq_packet->level2_data[0],
+							SynchronisedFile::VARIABLE_D2, ConfigOut);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&zynq_packet->level3_data,
+							SynchronisedFile::CONSTANT);
+  
+  delete zynq_packet;  
+  delete ConfigOut;
+  return 0;
+} 

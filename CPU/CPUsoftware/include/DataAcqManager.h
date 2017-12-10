@@ -58,7 +58,7 @@ public:
   int CollectSc(Config * ConfigOut);
   int CollectData(Config * ConfigOut, uint8_t instrument_mode = 0, uint8_t test_mode = 0, bool single_run = false, bool test_mode_on = false);
   static int WriteFakeZynqPkt();
-  
+  static int ReadFakeZynqPkt();
 private:
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);

@@ -772,3 +772,79 @@ int DataAcqManager::WriteFakeZynqPkt() {
   delete ConfigOut;
   return 0;
 } 
+
+/* function to read the output of DataAcqManager::WriteFakeZynqPkt */
+/* used for testing the new data format */
+int DataAcqManager::ReadFakeZynqPkt() {
+
+  FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");
+  ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET;
+  int i, j, k = 0;
+  
+  /* get the size of vectors */
+  fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
+  fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
+
+  /* resize the vectors */
+  zynq_packet->level1_data.resize(zynq_packet->N1);
+  zynq_packet->level2_data.resize(zynq_packet->N2);
+  
+  /* read in the vectors */
+  for (i = 0; i < zynq_packet->level1_data.size(); i++) {
+    fread(&zynq_packet->level1_data[i], sizeof(Z_DATA_TYPE_SCI_L1_V2), 1, fake_zynq_pkt);
+  }
+  for (i = 0; i < zynq_packet->level2_data.size(); i++) {
+    fread(&zynq_packet->level2_data[i], sizeof(Z_DATA_TYPE_SCI_L2_V2), 1, fake_zynq_pkt);
+  }
+  fread(&zynq_packet->level3_data, sizeof(Z_DATA_TYPE_SCI_L3_V2), 1, fake_zynq_pkt);
+
+  /* check against expected values */
+  if (zynq_packet->N1 != 4) {
+    std::cout << "error N1! N1 = " << zynq_packet->N1 << std::endl;
+  }
+  if (zynq_packet->N2 != 4) {
+    std::cout << "error N2! N2 = " << zynq_packet->N2 << std::endl;
+  }
+  /* D1 */
+  for (k = 0; k < zynq_packet->N1; k++) {
+    for (i = 0; i < N_OF_FRAMES_L1_V0; i++) {
+      for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+	if (zynq_packet->level1_data[k].payload.raw_data[i][j] != 5) {
+	  std::cout << "error D1 data: "<< zynq_packet->level1_data[k].payload.raw_data[i][j] << std::endl;
+	}
+	else {
+	  std::cout << "D1 all OK!" << std::endl; 
+	}
+      }
+    }
+  }
+  /* D2 */
+  for (k = 0; k < zynq_packet->N2; k++) {
+    for (i = 0; i < N_OF_FRAMES_L2_V0; i++) {
+      for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+	if (zynq_packet->level2_data[k].payload.int16_data[i][j] != 5) {
+	  std::cout << "error D2 data: "<< zynq_packet->level2_data[k].payload.int16_data[i][j] << std::endl;
+	}
+	else {
+	  std::cout << "D2 all OK!" << std::endl; 
+	}
+      }
+    }
+  }
+  /* D3 */
+  for (i = 0; i < N_OF_FRAMES_L3_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      if (zynq_packet->level3_data.payload.int32_data[i][j] != 5) {
+	std::cout << "error D3 data: "<< zynq_packet->level3_data.payload.int32_data[i][j] << std::endl;
+      }
+	else {
+	  std::cout << "D3 all OK!" << std::endl;
+	}
+    }
+  }
+  
+  
+  delete zynq_packet;
+  fclose(fake_zynq_pkt);
+  return 0;
+}

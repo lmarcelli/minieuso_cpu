@@ -184,6 +184,7 @@ int main(int argc, char ** argv) {
 
     /* make a test Zynq packet */
     DataAcqManager::WriteFakeZynqPkt();
+    DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
   }

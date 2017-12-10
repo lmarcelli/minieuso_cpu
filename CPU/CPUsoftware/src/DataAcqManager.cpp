@@ -207,6 +207,10 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
+
+  /* write the number of N1 and N2 */
+  zynq_packet->N1 = ConfigOut->N1;
+  zynq_packet->N2 = ConfigOut->N2;
   
   /* read out a number of Zynq packets, depending on ConfigOut->N1 and ConfigOut->N2 */
   /* data level D1 */

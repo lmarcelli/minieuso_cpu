@@ -106,9 +106,12 @@ typedef struct
 /* variable size, depending on configurable N1 and N2 */
 typedef struct
 {
+  uint8_t N1; /* 1 byte */
+  uint8_t N2; /* 1 byte */
   std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294944 * N1 bytes */
   std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589856 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179684 bytes */
+  
 } ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */

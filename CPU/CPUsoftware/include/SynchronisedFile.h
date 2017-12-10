@@ -57,8 +57,6 @@ public:
     break;
     case VARIABLE_D1:
 
-      /* DEBUG: */
-      std::cout << "ferror before: " << ferror(this->_ptr_to_file) << std::endl;
       check = fwrite(payload, sizeof(*payload), ConfigOut->N1, this->_ptr_to_file);
       if (check != ConfigOut->N1) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;

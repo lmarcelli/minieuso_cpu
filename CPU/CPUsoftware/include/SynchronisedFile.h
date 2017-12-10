@@ -28,7 +28,8 @@ public:
 
   enum WriteType : uint8_t {
     CONSTANT = 0,
-    VARIABLE = 1,
+    VARIABLE_D1 = 1,
+    VARIABLE_D2 = 2,
   };
 
   uint32_t Checksum();
@@ -37,7 +38,6 @@ public:
   size_t Write(GenericType payload, WriteType write_type, Config * ConfigOut = NULL) {
 
     size_t check = 0;
-    size_t actual_size = 0;
     
     /* lock to one thread at a time */
     std::lock_guard<std::mutex> lock(_accessMutex);
@@ -55,19 +55,11 @@ public:
       }
       
     break;
-    case VARIABLE:
-      if (ConfigOut != NULL) {
-	actual_size = (sizeof(CpuPktHeader) + sizeof(CpuTimeStamp)
-			      + sizeof(HK_PACKET)
-			      + (sizeof(Z_DATA_TYPE_SCI_L1_V2) * ConfigOut->N1)
-			      + (sizeof(Z_DATA_TYPE_SCI_L2_V2) * ConfigOut->N2)
-			      + sizeof(Z_DATA_TYPE_SCI_L3_V2));
-      }
+    case VARIABLE_D1:
 
-      /* DEBUG: print actual size */
-      std::cout << "actual_size = " << actual_size << std::endl;
+      /* DEBUG: */
       std::cout << "ferror before: " << ferror(this->_ptr_to_file) << std::endl;
-      check = fwrite(payload, actual_size, 1, this->_ptr_to_file);
+      check = fwrite(payload, sizeof(*payload), ConfigOut->N1, this->_ptr_to_file);
       if (check != 1) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
 
@@ -81,6 +73,24 @@ public:
       }
 
       break;
+    case VARIABLE_D2:
+
+      /* DEBUG: */
+      std::cout << "ferror before: " << ferror(this->_ptr_to_file) << std::endl;
+      check = fwrite(payload, sizeof(*payload), ConfigOut->N2, this->_ptr_to_file);
+      if (check != 1) {
+	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+
+	/* DEBUG check why fwrite fails */
+	std::cout << "FWRITE FAIL" << std::endl;
+	std::cout << "check = " << check << std::endl;
+	std::cout << "feof: " << feof(this->_ptr_to_file) << std::endl;
+	std::cout << "ferror: " << ferror(this->_ptr_to_file) << std::endl;
+  
+	return check;
+      }
+      break;
+   
     }
 
     return check;

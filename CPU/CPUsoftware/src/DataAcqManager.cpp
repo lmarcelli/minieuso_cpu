@@ -432,7 +432,27 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   delete hk_packet;
 
   /* write the CPU packet */
-  this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
+  //this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
+  /* cpu header */
+  this->RunAccess->WriteToSynchFile<CpuPktHeader *>(&cpu_packet->cpu_packet_header,
+						    SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<CpuTimeStamp *>(&cpu_packet->cpu_time,
+						    SynchronisedFile::CONSTANT);
+  /* zynq packet */
+  this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N1,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N2,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&cpu_packet->zynq_packet.level1_data[0],
+							      SynchronisedFile::VARIABLE_D1, ConfigOut);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&cpu_packet->zynq_packet.level2_data[0],
+							      SynchronisedFile::VARIABLE_D2, ConfigOut);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&cpu_packet->zynq_packet.level3_data,
+							      SynchronisedFile::CONSTANT);
+  /* hk packet */
+  this->RunAccess->WriteToSynchFile<HK_PACKET *> (&cpu_packet->hk_packet,
+							      SynchronisedFile::CONSTANT);
+
   delete cpu_packet; 
   pkt_counter++;
   

@@ -780,6 +780,8 @@ int DataAcqManager::ReadFakeZynqPkt() {
   FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET;
   int i, j, k = 0;
+
+  std::cout << "Starting to read file" << std::endl;
   
   /* get the size of vectors */
   fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
@@ -797,7 +799,7 @@ int DataAcqManager::ReadFakeZynqPkt() {
     fread(&zynq_packet->level2_data[i], sizeof(Z_DATA_TYPE_SCI_L2_V2), 1, fake_zynq_pkt);
   }
   fread(&zynq_packet->level3_data, sizeof(Z_DATA_TYPE_SCI_L3_V2), 1, fake_zynq_pkt);
-
+  
   /* check against expected values */
   if (zynq_packet->N1 != 4) {
     std::cout << "error N1! N1 = " << zynq_packet->N1 << std::endl;
@@ -812,9 +814,6 @@ int DataAcqManager::ReadFakeZynqPkt() {
 	if (zynq_packet->level1_data[k].payload.raw_data[i][j] != 5) {
 	  std::cout << "error D1 data: "<< zynq_packet->level1_data[k].payload.raw_data[i][j] << std::endl;
 	}
-	else {
-	  std::cout << "D1 all OK!" << std::endl; 
-	}
       }
     }
   }
@@ -825,26 +824,23 @@ int DataAcqManager::ReadFakeZynqPkt() {
 	if (zynq_packet->level2_data[k].payload.int16_data[i][j] != 5) {
 	  std::cout << "error D2 data: "<< zynq_packet->level2_data[k].payload.int16_data[i][j] << std::endl;
 	}
-	else {
-	  std::cout << "D2 all OK!" << std::endl; 
-	}
       }
     }
   }
+  
   /* D3 */
   for (i = 0; i < N_OF_FRAMES_L3_V0; i++) {
     for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
       if (zynq_packet->level3_data.payload.int32_data[i][j] != 5) {
 	std::cout << "error D3 data: "<< zynq_packet->level3_data.payload.int32_data[i][j] << std::endl;
       }
-	else {
-	  std::cout << "D3 all OK!" << std::endl;
-	}
     }
   }
-  
-  
-  delete zynq_packet;
-  fclose(fake_zynq_pkt);
-  return 0;
+    
+    std::cout << "Read test complete! All OK unless error message shows" << std::endl;
+    
+    
+    delete zynq_packet;
+    fclose(fake_zynq_pkt);
+    return 0;
 }

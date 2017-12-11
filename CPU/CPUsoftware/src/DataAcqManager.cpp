@@ -697,7 +697,7 @@ int DataAcqManager::WriteFakeZynqPkt() {
   Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
   Config * ConfigOut = new Config();
   
-  int i, j, k = 0;
+  uint32_t i, j, k = 0;
 
   /* set Config to dummy values */
   ConfigOut->N1 = 4;
@@ -779,7 +779,7 @@ int DataAcqManager::ReadFakeZynqPkt() {
 
   FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET;
-  int i, j, k = 0;
+  uint32_t i, j, k = 0;
 
   std::cout << "Starting to read file" << std::endl;
   

@@ -186,14 +186,15 @@ int main(int argc, char ** argv) {
     //DaqManager.CloseCpuRun(DataAcqManager::CPU);
 
     /* make a test Zynq packet */
-    DataAcqManager::WriteFakeZynqPkt();
-    DataAcqManager::ReadFakeZynqPkt();
+    //DataAcqManager::WriteFakeZynqPkt();
+    //DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
   }
 
   /* start-up */
   /*----------*/
+  
   printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
 
   /* check the log level */

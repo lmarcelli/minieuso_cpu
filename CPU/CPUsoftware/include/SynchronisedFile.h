@@ -58,7 +58,7 @@ public:
     case VARIABLE_D1:
 
       check = fwrite(payload, sizeof(*payload), ConfigOut->N1, this->_ptr_to_file);
-      if (check != ConfigOut->N1) {
+      if (check != size_t(ConfigOut->N1)) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
 
 	/* DEBUG check why fwrite fails */
@@ -74,7 +74,7 @@ public:
     case VARIABLE_D2:
 
       check = fwrite(payload, sizeof(*payload), ConfigOut->N2, this->_ptr_to_file);
-      if (check != ConfigOut->N2) {
+      if (check != size_t(ConfigOut->N2)) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
 
 	/* DEBUG check why fwrite fails */

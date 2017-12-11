@@ -637,7 +637,10 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
   std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
+  /* set Zynq operational mode */
   if (test_mode == true) {
+    /* set a mode to produce test data */
+    
     switch(test_mode) {
     case ZynqManager::T_MODE0:
       ZqManager.SetTestMode(ZynqManager::T_MODE0);
@@ -662,22 +665,25 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
       break;
     }
   }
-    
-  switch(instrument_mode) {
-  case ZynqManager::MODE0:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-    break;
-  case ZynqManager::MODE1:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-    break;
-  case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-    break;
-  case ZynqManager::MODE3:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-    break;
-  }
+  else {
 
+    /* set a mode to gather real data */
+    switch(instrument_mode) {
+    case ZynqManager::MODE0:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+      break;
+    case ZynqManager::MODE1:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+      break;
+    case ZynqManager::MODE2:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+      break;
+    case ZynqManager::MODE3:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+      break;
+    }
+  }
+  
   collect_main_data.join();
   collect_therm_data.join();
 

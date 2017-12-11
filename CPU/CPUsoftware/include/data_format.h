@@ -108,6 +108,8 @@ typedef struct
 {
   uint8_t N1; /* 1 byte */
   uint8_t N2; /* 1 byte */
+  //Z_DATA_TYPE_SCI_L1_V2 ** ptr_to_level1_data;
+  //Z_DATA_TYPE_SCI_L1_V2 ** ptr_to_level2_data;
   std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294944 * N1 bytes */
   std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589856 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179684 bytes */

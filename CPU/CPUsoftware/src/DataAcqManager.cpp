@@ -183,6 +183,9 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
   Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
   Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
+  //std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data_vector;
+  //std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data_vector;
+
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
   int fsize;
@@ -211,6 +214,10 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   /* write the number of N1 and N2 */
   zynq_packet->N1 = ConfigOut->N1;
   zynq_packet->N2 = ConfigOut->N2;
+
+  /* initialise pointers to data payload */
+  //zynq_packet->ptr_to_level1_data = new Z_DATA_TYPE_SCI_L1_V2*[zynq_packet->N1];
+  //zynq_packet->ptr_to_level2_data = new Z_DATA_TYPE_SCI_L2_V2*[zynq_packet->N2];
   
   /* read out a number of Zynq packets, depending on ConfigOut->N1 and ConfigOut->N2 */
   /* data level D1 */
@@ -223,7 +230,13 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
     zynq_packet->level1_data.shrink_to_fit();
   }
- 
+  /* set pointer array */
+  /*
+  for (i = 0; i < ConfigOut->N1; i++) {
+    zynq_packet->ptr_to_level1_data[i] = &level1_data_vector[i];
+  }  
+  */
+  
   /* data level D2 */
   for (int i = 0; i < ConfigOut->N2; i++) {
     check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
@@ -234,6 +247,13 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
     zynq_packet->level2_data.shrink_to_fit();
   }
+  /* set pointer array */
+  /*
+    for (i = 0; i < ConfigOut->N1; i++) {
+    zynq_packet->ptr_to_level1_data[i] = &level1_data_vector[i];
+  } 
+  */ 
+  
 
   /* data level D3 */
   check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);

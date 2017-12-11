@@ -172,7 +172,12 @@ int main(int argc, char ** argv) {
       std::cout << "camera status: " << camera_status << std::endl;
       Lvps.SwitchOn(LvpsManager::CAMERAS);
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "camera status on: " << camera_status << std::endl;
+      std::cout << "camera status (on): " << camera_status << std::endl;
+      sleep(5);
+      Lvps.SwitchOff(LvpsManager::CAMERAS);
+      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
+      std::cout << "camera status (off): " << camera_status << std::endl;
+      
     }
     
     ///* reload and parse the configuration file */

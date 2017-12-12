@@ -183,7 +183,7 @@ int main(int argc, char ** argv) {
       sleep(2);
       std::cout << "switch OFF cameras" << std::endl;
       Lvps.SwitchOff(LvpsManager::CAMERAS);
-      sleep(2;)
+      sleep(2);
       std::cout << "switch ON cameras" << std::endl;
       Lvps.SwitchOn(LvpsManager::CAMERAS);
       sleep(2);
@@ -228,9 +228,10 @@ int main(int argc, char ** argv) {
     std::cout << "switching on all systems..." << std::endl;
     Lvps.SwitchOn(LvpsManager::CAMERAS);
     Lvps.SwitchOn(LvpsManager::HK);
+    Lvps.SwitchOn(LvpsManager::ZYNQ);
 
     /* wait for boot */
-    sleep(5);
+    sleep(BOOT_TIME);
   }
   
   /* test the connection to the zynq board */

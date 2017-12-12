@@ -169,14 +169,22 @@ int main(int argc, char ** argv) {
       /* testing the LVPS switching */
       LvpsManager::Status camera_status;
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "camera status: " << camera_status << std::endl;
+      std::cout << "switch ON cameras" << std::endl;
+      //std::cout << "camera status: " << camera_status << std::endl;
       Lvps.SwitchOn(LvpsManager::CAMERAS);
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "camera status (on): " << camera_status << std::endl;
-      sleep(5);
+      //std::cout << "camera status (on): " << camera_status << std::endl;
+      sleep(2);
+      std::cout << "switch OFF cameras" << std::endl;
       Lvps.SwitchOff(LvpsManager::CAMERAS);
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "camera status (off): " << camera_status << std::endl;
+      //std::cout << "camera status (off): " << camera_status << std::endl;
+      sleep(2);
+      std::cout << "switch OFF Zynq" << std::endl;
+      Lvps.SwitchOff(LvpsManager::ZYNQ);
+      sleep(2);
+      std::cout << "switch ON Zynq" << std::endl;
+      Lvps.SwitchOn(LvpsManager::ZYNQ);
       
     }
     

@@ -14,10 +14,12 @@
 
 #define ONE_MILLISEC 1000
 
-#define CAMERA_PORT_ON 0x01
-#define CAMERA_PORT_OFF 0x02
-#define HK_PORT_ON 0x04
-#define HK_PORT_OFF 0x08
+#define ZYNQ_PORT_ON 0x04
+#define ZYNQ_PORT_OFF 0x03
+#define CAMERA_PORT_ON 0x06
+#define CAMERA_PORT_OFF 0x05
+#define HK_PORT_ON 0x02
+#define HK_PORT_OFF 0x01
 #define CC_LVPS_HK 0x10
 #define RET_CC_LVPS_HK 0x20
 
@@ -32,10 +34,12 @@ public:
     UNDEF = 2,
   };
   enum SubSystem : uint8_t {
-    CAMERAS = 0,
-    HK = 1,    
+    ZYNQ = 0,
+    CAMERAS = 1,
+    HK = 2,
   };
 
+  Status zynq_status;
   Status cam_status;
   Status hk_status;
   

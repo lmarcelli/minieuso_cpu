@@ -167,45 +167,32 @@ int main(int argc, char ** argv) {
 
     if (lvps_on == true) {
       /* testing the LVPS switching */
-      /* pulse channel 1 */
-      Lvps.SwitchOn(LvpsManager::ZYNQ);
+      std::cout << "Teasting the LVPS switching" << std::endl;
 
-      /*
-      LvpsManager::Status camera_status;
-      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "switch ON cameras" << std::endl;
-      //std::cout << "camera status: " << camera_status << std::endl;
-      Lvps.SwitchOn(LvpsManager::CAMERAS);
-      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      //std::cout << "camera status (on): " << camera_status << std::endl;
+      std::cout << "switch OFF Zynq" << std::endl;
+      Lvps.SwitchOff(LvpsManager::HK);
       sleep(2);
-      std::cout << "switch OFF cameras" << std::endl;
-      Lvps.SwitchOff(LvpsManager::CAMERAS);
-      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      //std::cout << "camera status (off): " << camera_status << std::endl;
+      std::cout << "switch ON Zynq" << std::endl;
+      Lvps.SwitchOn(LvpsManager::HK);
       sleep(2);
       std::cout << "switch OFF Zynq" << std::endl;
       Lvps.SwitchOff(LvpsManager::ZYNQ);
       sleep(2);
       std::cout << "switch ON Zynq" << std::endl;
       Lvps.SwitchOn(LvpsManager::ZYNQ);
-      */
+      sleep(2);
+      std::cout << "switch OFF cameras" << std::endl;
+      Lvps.SwitchOff(LvpsManager::CAMERAS);
+      sleep(2;)
+      std::cout << "switch ON cameras" << std::endl;
+      Lvps.SwitchOn(LvpsManager::CAMERAS);
+      sleep(2);
+      
     }
     
-    ///* reload and parse the configuration file */
-    //std::string config_file = config_dir + "/dummy.conf";
-    //std::string config_file_local = config_dir + "/dummy_local.conf";
-    //ConfigManager CfManager(config_file, config_file_local);
-    //Config * ConfigOut = CfManager.Configure();
-    
-    /* testing of new file access */
-    //DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
-    //DaqManager.CloseCpuRun(DataAcqManager::CPU);
-
     /* make a test Zynq packet */
-    std::cout << "Writing fake Zynq packet" << std::endl;
-    DataAcqManager::WriteFakeZynqPkt();
-    DataAcqManager::ReadFakeZynqPkt();
+    // DataAcqManager::WriteFakeZynqPkt();
+    //DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
   }

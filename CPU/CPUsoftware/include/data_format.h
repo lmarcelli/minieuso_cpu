@@ -108,12 +108,11 @@ typedef struct
 {
   uint8_t N1; /* 1 byte */
   uint8_t N2; /* 1 byte */
-  //Z_DATA_TYPE_SCI_L1_V2 ** ptr_to_level1_data;
-  //Z_DATA_TYPE_SCI_L1_V2 ** ptr_to_level2_data;
+  /* NB: vector itself is not written to file, 
+     just contents which are contiguous in memory */
   std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294944 * N1 bytes */
   std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589856 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179684 bytes */
-  
 } ZYNQ_PACKET;
 
 /* CPU packet for incoming data every 5.24 s */
@@ -122,8 +121,8 @@ typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 16 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  ZYNQ_PACKET zynq_packet; /* variable size */
   HK_PACKET hk_packet; /* 294 bytes */
+  ZYNQ_PACKET zynq_packet; /* variable size */
 } CPU_PACKET;
 
 /* CPU file to store one run */

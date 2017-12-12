@@ -183,8 +183,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
   Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
   Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
-  //std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data_vector;
-  //std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data_vector;
 
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
@@ -205,8 +203,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   
   /* DEBUG */
   std::cout << "file size: " << fsize << std::endl;
-  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
-  
+  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;  
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
@@ -215,10 +212,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   zynq_packet->N1 = ConfigOut->N1;
   zynq_packet->N2 = ConfigOut->N2;
 
-  /* initialise pointers to data payload */
-  //zynq_packet->ptr_to_level1_data = new Z_DATA_TYPE_SCI_L1_V2*[zynq_packet->N1];
-  //zynq_packet->ptr_to_level2_data = new Z_DATA_TYPE_SCI_L2_V2*[zynq_packet->N2];
-  
   /* read out a number of Zynq packets, depending on ConfigOut->N1 and ConfigOut->N2 */
   /* data level D1 */
   for (int i = 0; i < ConfigOut->N1; i++) {
@@ -230,13 +223,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
     zynq_packet->level1_data.shrink_to_fit();
   }
-  /* set pointer array */
-  /*
-  for (i = 0; i < ConfigOut->N1; i++) {
-    zynq_packet->ptr_to_level1_data[i] = &level1_data_vector[i];
-  }  
-  */
-  
   /* data level D2 */
   for (int i = 0; i < ConfigOut->N2; i++) {
     check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
@@ -246,15 +232,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     }
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
     zynq_packet->level2_data.shrink_to_fit();
-  }
-  /* set pointer array */
-  /*
-    for (i = 0; i < ConfigOut->N1; i++) {
-    zynq_packet->ptr_to_level1_data[i] = &level1_data_vector[i];
   } 
-  */ 
-  
-
   /* data level D3 */
   check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);
   if (check != 1) {
@@ -438,6 +416,7 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   static unsigned int pkt_counter = 0;
 
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
+  
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -458,19 +437,19 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 						    SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<CpuTimeStamp *>(&cpu_packet->cpu_time,
 						    SynchronisedFile::CONSTANT);
+  /* hk packet */
+  this->RunAccess->WriteToSynchFile<HK_PACKET *> (&cpu_packet->hk_packet,
+						  SynchronisedFile::CONSTANT);
   /* zynq packet */
   this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N1,
 					       SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N2,
 					       SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&cpu_packet->zynq_packet.level1_data[0],
-							      SynchronisedFile::VARIABLE_D1, ConfigOut);
+							     SynchronisedFile::VARIABLE_D1, ConfigOut);
   this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&cpu_packet->zynq_packet.level2_data[0],
 							      SynchronisedFile::VARIABLE_D2, ConfigOut);
   this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&cpu_packet->zynq_packet.level3_data,
-							      SynchronisedFile::CONSTANT);
-  /* hk packet */
-  this->RunAccess->WriteToSynchFile<HK_PACKET *> (&cpu_packet->hk_packet,
 							      SynchronisedFile::CONSTANT);
 
   delete cpu_packet; 

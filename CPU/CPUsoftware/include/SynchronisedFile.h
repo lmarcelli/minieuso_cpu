@@ -38,7 +38,6 @@ public:
   size_t Write(GenericType payload, WriteType write_type, Config * ConfigOut = NULL) {
 
     size_t check = 0;
-    //size_t actual_size = 0;
     
     /* lock to one thread at a time */
     std::lock_guard<std::mutex> lock(_accessMutex);
@@ -58,13 +57,6 @@ public:
     break;
     case VARIABLE_D1:
 
-      /*
-      actual_size = (sizeof(uint8_t) + sizeof(uint8_t) +
-			(sizeof(Z_DATA_TYPE_SCI_L1_V2) * ConfigOut->N1) +
-			(sizeof(Z_DATA_TYPE_SCI_L2_V2) * ConfigOut->N2) +
-			sizeof(Z_DATA_TYPE_SCI_L3_V2));
-      std::cout << "actual_size writing: " << actual_size << std::endl;
-      */
       check = fwrite(payload, sizeof(*payload), ConfigOut->N1, this->_ptr_to_file);
       if (check != size_t(ConfigOut->N1)) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;

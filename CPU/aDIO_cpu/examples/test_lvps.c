@@ -92,15 +92,14 @@ int main () {
   dir_val[4] = 0x10; /* P0.4 */
   dir_val[5] = 0x20; /* P0.5 */
   
-  
+  int i;
   /* loop over channels and pulse each one */
-  for (int i = 0; i <6; i++) {
+  for (i = 0; i < 6; i++) {
     /* Now set only port 0.0 to output */
     /* write the direction of port 0 */
     printf("Write the direction of port 0.0 to OUTPUT (0x01)\n");
-    current_val = 0x01;
     for (Bit = 0; Bit < 8; Bit++) {
-      P0Bits[Bit] = (dir_val >> Bit) & 0x01;
+      P0Bits[Bit] = (dir_val[i] >> Bit) & 0x01;
     }
     
     /* set the bits of port 0 */

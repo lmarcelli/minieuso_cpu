@@ -762,10 +762,10 @@ int DataAcqManager::WriteFakeZynqPkt() {
   TestAccess = new Access(TestFile);
   
   /* write to file "test_zynq_file.dat" in current directory */
-  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
-					  SynchronisedFile::CONSTANT);
-  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
-					  SynchronisedFile::CONSTANT);
+  //TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
+  //					  SynchronisedFile::CONSTANT);
+  //TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
+  //					  SynchronisedFile::CONSTANT);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&zynq_packet->level1_data[0],
 							SynchronisedFile::VARIABLE_D1, ConfigOut);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&zynq_packet->level2_data[0],
@@ -789,9 +789,11 @@ int DataAcqManager::ReadFakeZynqPkt() {
   std::cout << "Starting to read file" << std::endl;
   
   /* get the size of vectors */
-  fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
-  fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
-
+  //fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
+  //fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
+  zynq_packet->N1 = 4;
+  zynq_packet->N2 = 4;
+  
   /* resize the vectors */
   zynq_packet->level1_data.resize(zynq_packet->N1);
   zynq_packet->level2_data.resize(zynq_packet->N2);

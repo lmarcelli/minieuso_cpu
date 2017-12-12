@@ -6,6 +6,8 @@
 #include <memory>
 
 #include "log.h"
+#include "data_format.h"
+#include "ConfigManager.h"
 
 /* for use with CRC checksum calculation */
 /* redefine this to change to processing buffer size */
@@ -23,22 +25,68 @@ public:
 
   SynchronisedFile(std::string path); 
   ~SynchronisedFile();
-  
+
+  enum WriteType : uint8_t {
+    CONSTANT = 0,
+    VARIABLE_D1 = 1,
+    VARIABLE_D2 = 2,
+  };
+
   uint32_t Checksum();
   void Close();
   template <class GenericType>
-  size_t Write(GenericType payload) {
+  size_t Write(GenericType payload, WriteType write_type, Config * ConfigOut = NULL) {
 
+    size_t check = 0;
+    
     /* lock to one thread at a time */
     std::lock_guard<std::mutex> lock(_accessMutex);
 
     clog << "info: " << logstream::info << "writing to SynchronisedFile " << this->path << std::endl;
       
     /*  write the payload to the file */
-    size_t check = fwrite(payload, sizeof(*payload), 1, this->_ptr_to_file);
-    if (check != 1) {
-      clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
-      return check;
+    switch(write_type) {
+    case CONSTANT:
+   
+      check = fwrite(payload, sizeof(*payload), 1, this->_ptr_to_file);
+      if (check != 1) {
+	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+	return check;
+      }
+      
+    break;
+    case VARIABLE_D1:
+
+      check = fwrite(payload, sizeof(*payload), ConfigOut->N1, this->_ptr_to_file);
+      if (check != size_t(ConfigOut->N1)) {
+	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+
+	/* DEBUG check why fwrite fails */
+	std::cout << "FWRITE FAIL" << std::endl;
+	std::cout << "check = " << check << std::endl;
+	std::cout << "feof: " << feof(this->_ptr_to_file) << std::endl;
+	std::cout << "ferror: " << ferror(this->_ptr_to_file) << std::endl;
+  
+	return check;
+      }
+
+      break;
+    case VARIABLE_D2:
+
+      check = fwrite(payload, sizeof(*payload), ConfigOut->N2, this->_ptr_to_file);
+      if (check != size_t(ConfigOut->N2)) {
+	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+
+	/* DEBUG check why fwrite fails */
+	std::cout << "FWRITE FAIL" << std::endl;
+	std::cout << "check = " << check << std::endl;
+	std::cout << "feof: " << feof(this->_ptr_to_file) << std::endl;
+	std::cout << "ferror: " << ferror(this->_ptr_to_file) << std::endl;
+  
+	return check;
+      }
+      break;
+   
     }
 
     return check;
@@ -59,9 +107,9 @@ public:
   void CloseSynchFile();
  
   template <class GenericType>
-  void WriteToSynchFile(GenericType payload) {
+  void WriteToSynchFile(GenericType payload, SynchronisedFile::WriteType write_type, Config * ConfigOut = NULL) {
     /* call write to file */
-    this->_sf->Write(payload);
+    this->_sf->Write(payload, write_type, ConfigOut);
   }
   
 private:

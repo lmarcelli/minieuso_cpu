@@ -23,6 +23,8 @@ struct Config {
   int scurve_stop;
   int scurve_acc;
   int dac_level;
+  int N1;
+  int N2;
 };
 
 /* class for configuring the instrument */

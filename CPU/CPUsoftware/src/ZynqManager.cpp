@@ -1,3 +1,4 @@
+
 #include "ZynqManager.h"
 
 /* default constructor */
@@ -492,6 +493,75 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
   close(sockfd);
   return this->instrument_mode;
 }
+
+
+/* set the acquisition mode */
+ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode) {
+
+  /* definitions */
+  std::string status_string;
+  const char * kStatStr = NULL;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  
+  /* check input mode and update accordingly */
+  switch (input_mode) {
+  case T_MODE0:
+    this->test_mode = T_MODE0; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 0\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE1:
+    this->test_mode = T_MODE1; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 1\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE2:
+    this->test_mode = T_MODE2; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 2\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE3:
+     this->test_mode = T_MODE3; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 3\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE4:
+     this->test_mode = T_MODE4; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 4\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE5:
+     this->test_mode = T_MODE5; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 5\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+  case T_MODE6:
+     this->test_mode = T_MODE6; 
+    /* switch to data acquisition mode specified */
+    status_string = SendRecvTelnet("acq test 5\n", sockfd);
+    printf("status: %s\n", kStatStr);
+    break;
+
+  }
+  
+  /* check the status */
+  //ADD THIS
+  
+  close(sockfd);
+  return this->test_mode;
+}
+
 
 /* static function to turn off acquisition */
 int ZynqManager::StopAcquisition() {

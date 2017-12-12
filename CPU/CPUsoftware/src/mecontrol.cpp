@@ -39,7 +39,10 @@ void ClearFTP() {
 
 /* an acquisition run */
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-		   CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run) {
+	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on) {
+
+  /* define test mode */
+  /* TODO: move this to a command line input */
   
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -70,11 +73,11 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
   
   /* take data */
   if (trig_on == true) {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_zynq_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, single_run);
-    }
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_zynq_on);
+  }
 
   /* turn off the HV */
   if (hv_on == true) {
@@ -108,6 +111,7 @@ int main(int argc, char ** argv) {
   bool lvps_on = false;
   bool sc_on = false;
   bool single_run = false; 
+  bool test_zynq_on = false;
   
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
@@ -132,6 +136,9 @@ int main(int argc, char ** argv) {
   }
   if(input.cmdOptionExists("-scurve")){
     sc_on = true;
+  }
+  if(input.cmdOptionExists("-test_zynq")){
+    test_zynq_on = true;
   }
   
   int dv = -1;
@@ -165,24 +172,34 @@ int main(int argc, char ** argv) {
       std::cout << "camera status: " << camera_status << std::endl;
       Lvps.SwitchOn(LvpsManager::CAMERAS);
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
-      std::cout << "camera status on: " << camera_status << std::endl;
+      std::cout << "camera status (on): " << camera_status << std::endl;
+      sleep(5);
+      Lvps.SwitchOff(LvpsManager::CAMERAS);
+      camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
+      std::cout << "camera status (off): " << camera_status << std::endl;
+      
     }
-
-    /* reload and parse the configuration file */
-    std::string config_file = config_dir + "/dummy.conf";
-    std::string config_file_local = config_dir + "/dummy_local.conf";
-    ConfigManager CfManager(config_file, config_file_local);
-    Config * ConfigOut = CfManager.Configure();
+    
+    ///* reload and parse the configuration file */
+    //std::string config_file = config_dir + "/dummy.conf";
+    //std::string config_file_local = config_dir + "/dummy_local.conf";
+    //ConfigManager CfManager(config_file, config_file_local);
+    //Config * ConfigOut = CfManager.Configure();
     
     /* testing of new file access */
-    DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
-    DaqManager.CloseCpuRun(DataAcqManager::CPU);
+    //DaqManager.CreateCpuRun(DataAcqManager::CPU, ConfigOut);
+    //DaqManager.CloseCpuRun(DataAcqManager::CPU);
+
+    /* make a test Zynq packet */
+    //DataAcqManager::WriteFakeZynqPkt();
+    //DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
   }
 
   /* start-up */
   /*----------*/
+  
   printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
 
   /* check the log level */
@@ -264,7 +281,8 @@ int main(int argc, char ** argv) {
   
   /* data acquisition */
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-		 &CManager, hv_on, trig_on, cam_on, sc_on, single_run);
+	  &CManager, hv_on, trig_on, cam_on, sc_on,
+	  single_run, test_zynq_on);
 
   if (lvps_on == true) {
     /* turn off all systems */

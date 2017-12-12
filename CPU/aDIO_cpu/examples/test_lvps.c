@@ -15,7 +15,7 @@ DeviceHandle aDIO_Device;
 int main () {
   uint32_t minor_number = 0;
   int aDIO_ReturnVal;
-  uint8_t dir_val;
+  uint8_t dir_val[6];
   uint8_t P0Bits[8];
   int Bit = 0;
   uint8_t HIGH = 0xFF;
@@ -31,165 +31,124 @@ int main () {
   }
   
   /* write the direction of port 0 */
-  printf("Write the direction of port 0 to OUTPUT (0xFF)\n");
-  dir_val = 0xFF;
-  for (Bit = 0; Bit < 8; Bit++) {
-    P0Bits[Bit] = (dir_val >> Bit) & 0x01;
-  }
+  // printf("Write the direction of port 0 to OUTPUT (0xFF)\n");
+  //dir_val = 0xFF;
+  //for (Bit = 0; Bit < 8; Bit++) {
+  //  P0Bits[Bit] = (dir_val >> Bit) & 0x01;
+  //}
   
   /* set the bits of port 0 */
-  aDIO_ReturnVal =
-    LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
-			 P0Bits[6], P0Bits[5],
-			 P0Bits[4], P0Bits[3],
-			 P0Bits[2], P0Bits[1],
-			 P0Bits[0]);
+  //aDIO_ReturnVal =
+  //  LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
+  //			 P0Bits[6], P0Bits[5],
+  //			 P0Bits[4], P0Bits[3],
+  //			 P0Bits[2], P0Bits[1],
+  //			 P0Bits[0]);
   /* sleep 1 ms */
-  usleep(ONE_MILLISEC);
+  //usleep(ONE_MILLISEC);
   
   /* check the return value */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
-  }
+  //if (aDIO_ReturnVal) {
+  //error(EXIT_FAILURE, errno,
+  //	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
+  //}
   
   /* write the value of port 0 = HIGH */
-  printf("Write port 0 HIGH\n");
-  aDIO_ReturnVal =
-    WritePort_aDIO(aDIO_Device, 0, HIGH);
+  //printf("Write port 0 HIGH\n");
+  //aDIO_ReturnVal =
+  //  WritePort_aDIO(aDIO_Device, 0, HIGH);
   /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
+  //usleep(ONE_MILLISEC); 
   /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
-  }
+  //if (aDIO_ReturnVal) {
+  //  error(EXIT_FAILURE, errno,
+  //	  "ERROR:  WritePort_aDIO() FAILED");
+  //}
 
   /* sleep for 9 ms */
-  usleep(9 * ONE_MILLISEC);
+  //usleep(9 * ONE_MILLISEC);
 
   /* write the value of port 0 = LOW */
-  printf("Write port 0 LOW\n");
-  aDIO_ReturnVal =
-    WritePort_aDIO(aDIO_Device, 0, LOW);
+  //printf("Write port 0 LOW\n");
+  //aDIO_ReturnVal =
+  // WritePort_aDIO(aDIO_Device, 0, LOW);
   /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
+  //usleep(ONE_MILLISEC); 
   /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
-  }
+  //if (aDIO_ReturnVal) {
+  // error(EXIT_FAILURE, errno,
+  //	  "ERROR:  WritePort_aDIO() FAILED");
+  //}
 
+  printf("About the start loop over channels\n");
   printf("Press ENTER to contine...\n");
   getchar();
-
-  /* Now set only port 0.0 to output */
-  /* write the direction of port 0 */
-  printf("Write the direction of port 0 to OUTPUT (0x01)\n");
-  dir_val = 0x01;
-  for (Bit = 0; Bit < 8; Bit++) {
-    P0Bits[Bit] = (dir_val >> Bit) & 0x01;
-  }
   
-  /* set the bits of port 0 */
-  aDIO_ReturnVal =
-    LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
-			 P0Bits[6], P0Bits[5],
-			 P0Bits[4], P0Bits[3],
-			 P0Bits[2], P0Bits[1],
-			 P0Bits[0]);
-  /* sleep 1 ms */
-  usleep(ONE_MILLISEC);
+  /* set channels P0.0 to P0.5 */
+  dir_val[0] = 0x01; /* P0.0 */
+  dir_val[1] = 0x02; /* P0.1 */
+  dir_val[2] = 0x04; /* P0.2 */
+  dir_val[3] = 0x08; /* P0.3 */
+  dir_val[4] = 0x10; /* P0.4 */
+  dir_val[5] = 0x20; /* P0.5 */
   
-  /* check the return value */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
-  }
   
-  /* write the value of port 0 = HIGH */
-  printf("Write port 0 HIGH\n");
-  aDIO_ReturnVal =
-    WritePort_aDIO(aDIO_Device, 0, HIGH);
-  /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
-  /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
-  }
-
-  /* sleep for 9 ms */
-  usleep(9 * ONE_MILLISEC);
-
-  /* write the value of port 0 = LOW */
-  printf("Write port 0 LOW\n");
-  aDIO_ReturnVal =
+  /* loop over channels and pulse each one */
+  for (int i = 0; i <6; i++) {
+    /* Now set only port 0.0 to output */
+    /* write the direction of port 0 */
+    printf("Write the direction of port 0.0 to OUTPUT (0x01)\n");
+    current_val = 0x01;
+    for (Bit = 0; Bit < 8; Bit++) {
+      P0Bits[Bit] = (dir_val >> Bit) & 0x01;
+    }
+    
+    /* set the bits of port 0 */
+    aDIO_ReturnVal =
+      LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
+			   P0Bits[6], P0Bits[5],
+			   P0Bits[4], P0Bits[3],
+			   P0Bits[2], P0Bits[1],
+			   P0Bits[0]);
+    /* sleep 1 ms */
+    usleep(ONE_MILLISEC);
+    
+    /* check the return value */
+    if (aDIO_ReturnVal) {
+      error(EXIT_FAILURE, errno,
+	    "ERROR:  LoadPort0bitDir_aDIO() FAILED");
+    }
+    
+    /* write the value of port 0 = HIGH */
+    printf("Write port 0 HIGH\n");
+    aDIO_ReturnVal =
+      WritePort_aDIO(aDIO_Device, 0, HIGH);
+    /* sleep for 1 ms */
+    usleep(ONE_MILLISEC); 
+    /* check the return */
+    if (aDIO_ReturnVal) {
+      error(EXIT_FAILURE, errno,
+	    "ERROR:  WritePort_aDIO() FAILED");
+    }
+    
+    /* sleep for 9 ms */
+    usleep(9 * ONE_MILLISEC);
+    
+    /* write the value of port 0 = LOW */
+    printf("Write port 0 LOW\n");
+    aDIO_ReturnVal =
     WritePort_aDIO(aDIO_Device, 0, LOW);
-  /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
-  /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
+    /* sleep for 1 ms */
+    usleep(ONE_MILLISEC); 
+    /* check the return */
+    if (aDIO_ReturnVal) {
+      error(EXIT_FAILURE, errno,
+	    "ERROR:  WritePort_aDIO() FAILED");
+    }
+    
+    printf("Press ENTER to contine...\n");
+    getchar();
   }
-
-  printf("Press ENTER to contine...\n");
-  getchar();
-
-  /* Now set only port 0.2 to output */
-  /* write the direction of port 0 */
-  printf("Write the direction of port 0 to OUTPUT (0x04)\n");
-  dir_val = 0x04;
-  for (Bit = 0; Bit < 8; Bit++) {
-    P0Bits[Bit] = (dir_val >> Bit) & 0x01;
-  }
-  
-  /* set the bits of port 0 */
-  aDIO_ReturnVal =
-    LoadPort0BitDir_aDIO(aDIO_Device, P0Bits[7],
-			 P0Bits[6], P0Bits[5],
-			 P0Bits[4], P0Bits[3],
-			 P0Bits[2], P0Bits[1],
-			 P0Bits[0]);
-  /* sleep 1 ms */
-  usleep(ONE_MILLISEC);
-  
-  /* check the return value */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
-  }
-  
-  /* write the value of port 0 = HIGH */
-  printf("Write port 0 HIGH\n");
-  aDIO_ReturnVal =
-    WritePort_aDIO(aDIO_Device, 0, HIGH);
-  /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
-  /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
-  }
-
-  /* sleep for 9 ms */
-  usleep(9 * ONE_MILLISEC);
-
-  /* write the value of port 0 = LOW */
-  printf("Write port 0 LOW\n");
-  aDIO_ReturnVal =
-    WritePort_aDIO(aDIO_Device, 0, LOW);
-  /* sleep for 1 ms */
-  usleep(ONE_MILLISEC); 
-  /* check the return */
-  if (aDIO_ReturnVal) {
-    error(EXIT_FAILURE, errno,
-	  "ERROR:  WritePort_aDIO() FAILED");
-  }
-
-  printf("Press ENTER to contine...\n");
-  getchar();
   
   /* close the device */
   printf("Close the device\n");

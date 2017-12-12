@@ -29,7 +29,7 @@ int main(int argc, char ** argv) {
       }
       else {
 
-	std::cout << "Usage: lvps_switch -on swubsystem" << std::endl;
+	std::cout << "Usage: lvps_switch -on subsystem" << std::endl;
 	std::cout << "or: lvps_switch -off subsystem" << std::endl;
 	std::cout << std::endl;
 	std::cout << "subsytems: zynq, cam or hk" << std::endl;

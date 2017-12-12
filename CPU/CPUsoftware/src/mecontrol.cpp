@@ -76,7 +76,7 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_zynq_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_zynq_on);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE0, ZynqManager::T_MODE3, single_run, test_zynq_on);
   }
 
   /* turn off the HV */
@@ -199,8 +199,9 @@ int main(int argc, char ** argv) {
     //DaqManager.CloseCpuRun(DataAcqManager::CPU);
 
     /* make a test Zynq packet */
-    //DataAcqManager::WriteFakeZynqPkt();
-    //DataAcqManager::ReadFakeZynqPkt();
+    std::cout << "Writing fake Zynq packet" << std::endl;
+    DataAcqManager::WriteFakeZynqPkt();
+    DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
   }

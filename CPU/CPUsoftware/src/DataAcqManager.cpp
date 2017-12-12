@@ -772,7 +772,7 @@ int DataAcqManager::WriteFakeZynqPkt() {
 							SynchronisedFile::VARIABLE_D2, ConfigOut);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&zynq_packet->level3_data,
 							SynchronisedFile::CONSTANT);
-  
+  TestAccess->CloseSynchFile();
   delete zynq_packet;  
   delete ConfigOut;
   return 0;

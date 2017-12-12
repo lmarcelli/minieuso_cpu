@@ -27,6 +27,14 @@ int main(int argc, char ** argv) {
       else if (subsystem_str.compare("hk")) {
 	subsystem = LvpsManager::HK;
       }
+      else {
+
+	std::cout << "Usage: lvps_switch -on swubsystem" << std::endl;
+	std::cout << "or: lvps_switch -off subsystem" << std::endl;
+	std::cout << std::endl;
+	std::cout << "subsytems: zynq, cam or hk" << std::endl;
+	
+      }
     }
     
     switch (subsystem) {
@@ -57,6 +65,14 @@ int main(int argc, char ** argv) {
       else if (subsystem_str.compare("hk")) {
 	subsystem = LvpsManager::HK;
       }
+      else {
+
+	std::cout << "Usage: lvps_switch -on swubsystem" << std::endl;
+	std::cout << "or: lvps_switch -off subsystem" << std::endl;
+	std::cout << std::endl;
+	std::cout << "subsytems: zynq, cam or hk" << std::endl;
+    
+      }
     }
 
     switch (subsystem) {
@@ -75,7 +91,11 @@ int main(int argc, char ** argv) {
   else {
     desired_status = LvpsManager::UNDEF;
 
-    std::cout << "Subsystem not defined!" << std::endl;
+    std::cout << "Usage: lvps_switch -on swubsystem" << std::endl;
+    std::cout << "or: lvps_switch -off subsystem" << std::endl;
+    std::cout << std::endl;
+    std::cout << "subsytems: zynq, cam or hk" << std::endl;
+    
   }
   
   return 0;

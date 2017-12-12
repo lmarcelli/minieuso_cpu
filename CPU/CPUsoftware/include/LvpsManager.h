@@ -14,7 +14,7 @@
 
 #define ONE_MILLISEC 1000
 
-#define ZYNQ_PORT_ON 0x04
+#define ZYNQ_PORT_ON 0x01
 #define ZYNQ_PORT_OFF 0x03
 #define CAMERA_PORT_ON 0x06
 #define CAMERA_PORT_OFF 0x05

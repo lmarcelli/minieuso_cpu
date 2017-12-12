@@ -167,6 +167,10 @@ int main(int argc, char ** argv) {
 
     if (lvps_on == true) {
       /* testing the LVPS switching */
+      /* pulse channel 1 */
+      Lvps.SwitchOn(LvpsManager::ZYNQ);
+
+      /*
       LvpsManager::Status camera_status;
       camera_status = Lvps.GetStatus(LvpsManager::CAMERAS);
       std::cout << "switch ON cameras" << std::endl;
@@ -185,7 +189,7 @@ int main(int argc, char ** argv) {
       sleep(2);
       std::cout << "switch ON Zynq" << std::endl;
       Lvps.SwitchOn(LvpsManager::ZYNQ);
-      
+      */
     }
     
     ///* reload and parse the configuration file */

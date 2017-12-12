@@ -103,7 +103,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   cpu_file_header->run_size = RUN_SIZE;
 
   /* write to file */
-  this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header);
+  this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;
   
   
@@ -122,7 +122,7 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 
   /* write to file */
-  this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer);
+  this->RunAccess->WriteToSynchFile<CpuFileTrailer *>(cpu_file_trailer, SynchronisedFile::CONSTANT);
   delete cpu_file_trailer;
 
   /* close the current SynchronisedFile */
@@ -177,10 +177,13 @@ SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * Conf
 
 
 /* read out a zynq data file into a zynq packet */
-ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
+ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
 
   FILE * ptr_zfile;
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
+  Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
+  Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
+
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
   int fsize;
@@ -200,29 +203,52 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name) {
   
   /* DEBUG */
   std::cout << "file size: " << fsize << std::endl;
-  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;
-  
+  std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;  
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
-  
-  /* read out the zynq structure, defined in "pdmdata.h" */
-  check = fread(zynq_packet, sizeof(*zynq_packet), 1, ptr_zfile);
 
-  /* DEBUG */
-  std::cout << "Check: " << check << std::endl;
-  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
-  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
-  
+  /* write the number of N1 and N2 */
+  zynq_packet->N1 = ConfigOut->N1;
+  zynq_packet->N2 = ConfigOut->N2;
+
+  /* read out a number of Zynq packets, depending on ConfigOut->N1 and ConfigOut->N2 */
+  /* data level D1 */
+  for (int i = 0; i < ConfigOut->N1; i++) {
+    check = fread(zynq_d1_packet_holder, sizeof(*zynq_d1_packet_holder), 1, ptr_zfile);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+      return NULL;
+    }
+    zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
+    zynq_packet->level1_data.shrink_to_fit();
+  }
+  /* data level D2 */
+  for (int i = 0; i < ConfigOut->N2; i++) {
+    check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+      return NULL;
+    }
+    zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
+    zynq_packet->level2_data.shrink_to_fit();
+  } 
+  /* data level D3 */
+  check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return NULL;
   }
   
+  /* DEBUG */
+  std::cout << "Check: " << check << std::endl;
+  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
+ 
   /* DEBUG: print records to check */
   std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
-  std::cout << "hv_status L1 = " << zynq_packet->level1_data[0].payload.hv_status << std::endl;
   std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
 
   /* close the zynq file */
@@ -384,12 +410,13 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet) {
+int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
 
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
 
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
+  
   /* create the cpu packet header */
   cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
@@ -404,7 +431,27 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   delete hk_packet;
 
   /* write the CPU packet */
-  this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet);
+  //this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
+  /* cpu header */
+  this->RunAccess->WriteToSynchFile<CpuPktHeader *>(&cpu_packet->cpu_packet_header,
+						    SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<CpuTimeStamp *>(&cpu_packet->cpu_time,
+						    SynchronisedFile::CONSTANT);
+  /* hk packet */
+  this->RunAccess->WriteToSynchFile<HK_PACKET *> (&cpu_packet->hk_packet,
+						  SynchronisedFile::CONSTANT);
+  /* zynq packet */
+  this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N1,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<uint8_t *>(&cpu_packet->zynq_packet.N2,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&cpu_packet->zynq_packet.level1_data[0],
+							     SynchronisedFile::VARIABLE_D1, ConfigOut);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&cpu_packet->zynq_packet.level2_data[0],
+							      SynchronisedFile::VARIABLE_D2, ConfigOut);
+  this->RunAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&cpu_packet->zynq_packet.level3_data,
+							      SynchronisedFile::CONSTANT);
+
   delete cpu_packet; 
   pkt_counter++;
   
@@ -420,7 +467,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_sc_file_name << std::endl;
 
   /* write the SC packet */
-  this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet);
+  this->RunAccess->WriteToSynchFile<SC_PACKET *>(sc_packet, SynchronisedFile::CONSTANT);
   delete sc_packet;
   pkt_counter++;
   
@@ -501,7 +548,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    sleep(2);
 	      
 	    /* generate sub packets */
-	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name);
+	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
 	    AnalogAcq * acq = AnalogDataCollect();
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 
@@ -509,7 +556,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    if (zynq_packet != NULL && hk_packet != NULL) {
 	    
 	      /* generate cpu packet and append to file */
-	      WriteCpuPkt(zynq_packet, hk_packet);
+	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
 	      std::remove(zynq_file_name.c_str());
@@ -581,30 +628,63 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on) {
 
   ZynqManager ZqManager;
 
   /* collect the data */
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
-  std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
-  switch(instrument_mode) {
-  case ZynqManager::MODE0:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-    break;
-  case ZynqManager::MODE1:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-    break;
-  case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-    break;
-  case ZynqManager::MODE3:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-    break;
+  /* set Zynq operational mode */
+  if (test_mode == true) {
+    /* set a mode to produce test data */
+    
+    switch(test_mode) {
+    case ZynqManager::T_MODE0:
+      ZqManager.SetTestMode(ZynqManager::T_MODE0);
+      break;
+    case ZynqManager::T_MODE1:
+      ZqManager.SetTestMode(ZynqManager::T_MODE1);
+      break;
+    case ZynqManager::T_MODE2:
+      ZqManager.SetTestMode(ZynqManager::T_MODE2);
+      break;
+    case ZynqManager::T_MODE3:
+      ZqManager.SetTestMode(ZynqManager::T_MODE3);
+      break;
+    case ZynqManager::T_MODE4:
+      ZqManager.SetTestMode(ZynqManager::T_MODE4);
+      break;
+    case ZynqManager::T_MODE5:
+      ZqManager.SetTestMode(ZynqManager::T_MODE5);
+      break;
+    case ZynqManager::T_MODE6:
+      ZqManager.SetTestMode(ZynqManager::T_MODE6);
+      break;
+    }
   }
+  else {
+
+    /* set a mode to gather real data */
+    switch(instrument_mode) {
+    case ZynqManager::MODE0:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+      break;
+    case ZynqManager::MODE1:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+      break;
+    case ZynqManager::MODE2:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+      break;
+    case ZynqManager::MODE3:
+      ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+      break;
+    }
+  }
+  
   collect_main_data.join();
-  collect_therm_data.join();
+  //collect_therm_data.join();
 
   /* never reached for infinite acquisition right now */
   ZqManager.SetInstrumentMode(ZynqManager::MODE0);
@@ -613,4 +693,159 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, boo
   return 0;
 }
 
+/* function to generate and write a fake Zynq packet */
+/* used for testing data format updates */
+int DataAcqManager::WriteFakeZynqPkt() {
 
+  ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
+  Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
+  Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
+  Config * ConfigOut = new Config();
+  
+  uint32_t i, j, k = 0;
+
+  /* set Config to dummy values */
+  ConfigOut->N1 = 4;
+  ConfigOut->N2 = 4;
+  
+  /* set data to dummy values */
+  /* N packets */
+  zynq_packet->N1 = ConfigOut->N1;
+  zynq_packet->N2 = ConfigOut->N2;
+  /* D1 */
+  zynq_d1_packet_holder->payload.ts.n_gtu = 1;
+  zynq_d1_packet_holder->payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_d1_packet_holder->payload.cathode_status[i] = 3;
+  }
+  for (i = 0; i < N_OF_FRAMES_L1_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_d1_packet_holder->payload.raw_data[i][j] = 5;
+    }
+  }
+  for (k = 0; k < zynq_packet->N1; k++) {
+    zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
+  }
+  delete zynq_d1_packet_holder;
+  /* D2 */
+  zynq_d2_packet_holder->payload.ts.n_gtu = 1;
+  zynq_d2_packet_holder->payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_d2_packet_holder->payload.cathode_status[i] = 3;
+  }
+  for (i = 0; i < N_OF_FRAMES_L2_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_d2_packet_holder->payload.int16_data[i][j] = 5;
+    }
+  }
+  for (k = 0; k < zynq_packet->N2; k++) {
+    zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
+  }
+  delete zynq_d2_packet_holder;
+  /* D3 */
+  zynq_packet->level3_data.payload.ts.n_gtu = 1;
+  zynq_packet->level3_data.payload.trig_type = 2;
+  for (i = 0; i < 12; i++) {
+    zynq_packet->level3_data.payload.cathode_status[i] = 3;
+  } 
+  for (i = 0; i < N_OF_FRAMES_L3_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      zynq_packet->level3_data.payload.int32_data[i][j] = 5;
+    }
+  }
+  
+  /* open a SynchronisedFile */
+  std::shared_ptr<SynchronisedFile> TestFile;
+  Access * TestAccess;
+ 
+  TestFile = std::make_shared<SynchronisedFile>("test_zynq_packet.dat");
+  TestAccess = new Access(TestFile);
+  
+  /* write to file "test_zynq_file.dat" in current directory */
+  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
+					  SynchronisedFile::CONSTANT);
+  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
+					  SynchronisedFile::CONSTANT);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&zynq_packet->level1_data[0],
+							SynchronisedFile::VARIABLE_D1, ConfigOut);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&zynq_packet->level2_data[0],
+							SynchronisedFile::VARIABLE_D2, ConfigOut);
+  TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&zynq_packet->level3_data,
+							SynchronisedFile::CONSTANT);
+  
+  delete zynq_packet;  
+  delete ConfigOut;
+  return 0;
+} 
+
+/* function to read the output of DataAcqManager::WriteFakeZynqPkt */
+/* used for testing the new data format */
+int DataAcqManager::ReadFakeZynqPkt() {
+
+  FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");
+  ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET;
+  uint32_t i, j, k = 0;
+
+  std::cout << "Starting to read file" << std::endl;
+  
+  /* get the size of vectors */
+  fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
+  fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
+
+  /* resize the vectors */
+  zynq_packet->level1_data.resize(zynq_packet->N1);
+  zynq_packet->level2_data.resize(zynq_packet->N2);
+  
+  /* read in the vectors */
+  for (i = 0; i < zynq_packet->level1_data.size(); i++) {
+    fread(&zynq_packet->level1_data[i], sizeof(Z_DATA_TYPE_SCI_L1_V2), 1, fake_zynq_pkt);
+  }
+  for (i = 0; i < zynq_packet->level2_data.size(); i++) {
+    fread(&zynq_packet->level2_data[i], sizeof(Z_DATA_TYPE_SCI_L2_V2), 1, fake_zynq_pkt);
+  }
+  fread(&zynq_packet->level3_data, sizeof(Z_DATA_TYPE_SCI_L3_V2), 1, fake_zynq_pkt);
+  
+  /* check against expected values */
+  if (zynq_packet->N1 != 4) {
+    std::cout << "error N1! N1 = " << zynq_packet->N1 << std::endl;
+  }
+  if (zynq_packet->N2 != 4) {
+    std::cout << "error N2! N2 = " << zynq_packet->N2 << std::endl;
+  }
+  /* D1 */
+  for (k = 0; k < zynq_packet->N1; k++) {
+    for (i = 0; i < N_OF_FRAMES_L1_V0; i++) {
+      for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+	if (zynq_packet->level1_data[k].payload.raw_data[i][j] != 5) {
+	  std::cout << "error D1 data: "<< zynq_packet->level1_data[k].payload.raw_data[i][j] << std::endl;
+	}
+      }
+    }
+  }
+  /* D2 */
+  for (k = 0; k < zynq_packet->N2; k++) {
+    for (i = 0; i < N_OF_FRAMES_L2_V0; i++) {
+      for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+	if (zynq_packet->level2_data[k].payload.int16_data[i][j] != 5) {
+	  std::cout << "error D2 data: "<< zynq_packet->level2_data[k].payload.int16_data[i][j] << std::endl;
+	}
+      }
+    }
+  }
+  
+  /* D3 */
+  for (i = 0; i < N_OF_FRAMES_L3_V0; i++) {
+    for (j = 0; j < N_OF_PIXEL_PER_PDM; j++) {
+      if (zynq_packet->level3_data.payload.int32_data[i][j] != 5) {
+	std::cout << "error D3 data: "<< zynq_packet->level3_data.payload.int32_data[i][j] << std::endl;
+      }
+    }
+  }
+    
+    std::cout << "Read test complete! All OK unless error message shows" << std::endl;
+    
+    
+    delete zynq_packet;
+    fclose(fake_zynq_pkt);
+    return 0;
+}

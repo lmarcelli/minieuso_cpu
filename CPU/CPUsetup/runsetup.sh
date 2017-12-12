@@ -111,7 +111,7 @@ echo "Setting up the aDIO port software..."
 echo "rtd_aDIO" >> /etc/modules
 make -C $HOME_DIR/aDIO_cpu/driver
 (cd $HOME_DIR/aDIO_cpu/driver && make load)
-cp $HOME_DIR/aDIO_cpu/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
+cp $HOME_DIR/aDIO_cpu/driver/rtd-aDIO.ko /lib/modules/$(uname -r)/kernel/rtd/
 (cd $HOME_DIR/aDIO_cpu/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd

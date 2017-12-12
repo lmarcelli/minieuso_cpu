@@ -55,7 +55,7 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
     /* fill the results for even values only (ignore Fahrenheit results) */
     if (i % 2 == 0) {
       temperature_results->val[j] = std::stof(match[0]);
-      std::cout << std::stof(match[0]) << std::endl;
+      //std::cout << std::stof(match[0]) << std::endl;
       /* ADD: throw exception if no readout/sensors not connected */
       j++;
     }
@@ -86,11 +86,8 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
   }
   delete temperature_results;
   
-  /* DEBUG: print to check */
-  std::cout <<  "therm_data[0]: " << therm_packet->therm_data[0] << std::endl;
-
   /* write the therm packet */
-  this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet);
+  this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet, SynchronisedFile::CONSTANT);
   delete therm_packet; 
   pkt_counter++;
 

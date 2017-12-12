@@ -28,7 +28,18 @@ public:
     MODE3 = 3,
   };
   InstrumentMode instrument_mode;
- 
+
+   enum TestMode : uint8_t {
+    T_MODE0 = 0,
+    T_MODE1 = 1,
+    T_MODE2 = 2,
+    T_MODE3 = 3,
+    T_MODE4 = 4,
+    T_MODE5 = 5,
+    T_MODE6 = 6,
+  };
+  TestMode test_mode;
+  
   ZynqManager();
   static int CheckTelnet();
   static int ConnectTelnet();
@@ -40,12 +51,8 @@ public:
   int SetDac(int dac_level);
   int AcqShot();
   InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
+  TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
-  /* depreciated commands for compatibility */
-#ifdef SINGLE_EVENT
-  int DataAcquisitionStart();
-  int DataAcquisitionStop();
-#endif /* SINGLE_EVENT */
 
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);

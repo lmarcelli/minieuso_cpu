@@ -56,7 +56,9 @@ public:
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
   int CollectSc(Config * ConfigOut);
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode, bool single_run);
+  int CollectData(Config * ConfigOut, uint8_t instrument_mode = 0, uint8_t test_mode = 0, bool single_run = false, bool test_mode_on = false);
+  static int WriteFakeZynqPkt();
+  static int ReadFakeZynqPkt();
   
 private:
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
@@ -64,11 +66,11 @@ private:
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
   SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
-  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name);
+  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
-  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet);
+  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
   int ProcessIncomingData(Config * ConfigOut, bool single_run);
   int ProcessThermData();
   

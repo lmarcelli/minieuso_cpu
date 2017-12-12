@@ -41,9 +41,6 @@ void ClearFTP() {
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
 	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on) {
 
-  /* define test mode */
-  /* TODO: move this to a command line input */
-  
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
   
@@ -166,13 +163,14 @@ int main(int argc, char ** argv) {
     clog << "info: " << logstream::info << "log created" << std::endl;
 
     if (lvps_on == true) {
-      /* testing the LVPS switching */
-      std::cout << "Teasting the LVPS switching" << std::endl;
 
-      std::cout << "switch OFF Zynq" << std::endl;
+      /* testing the LVPS switching */
+      std::cout << "Testing the LVPS switching" << std::endl;
+
+      std::cout << "switch OFF HK" << std::endl;
       Lvps.SwitchOff(LvpsManager::HK);
       sleep(2);
-      std::cout << "switch ON Zynq" << std::endl;
+      std::cout << "switch ON HK" << std::endl;
       Lvps.SwitchOn(LvpsManager::HK);
       sleep(2);
       std::cout << "switch OFF Zynq" << std::endl;
@@ -191,7 +189,7 @@ int main(int argc, char ** argv) {
     }
     
     /* make a test Zynq packet */
-    // DataAcqManager::WriteFakeZynqPkt();
+    //DataAcqManager::WriteFakeZynqPkt();
     //DataAcqManager::ReadFakeZynqPkt();
     
     return 0;
@@ -226,7 +224,9 @@ int main(int argc, char ** argv) {
   if (lvps_on == true) {
     /* turn on all systems */
     std::cout << "switching on all systems..." << std::endl;
-    Lvps.SwitchOn(LvpsManager::CAMERAS);
+    if (cam_on ==true) {
+      Lvps.SwitchOn(LvpsManager::CAMERAS);
+    }
     Lvps.SwitchOn(LvpsManager::HK);
     Lvps.SwitchOn(LvpsManager::ZYNQ);
 
@@ -290,6 +290,7 @@ int main(int argc, char ** argv) {
     std::cout << "switching off all systems..." << std::endl;
     Lvps.SwitchOff(LvpsManager::CAMERAS);
     Lvps.SwitchOff(LvpsManager::HK);
+    Lvps.SwitchOff(LvpsManager::ZYNQ);
 
     /* wait for switch off */
     sleep(5);

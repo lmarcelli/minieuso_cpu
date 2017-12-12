@@ -2,10 +2,14 @@
 
 /* default constructor */
 LvpsManager::LvpsManager() {
+
   /* status initialisation */
   this->zynq_status = UNDEF;
   this->cam_status = UNDEF;
   this->hk_status = UNDEF;
+
+  /* initialise ports */
+  
 }
 
 /* get the status of a subsystem */

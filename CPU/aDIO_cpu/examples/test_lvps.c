@@ -97,7 +97,7 @@ int main () {
   for (i = 0; i < 6; i++) {
     /* Now set only port 0.0 to output */
     /* write the direction of port 0 */
-    printf("Write the direction of port 0.0 to OUTPUT (0x01)\n");
+    printf("Write the direction of port 0.%u to OUTPUT (0x01)\n", i);
     for (Bit = 0; Bit < 8; Bit++) {
       P0Bits[Bit] = (dir_val[i] >> Bit) & 0x01;
     }

@@ -16,7 +16,7 @@ class CpuTools {
 public:
   CpuTools();
   static std::string CommandToStr(const char * cmd);
-  static std::string IntToFixedLenStr(int input, int length);
+  static std::string IntToFixedLenStr(const int input, const int length);
  
 };
 

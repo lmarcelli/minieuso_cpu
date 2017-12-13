@@ -20,7 +20,7 @@ std::string CpuTools::CommandToStr(const char * cmd) {
 }
 
 /* function to convert int to a fixed length string */
-std::string IntToFixedLenStr(const int input, const int length)
+std::string CpuTools::IntToFixedLenStr(const int input, const int length)
 {
     std::ostringstream ostr;
 

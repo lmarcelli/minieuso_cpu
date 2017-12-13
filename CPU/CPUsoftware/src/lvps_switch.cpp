@@ -35,18 +35,8 @@ int main(int argc, char ** argv) {
       }
     }
     
-    switch (subsystem) {
-    case LvpsManager::ZYNQ:
-      Lvps.SwitchOn(LvpsManager::ZYNQ);
-      break;
-    case LvpsManager::CAMERAS:
-      Lvps.SwitchOn(LvpsManager::CAMERAS);
-      break;
-    case LvpsManager::HK:
-      Lvps.SwitchOn(LvpsManager::HK);
-      break;
-    }
-  
+    Lvps.SwitchOn(subsystem);
+     
   }
   else if (input.cmdOptionExists("-off")) {
 
@@ -72,21 +62,10 @@ int main(int argc, char ** argv) {
       }
     }
 
-    switch (subsystem) {
-    case LvpsManager::ZYNQ:
-      Lvps.SwitchOff(LvpsManager::ZYNQ);
-      break;
-    case LvpsManager::CAMERAS:
-      Lvps.SwitchOff(LvpsManager::CAMERAS);
-      break;
-    case LvpsManager::HK:
-      Lvps.SwitchOff(LvpsManager::HK);
-      break;
-    }
- 
+    Lvps.SwitchOff(subsystem);
+      
   }
   else {
-    desired_status = LvpsManager::UNDEF;
 
     std::cout << "Usage: lvps_switch -on swubsystem" << std::endl;
     std::cout << "or: lvps_switch -off subsystem" << std::endl;

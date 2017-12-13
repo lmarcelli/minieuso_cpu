@@ -664,23 +664,21 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
       break;
     }
   }
-  else {
 
-    /* set a mode to gather real data */
-    switch(instrument_mode) {
-    case ZynqManager::MODE0:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-      break;
-    case ZynqManager::MODE1:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-      break;
-    case ZynqManager::MODE2:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-      break;
-    case ZynqManager::MODE3:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-      break;
-    }
+  /* set a mode to start data gathering */
+  switch(instrument_mode) {
+  case ZynqManager::MODE0:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+    break;
+  case ZynqManager::MODE1:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+    break;
+  case ZynqManager::MODE2:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+    break;
+  case ZynqManager::MODE3:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+    break;
   }
   
   collect_main_data.join();

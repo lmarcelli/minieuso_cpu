@@ -2,15 +2,23 @@
 
 /* default constructor */
 LvpsManager::LvpsManager() {
+
   /* status initialisation */
+  this->zynq_status = UNDEF;
   this->cam_status = UNDEF;
   this->hk_status = UNDEF;
+
+  /* initialise ports */
+  
 }
 
 /* get the status of a subsystem */
 LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
   
   switch (sub_system) {
+  case ZYNQ:
+    return this->zynq_status;
+    break;
   case CAMERAS:
     return this->cam_status;
     break;
@@ -27,6 +35,10 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
   clog << "info: " << logstream::info << "switching on " << sub_system << std::endl;
 
   switch (sub_system) {
+  case ZYNQ:
+    SetPulseP0(ZYNQ_PORT_ON);
+    this->zynq_status = ON;
+    break;
   case CAMERAS:
     SetPulseP0(CAMERA_PORT_ON); 
     this->cam_status = ON;
@@ -46,6 +58,10 @@ int LvpsManager::SwitchOff(SubSystem sub_system) {
   clog << "info: " << logstream::info << "switching off " << sub_system << std::endl;
   
   switch (sub_system) {
+  case ZYNQ:
+    SetPulseP0(ZYNQ_PORT_OFF);
+    this->zynq_status = OFF;
+    break;
   case CAMERAS:
     SetPulseP0(CAMERA_PORT_OFF); 
     this->cam_status = OFF;

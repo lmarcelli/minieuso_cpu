@@ -23,6 +23,10 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 
+/* number of seconds CPU waits for other systems to boot */
+#define BOOT_TIME 4
+
+/* class to parse command line input to program */
 class InputParser{
 public:
   InputParser(int &argc, char **argv) {
@@ -48,13 +52,14 @@ private:
   std::vector <std::string> tokens;
 };
 
-
+/* functions used in main program */
 void SignalHandler(int signum);
 void ClearFTP();
-int single_acq_run(UsbManager * UManager, Config * ConfigOut,
+int acq_run(UsbManager * UManager, Config * ConfigOut,
 		   ZynqManager * ZqManager, DataAcqManager * DaqManager,
 		   CamManager * CManager, bool hv_on, bool trig_on,
-		   bool cam_on, bool sc_on, bool single_run, bool test_zynq_on);
+		   bool cam_on, bool sc_on, bool single_run,
+		   bool test_zynq_on, uint8_t test_mode_num, bool keep_zynq_pkt);
 
 #endif
 /* _MECONTROL_H */

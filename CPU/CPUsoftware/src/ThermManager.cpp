@@ -2,7 +2,13 @@
 
 /* default constructor */
 ThermManager::ThermManager() { 
+
   this->cpu_file_is_set = false;
+
+  /* initialise the thermistors */
+  const char * cmd = "digitemp -s /dev/ttyS0 -i";
+  std::string output = CpuTools::CommandToStr(cmd);
+  
 }
 
 /* build the cpu packet header */

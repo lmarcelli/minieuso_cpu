@@ -529,7 +529,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	  /* process new file */
 	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
-	  event_name = event->name;
+	  std::string event_name = event->name;
 	  
 	  /* for CPU run files */
 	  if (event_name.compare(0, 3, "frm") == 0) {
@@ -548,7 +548,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      this->ThManager->cond_var.notify_all();
 
 	      /* get number of frm */
-	      frm_num = std::stoi(event->name.substr(7, 14));
+	      frm_num = std::stoi(event->name.substr(7, 14]));
 	      std::cout << "frame number:  " << frm_num << std::endl;
 	    }
 
@@ -585,6 +585,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    else {
 	      /* skip this packet */
 	      bad_packet_counter++;
+	      frm_num++;
 	    }
 
 	  }

@@ -495,7 +495,7 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
 }
 
 
-/* set the acquisition mode */
+/* set the test acquisition mode */
 ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode) {
 
   /* definitions */

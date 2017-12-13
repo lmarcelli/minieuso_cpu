@@ -646,13 +646,15 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on, bool keep_zynq_pkt) {
 
   ZynqManager ZqManager;
+  std::cout << "Collecting data" << std::endl;
+  std::cout << "test_mode_on: " << test_mode_on << std::endl;
 
   /* collect the data */
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run, keep_zynq_pkt);
   //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
   /* set Zynq operational mode */
-  if (test_mode == true) {
+  if (test_mode_on == true) {
     /* set a mode to produce test data */
     
     switch(test_mode) {

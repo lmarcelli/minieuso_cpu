@@ -475,7 +475,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -559,7 +559,9 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
-	      std::remove(zynq_file_name.c_str());
+	      if (!keep_zynq_pkt) {
+		std::remove(zynq_file_name.c_str());
+	      }
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
@@ -620,7 +622,7 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false, false);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -628,12 +630,12 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on, bool keep_zynq_pkt) {
 
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
+  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run, keep_zynq_pkt);
   //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
   /* set Zynq operational mode */

@@ -39,7 +39,7 @@ void ClearFTP() {
 
 /* an acquisition run */
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on) {
+	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on, bool keep_zynq_pkt) {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -73,7 +73,7 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_zynq_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_zynq_on);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_zynq_on, keep_zynq_pkt);
   }
 
   /* turn off the HV */
@@ -109,6 +109,7 @@ int main(int argc, char ** argv) {
   bool sc_on = false;
   bool single_run = false; 
   bool test_zynq_on = false;
+  bool keep_zynq_pkt = false;
   
   if(input.cmdOptionExists("-hv")){
     hv_on = true;
@@ -137,6 +138,10 @@ int main(int argc, char ** argv) {
   if(input.cmdOptionExists("-test_zynq")){
     test_zynq_on = true;
   }
+  if(input.cmdOptionExists("-keep_zynq_pkt")){
+    keep_zynq_pkt = true;
+  }
+  
   
   int dv = -1;
   const std::string &dynode_voltage = input.getCmdOption("-dv");
@@ -283,7 +288,7 @@ int main(int argc, char ** argv) {
   /* data acquisition */
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 	  &CManager, hv_on, trig_on, cam_on, sc_on,
-	  single_run, test_zynq_on);
+	  single_run, test_zynq_on, keep_zynq_pkt);
 
   if (lvps_on == true) {
     /* turn off all systems */

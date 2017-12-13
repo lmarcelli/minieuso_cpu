@@ -569,7 +569,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
-	      if (!keep_zynq_pkt) {
+	      if (!keep_zynq_pkt) {-
 		std::remove(zynq_file_name.c_str());
 	      }
 	      

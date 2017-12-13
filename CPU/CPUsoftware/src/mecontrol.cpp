@@ -19,7 +19,7 @@ void SignalHandler(int signum) {
   std::cout << "Acquisition stopped" << std::endl;  
 
   /* turn off the HV */
-  ZynqManager::HvpsTurnOff();
+  //ZynqManager::HvpsTurnOff();
   
   /* terminate the program */
   exit(signum);  

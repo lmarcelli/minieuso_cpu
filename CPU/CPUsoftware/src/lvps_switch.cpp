@@ -7,14 +7,12 @@ int main(int argc, char ** argv) {
   InputParser input(argc, argv);
 
   /* initialise */
-  LvpsManager::Status desired_status = LvpsManager::UNDEF;
   LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
   LvpsManager Lvps;
   
   /* parse command line options */
   /* set desired status */
   if(input.cmdOptionExists("-on")){
-    desired_status = LvpsManager::ON;
 
     const std::string & subsystem_str = input.getCmdOption("-on");
     if (!subsystem_str.empty()) {
@@ -51,7 +49,6 @@ int main(int argc, char ** argv) {
   
   }
   else if (input.cmdOptionExists("-off")) {
-    desired_status = LvpsManager::OFF;
 
     const std::string & subsystem_str = input.getCmdOption("-off");
 

@@ -3,6 +3,8 @@
 
 #include <cstdio>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -14,6 +16,7 @@ class CpuTools {
 public:
   CpuTools();
   static std::string CommandToStr(const char * cmd);
+  static std::string IntToFixedLenStr(const int input, const int length);
  
 };
 

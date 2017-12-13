@@ -475,7 +475,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -499,6 +499,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 
   int packet_counter = 0;
   int bad_packet_counter = 0;
+  int frm_num = 0;
+  
+  std::string zynq_filename_stem = "frm_cc_";
+  std::string zynq_filename_end = ".dat";
     
   while(1) {
     
@@ -530,21 +534,27 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	  /* for CPU run files */
 	  if (event_name.compare(0, 3, "frm") == 0) {
 
-	    /* new run file every RUN_SIZE packets*/
+	    /* new run file every RUN_SIZE packets */
 	    if (packet_counter == RUN_SIZE) {
 	      CloseCpuRun(CPU);
 	      packet_counter = 0;
 	    }
 	    if (packet_counter == 0) {
+	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
 	      /* notify the ThermManager */
 	      this->ThManager->cpu_file_is_set = true;
 	      this->ThManager->cond_var.notify_all();
-	      
+
+	      /* get number of frm */
+	      frm_num = std::stoi(event_name.substr(7, 14));
+	      std::cout << "frame number:  " << frm_num << std::endl;
 	    }
-	    
-	    zynq_file_name = data_str + "/" + event->name;
+
+	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
+	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
+	    std::cout << "zynq_file_name: " << zynq_file_name << std::endl;
 	    sleep(2);
 	      
 	    /* generate sub packets */
@@ -553,16 +563,20 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 
 	    /* check for NULL packets */
-	    if (zynq_packet != NULL && hk_packet != NULL) {
+	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
 	    
 	      /* generate cpu packet and append to file */
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
-	      std::remove(zynq_file_name.c_str());
+	      if (!keep_zynq_pkt) {-
+		std::remove(zynq_file_name.c_str());
+	      }
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
+	      frm_num++;
+	      
 	      /* leave loop for a single run file */
 	      if (packet_counter == 25 && single_run == true) {
 		break;
@@ -571,6 +585,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run) {
 	    else {
 	      /* skip this packet */
 	      bad_packet_counter++;
+	      frm_num++;
 	    }
 
 	  }
@@ -620,7 +635,7 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false, false);
   ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -628,12 +643,12 @@ int DataAcqManager::CollectSc(Config * ConfigOut) {
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on) {
+int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on, bool keep_zynq_pkt) {
 
   ZynqManager ZqManager;
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run);
+  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run, keep_zynq_pkt);
   //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
 
   /* set Zynq operational mode */
@@ -664,23 +679,21 @@ int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uin
       break;
     }
   }
-  else {
 
-    /* set a mode to gather real data */
-    switch(instrument_mode) {
-    case ZynqManager::MODE0:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-      break;
-    case ZynqManager::MODE1:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-      break;
-    case ZynqManager::MODE2:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-      break;
-    case ZynqManager::MODE3:
-      ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-      break;
-    }
+  /* set a mode to start data gathering */
+  switch(instrument_mode) {
+  case ZynqManager::MODE0:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+    break;
+  case ZynqManager::MODE1:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
+    break;
+  case ZynqManager::MODE2:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
+    break;
+  case ZynqManager::MODE3:
+    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
+    break;
   }
   
   collect_main_data.join();
@@ -762,17 +775,17 @@ int DataAcqManager::WriteFakeZynqPkt() {
   TestAccess = new Access(TestFile);
   
   /* write to file "test_zynq_file.dat" in current directory */
-  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
-					  SynchronisedFile::CONSTANT);
-  TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
-					  SynchronisedFile::CONSTANT);
+  //TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N1,
+  //					  SynchronisedFile::CONSTANT);
+  //TestAccess->WriteToSynchFile<uint8_t *>(&zynq_packet->N2,
+  //					  SynchronisedFile::CONSTANT);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L1_V2 *>(&zynq_packet->level1_data[0],
 							SynchronisedFile::VARIABLE_D1, ConfigOut);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L2_V2 *>(&zynq_packet->level2_data[0],
 							SynchronisedFile::VARIABLE_D2, ConfigOut);
   TestAccess->WriteToSynchFile<Z_DATA_TYPE_SCI_L3_V2 *>(&zynq_packet->level3_data,
 							SynchronisedFile::CONSTANT);
-  
+  TestAccess->CloseSynchFile();
   delete zynq_packet;  
   delete ConfigOut;
   return 0;
@@ -789,9 +802,11 @@ int DataAcqManager::ReadFakeZynqPkt() {
   std::cout << "Starting to read file" << std::endl;
   
   /* get the size of vectors */
-  fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
-  fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
-
+  //fread(&zynq_packet->N1, sizeof(zynq_packet->N1), 1, fake_zynq_pkt);
+  //fread(&zynq_packet->N2, sizeof(zynq_packet->N2), 1, fake_zynq_pkt);
+  zynq_packet->N1 = 4;
+  zynq_packet->N2 = 4;
+  
   /* resize the vectors */
   zynq_packet->level1_data.resize(zynq_packet->N1);
   zynq_packet->level2_data.resize(zynq_packet->N2);

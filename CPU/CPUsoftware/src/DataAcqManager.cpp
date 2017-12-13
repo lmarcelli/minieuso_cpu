@@ -552,7 +552,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      std::cout << "frame number:  " << frm_num << std::endl;
 	    }
 
-	    frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
+	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
 	    std::cout << "zynq_file_name: " << zynq_file_name << std::endl;
 	    sleep(2);

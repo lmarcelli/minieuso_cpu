@@ -39,7 +39,7 @@ void ClearFTP() {
 
 /* an acquisition run */
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on, bool keep_zynq_pkt) {
+	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on,  uint8_t test_mode_num, bool keep_zynq_pkt) {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -73,7 +73,7 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
     DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_zynq_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, ZynqManager::T_MODE3, single_run, test_zynq_on, keep_zynq_pkt);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, test_mode_num, single_run, test_zynq_on, keep_zynq_pkt);
   }
 
   /* turn off the HV */
@@ -152,6 +152,11 @@ int main(int argc, char ** argv) {
   const std::string &hv_dac = input.getCmdOption("-hvdac");
   if (!hv_dac.empty()){
     hvdac = std::stoi(hv_dac);
+  }
+  uint8_t test_mode_num = -1;
+  const std::string &test_mode = input.getCmdOption("-test_zynq");
+  if (!test_mode.empty()){
+    test_mode_num = std::stoi(test_mode);
   }
 
 
@@ -288,7 +293,7 @@ int main(int argc, char ** argv) {
   /* data acquisition */
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 	  &CManager, hv_on, trig_on, cam_on, sc_on,
-	  single_run, test_zynq_on, keep_zynq_pkt);
+	  single_run, test_zynq_on, test_mode_num, keep_zynq_pkt);
 
   if (lvps_on == true) {
     /* turn off all systems */

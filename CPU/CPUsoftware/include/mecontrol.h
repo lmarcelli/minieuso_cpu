@@ -55,11 +55,11 @@ private:
 /* functions used in main program */
 void SignalHandler(int signum);
 void ClearFTP();
-int single_acq_run(UsbManager * UManager, Config * ConfigOut,
+int acq_run(UsbManager * UManager, Config * ConfigOut,
 		   ZynqManager * ZqManager, DataAcqManager * DaqManager,
 		   CamManager * CManager, bool hv_on, bool trig_on,
 		   bool cam_on, bool sc_on, bool single_run,
-		   bool test_zynq_on, bool keep_zynq_pkt);
+		   bool test_zynq_on, uint8_t test_mode_num, bool keep_zynq_pkt);
 
 #endif
 /* _MECONTROL_H */

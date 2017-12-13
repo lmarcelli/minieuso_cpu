@@ -15,6 +15,7 @@
 #include "data_format.h"
 #include "ConfigManager.h"
 #include "SynchronisedFile.h"
+#include "CpuTools.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"

@@ -18,3 +18,16 @@ std::string CpuTools::CommandToStr(const char * cmd) {
   }
   return result;
 }
+
+/* function to convert int to a fixed length string */
+std::string IntToFixedLenStr(const int input, const int length)
+{
+    std::ostringstream ostr;
+
+    if (input < 0)
+        ostr << '-';
+
+    ostr << std::setfill('0') << std::setw(length) << (input < 0 ? -input : input);
+
+    return ostr.str();
+}

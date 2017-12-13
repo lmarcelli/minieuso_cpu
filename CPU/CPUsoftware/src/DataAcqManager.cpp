@@ -499,6 +499,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
   int packet_counter = 0;
   int bad_packet_counter = 0;
+  int frm_num = 0;
+  
+  std::string zynq_filename_stem = "frm_cc_";
+  std::string zynq_filename_end = ".dat";
     
   while(1) {
     
@@ -530,21 +534,27 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	  /* for CPU run files */
 	  if (event_name.compare(0, 3, "frm") == 0) {
 
-	    /* new run file every RUN_SIZE packets*/
+	    /* new run file every RUN_SIZE packets */
 	    if (packet_counter == RUN_SIZE) {
 	      CloseCpuRun(CPU);
 	      packet_counter = 0;
 	    }
 	    if (packet_counter == 0) {
+	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
 	      /* notify the ThermManager */
 	      this->ThManager->cpu_file_is_set = true;
 	      this->ThManager->cond_var.notify_all();
-	      
+
+	      /* get number of frm */
+	      frm_num = std::stoi(event->name.substr(7, 14));
+	      std::cout << "frame number:  " << frm_num << std::endl;
 	    }
-	    
-	    zynq_file_name = data_str + "/" + event->name;
+
+	    frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
+	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
+	    std::cout << "zynq_file_name: " << zynq_file_name << std::endl;
 	    sleep(2);
 	      
 	    /* generate sub packets */
@@ -553,7 +563,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
 
 	    /* check for NULL packets */
-	    if (zynq_packet != NULL && hk_packet != NULL) {
+	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
 	    
 	      /* generate cpu packet and append to file */
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
@@ -565,6 +575,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
+	      frm_num++;
+	      
 	      /* leave loop for a single run file */
 	      if (packet_counter == 25 && single_run == true) {
 		break;

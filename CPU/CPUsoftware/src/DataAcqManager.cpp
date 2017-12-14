@@ -553,8 +553,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
 	      /* get number of frm */
 	      frm_num = std::stoi(event_name.substr(7, 14));
-	      pkt_counter++;
-	    }
+
+	      /* increment the packet counter */
+	      packet_counter++;
+            }
 
 	    /* all other packets */
 	    else {
@@ -583,8 +585,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      
 		/* increment the packet counter */
 		packet_counter++;
-		frm_num++;
-		
+        	
 		/* leave loop for a single run file */
 		if (packet_counter == 25 && single_run == true) {
 		  break;
@@ -595,9 +596,11 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      else {
 		/* skip this packet */
 		bad_packet_counter++;
-		frm_num++;
 	      }
 	    }
+
+	    /* move to the next packet */
+	    frm_num++;
 	  }
 
 	  /* S-curve packets */

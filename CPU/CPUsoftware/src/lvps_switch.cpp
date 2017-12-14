@@ -12,17 +12,18 @@ int main(int argc, char ** argv) {
   
   /* parse command line options */
   /* set desired status */
+  /*
   if(input.cmdOptionExists("-on")){
 
     const std::string & subsystem_str = input.getCmdOption("-on");
     if (!subsystem_str.empty()) {
-      if (subsystem_str.compare("zynq")) {
+      if (subsystem_str.compare(0, 4, "zynq")) {
 	subsystem = LvpsManager::ZYNQ;
       }
-      else if (subsystem_str.compare("cam")) {
+      else if (subsystem_str.compare(0, 3, "cam")) {
 	subsystem = LvpsManager::CAMERAS;
       }
-      else if (subsystem_str.compare("hk")) {
+      else if (subsystem_str.compare(0, 2, "hk")) {
 	subsystem = LvpsManager::HK;
       }
       else {
@@ -34,9 +35,9 @@ int main(int argc, char ** argv) {
 	
       }
     }
-    
-    Lvps.SwitchOn(subsystem);
-     
+  */
+  Lvps.SwitchOn(subsystem);
+  /*   
   }
   else if (input.cmdOptionExists("-off")) {
 
@@ -73,6 +74,6 @@ int main(int argc, char ** argv) {
     std::cout << "subsytems: zynq, cam or hk" << std::endl;
     
   }
-  
+  */
   return 0;
 }

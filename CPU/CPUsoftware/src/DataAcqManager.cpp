@@ -534,8 +534,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	  /* for files from Zynq (frm_cc_XXXXXXXX.dat) */
 	  if (event_name.compare(0, 3, "frm") == 0) {
 
-	    /* new run file every RUN_SIZE packets */
-	    if (packet_counter == RUN_SIZE + 1) {
+	    /* new run file every RUN_SIZE + 1 packets */
+	    if (packet_counter == RUN_SIZE + 2) {
 	      CloseCpuRun(CPU);
 	      packet_counter = 0;
 	    }
@@ -587,7 +587,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 		packet_counter++;
         	
 		/* leave loop for a single run file */
-		if (packet_counter == 25 && single_run == true) {
+		if (packet_counter == RUN_SIZE + 1 && single_run == true) {
 		  break;
 		}
 	      }

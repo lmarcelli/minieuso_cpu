@@ -503,8 +503,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
   /* to read out previous packet but not skip any */
   int frm_num = 0;
-  bool first_loop = true;
-  
+
+  /* handling the zynq file names */
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
     

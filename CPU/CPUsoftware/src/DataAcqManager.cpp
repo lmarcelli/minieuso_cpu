@@ -247,9 +247,9 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   
  
   /* DEBUG: print records to check */
-  std::cout << "header L1 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
-  std::cout << "payload_size L1 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
-  std::cout << "n_gtu L1 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
+  std::cout << "header D1 P0 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
+  std::cout << "payload_size D1 P0 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
+  std::cout << "n_gtu D1 P0 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
 
   /* close the zynq file */
   fclose(ptr_zfile);
@@ -503,7 +503,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
   /* to read out previous packet but not skip any */
   int frm_num = 0;
-
+  bool first_loop = true;
+  
   /* handling the zynq file names */
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
@@ -541,6 +542,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    /* new run file every RUN_SIZE + 1 packets */
 	    if (packet_counter == RUN_SIZE + 1) {
 	      CloseCpuRun(CPU);
+
+	      /* reset the packet counter */
 	      packet_counter = 0;
 	    }
 
@@ -555,12 +558,15 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      this->ThManager->cpu_file_is_set = true;
 	      this->ThManager->cond_var.notify_all();
 
+	      if (first_loop) {
 	      /* get number of frm */
-	      frm_num = std::stoi(event_name.substr(7, 14));
-
+		frm_num = std::stoi(event_name.substr(7, 14));
+		frm_num++; 
+		first_loop = false;
+	      }
+	      
 	      /* increment the packet counter */
 	      packet_counter++;
-	      frm_num++; 
 	    }
 
 	    /* all other packets */
@@ -569,7 +575,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      /* read out the previous packet */
 	      std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	      zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
-	      std::cout << "zynq_file_name: " << zynq_file_name << std::endl;
 	      sleep(2);
 	    
 	      /* generate sub packets */

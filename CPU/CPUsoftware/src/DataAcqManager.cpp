@@ -553,6 +553,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
 	      /* get number of frm */
 	      frm_num = std::stoi(event_name.substr(7, 14));
+	      pkt_counter++;
 	    }
 
 	    /* all other packets */

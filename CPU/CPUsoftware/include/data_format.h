@@ -121,7 +121,7 @@ typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 16 bytes */
   CpuTimeStamp cpu_time; /* 4 bytes */
-  HK_PACKET hk_packet; /* 294 bytes */
+  HK_PACKET hk_packet; /* 296 bytes */
   ZYNQ_PACKET zynq_packet; /* variable size */
 } CPU_PACKET;
 

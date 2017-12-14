@@ -27,6 +27,7 @@
 
 // Common Zynq board header
 // for all packets with scientific and configuration data
+/* 8 bytes */
 typedef struct
 {
 	uint32_t header; // 'Z'(31:24) | instrument_id(23:16) | data_type(15:8) | packet_ver(7:0)
@@ -74,7 +75,7 @@ typedef struct
 //	uint64_t n_gtu;
 //} TimeStamp_symplified;
 
-
+/* 8 bytes */
 typedef struct
 {
 	uint32_t n_gtu;
@@ -152,17 +153,17 @@ typedef struct
 #define TRIG_TYPE_SELF		2 /* Issued by Trigger block*/
 #define TRIG_TYPE_AUTO		4 /**/
 
-
+/* 294936 bytes */
 typedef struct
 {
 	// Unix timestamp
-	TimeStamp_dual ts;
+  TimeStamp_dual ts; /* 8 bytes */
 	// Flags
-	uint32_t trig_type;
+  uint32_t trig_type; /* 4 bytes */
 	// Cathode status
-	uint8_t cathode_status[12];
+  uint8_t cathode_status[12]; /* 12 bytes */ 
 	// raw data (2.5 us GTU)
-	uint8_t raw_data [N_OF_FRAMES_L1_V0][N_OF_PIXEL_PER_PDM];
+  uint8_t raw_data [N_OF_FRAMES_L1_V0][N_OF_PIXEL_PER_PDM]; /* 294912 bytes */
 } DATA_TYPE_SCI_L1_V2;
 
 // At the end of lifecycle Zynq packs DATA_TYPE_SCI_L1 structures in the structure Z_DATA_TYPE_SCI_L1 (with header)
@@ -170,8 +171,8 @@ typedef struct
 
 typedef struct
 {
-	ZynqBoardHeader zbh;
-	DATA_TYPE_SCI_L1_V2 payload;
+  ZynqBoardHeader zbh; /* 8 bytes */
+  DATA_TYPE_SCI_L1_V2 payload; /* 294936 bytes */
 } Z_DATA_TYPE_SCI_L1_V2;
 
 

@@ -535,7 +535,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	  if (event_name.compare(0, 3, "frm") == 0) {
 
 	    /* new run file every RUN_SIZE packets */
-	    if (packet_counter == RUN_SIZE) {
+	    if (packet_counter == RUN_SIZE + 1) {
 	      CloseCpuRun(CPU);
 	      packet_counter = 0;
 	    }

@@ -545,11 +545,18 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
 	      /* reset the packet counter */
 	      packet_counter = 0;
+	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
+	      std::cout << "frm_num is " << frm_num << std::endl;
+	     
 	    }
 
 	    /* first packet */
 	    else if (packet_counter == 0) {
 
+	      packet_counter = 0;
+	      std::cout << "PACKET COUNTER is 0" << std::endl;
+	      std::cout << "frm_num is " << frm_num << std::endl;
+	     
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
@@ -563,6 +570,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 		frm_num = std::stoi(event_name.substr(7, 14));
 		frm_num++; 
 		first_loop = false;
+		std::cout << "set first loop false" << std::endl;
 	      }
 	      
 	      /* increment the packet counter */
@@ -572,6 +580,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    /* all other packets */
 	    else {
 
+	      packet_counter = 0;
+	      std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
+	      std::cout << "frm_num is " << frm_num << std::endl;
+	     
 	      /* read out the previous packet */
 	      std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	      zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;

@@ -551,7 +551,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    }
 
 	    /* first packet */
-	    else if (packet_counter == 0) {
+	    if (packet_counter == 0) {
 
 	      std::cout << "PACKET COUNTER is 0" << std::endl;
 	      std::cout << "frm_num is " << frm_num << std::endl;
@@ -572,57 +572,54 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 		std::cout << "set first loop false" << std::endl;
 	      }
 	      
-	      /* increment the packet counter */
-	      packet_counter++;
 	    }
 
-	    /* all other packets */
-	    else {
-
-	      std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
-	     
-	      /* read out the previous packet */
-	      std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
-	      zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
-	      sleep(2);
+	    /* read out a packet */  
+	    std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
+	    std::cout << "frm_num is " << frm_num << std::endl;
 	    
-	      /* generate sub packets */
-	      ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
-	      AnalogAcq * acq = AnalogDataCollect();
-	      HK_PACKET * hk_packet = AnalogPktReadOut(acq);
-
-	      /* check for NULL packets */
-	      if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
-		
-		/* generate cpu packet and append to file */
-		WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
-		
-		/* delete upon completion */
-		if (!keep_zynq_pkt) {
-		  std::remove(zynq_file_name.c_str());
-		}
+	    /* read out the previous packet */
+	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
+	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
+	    sleep(2);
+	    
+	    /* generate sub packets */
+	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
+	    AnalogAcq * acq = AnalogDataCollect();
+	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
+	    
+	    /* check for NULL packets */
+	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
 	      
-		/* increment the packet counter */
-		packet_counter++;
-        	frm_num++;
+	      /* generate cpu packet and append to file */
+	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
+	      
+	      /* delete upon completion */
+	      if (!keep_zynq_pkt) {
+		std::remove(zynq_file_name.c_str());
+	      }
+	      
+	      /* increment the packet counter */
+	      packet_counter++;
+	      frm_num++;
 		
-		/* leave loop for a single run file */
-		if (packet_counter == RUN_SIZE + 2 && single_run == true) {
-		  break;
+	      /* leave loop for a single run file */
+	      if (packet_counter == RUN_SIZE + 2 && single_run == true) {
+		break;
 		}
-	      }
+	    }
 	    
-	      /* if NULL packets */
-	      else {
-		/* skip this packet */
-		bad_packet_counter++;
-		frm_num++;
-	      }
+	    /* if NULL packets */
+	    else {
+	      /* skip this packet */
+	      bad_packet_counter++;
+	      frm_num++;
 	    }
 
 	  }
-
+	  
+	
+	  
 	  /* S-curve packets */
 	  else if (event_name.compare(0, 2, "sc") == 0) {
 	    

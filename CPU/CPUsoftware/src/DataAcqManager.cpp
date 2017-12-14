@@ -497,9 +497,13 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
   clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
   wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
 
+  /* to keep track of good and bad packets */
   int packet_counter = 0;
   int bad_packet_counter = 0;
+
+  /* to read out previous packet but not skip any */
   int frm_num = 0;
+  bool first_loop = true;
   
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
@@ -535,13 +539,13 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	  if (event_name.compare(0, 3, "frm") == 0) {
 
 	    /* new run file every RUN_SIZE + 1 packets */
-	    if (packet_counter == RUN_SIZE + 2) {
+	    if (packet_counter == RUN_SIZE + 1) {
 	      CloseCpuRun(CPU);
 	      packet_counter = 0;
 	    }
 
 	    /* first packet */
-	    if (packet_counter == 0) {
+	    else if (packet_counter == 0) {
 
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
@@ -556,7 +560,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 
 	      /* increment the packet counter */
 	      packet_counter++;
-            }
+	      frm_num++; 
+	    }
 
 	    /* all other packets */
 	    else {
@@ -585,9 +590,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      
 		/* increment the packet counter */
 		packet_counter++;
-        	
+        	frm_num++;
+		
 		/* leave loop for a single run file */
-		if (packet_counter == RUN_SIZE + 1 && single_run == true) {
+		if (packet_counter == RUN_SIZE + 2 && single_run == true) {
 		  break;
 		}
 	      }
@@ -596,11 +602,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      else {
 		/* skip this packet */
 		bad_packet_counter++;
+		frm_num++;
 	      }
 	    }
 
-	    /* move to the next packet */
-	    frm_num++;
 	  }
 
 	  /* S-curve packets */

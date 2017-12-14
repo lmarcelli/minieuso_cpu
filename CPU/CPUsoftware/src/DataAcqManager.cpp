@@ -553,7 +553,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    /* first packet */
 	    else if (packet_counter == 0) {
 
-	      packet_counter = 0;
 	      std::cout << "PACKET COUNTER is 0" << std::endl;
 	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
@@ -580,7 +579,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	    /* all other packets */
 	    else {
 
-	      packet_counter = 0;
 	      std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
 	      std::cout << "frm_num is " << frm_num << std::endl;
 	     

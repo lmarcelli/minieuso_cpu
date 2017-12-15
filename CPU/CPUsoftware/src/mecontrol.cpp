@@ -130,23 +130,7 @@ int main(int argc, char ** argv) {
     cam_on = true;
   }
   if(input.cmdOptionExists("-lvps")){
-
-    lvps_on = true;
-    
-    LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
-
-    const std::string & subsystem_str = input.getCmdOption("-on");
-    if (!subsystem_str.empty()) {
-      if (subsystem_str.compare(0, 4, "zynq")) {
-	subsystem = LvpsManager::ZYNQ;
-      }
-      else if (subsystem_str.compare(0, 3, "cam")) {
-	subsystem = LvpsManager::CAMERAS;
-      }
-      else if (subsystem_str.compare(0, 2, "hk")) {
-	subsystem = LvpsManager::HK;
-      }
-
+    lvps_on = true;  
   }
   if(input.cmdOptionExists("-scurve")){
     sc_on = true;
@@ -190,6 +174,22 @@ int main(int argc, char ** argv) {
     clog << "info: " << logstream::info << "log created" << std::endl;
 
     if (lvps_on == true) {
+
+      /* get subsystem */
+      LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
+      
+      const std::string & subsystem_str = input.getCmdOption("-on");
+      if (!subsystem_str.empty()) {
+	if (subsystem_str.compare(0, 4, "zynq")) {
+	  subsystem = LvpsManager::ZYNQ;
+	}
+	else if (subsystem_str.compare(0, 3, "cam")) {
+	  subsystem = LvpsManager::CAMERAS;
+	}
+	else if (subsystem_str.compare(0, 2, "hk")) {
+	  subsystem = LvpsManager::HK;
+	}
+      }
 
       /* testing the LVPS switching */
 
@@ -322,7 +322,6 @@ int main(int argc, char ** argv) {
   /* clean up */
   delete ConfigOut;
   return 0; 
-}
-
+  }
 
   

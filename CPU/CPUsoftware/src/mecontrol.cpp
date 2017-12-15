@@ -130,7 +130,23 @@ int main(int argc, char ** argv) {
     cam_on = true;
   }
   if(input.cmdOptionExists("-lvps")){
+
     lvps_on = true;
+    
+    LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
+
+    const std::string & subsystem_str = input.getCmdOption("-on");
+    if (!subsystem_str.empty()) {
+      if (subsystem_str.compare(0, 4, "zynq")) {
+	subsystem = LvpsManager::ZYNQ;
+      }
+      else if (subsystem_str.compare(0, 3, "cam")) {
+	subsystem = LvpsManager::CAMERAS;
+      }
+      else if (subsystem_str.compare(0, 2, "hk")) {
+	subsystem = LvpsManager::HK;
+      }
+
   }
   if(input.cmdOptionExists("-scurve")){
     sc_on = true;
@@ -160,6 +176,7 @@ int main(int argc, char ** argv) {
   }
 
 
+
   /* debug/test mode */
   /*-----------------*/
   if(debug_mode == true) {
@@ -175,26 +192,23 @@ int main(int argc, char ** argv) {
     if (lvps_on == true) {
 
       /* testing the LVPS switching */
+
       std::cout << "Testing the LVPS switching" << std::endl;
 
-      std::cout << "switch OFF HK" << std::endl;
-      Lvps.SwitchOff(LvpsManager::HK);
+      Lvps.SwitchOn(subsystem);
       sleep(2);
-      std::cout << "switch ON HK" << std::endl;
-      Lvps.SwitchOn(LvpsManager::HK);
+      Lvps.SwitchOff(subsystem);
       sleep(2);
-      std::cout << "switch OFF Zynq" << std::endl;
-      Lvps.SwitchOff(LvpsManager::ZYNQ);
-      sleep(2);
-      std::cout << "switch ON Zynq" << std::endl;
+      /*
       Lvps.SwitchOn(LvpsManager::ZYNQ);
       sleep(2);
-      std::cout << "switch OFF cameras" << std::endl;
-      Lvps.SwitchOff(LvpsManager::CAMERAS);
+      Lvps.SwitchOff(LvpsManager::ZYNQ);
       sleep(2);
-      std::cout << "switch ON cameras" << std::endl;
       Lvps.SwitchOn(LvpsManager::CAMERAS);
       sleep(2);
+      Lvps.SwitchOff(LvpsManager::CAMERAS);
+      sleep(2);
+      */
       
     }
     

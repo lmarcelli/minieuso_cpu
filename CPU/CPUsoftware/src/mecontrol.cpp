@@ -180,15 +180,15 @@ int main(int argc, char ** argv) {
       
       const std::string & subsystem_str = input.getCmdOption("-lvps");
       if (!subsystem_str.empty()) {
-	if (subsystem_str.compare(0, 4, "zynq")) {
+	if (subsystem_str == "zynq") {
 	  subsystem = LvpsManager::ZYNQ;
 	  std::cout << "Switching ZYNQ" << std::endl;
 	}
-	else if (subsystem_str.compare(0, 3, "cam")) {
+	else if (subsystem_str == "cam") {
 	  subsystem = LvpsManager::CAMERAS;
 	  std::cout << "Switching CAMERAS" << std::endl;
 	}
-	else if (subsystem_str.compare(0, 2, "hk")) {
+	else if (subsystem_str == "hk") {
 	  subsystem = LvpsManager::HK;
 	  std::cout << "Switching HK" << std::endl;
 	}

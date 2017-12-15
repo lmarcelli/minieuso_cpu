@@ -15,12 +15,12 @@
 #define ONE_MILLISEC 1000
 
 /* ON/OFF signal bit addresses */
-#define HK_PORT_OFF 0x01 /* P0.0 - 0000 0001 */
-#define HK_PORT_ON 0x02 /* P0.1  - 0000 0010 */
-#define ZYNQ_PORT_OFF 0x04 /* P0.2  - 0000 0100 */
-#define ZYNQ_PORT_ON 0x08 /* P0.3  - 0000 1000 */
-#define CAMERA_PORT_OFF 0x10 /* P0.4  - 0001 0000 */
-#define CAMERA_PORT_ON 0x20 /* P0.5  - 0010 0000 */
+#define HK_PORT_ON 0x01 /* P0.0 - 0000 0001 */
+#define HK_PORT_OFF 0x02 /* P0.1  - 0000 0010 */
+#define ZYNQ_PORT_ON 0x04 /* P0.2  - 0000 0100 */
+#define ZYNQ_PORT_OFF 0x08 /* P0.3  - 0000 1000 */
+#define CAMERA_PORT_ON 0x10 /* P0.4  - 0001 0000 */
+#define CAMERA_PORT_OFF 0x20 /* P0.5  - 0010 0000 */
 
 #define CC_LVPS_HK 0x10
 #define RET_CC_LVPS_HK 0x20

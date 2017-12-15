@@ -178,38 +178,29 @@ int main(int argc, char ** argv) {
       /* get subsystem */
       LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
       
-      const std::string & subsystem_str = input.getCmdOption("-on");
+      const std::string & subsystem_str = input.getCmdOption("-lvps");
       if (!subsystem_str.empty()) {
 	if (subsystem_str.compare(0, 4, "zynq")) {
 	  subsystem = LvpsManager::ZYNQ;
+	  std::cout << "Switching ZYNQ" << std::endl;
 	}
 	else if (subsystem_str.compare(0, 3, "cam")) {
 	  subsystem = LvpsManager::CAMERAS;
+	  std::cout << "Switching CAMERAS" << std::endl;
 	}
 	else if (subsystem_str.compare(0, 2, "hk")) {
 	  subsystem = LvpsManager::HK;
+	  std::cout << "Switching HK" << std::endl;
 	}
       }
 
       /* testing the LVPS switching */
-
       std::cout << "Testing the LVPS switching" << std::endl;
 
       Lvps.SwitchOn(subsystem);
       sleep(2);
       Lvps.SwitchOff(subsystem);
       sleep(2);
-      /*
-      Lvps.SwitchOn(LvpsManager::ZYNQ);
-      sleep(2);
-      Lvps.SwitchOff(LvpsManager::ZYNQ);
-      sleep(2);
-      Lvps.SwitchOn(LvpsManager::CAMERAS);
-      sleep(2);
-      Lvps.SwitchOff(LvpsManager::CAMERAS);
-      sleep(2);
-      */
-      
     }
     
     /* make a test Zynq packet */

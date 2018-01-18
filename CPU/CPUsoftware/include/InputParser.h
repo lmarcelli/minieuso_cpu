@@ -56,6 +56,8 @@ public:
 
 private:
   std::vector <std::string> tokens;
+
+  int PrintHelpMsg();
 };
 
 

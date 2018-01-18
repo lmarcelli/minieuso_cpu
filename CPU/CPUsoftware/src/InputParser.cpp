@@ -29,6 +29,12 @@ InputParser::InputParser(int &argc, char **argv) {
 /* parse the command line options */
 CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
+  /* check for help option */
+  if(cmdOptionExists("-help")){
+    PrintHelpMsg();
+    return NULL;
+  }
+  
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){
     this->CmdLine->hv_on = true;
@@ -97,3 +103,40 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   return this->CmdLine;
 }
 
+/* print the help message */
+int InputParser::PrintHelpMsg() {
+  std::cout << "Mini-EUSO command line interface" << std::endl;
+  std::cout << "--------------------------------" << std::endl;
+  std::cout << std::endl;
+  std::cout << "COMMAND: mecontrol" << std::endl;
+  std::cout << "USAGE: mecontrol -option argument" << std::endl;
+  std::cout << std::endl;
+  std::cout << "DESCRIPTION" << std::endl;
+  std::cout << "The default behaviour of the software is to run an infinite acquisition," << std::endl;
+  std::cout << "without HV and with the DAC in the pedestal (DAC = 750)." << std::endl;
+  std::cout << "For further information on the default configuration see the online documentation." << std::endl;
+  std::cout << "https://github.com/cescalara/minieuso_cpu" <<std::endl;
+  std::cout << "capel.francesca@gmail.com" <<std::endl;
+  std::cout << std::endl;
+  std::cout << "GENERAL" << std::endl;
+  std::cout << "-db: enter software test/debug mode" << std::endl;
+  std::cout << "-log: turn on logging (off by default)" << std::endl;
+  std::cout << std::endl;
+  std::cout << "SUBSYSTEMS" << std::endl;
+  std::cout << "-lvps: use the CPU to switch on/off the LVPS" << std::endl;
+  std::cout << "-cam: make a simultaneous acquisition with the cameras" << std::endl;
+  std::cout << std::endl;
+  std::cout << "HIGH VOLTAGE" << std::endl;
+  std::cout << "-hv: turn on the high voltage" << std::endl;
+  std::cout << "-dv X: provide the dynode voltage (0 - 4096)" << std::endl;
+  std::cout << "-hvdac X: provide the HV DAC (0 - 1000)" << std::endl;
+  std::cout << std::endl;
+  std::cout << "ACQUISITION" << std::endl;
+  std::cout << "-scurve: take a single S-curve and exit" << std::endl;
+  std::cout << "-short: take a single file (~ 2min) acquisition and exit "<< std::endl;
+  std::cout << "-test_zynq MODE: use the Zynq test mode (0 - 6)" << std::endl;
+  std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
+  std::cout << std::endl;
+ 
+  return 0;
+}

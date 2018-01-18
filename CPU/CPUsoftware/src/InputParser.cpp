@@ -138,7 +138,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-short: take a single file (~ 2min) acquisition and exit "<< std::endl;
   std::cout << "-test_zynq MODE: use the Zynq test mode (0 - 6)" << std::endl;
   std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
-  std::cout >> "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
   std::cout << std::endl;
  
   return 0;

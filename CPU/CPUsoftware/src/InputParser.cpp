@@ -131,7 +131,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-hv: turn on the high voltage" << std::endl;
   std::cout << "-dv X: provide the dynode voltage (0 - 4096)" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (0 - 1000)" << std::endl;
-  std::cout >> "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
   std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;

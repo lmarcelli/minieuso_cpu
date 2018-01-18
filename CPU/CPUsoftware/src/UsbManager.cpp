@@ -2,8 +2,9 @@
 
 /* default constructor */
 UsbManager::UsbManager() {
-  this->num_storage_dev = LookupUsb();
+  this->num_storage_dev = -1;
 }
+
 /* print a description of usb devices connected */
 void UsbManager::PrintDev(libusb_device * dev) {
 
@@ -173,6 +174,7 @@ int UsbManager::DataBackup() {
   std::string mp_1(USB_MOUNTPOINT_1);
 
   clog << "info: " << logstream::info << "defining data backup procedure" << std::endl;
+  this->num_storage_dev = LookupUsb();
   
   /* require 2+ storage devices for backup */
   if (this->num_storage_dev == 2) {

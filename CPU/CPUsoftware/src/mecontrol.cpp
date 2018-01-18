@@ -148,6 +148,7 @@ int main(int argc, char ** argv) {
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;
 
+ 
   /* reload and parse the configuration file */
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";

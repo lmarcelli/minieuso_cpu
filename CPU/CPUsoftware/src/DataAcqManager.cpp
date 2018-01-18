@@ -386,7 +386,6 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
   hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
-
   
   /* initialise */
   for(k = 0; k < PH_CHANNELS; k++) {

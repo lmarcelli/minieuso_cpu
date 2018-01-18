@@ -39,7 +39,7 @@ void ClearFTP() {
 
 /* an acquisition run */
 int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, DataAcqManager * DaqManager,
-	    CamManager * CManager, bool hv_on, bool trig_on, bool cam_on, bool sc_on, bool single_run, bool test_zynq_on,  uint8_t test_mode_num, bool keep_zynq_pkt) {
+	    CamManager * CManager, CmdLineInputs * CmdLine) {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
@@ -53,7 +53,7 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
   /* define data backup */
   UManager->DataBackup();
   
-  if(hv_on == true) {
+  if(CmdLine->hv_on == true) {
     
     ZqManager->HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);
 
@@ -69,15 +69,16 @@ int acq_run(UsbManager * UManager, Config * ConfigOut, ZynqManager * ZqManager, 
   }
   
   /* take data */
-  if (trig_on == true) {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, single_run, test_zynq_on);
+  if (CmdLine->trig_on == true) {
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE3, CmdLine->single_run, CmdLine->test_zynq_on);
   }
   else {
-    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, test_mode_num, single_run, test_zynq_on, keep_zynq_pkt);
+    DaqManager->CollectData(ConfigOut, ZynqManager::MODE2, CmdLine->test_mode_num, CmdLine->single_run,
+			    CmdLine->test_zynq_on, CmdLine->keep_zynq_pkt);
   }
 
   /* turn off the HV */
-  if (hv_on == true) {
+  if (CmdLine->hv_on == true) {
     ZqManager->HvpsTurnOff();
   }
   
@@ -98,108 +99,30 @@ int main(int argc, char ** argv) {
   CamManager CManager;
   LvpsManager Lvps;
   DataAcqManager DaqManager;
-  
-  /* parse command line options */
-  bool hv_on = false;
-  bool debug_mode = false;
-  bool log_on = false;
-  bool trig_on = false;
-  bool cam_on = false;
-  bool lvps_on = false;
-  bool sc_on = false;
-  bool single_run = false; 
-  bool test_zynq_on = false;
-  bool keep_zynq_pkt = false;
-  
-  if(input.cmdOptionExists("-hv")){
-    hv_on = true;
-  }
-  if(input.cmdOptionExists("-short")){
-    single_run = true;
-  }
-  if(input.cmdOptionExists("-db")){
-    debug_mode = true;
-  }
-  if(input.cmdOptionExists("-log")){
-    log_on = true;
-  }
-  if(input.cmdOptionExists("-trig")){
-    trig_on = true;
-  }
-  if(input.cmdOptionExists("-cam")){
-    cam_on = true;
-  }
-  if(input.cmdOptionExists("-lvps")){
-    lvps_on = true;  
-  }
-  if(input.cmdOptionExists("-scurve")){
-    sc_on = true;
-  }
-  if(input.cmdOptionExists("-test_zynq")){
-    test_zynq_on = true;
-  }
-  if(input.cmdOptionExists("-keep_zynq_pkt")){
-    keep_zynq_pkt = true;
-  }
-  
-  
-  int dv = -1;
-  const std::string &dynode_voltage = input.getCmdOption("-dv");
-  if (!dynode_voltage.empty()){
-    dv = std::stoi(dynode_voltage);
-  }
-  int hvdac = -1;
-  const std::string &hv_dac = input.getCmdOption("-hvdac");
-  if (!hv_dac.empty()){
-    hvdac = std::stoi(hv_dac);
-  }
-  uint8_t test_mode_num = -1;
-  const std::string &test_mode = input.getCmdOption("-test_zynq");
-  if (!test_mode.empty()){
-    test_mode_num = std::stoi(test_mode);
-  }
 
+  /* parse command line options */
+  CmdLineInputs * CmdLine = input.ParseCmdLineInputs();
 
 
   /* debug/test mode */
   /*-----------------*/
-  if(debug_mode == true) {
+  if(CmdLine->debug_mode == true) {
     std::cout << "Mini-EUSO software debug mode" << std::endl;
     
     /* check the log level */
-    if (log_on == true) {
+    if (CmdLine->log_on == true) {
       clog.change_log_level(logstream::all);     
     }
     clog << std::endl;
     clog << "info: " << logstream::info << "log created" << std::endl;
 
-    if (lvps_on == true) {
-
-      /* get subsystem */
-      LvpsManager::SubSystem subsystem = LvpsManager::ZYNQ;
-      
-      const std::string & subsystem_str = input.getCmdOption("-lvps");
-      if (!subsystem_str.empty()) {
-	if (subsystem_str == "zynq") {
-	  subsystem = LvpsManager::ZYNQ;
-	  std::cout << "Switching ZYNQ" << std::endl;
-	}
-	else if (subsystem_str == "cam") {
-	  subsystem = LvpsManager::CAMERAS;
-	  std::cout << "Switching CAMERAS" << std::endl;
-	}
-	else if (subsystem_str == "hk") {
-	  subsystem = LvpsManager::HK;
-	  std::cout << "Switching HK" << std::endl;
-	}
-      }
-
+    if (CmdLine->lvps_on == true) {
       /* testing the LVPS switching */
       std::cout << "Testing the LVPS switching" << std::endl;
 
-      Lvps.SwitchOn(subsystem);
+      Lvps.SwitchOn(CmdLine->lvps_subsystem);
       sleep(2);
-      Lvps.SwitchOff(subsystem);
+      Lvps.SwitchOff(CmdLine->lvps_subsystem);
       sleep(2);
     }
     
@@ -216,7 +139,7 @@ int main(int argc, char ** argv) {
   printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
 
   /* check the log level */
-  if (log_on == true) {
+  if (CmdLine->log_on == true) {
     clog.change_log_level(logstream::all);
   }
   clog << std::endl;
@@ -229,17 +152,17 @@ int main(int argc, char ** argv) {
   Config * ConfigOut = CfManager.Configure();
 
   /* check for command line override to config */
-  if (dv != -1) {
-    ConfigOut->dynode_voltage = dv;
+  if (CmdLine->dv != -1) {
+    ConfigOut->dynode_voltage = CmdLine->dv;
   }
-  if (hvdac != -1) {
-    ConfigOut->dac_level = hvdac;
+  if (CmdLine->hvdac != -1) {
+    ConfigOut->dac_level = CmdLine->hvdac;
   }
   
-  if (lvps_on == true) {
+  if (CmdLine->lvps_on == true) {
     /* turn on all systems */
     std::cout << "switching on all systems..." << std::endl;
-    if (cam_on ==true) {
+    if (CmdLine->cam_on ==true) {
       Lvps.SwitchOn(LvpsManager::CAMERAS);
     }
     Lvps.SwitchOn(LvpsManager::HK);
@@ -256,9 +179,9 @@ int main(int argc, char ** argv) {
   ZqManager.InstStatus();
   ZqManager.HvpsStatus();
 
-  if (sc_on == true) {
+  if (CmdLine->sc_on == true) {
 
-    if (hv_on == true) {
+    if (CmdLine->hv_on == true) {
 
       /* turn on the HV */
       /* check for command line override */
@@ -282,25 +205,24 @@ int main(int argc, char ** argv) {
   }
 
   /* collect camera data if required */
-  if (cam_on == true) {
+  if (CmdLine->cam_on == true) {
     std::thread collect_cam_data (&CamManager::CollectData, CManager);
     
     /* take data */
-    if (trig_on == true) {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3, single_run);
+    if (CmdLine->trig_on == true) {
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3, CmdLine->single_run);
     }
     else {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2, single_run);
+      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2, CmdLine->single_run);
     }
     collect_cam_data.join();
   }
   
   /* data acquisition */
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-	  &CManager, hv_on, trig_on, cam_on, sc_on,
-	  single_run, test_zynq_on, test_mode_num, keep_zynq_pkt);
+	  &CManager, CmdLine);
 
-  if (lvps_on == true) {
+  if (CmdLine->lvps_on == true) {
     /* turn off all systems */
     std::cout << "switching off all systems..." << std::endl;
     Lvps.SwitchOff(LvpsManager::CAMERAS);

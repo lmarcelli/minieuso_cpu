@@ -10,6 +10,7 @@
 #include <string>
 #include <array>
 
+
 /* class to provide useful funcions to other parts of the software */
 class CpuTools {
 

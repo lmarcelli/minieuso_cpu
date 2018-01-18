@@ -97,7 +97,6 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   //this->ThManager->CpuFile = std::make_shared<SynchronisedFile>(*(this->CpuFile));
   this->ThManager->RunAccess = new Access(this->CpuFile);
   
-  
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;
@@ -105,7 +104,11 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   /* write to file */
   this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;
-  
+
+  /* notify the ThermManager */
+  /* will this only work the first time? */
+  this->ThManager->cpu_file_is_set = true;
+  this->ThManager->cond_var.notify_all();
   
   return 0;
 }
@@ -384,7 +387,6 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
   hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
   
-  
   /* initialise */
   for(k = 0; k < PH_CHANNELS; k++) {
     sum_ph[k] = 0;
@@ -558,11 +560,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	     
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
-
-	      /* notify the ThermManager */
-	      /* should put inside CreateCpuRun() */
-	      this->ThManager->cpu_file_is_set = true;
-	      this->ThManager->cond_var.notify_all();
 
 	      if (first_loop) {
 	      /* get number of frm */

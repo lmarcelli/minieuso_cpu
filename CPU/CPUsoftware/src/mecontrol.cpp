@@ -102,7 +102,10 @@ int main(int argc, char ** argv) {
 
   /* parse command line options */
   CmdLineInputs * CmdLine = input.ParseCmdLineInputs();
-
+  if (CmdLine->help) {
+    /* exit when help message called */
+    return 0;
+  }
 
   /* debug/test mode */
   /*-----------------*/

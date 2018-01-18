@@ -2,13 +2,14 @@
 #define _INPUT_PARSER_H
 
 #include <vector>
-
+#include <algorithm>
 #include "LvpsManager.h"
 
 /* struct to handle the command line inputs */
 struct CmdLineInputs {
 
   /* command line options */
+  bool help;
   bool hv_on;
   bool debug_mode;
   bool log_on;

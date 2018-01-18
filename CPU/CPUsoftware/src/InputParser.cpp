@@ -4,6 +4,7 @@
 InputParser::InputParser(int &argc, char **argv) {
 
   /* initialise the struct to handle input */
+  this->CmdLine->help = false;
   this->CmdLine->hv_on = false;
   this->CmdLine->debug_mode = false;
   this->CmdLine->log_on = false;
@@ -31,8 +32,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
   /* check for help option */
   if(cmdOptionExists("-help")){
+    this->CmdLine->help = true;
     PrintHelpMsg();
-    return NULL;
   }
   
   /* check what comand line options exist */

@@ -131,12 +131,14 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-hv: turn on the high voltage" << std::endl;
   std::cout << "-dv X: provide the dynode voltage (0 - 4096)" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (0 - 1000)" << std::endl;
+  std::cout >> "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
   std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;
   std::cout << "-short: take a single file (~ 2min) acquisition and exit "<< std::endl;
   std::cout << "-test_zynq MODE: use the Zynq test mode (0 - 6)" << std::endl;
   std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
+  std::cout >> "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
   std::cout << std::endl;
  
   return 0;

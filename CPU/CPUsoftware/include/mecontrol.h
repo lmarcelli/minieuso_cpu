@@ -24,9 +24,6 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 
-/* number of seconds CPU waits for other systems to boot */
-#define BOOT_TIME 4
-
 /* functions used in main program */
 void SignalHandler(int signum);
 void ClearFTP();

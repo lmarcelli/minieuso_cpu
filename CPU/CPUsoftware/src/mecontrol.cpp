@@ -225,6 +225,7 @@ int main(int argc, char ** argv) {
   ZqManager.InstStatus();
   ZqManager.HvpsStatus();
 
+  /*-----*/
   if (CmdLine->sc_on == true) {
 
     if (CmdLine->hv_on == true) {

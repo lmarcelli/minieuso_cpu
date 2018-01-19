@@ -268,19 +268,18 @@ int main(int argc, char ** argv) {
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 	  &CManager, CmdLine);
 
-  if (CmdLine->lvps_on == true) {
-    /* turn off all systems */
-    std::cout << "switching off all systems..." << std::endl;
-    Lvps.SwitchOff(LvpsManager::CAMERAS);
-    Lvps.SwitchOff(LvpsManager::HK);
-    Lvps.SwitchOff(LvpsManager::ZYNQ);
+  /* turn off all systems */
+  std::cout << "switching off all systems..." << std::endl;
+  Lvps.SwitchOff(LvpsManager::CAMERAS);
+  Lvps.SwitchOff(LvpsManager::HK);
+  Lvps.SwitchOff(LvpsManager::ZYNQ);
 
-    /* wait for switch off */
-    sleep(5);
-  }
+  /* wait for switch off */
+  sleep(5);
+
   /* clean up */
   delete ConfigOut;
   return 0; 
-  }
+}
 
   

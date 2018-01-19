@@ -136,6 +136,49 @@ int main(int argc, char ** argv) {
     return 0;
   }
 
+  /* LVPS switching mode */
+  /*---------------------*/
+  if (CmdLine->lvps_on) {
+    switch (CmdLine->lvps_status) {
+    case LvpsManager::ON:
+      
+      switch (CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching ON the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching ON the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching ON the HK" << std::endl;
+	break;
+      }
+      Lvps.SwitchOn(CmdLine->lvps_subsystem);
+      break;
+
+    case LvpsManager::OFF:
+      switch (CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching OFF the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching OFF the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching OFF the HK" << std::endl;
+	break;
+      }      
+      Lvps.SwitchOff(CmdLine->lvps_subsystem);
+      break;
+      
+    case LvpsManager::UNDEF:
+      std::cout << "Cannot switch subsystem, on/off undefined" << std::endl;
+      break;
+    }
+    
+    return 0;
+  }
+  
   /* start-up */
   /*----------*/
   
@@ -163,18 +206,17 @@ int main(int argc, char ** argv) {
     ConfigOut->dac_level = CmdLine->hvdac;
   }
   
-  if (CmdLine->lvps_on == true) {
-    /* turn on all systems */
-    std::cout << "switching on all systems..." << std::endl;
-    if (CmdLine->cam_on ==true) {
-      Lvps.SwitchOn(LvpsManager::CAMERAS);
-    }
-    Lvps.SwitchOn(LvpsManager::HK);
-    Lvps.SwitchOn(LvpsManager::ZYNQ);
-
-    /* wait for boot */
-    sleep(BOOT_TIME);
+  /* turn on all systems */
+  std::cout << "switching on all systems..." << std::endl;
+  if (CmdLine->cam_on ==true) {
+    Lvps.SwitchOn(LvpsManager::CAMERAS);
   }
+  Lvps.SwitchOn(LvpsManager::HK);
+  Lvps.SwitchOn(LvpsManager::ZYNQ);
+
+  /* wait for boot */
+  std::cout << "waiting for boot" << std::endl;
+  sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
   ZqManager.CheckTelnet();
@@ -226,19 +268,18 @@ int main(int argc, char ** argv) {
   acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
 	  &CManager, CmdLine);
 
-  if (CmdLine->lvps_on == true) {
-    /* turn off all systems */
-    std::cout << "switching off all systems..." << std::endl;
-    Lvps.SwitchOff(LvpsManager::CAMERAS);
-    Lvps.SwitchOff(LvpsManager::HK);
-    Lvps.SwitchOff(LvpsManager::ZYNQ);
+  /* turn off all systems */
+  std::cout << "switching off all systems..." << std::endl;
+  Lvps.SwitchOff(LvpsManager::CAMERAS);
+  Lvps.SwitchOff(LvpsManager::HK);
+  Lvps.SwitchOff(LvpsManager::ZYNQ);
 
-    /* wait for switch off */
-    sleep(5);
-  }
+  /* wait for switch off */
+  sleep(5);
+
   /* clean up */
   delete ConfigOut;
   return 0; 
-  }
+}
 
   

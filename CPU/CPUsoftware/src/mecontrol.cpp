@@ -206,18 +206,17 @@ int main(int argc, char ** argv) {
     ConfigOut->dac_level = CmdLine->hvdac;
   }
   
-  if (CmdLine->lvps_on == true) {
-    /* turn on all systems */
-    std::cout << "switching on all systems..." << std::endl;
-    if (CmdLine->cam_on ==true) {
-      Lvps.SwitchOn(LvpsManager::CAMERAS);
-    }
-    Lvps.SwitchOn(LvpsManager::HK);
-    Lvps.SwitchOn(LvpsManager::ZYNQ);
-
-    /* wait for boot */
-    sleep(BOOT_TIME);
+  /* turn on all systems */
+  std::cout << "switching on all systems..." << std::endl;
+  if (CmdLine->cam_on ==true) {
+    Lvps.SwitchOn(LvpsManager::CAMERAS);
   }
+  Lvps.SwitchOn(LvpsManager::HK);
+  Lvps.SwitchOn(LvpsManager::ZYNQ);
+
+  /* wait for boot */
+  std::cout << "waiting for boot" << std::endl;
+  sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
   ZqManager.CheckTelnet();

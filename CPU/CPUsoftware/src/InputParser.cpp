@@ -137,8 +137,11 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-log: turn on logging (off by default)" << std::endl;
   std::cout << std::endl;
   std::cout << "SUBSYSTEMS" << std::endl;
-  std::cout << "-lvps: use the CPU to switch on/off the LVPS" << std::endl;
+  std::cout << "-lvps MODE: use the CPU to switch on or off the LVPS (MODE = \"on\" or \"off\")" << std::endl;
+  std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\")" << std::endl;
   std::cout << "-cam: make a simultaneous acquisition with the cameras" << std::endl;
+  std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
   std::cout << "-hv: turn on the high voltage" << std::endl;

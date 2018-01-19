@@ -15,9 +15,11 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->single_run = false;
   this->CmdLine->test_zynq_on = false;
   this->CmdLine->keep_zynq_pkt = false;
+
   this->CmdLine->dv = -1;
   this->CmdLine->hvdac = -1;
   this->CmdLine->test_mode_num = -1;
+  this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   
   /* get command line input */
@@ -87,20 +89,31 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->test_mode_num = std::stoi(test_mode);
   }
 
+  /* LVPS on/off */
+  const std::string & status_str = getCmdOption("-lvps");
+  if (!status_str.empty()) {
+    if (status_str == "on") {
+      this->CmdLine->lvps_status = LvpsManager::ON;
+    }
+    else if (status_str == "off") {
+      this->CmdLine->lvps_status = LvpsManager::OFF;   
+    }
+  }
+  
   /* LVPS subsystem */    
-  const std::string & subsystem_str = getCmdOption("-lvps");
+  const std::string & subsystem_str = getCmdOption("-subsystem");
   if (!subsystem_str.empty()) {
     if (subsystem_str == "zynq") {
       this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-	}
-	else if (subsystem_str == "cam") {
-	  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-	}
-	else if (subsystem_str == "hk") {
-	  this->CmdLine->lvps_subsystem = LvpsManager::HK;
-	}
-      }
-
+    }
+    else if (subsystem_str == "cam") {
+      this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+    }
+    else if (subsystem_str == "hk") {
+      this->CmdLine->lvps_subsystem = LvpsManager::HK;
+    }
+  }
+  
   return this->CmdLine;
 }
 

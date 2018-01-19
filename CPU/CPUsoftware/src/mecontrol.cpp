@@ -136,6 +136,49 @@ int main(int argc, char ** argv) {
     return 0;
   }
 
+  /* LVPS switching mode */
+  /*---------------------*/
+  if (CmdLine->lvps_on) {
+    switch (CmdLine->lvps_status) {
+    case LvpsManager::ON:
+      
+      switch (CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching ON the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching ON the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching ON the HK" << std::endl;
+	break;
+      }
+      Lvps.SwitchOn(CmdLine->lvps_subsystem);
+      break;
+
+    case LvpsManager::OFF:
+      switch (CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching OFF the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching OFF the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching OFF the HK" << std::endl;
+	break;
+      }      
+      Lvps.SwitchOff(CmdLine->lvps_subsystem);
+      break;
+      
+    case LvpsManager::UNDEF:
+      std::cout << "Cannot switch subsystem, on/off undefined" << std::endl;
+      break;
+    }
+    
+    return 0;
+  }
+  
   /* start-up */
   /*----------*/
   

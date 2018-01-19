@@ -17,8 +17,8 @@
 #include "ThermManager.h"
 #include "InputParser.h"
 
-#define VERSION 3.1
-#define VERSION_DATE_STRING "26/10/2017"
+#define VERSION 4.2
+#define VERSION_DATE_STRING "19/01/2018"
 
 #define HOME_DIR "/home/software/CPU"
 #define DONE_DIR "/home/minieusouser/DONE"

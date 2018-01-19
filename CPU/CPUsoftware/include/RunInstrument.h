@@ -33,7 +33,7 @@ public:
   //int Stop();
   
 private:
-  int Startup();
+  int StartUp();
   //int RunAcquisition();
   //int SwitchMode();
 };

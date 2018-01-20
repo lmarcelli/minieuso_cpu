@@ -16,16 +16,20 @@
 
 #include "log.h"
 
+/* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
 #define TELNET_PORT 23
+
+/* pedestal for the ASIC DAC */
+#define PEDESTAL 750
 
 class ZynqManager {
 public:
   enum InstrumentMode : uint8_t {
     MODE0 = 0,
     MODE1 = 1,
-    MODE2 = 2,
-    MODE3 = 3,
+    PERIODIC = 2,
+    TRIGGER = 3,
   };
   InstrumentMode instrument_mode;
 

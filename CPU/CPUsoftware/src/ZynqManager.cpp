@@ -4,6 +4,8 @@
 /* default constructor */
 ZynqManager::ZynqManager () {   
   this->hvps_status = ZynqManager::UNDEF;
+  this->instrument_mode = ZynqManager::MODE0;
+  this->test_mode = ZynqManager::T_MODE0;
 };
 
 /* check telnet connection on a certain IP address */
@@ -479,14 +481,14 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
     status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
     printf("status: %s\n", kStatStr);
     break;
-  case MODE2:
-    this->instrument_mode = MODE2; 
+  case PERIODIC:
+    this->instrument_mode = PERIODIC; 
     /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("instrument mode 2\n", sockfd);
     printf("status: %s\n", kStatStr);
     break;
-  case MODE3:
-     this->instrument_mode = MODE3; 
+  case TRIGGER:
+     this->instrument_mode = TRIGGER; 
     /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("instrument mode 3\n", sockfd);
     printf("status: %s\n", kStatStr);

@@ -1,9 +1,10 @@
-#include "RunInstrument.h"
+#include "R%current_modeunInstrument.h"
 
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
-  this->current_mode = RunInstrument::UNDEF;
+  this->current_inst_mode = RunInstrument::INST_UNDEF;
+  this->current_acq_mode = RunInstrument::ACQ_UNDEF;
 }
 
 /* switching of LVPS then exit */
@@ -56,10 +57,12 @@ int RunInstrument::HvpsSwitch() {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
     this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+    this->ZqManager.SetDac(this->ConfigOut->dac_level);
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
     this->ZqManager.HvpsTurnOff();   
+    this->ZqManager.SetDac(PEDESTAL); 
     break;
   case ZynqManager::UNDEF:
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
@@ -111,8 +114,6 @@ int RunInstrument::StartUp() {
     this->ConfigOut->dac_level = this->CmdLine->hvdac;
   }
 
-  /* move to separate function ... */  
-
   return 0;
 }
 
@@ -140,6 +141,23 @@ int RunInstrument::CheckSystems() {
   return 0;
 }
 
+/* determine acquisition mode from program inputs */
+int Runinstrument::SelectAcqOption() {
+  
+  /* select standard or scurve */
+  if (this->CmdLine->sc_on) {
+    this->current_acq_mode = SCURVE;
+  }
+  else {
+    this->current_acq_mode = STANDARD;
+
+    /* select Zynq acquisition mode */
+    
+  }
+
+  return 0;
+}
+
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
 
@@ -154,21 +172,24 @@ int RunInstrument::Acquisition() {
   
   /* define data backup */
   this->UManager->DataBackup();
-  
-  if(this->CmdLine->hv_on) {
-    
-    this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
 
-    this->ZqManager.HvpsStatus();
+  /* select SCURVE or STANDARD acquisition */
+  SelectAcqOption();
+  switch (this->current_acq_mode) {
+  case SCURVE:
     
-    /* set the DAC */
-    this->ZqManager.SetDac(this->ConfigOut->dac_level); 
+      /* take an scurve */
+      DaqManager.CollectSc(ConfigOut);
     
+    break;
+  case STANDARD:
+
+    
+    break;
   }
-  else {
-    /* set the DAC to the pedestal */
-    this->ZqManager.SetDac(750); 
-  }
+  
+  
+    
   
   /* take data */
   if (this->CmdLine->trig_on) {
@@ -215,9 +236,22 @@ int RunInstrument::Start() {
   CheckSystems();
   
   /* add mode switching DAY/NIGHT here */
+  /* switch (DAY/NIGHT) */
 
+  /* case: NIGHT */
+  /* set the HV as required */
+  if (this->CmdLine->hv_on) {
+    HvpsSwitch();
+  }
+  
   /* start data acquisition */
   Acquisition();
+
+  
+  /* only reached for SCURVE and SHORT acquisitions */
+  /* turn off HV */
+  this->CmdLine->hvps_status = ZynqManager::OFF;
+  HvpsSwitch();
    
   return 0;
 }

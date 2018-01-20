@@ -21,15 +21,20 @@ public:
   enum InstrumentMode : uint8_t {
     NIGHT = 0,
     DAY = 1,
-    UNDEF = 2,
+    INST_UNDEF = 2,
   };
-  InstrumentMode current_mode;
-
+  InstrumentMode current_inst_mode;
+  enum AcquisitionMode : uint8_t {
+    STANDARD = 0,
+    SCURVE = 1,
+    ACQ_UNDEF = 2;
+  };
+  AcquisitionMode current_acq_mode;
+  
   Config * ConfigOut;
   ZynqManager ZqManager;
   UsbManager UManager;
   CamManager CManager;
-  ThermManager ThManager;
   LvpsManager Lvps;
   DataAcqManager DaqManager;
   
@@ -44,6 +49,7 @@ private:
   int DebugMode();
   int CheckSystems();
   //int SwitchMode();
+  int SelectAcqOption();
   int Acquisition();
 };
 

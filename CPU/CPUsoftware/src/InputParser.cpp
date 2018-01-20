@@ -10,6 +10,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->log_on = false;
   this->CmdLine->trig_on = false;
   this->CmdLine->cam_on = false;
+  this->CmdLine->therm_on = false;
   this->CmdLine->lvps_on = false;
   this->CmdLine->sc_on = false;
   this->CmdLine->single_run = false;
@@ -18,10 +19,11 @@ InputParser::InputParser(int &argc, char **argv) {
 
   this->CmdLine->dv = -1;
   this->CmdLine->hvdac = -1;
-  this->CmdLine->test_mode_num = -1;
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
+  this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
+  this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
   
   /* get command line input */
   for (int i = 1; i < argc; i++) {
@@ -58,6 +60,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-cam")){
     this->CmdLine->cam_on = true;
   }
+  if(cmdOptionExists("-therm")){
+    this->CmdLine->therm_on = true;
+  }
   if(cmdOptionExists("-lvps")){
     this->CmdLine->lvps_on = true;  
   }
@@ -83,11 +88,53 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if (!hv_dac.empty()){
     this->CmdLine->hvdac = std::stoi(hv_dac);
   }
+
+  /* zynq instrument mode */
+  const std::string &mode = getCmdOption("-zynq");
+  if (!tmode.empty()){
+    if (mode == "0") {
+      this->CmdLine->zynq_mode = ZynqManager::MODE0;
+    }
+    else if (mode == "1") {
+      this->CmdLine->zynq_test_mode = ZynqManager::MODE1;
+    }
+    else if (mode == "periodic") {
+      this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
+    }
+    else if (mode == "trigger") {
+      this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
+    }
+    else {
+      std::cout << "Error: could not identify required zynq mode, using default: periodic"
+    }
   
-  /* zynq test mode number */
+  /* zynq test mode */
   const std::string &test_mode = getCmdOption("-test_zynq");
   if (!test_mode.empty()){
-    this->CmdLine->test_mode_num = std::stoi(test_mode);
+    if (test_mode == "0") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE0;
+    }
+    else if (test_mode == "1") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE1;
+    }
+    else if (test_mode == "2") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE2;
+    }
+    else if (test_mode == "3") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+    }
+    else if (test_mode == "4") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE4;
+    }
+    else if (test_mode == "5") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE5;
+    }
+    else if (test_mode == "6") {
+      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
+    }
+    else {
+      std::cout << "Error: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+    }
   }
 
   /* LVPS on/off */
@@ -152,7 +199,8 @@ int InputParser::PrintHelpMsg() {
   std::cout << "SUBSYSTEMS" << std::endl;
   std::cout << "-lvps MODE: use the CPU to switch on or off the LVPS (MODE = \"on\" or \"off\")" << std::endl;
   std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\")" << std::endl;
-  std::cout << "-cam: make a simultaneous acquisition with the cameras" << std::endl;
+  std::cout << "-cam: make an independent or simultaneous acquisition with the cameras" << std::endl;
+  std::cout << "-therm: make a simultaneous acquisition with the thermistors" << std::endl;
   std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
   std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;
   std::cout << std::endl;
@@ -169,9 +217,11 @@ int InputParser::PrintHelpMsg() {
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;
   std::cout << "-short: take a single file (~ 2min) acquisition and exit "<< std::endl;
-  std::cout << "-test_zynq MODE: use the Zynq test mode (0 - 6)" << std::endl;
+  std::cout << "-zynq MODE: use the Zynq acquisition mode (MODE = 0, 1, periodic, trigger, default = periodic)" << std::endl;
+  std::cout << "-test_zynq MODE: use the Zynq test mode (MODE = 0 - 6, default = 3)" << std::endl;
   std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
   std::cout << "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -hv on -zynq trigger" << std::endl;
   std::cout << std::endl;
   std::cout << "NOTES" << std::endl;
   std::cout << "Execute-and-exit flags such as -db, -hv on/off and -lvps on/off can only be used one at a time" << std::endl;

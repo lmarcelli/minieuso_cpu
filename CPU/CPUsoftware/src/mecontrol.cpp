@@ -30,32 +30,6 @@ int main(int argc, char ** argv) {
   MiniEuso.Start();
 
   /* tidying up... */
-  /* run data acquisition */
-  /*-----*/
-  if (CmdLine->sc_on == true) {
-
-    if (CmdLine->hv_on == true) {
-
-      /* turn on the HV */
-      /* check for command line override */
-      ZqManager.HvpsTurnOn(ConfigOut->cathode_voltage, ConfigOut->dynode_voltage);	
-
-      /* check the status */
-      ZqManager.HvpsStatus();
-    }
-    
-      /* take an scurve */
-      DaqManager.CollectSc(ConfigOut);
-
-      /* turn off the HV */  
-      ZqManager.HvpsTurnOff();
-      
-      /* check the status */
-      ZqManager.HvpsStatus();
-      
-    /* then exit */
-    return 0;
-  }
 
   /* collect camera data if required */
   if (CmdLine->cam_on == true) {

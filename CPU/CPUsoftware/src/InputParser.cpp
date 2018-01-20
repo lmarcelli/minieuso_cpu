@@ -105,7 +105,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
     }
     else {
-      std::cout << "Error: could not identify required zynq mode, using default: periodic"
+      std::cout << "Error: could not identify brequired zynq mode, using default: periodic"
     }
   
   /* zynq test mode */

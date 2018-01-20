@@ -477,7 +477,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -592,7 +592,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
-	      if (!keep_zynq_pkt) {
+	      if (!CmdLine->keep_zynq_pkt) {
 		std::remove(zynq_file_name.c_str());
 	      }
 	      
@@ -601,7 +601,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      frm_num++;
 		
 	      /* leave loop for a single run file */
-	      if (packet_counter == RUN_SIZE && single_run == true) {
+	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
 		break;
 		}
 	    }
@@ -659,79 +659,44 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(Config * ConfigOut) {
-
-  ZynqManager ZqManager;
+int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut) {
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false, false);
-  ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
   return 0;
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on, bool keep_zynq_pkt) {
-
-  ZynqManager ZqManager;
-  std::cout << "Collecting data" << std::endl;
-  std::cout << "test_mode_on: " << test_mode_on << std::endl;
+int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run, keep_zynq_pkt);
-  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
-
+  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  
   /* set Zynq operational mode */
-  if (test_mode_on == true) {
-    /* set a mode to produce test data */
+  if (CmdLine->test_zynq_on) {
     
-    switch(test_mode) {
-    case ZynqManager::T_MODE0:
-      ZqManager.SetTestMode(ZynqManager::T_MODE0);
-      break;
-    case ZynqManager::T_MODE1:
-      ZqManager.SetTestMode(ZynqManager::T_MODE1);
-      break;
-    case ZynqManager::T_MODE2:
-      ZqManager.SetTestMode(ZynqManager::T_MODE2);
-      break;
-    case ZynqManager::T_MODE3:
-      ZqManager.SetTestMode(ZynqManager::T_MODE3);
-      break;
-    case ZynqManager::T_MODE4:
-      ZqManager.SetTestMode(ZynqManager::T_MODE4);
-      break;
-    case ZynqManager::T_MODE5:
-      ZqManager.SetTestMode(ZynqManager::T_MODE5);
-      break;
-    case ZynqManager::T_MODE6:
-      ZqManager.SetTestMode(ZynqManager::T_MODE6);
-      break;
-    }
+    /* set a mode to produce test data */
+    ZqManager->SetTestMode(ZqManager->test_mode);   
   }
 
   /* set a mode to start data gathering */
-  switch(instrument_mode) {
-  case ZynqManager::MODE0:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-    break;
-  case ZynqManager::MODE1:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-    break;
-  case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-    break;
-  case ZynqManager::MODE3:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-    break;
-  }
-  
-  collect_main_data.join();
-  //collect_therm_data.join();
+  ZqManager->SetInstrumentMode(ZqManager->instrument_mode);
 
-  /* never reached for infinite acquisition right now */
-  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+  /* add acquisition with thermistors if required */
+  if (CmdLine->therm_on) {
+    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+  }
+    
+  collect_main_data.join();
+  if(CmdLine->therm_on) {
+    collect_therm_data.join();
+  }
+
+  /* never reached for infinite acquisition */
+  ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   
   return 0;

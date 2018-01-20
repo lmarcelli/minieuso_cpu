@@ -150,10 +150,12 @@ int Runinstrument::SelectAcqOption() {
   }
   else {
     this->current_acq_mode = STANDARD;
-
-    /* select Zynq acquisition mode */
-    
   }
+
+  /* select Zynq acquisition mode */
+  this->ZqManager.instrument_mode = this->CmdLine->zynq_mode;
+  this->ZqManager.test_mode = this->CmdLine->zynq_test_mode;    
+ 
 
   return 0;
 }
@@ -184,27 +186,14 @@ int RunInstrument::Acquisition() {
     break;
   case STANDARD:
 
+    /* start data acquisition */
+    this->DaqManager.CollectData(&this->ZqManager, this->ConfigOut, this->CmdLine);
     
     break;
   }
-  
-  
-    
-  
-  /* take data */
-  if (this->CmdLine->trig_on) {
-    this->DaqManager.CollectData(this->ConfigOut, ZynqManager::MODE3, this->CmdLine->single_run, this->CmdLine->test_zynq_on);
-  }
-  else {
-    this->DaqManager.CollectData(this->ConfigOut, ZynqManager::MODE2, this->CmdLine->test_mode_num, this->CmdLine->single_run,
-			    this->CmdLine->test_zynq_on, this->CmdLine->keep_zynq_pkt);
-  }
 
-  /* turn off the HV */
-  if (this->CmdLine->hv_on) {
-    ZqManager->HvpsTurnOff();
-  }
-  
+  /* never reached for infinite acquisition */
+
   /* wait for backup to complete */
   //run_backup.join();
   
@@ -246,12 +235,20 @@ int RunInstrument::Start() {
   
   /* start data acquisition */
   Acquisition();
-
   
   /* only reached for SCURVE and SHORT acquisitions */
   /* turn off HV */
   this->CmdLine->hvps_status = ZynqManager::OFF;
   HvpsSwitch();
+
+  /* turn off all subsystems */
+  this->CmdLine->lvps_status = LvpsManager::OFF;
+  this->CmdLine->lvps_subsystem = LvpsManager::HK;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+  LvpsSwitch();
    
   return 0;
 }

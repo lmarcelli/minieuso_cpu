@@ -16,6 +16,7 @@
 #include "ConfigManager.h"
 #include "SynchronisedFile.h"
 #include "CpuTools.h"
+#include "InputParser.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
@@ -56,10 +57,8 @@ public:
   DataAcqManager();
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
-  int CollectSc(Config * ConfigOut);
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode = 0,
-		  uint8_t test_mode = 0, bool single_run = false,
-		  bool test_mode_on = false, bool keep_zynq_pkt = false);
+  int CollectSc(ZynqManager * ZqManager, Config * ConfigOut);
+  int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
   
@@ -74,7 +73,7 @@ private:
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
-  int ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt = false);
+  int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
   int ProcessThermData();
   
 };

@@ -20,7 +20,6 @@ int main(int argc, char ** argv) {
   /* parse command line options */
   CmdLineInputs * CmdLine = input.ParseCmdLineInputs();
   if (CmdLine->help) {
-
     /* exit when help message called */
     return 0;
   }
@@ -29,37 +28,8 @@ int main(int argc, char ** argv) {
   RunInstrument MiniEuso(CmdLine);
   MiniEuso.Start();
 
-  /* tidying up... */
-
-  /* collect camera data if required */
-  if (CmdLine->cam_on == true) {
-    std::thread collect_cam_data (&CamManager::CollectData, CManager);
-    
-    /* take data */
-    if (CmdLine->trig_on == true) {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE3, CmdLine->single_run);
-    }
-    else {
-      DaqManager.CollectData(ConfigOut, ZynqManager::MODE2, CmdLine->single_run);
-    }
-    collect_cam_data.join();
-  }
-  
-  /* data acquisition */
-  acq_run(&UManager, ConfigOut, &ZqManager, &DaqManager,
-	  &CManager, CmdLine);
-
-  /* turn off all systems */
-  std::cout << "switching off all systems..." << std::endl;
-  Lvps.SwitchOff(LvpsManager::CAMERAS);
-  Lvps.SwitchOff(LvpsManager::HK);
-  Lvps.SwitchOff(LvpsManager::ZYNQ);
-
-  /* wait for switch off */
-  sleep(5);
-
   /* clean up */
-  delete ConfigOut;
+  delete Input, MiniEuso;
   return 0; 
 }
 

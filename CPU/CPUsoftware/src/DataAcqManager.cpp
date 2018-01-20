@@ -689,10 +689,17 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   if (CmdLine->therm_on) {
     std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
   }
-    
+  /* add acquisition with cameras if required */
+  if (CmdLine->cam_on) {
+    std::thread collect_cam_data (&CamManager::CollectData, CManager);
+  }
+  
   collect_main_data.join();
   if(CmdLine->therm_on) {
     collect_therm_data.join();
+  }
+  if (CmdLine->cam_on) {
+    collect_cam_data.join();
   }
 
   /* never reached for infinite acquisition */

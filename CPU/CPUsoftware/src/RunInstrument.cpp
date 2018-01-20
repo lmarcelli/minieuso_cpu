@@ -174,7 +174,8 @@ int RunInstrument::Acquisition() {
   
   /* define data backup */
   this->UManager->DataBackup();
-
+  
+  
   /* select SCURVE or STANDARD acquisition */
   SelectAcqOption();
   switch (this->current_acq_mode) {

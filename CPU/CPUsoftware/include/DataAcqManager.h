@@ -11,6 +11,7 @@
 #include "UsbManager.h"
 #include "ZynqManager.h"
 #include "ThermManager.h"
+#include "CamManager.h"
 #include "pdmdata.h"
 #include "data_format.h"
 #include "ConfigManager.h"

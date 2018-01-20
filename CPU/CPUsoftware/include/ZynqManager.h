@@ -25,6 +25,12 @@
 
 class ZynqManager {
 public:
+  enum HvpsStatus : uint8_t {
+    OFF = 0,
+    ON = 1,
+    UNDEF = 2,
+  };
+  HvpsStatus hvps_status;
   enum InstrumentMode : uint8_t {
     MODE0 = 0,
     MODE1 = 1,
@@ -32,8 +38,7 @@ public:
     TRIGGER = 3,
   };
   InstrumentMode instrument_mode;
-
-   enum TestMode : uint8_t {
+  enum TestMode : uint8_t {
     T_MODE0 = 0,
     T_MODE1 = 1,
     T_MODE2 = 2,
@@ -44,20 +49,13 @@ public:
   };
   TestMode test_mode;
 
-  enum HvpsStatus : uint8_t {
-    OFF = 0,
-    ON = 1,
-    UNDEF = 2,
-  };
-  HvpsStatus hvps_status;
-  
   ZynqManager();
   static int CheckTelnet();
   static int ConnectTelnet();
   static int InstStatus();
   static int HvpsStatus();
-  static int HvpsTurnOn(int cv, int dv);
-  static int HvpsTurnOff();
+  int HvpsTurnOn(int cv, int dv);
+  int HvpsTurnOff();
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();

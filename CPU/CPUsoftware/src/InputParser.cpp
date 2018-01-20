@@ -5,7 +5,7 @@ InputParser::InputParser(int &argc, char **argv) {
 
   /* initialise the struct to handle input */
   this->CmdLine->help = false;
-  this->CmdLine->hv_on = false;
+  this->CmdLine->hvps_on = false;
   this->CmdLine->debug_mode = false;
   this->CmdLine->log_on = false;
   this->CmdLine->trig_on = false;
@@ -43,7 +43,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){
-    this->CmdLine->hv_on = true;
+    this->CmdLine->hvps_on = true;
   }
   if(cmdOptionExists("-short")){
     this->CmdLine->single_run = true;
@@ -91,12 +91,12 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
   /* zynq instrument mode */
   const std::string &mode = getCmdOption("-zynq");
-  if (!tmode.empty()){
+  if (!mode.empty()){
     if (mode == "0") {
       this->CmdLine->zynq_mode = ZynqManager::MODE0;
     }
     else if (mode == "1") {
-      this->CmdLine->zynq_test_mode = ZynqManager::MODE1;
+      this->CmdLine->zynq_mode = ZynqManager::MODE1;
     }
     else if (mode == "periodic") {
       this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
@@ -105,8 +105,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
     }
     else {
-      std::cout << "Error: could not identify brequired zynq mode, using default: periodic"
+      std::cout << "Error: could not identify brequired zynq mode, using default: periodic" << std::endl;
     }
+  }
   
   /* zynq test mode */
   const std::string &test_mode = getCmdOption("-test_zynq");
@@ -138,12 +139,12 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
 
   /* LVPS on/off */
-  const std::string & status_str = getCmdOption("-lvps");
-  if (!status_str.empty()) {
-    if (status_str == "on") {
+  const std::string & lvps_status_str = getCmdOption("-lvps");
+  if (!lvps_status_str.empty()) {
+    if (lvps_status_str == "on") {
       this->CmdLine->lvps_status = LvpsManager::ON;
     }
-    else if (status_str == "off") {
+    else if (lvps_status_str == "off") {
       this->CmdLine->lvps_status = LvpsManager::OFF;   
     }
   }
@@ -163,12 +164,12 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
 
   /* HVPS on/off */
-  const std::string & status_str = getCmdOption("-hv");
-  if (!status_str.empty()) {
-    if (status_str == "on") {
+  const std::string & hv_status_str = getCmdOption("-hv");
+  if (!hv_status_str.empty()) {
+    if (hv_status_str == "on") {
       this->CmdLine->hvps_status = ZynqManager::ON;
     }
-    else if (status_str == "off") {
+    else if (hv_status_str == "off") {
       this->CmdLine->hvps_status = ZynqManager::OFF;   
     }
   }

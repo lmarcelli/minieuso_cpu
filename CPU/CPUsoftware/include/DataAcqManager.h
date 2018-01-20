@@ -49,6 +49,7 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
+  CamManager * CManager = new CamManager();
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -58,7 +59,7 @@ public:
   DataAcqManager();
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
-  int CollectSc(ZynqManager * ZqManager, Config * ConfigOut);
+  int CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();

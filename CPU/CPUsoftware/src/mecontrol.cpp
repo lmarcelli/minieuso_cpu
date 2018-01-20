@@ -13,8 +13,6 @@ capel.francesca@gmail.com
 /*--------------*/
 int main(int argc, char ** argv) {
 
-  /* definitions */
-  std::string config_dir(CONFIG_DIR);
   InputParser input(argc, argv);
 
   /* parse command line options */
@@ -28,8 +26,6 @@ int main(int argc, char ** argv) {
   RunInstrument MiniEuso(CmdLine);
   MiniEuso.Start();
 
-  /* clean up */
-  delete Input, MiniEuso;
   return 0; 
 }
 

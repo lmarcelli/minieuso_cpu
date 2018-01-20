@@ -11,6 +11,7 @@
 #include <array>
 #include <dirent.h>
 
+#include "ZynqManager.h"
 
 /* class to provide useful funcions to other parts of the software */
 class CpuTools {
@@ -20,7 +21,8 @@ public:
   static std::string CommandToStr(const char * cmd);
   static std::string IntToFixedLenStr(const int input, const int length);
   static void ClearFolder(const char * data_dir);
-  
+  static void SignalHandler(int signum);
+
 };
 
 #endif

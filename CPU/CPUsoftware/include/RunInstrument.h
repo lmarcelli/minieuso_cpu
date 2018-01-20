@@ -1,7 +1,6 @@
 #ifndef _RUN_INSTRUMENT_H
 #define _RUN_INSTRUMENT_H
 
-#include "CamManager.h"
 #include "LvpsManager.h"
 #include "DataAcqManager.h"
 #include "InputParser.h"
@@ -13,6 +12,10 @@
 #define HOME_DIR "/home/software/CPU"
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
+
+/* software version and date */
+#define VERSION 4.2
+#define VERSION_DATE_STRING "19/01/2018"
 
 /* class to handle different instrument operation modes */
 class RunInstrument {
@@ -27,14 +30,13 @@ public:
   enum AcquisitionMode : uint8_t {
     STANDARD = 0,
     SCURVE = 1,
-    ACQ_UNDEF = 2;
+    ACQ_UNDEF = 2,
   };
   AcquisitionMode current_acq_mode;
   
   Config * ConfigOut;
   ZynqManager ZqManager;
   UsbManager UManager;
-  CamManager CManager;
   LvpsManager Lvps;
   DataAcqManager DaqManager;
   

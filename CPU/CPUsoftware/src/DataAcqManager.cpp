@@ -659,7 +659,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut) {
+int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
   std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
@@ -688,20 +688,17 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+    collect_therm_data.join();
   }
+  
   /* add acquisition with cameras if required */
   if (CmdLine->cam_on) {
-    std::thread collect_cam_data (&CamManager::CollectData, CManager);
+    std::thread collect_cam_data (&CamManager::CollectData, this->CManager);
+    collect_cam_data.join();
   }
   
   collect_main_data.join();
-  if(CmdLine->therm_on) {
-    collect_therm_data.join();
-  }
-  if (CmdLine->cam_on) {
-    collect_cam_data.join();
-  }
-
+ 
   /* never reached for infinite acquisition */
   ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);

@@ -1,4 +1,4 @@
-#include "R%current_modeunInstrument.h"
+#include "RunInstrument.h"
 
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
@@ -101,6 +101,7 @@ int RunInstrument::StartUp() {
   clog << "info: " << logstream::info << "log created" << std::endl;
 
   /* reload and parse the configuration file */
+  std::string config_dir(CONFIG_DIR);
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
   ConfigManager CfManager(config_file, config_file_local);
@@ -142,7 +143,7 @@ int RunInstrument::CheckSystems() {
 }
 
 /* determine acquisition mode from program inputs */
-int Runinstrument::SelectAcqOption() {
+int RunInstrument::SelectAcqOption() {
   
   /* select standard or scurve */
   if (this->CmdLine->sc_on) {
@@ -173,7 +174,7 @@ int RunInstrument::Acquisition() {
   signal(SIGINT, CpuTools::SignalHandler);  
   
   /* define data backup */
-  this->UManager->DataBackup();
+  this->UManager.DataBackup();
   
   
   /* select SCURVE or STANDARD acquisition */
@@ -182,7 +183,7 @@ int RunInstrument::Acquisition() {
   case SCURVE:
     
       /* take an scurve */
-      DaqManager.CollectSc(ConfigOut);
+    DaqManager.CollectSc(&this->ZqManager, this->ConfigOut, this->CmdLine);
     
     break;
   case STANDARD:
@@ -191,6 +192,9 @@ int RunInstrument::Acquisition() {
     this->DaqManager.CollectData(&this->ZqManager, this->ConfigOut, this->CmdLine);
     
     break;
+  case ACQ_UNDEF:
+    clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
+    std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
   }
 
   /* never reached for infinite acquisition */
@@ -230,7 +234,7 @@ int RunInstrument::Start() {
 
   /* case: NIGHT */
   /* set the HV as required */
-  if (this->CmdLine->hv_on) {
+  if (this->CmdLine->hvps_on) {
     HvpsSwitch();
   }
   

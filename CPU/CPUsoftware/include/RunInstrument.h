@@ -1,8 +1,6 @@
 #ifndef _RUN_INSTRUMENT_H
 #define _RUN_INSTRUMENT_H
 
-#include "log.h"
-#include "ConfigManager.h"
 #include "CamManager.h"
 #include "LvpsManager.h"
 #include "DataAcqManager.h"
@@ -10,6 +8,11 @@
 
 /* number of seconds CPU waits for other systems to boot */
 #define BOOT_TIME 4
+
+/* location of data files */
+#define HOME_DIR "/home/software/CPU"
+#define DONE_DIR "/home/minieusouser/DONE"
+#define DATA_DIR "/home/minieusouser/DATA"
 
 /* class to handle different instrument operation modes */
 class RunInstrument {
@@ -26,20 +29,22 @@ public:
   ZynqManager ZqManager;
   UsbManager UManager;
   CamManager CManager;
+  ThermManager ThManager;
   LvpsManager Lvps;
   DataAcqManager DaqManager;
-
+  
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();
   //int Stop();
   
 private:
+  int StartUp();
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
-  int StartUp();
-  //int RunAcquisition();
+  int CheckSystems();
   //int SwitchMode();
+  int Acquisition();
 };
 
 #endif

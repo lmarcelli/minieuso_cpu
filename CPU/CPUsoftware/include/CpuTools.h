@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <dirent.h>
 
 
 /* class to provide useful funcions to other parts of the software */
@@ -18,7 +19,9 @@ public:
   CpuTools();
   static std::string CommandToStr(const char * cmd);
   static std::string IntToFixedLenStr(const int input, const int length);
- 
+  static void ClearFolder(const char * data_dir);
+  
 };
 
-#endif /* _CPU_TOOLS_H */
+#endif
+/* _CPU_TOOLS_H */

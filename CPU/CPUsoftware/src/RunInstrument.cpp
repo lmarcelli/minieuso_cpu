@@ -140,6 +140,56 @@ int RunInstrument::CheckSystems() {
   return 0;
 }
 
+/* interface to the whole data acquisition */
+int RunInstrument::Acquisition() {
+
+  std::cout << "starting acqusition run..." <<std::endl; 
+  clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
+  
+  /* clear the FTP server */
+  CpuTools::ClearFolder(DATA_DIR);
+  
+  /* enable signal handling */
+  signal(SIGINT, CpuTools::SignalHandler);  
+  
+  /* define data backup */
+  this->UManager->DataBackup();
+  
+  if(this->CmdLine->hv_on) {
+    
+    this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+
+    this->ZqManager.HvpsStatus();
+    
+    /* set the DAC */
+    this->ZqManager.SetDac(this->ConfigOut->dac_level); 
+    
+  }
+  else {
+    /* set the DAC to the pedestal */
+    this->ZqManager.SetDac(750); 
+  }
+  
+  /* take data */
+  if (this->CmdLine->trig_on) {
+    this->DaqManager.CollectData(this->ConfigOut, ZynqManager::MODE3, this->CmdLine->single_run, this->CmdLine->test_zynq_on);
+  }
+  else {
+    this->DaqManager.CollectData(this->ConfigOut, ZynqManager::MODE2, this->CmdLine->test_mode_num, this->CmdLine->single_run,
+			    this->CmdLine->test_zynq_on, this->CmdLine->keep_zynq_pkt);
+  }
+
+  /* turn off the HV */
+  if (this->CmdLine->hv_on) {
+    ZqManager->HvpsTurnOff();
+  }
+  
+  /* wait for backup to complete */
+  //run_backup.join();
+  
+  return 0;
+}
+
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
 
@@ -167,7 +217,7 @@ int RunInstrument::Start() {
   /* add mode switching DAY/NIGHT here */
 
   /* start data acquisition */
-  /* build on acq_run from mecontrol */
-  
+  Acquisition();
+   
   return 0;
 }

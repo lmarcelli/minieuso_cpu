@@ -21,6 +21,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->test_mode_num = -1;
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+  this->CmdLine->hvps_status = ZynqManager::UNDEF;
   
   /* get command line input */
   for (int i = 1; i < argc; i++) {
@@ -113,6 +114,18 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->lvps_subsystem = LvpsManager::HK;
     }
   }
+
+  /* HVPS on/off */
+  const std::string & status_str = getCmdOption("-hv");
+  if (!status_str.empty()) {
+    if (status_str == "on") {
+      this->CmdLine->hvps_status = ZynqManager::ON;
+    }
+    else if (status_str == "off") {
+      this->CmdLine->hvps_status = ZynqManager::OFF;   
+    }
+  }
+  
   
   return this->CmdLine;
 }
@@ -130,7 +143,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "without HV and with the DAC in the pedestal (DAC = 750)." << std::endl;
   std::cout << "For further information on the default configuration see the online documentation." << std::endl;
   std::cout << "https://github.com/cescalara/minieuso_cpu" <<std::endl;
-  std::cout << "capel.francesca@gmail.com" <<std::endl;
+  std::cout << "Contact: capel.francesca@gmail.com" <<std::endl;
   std::cout << std::endl;
   std::cout << "GENERAL" << std::endl;
   std::cout << "-db: enter software test/debug mode" << std::endl;
@@ -144,10 +157,14 @@ int InputParser::PrintHelpMsg() {
   std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
-  std::cout << "-hv: turn on the high voltage" << std::endl;
-  std::cout << "-dv X: provide the dynode voltage (0 - 4096)" << std::endl;
-  std::cout << "-hvdac X: provide the HV DAC (0 - 1000)" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "-hv X: turn on the high voltage" << std::endl;
+  std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096)" << std::endl;
+  std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000)" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -hv on -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -hv off" << std::endl;
+  std::cout << "NB: high voltage does not switch off automatically if you kill the program!" << std::endl;
+  std::cout << "ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM" << std::endl;
+  std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
   std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;
@@ -156,6 +173,9 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
   std::cout << "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
   std::cout << std::endl;
+  std::cout << "NOTES" << std::endl;
+  std::cout << "Execute-and-exit flags such as -db, -hv on/off and -lvps on/off can only be used one at a time" << std::endl;
+  
  
   return 0;
 }

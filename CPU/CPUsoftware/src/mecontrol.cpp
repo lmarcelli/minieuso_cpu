@@ -94,11 +94,6 @@ int main(int argc, char ** argv) {
   /* definitions */
   std::string config_dir(CONFIG_DIR);
   InputParser input(argc, argv);
-  ZynqManager ZqManager;
-  UsbManager UManager;
-  CamManager CManager;
-  LvpsManager Lvps;
-  DataAcqManager DaqManager;
 
   /* parse command line options */
   CmdLineInputs * CmdLine = input.ParseCmdLineInputs();
@@ -139,92 +134,15 @@ int main(int argc, char ** argv) {
   /* LVPS switching mode */
   /*---------------------*/
   if (CmdLine->lvps_on) {
-    switch (CmdLine->lvps_status) {
-    case LvpsManager::ON:
-      
-      switch (CmdLine->lvps_subsystem) {
-      case LvpsManager::ZYNQ:
-	std::cout << "Switching ON the ZYNQ" << std::endl;
-	break;
-      case LvpsManager::CAMERAS:
-	std::cout << "Switching ON the CAMERAS" << std::endl;
-	break;
-      case LvpsManager::HK:
-	std::cout << "Switching ON the HK" << std::endl;
-	break;
-      }
-      Lvps.SwitchOn(CmdLine->lvps_subsystem);
-      break;
-
-    case LvpsManager::OFF:
-      switch (CmdLine->lvps_subsystem) {
-      case LvpsManager::ZYNQ:
-	std::cout << "Switching OFF the ZYNQ" << std::endl;
-	break;
-      case LvpsManager::CAMERAS:
-	std::cout << "Switching OFF the CAMERAS" << std::endl;
-	break;
-      case LvpsManager::HK:
-	std::cout << "Switching OFF the HK" << std::endl;
-	break;
-      }      
-      Lvps.SwitchOff(CmdLine->lvps_subsystem);
-      break;
-      
-    case LvpsManager::UNDEF:
-      std::cout << "Cannot switch subsystem, on/off undefined" << std::endl;
-      break;
-    }
-    
     return 0;
   }
   
   /* start-up */
   /*----------*/
   
-  printf("TEST CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
+  /* run start-up procedure */
 
-  /* check the log level */
-  if (CmdLine->log_on == true) {
-    clog.change_log_level(logstream::all);
-  }
-  clog << std::endl;
-  clog << "info: " << logstream::info << "log created" << std::endl;
-
- 
-  /* reload and parse the configuration file */
-  std::string config_file = config_dir + "/dummy.conf";
-  std::string config_file_local = config_dir + "/dummy_local.conf";
-  ConfigManager CfManager(config_file, config_file_local);
-  Config * ConfigOut = CfManager.Configure();
-
-  /* check for command line override to config */
-  if (CmdLine->dv != -1) {
-    ConfigOut->dynode_voltage = CmdLine->dv;
-  }
-  if (CmdLine->hvdac != -1) {
-    ConfigOut->dac_level = CmdLine->hvdac;
-  }
-  
-  /* turn on all systems */
-  std::cout << "switching on all systems..." << std::endl;
-  if (CmdLine->cam_on ==true) {
-    Lvps.SwitchOn(LvpsManager::CAMERAS);
-  }
-  Lvps.SwitchOn(LvpsManager::HK);
-  Lvps.SwitchOn(LvpsManager::ZYNQ);
-
-  /* wait for boot */
-  std::cout << "waiting for boot" << std::endl;
-  sleep(BOOT_TIME);
-  
-  /* test the connection to the zynq board */
-  ZqManager.CheckTelnet();
-  
-  /* check the instrument and HV status */
-  ZqManager.InstStatus();
-  ZqManager.HvpsStatus();
-
+  /* run data acquisition */
   /*-----*/
   if (CmdLine->sc_on == true) {
 

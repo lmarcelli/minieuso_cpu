@@ -27,6 +27,7 @@ struct CmdLineInputs {
   uint8_t test_mode_num;
   LvpsManager::Status lvps_status;
   LvpsManager::SubSystem lvps_subsystem;
+  ZynqManager::HvpsStatus hvps_status;
        
 };
 

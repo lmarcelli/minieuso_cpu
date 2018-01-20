@@ -6,11 +6,92 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->current_mode = RunInstrument::UNDEF;
 }
 
+/* switching of LVPS then exit */
+int RunInstrument::LvpsSwitch() {
+
+  switch (this->CmdLine->lvps_status) {
+    case LvpsManager::ON:
+      
+      switch (this->CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching ON the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching ON the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching ON the HK" << std::endl;
+	break;
+      }
+      this->Lvps.SwitchOn(this->CmdLine->lvps_subsystem);
+      break;
+
+    case LvpsManager::OFF:
+      switch (this->CmdLine->lvps_subsystem) {
+      case LvpsManager::ZYNQ:
+	std::cout << "Switching OFF the ZYNQ" << std::endl;
+	break;
+      case LvpsManager::CAMERAS:
+	std::cout << "Switching OFF the CAMERAS" << std::endl;
+	break;
+      case LvpsManager::HK:
+	std::cout << "Switching OFF the HK" << std::endl;
+	break;
+      }      
+      this->Lvps.SwitchOff(this->CmdLine->lvps_subsystem);
+      break;
+      
+    case LvpsManager::UNDEF:
+      std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
+      break;
+    }
+   
+  return 0;
+}
+
+/* switching of HVPS then exit */
+int RunInstrument::HvpsSwitch() {
+
+  switch (this->CmdLine->hvps_status) {
+  case ZynqManager::ON:
+    std::cout << "Switching ON the HVPS" << std::endl;
+    this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+    break;
+  case ZynqManager::OFF:
+    std::cout << "Switching OFF the HVPS" << std::endl;
+    this->ZqManager.HvpsTurnOff();   
+    break;
+  case ZynqManager::UNDEF:
+    std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
+    break;
+  }
+  
+  return 0;
+}
+
+
+/* enter the debug mode then exit */
+int RunInstrument::DebugMode() {
+
+    std::cout << "Mini-EUSO software debug mode" << std::endl;
+     
+    /* make a test Zynq packet */
+    DataAcqManager::WriteFakeZynqPkt();
+    DataAcqManager::ReadFakeZynqPkt();
+
+    /* add any quick tests here */
+    
+  return 0;
+}
+
+
 /* define start-up procedure upon switch-on */
 int RunInstrument::StartUp() {
 
+  printf("Mini-EUSO CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
+
   /* check the log level */
-  if (this->CmdLine->log_on == true) {
+  if (this->CmdLine->log_on) {
     clog.change_log_level(logstream::all);
   }
   clog << std::endl;
@@ -29,7 +110,14 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->hvdac != -1) {
     this->ConfigOut->dac_level = this->CmdLine->hvdac;
   }
-  
+
+  /* move to separate function ... */  
+
+  return 0;
+}
+
+int RunInstrument::CheckSystems() {
+
   /* turn on all systems */
   std::cout << "switching on all systems..." << std::endl;
   if (this->CmdLine->cam_on ==true) {
@@ -55,10 +143,31 @@ int RunInstrument::StartUp() {
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
 
-  /* check operational mode */
-  /* add mode switching here */
+  /* run start-up  */
+  StartUp();
+
+  /* check for execute-and-exit commands */
+  /* these commands can only be used one at a time */
+  if (this->CmdLine->lvps_on) {
+    LvpsSwitch();
+    return 0;
+  }
+  else if (this->CmdLine->hvps_on) {
+    HvpsSwitch();
+    return 0;
+  }
+  else if (this->CmdLine->debug_mode) {
+    DebugMode();
+    return 0;
+  } 
+  
+  /* check systems and operational mode */
+  CheckSystems();
+  
+  /* add mode switching DAY/NIGHT here */
 
   /* start data acquisition */
   /* build on acq_run from mecontrol */
+  
   return 0;
 }

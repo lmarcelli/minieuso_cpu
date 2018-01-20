@@ -39,6 +39,13 @@ public:
     T_MODE6 = 6,
   };
   TestMode test_mode;
+
+  enum HvpsStatus : uint8_t {
+    OFF = 0,
+    ON = 1,
+    UNDEF = 2,
+  };
+  HvpsStatus hvps_status;
   
   ZynqManager();
   static int CheckTelnet();

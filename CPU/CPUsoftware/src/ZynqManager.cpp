@@ -3,6 +3,7 @@
 
 /* default constructor */
 ZynqManager::ZynqManager () {   
+  this->hvps_status = ZynqManager::UNDEF;
 };
 
 /* check telnet connection on a certain IP address */
@@ -317,6 +318,8 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   printf("status: %s\n", kStatStr);
   usleep(sleep_time);
 
+  /* update the HvpsStatus */
+  this->hvps_status = ZynqManager::ON;
   
   close(sockfd);
   return 0;
@@ -345,7 +348,10 @@ int ZynqManager::HvpsTurnOff() {
   kStatStr = status_string.c_str();
   printf("status: %s\n", kStatStr);
   usleep(sleep_time);
-    
+
+  /* update the HvpsStatus */
+  this->hvps_status = ZynqManager::OFF;
+  
   close(sockfd);
   return 0;
 }

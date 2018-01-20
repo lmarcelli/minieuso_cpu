@@ -3,6 +3,7 @@
 
 #include "log.h"
 #include "ConfigManager.h"
+#include "CamManager.h"
 #include "LvpsManager.h"
 #include "DataAcqManager.h"
 #include "InputParser.h"
@@ -33,6 +34,9 @@ public:
   //int Stop();
   
 private:
+  int LvpsSwitch();
+  int HvpsSwitch();
+  int DebugMode();
   int StartUp();
   //int RunAcquisition();
   //int SwitchMode();

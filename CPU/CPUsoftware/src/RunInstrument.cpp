@@ -126,7 +126,7 @@ int RunInstrument::CheckSystems() {
   std::cout << "Zynq board" << std::endl;
   std::cout << "Analog board" << std::endl;
 
-  if (this->CmdLine->hv_on) {
+  if (this->CmdLine->hvps_on) {
     std::cout << "HVPS" << std::endl;
   }
   if (this->CmdLine->cam_on) {

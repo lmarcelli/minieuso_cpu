@@ -56,10 +56,12 @@ typedef struct
 /* packet types */
 #define THERM_PACKET_TYPE 'T'
 #define HK_PACKET_TYPE 'H'
+#define HV_PACKET_TYPE 'V'
 #define SC_PACKET_TYPE 'S'
 #define CPU_PACKET_TYPE 'P'
 #define THERM_PACKET_VER 1
 #define HK_PACKET_VER 1
+#define HV_PACKET_VER 1
 #define SC_PACKET_VER 2
 #define CPU_PACKET_VER 2
 
@@ -174,7 +176,7 @@ typedef struct
   CpuFileHeader cpu_file_header; /* 12 bytes */
   HV_PACKET hv_packet; /* 1600028 bytes */
   CpuFileTrailer cpu_file_trailer; /* 12 bytes */
-} SC_FILE;
+} HV_FILE;
 
 #pragma pack(pop) /* return to normal packing */
 

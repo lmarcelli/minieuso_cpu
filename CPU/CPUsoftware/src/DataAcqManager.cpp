@@ -554,6 +554,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
   std::string zynq_file_name;
   std::string sc_file_name;
+  std::string hv_file_name;
   std::string data_str(DATA_DIR);
   std::string event_name;
 
@@ -709,7 +710,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    hv_file_name = data_str + "/" + event->name;
 	    sleep(1);
 
-	    CreatCpuRun(HV, ConfigOut);
+	    CreateCpuRun(HV, ConfigOut);
 
 	    /* generate hv packet to append to the file */
 	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);

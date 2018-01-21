@@ -13,19 +13,20 @@ capel.francesca@gmail.com
 /*--------------*/
 int main(int argc, char ** argv) {
 
-  InputParser input(argc, argv);
+  InputParser * input = new InputParser(argc, argv);
 
   /* parse command line options */
-  CmdLineInputs * CmdLine = input.ParseCmdLineInputs();
+  CmdLineInputs * CmdLine = input->ParseCmdLineInputs();
   if (CmdLine->help) {
     /* exit when help message called */
     return 0;
   }
 
   /* run instrument according to specifications */
-  RunInstrument MiniEuso(CmdLine);
+  RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
 
+  delete input;
   return 0; 
 }
 

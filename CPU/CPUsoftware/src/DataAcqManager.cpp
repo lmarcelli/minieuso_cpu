@@ -189,7 +189,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
 
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
-  int fsize;
 
   clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << std::endl;
 
@@ -199,13 +198,12 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     return NULL;
   }
 
-  /* find the length of the file */
+  /* DEBUG */
+  /*
   fseek(ptr_zfile, 0L, SEEK_END);
   fsize = ftell(ptr_zfile);
   rewind(ptr_zfile);
   
-  /* DEBUG */
-  /*
   std::cout << "file size: " << fsize << std::endl;
   std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;  
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
@@ -535,7 +533,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	else {
 
 	  /* process new file */
-	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
@@ -569,7 +566,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
-	    sleep(2);
 	    
 	    /* generate sub packets */
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
@@ -586,11 +582,14 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      if (!CmdLine->keep_zynq_pkt) {
 		std::remove(zynq_file_name.c_str());
 	      }
-	      
+
+	      /* print update */
+	      printf("The file %s was read out\n", zynq_file_name);
+	 
 	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;
-		
+	      
 	      /* leave loop for a single run file */
 	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
 		break;

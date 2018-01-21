@@ -356,7 +356,6 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -374,7 +373,6 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
 
   /* wait for scurve to be taken */
   sleep(15);
@@ -388,7 +386,6 @@ int ZynqManager::SetDac(int dac_level) {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -405,7 +402,6 @@ int ZynqManager::SetDac(int dac_level) {
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
 
   close(sockfd);
   return 0;
@@ -417,7 +413,6 @@ int ZynqManager::AcqShot() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -434,7 +429,6 @@ int ZynqManager::AcqShot() {
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
 
   close(sockfd);
   return 0;

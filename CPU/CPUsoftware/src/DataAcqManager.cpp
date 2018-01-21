@@ -552,9 +552,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
 	    /* first packet */
 	    if (packet_counter == 0) {
-
-	      std::cout << "PACKET COUNTER = 0" << std::endl;
-	     
+ 
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
@@ -590,7 +588,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      
 	      /* print update to screen */
 	      printf("PACKET COUNTER = %i\n", packet_counter);
-	      printf(" The packet %s was read out\n", zynq_file_name.c_str());
+	      printf("The packet %s was read out\n", zynq_file_name.c_str());
 
 	      /* increment the packet counter */
 	      packet_counter++;

@@ -91,7 +91,9 @@ int RunInstrument::DebugMode() {
 /* define start-up procedure upon switch-on */
 int RunInstrument::StartUp() {
 
-  printf("Mini-EUSO CPU SOFTWARE Version: %.2f Date: %s\n", VERSION, VERSION_DATE_STRING);
+  std::cout << "Mini-EUSO CPU SOFTWARE Version: " << VERSION << " Date: " << VERSION_DATE_STRING << std::endl;
+  std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << std::endl;
 
   /* check the log level */
   if (this->CmdLine->log_on) {
@@ -115,11 +117,26 @@ int RunInstrument::StartUp() {
     this->ConfigOut->dac_level = this->CmdLine->hvdac;
   }
 
+  std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
+  std::cout << "Zynq board" << std::endl;
+  std::cout << "Analog board" << std::endl;
+  
+  if (this->CmdLine->cam_on) {
+    std::cout << "Cameras" << std::endl;
+  }
+  if (this->CmdLine->therm_on) {
+    std::cout << "Thermistors" << std::endl;
+  }
+  std::cout << std::endl;
+  
+  
   return 0;
 }
 
 int RunInstrument::CheckSystems() {
 
+  std::cout << "STARTING INSTRUMENT" << std::endl;
+  
   /* turn on all systems */
   std::cout << "switching on all systems..." << std::endl;
   if (this->CmdLine->cam_on ==true) {

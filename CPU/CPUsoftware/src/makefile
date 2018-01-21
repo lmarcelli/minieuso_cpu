@@ -3,7 +3,7 @@ platform=$(shell uname -s)
 CC=gcc
 CXX=g++
 OPTIMIZE_FLAGS=-O3
-DEBUG_FLAGS=-g -v
+DEBUG_FLAGS=-g
 WARNING_FLAGS=-Wall
 INCLUDE_FLAGS:=-I../include
 

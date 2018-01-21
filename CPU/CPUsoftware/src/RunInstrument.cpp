@@ -225,10 +225,7 @@ int RunInstrument::Acquisition() {
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
 
-  /* run start-up  */
-  StartUp();
-
-  /* check for execute-and-exit commands */
+ /* check for execute-and-exit commands */
   /* these commands can only be used one at a time */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
@@ -242,6 +239,9 @@ int RunInstrument::Start() {
     DebugMode();
     return 0;
   } 
+  
+  /* run start-up  */
+  StartUp();
   
   /* check systems and operational mode */
   CheckSystems();

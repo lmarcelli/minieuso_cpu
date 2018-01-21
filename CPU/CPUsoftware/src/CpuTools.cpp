@@ -32,4 +32,32 @@ std::string CpuTools::IntToFixedLenStr(const int input, const int length)
     return ostr.str();
 }
 
-/* function to parse command line options and  */
+/* function to clear a directory  */
+void CpuTools::ClearFolder(const char * data_dir) {
+
+  DIR * theFolder = opendir(data_dir);
+  struct dirent * next_file;
+  char filepath[256];   
+  while ((next_file = readdir(theFolder)) != NULL) {
+    sprintf(filepath, "%s/%s", data_dir, next_file->d_name);
+    remove(filepath);
+  }
+  closedir(theFolder);    
+}
+
+/* handle SIGINT */
+void CpuTools::SignalHandler(int signum) {
+
+  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
+  
+  /* stop the data acquisition */
+  ZynqManager::StopAcquisition();
+  std::cout << "Acquisition stopped" << std::endl;  
+  
+  /* turn off the HV */
+  //ZynqManager::HvpsTurnOff();
+  /* cannot do this as causes data scarmbling in Zynq */
+  
+  /* terminate the program */
+  exit(signum);  
+}

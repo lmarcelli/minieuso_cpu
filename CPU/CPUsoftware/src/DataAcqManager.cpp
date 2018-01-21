@@ -189,7 +189,6 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
 
   const char * kZynqFileName = zynq_file_name.c_str();
   size_t check;
-  int fsize;
 
   clog << "info: " << logstream::info << "reading out the file " << zynq_file_name << std::endl;
 
@@ -199,18 +198,20 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     return NULL;
   }
 
-  /* find the length of the file */
+  
+  /* DEBUG */
+  /*
   fseek(ptr_zfile, 0L, SEEK_END);
   fsize = ftell(ptr_zfile);
   rewind(ptr_zfile);
   
-  /* DEBUG */
   std::cout << "file size: " << fsize << std::endl;
   std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;  
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
-
+  */
+  
   /* write the number of N1 and N2 */
   zynq_packet->N1 = ConfigOut->N1;
   zynq_packet->N2 = ConfigOut->N2;
@@ -244,16 +245,15 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   }
   
   /* DEBUG */
+  /*
   std::cout << "Check: " << check << std::endl;
   std::cout << "feof: " << feof(ptr_zfile) << std::endl;
   std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
-  
- 
-  /* DEBUG: print records to check */
   std::cout << "header D1 P0 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size D1 P0 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu D1 P0 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
-
+  */
+  
   /* close the zynq file */
   fclose(ptr_zfile);
   
@@ -477,7 +477,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt) {
+int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -534,7 +534,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	else {
 
 	  /* process new file */
-	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
@@ -548,33 +547,24 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      /* reset the packet counter */
 	      packet_counter = 0;
 	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	    }
 
 	    /* first packet */
 	    if (packet_counter == 0) {
-
-	      std::cout << "PACKET COUNTER is 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
-	     
+ 
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
 	      if (first_loop) {
-	      /* get number of frm */
+		/* get number of frm */
 		frm_num = std::stoi(event_name.substr(7, 14));
 		frm_num++; 
 		first_loop = false;
-		std::cout << "set first loop false" << std::endl;
 	      }
 	      
 	    }
 
-	    /* read out a packet */  
-	    std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
-	    std::cout << "frm_num is " << frm_num << std::endl;
-	    
 	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
@@ -592,16 +582,20 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
 	      
 	      /* delete upon completion */
-	      if (!keep_zynq_pkt) {
+	      if (!CmdLine->keep_zynq_pkt) {
 		std::remove(zynq_file_name.c_str());
 	      }
 	      
+	      /* print update to screen */
+	      printf("PACKET COUNTER = %i\n", packet_counter);
+	      printf("The packet %s was read out\n", zynq_file_name.c_str());
+
 	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;
 		
 	      /* leave loop for a single run file */
-	      if (packet_counter == RUN_SIZE && single_run == true) {
+	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
 		break;
 		}
 	    }
@@ -659,79 +653,49 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, bool single_run, boo
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(Config * ConfigOut) {
-
-  ZynqManager ZqManager;
+int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, false, false);
-  ZqManager.Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
   return 0;
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(Config * ConfigOut, uint8_t instrument_mode, uint8_t test_mode, bool single_run, bool test_mode_on, bool keep_zynq_pkt) {
-
-  ZynqManager ZqManager;
-  std::cout << "Collecting data" << std::endl;
-  std::cout << "test_mode_on: " << test_mode_on << std::endl;
+int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, single_run, keep_zynq_pkt);
-  //std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
-
+  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  
   /* set Zynq operational mode */
-  if (test_mode_on == true) {
-    /* set a mode to produce test data */
+  if (CmdLine->test_zynq_on) {
     
-    switch(test_mode) {
-    case ZynqManager::T_MODE0:
-      ZqManager.SetTestMode(ZynqManager::T_MODE0);
-      break;
-    case ZynqManager::T_MODE1:
-      ZqManager.SetTestMode(ZynqManager::T_MODE1);
-      break;
-    case ZynqManager::T_MODE2:
-      ZqManager.SetTestMode(ZynqManager::T_MODE2);
-      break;
-    case ZynqManager::T_MODE3:
-      ZqManager.SetTestMode(ZynqManager::T_MODE3);
-      break;
-    case ZynqManager::T_MODE4:
-      ZqManager.SetTestMode(ZynqManager::T_MODE4);
-      break;
-    case ZynqManager::T_MODE5:
-      ZqManager.SetTestMode(ZynqManager::T_MODE5);
-      break;
-    case ZynqManager::T_MODE6:
-      ZqManager.SetTestMode(ZynqManager::T_MODE6);
-      break;
-    }
+    /* set a mode to produce test data */
+    ZqManager->SetTestMode(ZqManager->test_mode);   
   }
 
   /* set a mode to start data gathering */
-  switch(instrument_mode) {
-  case ZynqManager::MODE0:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE0);
-    break;
-  case ZynqManager::MODE1:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE1);
-    break;
-  case ZynqManager::MODE2:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE2);
-    break;
-  case ZynqManager::MODE3:
-    ZqManager.SetInstrumentMode(ZynqManager::MODE3);
-    break;
+  ZqManager->SetInstrumentMode(ZqManager->instrument_mode);
+
+  /* add acquisition with thermistors if required */
+  if (CmdLine->therm_on) {
+    this->ThManager->Init();
+    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+    collect_therm_data.join();
+  }
+  
+  /* add acquisition with cameras if required */
+  if (CmdLine->cam_on) {
+    std::thread collect_cam_data (&CamManager::CollectData, this->CManager);
+    collect_cam_data.join();
   }
   
   collect_main_data.join();
-  //collect_therm_data.join();
-
-  /* never reached for infinite acquisition right now */
-  ZqManager.SetInstrumentMode(ZynqManager::MODE0);
+ 
+  /* never reached for infinite acquisition */
+  ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   
   return 0;

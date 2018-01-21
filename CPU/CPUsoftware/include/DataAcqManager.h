@@ -7,15 +7,11 @@
 #endif /* __APPLE__ */
 #include <thread>
 
-#include "log.h"
 #include "UsbManager.h"
-#include "ZynqManager.h"
 #include "ThermManager.h"
+#include "CamManager.h"
 #include "pdmdata.h"
-#include "data_format.h"
-#include "ConfigManager.h"
-#include "SynchronisedFile.h"
-#include "CpuTools.h"
+#include "InputParser.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
@@ -33,6 +29,7 @@
 #define PACER_RATE 100000
 #define PH_CHANNELS 4
 
+
 /* acquisition structure for analog readout */
 typedef struct
 {
@@ -47,6 +44,7 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
+  CamManager * CManager = new CamManager();
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -56,10 +54,8 @@ public:
   DataAcqManager();
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
-  int CollectSc(Config * ConfigOut);
-  int CollectData(Config * ConfigOut, uint8_t instrument_mode = 0,
-		  uint8_t test_mode = 0, bool single_run = false,
-		  bool test_mode_on = false, bool keep_zynq_pkt = false);
+  int CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
+  int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
   
@@ -74,7 +70,7 @@ private:
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
-  int ProcessIncomingData(Config * ConfigOut, bool single_run, bool keep_zynq_pkt = false);
+  int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
   int ProcessThermData();
   
 };

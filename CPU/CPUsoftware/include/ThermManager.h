@@ -9,6 +9,7 @@
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 
+
 /* number of seconds between temperature acquisitions */
 #define THERM_ACQ_SLEEP 60
 
@@ -27,6 +28,7 @@ public:
   bool cpu_file_is_set;
 
   ThermManager();
+  void Init();
   int ProcessThermData();
   TemperatureAcq * GetTemperature();
   int WriteThermPkt(TemperatureAcq * temperature_results);

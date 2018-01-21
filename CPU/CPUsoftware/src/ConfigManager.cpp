@@ -51,6 +51,7 @@ Config * ConfigManager::Parse() {
 
   cfg_file.open(config_file_name.c_str());
 
+  printf("CONFIGURATION PARAMETERS\n");  
   if (cfg_file.is_open()) {
     clog << "info: " << logstream::info << "reading from the configuration file" << std::endl; 
     while (getline(cfg_file, line)) {
@@ -58,7 +59,6 @@ Config * ConfigManager::Parse() {
       std::string type;
       in >> type;
 
-      printf("CONFIGURATION PARAMETERS\n");
       if (type == "CATHODE_VOLTAGE") {
 	in >> Output->cathode_voltage;
 	printf("CATHODE_VOLTAGE is %d\n", Output->cathode_voltage);
@@ -95,7 +95,6 @@ Config * ConfigManager::Parse() {
 	in >> Output->N2;
 	printf("N2 is %d\n", Output->N2);
       }
-      printf("\n");
       
     }
     cfg_file.close();
@@ -103,7 +102,8 @@ Config * ConfigManager::Parse() {
   else {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
   }
-  
+  printf("\n");
+     
   return Output;
 }
 

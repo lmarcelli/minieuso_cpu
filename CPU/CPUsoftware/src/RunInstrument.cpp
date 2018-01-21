@@ -91,8 +91,10 @@ int RunInstrument::DebugMode() {
 /* define start-up procedure upon switch-on */
 int RunInstrument::StartUp() {
 
+  std::cout << "-----------------------------------------------------" << std::endl;
   std::cout << "Mini-EUSO CPU SOFTWARE Version: " << VERSION << " Date: " << VERSION_DATE_STRING << std::endl;
   std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
 
   /* check the log level */
@@ -150,7 +152,6 @@ int RunInstrument::CheckSystems() {
 
   /* wait for boot */
   std::cout << "waiting for boot..." << std::endl;
-  std::cout << std::endl;
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */

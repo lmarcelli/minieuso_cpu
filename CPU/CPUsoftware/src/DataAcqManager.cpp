@@ -763,7 +763,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */
-  ZynqManager->SetNPkts(ConfigOut->N1, configOut->N2);
+  ZqManager->SetNPkts(ConfigOut->N1, ConfigOut->N2);
   
   if (CmdLine->test_zynq_on) {
     

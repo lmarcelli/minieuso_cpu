@@ -437,29 +437,41 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
   /* definitions */
   std::string status_string;
   int sockfd;
+  uint32_t timestamp = time(NULL);
+  std::string cmd;
+  std::stringstream conv;
 
   clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
+
+
   /* check input mode and update accordingly */
   switch (input_mode) {
   case MODE0:
-    this->instrument_mode = MODE0; 
-    status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
+    this->instrument_mode = MODE0;
+    conv << "instrument mode 0 " << timestamp << std::endl;
+    cmd = conv.str();
+    status_string = SendRecvTelnet(cmd, sockfd);
     break;
   case MODE1:
     this->instrument_mode = MODE1; 
-    status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
+    conv << "instrument mode 1 " << timestamp << std::endl;
+    cmd = conv.str();
+    status_string = SendRecvTelnet(cmd, sockfd);
     break;
   case PERIODIC:
-    this->instrument_mode = PERIODIC; 
-    status_string = SendRecvTelnet("instrument mode 2\n", sockfd);
+    this->instrument_mode = PERIODIC;
+    conv << "instrument mode 2 " << timestamp << std::endl;
+     cmd = conv.str();
+    status_string = SendRecvTelnet(cmd, sockfd);
     break;
   case TRIGGER:
-     this->instrument_mode = TRIGGER; 
-    status_string = SendRecvTelnet("instrument mode 3\n", sockfd);
+    this->instrument_mode = TRIGGER;
+    conv << "instrument mode 3 " << timestamp << std::endl;
+    cmd = conv.str();
+    status_string = SendRecvTelnet(cmd, sockfd);
     break;
   }
   
@@ -548,7 +560,11 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   /* definitions */
   std::string status_string;
   int sockfd;
+  std::string cmd1, cmd2;
+  std::stringstream conv1, conv2;
 
+  int sleep_time = 500000;
+  
   clog << "info: " << logstream::info << "setting N1 to " << N1 << " and N2 to " << N2 << std::endl;
 
   /* create the command */

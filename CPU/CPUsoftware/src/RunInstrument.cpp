@@ -116,6 +116,11 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->hvdac != -1) {
     this->ConfigOut->dac_level = this->CmdLine->hvdac;
   }
+  
+  return 0;
+}
+
+int RunInstrument::CheckSystems() {
 
   std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
   std::cout << "Zynq board" << std::endl;
@@ -129,11 +134,6 @@ int RunInstrument::StartUp() {
   }
   std::cout << std::endl;
   
-  
-  return 0;
-}
-
-int RunInstrument::CheckSystems() {
 
   std::cout << "STARTING INSTRUMENT" << std::endl;
   
@@ -147,6 +147,7 @@ int RunInstrument::CheckSystems() {
 
   /* wait for boot */
   std::cout << "waiting for boot..." << std::endl;
+  std::cout << std::endl;
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
@@ -155,7 +156,7 @@ int RunInstrument::CheckSystems() {
   /* check the instrument and HV status */
   this->ZqManager.GetInstStatus();
   this->ZqManager.GetHvpsStatus();
-
+  
   return 0;
 }
 
@@ -225,12 +226,16 @@ int RunInstrument::Acquisition() {
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
 
- /* check for execute-and-exit commands */
-  /* these commands can only be used one at a time */
+  /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
     return 0;
   }
+  
+  /* run start-up  */
+  StartUp();
+
+  /* check for execute-and-exit commands which require config */
   else if (this->CmdLine->hvps_on) {
     HvpsSwitch();
     return 0;
@@ -239,9 +244,7 @@ int RunInstrument::Start() {
     DebugMode();
     return 0;
   } 
-  
-  /* run start-up  */
-  StartUp();
+ 
   
   /* check systems and operational mode */
   CheckSystems();

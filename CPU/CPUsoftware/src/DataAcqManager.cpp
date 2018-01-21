@@ -589,8 +589,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      }
 	      
 	      /* print update to screen */
-	      printf("PACKET COUNTER = %i", packet_counter);
-	      printf(" The packet %s was read out", zynq_file_name.c_str());
+	      printf("PACKET COUNTER = %i\n", packet_counter);
+	      printf(" The packet %s was read out\n", zynq_file_name.c_str());
 
 	      /* increment the packet counter */
 	      packet_counter++;

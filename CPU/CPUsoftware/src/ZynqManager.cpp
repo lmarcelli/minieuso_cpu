@@ -538,7 +538,6 @@ int ZynqManager::StopAcquisition() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr = NULL;
   int sockfd;
 
   clog << "info: " << logstream::info << "switching off the Zynq acquisition" << std::endl;

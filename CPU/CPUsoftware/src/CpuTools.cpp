@@ -51,7 +51,7 @@ void CpuTools::SignalHandler(int signum) {
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
   
   /* stop the data acquisition */
-  // ZynqManager::StopAcquisition();
+  ZynqManager::StopAcquisition();
   std::cout << "Acquisition stopped" << std::endl;  
   
   /* turn off the HV */

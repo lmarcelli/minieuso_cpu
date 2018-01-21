@@ -762,6 +762,9 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
   
   /* set Zynq operational mode */
+  /* select number of N1 and N2 packets */
+  ZynqManager->SetNPkts(ConfigOut->N1, configOut->N2);
+  
   if (CmdLine->test_zynq_on) {
     
     /* set a mode to produce test data */

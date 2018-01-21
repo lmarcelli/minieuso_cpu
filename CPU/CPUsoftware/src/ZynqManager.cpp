@@ -540,3 +540,31 @@ int ZynqManager::StopAcquisition() {
   close(sockfd);
   return 0;
 }
+
+
+/* set the number of packets for D1 and D2 */
+int ZynqManager::SetNPkts(int N1, int N2) {
+
+  /* definitions */
+  std::string status_string;
+  int sockfd;
+
+  clog << "info: " << logstream::info << "setting N1 to " << N1 << " and N2 to " << N2 << std::endl;
+
+  /* create the command */
+  conv1 << "mmg N1 " << N1 << std::endl;
+  cmd1 = conv1.str();
+  conv2 << "mmg N2 " << N2 << std::endl;
+  cmd2 = conv2.str();
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  status_string = SendRecvTelnet(cmd1, sockfd);
+  usleep(sleep_time);  
+  status_string = SendRecvTelnet(cmd2, sockfd);
+  usleep(sleep_time);  
+   
+  close(sockfd);
+  return 0;
+
+}

@@ -204,7 +204,7 @@ int RunInstrument::Acquisition() {
   switch (this->current_acq_mode) {
   case SCURVE:
     
-      /* take an scurve */
+    /* take an scurve */
     DaqManager.CollectSc(&this->ZqManager, this->ConfigOut, this->CmdLine);
     
     break;

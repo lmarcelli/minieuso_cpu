@@ -33,7 +33,8 @@ std::string CpuTools::IntToFixedLenStr(const int input, const int length)
 }
 
 /* function to clear a directory  */
-void ClearFolder(const char * data_dir) {
+void CpuTools::ClearFolder(const char * data_dir) {
+
   DIR * theFolder = opendir(data_dir);
   struct dirent * next_file;
   char filepath[256];   
@@ -45,14 +46,14 @@ void ClearFolder(const char * data_dir) {
 }
 
 /* handle SIGINT */
-void SignalHandler(int signum) {
+void CpuTools::SignalHandler(int signum) {
 
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
-
+  
   /* stop the data acquisition */
-  ZynqManager::StopAcquisition();
+  // ZynqManager::StopAcquisition();
   std::cout << "Acquisition stopped" << std::endl;  
-
+  
   /* turn off the HV */
   //ZynqManager::HvpsTurnOff();
   /* cannot do this as causes data scarmbling in Zynq */

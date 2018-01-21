@@ -11,7 +11,7 @@
 #include <array>
 #include <dirent.h>
 
-#include "ZynqManager.h"
+//#include "ZynqManager.h"
 
 /* class to provide useful funcions to other parts of the software */
 class CpuTools {

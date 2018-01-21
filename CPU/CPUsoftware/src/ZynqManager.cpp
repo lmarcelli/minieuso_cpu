@@ -134,7 +134,7 @@ int ZynqManager::ConnectTelnet() {
 }
 
 /* check the instrument status */
-int ZynqManager::InstStatus() {
+int ZynqManager::GetInstStatus() {
 
   /* definitions */
   std::string status_string;
@@ -215,7 +215,7 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
 
 
 /* check the HV status */
-int ZynqManager::HvpsStatus() {
+int ZynqManager::GetHvpsStatus() {
 
   /* definitions */
   std::string status_string;

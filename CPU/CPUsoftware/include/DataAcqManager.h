@@ -7,16 +7,15 @@
 #endif /* __APPLE__ */
 #include <thread>
 
-#include "log.h"
 #include "UsbManager.h"
-#include "ZynqManager.h"
+//#include "ZynqManager.h"
 #include "ThermManager.h"
 #include "CamManager.h"
 #include "pdmdata.h"
-#include "data_format.h"
-#include "ConfigManager.h"
-#include "SynchronisedFile.h"
-#include "CpuTools.h"
+//#include "data_format.h"
+//#include "ConfigManager.h"
+//#include "SynchronisedFile.h"
+//#include "CpuTools.h"
 #include "InputParser.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
@@ -34,6 +33,7 @@
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
 #define PH_CHANNELS 4
+
 
 /* acquisition structure for analog readout */
 typedef struct

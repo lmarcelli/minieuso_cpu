@@ -3,7 +3,6 @@
 
 #include "LvpsManager.h"
 #include "DataAcqManager.h"
-#include "InputParser.h"
 
 /* number of seconds CPU waits for other systems to boot */
 #define BOOT_TIME 4

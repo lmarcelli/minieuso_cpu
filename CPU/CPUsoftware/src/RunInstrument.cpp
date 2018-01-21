@@ -136,8 +136,8 @@ int RunInstrument::CheckSystems() {
   this->ZqManager.CheckTelnet();
   
   /* check the instrument and HV status */
-  this->ZqManager.InstStatus();
-  this->ZqManager.HvpsStatus();
+  this->ZqManager.GetInstStatus();
+  this->ZqManager.GetHvpsStatus();
 
   return 0;
 }
@@ -166,7 +166,7 @@ int RunInstrument::Acquisition() {
 
   std::cout << "starting acqusition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
-  
+
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
   

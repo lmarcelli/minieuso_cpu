@@ -9,6 +9,7 @@
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 
+
 /* number of seconds between temperature acquisitions */
 #define THERM_ACQ_SLEEP 60
 

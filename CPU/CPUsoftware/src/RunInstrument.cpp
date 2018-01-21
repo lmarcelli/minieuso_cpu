@@ -125,7 +125,10 @@ int RunInstrument::CheckSystems() {
   std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
   std::cout << "Zynq board" << std::endl;
   std::cout << "Analog board" << std::endl;
-  
+
+  if (this->CmdLine->hv_on) {
+    std::cout << "HVPS" << std::endl;
+  }
   if (this->CmdLine->cam_on) {
     std::cout << "Cameras" << std::endl;
   }

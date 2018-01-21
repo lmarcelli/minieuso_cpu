@@ -90,7 +90,6 @@ typedef struct
   float therm_data[N_CHANNELS_THERM]; /* 40 bytes */
 } THERM_PACKET;
 
-
 /* housekeeping packet for other data */
 /* 296 bytes */
 typedef struct
@@ -155,6 +154,25 @@ typedef struct
 {
   CpuFileHeader cpu_file_header; /* 12 bytes */
   SC_PACKET scurve_packet; /* 9437220 bytes */
+  CpuFileTrailer cpu_file_trailer; /* 12 bytes */
+} SC_FILE;
+
+/* HV packet for HV switching data */
+/* 1600028 bytes (~ 1.6 MB) */
+typedef struct
+{
+  CpuPktHeader hv_packet_header; /* 16 bytes */
+  CpuTimeStamp hv_time; /* 4 bytes */
+  Z_DATA_TYPE_HVPS_LOG_V1 hvps_log; /* 1600008 bytes */
+} HV_PACKET;
+
+/* HV file to store a single HVPS log */
+/* shown here as demonstration only */
+/* 1600028 bytes (~1.6 MB) */
+typedef struct
+{
+  CpuFileHeader cpu_file_header; /* 12 bytes */
+  HV_PACKET hv_packet; /* 1600028 bytes */
   CpuFileTrailer cpu_file_trailer; /* 12 bytes */
 } SC_FILE;
 

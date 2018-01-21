@@ -713,7 +713,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
 	    /* generate hv packet to append to the file */
 	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
-	    WriteHvPkt();
+	    WriteHvPkt(hv_packet);
 	    
 	    CloseCpuRun(HV);
 

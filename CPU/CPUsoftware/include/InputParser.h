@@ -38,7 +38,7 @@ struct CmdLineInputs {
 /* class to parse command line input to program */
 class InputParser{
 public:
-  CmdLineInputs * CmdLine;
+  CmdLineInputs * CmdLine = new CmdLineInputs();
   
   InputParser(int &argc, char **argv); 
   CmdLineInputs * ParseCmdLineInputs();

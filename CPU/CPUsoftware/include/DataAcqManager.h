@@ -8,14 +8,9 @@
 #include <thread>
 
 #include "UsbManager.h"
-//#include "ZynqManager.h"
 #include "ThermManager.h"
 #include "CamManager.h"
 #include "pdmdata.h"
-//#include "data_format.h"
-//#include "ConfigManager.h"
-//#include "SynchronisedFile.h"
-//#include "CpuTools.h"
 #include "InputParser.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"

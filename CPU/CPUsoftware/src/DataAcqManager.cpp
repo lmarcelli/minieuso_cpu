@@ -198,6 +198,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
     return NULL;
   }
 
+  
   /* DEBUG */
   /*
   fseek(ptr_zfile, 0L, SEEK_END);
@@ -533,6 +534,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	else {
 
 	  /* process new file */
+	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
@@ -545,27 +547,38 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
 	      /* reset the packet counter */
 	      packet_counter = 0;
+	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
+	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	    }
 
 	    /* first packet */
 	    if (packet_counter == 0) {
+
+	      std::cout << "PACKET COUNTER is 0" << std::endl;
+	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
 
 	      if (first_loop) {
-	      /* get number of frm */
+		/* get number of frm */
 		frm_num = std::stoi(event_name.substr(7, 14));
 		frm_num++; 
 		first_loop = false;
-         }
+		std::cout << "set first loop false" << std::endl;
+	      }
 	      
 	    }
-     
+
+	    /* read out a packet */  
+	    std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
+	    std::cout << "frm_num is " << frm_num << std::endl;
+	    
 	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
+	    sleep(2);
 	    
 	    /* generate sub packets */
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
@@ -582,14 +595,11 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      if (!CmdLine->keep_zynq_pkt) {
 		std::remove(zynq_file_name.c_str());
 	      }
-
-	      /* print update */
-	      std::cout << "The file " << zynq_file_name << " was read out" << std::endl;
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;
-	      
+		
 	      /* leave loop for a single run file */
 	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
 		break;

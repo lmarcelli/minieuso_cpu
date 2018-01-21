@@ -584,8 +584,8 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      }
 
 	      /* print update */
-	      printf("The file %s was read out\n", zynq_file_name);
-	 
+	      std::cout << "The file " << zynq_file_name << " was read out" << std::endl;
+	      
 	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;

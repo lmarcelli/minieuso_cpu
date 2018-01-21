@@ -721,6 +721,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	   std::remove(hv_file_name.c_str());
 
 	   /* exit without waiting for more files */
+	   return 0;
 	  }
 	  else {
 	    

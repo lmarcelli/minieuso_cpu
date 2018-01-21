@@ -534,7 +534,6 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	else {
 
 	  /* process new file */
-	  printf("The file %s was created\n", event->name);
 	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	  event_name = event->name;
 	  
@@ -548,15 +547,13 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	      /* reset the packet counter */
 	      packet_counter = 0;
 	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	    }
 
 	    /* first packet */
 	    if (packet_counter == 0) {
 
-	      std::cout << "PACKET COUNTER is 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
+	      std::cout << "PACKET COUNTER = 0" << std::endl;
 	     
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
@@ -566,15 +563,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 		frm_num = std::stoi(event_name.substr(7, 14));
 		frm_num++; 
 		first_loop = false;
-		std::cout << "set first loop false" << std::endl;
 	      }
 	      
 	    }
 
-	    /* read out a packet */  
-	    std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
-	    std::cout << "frm_num is " << frm_num << std::endl;
-	    
 	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
@@ -596,6 +588,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 		std::remove(zynq_file_name.c_str());
 	      }
 	      
+	      /* print update to screen */
+	      printf("PACKET COUNTER = %i", packet_counter);
+	      printf(" The packet %s was read out", zynq_file_name.c_str());
+
 	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;

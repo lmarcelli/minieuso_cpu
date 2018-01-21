@@ -205,12 +205,14 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   rewind(ptr_zfile);
   
   /* DEBUG */
+  /*
   std::cout << "file size: " << fsize << std::endl;
   std::cout << "sizeof(*zynq_packet): " << sizeof(*zynq_packet) << std::endl;  
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
-
+  */
+  
   /* write the number of N1 and N2 */
   zynq_packet->N1 = ConfigOut->N1;
   zynq_packet->N2 = ConfigOut->N2;
@@ -244,16 +246,15 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   }
   
   /* DEBUG */
+  /*
   std::cout << "Check: " << check << std::endl;
   std::cout << "feof: " << feof(ptr_zfile) << std::endl;
   std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
-  
- 
-  /* DEBUG: print records to check */
   std::cout << "header D1 P0 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size D1 P0 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu D1 P0 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
-
+  */
+  
   /* close the zynq file */
   fclose(ptr_zfile);
   
@@ -547,16 +548,11 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
 	      /* reset the packet counter */
 	      packet_counter = 0;
-	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	    }
 
 	    /* first packet */
 	    if (packet_counter == 0) {
-
-	      std::cout << "PACKET COUNTER is 0" << std::endl;
-	      std::cout << "frm_num is " << frm_num << std::endl;
 	     
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut);
@@ -566,15 +562,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 		frm_num = std::stoi(event_name.substr(7, 14));
 		frm_num++; 
 		first_loop = false;
-		std::cout << "set first loop false" << std::endl;
-	      }
+         }
 	      
 	    }
-
-	    /* read out a packet */  
-	    std::cout << "PACKET COUNTER is " << packet_counter << std::endl;
-	    std::cout << "frm_num is " << frm_num << std::endl;
-	    
+     
 	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;

@@ -16,20 +16,23 @@
 
 #include "log.h"
 
+/* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
 #define TELNET_PORT 23
+
+/* pedestal for the ASIC DAC */
+#define PEDESTAL 750
 
 class ZynqManager {
 public:
   enum InstrumentMode : uint8_t {
     MODE0 = 0,
     MODE1 = 1,
-    MODE2 = 2,
-    MODE3 = 3,
+    PERIODIC = 2,
+    TRIGGER = 3,
   };
   InstrumentMode instrument_mode;
-
-   enum TestMode : uint8_t {
+  enum TestMode : uint8_t {
     T_MODE0 = 0,
     T_MODE1 = 1,
     T_MODE2 = 2,
@@ -39,14 +42,20 @@ public:
     T_MODE6 = 6,
   };
   TestMode test_mode;
+  enum HvpsStatus : uint8_t {
+    OFF = 0,
+    ON = 1,
+    UNDEF = 2,
+  };
+  HvpsStatus hvps_status;
   
   ZynqManager();
   static int CheckTelnet();
   static int ConnectTelnet();
-  static int InstStatus();
-  static int HvpsStatus();
-  static int HvpsTurnOn(int cv, int dv);
-  static int HvpsTurnOff();
+  static int GetInstStatus();
+  static int GetHvpsStatus();
+  int HvpsTurnOn(int cv, int dv);
+  int HvpsTurnOff();
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();

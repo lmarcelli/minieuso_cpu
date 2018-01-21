@@ -3,6 +3,9 @@
 
 /* default constructor */
 ZynqManager::ZynqManager () {   
+  this->hvps_status = ZynqManager::UNDEF;
+  this->instrument_mode = ZynqManager::MODE0;
+  this->test_mode = ZynqManager::T_MODE0;
 };
 
 /* check telnet connection on a certain IP address */
@@ -44,7 +47,6 @@ int ZynqManager::CheckTelnet() {
   }
   else {
     clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-    printf("connected to %s on port %u\n", ip, TELNET_PORT);
   }
 
   close(sockfd);
@@ -124,20 +126,18 @@ int ZynqManager::ConnectTelnet() {
   }
   else {
     clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-    printf("connected to %s on port %u\n", ip, TELNET_PORT);
   }
   
   return sockfd;   
 }
 
 /* check the instrument status */
-int ZynqManager::InstStatus() {
+int ZynqManager::GetInstStatus() {
 
   /* definitions */
   std::string status_string;
   const char * kStatStr;
   int sockfd;
-  //long status;
 
   clog << "info: " << logstream::info << "checking the instrument status" << std::endl;
 
@@ -147,8 +147,7 @@ int ZynqManager::InstStatus() {
   /* send and receive commands in another */
   status_string = SendRecvTelnet("instrument status\n", sockfd);
   kStatStr = status_string.c_str();
-  //status = std::stol(kStatStr);
-  printf("status: %s\n", kStatStr);
+  printf("instrument status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;
@@ -185,26 +184,26 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
 
-  if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
+  if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
     printf("ERROR opening socket\n");
     exit(0);
   }
 
-  bzero(buffer,256);
+  bzero(buffer, 256);
   strncpy(buffer, kSendMsg, sizeof(buffer));
   
-  n = write(sockfd,buffer,strlen(buffer));
+  n = write(sockfd, buffer, strlen(buffer));
   if (n < 0) {
     printf("ERROR opening socket\n");
     exit(0);
   }
-  bzero(buffer,256);
-  n = read(sockfd,buffer,255);
+  bzero(buffer, 256);
+  n = read(sockfd, buffer, 255);
   if (n < 0) { 
     printf("ERROR opening socket\n");
     exit(0);
   }
-  printf("%s\n",buffer);
+  printf("%s\n", buffer);
   close(sockfd);
   
   return 0;
@@ -212,13 +211,12 @@ int ZynqManager::InstStatusTest(std::string send_msg) {
 
 
 /* check the HV status */
-int ZynqManager::HvpsStatus() {
+int ZynqManager::GetHvpsStatus() {
 
   /* definitions */
   std::string status_string;
   const char * kStatStr;
   int sockfd;
-  //long status;
 
   clog << "info: " << logstream::info << "checking the HVPS status" << std::endl;
 
@@ -228,7 +226,6 @@ int ZynqManager::HvpsStatus() {
   /* send and receive commands */
   status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
   kStatStr = status_string.c_str();
-  //status = std::stol(kStatStr);
   printf("HVPS status: %s\n", kStatStr);
   
   close(sockfd);
@@ -256,67 +253,64 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   /* make the command string from config file values */
   conv0 << "hvps cathode " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << std::endl;
   cmd0 = conv0.str();
-  std::cout << cmd0;
-  
   
   status_string = SendRecvTelnet(cmd0, sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS cathode to %i: %s\n", cv, kStatStr);
   usleep(sleep_time);
   
   /* set the dynode voltage low */
   status_string = SendRecvTelnet("hvps setdac 500 500 500 500 500 500 500 500 500\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to 500: %s\n", kStatStr);
   usleep(sleep_time);  
 
   /* turn on */
   status_string = SendRecvTelnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Turn on HVPS: %s\n", kStatStr);
 
   /* ramp up in steps of 500 */
   status_string = SendRecvTelnet("hvps setdac 1000 1000 1000 1000 1000 1000 1000 1000 1000\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to 1000: %s\n", kStatStr);
   usleep(sleep_time);  
   status_string = SendRecvTelnet("hvps setdac 1500 1500 1500 1500 1500 1500 1500 1500 1500\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to 1500: %s\n", kStatStr);
   usleep(sleep_time);  
   status_string = SendRecvTelnet("hvps setdac 2000 2000 2000 2000 2000 2000 2000 2000 2000\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to 2000: %s\n", kStatStr);
   usleep(sleep_time);  
   status_string = SendRecvTelnet("hvps setdac 2500 2500 2500 2500 2500 2500 2500 2500 2500\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to 2500: %s\n", kStatStr);
   usleep(sleep_time);
   if (dv > 3000) {
     status_string = SendRecvTelnet("hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000\n", sockfd);
     kStatStr = status_string.c_str();
-    printf("status: %s\n", kStatStr);
+    printf("Set HVPS dac to 3000: %s\n", kStatStr);
     usleep(sleep_time);
   }
   if (dv > 3500) {
     status_string = SendRecvTelnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
     kStatStr = status_string.c_str();
-    printf("status: %s\n", kStatStr);
-    usleep(sleep_time);
-
-    
+    printf("Set HVPS dac to 3500: %s\n", kStatStr);
+    usleep(sleep_time);  
   }
   
   /* set the final DAC */
   conv1 << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
   cmd1 = conv1.str();
-  std::cout << cmd1;
   
   status_string = SendRecvTelnet(cmd1, sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("Set HVPS dac to %i: %s\n", dv, kStatStr);
   usleep(sleep_time);
 
+  /* update the HvpsStatus */
+  this->hvps_status = ZynqManager::ON;
   
   close(sockfd);
   return 0;
@@ -343,9 +337,12 @@ int ZynqManager::HvpsTurnOff() {
   /* turn off */
   status_string = SendRecvTelnet("hvps turnoff 1 1 1 1 1 1 1 1 1\n", sockfd);
   kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
+  printf("HVPS status: %s\n", kStatStr);
   usleep(sleep_time);
-    
+
+  /* update the HvpsStatus */
+  this->hvps_status = ZynqManager::OFF;
+  
   close(sockfd);
   return 0;
 }
@@ -356,7 +353,6 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -368,17 +364,12 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   
   /* send and receive commands */
   /* take an s-curve */
-#ifdef SINGLE_EVENT
-  conv << "acq sweep " << start << " " << step << " " << stop << " " << acc << std::endl;
-#else
+  printf("S-Curve acquisition starting");
   conv << "acq scurve " << start << " " << step << " " << stop << " " << acc << std::endl;
-#endif /* SINGLE_EVENT */
   cmd = conv.str();
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
 
   /* wait for scurve to be taken */
   sleep(15);
@@ -392,7 +383,6 @@ int ZynqManager::SetDac(int dac_level) {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -409,8 +399,6 @@ int ZynqManager::SetDac(int dac_level) {
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;
@@ -422,7 +410,6 @@ int ZynqManager::AcqShot() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
   std::stringstream conv;
@@ -439,8 +426,6 @@ int ZynqManager::AcqShot() {
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
-  kStatStr = status_string.c_str();
-  printf("status: %s\n", kStatStr);
 
   close(sockfd);
   return 0;
@@ -451,7 +436,6 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr = NULL;
   int sockfd;
 
   clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
@@ -463,27 +447,19 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
   switch (input_mode) {
   case MODE0:
     this->instrument_mode = MODE0; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case MODE1:
     this->instrument_mode = MODE1; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
-  case MODE2:
-    this->instrument_mode = MODE2; 
-    /* switch to data acquisition mode specified */
+  case PERIODIC:
+    this->instrument_mode = PERIODIC; 
     status_string = SendRecvTelnet("instrument mode 2\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
-  case MODE3:
-     this->instrument_mode = MODE3; 
-    /* switch to data acquisition mode specified */
+  case TRIGGER:
+     this->instrument_mode = TRIGGER; 
     status_string = SendRecvTelnet("instrument mode 3\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   }
   
@@ -500,7 +476,6 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr = NULL;
   int sockfd;
 
   clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
@@ -512,45 +487,31 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
   switch (input_mode) {
   case T_MODE0:
     this->test_mode = T_MODE0; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 0\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case T_MODE1:
     this->test_mode = T_MODE1; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 1\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case T_MODE2:
     this->test_mode = T_MODE2; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 2\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case T_MODE3:
      this->test_mode = T_MODE3; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 3\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case T_MODE4:
      this->test_mode = T_MODE4; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 4\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
   case T_MODE5:
      this->test_mode = T_MODE5; 
-    /* switch to data acquisition mode specified */
-    status_string = SendRecvTelnet("acq test 5\n", sockfd);
-    printf("status: %s\n", kStatStr);
+     status_string = SendRecvTelnet("acq test 5\n", sockfd);
     break;
   case T_MODE6:
      this->test_mode = T_MODE6; 
-    /* switch to data acquisition mode specified */
     status_string = SendRecvTelnet("acq test 5\n", sockfd);
-    printf("status: %s\n", kStatStr);
     break;
 
   }
@@ -568,7 +529,6 @@ int ZynqManager::StopAcquisition() {
 
   /* definitions */
   std::string status_string;
-  const char * kStatStr = NULL;
   int sockfd;
 
   clog << "info: " << logstream::info << "switching off the Zynq acquisition" << std::endl;
@@ -576,73 +536,7 @@ int ZynqManager::StopAcquisition() {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-  printf("status: %s\n", kStatStr);
    
-  /* check the status */
-  //ADD THIS
-  
   close(sockfd);
   return 0;
 }
-
-/* depreciated commands for compatibilty */
-#ifdef SINGLE_EVENT
-int ZynqManager::DataAcquisitionStart() {
-
-  /* definitions */
-  std::string status_string;
-  const char * kStatStr = NULL;
-  int sockfd;
-
-  clog << "info: " << logstream::info << "starting data acquisition" << std::endl;
-
-  /* setup the telnet connection */
-  sockfd = ConnectTelnet();
-  
-  /* send and receive commands */
-  /* switch to data acquisition mode 1*/
-  status_string = SendRecvTelnet("instrument mode 1\n", sockfd);
-  printf("status: %s\n", kStatStr);
-
-  /* check the status */
-  //ADD THIS
-
-  /* start data acquisition */
-  status_string = SendRecvTelnet("instrument start\n", sockfd);
-  printf("status: %s\n", kStatStr);
-  
-  
-  close(sockfd);
-  return 0;
-}
-
-
-int ZynqManager::DataAcquisitionStop() {
-
-  /* definitions */
-  std::string status_string;
-  const char * kStatStr = NULL;
-  int sockfd;
-
-  clog << "info: " << logstream::info << "stopping data acquisition" << std::endl;
-
-  /* setup the telnet connection */
-  sockfd = ConnectTelnet();
-  
-  /* send and receive commands */
-  /* stop the data acquisition */
-  status_string = SendRecvTelnet("instrument stop\n", sockfd);
-  printf("status: %s\n", kStatStr);
-
-  /* check the status */
-  //ADD THIS
-
-  /* switch to instrument mode 0 */
-  status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-  printf("status: %s\n", kStatStr);
-  
-  
-  close(sockfd);
-  return 0;
-}
-#endif /* SINGLE_EVENT */

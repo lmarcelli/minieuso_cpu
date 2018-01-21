@@ -4,11 +4,15 @@
 ThermManager::ThermManager() { 
 
   this->cpu_file_is_set = false;
+  
+}
 
-  /* initialise the thermistors */
+/* initialise the thermistors */
+void ThermManager::Init() {
+
   const char * cmd = "digitemp -s /dev/ttyS0 -i";
   std::string output = CpuTools::CommandToStr(cmd);
-  
+
 }
 
 /* build the cpu packet header */
@@ -31,7 +35,7 @@ uint32_t ThermManager::BuildCpuTimeStamp() {
 
 /* get the temperature */
 TemperatureAcq * ThermManager::GetTemperature() {
-
+ 
   /* define command to read temperature from all thermistors on COM port 1 */
   const char * cmd = "digitemp -s /dev/ttyS0 -a";
 

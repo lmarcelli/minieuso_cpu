@@ -3,18 +3,21 @@
 
 #include <vector>
 #include <algorithm>
+
 #include "LvpsManager.h"
+#include "ZynqManager.h"
 
 /* struct to handle the command line inputs */
 struct CmdLineInputs {
 
   /* command line options */
   bool help;
-  bool hv_on;
+  bool hvps_on;
   bool debug_mode;
   bool log_on;
   bool trig_on;
   bool cam_on;
+  bool therm_on;
   bool lvps_on;
   bool sc_on;
   bool single_run; 
@@ -24,17 +27,18 @@ struct CmdLineInputs {
   /* command line arguments */
   int dv;
   int hvdac;
-  uint8_t test_mode_num;
   LvpsManager::Status lvps_status;
   LvpsManager::SubSystem lvps_subsystem;
-       
+  ZynqManager::HvpsStatus hvps_status;
+  ZynqManager::InstrumentMode zynq_mode;
+  ZynqManager::TestMode zynq_test_mode;
 };
 
 
 /* class to parse command line input to program */
 class InputParser{
 public:
-  CmdLineInputs * CmdLine;
+  CmdLineInputs * CmdLine = new CmdLineInputs();
   
   InputParser(int &argc, char **argv); 
   CmdLineInputs * ParseCmdLineInputs();

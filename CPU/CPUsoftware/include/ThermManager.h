@@ -28,6 +28,7 @@ public:
   bool cpu_file_is_set;
 
   ThermManager();
+  void Init();
   int ProcessThermData();
   TemperatureAcq * GetTemperature();
   int WriteThermPkt(TemperatureAcq * temperature_results);

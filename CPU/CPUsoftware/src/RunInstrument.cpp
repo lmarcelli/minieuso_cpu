@@ -245,7 +245,6 @@ int RunInstrument::Start() {
     return 0;
   } 
  
-  
   /* check systems and operational mode */
   CheckSystems();
   

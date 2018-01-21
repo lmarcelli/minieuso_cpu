@@ -681,6 +681,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
 
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
+    this->ThManager->Init();
     std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
     collect_therm_data.join();
   }

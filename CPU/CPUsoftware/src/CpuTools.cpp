@@ -53,6 +53,10 @@ void CpuTools::SignalHandler(int signum) {
   /* stop the data acquisition */
   ZynqManager::StopAcquisition();
   std::cout << "Acquisition stopped" << std::endl;  
+
+  /* wait for the HV file to be read out */
+  std::cout << "Reading out the HV file..." << std::endl;  
+  sleep(2);
   
   /* turn off the HV */
   //ZynqManager::HvpsTurnOff();

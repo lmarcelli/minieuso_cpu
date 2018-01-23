@@ -317,18 +317,19 @@ typedef struct
 #define HVPS_AGC_UP_0_to_1_STR		 "AGC_UP_0_to_1"// Automatic gain control: HVPS automatically switched from "0" to "1". Shift register reloaded.
 #define HVPS_AGC_UP_1_to_3_STR		 "AGC_UP_1_to_3"// Automatic gain control: HVPS automatically switched from "1" to "3". Shift register reloaded.
 
-
+/* 16 bytes */
 typedef struct
 {
-	TimeStamp_dual ts; //
-	uint32_t record_type;
-	uint32_t channels; // bit0,1 - ch0, bit2,3 - ch1, ..., bit16,17 - ch8
+  TimeStamp_dual ts; // /* 8 bytes */
+  uint32_t record_type; /* 4 bytes */
+  uint32_t channels; // bit0,1 - ch0, bit2,3 - ch1, ..., bit16,17 - ch8 /* 4 bytes */ 
 } DATA_TYPE_HVPS_LOG_V1;
 
+/* 1600008 bytes */
 typedef struct
 {
-	ZynqBoardHeader zbh;
-	DATA_TYPE_HVPS_LOG_V1 payload[HVPS_LOG_SIZE_NRECORDS];
+  ZynqBoardHeader zbh; /* 8 bytes */
+  DATA_TYPE_HVPS_LOG_V1 payload[HVPS_LOG_SIZE_NRECORDS]; /* 1600000 bytes */
 } Z_DATA_TYPE_HVPS_LOG_V1;
 
 #pragma pack(pop) /* return to normal packing */

@@ -41,6 +41,7 @@ class DataAcqManager {
 public:  
   std::string cpu_main_file_name;
   std::string cpu_sc_file_name;
+  std::string cpu_hv_file_name;
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
@@ -49,6 +50,7 @@ public:
   enum RunType : uint8_t {
     CPU = 0,
     SC = 1,
+    HV = 2,
   };
 
   DataAcqManager();
@@ -65,10 +67,12 @@ private:
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
   SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  HV_PACKET * HvPktReadOut(std::string hv_file_name);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut);
   AnalogAcq * AnalogDataCollect();
   HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
   int WriteScPkt(SC_PACKET * sc_packet);
+  int WriteHvPkt(HV_PACKET * hv_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
   int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
   int ProcessThermData();

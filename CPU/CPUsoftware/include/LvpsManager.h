@@ -22,8 +22,12 @@
 #define CAMERA_PORT_ON 0x10 /* P0.4  - 0001 0000 */
 #define CAMERA_PORT_OFF 0x20 /* P0.5  - 0010 0000 */
 
-#define CC_LVPS_HK 0x10
-#define RET_CC_LVPS_HK 0x20
+/* CHECK signal bit addresses */
+#define HK_PORT_CHECK 0x0B /* P1.0  - 0000 1011 */
+#define ZYNQ_PORT_CHECK 0x0C /* P1.1  - 0000 1100 */
+#define CAMERA_PORT_CHECK 0x0D /* P1.2  - 0000 1101 */
+
+#define PORT1_INPUT 0x00
 
 #define HIGH_VAL 0xFF
 #define LOW_VAL 0x00
@@ -44,12 +48,14 @@ public:
   Status zynq_status;
   Status cam_status;
   Status hk_status;
+
+  uint8_t P1Bits[4];
   
   LvpsManager();
   Status GetStatus(SubSystem sub_system);
   int SwitchOn(SubSystem sub_system);
   int SwitchOff(SubSystem sub_system);
-  static int Check(SubSystem sub_system);
+  bool Check(SubSystem sub_system);
 
 private:
   static const uint32_t minor_number = 0;
@@ -63,6 +69,8 @@ private:
   
   int InitPorts();
   int CloseDev();
+  int SetDirP1(uint8_t port_config);
+  int ReadP1();
   int SetDirP0(uint8_t port_config);
   int SetValP0(PortValue port_value);
   int SetPulseP0(uint8_t port_config);

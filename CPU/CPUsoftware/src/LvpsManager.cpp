@@ -48,6 +48,14 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
     this->hk_status = ON;
     break;
   }
+
+  /* check switched on */
+  if (Check(sub_system)) {
+    clog << "info: " << logstream::info << sub_system << " was swicthed on correctly" << std::endl;
+  }
+  else {
+    clog << "error: " << logstream::error << sub_system << " was not switched on correctly" << std::endl;
+  }
   
   return 0;
 }
@@ -71,10 +79,51 @@ int LvpsManager::SwitchOff(SubSystem sub_system) {
     this->hk_status = OFF;
     break;
   }
+
+  /* check switched off */
+  if (!Check(sub_system)) {
+    clog << "info: " << logstream::info << sub_system << " was swicthed off correctly" << std::endl;
+  }
+  else {
+    clog << "info: " << logstream::info << sub_system << " was not switched off correctly" << std::endl;
+  }
   
   return 0;
 }
 
+/* check the return line */
+bool LvpsManager::Check(SubSystem sub_system) {
+
+  bool return_status = false;
+  int hk_port_check = 0;
+  int zynq_port_check = 1;
+  int camera_port_check = 2;
+  
+  clog << "info: " << logstream::info << "checking status of " << sub_system << std::endl;
+
+  /* read from P1 to write this->P1Bits */
+  ReadP1();
+  
+  switch (sub_system) {
+  case ZYNQ:
+    if (this->P1Bits[zynq_port_check] == 1) {
+      return_status = true;
+    }
+    break;
+  case CAMERAS:
+    if (this->P1Bits[camera_port_check] == 1) {
+      return_status = true;
+    }
+    break;
+  case HK:
+    if (this->P1Bits[hk_port_check] == 1) {
+      return_status = true;
+    }
+    break;
+  }
+  
+  return return_status;
+}
 
 /* initialise the aDIO ports */
 int LvpsManager::InitPorts() {
@@ -94,6 +143,74 @@ int LvpsManager::InitPorts() {
 #endif /* __APPLE__ */
   return 0;
 }
+
+/* write the direction of P1 */
+int LvpsManager::SetDirP1(uint8_t port_config) {
+#ifndef __APPLE__
+  int aDIO_ReturnVal;
+
+  /* write the direction of port 1 */
+  aDIO_ReturnVal =
+    LoadPort1PortDir_aDIO(aDIO_Device, port_config);
+
+  /* sleep 1 ms */
+  usleep(ONE_MILLISEC);
+  
+  /* check the return value */
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  LoadPort1bitDir_aDIO() FAILED");
+    clog << "error: " << logstream::error << "could not set direction of CPU aDIO port 1 to " << port_config << std::endl;
+    return 1;
+  }
+
+  return 0;
+#endif /* __APPLE__ */
+  return 0;
+}
+
+
+/* read the values of P1 */
+int LvpsManager::ReadP1() {
+#ifndef __APPLE__ 
+  int aDIO_ReturnVal;
+  int Bit = 0;
+  uint8_t read_value;
+
+  /* initialise */
+  InitPorts();
+  for (Bit = 0; Bit < 4; Bit++) {
+    this->P1Bits[Bit] = 0;
+  }
+  
+  /* set the P1 direction to input */
+  SetDirP1(PORT1_INPUT);
+  
+  /* read the required port */
+  aDIO_ReturnVal = ReadPort_aDIO(aDIO_Device, 1, &read_value);
+
+  /* sleep 1 ms */
+  usleep(ONE_MILLISEC);
+  
+  if (aDIO_ReturnVal) {
+    error(EXIT_FAILURE, errno,
+	  "ERROR:  ReadPort_aDIO() FAILED");
+  }
+  clog << "error: " << logstream::error << "could not read value from port 1" << std::endl;
+
+  /* separate out into bits */
+  for (Bit = 0; Bit < 4; Bit++) {
+    this->P1Bits[Bit] = (read_value >> Bit) & 0x01;
+  }
+
+  /* clean up and exit */
+  CloseDev();
+ 
+#endif /* __APPLE__ */
+  return 0;
+} 
+
+
 /* write the direction of P0 */
 int LvpsManager::SetDirP0(uint8_t port_config) {
 #ifndef __APPLE__
@@ -120,7 +237,7 @@ int LvpsManager::SetDirP0(uint8_t port_config) {
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  LoadPort0bitDir_aDIO() FAILED");
-    clog << "error: " << logstream::error << "could not set direction of CPU aDIO ports to " << port_config << std::endl;
+    clog << "error: " << logstream::error << "could not set direction of CPU aDIO port 0 to " << port_config << std::endl;
     return 1;
   }
 
@@ -129,6 +246,8 @@ int LvpsManager::SetDirP0(uint8_t port_config) {
   return 0;
 }
 
+
+/* set the value of P0 */
 int LvpsManager::SetValP0(PortValue port_value) {
 #ifndef __APPLE__
   int aDIO_ReturnVal = 0;

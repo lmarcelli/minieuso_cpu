@@ -5,6 +5,7 @@ DataAcqManager::DataAcqManager() {
   /* filename initialisation */
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";    
+  this->cpu_hv_file_name = "";
 }
   
 /* create cpu run file name */
@@ -14,6 +15,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str;
+  
   switch (run_type) {
   case CPU:
     time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
@@ -21,7 +23,11 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
   case SC:
     time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__" + std::to_string(ConfigOut->dynode_voltage) + ".dat";
     break;
+  case HV:
+    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S.dat";
+    break;
   }
+
   std::string cpu_str;
 
   /* get the number of devices */
@@ -37,13 +43,14 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
   else {
     cpu_str = done_str + time_str;
   }
-  const char * kCpuCh = cpu_str.c_str();
 
+  const char * kCpuCh = cpu_str.c_str();
   gettimeofday(&tv ,0);
   time_t now = tv.tv_sec;
   struct tm * now_tm = localtime(&now);
   
   strftime(cpu_file_name, sizeof(cpu_file_name), kCpuCh, now_tm);
+  
   return cpu_file_name;
 }
 
@@ -90,13 +97,17 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
     clog << "info: " << logstream::info << "Set cpu_sc_file_name to: " << cpu_sc_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_sc_file_name);
     break;
+  case HV:
+    this->cpu_hv_file_name = CreateCpuRunName(HV, ConfigOut);
+    clog << "info: " << logstream::info << "Set cpu_hv_file_name to: " << cpu_hv_file_name << std::endl;
+    this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_hv_file_name);
+    break;
   }
   this->RunAccess = new Access(this->CpuFile);
 
   /* access for ThermManager */
-  //this->ThManager->CpuFile = std::make_shared<SynchronisedFile>(*(this->CpuFile));
   this->ThManager->RunAccess = new Access(this->CpuFile);
-  
+    
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_header->run_size = RUN_SIZE;
@@ -104,7 +115,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   /* write to file */
   this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;
-
+  
   /* notify the ThermManager */
   /* will this only work the first time? */
   this->ThManager->cpu_file_is_set = true;
@@ -176,6 +187,47 @@ SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * Conf
   fclose(ptr_scfile);
   
   return sc_packet;
+}
+
+
+/* read out a hv file into an hv packet */
+HV_PACKET * DataAcqManager::HvPktReadOut(std::string hv_file_name) {
+
+  FILE * ptr_hvfile;
+  HV_PACKET * hv_packet = new HV_PACKET();
+  const char * kHvFileName = hv_file_name.c_str();
+  size_t check;
+
+  clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
+  
+  ptr_hvfile = fopen(kHvFileName, "rb");
+  if (!ptr_hvfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
+    return NULL;
+  }
+  
+  /* prepare the scurve packet */
+  hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
+  hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
+  hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
+ 
+  ptr_hvfile = fopen(kHvFileName, "rb");
+  if (!ptr_hvfile) {
+    clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
+    return NULL;
+  }
+  
+  /* read out the scurve data from the file */
+  check = fread(&hv_packet->hvps_log, sizeof(hv_packet->hvps_log), 1, ptr_hvfile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
+    return NULL;   
+  }
+  
+  /* close the hv file */
+  fclose(ptr_hvfile);
+  
+  return hv_packet;
 }
 
 
@@ -476,6 +528,23 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
   return 0;
 }
 
+
+/* write the hv packet to the cpu file */
+int DataAcqManager::WriteHvPkt(HV_PACKET * hv_packet) {
+
+  static unsigned int pkt_counter = 0;
+
+  clog << "info: " << logstream::info << "writing new packet to " << this->cpu_hv_file_name << std::endl;
+
+  /* write the HV packet */
+  this->RunAccess->WriteToSynchFile<HV_PACKET *>(hv_packet, SynchronisedFile::CONSTANT);
+  delete hv_packet;
+  pkt_counter++;
+  
+  return 0;
+}
+
+
 /* Look for new files in the data directory and process them */
 int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
@@ -485,6 +554,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
   std::string zynq_file_name;
   std::string sc_file_name;
+  std::string hv_file_name;
   std::string data_str(DATA_DIR);
   std::string event_name;
 
@@ -632,6 +702,31 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    return 0;
 	    
 	  }
+
+
+	  /* for HV files from Zynq (hv_XXXXXXXX.dat) */
+	  else if (event_name.compare(0, 2, "hv") == 0) {
+	    
+	    hv_file_name = data_str + "/" + event->name;
+	    sleep(1);
+
+	    CreateCpuRun(HV, ConfigOut);
+
+	    /* generate hv packet to append to the file */
+	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
+	    WriteHvPkt(hv_packet);
+	    
+	    CloseCpuRun(HV);
+
+	    /* delete upon completion */
+	   std::remove(hv_file_name.c_str());
+
+	   /* print update */
+	   std::cout << "Wrote HV file" << std::endl;
+	   
+	   /* exit without waiting for more files */
+	   return 0;
+	  }
 	  else {
 	    
 	    /* do nothing and exit */
@@ -670,6 +765,9 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
   
   /* set Zynq operational mode */
+  /* select number of N1 and N2 packets */
+  ZqManager->SetNPkts(ConfigOut->N1, ConfigOut->N2);
+  
   if (CmdLine->test_zynq_on) {
     
     /* set a mode to produce test data */

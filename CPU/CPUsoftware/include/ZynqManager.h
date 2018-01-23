@@ -62,6 +62,7 @@ public:
   InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
+  int SetNPkts(int N1, int N2);
 
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);

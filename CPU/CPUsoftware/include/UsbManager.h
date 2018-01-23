@@ -27,11 +27,13 @@ public:
   uint8_t num_storage_dev;
   
   UsbManager();
-  static void PrintDev(libusb_device * dev);
-  int CheckUsb();
+  static int CheckUsb();
   uint8_t LookupUsb();
   int DataBackup();
 
+private:
+  static void PrintDev(libusb_device * dev);
+  
 };
 #endif
 /* _USB_INTERFACE_H */

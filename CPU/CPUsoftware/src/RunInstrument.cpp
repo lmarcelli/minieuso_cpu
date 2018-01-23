@@ -83,7 +83,7 @@ int RunInstrument::DebugMode() {
   /* add any quick tests here */
 
   /* print the USB devices connected */
-  UsbManager::PrintDev();
+  UsbManager::CheckUsb();
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();

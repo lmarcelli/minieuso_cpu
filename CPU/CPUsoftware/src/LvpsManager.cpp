@@ -173,6 +173,7 @@ int LvpsManager::SetDirP1(uint8_t port_config) {
 /* read the values of P1 */
 int LvpsManager::ReadP1() {
 #ifndef __APPLE__ 
+  int aDIO_ReturnVal;
   int Bit = 0;
   uint8_t read_value;
   
@@ -180,7 +181,7 @@ int LvpsManager::ReadP1() {
   SetDirP1(PORT1_INPUT);
   
   /* read the required port */
-  aDIO_ReturnVal = ReadPort_aDIO(aDIO_Device, 1, read_value);
+  aDIO_ReturnVal = ReadPort_aDIO(aDIO_Device, 1, &read_value);
 
   /* sleep 1 ms */
   usleep(ONE_MILLISEC);

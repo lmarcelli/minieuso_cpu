@@ -721,6 +721,9 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    /* delete upon completion */
 	   std::remove(hv_file_name.c_str());
 
+	   /* print update */
+	   std::cout << "Wrote HV file" << std::endl;
+	   
 	   /* exit without waiting for more files */
 	   return 0;
 	  }

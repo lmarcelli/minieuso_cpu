@@ -179,6 +179,9 @@ int LvpsManager::ReadP1() {
 
   /* initialise */
   InitPorts();
+  for (Bit = 0; Bit < 4; Bit++) {
+    this->P1Bits[Bit] = 0;
+  }
   
   /* set the P1 direction to input */
   SetDirP1(PORT1_INPUT);
@@ -198,11 +201,9 @@ int LvpsManager::ReadP1() {
   /* separate out into bits */
   for (Bit = 0; Bit < 4; Bit++) {
     this->P1Bits[Bit] = (read_value >> Bit) & 0x01;
+    /* debug */
+    printf("P1Bits[%i] = %i\n", Bit, P1Bits[Bit]);
   }
-
-  /* debug */
-  std::cout << "P1Bits: " << std::endl;
-  std::cout << this->P1Bits[0] << " " << this->P1Bits[1] << " " << this->P1Bits[2] << " " << this->P1Bits[3] << std::endl;  
 
   /* clean up and exit */
   CloseDev();

@@ -76,13 +76,18 @@ int RunInstrument::HvpsSwitch() {
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
 
-    std::cout << "Mini-EUSO software debug mode" << std::endl;
-     
-    /* make a test Zynq packet */
-    DataAcqManager::WriteFakeZynqPkt();
-    DataAcqManager::ReadFakeZynqPkt();
+  std::cout << "-----------------------------" <<std::endl; 
+  std::cout << "Mini-EUSO software debug mode" << std::endl;
+  std::cout << "-----------------------------" <<std::endl; 
+  
+  /* add any quick tests here */
 
-    /* add any quick tests here */
+  /* print the USB devices connected */
+  UsbManager::PrintDev();
+  
+  /* make a test Zynq packet */
+  //DataAcqManager::WriteFakeZynqPkt();
+  //DataAcqManager::ReadFakeZynqPkt();  
     
   return 0;
 }

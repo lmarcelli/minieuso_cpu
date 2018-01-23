@@ -8,7 +8,7 @@
 
 #include "log.h"
 
-#define MIN_DEVICE_NUM 6 /* number of devices without extra storage or config USBs */
+#define MIN_DEVICE_NUM 5 /* number of devices without extra storage or config USBs */
 #define NOMINAL_DEVICE_NUM 9 /* number of devices expected */
 
 #define USB_MOUNTPOINT_0 "/media/usb0"

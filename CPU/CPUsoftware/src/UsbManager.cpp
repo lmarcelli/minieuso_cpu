@@ -138,8 +138,8 @@ uint8_t UsbManager::LookupUsb() {
       dev = all_devs[i];
 
       /* for debugging */
-      //std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-      //std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
+      std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
+      std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
       
       if (libusb_get_bus_number(dev) == STORAGE_BUS_0
 	  && libusb_get_port_number(dev) == STORAGE_PORT_0) {

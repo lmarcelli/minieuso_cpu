@@ -34,10 +34,10 @@ public:
   AcquisitionMode current_acq_mode;
   
   Config * ConfigOut;
-  ZynqManager ZqManager;
-  UsbManager UManager;
+  ZynqManager Zynq;
+  UsbManager Usb;
   LvpsManager Lvps;
-  DataAcqManager DaqManager;
+  DataAcqManager Daq;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();

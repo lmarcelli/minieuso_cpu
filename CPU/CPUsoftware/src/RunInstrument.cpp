@@ -56,13 +56,13 @@ int RunInstrument::HvpsSwitch() {
   switch (this->CmdLine->hvps_status) {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
-    this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
-    this->ZqManager.SetDac(this->ConfigOut->dac_level);
+    this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+    this->Zynq.SetDac(this->ConfigOut->dac_level);
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
-    this->ZqManager.HvpsTurnOff();   
-    this->ZqManager.SetDac(PEDESTAL); 
+    this->Zynq.HvpsTurnOff();   
+    this->Zynq.SetDac(PEDESTAL); 
     break;
   case ZynqManager::UNDEF:
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
@@ -83,7 +83,7 @@ int RunInstrument::DebugMode() {
   /* add any quick tests here */
 
   /* print the USB devices connected */
-  UsbManager::CheckUsb();
+  this->Usb.LookupUsb();
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();
@@ -160,11 +160,11 @@ int RunInstrument::CheckSystems() {
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
-  this->ZqManager.CheckTelnet();
+  this->Zynq.CheckTelnet();
   
   /* check the instrument and HV status */
-  this->ZqManager.GetInstStatus();
-  this->ZqManager.GetHvpsStatus();
+  this->Zynq.GetInstStatus();
+  this->Zynq.GetHvpsStatus();
   
   return 0;
 }
@@ -181,8 +181,8 @@ int RunInstrument::SelectAcqOption() {
   }
 
   /* select Zynq acquisition mode */
-  this->ZqManager.instrument_mode = this->CmdLine->zynq_mode;
-  this->ZqManager.test_mode = this->CmdLine->zynq_test_mode;    
+  this->Zynq.instrument_mode = this->CmdLine->zynq_mode;
+  this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
  
 
   return 0;
@@ -201,7 +201,7 @@ int RunInstrument::Acquisition() {
   signal(SIGINT, CpuTools::SignalHandler);  
   
   /* define data backup */
-  this->UManager.DataBackup();
+  this->Usb.DataBackup();
   
   
   /* select SCURVE or STANDARD acquisition */
@@ -210,13 +210,13 @@ int RunInstrument::Acquisition() {
   case SCURVE:
     
     /* take an scurve */
-    DaqManager.CollectSc(&this->ZqManager, this->ConfigOut, this->CmdLine);
+    Daq.CollectSc(&this->Zynq, this->ConfigOut, this->CmdLine);
     
     break;
   case STANDARD:
 
     /* start data acquisition */
-    this->DaqManager.CollectData(&this->ZqManager, this->ConfigOut, this->CmdLine);
+    this->Daq.CollectData(&this->Zynq, this->ConfigOut, this->CmdLine);
     
     break;
   case ACQ_UNDEF:

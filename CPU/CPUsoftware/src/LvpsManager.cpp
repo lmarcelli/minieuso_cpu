@@ -176,6 +176,9 @@ int LvpsManager::ReadP1() {
   int aDIO_ReturnVal;
   int Bit = 0;
   uint8_t read_value;
+
+  /* initialise */
+  InitPorts();
   
   /* set the P1 direction to input */
   SetDirP1(PORT1_INPUT);
@@ -201,6 +204,9 @@ int LvpsManager::ReadP1() {
   std::cout << "P1Bits: " << std::endl;
   std::cout << this->P1Bits[0] << " " << this->P1Bits[1] << " " << this->P1Bits[2] << " " << this->P1Bits[3] << std::endl;  
 
+  /* clean up and exit */
+  CloseDev();
+ 
 #endif /* __APPLE__ */
   return 0;
 } 

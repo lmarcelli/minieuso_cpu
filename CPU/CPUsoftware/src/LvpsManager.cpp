@@ -201,8 +201,6 @@ int LvpsManager::ReadP1() {
   /* separate out into bits */
   for (Bit = 0; Bit < 4; Bit++) {
     this->P1Bits[Bit] = (read_value >> Bit) & 0x01;
-    /* debug */
-    printf("P1Bits[%i] = %i\n", Bit, P1Bits[Bit]);
   }
 
   /* clean up and exit */

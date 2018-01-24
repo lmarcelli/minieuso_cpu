@@ -140,19 +140,21 @@ uint8_t UsbManager::LookupUsbStorage() {
       if (r < 0) {
 	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
       }
-      if (libusb_get_bus_number(dev) == STORAGE_BUS) {
-	// && libusb_get_port_number(dev) == STORAGE_PORT_0) {
+
+      /* require correct bDeviceClass and presence on STORAGE_BUS */
+      if (libusb_get_bus_number(dev) == STORAGE_BUS
+	  && desc.bDeviceClass == LIBUSB_CLASS_MASS_STORAGE) {
 	std::cout << "storage device detected on bus " << STORAGE_BUS << std::endl;
 
 	/* for debugging */
 	std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-	std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
-	std::cout << "descriptor: " << desc.bDeviceClass << std::endl;
+        printf("descriptor: %i", desc.bDeviceClass);
 
 	num_storage_dev++;
       }
       else {
 	std::cout << "no USB storage devices detected" << std::endl;
+	num_storage_dev = 0;
       }
     }
   }
@@ -166,7 +168,7 @@ uint8_t UsbManager::LookupUsbStorage() {
   return num_storage_dev;  
 }
 
-/* define data backup based on LookupUsb() */
+/* define data backup based on LookupUsbStorage() */
 int UsbManager::DataBackup() {
 
   int ret = 0;
@@ -180,7 +182,7 @@ int UsbManager::DataBackup() {
   this->num_storage_dev = LookupUsbStorage();
   
   /* require 2+ storage devices for backup */
-  if (this->num_storage_dev == 2) {
+  if (this->num_storage_dev >= 2) {
 
     /* run backup */
     /* synchronise /media/usb0 to /media/usb1 */

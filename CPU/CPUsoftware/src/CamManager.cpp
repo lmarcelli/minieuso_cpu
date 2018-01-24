@@ -5,6 +5,12 @@ CamManager::CamManager() {
 
 }
 
+int CamManager::SetVerbose() {
+  this->quiet = false;
+
+  return 0;
+}
+
 /* start acquisition */
 int CamManager::StartAcquisition() {
 
@@ -19,43 +25,48 @@ int CamManager::StartAcquisition() {
   }
 
   /* launch and check output */
-  std::string output = CpuTools::CommandToStr(CAMERA_EXEC);
-  size_t found = output.find("");
-  
-  /* fork a process */
-  pid_t pid = fork();
-
-  if (pid == 0) {
-    /* child process */
-    execl(CAMERA_EXEC, CAMERA_EXEC, (char *)NULL);
+  std::string output;
+  if (this->quiet) {
+    output = CpuTools::CommandToStr(CAMERA_EXEC_QUIET);
   }
-  else if (pid > 0) {
-    /* parent process */
-    while (global_stop_exec == false) {
-
-    }
-    /* kill the process */
-    kill(pid, SIGINT);
+  else {
+    output = CpuTools::CommandToStr(CAMERA_EXEC);   
+  }
+  
+  size_t found = output.find("Error Trace:");
+  if (found != std::string::npos) {
+    clog << "error: " << logstream::error << "camera launch failed" << std::endl;
   }
 
  return 0;
 }
 
-/* collect data */
+/* launch a thread to collect camera data */
 int CamManager::CollectData() {
 
+  std::cout << "starting camera acquisition in the background..." << std::endl;
   clog << "info: " << logstream::info << "starting camera acquisition" << std::endl;
   
   /* spawn a thread to run camera software */
   std::thread collect_data (&CamManager::StartAcquisition, this);
 
-  /* wait a set period */
-  sleep(WAIT_TIME);
+  /* store the handle */
+  this->cam_thread_handle = collect_data.native_handle();
 
-  /* set global var to kill execution */
-  clog << "info: " << logstream::info << "stopping camera acquisition" << std::endl;
-  global_stop_exec = true;
-  collect_data.join();
+  /* detach */
+  collect_data.detach();
+  
+  return 0;
+}
 
+/* kill the data collection thread */
+int CamManager::KillCamAcq() {
+
+  clog << "info: " << logstream::info << "killing the camera acquisition" << std::endl;
+
+  /* kill the thread */
+  /* justifiable as no locked resources */
+  pthread_cancel(this->cam_thread_handle);
+  
   return 0;
 }

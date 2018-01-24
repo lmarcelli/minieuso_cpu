@@ -11,15 +11,22 @@
 
 #define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
 #define CAMERA_EXEC "/home/software/CPU/cameras/multiplecam/multiplecam.sh"
+#define CAMERA_EXEC_QUIET "/home/software/CPU/cameras/multiplecam/multiplecam.sh 2>&1"
+
 #define WAIT_TIME 120
 
 class CamManager {
 public:
-  bool global_stop_exec = false;
+  bool quiet = true;
   
   CamManager();
+  int SetVerbose();
   int StartAcquisition();
   int CollectData();
+
+private:
+  bool global_stop_exec = false;
+  std::thread::native_handle_type cam_thread_handle;
 };
 
 #endif

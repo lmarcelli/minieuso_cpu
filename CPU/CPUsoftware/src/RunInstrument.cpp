@@ -81,9 +81,9 @@ int RunInstrument::DebugMode() {
   std::cout << "-----------------------------" <<std::endl; 
   
   /* add any quick tests here */
-
+  
   /* print the USB devices connected */
-  this->Usb.LookupUsbStorage();
+  this->Daq.Usb->LookupUsbStorage();
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();
@@ -201,7 +201,7 @@ int RunInstrument::Acquisition() {
   signal(SIGINT, CpuTools::SignalHandler);  
   
   /* define data backup */
-  this->Usb.DataBackup();
+  this->Daq.Usb->DataBackup();
   
   
   /* select SCURVE or STANDARD acquisition */

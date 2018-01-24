@@ -31,7 +31,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
   std::string cpu_str;
 
   /* get the number of devices */
-  uint8_t num_storage_dev = this->Usb.num_storage_dev;
+  uint8_t num_storage_dev = this->Usb->num_storage_dev;
   
   /* write on USB directly if possible */
   if (num_storage_dev == 1 || num_storage_dev == 2) {

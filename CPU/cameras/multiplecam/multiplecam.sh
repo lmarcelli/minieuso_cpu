@@ -60,6 +60,6 @@ mkdir -p $DIR"/"$DATE/VIS
 #enter into the new directory
 cd $DATE
 # launch main camera acquisition streaming program and save screen output to log file 
-$PROGR/multiplecam $PARDIR $file_status_nir $file_status_vis | tee -a $DIR"/"log-$DATE.log
+$PROGR/multiplecam $PARDIR $file_status_nir $file_status_vis | tee -a $DIR"/"$DATE"/"log-$DATE.log
  
 

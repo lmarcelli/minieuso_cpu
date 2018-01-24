@@ -148,7 +148,12 @@ uint8_t UsbManager::LookupUsbStorage() {
 
 	/* for debugging */
 	std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-        printf("descriptor: %i", desc.bDeviceClass);
+        printf("descriptor: %i\n", desc.bDeviceClass);
+        printf("descriptor: %i\n", desc.bDeviceSubClass);
+        printf("descriptor: %i\n", desc.idVendor);
+	printf("descriptor: %i\n", desc.idProduct);		
+        printf("descriptor: %i\n", desc.iManufacturer);
+        printf("descriptor: %i\n", desc.iProduct);
 
 	num_storage_dev++;
       }

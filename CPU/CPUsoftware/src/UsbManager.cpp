@@ -2,7 +2,7 @@
 
 /* default constructor */
 UsbManager::UsbManager() {
-  this->num_storage_dev = 0xFF;
+  this->num_storage_dev = N_USB_UNDEF;
 }
 
 /* print a description of usb devices connected */
@@ -176,7 +176,7 @@ int UsbManager::DataBackup() {
   this->num_storage_dev = LookupUsbStorage();
   
   /* require 2+ storage devices for backup */
-  if (this->num_storage_dev >= 2) {
+  if (this->num_storage_dev >= 2 && this->num_storage_dev != N_USB_UNDEF) {
 
     /* run backup */
     /* synchronise /media/usb0 to /media/usb1 */

@@ -216,6 +216,9 @@ int UsbManager::RunDataBackup() {
 
   /* store the thread handle */
   this->backup_thread_handle = run_backup.native_handle();
+
+  /* detach */
+  run_backup.detach();
   
   return 0;
 }

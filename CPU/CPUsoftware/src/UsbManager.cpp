@@ -182,10 +182,15 @@ int UsbManager::DataBackup() {
     std::cout << "running data backup in the background" << std::endl;
     
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -m -r -e modify,create,delete -o "
-      + log_path + inotify_log + " " + mp_0 +
-      "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
+    cmd = "while true; do rsync -avz /media/usb0 /media/usb1; done";
 
+    /*
+    alternative command which works on creation/modification/deletion
+    cmd = "while inotifywait -m -r -e modify,create,delete -o "
+    + log_path + inotify_log + " " + mp_0 +
+    "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
+    */
+    
     clog << "info: " << logstream::info << "running backup with: " << cmd << std::endl;
  
     const char * command = cmd.c_str();
@@ -205,8 +210,6 @@ int UsbManager::DataBackup() {
   else {
     clog << "info: " << logstream::info << "not enough storage devices for backup" << std::endl;
   }
-
-  
 
   return 0;
 }

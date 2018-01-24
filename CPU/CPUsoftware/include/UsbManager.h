@@ -3,11 +3,10 @@
 
 #include <libusb-1.0/libusb.h>
 
-//#include <iostream>
-//#include <fstream>
 #include <thread>
 
 #include "log.h"
+#include "CpuTools.h"
 
 #define MIN_DEVICE_NUM 5 /* number of devices without extra storage or config USBs */
 #define NOMINAL_DEVICE_NUM 9 /* number of devices expected */

@@ -179,6 +179,8 @@ int UsbManager::DataBackup() {
   if (this->num_storage_dev >= 2 && this->num_storage_dev != N_USB_UNDEF) {
 
     /* run backup */
+    std::cout << "running data backup in the background" << std::endl;
+    
     /* synchronise /media/usb0 to /media/usb1 */
     cmd = "while inotifywait -m -r -e modify,create,delete -o "
       + log_path + inotify_log + " " + mp_0 +
@@ -187,8 +189,12 @@ int UsbManager::DataBackup() {
     clog << "info: " << logstream::info << "running backup with: " << cmd << std::endl;
  
     const char * command = cmd.c_str();
-    ret = system(command);
-    if (ret == 0) {
+    //ret = system(command);
+    /* run the backup command */
+    std::string output = CpuTools::CommandToStr(cmd);
+
+    size_t found = output.find("Watches established."); 
+    if (found != std::string::npos) {
       clog << "info: " << logstream::info << "the following: " << cmd << " exited successfully" << std::endl;
     }
     else{
@@ -209,8 +215,8 @@ int UsbManager::DataBackup() {
 /* spawn thread to run data backup in the background */
 int UsbManager::RunDataBackup() {
 
-   clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
-  
+  clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
+
   /* run the backup */
   std::thread run_backup (&UsbManager::DataBackup, this);
 

@@ -30,6 +30,7 @@ int CamManager::StartAcquisition() {
   std::string output;
   if (this->verbose) {
     output = CpuTools::CommandToStr(CAMERA_EXEC);
+    std::cout << output << std::endl;
   }
   else {
     output = CpuTools::CommandToStr(CAMERA_EXEC_QUIET);   
@@ -38,6 +39,8 @@ int CamManager::StartAcquisition() {
   size_t found = output.find("Error Trace:");
   if (found != std::string::npos) {
     clog << "error: " << logstream::error << "camera launch failed" << std::endl;
+    /* debug */
+    std::cout << "ERROR: camera launch failed" << std::endl;
   }
 
  return 0;

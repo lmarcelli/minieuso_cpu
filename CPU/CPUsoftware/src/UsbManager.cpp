@@ -203,3 +203,15 @@ int UsbManager::DataBackup() {
   return 0;
 }
 
+
+/* spawn thread to run data backup in the background */
+int UsbManager::RunDataBackup() {
+
+  /* run the backup */
+  std::thread run_backup (&UsbManager::DataBackup, this);
+
+  /* store the process ID */
+  this->backup_thread_id = run_backup.get_id();
+  
+  return 0;
+}

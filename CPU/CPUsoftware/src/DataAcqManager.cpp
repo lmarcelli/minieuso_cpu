@@ -32,13 +32,15 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
 
   /* get the number of devices */
   uint8_t num_storage_dev = this->Usb->num_storage_dev;
+  if (num_storage_dev == -1) {
+    this->Usb->LookupUsbStorage();
+  }
   
   /* write on USB directly if possible */
   if (num_storage_dev == 1 || num_storage_dev == 2) {
     cpu_str = usb_str + time_str;
-    /* update when camera bug fixed */
-    //cpu_str = done_str + time_str;
   }
+  /* other write in DONE_DIR */
   else {
     cpu_str = done_str + time_str;
   }

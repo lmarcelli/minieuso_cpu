@@ -31,11 +31,14 @@ public:
   UsbManager();
   static int CheckUsb();
   uint8_t LookupUsbStorage();
-  int DataBackup();
-
-private:
-  static void PrintDev(libusb_device * dev);
+  int RunDataBackup();
+  int KillDataBackup();
   
+private:
+  std::thread::id backup_thread_id;  
+
+  static void PrintDev(libusb_device * dev);
+  int DataBackup();
 };
 #endif
 /* _USB_INTERFACE_H */

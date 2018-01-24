@@ -142,8 +142,8 @@ uint8_t UsbManager::LookupUsbStorage() {
       }
 
       /* require correct bDeviceClass and presence on STORAGE_BUS */
-      if (libusb_get_bus_number(dev) == STORAGE_BUS
-	  && desc.bDeviceClass == LIBUSB_CLASS_MASS_STORAGE) {
+      if (libusb_get_bus_number(dev) == STORAGE_BUS) {
+	//&& desc.bDeviceClass == LIBUSB_CLASS_MASS_STORAGE) {
 	std::cout << "storage device detected on bus " << STORAGE_BUS << std::endl;
 
 	/* for debugging */

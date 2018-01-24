@@ -159,7 +159,6 @@ uint8_t UsbManager::LookupUsbStorage() {
       }
       else {
 	std::cout << "no USB storage devices detected" << std::endl;
-	num_storage_dev = 0;
       }
     }
   }

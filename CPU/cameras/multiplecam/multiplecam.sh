@@ -2,7 +2,11 @@
           
 echo ST Multiple Cameras Manager
 #set variable with path of current directory
-DIR="$( cd "$( dirname "$0" )" && pwd )"
+#DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+#set DIR manually (FC)
+DIR="/home/software/CPU/cameras/multiplecam"
+
 #set variable with path of the executable file
 PROGR=$DIR"/bin" 
 PARDIR=$DIR"/parfiles"
@@ -48,9 +52,11 @@ fi
 echo "FILE STATUS NIR $file_status_nir VIS $file_status_vis"
 # create a new directory to store images
 DATE=`date +%Y-%m-%d.%H-%M-%S`
-mkdir -p $DATE
-mkdir -p $DATE/NIR
-mkdir -p $DATE/VIS
+mkdir -p $DIR"/"$DATE
+mkdir -p $DIR"/"$DATE/NIR
+mkdir -p $DIR"/"$DATE/VIS
+
+
 #enter into the new directory
 cd $DATE
 # launch main camera acquisition streaming program and save screen output to log file 

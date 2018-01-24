@@ -789,10 +789,13 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   if (CmdLine->cam_on) {
 
     /* check camera verbosity */
-    if (CmdLine->cam_verbosity) {
-      this->CManager->verbose = true;
+    if (CmdLine->cam_verbose) {
+      this->CManager->SetVerbose();
     }
-    std::thread collect_cam_data (&CamManager::CollectData, this->CManager);
+    std::thread collect_cam_data (&CamManager::StartAcquisition, this->CManager);
+    /* store the handle */
+    this->CManager->cam_thread_handle = collect_cam_data.native_handle();
+
     collect_cam_data.join();
   }
   

@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "log.h"
+#include "CpuTools.h"
 
 #define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
 #define CAMERA_EXEC "/home/software/CPU/cameras/multiplecam/multiplecam.sh"
@@ -17,16 +18,16 @@
 
 class CamManager {
 public:
-  bool verbose = false;
+  std::thread::native_handle_type cam_thread_handle;
   
   CamManager();
   int SetVerbose();
   int StartAcquisition();
-  int CollectData();
+  int KillCamAcq();
 
 private:
-  bool global_stop_exec = false;
-  std::thread::native_handle_type cam_thread_handle;
+  bool verbose = false;
+
 };
 
 #endif

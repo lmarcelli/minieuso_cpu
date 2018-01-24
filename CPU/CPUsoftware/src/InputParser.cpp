@@ -180,14 +180,16 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   const std::string & cam_verb_str = getCmdOption("-cam");
   if (!cam_verb_str.empty()) {
     if (cam_verb_str == "v") {
-      this->CmdLine->cam_verbosity = true;
+      this->CmdLine->cam_verbose = true;
     }
+  }
   
   return this->CmdLine;
 }
 
 /* print the help message */
 int InputParser::PrintHelpMsg() {
+  
   std::cout << "Mini-EUSO command line interface" << std::endl;
   std::cout << "--------------------------------" << std::endl;
   std::cout << std::endl;
@@ -236,6 +238,5 @@ int InputParser::PrintHelpMsg() {
   std::cout << "NOTES" << std::endl;
   std::cout << "Execute-and-exit flags such as -db, -hv on/off and -lvps on/off can only be used one at a time" << std::endl;
   
- 
   return 0;
 }

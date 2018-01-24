@@ -165,7 +165,6 @@ uint8_t UsbManager::LookupUsbStorage() {
 /* define data backup based on LookupUsbStorage() */
 int UsbManager::DataBackup() {
 
-  int ret = 0;
   std::string cmd;
   std::string log_path(LOG_DIR);
   std::string inotify_log = "/inotify.log";
@@ -182,7 +181,7 @@ int UsbManager::DataBackup() {
     std::cout << "running data backup in the background" << std::endl;
     
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while true; do rsync -avz /media/usb0 /media/usb1; done";
+    cmd = "while true; do rsync -avzr /media/usb0/* /media/usb1; done";
 
     /*
     alternative command which works on creation/modification/deletion
@@ -194,9 +193,9 @@ int UsbManager::DataBackup() {
     clog << "info: " << logstream::info << "running backup with: " << cmd << std::endl;
  
     const char * command = cmd.c_str();
-    //ret = system(command);
+
     /* run the backup command */
-    std::string output = CpuTools::CommandToStr(cmd);
+    std::string output = CpuTools::CommandToStr(command);
 
     size_t found = output.find("Watches established."); 
     if (found != std::string::npos) {

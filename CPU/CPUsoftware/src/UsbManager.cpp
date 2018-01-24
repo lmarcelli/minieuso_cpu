@@ -141,20 +141,13 @@ uint8_t UsbManager::LookupUsbStorage() {
 	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
       }
 
-      /* require correct bDeviceClass and presence on STORAGE_BUS */
-      if (libusb_get_bus_number(dev) == STORAGE_BUS) {
-	//&& desc.bDeviceClass == LIBUSB_CLASS_MASS_STORAGE) {
+      /* require bDeviceClass as not a hub or vendor specified (cameras)
+	 and presence on STORAGE_BUS */
+      if (libusb_get_bus_number(dev) == STORAGE_BUS
+	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
+	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC) {
+
 	std::cout << "storage device detected on bus " << STORAGE_BUS << std::endl;
-
-	/* for debugging */
-	std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-        printf("descriptor: %i\n", desc.bDeviceClass);
-        printf("descriptor: %i\n", desc.bDeviceSubClass);
-        printf("descriptor: %i\n", desc.idVendor);
-	printf("descriptor: %i\n", desc.idProduct);		
-        printf("descriptor: %i\n", desc.iManufacturer);
-        printf("descriptor: %i\n", desc.iProduct);
-
 	num_storage_dev++;
       }
       else {

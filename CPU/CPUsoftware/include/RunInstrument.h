@@ -35,7 +35,6 @@ public:
   
   Config * ConfigOut;
   ZynqManager Zynq;
-  UsbManager Usb;
   LvpsManager Lvps;
   DataAcqManager Daq;
   

@@ -46,6 +46,7 @@ public:
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
   CamManager * CManager = new CamManager();
+  UsbManager * Usb = new UsbManager();
   
   enum RunType : uint8_t {
     CPU = 0,

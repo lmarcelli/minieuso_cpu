@@ -179,9 +179,9 @@ int UsbManager::DataBackup() {
 
     /* run backup */
     std::cout << "running data backup in the background" << std::endl;
-    
+
     /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while true; do rsync -avzr /media/usb0/* /media/usb1; done";
+    cmd = "while true; do rsync -avzr /media/usb0/* /media/usb1; done 2>&1";
 
     /*
     alternative command which works on creation/modification/deletion
@@ -197,7 +197,7 @@ int UsbManager::DataBackup() {
     /* run the backup command */
     std::string output = CpuTools::CommandToStr(command);
 
-    size_t found = output.find("Watches established."); 
+    size_t found = output.find("sending incremental file list"); 
     if (found != std::string::npos) {
       clog << "info: " << logstream::info << "the following: " << cmd << " exited successfully" << std::endl;
     }

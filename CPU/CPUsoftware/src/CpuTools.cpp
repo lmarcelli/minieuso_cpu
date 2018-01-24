@@ -11,11 +11,13 @@ std::string CpuTools::CommandToStr(const char * cmd) {
   std::array<char, buf_size> buffer;
   std::string result;
   std::shared_ptr<FILE> pipe(popen(cmd, "r"), pclose);
+
   if (!pipe) throw std::runtime_error("popen() failed!");
   while (!feof(pipe.get())) {
     if (fgets(buffer.data(), buf_size, pipe.get()) != nullptr)
       result += buffer.data();
   }
+
   return result;
 }
 

@@ -7,7 +7,9 @@ CamManager::CamManager() {
 
 /* start acquisition */
 int CamManager::StartAcquisition() {
+
   /* launch the camera software */
+  /* launch in multiplcam directory to save images in correct place */
   int status = system("cd /home/software/CPU/cameras/multiplecam");
   if (status != 0) {
     clog << "error: " << logstream::error << "could not cd into " << CAMERA_DIR << std::endl;

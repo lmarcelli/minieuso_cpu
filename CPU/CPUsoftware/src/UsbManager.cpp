@@ -2,7 +2,7 @@
 
 /* default constructor */
 UsbManager::UsbManager() {
-  this->num_storage_dev = -1;
+  this->num_storage_dev = 0xFF;
 }
 
 /* print a description of usb devices connected */
@@ -200,6 +200,8 @@ int UsbManager::DataBackup() {
     clog << "info: " << logstream::info << "not enough storage devices for backup" << std::endl;
   }
 
+  
+
   return 0;
 }
 
@@ -207,11 +209,24 @@ int UsbManager::DataBackup() {
 /* spawn thread to run data backup in the background */
 int UsbManager::RunDataBackup() {
 
+   clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
+  
   /* run the backup */
   std::thread run_backup (&UsbManager::DataBackup, this);
 
-  /* store the process ID */
-  this->backup_thread_id = run_backup.get_id();
+  /* store the thread handle */
+  this->backup_thread_handle = run_backup.native_handle();
+  
+  return 0;
+}
+
+/* kill the data backup thread */
+int UsbManager::KillDataBackup() {
+
+  clog << "info: " << logstream::info << "killing the data backup thread" << std::endl;
+  
+  /* kill the thread */
+  pthread_cancel(this->backup_thread_handle);
   
   return 0;
 }

@@ -32,7 +32,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
 
   /* get the number of devices */
   uint8_t num_storage_dev = this->Usb->num_storage_dev;
-  if (num_storage_dev == -1) {
+  if (num_storage_dev == 0xFF) {
     this->Usb->LookupUsbStorage();
   }
   

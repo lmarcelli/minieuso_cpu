@@ -206,8 +206,8 @@ int RunInstrument::Acquisition() {
   /* enable signal handling */
   signal(SIGINT, CpuTools::SignalHandler);  
   
-  /* define data backup */
-  this->Daq.Usb->DataBackup();
+  /* launch data backup in background */
+  this->Daq.Usb->RunDataBackup();
   
   
   /* select SCURVE or STANDARD acquisition */
@@ -232,9 +232,6 @@ int RunInstrument::Acquisition() {
 
   /* never reached for infinite acquisition */
 
-  /* wait for backup to complete */
-  //run_backup.join();
-  
   return 0;
 }
 

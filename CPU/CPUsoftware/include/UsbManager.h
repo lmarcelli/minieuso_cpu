@@ -3,8 +3,9 @@
 
 #include <libusb-1.0/libusb.h>
 
-#include <iostream>
-#include <fstream>
+//#include <iostream>
+//#include <fstream>
+#include <thread>
 
 #include "log.h"
 
@@ -35,7 +36,7 @@ public:
   int KillDataBackup();
   
 private:
-  std::thread::id backup_thread_id;  
+  std::thread::native_handle_type backup_thread_handle;  
 
   static void PrintDev(libusb_device * dev);
   int DataBackup();

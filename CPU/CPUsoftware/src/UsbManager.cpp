@@ -229,6 +229,7 @@ int UsbManager::KillDataBackup() {
   clog << "info: " << logstream::info << "killing the data backup thread" << std::endl;
   
   /* kill the thread */
+  /* justifiable as no locked resources */
   pthread_cancel(this->backup_thread_handle);
   
   return 0;

@@ -168,7 +168,7 @@ int RunInstrument::CheckSystems() {
 
   /* check the number storage Usbs connected */
   std::cout << "there are " <<
-    (int)this->Daq.Usb->LookupUsbStorage(); <<
+    (int)this->Daq.Usb->LookupUsbStorage() <<
     " USB storage devices connected " << std::endl;
 
   return 0;

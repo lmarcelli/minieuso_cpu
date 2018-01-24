@@ -9,12 +9,19 @@ CamManager::CamManager() {
 int CamManager::StartAcquisition() {
 
   /* launch the camera software */
-  /* launch in multiplcam directory to save images in correct place */
+  
+  /* move multiplecam directory to save images in correct place */
+  std::string camera_dir = std::string(CAMERA_DIR);
+  std::string cmd = "cd " +  camera_dir;
   int status = system("cd /home/software/CPU/cameras/multiplecam");
   if (status != 0) {
     clog << "error: " << logstream::error << "could not cd into " << CAMERA_DIR << std::endl;
   }
 
+  /* launch and check output */
+  std::string output = CpuTools::CommandToStr(CAMERA_EXEC);
+  size_t found = output.find("");
+  
   /* fork a process */
   pid_t pid = fork();
 

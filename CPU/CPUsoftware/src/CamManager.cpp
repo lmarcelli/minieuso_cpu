@@ -26,11 +26,11 @@ int CamManager::StartAcquisition() {
 
   /* launch and check output */
   std::string output;
-  if (this->quiet) {
-    output = CpuTools::CommandToStr(CAMERA_EXEC_QUIET);
+  if (this->verbose) {
+    output = CpuTools::CommandToStr(CAMERA_EXEC);
   }
   else {
-    output = CpuTools::CommandToStr(CAMERA_EXEC);   
+    output = CpuTools::CommandToStr(CAMERA_EXEC_QUIET);   
   }
   
   size_t found = output.find("Error Trace:");

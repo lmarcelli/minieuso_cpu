@@ -787,6 +787,11 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   
   /* add acquisition with cameras if required */
   if (CmdLine->cam_on) {
+
+    /* check camera verbosity */
+    if (CmdLine->cam_verbosity) {
+      this->CManager->verbose = true;
+    }
     std::thread collect_cam_data (&CamManager::CollectData, this->CManager);
     collect_cam_data.join();
   }

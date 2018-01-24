@@ -17,7 +17,7 @@
 
 class CamManager {
 public:
-  bool quiet = true;
+  bool verbose = false;
   
   CamManager();
   int SetVerbose();

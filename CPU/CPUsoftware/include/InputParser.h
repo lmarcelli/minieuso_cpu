@@ -32,6 +32,8 @@ struct CmdLineInputs {
   ZynqManager::HvpsStatus hvps_status;
   ZynqManager::InstrumentMode zynq_mode;
   ZynqManager::TestMode zynq_test_mode;
+  bool cam_verbose;
+
 };
 
 

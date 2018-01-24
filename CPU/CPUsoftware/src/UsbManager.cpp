@@ -95,20 +95,22 @@ int UsbManager::CheckUsb() {
   return 0;
 }
 
-/* lookup usb devices connected and identify them */
-uint8_t UsbManager::LookupUsb() {
+/* lookup usb storage devices connected and identify them */
+uint8_t UsbManager::LookupUsbStorage() {
   libusb_device ** all_devs;
   libusb_device * dev;
+  libusb_device_descriptor desc = {0};
   libusb_context * ctx = NULL;
   int r, num_storage_dev = 0;
   ssize_t cnt, i;
 
-  clog << "info: " << logstream::info << "looking up USB devices" << std::endl;
+  clog << "info: " << logstream::info << "looking up USB storage devices" << std::endl;
   
   /* initialise a libusb session */
   r = libusb_init(&ctx);
   if (r < 0) {
     std::cout << "init error for libusb" << std::endl;
+    clog << "error: " << logstream::error << "init error for libusb" << std::endl;
     return 1;
   }
 
@@ -118,39 +120,40 @@ uint8_t UsbManager::LookupUsb() {
   /* get the list of devices */
   cnt = libusb_get_device_list(ctx, &all_devs);
   if (cnt < 0) {
-    std::cout << "get device error for libusb" << std::endl;
     clog << "error: " << logstream::error << "get device error for libusb" << std::endl;
   }
 
   /* check number of connected devices */
   if (cnt == MIN_DEVICE_NUM) {
     clog << "error: " << logstream::error << "no storage or config USBs connected" << std::endl;
-    /* ADD : print out diagnostics to log */
   }
   else if (cnt < MIN_DEVICE_NUM) {
    clog << "error: " << logstream::error << "less USB devices connected than expected" << std::endl;
-   /* ADD : print out diagnostics to log */
   }
   else if (cnt > MIN_DEVICE_NUM) {
+
     /* some storage or config devices detected */     
     /* identify the devices */
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
+      r = libusb_get_device_descriptor(dev, &desc);
+      if (r < 0) {
+	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
+      }
+      if (libusb_get_bus_number(dev) == STORAGE_BUS) {
+	// && libusb_get_port_number(dev) == STORAGE_PORT_0) {
+	std::cout << "storage device detected on bus " << STORAGE_BUS << std::endl;
 
-      /* for debugging */
-      std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-      std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
-      
-      if (libusb_get_bus_number(dev) == STORAGE_BUS_0
-	  && libusb_get_port_number(dev) == STORAGE_PORT_0) {
-	std::cout << "storage device detected on port 0" << std::endl;
+	/* for debugging */
+	std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
+	std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
+	std::cout << "descriptor: " << desc.bDeviceClass << std::endl;
+
 	num_storage_dev++;
       }
-      else if (libusb_get_bus_number(dev) == STORAGE_BUS_1
-	       && libusb_get_port_number(dev) == STORAGE_PORT_1) {
-	std::cout << "storage device detected on port 1" << std::endl;
-	num_storage_dev++;
-      }      
+      else {
+	std::cout << "no USB storage devices detected" << std::endl;
+      }
     }
   }
 
@@ -174,7 +177,7 @@ int UsbManager::DataBackup() {
   std::string mp_1(USB_MOUNTPOINT_1);
 
   clog << "info: " << logstream::info << "defining data backup procedure" << std::endl;
-  this->num_storage_dev = LookupUsb();
+  this->num_storage_dev = LookupUsbStorage();
   
   /* require 2+ storage devices for backup */
   if (this->num_storage_dev == 2) {

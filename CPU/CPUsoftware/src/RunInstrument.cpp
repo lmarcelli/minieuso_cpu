@@ -83,8 +83,7 @@ int RunInstrument::DebugMode() {
   /* add any quick tests here */
 
   /* print the USB devices connected */
-  this->Usb.CheckUsb();
-  this->Usb.LookupUsb();
+  this->Usb.LookupUsbStorage();
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();

@@ -15,6 +15,8 @@
 #define USB_MOUNTPOINT_1 "/media/usb1"
 
 /* configuration for spare CPU in Stockholm */
+#define STORAGE_BUS 2
+#define CAMERA_BUS 1
 #define STORAGE_BUS_0 1
 #define STORAGE_BUS_1 2
 #define STORAGE_PORT_0 2
@@ -28,7 +30,7 @@ public:
   
   UsbManager();
   static int CheckUsb();
-  uint8_t LookupUsb();
+  uint8_t LookupUsbStorage();
   int DataBackup();
 
 private:

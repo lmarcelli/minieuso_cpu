@@ -165,7 +165,13 @@ int RunInstrument::CheckSystems() {
   /* check the instrument and HV status */
   this->Zynq.GetInstStatus();
   this->Zynq.GetHvpsStatus();
-  
+
+  /* check the number storage Usbs connected */
+  this->Daq.Usb->LookupUsbStorage();
+  std::cout << "there are " <<
+    this->Daq.Usb->num_storage_dev <<
+    " USB storage devices connected " << std::endl;
+
   return 0;
 }
 

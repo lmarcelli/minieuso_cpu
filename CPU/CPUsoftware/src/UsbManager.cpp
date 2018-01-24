@@ -147,17 +147,14 @@ uint8_t UsbManager::LookupUsbStorage() {
 	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
 	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC) {
 
-	std::cout << "storage device detected on bus " << STORAGE_BUS << std::endl;
 	num_storage_dev++;
-      }
-      else {
-	std::cout << "no USB storage devices detected" << std::endl;
       }
     }
   }
 
-  std::cout << "There are " << num_storage_dev << " storage devices connected" << std::endl;
- 
+  /* log number of connected storage USBs */
+  clog << "info: " << logstream::info << "There are " << num_storage_dev << " storage devices connected" << std::endl;
+  
   /* clean up */
   libusb_free_device_list(all_devs, 1);
   libusb_exit(ctx);

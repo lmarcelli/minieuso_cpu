@@ -33,6 +33,10 @@ int CamManager::StartAcquisition() {
     clog << "error: " << logstream::error << "camera launch failed" << std::endl;
     /* debug */
     std::cout << "ERROR: camera launch failed" << std::endl;
+    found = output.find("*** BUS RESET ***");
+    if (found != std::string::npos) {
+      std::cout << "ERROR: cameras BUS RESET" << std::endl;
+    } 
   }
 
  return 0;

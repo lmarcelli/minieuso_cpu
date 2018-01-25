@@ -11,8 +11,8 @@
 #include "CpuTools.h"
 
 #define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
-#define CAMERA_EXEC "cd /home/software/CPU/cameras/multiplecam && multiplecam.sh"
-#define CAMERA_EXEC_QUIET "cd /home/software/CPU/cameras/multiplecam && multiplecam.sh 2>&1"
+#define CAMERA_EXEC "(cd /home/software/CPU/cameras/multiplecam && multiplecam.sh)"
+#define CAMERA_EXEC_QUIET "(cd /home/software/CPU/cameras/multiplecam && multiplecam.sh 2>&1)"
 
 #define WAIT_TIME 120
 

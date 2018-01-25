@@ -18,7 +18,7 @@ std::string CpuTools::CommandToStr(const char * cmd) {
       result += buffer.data();
       /* stop if result over a certain length */
       if (result.size() > MAX_STR_LENGTH) {
-	break;
+	return result;
       }
     }
   }

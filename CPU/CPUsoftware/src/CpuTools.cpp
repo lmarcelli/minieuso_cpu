@@ -14,8 +14,13 @@ std::string CpuTools::CommandToStr(const char * cmd) {
 
   if (!pipe) throw std::runtime_error("popen() failed!");
   while (!feof(pipe.get())) {
-    if (fgets(buffer.data(), buf_size, pipe.get()) != nullptr)
+    if (fgets(buffer.data(), buf_size, pipe.get()) != nullptr) {
       result += buffer.data();
+      /* stop if result over a certain length */
+      if (result.size() > MAX_STR_LENGTH) {
+	break;
+      }
+    }
   }
 
   return result;

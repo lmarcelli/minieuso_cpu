@@ -18,14 +18,6 @@ int CamManager::StartAcquisition() {
   std::cout << "starting camera acquisition in the background..." << std::endl;
   clog << "info: " << logstream::info << "starting camera acquisition" << std::endl;
   
-  /* move multiplecam directory to save images in correct place */
-  std::string camera_dir = std::string(CAMERA_DIR);
-  std::string cmd = "cd " +  camera_dir;
-  int status = system(cmd.c_str());
-  if (status != 0) {
-    clog << "error: " << logstream::error << "could not cd into " << CAMERA_DIR << std::endl;
-  }
-
   /* launch and check output */
   std::string output;
   if (this->verbose) {

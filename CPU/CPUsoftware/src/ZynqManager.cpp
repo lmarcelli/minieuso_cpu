@@ -17,7 +17,9 @@ int ZynqManager::CheckTelnet() {
   struct sockaddr_in serv_addr;
   struct hostent * server;
   const char * ip = ZYNQ_IP;
-
+  struct timeval tv;
+  fd_set fdset;
+  
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
  
   /* set up the telnet connection */
@@ -39,16 +41,37 @@ int ZynqManager::CheckTelnet() {
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
-  
-  /* try to connect */
-  if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    return 1;
-  }
-  else {
-    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-  }
 
+  connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+
+  /* set non-blocking */
+  FD_ZERO(&fdset);
+  FD_SET(sockfd, &fdset);
+
+  /* add timeout */
+  tv.tv_sec = CONNECT_TIMEOUT_SEC; 
+  tv.tv_usec = 0;
+  
+  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1)
+    {
+      int so_error;
+      socklen_t len = sizeof so_error;
+      
+      getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
+      
+      if (so_error == 0) {
+	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+
+      }
+      else {
+
+	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+	return 1;
+      }
+      
+    }
+
+ 
   close(sockfd);
   return 0;  
 }
@@ -96,7 +119,9 @@ int ZynqManager::ConnectTelnet() {
   struct sockaddr_in serv_addr;
   struct hostent * server;
   const char * ip = ZYNQ_IP;
-
+  struct timeval tv;
+  fd_set fdset;
+  
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
  
   /* set up the telnet connection */
@@ -119,14 +144,34 @@ int ZynqManager::ConnectTelnet() {
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
   
-  /* connect */
-  if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) { 
-    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    return 1;
-  }
-  else {
-    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-  }
+  connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+
+  /* set non-blocking */
+  FD_ZERO(&fdset);
+  FD_SET(sockfd, &fdset);
+
+  /* add timeout */
+  tv.tv_sec = CONNECT_TIMEOUT_SEC; 
+  tv.tv_usec = 0;
+  
+  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1)
+    {
+      int so_error;
+      socklen_t len = sizeof so_error;
+      
+      getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
+      
+      if (so_error == 0) {
+	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+       
+      }
+      else {
+
+	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+	return -1;
+      }
+      
+    }
   
   return sockfd;   
 }
@@ -143,13 +188,15 @@ int ZynqManager::GetInstStatus() {
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
-  /* send and receive commands in another */
-  status_string = SendRecvTelnet("instrument status\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("instrument status: %s\n", kStatStr);
 
-  close(sockfd);
+  if (sockfd > 0) {
+    /* send and receive commands in another */
+    status_string = SendRecvTelnet("instrument status\n", sockfd);
+    kStatStr = status_string.c_str();
+    printf("instrument status: %s\n", kStatStr);
+    close(sockfd);
+  }
+
   return 0;
 }
 
@@ -222,13 +269,16 @@ int ZynqManager::GetHvpsStatus() {
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
+
+  if (sockfd > 0) {
+    /* send and receive commands */
+    status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
+    kStatStr = status_string.c_str();
+    printf("HVPS status: %s\n", kStatStr);
   
-  /* send and receive commands */
-  status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("HVPS status: %s\n", kStatStr);
+    close(sockfd);
+  }
   
-  close(sockfd);
   return 0;
 }
 

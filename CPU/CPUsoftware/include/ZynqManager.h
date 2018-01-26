@@ -19,6 +19,7 @@
 /* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
 #define TELNET_PORT 23
+#define CONNECT_TIMEOUT_SEC 5
 
 /* pedestal for the ASIC DAC */
 #define PEDESTAL 750

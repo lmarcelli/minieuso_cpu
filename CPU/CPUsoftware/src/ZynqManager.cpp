@@ -42,9 +42,10 @@ int ZynqManager::CheckTelnet() {
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
 
+  /* set non-blocking */
+  int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
   connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
-  /* set non-blocking */
   FD_ZERO(&fdset);
   FD_SET(sockfd, &fdset);
 
@@ -62,6 +63,10 @@ int ZynqManager::CheckTelnet() {
       if (so_error == 0) {
 	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
 
+	/* clear non-blocking */
+	opts = opts & (~O_NONBLOCK);
+	fcntl(sockfd, F_SETFL, opts);   
+       
       }
       else {
 
@@ -143,7 +148,9 @@ int ZynqManager::ConnectTelnet() {
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
-  
+
+  /* set non-blocking */
+  int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
   connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
   /* set non-blocking */
@@ -163,7 +170,10 @@ int ZynqManager::ConnectTelnet() {
       
       if (so_error == 0) {
 	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-       
+
+	/* clear non-blocking */
+	opts = opts & (~O_NONBLOCK);
+	fcntl(sockfd, F_SETFL, opts);   
       }
       else {
 

@@ -83,7 +83,7 @@ int RunInstrument::DebugMode() {
   /* add any quick tests here */
   
   /* print the USB devices connected */
-  this->Daq.Usb->LookupUsbStorage();
+  this->Usb.LookupUsbStorage();
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();
@@ -194,24 +194,46 @@ int RunInstrument::SelectAcqOption() {
 /* launch the cameras and handle errors */
 int RunInstrument::LaunchCam() {
   size_t check = 0;
+
+  this->Cam.n_relaunch_attempt = 0;
   
   /* launch cameras, if required */
   if (CmdLine->cam_on) {
+    
+    if (CmdLine->cam_verbose) {
+      this->Cam.SetVerbose();
+    }
+    
     check = this->Cam.CollectData();
   
     /* react if launched with errors */
-    if ((check != 0) &&
-	(this->Cam.n_launch_attempt < N_TRY_RELAUNCH)) {
+    while ((check != 0) &&
+	(this->Cam.n_relaunch_attempt < N_TRY_RELAUNCH)) {
+
+      std::cout << "Camera relaunch attempt " << this->Cam.n_relaunch_attempt << std::endl;
+      clog << "info: " << logstream::info << "camera relaunch attempt no. " << this->Cam.n_relaunch_attempt << std::endl;
+
+      std::cout << "Rebooting the cameras" << std::endl;
+      clog << "info: " << logstream::info << "rebooting the cameras" << std::endl;
 
       /* reboot the cameras */
-      this->LvpsSwitchOff(LvpsManager::CAMERAS);
+      this->Lvps.SwitchOff(LvpsManager::CAMERAS);
       sleep(1);
-      this->LvpsSwitchOff(LvpsManager::CAMERAS);
+      this->Lvps.SwitchOff(LvpsManager::CAMERAS);
       sleep(1);
+
+      std::cout << "Relaunching the cameras" << std::endl;
+      clog << "info: " << logstream::info << "relaunching the cameras" << std::endl;
       
       /* relaunch */
       check = this->Cam.CollectData();
       this->Cam.n_relaunch_attempt++;
+    }
+    if (check != 0) {
+
+      std::cout << "ERROR: cameras failed to relaunch" << std::endl;
+      clog << "error: " << logstream::error << "cameras failed to relaunch" << std::endl;
+
     }
   }
   
@@ -231,7 +253,7 @@ int RunInstrument::Acquisition() {
   signal(SIGINT, CpuTools::SignalHandler);  
   
   /* launch data backup in background */
-  this->Daq.Usb->RunDataBackup();
+  this->Usb.RunDataBackup();
 
   /* add acquisition with cameras if required */
   LaunchCam();

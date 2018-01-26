@@ -6,6 +6,8 @@ DataAcqManager::DataAcqManager() {
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";    
   this->cpu_hv_file_name = "";
+  
+  this->usb_num_storage_dev = 0;
 }
   
 /* create cpu run file name */

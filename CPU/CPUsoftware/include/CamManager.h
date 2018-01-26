@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <thread>
+#include <future>
+#include <chrono>
 
 #include "log.h"
 #include "CpuTools.h"
@@ -20,16 +22,17 @@
 class CamManager {
 public:
   std::thread::native_handle_type cam_thread_handle;
-  static int n_relaunch_attempt;
-  bool launch_failed;
+  int n_relaunch_attempt;
+  std::promise<bool> launch_failed;
   
   CamManager();
   int SetVerbose();
-  int StartAcquisition();
   int KillCamAcq();
-
+  int CollectData();
+  
 private:
   bool verbose = false;
+  int StartAcquisition();
 
 };
 

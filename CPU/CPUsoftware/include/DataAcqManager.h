@@ -43,6 +43,7 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
+  uint8_t usb_num_storage_dev;
   
   enum RunType : uint8_t {
     CPU = 0,

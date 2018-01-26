@@ -3,7 +3,7 @@
 /* default constructor */
 CamManager::CamManager() {
   this->n_relaunch_attempt = 0;
-  this->launch_failed = false;
+  this->launch_failed.set_value(false);
 }
 
 int CamManager::SetVerbose() {
@@ -22,7 +22,7 @@ int CamManager::StartAcquisition() {
     std::cout << output << std::endl;
   }
   else {
-    output = CpuTools::CommandToStr(CAMERA_EXEC_QUIET);   
+    output = CpuTools::CommandToStr(CAMERA_EXEC);   
   }
   
   size_t found = output.find("Error Trace:");
@@ -38,9 +38,8 @@ int CamManager::StartAcquisition() {
       std::cout << "ERROR: cameras BUS RESET" << std::endl;
 
       /* signal launch failure */
-      this->launch_failed = true;
-      return 1;
-	
+      this->launch_failed.set_value(true);
+      return 1;	
     } 
   }
 
@@ -54,34 +53,30 @@ int CamManager::CollectData() {
   std::cout << "starting camera acquisition in the background..." << std::endl;
   clog << "info: " << logstream::info << "starting camera acquisition" << std::endl; 
 
-  /* check camera verbosity */
-  if (CmdLine->cam_verbose) {
-    this->CManager->SetVerbose();
-  }
-  
-  std::thread collect_cam_data (&CamManager::StartAcquisition, this->CManager);
+  auto future = this->launch_failed.get_future();
+  std::thread collect_cam_data (&CamManager::StartAcquisition, this);
 
-  /* wait for launch to be checked / mutex to be release? */
-  sleep(1);
+  /* wait for launch to be marked as failed by CamManager::StartAcquisition() */
+  auto status = future.wait_for(std::chrono::seconds(1));   
 
   /* check if cameras failed to launch */
-  if (this->launch_failed) {
+  if (status == std::future_status::ready) {
 
     /* wait for thread to join */
     collect_cam_data.join();
     
     /* reset */
-    this->launch_failed = false;
-    
-    /* exit */
+    this->launch_failed.set_value(false);
+
     return 1;
   }
-  
-  /* store the handle */
-  this->cam_thread_handle = collect_cam_data.native_handle();
+  else {
 
-  /* if launch OK, detach thread */
-  collect_cam_data.detach();
+    /* if launch OK, detach thread */
+    collect_cam_data.detach();
+    this->cam_thread_handle = collect_cam_data.native_handle();
+  }
+  
   
   return 0;
 }

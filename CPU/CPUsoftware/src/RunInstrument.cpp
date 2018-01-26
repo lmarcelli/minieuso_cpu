@@ -160,11 +160,13 @@ int RunInstrument::CheckSystems() {
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
-  this->Zynq.CheckTelnet();
-  
-  /* check the instrument and HV status */
-  this->Zynq.GetInstStatus();
-  this->Zynq.GetHvpsStatus();
+  int check_telnet = this->Zynq.CheckTelnet();
+
+  if (check_telnet == 0) {
+    /* check the instrument and HV status */
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;

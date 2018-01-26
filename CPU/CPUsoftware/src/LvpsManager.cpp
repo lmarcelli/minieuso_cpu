@@ -51,7 +51,7 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
 
   /* check switched on */
   if (Check(sub_system)) {
-    clog << "info: " << logstream::info << sub_system << " was swicthed on correctly" << std::endl;
+    clog << "info: " << logstream::info << sub_system << " was switched on correctly" << std::endl;
   }
   else {
     clog << "error: " << logstream::error << sub_system << " was not switched on correctly" << std::endl;

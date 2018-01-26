@@ -30,14 +30,8 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
 
   std::string cpu_str;
 
-  /* get the number of devices */
-  uint8_t num_storage_dev = this->Usb->num_storage_dev;
-  if (num_storage_dev == 0xFF) {
-    this->Usb->LookupUsbStorage();
-  }
-  
   /* write on USB directly if possible */
-  if (num_storage_dev == 1 || num_storage_dev == 2) {
+  if (this->usb_num_storage_dev == 1 || usb_num_storage_dev == 2) {
     cpu_str = usb_str + time_str;
   }
   /* other write in DONE_DIR */
@@ -785,19 +779,6 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
     collect_therm_data.join();
   }
   
-  /* add acquisition with cameras if required */
-  if (CmdLine->cam_on) {
-
-    /* check camera verbosity */
-    if (CmdLine->cam_verbose) {
-      this->CManager->SetVerbose();
-    }
-    std::thread collect_cam_data (&CamManager::StartAcquisition, this->CManager);
-    /* store the handle */
-    this->CManager->cam_thread_handle = collect_cam_data.native_handle();
-
-    collect_cam_data.join();
-  }
   
   collect_main_data.join();
  

@@ -9,7 +9,6 @@
 
 #include "UsbManager.h"
 #include "ThermManager.h"
-#include "CamManager.h"
 #include "pdmdata.h"
 #include "InputParser.h"
 
@@ -29,7 +28,6 @@
 #define PACER_RATE 100000
 #define PH_CHANNELS 4
 
-
 /* acquisition structure for analog readout */
 typedef struct
 {
@@ -45,8 +43,6 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
-  CamManager * CManager = new CamManager();
-  UsbManager * Usb = new UsbManager();
   
   enum RunType : uint8_t {
     CPU = 0,

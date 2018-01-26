@@ -165,12 +165,11 @@ int RunInstrument::CheckSystems() {
   /* check the instrument and HV status */
   this->Zynq.GetInstStatus();
   this->Zynq.GetHvpsStatus();
-
+  
   /* check the number storage Usbs connected */
-  std::cout << "there are " <<
-    (int)this->Daq.Usb->LookupUsbStorage() <<
-    " USB storage devices connected " << std::endl;
-
+  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
+  this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
+					 
   return 0;
 }
 
@@ -188,8 +187,34 @@ int RunInstrument::SelectAcqOption() {
   /* select Zynq acquisition mode */
   this->Zynq.instrument_mode = this->CmdLine->zynq_mode;
   this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
- 
 
+  return 0;
+}
+
+/* launch the cameras and handle errors */
+int RunInstrument::LaunchCam() {
+  size_t check = 0;
+  
+  /* launch cameras, if required */
+  if (CmdLine->cam_on) {
+    check = this->Cam.CollectData();
+  
+    /* react if launched with errors */
+    if ((check != 0) &&
+	(this->Cam.n_launch_attempt < N_TRY_RELAUNCH)) {
+
+      /* reboot the cameras */
+      this->LvpsSwitchOff(LvpsManager::CAMERAS);
+      sleep(1);
+      this->LvpsSwitchOff(LvpsManager::CAMERAS);
+      sleep(1);
+      
+      /* relaunch */
+      check = this->Cam.CollectData();
+      this->Cam.n_relaunch_attempt++;
+    }
+  }
+  
   return 0;
 }
 
@@ -207,7 +232,9 @@ int RunInstrument::Acquisition() {
   
   /* launch data backup in background */
   this->Daq.Usb->RunDataBackup();
-  
+
+  /* add acquisition with cameras if required */
+  LaunchCam();
   
   /* select SCURVE or STANDARD acquisition */
   SelectAcqOption();

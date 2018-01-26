@@ -2,6 +2,7 @@
 #define _RUN_INSTRUMENT_H
 
 #include "LvpsManager.h"
+#include "CamManager.h"
 #include "DataAcqManager.h"
 
 /* number of seconds CPU waits for other systems to boot */
@@ -36,6 +37,8 @@ public:
   Config * ConfigOut;
   ZynqManager Zynq;
   LvpsManager Lvps;
+  UsbManager Usb;
+  CamManager Cam;
   DataAcqManager Daq;
   
   RunInstrument(CmdLineInputs * CmdLine);
@@ -50,6 +53,7 @@ private:
   int CheckSystems();
   //int SwitchMode();
   int SelectAcqOption();
+  int LaunchCam();
   int Acquisition();
 };
 

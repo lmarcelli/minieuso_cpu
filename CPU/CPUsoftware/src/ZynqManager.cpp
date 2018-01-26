@@ -53,8 +53,7 @@ int ZynqManager::CheckTelnet() {
   tv.tv_sec = CONNECT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
   
-  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1)
-    {
+  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
       int so_error;
       socklen_t len = sizeof so_error;
       
@@ -73,8 +72,13 @@ int ZynqManager::CheckTelnet() {
 	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
 	return 1;
       }
-      
-    }
+        
+  }
+  else {
+    std::cout << "telnet connection timeout!" << std::endl;
+    clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+    return -1;
+  }
 
  
   close(sockfd);
@@ -161,8 +165,7 @@ int ZynqManager::ConnectTelnet() {
   tv.tv_sec = CONNECT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
   
-  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1)
-    {
+  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
       int so_error;
       socklen_t len = sizeof so_error;
       
@@ -182,6 +185,12 @@ int ZynqManager::ConnectTelnet() {
       }
       
     }
+    else {
+      std::cout << "telnet connection timeout!" << std::endl;
+      clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+      return -1;
+    }
+
   
   return sockfd;   
 }

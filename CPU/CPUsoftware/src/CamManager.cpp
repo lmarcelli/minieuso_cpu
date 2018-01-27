@@ -72,8 +72,9 @@ int CamManager::CollectData() {
   else {
 
     /* if launch OK, detach thread */
-    collect_cam_data.detach();
-    this->cam_thread_handle = collect_cam_data.native_handle();
+    std::cout << "Cameras launched sucessfully, now running in the background" << std::endl;
+   this->cam_thread_handle = collect_cam_data.native_handle(); 
+   collect_cam_data.detach();
   }
   
   

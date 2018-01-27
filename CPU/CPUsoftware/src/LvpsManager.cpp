@@ -195,8 +195,8 @@ int LvpsManager::ReadP1() {
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  ReadPort_aDIO() FAILED");
+    clog << "error: " << logstream::error << "could not read value from port 1" << std::endl;
   }
-  clog << "error: " << logstream::error << "could not read value from port 1" << std::endl;
 
   /* separate out into bits */
   for (Bit = 0; Bit < 4; Bit++) {

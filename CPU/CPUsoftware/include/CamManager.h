@@ -14,7 +14,6 @@
 
 #define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
 #define CAMERA_EXEC "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh)"
-#define TEST "(cd /home/software/CPU/test && ./print_error)"
 #define N_TRY_RELAUNCH 2
 #define WAIT_TIME 120
 

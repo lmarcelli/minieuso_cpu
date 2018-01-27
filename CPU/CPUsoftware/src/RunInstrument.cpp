@@ -331,8 +331,10 @@ int RunInstrument::Start() {
   
   /* only reached for SCURVE and SHORT acquisitions */
   /* turn off HV */
-  this->CmdLine->hvps_status = ZynqManager::OFF;
-  HvpsSwitch();
+  if (this->Zynq.telnet_connected) {
+    this->CmdLine->hvps_status = ZynqManager::OFF;
+    HvpsSwitch();
+  }
 
   /* turn off all subsystems */
   this->CmdLine->lvps_status = LvpsManager::OFF;

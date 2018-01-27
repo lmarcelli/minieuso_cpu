@@ -40,6 +40,8 @@ public:
   UsbManager Usb;
   CamManager Cam;
   DataAcqManager Daq;
+
+  int check_telnet;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();

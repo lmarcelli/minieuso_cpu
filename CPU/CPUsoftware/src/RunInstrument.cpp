@@ -160,9 +160,9 @@ int RunInstrument::CheckSystems() {
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
-  int check_telnet = this->Zynq.CheckTelnet();
+  this->Zynq.CheckTelnet();
 
-  if (check_telnet == 0) {
+  if (this->Zynq.telnet_connected) {
     /* check the instrument and HV status */
     this->Zynq.GetInstStatus();
     this->Zynq.GetHvpsStatus();
@@ -261,25 +261,27 @@ int RunInstrument::Acquisition() {
   LaunchCam();
   
   /* select SCURVE or STANDARD acquisition */
-  SelectAcqOption();
-  switch (this->current_acq_mode) {
-  case SCURVE:
+  if (this->Zynq.telnet_connected) {
+    SelectAcqOption();
+    switch (this->current_acq_mode) {
+    case SCURVE:
     
-    /* take an scurve */
-    Daq.CollectSc(&this->Zynq, this->ConfigOut, this->CmdLine);
+      /* take an scurve */
+      Daq.CollectSc(&this->Zynq, this->ConfigOut, this->CmdLine);
     
-    break;
-  case STANDARD:
-
-    /* start data acquisition */
-    this->Daq.CollectData(&this->Zynq, this->ConfigOut, this->CmdLine);
+      break;
+    case STANDARD:
+      
+      /* start data acquisition */
+      this->Daq.CollectData(&this->Zynq, this->ConfigOut, this->CmdLine);
     
-    break;
-  case ACQ_UNDEF:
-    clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
-    std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
+      break;
+    case ACQ_UNDEF:
+      clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
+      std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
+    }
   }
-
+  
   /* never reached for infinite acquisition */
 
   return 0;

@@ -6,6 +6,7 @@ ZynqManager::ZynqManager () {
   this->hvps_status = ZynqManager::UNDEF;
   this->instrument_mode = ZynqManager::MODE0;
   this->test_mode = ZynqManager::T_MODE0;
+  this->telnet_connected = false;
 };
 
 /* check telnet connection on a certain IP address */
@@ -70,6 +71,7 @@ int ZynqManager::CheckTelnet() {
       else {
 
 	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+	this->telnet_connected = false;
 	return 1;
       }
         
@@ -77,11 +79,13 @@ int ZynqManager::CheckTelnet() {
   else {
     std::cout << "telnet connection timeout!" << std::endl;
     clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    return -1;
+    this->telnet_connected = false;
+    return 1;
   }
 
- 
+  
   close(sockfd);
+  this->telnet_connected = true;
   return 0;  
 }
 
@@ -188,10 +192,9 @@ int ZynqManager::ConnectTelnet() {
     else {
       std::cout << "telnet connection timeout!" << std::endl;
       clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-      return -1;
+      return 1;
     }
 
-  
   return sockfd;   
 }
 

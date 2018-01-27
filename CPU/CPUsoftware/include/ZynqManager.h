@@ -50,12 +50,14 @@ public:
     UNDEF = 2,
   };
   HvpsStatus hvps_status;
-  
+
+  bool telnet_connected;
+    
   ZynqManager();
-  static int CheckTelnet();
+  int CheckTelnet();
   static int ConnectTelnet();
-  static int GetInstStatus();
-  static int GetHvpsStatus();
+  int GetInstStatus();
+  int GetHvpsStatus();
   int HvpsTurnOn(int cv, int dv);
   int HvpsTurnOff();
   int Scurve(int start, int step, int stop, int acc);
@@ -68,7 +70,7 @@ public:
 
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
-  static int InstStatusTest(std::string send_msg);
+  int InstStatusTest(std::string send_msg);
 
 };
 

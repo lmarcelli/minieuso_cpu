@@ -29,6 +29,8 @@ InputParser::InputParser(int &argc, char **argv) {
   /* get command line input */
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));
+    /* debug */
+    std::cout << std::string(argv[i]) << std::endl;
   }
 }
 

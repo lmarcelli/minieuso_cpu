@@ -48,6 +48,8 @@ public:
   const std::string& getCmdOption(const std::string &option) const {
     std::vector<std::string>::const_iterator itr;
     itr =  std::find(this->tokens.begin(), this->tokens.end(), option);
+    /* debug */
+    std::cout << "itr: " << itr << std::endl;
     if (itr != this->tokens.end() && itr++ != this->tokens.end()){
       return *itr;
     }

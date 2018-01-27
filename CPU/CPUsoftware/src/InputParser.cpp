@@ -177,7 +177,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   
   /* camera verbosity */
   const std::string & cam_verb_str = getCmdOption("-cam");
-  if (!cam_verb_str.empty() && cam_verb_str != NULL) {
+  if (!cam_verb_str.empty()) {
     if (cam_verb_str == "v") {
       this->CmdLine->cam_verbose = true;
     }   

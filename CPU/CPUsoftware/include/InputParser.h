@@ -50,7 +50,10 @@ public:
     std::vector<std::string>::const_iterator itr;
     itr =  std::find(this->tokens.begin(), this->tokens.end(), option);
     if (itr != this->tokens.end() && itr++ != this->tokens.end()) {
-      return * itr;
+      /* prevent segfault until better fix */
+      if (option != "-cam") {
+	return * itr;
+      }
     }
     static const std::string empty_string("");
     return empty_string;

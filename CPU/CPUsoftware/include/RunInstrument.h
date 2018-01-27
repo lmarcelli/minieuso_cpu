@@ -14,8 +14,8 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* software version and date */
-#define VERSION 4.3
-#define VERSION_DATE_STRING "23/01/2018"
+#define VERSION 4.4
+#define VERSION_DATE_STRING "27/01/2018"
 
 /* class to handle different instrument operation modes */
 class RunInstrument {

@@ -18,7 +18,7 @@ int CamManager::StartAcquisition() {
   /* launch and check output */
   std::string output;
   if (this->verbose) {
-    output = CpuTools::CommandToStr(CAMERA_EXEC);
+    output = CpuTools::CommandToStr(TEST);
     std::cout << output << std::endl;
   }
   else {

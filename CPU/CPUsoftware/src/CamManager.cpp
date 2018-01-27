@@ -3,7 +3,6 @@
 /* default constructor */
 CamManager::CamManager() {
   this->n_relaunch_attempt = 0;
-  this->launch_failed.set_value(false);
 }
 
 int CamManager::SetVerbose() {
@@ -57,7 +56,7 @@ int CamManager::CollectData() {
   std::thread collect_cam_data (&CamManager::StartAcquisition, this);
 
   /* wait for launch to be marked as failed by CamManager::StartAcquisition() */
-  auto status = future.wait_for(std::chrono::seconds(1));   
+  auto status = future.wait_for(std::chrono::seconds(5));   
 
   /* check if cameras failed to launch */
   if (status == std::future_status::ready) {
@@ -65,8 +64,8 @@ int CamManager::CollectData() {
     /* wait for thread to join */
     collect_cam_data.join();
     
-    /* reset */
-    this->launch_failed.set_value(false);
+    /* clear the promise */
+    this->launch_failed = std::promise<bool>();
 
     return 1;
   }

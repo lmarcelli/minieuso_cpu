@@ -24,6 +24,7 @@ public:
   std::thread::native_handle_type cam_thread_handle;
   int n_relaunch_attempt;
   std::promise<bool> launch_failed;
+  bool launch_running;
   
   CamManager();
   int SetVerbose();

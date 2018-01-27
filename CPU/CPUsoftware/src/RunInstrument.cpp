@@ -281,6 +281,11 @@ int RunInstrument::Acquisition() {
       std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
     }
   }
+
+  if (this->Cam.launch_running) {
+    /* run infinite loop to allow cameras to run */
+    while (1) {}
+  } 
   
   /* never reached for infinite acquisition */
 

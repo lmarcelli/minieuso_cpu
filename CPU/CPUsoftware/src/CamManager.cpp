@@ -3,6 +3,7 @@
 /* default constructor */
 CamManager::CamManager() {
   this->n_relaunch_attempt = 0;
+  this->launch_running = false;
 }
 
 int CamManager::SetVerbose() {
@@ -73,8 +74,9 @@ int CamManager::CollectData() {
 
     /* if launch OK, detach thread */
     std::cout << "Cameras launched sucessfully, now running in the background" << std::endl;
-   this->cam_thread_handle = collect_cam_data.native_handle(); 
-   collect_cam_data.detach();
+    this->launch_running = true;
+    this->cam_thread_handle = collect_cam_data.native_handle(); 
+    collect_cam_data.detach();
   }
   
   

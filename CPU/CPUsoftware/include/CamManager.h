@@ -14,7 +14,9 @@
 
 #define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
 #define CAMERA_EXEC "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh)"
-#define CAMERA_EXEC_USB "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh /home/software/CPU/cameras/multiplecam /media/usb0)"
+#define CAMERA_EXEC_USB "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh)"
+/* to be updated when ST updates multiplecam */
+//#define CAMERA_EXEC_USB "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh /home/software/CPU/cameras/multiplecam /media/usb0)"
 #define N_TRY_RELAUNCH 2
 #define WAIT_TIME 120
 

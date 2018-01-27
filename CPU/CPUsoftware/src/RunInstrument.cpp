@@ -171,7 +171,8 @@ int RunInstrument::CheckSystems() {
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
   this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
-					 
+  this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
+
   return 0;
 }
 
@@ -202,10 +203,11 @@ int RunInstrument::LaunchCam() {
   /* launch cameras, if required */
   if (CmdLine->cam_on) {
     
+    /* check verbosity */
     if (CmdLine->cam_verbose) {
       this->Cam.SetVerbose();
     }
-    
+  
     check = this->Cam.CollectData();
   
     /* react if launched with errors */

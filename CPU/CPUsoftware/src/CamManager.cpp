@@ -2,6 +2,7 @@
 
 /* default constructor */
 CamManager::CamManager() {
+  this->usb_num_storage_dev = 0;
   this->n_relaunch_attempt = 0;
   this->launch_running = false;
 }
@@ -15,32 +16,42 @@ int CamManager::SetVerbose() {
 /* start acquisition */
 int CamManager::StartAcquisition() {
 
-  /* launch and check output */
   std::string output;
+  const char * cam_cmd;
+
+  /* check usb status */
+  if (this->usb_num_storage_dev == 1 ||
+      this-> usb_num_storage_dev == 2) {
+    cam_cmd = CAMERA_EXEC_USB;
+  }
+  else {
+    cam_cmd = CAMERA_EXEC;
+  }
+
+  /* check verbosity */
   if (this->verbose) {
-    output = CpuTools::CommandToStr(CAMERA_EXEC);
+    output = CpuTools::CommandToStr(cam_cmd);
     std::cout << output << std::endl;
   }
   else {
-    output = CpuTools::CommandToStr(CAMERA_EXEC);   
+    output = CpuTools::CommandToStr(cam_cmd);   
   }
   
   size_t found = output.find("Error Trace:");
   if (found != std::string::npos) {
+    
     clog << "error: " << logstream::error << "camera launch failed" << std::endl;
-
-   
     std::cout << "ERROR: camera launch failed" << std::endl;
 
     found = output.find("*** BUS RESET ***");
     if (found != std::string::npos) {
 
       std::cout << "ERROR: cameras BUS RESET" << std::endl;
-
-      /* signal launch failure */
-      this->launch_failed.set_value(true);
-      return 1;	
-    } 
+    }
+    
+    /* signal launch failure */
+    this->launch_failed.set_value(true);
+    return 1;	
   }
 
  return 0;

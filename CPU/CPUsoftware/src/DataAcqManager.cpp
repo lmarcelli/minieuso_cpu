@@ -6,6 +6,8 @@ DataAcqManager::DataAcqManager() {
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";    
   this->cpu_hv_file_name = "";
+  
+  this->usb_num_storage_dev = 0;
 }
   
 /* create cpu run file name */
@@ -30,16 +32,11 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
 
   std::string cpu_str;
 
-  /* get the number of devices */
-  UsbManager UManager;
-  uint8_t num_storage_dev = UManager.num_storage_dev;
-  
-  /* write on USB if possible */
-  if (num_storage_dev == 1 || num_storage_dev == 2) {
+  /* write on USB directly if possible */
+  if (this->usb_num_storage_dev == 1 || usb_num_storage_dev == 2) {
     cpu_str = usb_str + time_str;
-    /* update when camera bug fixed */
-    //cpu_str = done_str + time_str;
   }
+  /* other write in DONE_DIR */
   else {
     cpu_str = done_str + time_str;
   }
@@ -784,11 +781,6 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
     collect_therm_data.join();
   }
   
-  /* add acquisition with cameras if required */
-  if (CmdLine->cam_on) {
-    std::thread collect_cam_data (&CamManager::CollectData, this->CManager);
-    collect_cam_data.join();
-  }
   
   collect_main_data.join();
  

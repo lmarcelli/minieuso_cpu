@@ -13,6 +13,8 @@
 
 #include "ZynqManager.h"
 
+#define MAX_STR_LENGTH 1000
+
 /* class to provide useful funcions to other parts of the software */
 class CpuTools {
 

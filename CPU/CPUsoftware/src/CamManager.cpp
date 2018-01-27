@@ -2,51 +2,106 @@
 
 /* default constructor */
 CamManager::CamManager() {
+  this->usb_num_storage_dev = 0;
+  this->n_relaunch_attempt = 0;
+  this->launch_running = false;
+}
 
+int CamManager::SetVerbose() {
+  this->verbose = true;
+
+  return 0;
 }
 
 /* start acquisition */
 int CamManager::StartAcquisition() {
-  /* launch the camera software */
-  int status = system("cd /home/software/CPU/cameras/multiplecam");
-  if (status != 0) {
-    clog << "error: " << logstream::error << "could not cd into " << CAMERA_DIR << std::endl;
+
+  std::string output;
+  const char * cam_cmd;
+
+  /* check usb status */
+  if (this->usb_num_storage_dev == 1 ||
+      this-> usb_num_storage_dev == 2) {
+    cam_cmd = CAMERA_EXEC_USB;
+  }
+  else {
+    cam_cmd = CAMERA_EXEC;
   }
 
-  /* fork a process */
-  pid_t pid = fork();
-
-  if (pid == 0) {
-    /* child process */
-    execl(CAMERA_EXEC, CAMERA_EXEC, (char *)NULL);
+  /* check verbosity */
+  if (this->verbose) {
+    output = CpuTools::CommandToStr(cam_cmd);
+    std::cout << output << std::endl;
   }
-  else if (pid > 0) {
-    /* parent process */
-    while (global_stop_exec == false) {
+  else {
+    output = CpuTools::CommandToStr(cam_cmd);   
+  }
+  
+  size_t found = output.find("Error Trace:");
+  if (found != std::string::npos) {
+    
+    clog << "error: " << logstream::error << "camera launch failed" << std::endl;
+    std::cout << "ERROR: camera launch failed" << std::endl;
 
+    found = output.find("*** BUS RESET ***");
+    if (found != std::string::npos) {
+
+      std::cout << "ERROR: cameras BUS RESET" << std::endl;
     }
-    /* kill the process */
-    kill(pid, SIGINT);
+    
+    /* signal launch failure */
+    this->launch_failed.set_value(true);
+    return 1;	
   }
 
  return 0;
 }
 
-/* collect data */
+/* spawn thread to launch the camera software */
 int CamManager::CollectData() {
 
-  clog << "info: " << logstream::info << "starting camera acquisition" << std::endl;
+ /* launch the camera software */
+  std::cout << "starting camera acquisition..." << std::endl;
+  clog << "info: " << logstream::info << "starting camera acquisition" << std::endl; 
+
+  auto future = this->launch_failed.get_future();
+  std::thread collect_cam_data (&CamManager::StartAcquisition, this);
+
+  /* wait for launch to be marked as failed by CamManager::StartAcquisition() */
+  auto status = future.wait_for(std::chrono::seconds(5));   
+
+  /* check if cameras failed to launch */
+  if (status == std::future_status::ready) {
+
+    /* wait for thread to join */
+    collect_cam_data.join();
+    
+    /* clear the promise */
+    this->launch_failed = std::promise<bool>();
+
+    return 1;
+  }
+  else {
+
+    /* if launch OK, detach thread */
+    std::cout << "cameras launched sucessfully, now running in the background" << std::endl;
+    this->launch_running = true;
+    this->cam_thread_handle = collect_cam_data.native_handle(); 
+    collect_cam_data.detach();
+  }
   
-  /* spawn a thread to run camera software */
-  std::thread collect_data (&CamManager::StartAcquisition, this);
+  
+  return 0;
+}
 
-  /* wait a set period */
-  sleep(WAIT_TIME);
+/* kill the data collection thread */
+int CamManager::KillCamAcq() {
 
-  /* set global var to kill execution */
-  clog << "info: " << logstream::info << "stopping camera acquisition" << std::endl;
-  global_stop_exec = true;
-  collect_data.join();
+  clog << "info: " << logstream::info << "killing the camera acquisition" << std::endl;
 
+  /* kill the thread */
+  /* justifiable as no locked resources */
+  pthread_cancel(this->cam_thread_handle);
+  
   return 0;
 }

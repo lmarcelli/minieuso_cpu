@@ -51,7 +51,7 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
 
   /* check switched on */
   if (Check(sub_system)) {
-    clog << "info: " << logstream::info << sub_system << " was swicthed on correctly" << std::endl;
+    clog << "info: " << logstream::info << sub_system << " was switched on correctly" << std::endl;
   }
   else {
     clog << "error: " << logstream::error << sub_system << " was not switched on correctly" << std::endl;
@@ -195,8 +195,8 @@ int LvpsManager::ReadP1() {
   if (aDIO_ReturnVal) {
     error(EXIT_FAILURE, errno,
 	  "ERROR:  ReadPort_aDIO() FAILED");
+    clog << "error: " << logstream::error << "could not read value from port 1" << std::endl;
   }
-  clog << "error: " << logstream::error << "could not read value from port 1" << std::endl;
 
   /* separate out into bits */
   for (Bit = 0; Bit < 4; Bit++) {

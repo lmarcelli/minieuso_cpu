@@ -56,13 +56,13 @@ int RunInstrument::HvpsSwitch() {
   switch (this->CmdLine->hvps_status) {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
-    this->ZqManager.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
-    this->ZqManager.SetDac(this->ConfigOut->dac_level);
+    this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+    this->Zynq.SetDac(this->ConfigOut->dac_level);
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
-    this->ZqManager.HvpsTurnOff();   
-    this->ZqManager.SetDac(PEDESTAL); 
+    this->Zynq.HvpsTurnOff();   
+    this->Zynq.SetDac(PEDESTAL); 
     break;
   case ZynqManager::UNDEF:
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
@@ -76,13 +76,18 @@ int RunInstrument::HvpsSwitch() {
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
 
-    std::cout << "Mini-EUSO software debug mode" << std::endl;
-     
-    /* make a test Zynq packet */
-    DataAcqManager::WriteFakeZynqPkt();
-    DataAcqManager::ReadFakeZynqPkt();
-
-    /* add any quick tests here */
+  std::cout << "-----------------------------" <<std::endl; 
+  std::cout << "Mini-EUSO software debug mode" << std::endl;
+  std::cout << "-----------------------------" <<std::endl; 
+  
+  /* add any quick tests here */
+  
+  /* print the USB devices connected */
+  this->Usb.LookupUsbStorage();
+  
+  /* make a test Zynq packet */
+  //DataAcqManager::WriteFakeZynqPkt();
+  //DataAcqManager::ReadFakeZynqPkt();  
     
   return 0;
 }
@@ -155,12 +160,19 @@ int RunInstrument::CheckSystems() {
   sleep(BOOT_TIME);
   
   /* test the connection to the zynq board */
-  this->ZqManager.CheckTelnet();
+  this->Zynq.CheckTelnet();
+
+  if (this->Zynq.telnet_connected) {
+    /* check the instrument and HV status */
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
   
-  /* check the instrument and HV status */
-  this->ZqManager.GetInstStatus();
-  this->ZqManager.GetHvpsStatus();
-  
+  /* check the number storage Usbs connected */
+  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
+  this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
+  this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
+
   return 0;
 }
 
@@ -176,10 +188,59 @@ int RunInstrument::SelectAcqOption() {
   }
 
   /* select Zynq acquisition mode */
-  this->ZqManager.instrument_mode = this->CmdLine->zynq_mode;
-  this->ZqManager.test_mode = this->CmdLine->zynq_test_mode;    
- 
+  this->Zynq.instrument_mode = this->CmdLine->zynq_mode;
+  this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
 
+  return 0;
+}
+
+/* launch the cameras and handle errors */
+int RunInstrument::LaunchCam() {
+  size_t check = 0;
+
+  this->Cam.n_relaunch_attempt = 0;
+  
+  /* launch cameras, if required */
+  if (CmdLine->cam_on) {
+    
+    /* check verbosity */
+    if (CmdLine->cam_verbose) {
+      this->Cam.SetVerbose();
+    }
+  
+    check = this->Cam.CollectData();
+  
+    /* react if launched with errors */
+    while ((check != 0) &&
+	(this->Cam.n_relaunch_attempt < N_TRY_RELAUNCH)) {
+
+      std::cout << "Camera relaunch attempt " << this->Cam.n_relaunch_attempt << std::endl;
+      clog << "info: " << logstream::info << "camera relaunch attempt no. " << this->Cam.n_relaunch_attempt << std::endl;
+
+      std::cout << "Rebooting the cameras" << std::endl;
+      clog << "info: " << logstream::info << "rebooting the cameras" << std::endl;
+
+      /* reboot the cameras */
+      this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+      sleep(1);
+      this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+      sleep(1);
+
+      std::cout << "Relaunching the cameras" << std::endl;
+      clog << "info: " << logstream::info << "relaunching the cameras" << std::endl;
+      
+      /* relaunch */
+      check = this->Cam.CollectData();
+      this->Cam.n_relaunch_attempt++;
+    }
+    if (check != 0) {
+
+      std::cout << "ERROR: cameras failed to relaunch" << std::endl;
+      clog << "error: " << logstream::error << "cameras failed to relaunch" << std::endl;
+
+    }
+  }
+  
   return 0;
 }
 
@@ -195,35 +256,41 @@ int RunInstrument::Acquisition() {
   /* enable signal handling */
   signal(SIGINT, CpuTools::SignalHandler);  
   
-  /* define data backup */
-  this->UManager.DataBackup();
-  
+  /* launch data backup in background */
+  this->Usb.RunDataBackup();
+
+  /* add acquisition with cameras if required */
+  LaunchCam();
   
   /* select SCURVE or STANDARD acquisition */
-  SelectAcqOption();
-  switch (this->current_acq_mode) {
-  case SCURVE:
+  if (this->Zynq.telnet_connected) {
+    SelectAcqOption();
+    switch (this->current_acq_mode) {
+    case SCURVE:
     
-    /* take an scurve */
-    DaqManager.CollectSc(&this->ZqManager, this->ConfigOut, this->CmdLine);
+      /* take an scurve */
+      Daq.CollectSc(&this->Zynq, this->ConfigOut, this->CmdLine);
     
-    break;
-  case STANDARD:
-
-    /* start data acquisition */
-    this->DaqManager.CollectData(&this->ZqManager, this->ConfigOut, this->CmdLine);
+      break;
+    case STANDARD:
+      
+      /* start data acquisition */
+      this->Daq.CollectData(&this->Zynq, this->ConfigOut, this->CmdLine);
     
-    break;
-  case ACQ_UNDEF:
-    clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
-    std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
+      break;
+    case ACQ_UNDEF:
+      clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
+      std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
+    }
   }
 
+  if (this->Cam.launch_running) {
+    /* run infinite loop to allow cameras to run */
+    while (1) {}
+  } 
+  
   /* never reached for infinite acquisition */
 
-  /* wait for backup to complete */
-  //run_backup.join();
-  
   return 0;
 }
 
@@ -266,8 +333,10 @@ int RunInstrument::Start() {
   
   /* only reached for SCURVE and SHORT acquisitions */
   /* turn off HV */
-  this->CmdLine->hvps_status = ZynqManager::OFF;
-  HvpsSwitch();
+  if (this->Zynq.telnet_connected) {
+    this->CmdLine->hvps_status = ZynqManager::OFF;
+    HvpsSwitch();
+  }
 
   /* turn off all subsystems */
   this->CmdLine->lvps_status = LvpsManager::OFF;

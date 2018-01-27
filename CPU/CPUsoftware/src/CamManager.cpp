@@ -61,7 +61,7 @@ int CamManager::StartAcquisition() {
 int CamManager::CollectData() {
 
  /* launch the camera software */
-  std::cout << "starting camera acquisition in the background..." << std::endl;
+  std::cout << "starting camera acquisition..." << std::endl;
   clog << "info: " << logstream::info << "starting camera acquisition" << std::endl; 
 
   auto future = this->launch_failed.get_future();
@@ -84,7 +84,7 @@ int CamManager::CollectData() {
   else {
 
     /* if launch OK, detach thread */
-    std::cout << "Cameras launched sucessfully, now running in the background" << std::endl;
+    std::cout << "cameras launched sucessfully, now running in the background" << std::endl;
     this->launch_running = true;
     this->cam_thread_handle = collect_cam_data.native_handle(); 
     collect_cam_data.detach();

@@ -2,6 +2,7 @@
 #define _RUN_INSTRUMENT_H
 
 #include "LvpsManager.h"
+#include "CamManager.h"
 #include "DataAcqManager.h"
 
 /* number of seconds CPU waits for other systems to boot */
@@ -13,8 +14,8 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* software version and date */
-#define VERSION 4.2
-#define VERSION_DATE_STRING "19/01/2018"
+#define VERSION 4.3
+#define VERSION_DATE_STRING "23/01/2018"
 
 /* class to handle different instrument operation modes */
 class RunInstrument {
@@ -34,10 +35,13 @@ public:
   AcquisitionMode current_acq_mode;
   
   Config * ConfigOut;
-  ZynqManager ZqManager;
-  UsbManager UManager;
+  ZynqManager Zynq;
   LvpsManager Lvps;
-  DataAcqManager DaqManager;
+  UsbManager Usb;
+  CamManager Cam;
+  DataAcqManager Daq;
+
+  int check_telnet;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();
@@ -51,6 +55,7 @@ private:
   int CheckSystems();
   //int SwitchMode();
   int SelectAcqOption();
+  int LaunchCam();
   int Acquisition();
 };
 

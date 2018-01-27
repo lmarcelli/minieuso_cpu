@@ -2,7 +2,7 @@
 
 /* default constructor */
 UsbManager::UsbManager() {
-  this->num_storage_dev = -1;
+  this->num_storage_dev = N_USB_UNDEF;
 }
 
 /* print a description of usb devices connected */
@@ -95,20 +95,22 @@ int UsbManager::CheckUsb() {
   return 0;
 }
 
-/* lookup usb devices connected and identify them */
-uint8_t UsbManager::LookupUsb() {
+/* lookup usb storage devices connected and identify them */
+uint8_t UsbManager::LookupUsbStorage() {
   libusb_device ** all_devs;
   libusb_device * dev;
+  libusb_device_descriptor desc = {0};
   libusb_context * ctx = NULL;
   int r, num_storage_dev = 0;
   ssize_t cnt, i;
 
-  clog << "info: " << logstream::info << "looking up USB devices" << std::endl;
+  clog << "info: " << logstream::info << "looking up USB storage devices" << std::endl;
   
   /* initialise a libusb session */
   r = libusb_init(&ctx);
   if (r < 0) {
     std::cout << "init error for libusb" << std::endl;
+    clog << "error: " << logstream::error << "init error for libusb" << std::endl;
     return 1;
   }
 
@@ -118,44 +120,41 @@ uint8_t UsbManager::LookupUsb() {
   /* get the list of devices */
   cnt = libusb_get_device_list(ctx, &all_devs);
   if (cnt < 0) {
-    std::cout << "get device error for libusb" << std::endl;
     clog << "error: " << logstream::error << "get device error for libusb" << std::endl;
   }
 
   /* check number of connected devices */
   if (cnt == MIN_DEVICE_NUM) {
     clog << "error: " << logstream::error << "no storage or config USBs connected" << std::endl;
-    /* ADD : print out diagnostics to log */
   }
   else if (cnt < MIN_DEVICE_NUM) {
    clog << "error: " << logstream::error << "less USB devices connected than expected" << std::endl;
-   /* ADD : print out diagnostics to log */
   }
   else if (cnt > MIN_DEVICE_NUM) {
+
     /* some storage or config devices detected */     
     /* identify the devices */
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
+      r = libusb_get_device_descriptor(dev, &desc);
+      if (r < 0) {
+	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
+      }
 
-      /* for debugging */
-      //std::cout << "bus no: " << (int)libusb_get_bus_number(dev) << std::endl;
-      //std::cout << "port no: " << (int)libusb_get_port_number(dev) << std::endl;
-      
-      if (libusb_get_bus_number(dev) == STORAGE_BUS_0
-	  && libusb_get_port_number(dev) == STORAGE_PORT_0) {
-	std::cout << "storage device detected on port 0" << std::endl;
+      /* require bDeviceClass as not a hub or vendor specified (cameras)
+	 and presence on STORAGE_BUS */
+      if (libusb_get_bus_number(dev) == STORAGE_BUS
+	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
+	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC) {
+
 	num_storage_dev++;
       }
-      else if (libusb_get_bus_number(dev) == STORAGE_BUS_1
-	       && libusb_get_port_number(dev) == STORAGE_PORT_1) {
-	std::cout << "storage device detected on port 1" << std::endl;
-	num_storage_dev++;
-      }      
     }
   }
 
-  std::cout << "There are " << num_storage_dev << " storage devices connected" << std::endl;
- 
+  /* log number of connected storage USBs */
+  clog << "info: " << logstream::info << "There are " << num_storage_dev << " storage devices connected" << std::endl;
+  
   /* clean up */
   libusb_free_device_list(all_devs, 1);
   libusb_exit(ctx);
@@ -163,10 +162,9 @@ uint8_t UsbManager::LookupUsb() {
   return num_storage_dev;  
 }
 
-/* define data backup based on LookupUsb() */
+/* define data backup based on LookupUsbStorage() */
 int UsbManager::DataBackup() {
 
-  int ret = 0;
   std::string cmd;
   std::string log_path(LOG_DIR);
   std::string inotify_log = "/inotify.log";
@@ -174,22 +172,33 @@ int UsbManager::DataBackup() {
   std::string mp_1(USB_MOUNTPOINT_1);
 
   clog << "info: " << logstream::info << "defining data backup procedure" << std::endl;
-  this->num_storage_dev = LookupUsb();
+  this->num_storage_dev = LookupUsbStorage();
   
   /* require 2+ storage devices for backup */
-  if (this->num_storage_dev == 2) {
+  if (this->num_storage_dev >= 2 && this->num_storage_dev != N_USB_UNDEF) {
 
     /* run backup */
-    /* synchronise /media/usb0 to /media/usb1 */
-    cmd = "while inotifywait -m -r -e modify,create,delete -o "
-      + log_path + inotify_log + " " + mp_0 +
-      "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
+    std::cout << "running data backup in the background" << std::endl;
 
+    /* synchronise /media/usb0 to /media/usb1 */
+    cmd = "while true; do rsync -avzr /media/usb0/* /media/usb1; done 2>&1";
+
+    /*
+    alternative command which works on creation/modification/deletion
+    cmd = "while inotifywait -m -r -e modify,create,delete -o "
+    + log_path + inotify_log + " " + mp_0 +
+    "; do rsync -avz " + mp_0 + " " + mp_1 + "; done"; 
+    */
+    
     clog << "info: " << logstream::info << "running backup with: " << cmd << std::endl;
  
     const char * command = cmd.c_str();
-    ret = system(command);
-    if (ret == 0) {
+
+    /* run the backup command */
+    std::string output = CpuTools::CommandToStr(command);
+
+    size_t found = output.find("sending incremental file list"); 
+    if (found != std::string::npos) {
       clog << "info: " << logstream::info << "the following: " << cmd << " exited successfully" << std::endl;
     }
     else{
@@ -204,3 +213,32 @@ int UsbManager::DataBackup() {
   return 0;
 }
 
+
+/* spawn thread to run data backup in the background */
+int UsbManager::RunDataBackup() {
+
+  clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
+
+  /* run the backup */
+  std::thread run_backup (&UsbManager::DataBackup, this);
+
+  /* store the thread handle */
+  this->backup_thread_handle = run_backup.native_handle();
+
+  /* detach */
+  run_backup.detach();
+  
+  return 0;
+}
+
+/* kill the data backup thread */
+int UsbManager::KillDataBackup() {
+
+  clog << "info: " << logstream::info << "killing the data backup thread" << std::endl;
+  
+  /* kill the thread */
+  /* justifiable as no locked resources */
+  pthread_cancel(this->backup_thread_handle);
+  
+  return 0;
+}

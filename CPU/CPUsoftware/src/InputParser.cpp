@@ -10,6 +10,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->log_on = false;
   this->CmdLine->trig_on = false;
   this->CmdLine->cam_on = false;
+  this->CmdLine->cam_verbose = false;
   this->CmdLine->therm_on = false;
   this->CmdLine->lvps_on = false;
   this->CmdLine->sc_on = false;
@@ -24,7 +25,6 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
   this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
-  this->CmdLine->cam_verbose = false;
   
   /* get command line input */
   for (int i = 1; i < argc; i++) {
@@ -62,6 +62,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-cam")){
     this->CmdLine->cam_on = true;
+  }
+  if(cmdOptionExists("-v")){
+    this->CmdLine->cam_verbose = true;
   }
   if(cmdOptionExists("-therm")){
     this->CmdLine->therm_on = true;
@@ -177,14 +180,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     }
   }
   
-  /* camera verbosity */
-  const std::string & cam_verb_str = getCmdOption("-cam");
-  if (!cam_verb_str.empty()) {
-    if (cam_verb_str == "v") {
-      this->CmdLine->cam_verbose = true;
-    }   
-  }
-  
   return this->CmdLine;
 }
 
@@ -212,7 +207,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-lvps MODE: use the CPU to switch on or off the LVPS (MODE = \"on\" or \"off\")" << std::endl;
   std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\")" << std::endl;
   std::cout << "-cam: make an independent or simultaneous acquisition with the cameras" << std::endl;
-  std::cout << "-cam v: make an independent or simultaneous acquisition with the cameras with verbose output" << std::endl;
+  std::cout << "-cam -v: make an independent or simultaneous acquisition with the cameras with verbose output" << std::endl;
   std::cout << "-therm: make a simultaneous acquisition with the thermistors" << std::endl;
   std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
   std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;

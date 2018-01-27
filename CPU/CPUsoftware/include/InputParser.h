@@ -7,6 +7,7 @@
 #include "LvpsManager.h"
 #include "ZynqManager.h"
 
+
 /* struct to handle the command line inputs */
 struct CmdLineInputs {
 
@@ -45,11 +46,11 @@ public:
   InputParser(int &argc, char **argv); 
   CmdLineInputs * ParseCmdLineInputs();
   /* get the command line options */
-  const std::string& getCmdOption(const std::string &option) const {
+  const std::string getCmdOption(const std::string &option) const {
     std::vector<std::string>::const_iterator itr;
     itr =  std::find(this->tokens.begin(), this->tokens.end(), option);
     if (itr != this->tokens.end() && itr++ != this->tokens.end()) {
-      return *itr;
+      return * itr;
     }
     static const std::string empty_string("");
     return empty_string;

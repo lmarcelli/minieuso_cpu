@@ -2,7 +2,7 @@
 
 /* default constructor */
 InputParser::InputParser(int &argc, char **argv) {
-
+  
   /* initialise the struct to handle input */
   this->CmdLine->help = false;
   this->CmdLine->hvps_on = false;

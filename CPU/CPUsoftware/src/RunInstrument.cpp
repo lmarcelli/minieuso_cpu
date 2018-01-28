@@ -420,7 +420,7 @@ int RunInstrument::NightOperations() {
 /* day time operational procedure */
 int RunInstrument::DayOperations() {
 
-  std::cout << "entering DAY mode" << std::endl;
+  std::cout << "entering DAY mode..." << std::endl;
    
   /* data reduction - to be added */
   

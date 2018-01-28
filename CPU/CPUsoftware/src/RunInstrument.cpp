@@ -285,7 +285,7 @@ int RunInstrument::PollLightLevel() {
   bool undefined = false;
   
   /* different procedure for day and night */
-  while (true) {    
+  while (!undefined) {    
     switch(this->current_inst_mode) {
 
     case NIGHT:
@@ -314,9 +314,6 @@ int RunInstrument::PollLightLevel() {
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode is undefined" << std::endl;
       undefined = true;
-      break;
-    }
-    if(undefined) {
       break;
     }
     
@@ -386,6 +383,11 @@ int RunInstrument::Acquisition() {
 int RunInstrument::NightOperations() {
 
   std::cout << "entering NIGHT mode..." << std::endl;
+  /* reset mode switching */
+  {
+    std::unique_lock<std::mutex> lock(this->Daq.m);
+    this->Daq.inst_mode_switch = false;
+  } 
   
   /* set the HV as required */
   if (this->CmdLine->hvps_on) {
@@ -419,9 +421,7 @@ int RunInstrument::NightOperations() {
 int RunInstrument::DayOperations() {
 
   std::cout << "entering DAY mode" << std::endl;
-  
-  /* check the light level */
-  
+   
   /* data reduction - to be added */
   
   return 0;
@@ -438,7 +438,7 @@ int RunInstrument::Start() {
   }
   
   /* run start-up  */
-  StartUp();
+  this->StartUp();
 
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_on) {
@@ -451,10 +451,14 @@ int RunInstrument::Start() {
   } 
  
   /* check systems and operational mode */
-  CheckSystems();
-  
+  this->CheckSystems();
+
+  /* launch background process to monitor the light level */
+  this->MonitorLightLevel();
+
+  bool undefined = false;
   /* enter instrument mode */
-  while (true) {
+  while (!undefined) {
     switch(this->current_inst_mode) {
 
     
@@ -479,6 +483,7 @@ int RunInstrument::Start() {
       
       break;
     } /* end switch statement */
+   
   } /* end infinite loop */
   
   return 0;

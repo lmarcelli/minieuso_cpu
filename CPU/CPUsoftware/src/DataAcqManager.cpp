@@ -517,7 +517,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    
 	    /* generate sub packets */
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
-	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
+	    HK_PACKET * hk_packet = AnalogPktReadOut();
 	    
 	    /* check for NULL packets */
 	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {

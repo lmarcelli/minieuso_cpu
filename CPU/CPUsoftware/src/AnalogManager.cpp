@@ -2,7 +2,7 @@
 
 /* default constructor */
 AnalogManager::AnalogManager() {
-
+  this->night_mode = true;
 }
 
 
@@ -178,17 +178,19 @@ bool AnalogManager::CompareLightLevel() {
   
   clog << "info: " << logstream::info << "comparing light level to threshold" << std::endl;
 
-  /* get the current light level */
-  GetLightLevel();
+  if (!this->night_mode) {
+    /* get the current light level */
+    GetLightLevel();
+  }
 
   /* average the 4 photodiode values */
   for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
     ph_avg += this->light_level->photodiode_data[i];
   }
   ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
-
+  
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
-
+  
   /* compare the result to threshold */
   if (ph_avg > LIGHT_THRESHOLD) {
     above_light_threshold = true;

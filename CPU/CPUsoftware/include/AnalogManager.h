@@ -34,6 +34,7 @@ typedef struct {
 class AnalogManager {
 public:
   LightLevel * light_level;
+  bool night_mode;
   
   AnalogManager();
   int GetLightLevel();

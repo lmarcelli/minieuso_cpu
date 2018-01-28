@@ -272,9 +272,59 @@ int RunInstrument::LaunchCam() {
 int RunInstrument::MonitorLightLevel() {
 
   /* launch a thread to watch the photodiode measurements */
+  std::thread monitor_light (&RunInstrument::PollLightLevel, this);
 
+  /* detach */
+  monitor_light.detach();
+  
   return 0;
-} 
+}
+
+int RunInstrument::PollLightLevel() {
+
+  bool undefined = false;
+  
+  /* different procedure for day and night */
+  while (true) {    
+    switch(this->current_inst_mode) {
+
+    case NIGHT:
+      /* check the output of the analog acquisition is below threshold */
+      if (this->Daq.Analog->CompareLightLevel()) {
+	/* switch mode to DAY */
+	{
+	  std::unique_lock<std::mutex> lock(this->Daq.m);
+	  this->Daq.inst_mode_switch = true;
+	} 
+	this->Daq.cv.notify_one();
+	this->current_inst_mode = DAY;
+      }
+      sleep(LIGHT_POLL_TIME);
+      break;
+      
+    case DAY:
+      /* check the output of analog acquisition above threshold */
+      if (!this->Daq.Analog->CompareLightLevel()) {
+	/* switch mode to NIGHT */
+	this->current_inst_mode = NIGHT;
+      }
+      sleep(LIGHT_POLL_TIME);
+      break;
+      
+    case INST_UNDEF:
+      std::cout << "ERROR: instrument mode is undefined" << std::endl;
+      undefined = true;
+      break;
+    }
+    if(undefined) {
+      break;
+    }
+    
+  }
+
+  /* reached only when instrument undefined */
+  return 0;
+}
 
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
@@ -319,13 +369,16 @@ int RunInstrument::Acquisition() {
     }
   }
 
-  if (this->Cam.launch_running) {
+  if (this->Cam.launch_running && !this->Zynq.telnet_connected) {
     /* run infinite loop to allow cameras to run */
+    /* only for pure camera acquisition ADD THREAD FOR MODE CHANGE */
     while (1) {}
   } 
   
-  /* never reached for infinite acquisition */
-
+  /* reached for SCURVE acq and instrument mode change */
+  this->Usb.KillDataBackup();
+  this->Cam.KillCamAcq();
+  
   return 0;
 }
 

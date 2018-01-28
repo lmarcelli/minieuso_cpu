@@ -18,6 +18,9 @@
 #define VERSION 4.5
 #define VERSION_DATE_STRING "28/01/2018"
 
+/* number of seconds between light level polling */
+#define LIGHT_POLL_TIME 2
+
 /* class to handle different instrument operational modes */
 class RunInstrument {
 public:
@@ -42,7 +45,7 @@ public:
   CamManager Cam;
   DataAcqManager Daq;
 
-  int check_telnet;
+  //  int check_telnet;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();
@@ -63,8 +66,9 @@ private:
 
   /* used in operations */
   int LaunchCam();
-  int MonitorLightLevel();
   int Acquisition();
+  int MonitorLightLevel();
+  int PollLightLevel();
  
   /* define main operational procedures */
   int NightOperations();

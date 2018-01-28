@@ -21,6 +21,10 @@
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
+/* for use with conditional variable */
+#define LONG_PERIOD 36000 /* 10 hours */
+
+
 /* class for controlling the main Zynq-driven acquisition */
 /* (the Zynq board, the thermistors and the Analog board) */
 class DataAcqManager {   
@@ -28,14 +32,20 @@ public:
   std::string cpu_main_file_name;
   std::string cpu_sc_file_name;
   std::string cpu_hv_file_name;
+  uint8_t usb_num_storage_dev;
+  
+  /* synchronised file access */
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
 
   /* subsystems controlled */
   ThermManager * ThManager = new ThermManager();
   AnalogManager * Analog = new AnalogManager();
-  
-  uint8_t usb_num_storage_dev;
+
+  /* handle mode switching signal from RunInstrument::MonitorLightLevel */
+  bool inst_mode_switch;
+  std::condition_variable cv;
+  std::mutex m;
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -51,7 +61,7 @@ public:
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
   
-private:
+private:  
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);

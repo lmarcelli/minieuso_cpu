@@ -8,6 +8,7 @@ DataAcqManager::DataAcqManager() {
   this->cpu_hv_file_name = "";
   
   this->usb_num_storage_dev = 0;
+  this->inst_mode_switch = false;
 }
   
 /* create cpu run file name */
@@ -455,8 +456,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
   /* handling the zynq file names */
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
-    
-  while(1) {
+
+  std::unique_lock<std::mutex> lock(this->m);
+  /* enter loop while instrument mode switching not requested */
+  while(!this->cv.wait_for(lock, LONG_PERIOD, [this] { return this->inst_mode_switch; })) { 
     
     struct inotify_event * event;
     
@@ -661,7 +664,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   
   collect_main_data.join();
  
-  /* never reached for infinite acquisition */
+  /* only reached for instrument mode change */
   ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   

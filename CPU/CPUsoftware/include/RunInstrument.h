@@ -18,7 +18,7 @@
 #define VERSION 4.4
 #define VERSION_DATE_STRING "27/01/2018"
 
-/* class to handle different instrument operation modes */
+/* class to handle different instrument operational modes */
 class RunInstrument {
 public:
   CmdLineInputs * CmdLine;
@@ -53,6 +53,7 @@ private:
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
+  int SetInstMode();
   int CheckSystems();
   int SelectAcqOption();
   int LaunchCam();

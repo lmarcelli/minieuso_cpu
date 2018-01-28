@@ -123,7 +123,7 @@ int AnalogManager::AnalogDataCollect() {
 }
 
 /* get the current light level */
-LightLevel * AnalogManager::GetLightLevel() {
+int AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
@@ -166,5 +166,35 @@ LightLevel * AnalogManager::GetLightLevel() {
   /* set the member struct */
   this->light_level = light_level;
 
-  return light_level;
+  return 0;
+}
+
+/* compare light level to threshold value */
+bool AnalogManager::CompareLightLevel() {
+
+  bool above_light_threshold = false;
+  float ph_avg = 0;
+  int i;
+  
+  clog << "info: " << logstream::info << "comparing light level to threshold" << std::endl;
+
+  /* get the current light level */
+  GetLightLevel();
+
+  /* average the 4 photodiode values */
+  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+    ph_avg += this->light_level->photodiode_data[i];
+  }
+  ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
+
+  clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
+
+  /* compare the result to threshold */
+  if (ph_avg > LIGHT_THRESHOLD) {
+    above_light_threshold = true;
+    clog << "info: " << logstream::info << "light level is ABOVE threshold" << std::endl;
+  }
+  clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
+  
+  return above_light_threshold;
 }

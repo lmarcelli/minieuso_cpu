@@ -316,7 +316,8 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
   HK_PACKET * hk_packet = new HK_PACKET();
 
   /* collect data */
-  LightLevel * light_level = this->Analog->GetLightLevel();
+  this->Analog->GetLightLevel();
+  LightLevel * light_level =  this->Analog->light_level;
 	   
   /* make the header of the hk packet and timestamp */
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);

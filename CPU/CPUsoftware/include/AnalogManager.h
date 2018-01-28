@@ -10,6 +10,10 @@
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
 
+/* light threshold for photodiodes */
+/* used to determine instrument mode via CompareLightLevel */
+#define LIGHT_THRESHOLD 100
+
 /* acquisition structure for analog readout */
 typedef struct {
   float val [FIFO_DEPTH][CHANNELS];
@@ -28,7 +32,8 @@ public:
   LightLevel * light_level;
   
   AnalogManager();
-  LightLevel *  GetLightLevel();
+  int GetLightLevel();
+  bool CompareLightLevel();
   
 private:
   AnalogAcq * analog_acq;

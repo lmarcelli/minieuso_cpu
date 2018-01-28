@@ -92,6 +92,27 @@ int RunInstrument::DebugMode() {
   return 0;
 }
 
+/* set instrument mode using the current light level */
+int RunInstrument::SetInstMode() {
+
+  clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
+
+  /* get the current light level */
+  bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
+
+  /* make a decision */
+  if (above_light_threshold) {
+    /* set to day mode */
+    this->current_inst_mode = RunInstrument::DAY;
+  }
+  else {
+    /* set to night mode */
+    this->current_inst_mode = RunInstrument::NIGHT;
+  }
+  
+  return 0;
+}
+
 
 /* define start-up procedure upon switch-on */
 int RunInstrument::StartUp() {
@@ -173,6 +194,9 @@ int RunInstrument::CheckSystems() {
   this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
   this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
 
+  /* set the instrument mode */
+  SetInstMode();
+  
   return 0;
 }
 
@@ -244,6 +268,14 @@ int RunInstrument::LaunchCam() {
   return 0;
 }
 
+/* monitor the photodiode data to determine the instrument mode */
+int RunInstrument::MonitorLightLevel() {
+
+  /* launch a thread to watch the photodiode measurements */
+
+  return 0;
+} 
+
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
 
@@ -260,7 +292,10 @@ int RunInstrument::Acquisition() {
   this->Usb.RunDataBackup();
 
   /* add acquisition with cameras if required */
-  LaunchCam();
+  this->LaunchCam();
+
+  /* check for light level in the background */
+  this->MonitorLightLevel();
   
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
@@ -319,41 +354,56 @@ int RunInstrument::Start() {
   /* check systems and operational mode */
   CheckSystems();
   
-  /* add mode switching DAY/NIGHT here */
-  /* switch (DAY/NIGHT) */
+  /* enter instrument mode */
+  while (true) {
+    switch(this->current_inst_mode) {
 
-  /* case: NIGHT */
-  /* set the HV as required */
-  if (this->CmdLine->hvps_on) {
-    HvpsSwitch();
-  }
-  
-  /* start data acquisition */
-  Acquisition();
-  
-  /* only reached for SCURVE and SHORT acquisitions */
-  /* turn off HV */
-  if (this->Zynq.telnet_connected) {
-    this->CmdLine->hvps_status = ZynqManager::OFF;
-    HvpsSwitch();
-  }
+    
+      /* NIGHT OPERATIONS */
+      /*------------------*/
+    case NIGHT:
+      /* set the HV as required */
+      if (this->CmdLine->hvps_on) {
+	HvpsSwitch();
+      }
+      
+      /* start data acquisition */
+      Acquisition();
+      
+      /* only reached for SCURVE and SHORT acquisitions */
+      /* turn off HV */
+      if (this->Zynq.telnet_connected) {
+	this->CmdLine->hvps_status = ZynqManager::OFF;
+	HvpsSwitch();
+      }
+      
+      /* turn off all subsystems */
+      this->CmdLine->lvps_status = LvpsManager::OFF;
+      this->CmdLine->lvps_subsystem = LvpsManager::HK;
+      LvpsSwitch();
+      this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+      LvpsSwitch();
+      this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+      LvpsSwitch();
+      break;
+      
+      
+      /* DAY OPERATIONS */
+      /*----------------*/
+    case DAY:
+      /* add daytime operations */
+      break;
 
-  /* turn off all subsystems */
-  this->CmdLine->lvps_status = LvpsManager::OFF;
-  this->CmdLine->lvps_subsystem = LvpsManager::HK;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-  LvpsSwitch();
-   
+      /* UNDEFINED */
+      /*-----------*/
+    case INST_UNDEF:
+      std::cout << "ERROR: instrument mode undefined, cannot start acquisition" << std::endl;
+      std::cout << "exiting the program" << std::endl;
+      
+      break;
+    } /* end switch statement */
+  } /* end infinite loop */
+  
   return 0;
 }
 
-/* monitor the photodiode data to determine the instrument mode */
-int RunInstrument::MonitorLightLevel() {
-
-  /* launch a thread to watch the photodiode measurements */
-
-  return 0;
-} 

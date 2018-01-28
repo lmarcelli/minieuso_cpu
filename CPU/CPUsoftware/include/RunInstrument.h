@@ -15,8 +15,8 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* software version and date */
-#define VERSION 4.4
-#define VERSION_DATE_STRING "27/01/2018"
+#define VERSION 4.5
+#define VERSION_DATE_STRING "28/01/2018"
 
 /* class to handle different instrument operational modes */
 class RunInstrument {
@@ -34,7 +34,7 @@ public:
     ACQ_UNDEF = 2,
   };
   AcquisitionMode current_acq_mode;
-  
+
   Config * ConfigOut;
   ZynqManager Zynq;
   LvpsManager Lvps;

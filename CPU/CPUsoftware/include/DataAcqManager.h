@@ -21,7 +21,8 @@
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
-/* class for controlling the acquisition */
+/* class for controlling the main Zynq-driven acquisition */
+/* (the Zynq board, the thermistors and the Analog board) */
 class DataAcqManager {   
 public:  
   std::string cpu_main_file_name;
@@ -29,6 +30,8 @@ public:
   std::string cpu_hv_file_name;
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
+
+  /* subsystems controlled */
   ThermManager * ThManager = new ThermManager();
   AnalogManager * Analog = new AnalogManager();
   

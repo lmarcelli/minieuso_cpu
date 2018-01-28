@@ -2,6 +2,7 @@
 #define _RUN_INSTRUMENT_H
 
 #include "LvpsManager.h"
+#include "UsbManager.h"
 #include "CamManager.h"
 #include "DataAcqManager.h"
 
@@ -53,9 +54,10 @@ private:
   int HvpsSwitch();
   int DebugMode();
   int CheckSystems();
-  //int SwitchMode();
   int SelectAcqOption();
   int LaunchCam();
+  int MonitorLightLevel();
+  //int SwitchMode();
   int Acquisition();
 };
 

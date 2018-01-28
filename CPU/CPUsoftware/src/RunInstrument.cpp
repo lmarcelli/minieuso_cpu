@@ -349,3 +349,11 @@ int RunInstrument::Start() {
    
   return 0;
 }
+
+/* monitor the photodiode data to determine the instrument mode */
+int RunInstrument::MonitorLightLevel() {
+
+  /* launch a thread to watch the photodiode measurements */
+
+  return 0;
+} 

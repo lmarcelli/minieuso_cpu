@@ -7,8 +7,8 @@
 #endif /* __APPLE__ */
 #include <thread>
 
-#include "UsbManager.h"
 #include "ThermManager.h"
+#include "AnalogManager.h"
 #include "pdmdata.h"
 #include "InputParser.h"
 
@@ -21,19 +21,6 @@
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
-/* for use with analog readout functions */
-#define CHANNELS 16
-#define FIFO_DEPTH 64
-#define BURST_RATE 1000000
-#define PACER_RATE 100000
-#define PH_CHANNELS 4
-
-/* acquisition structure for analog readout */
-typedef struct
-{
-  float val [FIFO_DEPTH][CHANNELS];
-} AnalogAcq;
-
 /* class for controlling the acquisition */
 class DataAcqManager {   
 public:  
@@ -43,6 +30,8 @@ public:
   std::shared_ptr<SynchronisedFile> CpuFile;
   Access * RunAccess;
   ThermManager * ThManager = new ThermManager();
+  AnalogManager * Analog = new AnalogManager();
+  
   uint8_t usb_num_storage_dev;
   
   enum RunType : uint8_t {
@@ -67,13 +56,11 @@ private:
   SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
   HV_PACKET * HvPktReadOut(std::string hv_file_name);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut);
-  AnalogAcq * AnalogDataCollect();
-  HK_PACKET * AnalogPktReadOut(AnalogAcq * acq_output);
+  HK_PACKET * AnalogPktReadOut();
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteHvPkt(HV_PACKET * hv_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
   int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
-  int ProcessThermData();
   
 };
 

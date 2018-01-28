@@ -329,6 +329,52 @@ int RunInstrument::Acquisition() {
   return 0;
 }
 
+/* night time operational procedure */
+int RunInstrument::NightOperations() {
+
+  std::cout << "entering NIGHT mode..." << std::endl;
+  
+  /* set the HV as required */
+  if (this->CmdLine->hvps_on) {
+    HvpsSwitch();
+  }
+  
+  /* start data acquisition */
+  /* acquisition runs until signal to switch mode */
+  Acquisition();
+  
+  /* turn off HV */
+  if (this->Zynq.telnet_connected) {
+    this->CmdLine->hvps_status = ZynqManager::OFF;
+    HvpsSwitch();
+  }
+  
+  /* turn off all subsystems */
+  this->CmdLine->lvps_status = LvpsManager::OFF;
+  this->CmdLine->lvps_subsystem = LvpsManager::HK;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+  LvpsSwitch();    
+
+  return 0;
+}
+
+
+/* day time operational procedure */
+int RunInstrument::DayOperations() {
+
+  std::cout << "entering DAY mode" << std::endl;
+  
+  /* check the light level */
+  
+  /* data reduction - to be added */
+  
+  return 0;
+}
+
+
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
 
@@ -362,36 +408,14 @@ int RunInstrument::Start() {
       /* NIGHT OPERATIONS */
       /*------------------*/
     case NIGHT:
-      /* set the HV as required */
-      if (this->CmdLine->hvps_on) {
-	HvpsSwitch();
-      }
-      
-      /* start data acquisition */
-      Acquisition();
-      
-      /* only reached for SCURVE and SHORT acquisitions */
-      /* turn off HV */
-      if (this->Zynq.telnet_connected) {
-	this->CmdLine->hvps_status = ZynqManager::OFF;
-	HvpsSwitch();
-      }
-      
-      /* turn off all subsystems */
-      this->CmdLine->lvps_status = LvpsManager::OFF;
-      this->CmdLine->lvps_subsystem = LvpsManager::HK;
-      LvpsSwitch();
-      this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-      LvpsSwitch();
-      this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-      LvpsSwitch();
+      this->NightOperations();
       break;
-      
+
       
       /* DAY OPERATIONS */
       /*----------------*/
     case DAY:
-      /* add daytime operations */
+      this->DayOperations();
       break;
 
       /* UNDEFINED */

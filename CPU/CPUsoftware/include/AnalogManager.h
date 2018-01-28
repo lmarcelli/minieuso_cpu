@@ -1,6 +1,10 @@
 #ifndef _ANALOG_MANAGER_H
 #define _ANALOG_MANAGER_H
 
+#ifndef __APPLE__
+#include "dm75xx_library.h"
+#endif /* __APPLE__ */
+
 #include "log.h"
 #include "data_format.h"
 

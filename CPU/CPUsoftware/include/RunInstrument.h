@@ -50,16 +50,25 @@ public:
   
 private:
   int StartUp();
+
+  /* execute-and-exit commands */
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
+
+  /* initialisation */
   int SetInstMode();
   int CheckSystems();
   int SelectAcqOption();
+
+  /* used in operations */
   int LaunchCam();
   int MonitorLightLevel();
-  //int SwitchMode();
   int Acquisition();
+ 
+  /* define main operational procedures */
+  int NightOperations();
+  int DayOperations();
 };
 
 #endif

@@ -459,7 +459,9 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
-  while(!this->cv_mode_switch.wait_for(lock, LONG_PERIOD, [this] { return this->inst_mode_switch; })) { 
+  while(!this->cv_mode_switch.wait_for(lock,
+				       std::chrono::seconds(LONG_PERIOD),
+				       [this] { return this->inst_mode_switch; })) { 
     
     struct inotify_event * event;
     

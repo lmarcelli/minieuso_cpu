@@ -215,6 +215,10 @@ int RunInstrument::CheckSystems() {
     this->Zynq.GetInstStatus();
     this->Zynq.GetHvpsStatus();
   }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
@@ -252,10 +256,10 @@ int RunInstrument::LaunchCam() {
   this->Cam.n_relaunch_attempt = 0;
   
   /* launch cameras, if required */
-  if (CmdLine->cam_on) {
+  if (this->CmdLine->cam_on) {
     
     /* check verbosity */
-    if (CmdLine->cam_verbose) {
+    if (this->CmdLine->cam_verbose) {
       this->Cam.SetVerbose();
     }
   
@@ -406,8 +410,9 @@ int RunInstrument::Acquisition() {
   
   /* reached for SCURVE acq and instrument mode change */
   this->Usb.KillDataBackup();
-  this->Cam.KillCamAcq();
-  
+  if (this->CmdLine->cam_on) {
+    this->Cam.KillCamAcq();
+  }
   return 0;
 }
 

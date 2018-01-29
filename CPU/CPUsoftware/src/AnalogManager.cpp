@@ -98,7 +98,8 @@ int AnalogManager::AnalogDataCollect() {
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
 	acq_output->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
-
+	/* debug */
+	printf("FIFO output: %f", acq_output->val[i][j]);
 	/* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
@@ -197,7 +198,7 @@ bool AnalogManager::CompareLightLevel() {
        ph_avg += this->light_level->photodiode_data[i];
        std::cout << "ch1 = " << this->light_level->photodiode_data[i] << std::endl;
      }
-     ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
+     ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
   } /* release mutex */
   
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;

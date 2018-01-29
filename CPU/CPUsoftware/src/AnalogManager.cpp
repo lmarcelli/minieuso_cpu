@@ -123,7 +123,7 @@ int AnalogManager::AnalogDataCollect() {
 }
 
 /* get the current light level */
-int AnalogManager::GetLightLevel() {
+LightLevel * AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
@@ -169,7 +169,7 @@ int AnalogManager::GetLightLevel() {
     this->light_level = light_level;
   } /* release mutex */
   
-  return 0;
+  return light_level;
 }
 
 /* compare light level to threshold value */

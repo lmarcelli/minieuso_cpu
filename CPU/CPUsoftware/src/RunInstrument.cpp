@@ -3,7 +3,11 @@
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
-  this->current_inst_mode = RunInstrument::INST_UNDEF;
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    this->current_inst_mode = RunInstrument::INST_UNDEF;
+  } /* relase mutex */
   this->current_acq_mode = RunInstrument::ACQ_UNDEF;
 }
 
@@ -92,8 +96,31 @@ int RunInstrument::DebugMode() {
   return 0;
 }
 
-/* set instrument mode using the current light level */
-int RunInstrument::SetInstMode() {
+/* set the instrument mode with mutex protection */
+int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    this->current_inst_mode = mode_to_set;
+  } /* release mutex */
+
+  return 0;
+}
+
+/* read the instrument mode with mutex protection */
+RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
+  InstrumentMode current_inst_mode;
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    current_inst_mode = this->current_inst_mode;
+  } /* release mutex */
+  
+  return current_inst_mode;
+}
+
+/* initialise instrument mode using the current light level */
+int RunInstrument::InitInstMode() {
 
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
 
@@ -103,11 +130,11 @@ int RunInstrument::SetInstMode() {
   /* make a decision */
   if (above_light_threshold) {
     /* set to day mode */
-    this->current_inst_mode = RunInstrument::DAY;
+    this->SetInstMode(RunInstrument::DAY);
   }
   else {
     /* set to night mode */
-    this->current_inst_mode = RunInstrument::NIGHT;
+   this->SetInstMode(RunInstrument::NIGHT);
   }
   
   return 0;
@@ -194,8 +221,8 @@ int RunInstrument::CheckSystems() {
   this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
   this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
 
-  /* set the instrument mode */
-  SetInstMode();
+  /* initialise the instrument mode */
+  InitInstMode();
   
   return 0;
 }
@@ -286,7 +313,7 @@ int RunInstrument::PollLightLevel() {
   
   /* different procedure for day and night */
   while (!undefined) {    
-    switch(this->current_inst_mode) {
+    switch(GetInstMode()) {
 
     case NIGHT:
       /* check the output of the analog acquisition is below threshold */
@@ -297,7 +324,7 @@ int RunInstrument::PollLightLevel() {
 	  this->Daq.inst_mode_switch = true;
 	} 
 	this->Daq.cv_mode_switch.notify_all();
-	this->current_inst_mode = DAY;
+	this->SetInstMode(RunInstrument::DAY);
       }
       sleep(LIGHT_POLL_TIME);
       break;
@@ -306,7 +333,7 @@ int RunInstrument::PollLightLevel() {
       /* check the output of analog acquisition above threshold */
       if (!this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
-	this->current_inst_mode = NIGHT;
+	this->SetInstMode(NIGHT);
       }
       sleep(LIGHT_POLL_TIME);
       break;
@@ -459,8 +486,8 @@ int RunInstrument::Start() {
   bool undefined = false;
   /* enter instrument mode */
   while (!undefined) {
-    switch(this->current_inst_mode) {
-
+    switch(GetInstMode()) {
+      
     
       /* NIGHT OPERATIONS */
       /*------------------*/

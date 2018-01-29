@@ -40,7 +40,7 @@ public:
   bool night_mode;
   
   AnalogManager();
-  int GetLightLevel();
+  LightLevel * GetLightLevel();
   bool CompareLightLevel();
   
 private:

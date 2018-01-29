@@ -31,6 +31,8 @@ public:
     INST_UNDEF = 2,
   };
   InstrumentMode current_inst_mode;
+  std::mutex m_inst_mode;
+
   enum AcquisitionMode : uint8_t {
     STANDARD = 0,
     SCURVE = 1,
@@ -44,11 +46,11 @@ public:
   UsbManager Usb;
   CamManager Cam;
   DataAcqManager Daq;
-
-  //  int check_telnet;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();
+  int SetInstMode(InstrumentMode mode_to_set);
+  InstrumentMode GetInstMode();
   //int Stop();
   
 private:
@@ -60,7 +62,7 @@ private:
   int DebugMode();
 
   /* initialisation */
-  int SetInstMode();
+  int InitInstMode();
   int CheckSystems();
   int SelectAcqOption();
 

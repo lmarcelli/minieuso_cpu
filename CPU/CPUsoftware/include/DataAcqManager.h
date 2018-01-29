@@ -21,7 +21,7 @@
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
 /* for use with conditional variable */
-#define LONG_PERIOD 36000 /* 10 hours */
+#define WAIT_PERIOD 1 /* milliseconds */
 
 
 /* class for controlling the main Zynq-driven acquisition */

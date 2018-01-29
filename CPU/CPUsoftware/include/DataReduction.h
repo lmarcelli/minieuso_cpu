@@ -9,7 +9,7 @@
 #include "log.h"
 
 /* for use with conditional variable */
-#define LONG_PERIOD 36000 /* 10 hours */
+#define WAIT_PERIOD 1 /* milliseconds */
 
 /* class to handle data reduction in daytime */
 class DataReduction {

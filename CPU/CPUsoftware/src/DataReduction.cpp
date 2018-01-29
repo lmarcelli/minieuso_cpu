@@ -27,7 +27,7 @@ int DataReduction::RunDataReduction() {
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
-				       std::chrono::seconds(LONG_PERIOD),
+				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; } )) { 
 
     

@@ -5,6 +5,7 @@
 #include "UsbManager.h"
 #include "CamManager.h"
 #include "DataAcqManager.h"
+#include "DataReduction.h"
 
 /* number of seconds CPU waits for other systems to boot */
 #define BOOT_TIME 4
@@ -46,6 +47,7 @@ public:
   UsbManager Usb;
   CamManager Cam;
   DataAcqManager Daq;
+  DataReduction Data;
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();

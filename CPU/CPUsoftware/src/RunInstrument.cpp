@@ -333,6 +333,11 @@ int RunInstrument::PollLightLevel() {
       /* check the output of analog acquisition above threshold */
       if (!this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
+	{
+	  std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
+	  this->Data.inst_mode_switch = true;
+	} 
+	this->Data.cv_mode_switch.notify_all();
 	this->SetInstMode(NIGHT);
       }
       sleep(LIGHT_POLL_TIME);
@@ -409,7 +414,9 @@ int RunInstrument::Acquisition() {
 /* night time operational procedure */
 int RunInstrument::NightOperations() {
 
+  clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;
+
   /* reset mode switching */
   {
     std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
@@ -447,9 +454,17 @@ int RunInstrument::NightOperations() {
 /* day time operational procedure */
 int RunInstrument::DayOperations() {
 
+  clog << "info: " << logstream::info << "entering DAY mode" << std::endl;
   std::cout << "entering DAY mode..." << std::endl;
-   
-  /* data reduction - to be added */
+
+  /* reset mode switching */
+  {
+    std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
+    this->Data.inst_mode_switch = false;
+  } 
+  
+  /* data reduction runs until signal to switch mode */
+  this->Data.Start();
   
   return 0;
 }

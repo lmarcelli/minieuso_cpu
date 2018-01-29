@@ -9,6 +9,9 @@ DataReduction::DataReduction() {
 /* launch thread to do data reduction */
 int DataReduction::Start() {
 
+  clog << "info: " << logstream::info << "starting data reduction" << std::endl;
+  std::cout << "starting data reduction" << std::endl;
+  
   /* launch thread */
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
     
@@ -20,7 +23,7 @@ int DataReduction::Start() {
 
 /* data reduction procedure */
 int DataReduction::RunDataReduction() {
-
+  
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,

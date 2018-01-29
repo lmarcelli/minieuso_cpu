@@ -38,7 +38,7 @@ public:
   
   /* mutex protected LightLevel */
   std::mutex m_light_level;
-  LightLevel * light_level;
+  LightLevel * light_level = new LightLevel();
   bool night_mode;
   
   AnalogManager();

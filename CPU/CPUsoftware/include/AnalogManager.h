@@ -33,6 +33,9 @@ typedef struct {
 /* class to handle the analog data acquisition (photodiodes and SiPMs) */
 class AnalogManager {
 public:
+  
+  /* mutex protected LightLevel */
+  std::mutex m_light_level;
   LightLevel * light_level;
   bool night_mode;
   

@@ -44,8 +44,8 @@ public:
 
   /* handle mode switching signal from RunInstrument::MonitorLightLevel */
   bool inst_mode_switch;
-  std::condition_variable cv;
-  std::mutex m;
+  std::condition_variable cv_mode_switch;
+  std::mutex m_mode_switch;
   
   enum RunType : uint8_t {
     CPU = 0,

@@ -164,8 +164,11 @@ int AnalogManager::GetLightLevel() {
   light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
 
   /* set the member struct */
-  this->light_level = light_level;
-
+  {
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    this->light_level = light_level;
+  } /* release mutex */
+  
   return 0;
 }
 
@@ -183,14 +186,19 @@ bool AnalogManager::CompareLightLevel() {
     GetLightLevel();
   }
 
-  /* average the 4 photodiode values */
-  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-    ph_avg += this->light_level->photodiode_data[i];
-  }
-  ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
+  /* read the light level */
+  {
+     std::unique_lock<std::mutex> lock(this->m_light_level);
+   
+     /* average the 4 photodiode values */
+     for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+       ph_avg += this->light_level->photodiode_data[i];
+     }
+     ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
+  } /* release mutex */
   
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
-  
+     
   /* compare the result to threshold */
   if (ph_avg > LIGHT_THRESHOLD) {
     above_light_threshold = true;

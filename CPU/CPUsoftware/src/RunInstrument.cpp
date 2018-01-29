@@ -293,10 +293,10 @@ int RunInstrument::PollLightLevel() {
       if (this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to DAY */
 	{
-	  std::unique_lock<std::mutex> lock(this->Daq.m);
+	  std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
 	  this->Daq.inst_mode_switch = true;
 	} 
-	this->Daq.cv.notify_one();
+	this->Daq.cv_mode_switch.notify_all();
 	this->current_inst_mode = DAY;
       }
       sleep(LIGHT_POLL_TIME);
@@ -385,7 +385,7 @@ int RunInstrument::NightOperations() {
   std::cout << "entering NIGHT mode..." << std::endl;
   /* reset mode switching */
   {
-    std::unique_lock<std::mutex> lock(this->Daq.m);
+    std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
     this->Daq.inst_mode_switch = false;
   } 
   

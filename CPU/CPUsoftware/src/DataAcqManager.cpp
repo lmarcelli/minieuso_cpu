@@ -315,11 +315,16 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
 
   int i, j = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
-
+  LightLevel * light_level = new LightLevel();
+ 
   /* collect data */
   this->Analog->GetLightLevel();
-  LightLevel * light_level =  this->Analog->light_level;
-	   
+ 
+  {
+    std::unique_lock<std::mutex> lock(this->Analog->m_light_level);
+    light_level = this->Analog->light_level;
+  } /* release mutex */
+  
   /* make the header of the hk packet and timestamp */
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
@@ -457,9 +462,9 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
 
-  std::unique_lock<std::mutex> lock(this->m);
+  std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
-  while(!this->cv.wait_for(lock, LONG_PERIOD, [this] { return this->inst_mode_switch; })) { 
+  while(!this->cv_mode_switch.wait_for(lock, LONG_PERIOD, [this] { return this->inst_mode_switch; })) { 
     
     struct inotify_event * event;
     

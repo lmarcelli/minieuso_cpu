@@ -315,7 +315,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
 
   int i, j = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
-  LightLevel * light_level = new LightLevel();
+  auto light_level = std::make_shared<LightLevel>();
  
   /* collect data */
   this->Analog->GetLightLevel();
@@ -338,7 +338,6 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
   }
   hk_packet->sipm_single = light_level->sipm_single;
   
-  delete light_level;
   return hk_packet;
 }
 

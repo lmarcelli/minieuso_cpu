@@ -38,7 +38,7 @@ public:
   
   /* mutex protected LightLevel */
   std::mutex m_light_level;
-  LightLevel * light_level = new LightLevel();
+  std::shared_ptr<LightLevel> light_level;
   bool night_mode;
   
   AnalogManager();
@@ -46,8 +46,7 @@ public:
   bool CompareLightLevel();
   
 private:
-  AnalogAcq * analog_acq;
-
+  std::shared_ptr<AnalogAcq> analog_acq = std::make_shared<AnalogAcq>();
   int AnalogDataCollect();
   
 };

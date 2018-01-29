@@ -3,14 +3,15 @@
 /* default constructor */
 AnalogManager::AnalogManager() {
   this->night_mode = true;
+  this->light_level = std::make_shared<LightLevel>();
+  this->analog_acq = std::make_shared<AnalogAcq>();
 }
 
 
 /* analog board read out */
 int AnalogManager::AnalogDataCollect() {
-#ifndef __APPLE__  
-  AnalogAcq * acq_output;
-
+#ifndef __APPLE__
+  
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
   dm75xx_cgt_entry_t cgt[CHANNELS];
@@ -97,7 +98,7 @@ int AnalogManager::AnalogDataCollect() {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
-	acq_output->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+	this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
 
 	/* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
@@ -115,8 +116,6 @@ int AnalogManager::AnalogDataCollect() {
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Reset");
   dm75xx_status = DM75xx_Board_Close(brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
-
-  this->analog_acq = acq_output; 
 
 #endif
   return 0;

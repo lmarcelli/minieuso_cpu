@@ -497,6 +497,7 @@ int RunInstrument::Start() {
 
   if (!this->Zynq.telnet_connected) {
     std::cout << "no Zynq connection, exiting the program" << std::endl;
+    return 1;
   }
   
   /* launch background process to monitor the light level */

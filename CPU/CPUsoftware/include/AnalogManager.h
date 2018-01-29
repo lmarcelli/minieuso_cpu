@@ -5,6 +5,8 @@
 #include "dm75xx_library.h"
 #endif /* __APPLE__ */
 
+#include <mutex>
+
 #include "log.h"
 #include "data_format.h"
 

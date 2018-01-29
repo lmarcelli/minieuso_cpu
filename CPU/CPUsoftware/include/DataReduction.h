@@ -11,7 +11,7 @@
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
 
-/* class to handle data reduction in daytime */
+/* class to handle data reduction in DAY mode */
 class DataReduction {
 public:
   /* handle mode switching signal from RunInstrument::MonitorLightLevel */

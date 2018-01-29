@@ -9,7 +9,7 @@ AnalogManager::AnalogManager() {
 /* analog board read out */
 int AnalogManager::AnalogDataCollect() {
 #ifndef __APPLE__  
-  AnalogAcq * acq_output = new AnalogAcq();
+  AnalogAcq * acq_output;
 
   DM75xx_Board_Descriptor * brd;
   DM75xx_Error dm75xx_status;
@@ -98,8 +98,7 @@ int AnalogManager::AnalogDataCollect() {
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
 	acq_output->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
-	/* debug */
-	printf("FIFO output: %f", acq_output->val[i][j]);
+
 	/* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
@@ -118,20 +117,18 @@ int AnalogManager::AnalogDataCollect() {
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
 
   this->analog_acq = acq_output; 
-  delete acq_output;
+
 #endif
   return 0;
 }
 
 /* get the current light level */
-LightLevel * AnalogManager::GetLightLevel() {
+int AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
   float sum_sipm1 = 0;
  
-  LightLevel * light_level = new LightLevel();
-  
   /* read out the data */
   AnalogDataCollect();
   
@@ -154,23 +151,26 @@ LightLevel * AnalogManager::GetLightLevel() {
     sum_sipm1 += this->analog_acq->val[i][4];
     
     /* read out the multiplexed 64 channel SiPM values */
-    light_level->sipm_data[i] = this->analog_acq->val[i][5];
-  }
+    {
+      std::unique_lock<std::mutex> lock(this->m_light_level);
+      this->light_level->sipm_data[i] = this->analog_acq->val[i][5];
+    } /* release mutex */
+ }
 
   /* average the photodiode values */
   for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) {
-    light_level->photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
+     {
+       std::unique_lock<std::mutex> lock(this->m_light_level);
+       this->light_level->photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
+     } /* release mutex */
   }
   /* average the one channel SiPM values */
-  light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
-
-  /* set the member struct */
-  {
-    std::unique_lock<std::mutex> lock(this->m_light_level);
-    this->light_level = light_level;
-  } /* release mutex */
-  
-  return light_level;
+   {
+     std::unique_lock<std::mutex> lock(this->m_light_level);
+    this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
+   } /* release mutex */
+   
+  return 0;
 }
 
 /* compare light level to threshold value */

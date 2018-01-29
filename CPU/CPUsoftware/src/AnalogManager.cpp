@@ -122,11 +122,12 @@ int AnalogManager::AnalogDataCollect() {
 }
 
 /* get the current light level */
-int AnalogManager::GetLightLevel() {
+std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
   float sum_sipm1 = 0;
+  auto current_light_level = std::make_shared<LightLevel>();
  
   /* read out the data */
   AnalogDataCollect();
@@ -166,10 +167,11 @@ int AnalogManager::GetLightLevel() {
   /* average the one channel SiPM values */
    {
      std::unique_lock<std::mutex> lock(this->m_light_level);
-    this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
+     this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
+     current_light_level = this->light_level;
    } /* release mutex */
    
-  return 0;
+   return current_light_level;
 }
 
 /* compare light level to threshold value */
@@ -190,16 +192,14 @@ bool AnalogManager::CompareLightLevel() {
   {
      std::unique_lock<std::mutex> lock(this->m_light_level);
 
-     /* debug */
-     std::cout << "photodiode data: " << std::endl;
      /* average the 4 photodiode values */
      for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
        ph_avg += this->light_level->photodiode_data[i];
-       std::cout << "ch1 = " << this->light_level->photodiode_data[i] << std::endl;
      }
      ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
   } /* release mutex */
   
+  std::cout << "photodiode average = " << ph_avg << std::endl;
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
      
   /* compare the result to threshold */

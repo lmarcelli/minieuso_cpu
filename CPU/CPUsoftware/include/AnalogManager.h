@@ -38,16 +38,17 @@ class AnalogManager {
 public:
   
   /* mutex protected LightLevel */
-  std::mutex m_light_level;
-  std::shared_ptr<LightLevel> light_level;
   bool night_mode;
   
   AnalogManager();
-  int GetLightLevel();
+  std::shared_ptr<LightLevel> GetLightLevel();
   bool CompareLightLevel();
   
 private:
-  std::shared_ptr<AnalogAcq> analog_acq = std::make_shared<AnalogAcq>();
+  std::mutex m_light_level;
+  std::shared_ptr<LightLevel> light_level;
+  std::shared_ptr<AnalogAcq> analog_acq;
+
   int AnalogDataCollect();
   
 };

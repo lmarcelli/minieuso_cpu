@@ -315,14 +315,9 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
 
   int i, j = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
-  auto light_level = std::make_shared<LightLevel>();
  
   /* collect data */
-  this->Analog->GetLightLevel();
-  {
-    std::unique_lock<std::mutex> lock(this->Analog->m_light_level);
-    light_level = this->Analog->light_level;
-  } /* release mutex */
+  auto light_level = this->Analog->GetLightLevel();
   
   /* make the header of the hk packet and timestamp */
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);

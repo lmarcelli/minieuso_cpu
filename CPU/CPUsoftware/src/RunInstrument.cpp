@@ -154,6 +154,11 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->log_on) {
     clog.change_log_level(logstream::all);
   }
+  else {
+    /* remove the log file */
+    std::string cmd = "rm " + log_name;
+    system(cmd);
+  }
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;
 

@@ -157,7 +157,7 @@ int RunInstrument::StartUp() {
   else {
     /* remove the log file */
     std::string cmd = "rm " + log_name;
-    system(cmd);
+    system(cmd.c_str());
   }
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;

@@ -402,11 +402,6 @@ int RunInstrument::Acquisition() {
     }
   }
 
-  if (this->Cam.launch_running && !this->Zynq.telnet_connected) {
-    /* run infinite loop to allow cameras to run */
-    /* only for pure camera acquisition ADD THREAD FOR MODE CHANGE */
-    while (1) {}
-  } 
   
   /* reached for SCURVE acq and instrument mode change */
   this->Usb.KillDataBackup();
@@ -495,11 +490,15 @@ int RunInstrument::Start() {
   else if (this->CmdLine->debug_mode) {
     DebugMode();
     return 0;
-  } 
+  }
  
   /* check systems and operational mode */
   this->CheckSystems();
 
+  if (!this->Zynq.telnet_connected) {
+    std::cout << "no Zynq connection, exiting the program" << std::endl;
+  }
+  
   /* launch background process to monitor the light level */
   this->MonitorLightLevel();
 

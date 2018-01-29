@@ -189,10 +189,13 @@ bool AnalogManager::CompareLightLevel() {
   /* read the light level */
   {
      std::unique_lock<std::mutex> lock(this->m_light_level);
-   
+
+     /* debug */
+     std::cout << "photodiode data: " << std::endl;
      /* average the 4 photodiode values */
      for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
        ph_avg += this->light_level->photodiode_data[i];
+       std::cout << "ch1 = " << this->light_level->photodiode_data[i] << std::endl;
      }
      ph_avg = ph_avg/N_CHANNELS_PHOTODIODE;
   } /* release mutex */

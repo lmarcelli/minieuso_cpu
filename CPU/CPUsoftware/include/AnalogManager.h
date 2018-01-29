@@ -6,6 +6,7 @@
 #endif /* __APPLE__ */
 
 #include <mutex>
+#include <memory>
 
 #include "log.h"
 #include "data_format.h"

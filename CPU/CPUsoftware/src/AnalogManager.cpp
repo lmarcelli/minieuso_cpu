@@ -2,7 +2,7 @@
 
 /* default constructor */
 AnalogManager::AnalogManager() {
-  this->night_mode = true;
+  this->night_mode = false;
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
 }
@@ -120,6 +120,8 @@ int AnalogManager::AnalogDataCollect() {
 #endif
   return 0;
 }
+
+
 
 /* get the current light level */
 std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {

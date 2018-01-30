@@ -186,6 +186,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 /* print the help message */
 int InputParser::PrintHelpMsg() {
   
+  std::cout << "--------------------------------" << std::endl;
   std::cout << "Mini-EUSO command line interface" << std::endl;
   std::cout << "--------------------------------" << std::endl;
   std::cout << std::endl;
@@ -213,7 +214,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
-  std::cout << "-hv X: turn on the high voltage" << std::endl;
+  std::cout << "-hv MODE: switch the high voltage (MODE = \"on\" or \"off\")" << std::endl;
   std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096)" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000)" << std::endl;
   std::cout << "Example use case: ./mecontrol -log -hv on -dv 3200 -hvdac 500" << std::endl;

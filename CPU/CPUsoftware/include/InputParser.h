@@ -14,6 +14,7 @@ struct CmdLineInputs {
   /* command line options */
   bool help;
   bool hvps_on;
+  bool hvps_switch;
   bool debug_mode;
   bool log_on;
   bool trig_on;

@@ -488,7 +488,7 @@ int RunInstrument::Start() {
   this->StartUp();
 
   /* check for execute-and-exit commands which require config */
-  if (this->CmdLine->hvps_on) {
+  if (this->CmdLine->hvps_switch) {
     HvpsSwitch();
     return 0;
   }

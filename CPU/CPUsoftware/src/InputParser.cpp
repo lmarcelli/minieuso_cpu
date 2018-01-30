@@ -6,6 +6,7 @@ InputParser::InputParser(int &argc, char **argv) {
   /* initialise the struct to handle input */
   this->CmdLine->help = false;
   this->CmdLine->hvps_on = false;
+  this->CmdLine->hvps_switch = false;
   this->CmdLine->debug_mode = false;
   this->CmdLine->log_on = false;
   this->CmdLine->trig_on = false;
@@ -45,6 +46,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){
     this->CmdLine->hvps_on = true;
+  }
+  if(cmdOptionExists("-hvps")){
+    this->CmdLine->hvps_switch = true;
   }
   if(cmdOptionExists("-short")){
     this->CmdLine->single_run = true;
@@ -109,7 +113,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
     }
     else {
-      std::cout << "Error: could not identify brequired zynq mode, using default: periodic" << std::endl;
+      std::cout << "Error: could not identify required zynq mode, using default: periodic" << std::endl;
     }
   }
   
@@ -202,24 +206,38 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-db: enter software test/debug mode" << std::endl;
   std::cout << "-log: turn on logging (off by default)" << std::endl;
   std::cout << std::endl;
+  std::cout << "EXECUTE-AND-EXIT" << std::endl;
+  std::cout << "These commands execute and exit without running an automated acquisition" << std::endl;
+  std::cout << "Switching the LVPS manually" << std::endl;
+  std::cout << "-lvps MODE: switch a subsystem using the LVPS (MODE = \"on\" or \"off\") then exit the program" << std::endl;
+  std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
+  std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
+  std::cout << "Note: the automated acquisition program switches subsystems on/off automatically as required" << std::endl;
+  std::cout << "Switchcing the HVPS manually" << std::endl;
+  std::cout << "-hvps MODE: switch the high voltage (MODE = \"on\" or \"off\") then exit the program" << std::endl;
+  std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096)" << std::endl;
+  std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000)" << std::endl;
+  std::cout << "Example use case: ./mecontrol -hvps on -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Example use case: ./mecontrol -hvps off" << std::endl;
+  std::cout << "Note: the automated acquisition program switches the HV on automatically as required," << std::endl;
+  std::cout << "but does not switch if off if the program is interrupted with CTRL-C" << std::endl;
+  std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
+  std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
+  std::cout << std::endl;
   std::cout << "SUBSYSTEMS" << std::endl;
-  std::cout << "-lvps MODE: use the CPU to switch on or off the LVPS (MODE = \"on\" or \"off\")" << std::endl;
-  std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\")" << std::endl;
   std::cout << "-cam: make an independent or simultaneous acquisition with the cameras" << std::endl;
   std::cout << "-cam -v: make an independent or simultaneous acquisition with the cameras with verbose output" << std::endl;
   std::cout << "-therm: make a simultaneous acquisition with the thermistors" << std::endl;
-  std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -cam" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -cam -therm" << std::endl;
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
-  std::cout << "-hv MODE: switch the high voltage (MODE = \"on\" or \"off\")" << std::endl;
-  std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096)" << std::endl;
-  std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000)" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -hv on -dv 3200 -hvdac 500" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -hv off" << std::endl;
-  std::cout << "NB: high voltage does not switch off automatically if you kill the program!" << std::endl;
-  std::cout << "ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM" << std::endl;
+  std::cout << "-hv: run an automated acquisition with the HV on" << std::endl;
+  std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096), default in ../config/dummy.conf" << std::endl;
+  std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000), default in ../config/dummy.conf" << std::endl;
+  std::cout << "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Note: high voltage does not switch off automatically if the program is interrupted with CTRL-C!" << std::endl;
   std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
+  std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
   std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;

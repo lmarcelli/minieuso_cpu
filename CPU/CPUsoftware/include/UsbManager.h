@@ -21,8 +21,13 @@
 #define CAMERA_BUS 1
 #define CONFIG_BUS 0
 
+/* configuration for new CPU in Italy */
+#define STORAGE_BUS_NEW 1
+#define CAMERA_BUS_NEW 2
+
 class UsbManager {
 public:
+  uint8_t storage_bus;
   uint8_t num_storage_dev;
   
   UsbManager();
@@ -34,6 +39,7 @@ public:
 private:
   std::thread::native_handle_type backup_thread_handle;  
 
+  void CheckCpuModel();
   static void PrintDev(libusb_device * dev);
   int DataBackup();
 };

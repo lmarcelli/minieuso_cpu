@@ -3,6 +3,27 @@
 /* default constructor */
 UsbManager::UsbManager() {
   this->num_storage_dev = N_USB_UNDEF;
+  
+  
+}
+
+/* check cpu model to select correct bus */
+void UsbManager::CheckCpuModel() {
+
+  /* check the system information */
+  std::string cmd = "dmidecode | grep -A3 '^System Information'";
+  std::string output = CpuTools::CommandToStr(cmd.c_str());
+  std::string new_cpu_model = "CMX34BT";
+  size_t found = output.find(new_cpu_model);
+
+  /* if new CPU model */
+  if (found != std::string::npos) {
+    this->storage_bus = STORAGE_BUS_NEW;
+  }
+  else {
+    this->storage_bus = STORAGE_BUS;
+  }
+  
 }
 
 /* print a description of usb devices connected */
@@ -105,6 +126,9 @@ uint8_t UsbManager::LookupUsbStorage() {
   ssize_t cnt, i;
 
   clog << "info: " << logstream::info << "looking up USB storage devices" << std::endl;
+
+  /* check the CPU model */
+  this->CheckCpuModel();
   
   /* initialise a libusb session */
   r = libusb_init(&ctx);
@@ -143,7 +167,7 @@ uint8_t UsbManager::LookupUsbStorage() {
 
       /* require bDeviceClass as not a hub or vendor specified (cameras)
 	 and presence on STORAGE_BUS */
-      if (libusb_get_bus_number(dev) == STORAGE_BUS
+      if (libusb_get_bus_number(dev) == this->storage_bus
 	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
 	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC) {
 

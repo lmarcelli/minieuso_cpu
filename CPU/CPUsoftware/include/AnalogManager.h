@@ -19,7 +19,7 @@
 
 /* light threshold for photodiodes */
 /* used to determine instrument mode via CompareLightLevel */
-#define LIGHT_THRESHOLD 100
+#define LIGHT_THRESHOLD 0
 
 /* acquisition structure for analog readout */
 typedef struct {

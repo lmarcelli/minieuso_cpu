@@ -37,7 +37,6 @@ typedef struct {
 class AnalogManager {
 public:
   
-  /* mutex protected LightLevel */
   bool night_mode;
   
   AnalogManager();

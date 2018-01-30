@@ -432,6 +432,9 @@ int RunInstrument::NightOperations() {
   if (this->CmdLine->hvps_on) {
     HvpsSwitch();
   }
+
+  /* set Analog to night mode */
+  this->Daq.Analog->night_mode = true;
   
   /* start data acquisition */
   /* acquisition runs until signal to switch mode */
@@ -466,7 +469,10 @@ int RunInstrument::DayOperations() {
   {
     std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
     this->Data.inst_mode_switch = false;
-  } 
+  }
+  
+  /* set Analog to day mode */
+  this->Daq.Analog->night_mode = false;
   
   /* data reduction runs until signal to switch mode */
   this->Data.Start();

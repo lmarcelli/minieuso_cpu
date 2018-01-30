@@ -14,7 +14,8 @@ int DataReduction::Start() {
   
   /* launch thread */
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
-    
+  
+  std::cout << "try to join thread" << std::endl;
   /* wait for thread to exit, when instrument mode switches */
   data_reduction.join();
   
@@ -23,8 +24,15 @@ int DataReduction::Start() {
 
 /* data reduction procedure */
 int DataReduction::RunDataReduction() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);
+    if(!this->inst_mode_switch) {
+      std::cout << "inst_mode_switch is false, as expected" << std::endl;
+    }
+  }
   
-  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  std::unique_lock<std::mutex> lock(this->m_mode_switch); 
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
@@ -32,6 +40,7 @@ int DataReduction::RunDataReduction() {
 
     
     /* add data reduction procedure here */
+    std::cout << "daytime work..." << std::endl; 
 
     /* for now just sleep */
     sleep(5);

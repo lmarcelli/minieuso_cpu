@@ -326,6 +326,7 @@ int RunInstrument::PollLightLevel() {
 
     case NIGHT:
       /* check the output of the analog acquisition is below threshold */
+      sleep(LIGHT_POLL_TIME);
       if (this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to DAY */
 	{
@@ -333,13 +334,13 @@ int RunInstrument::PollLightLevel() {
 	  this->Daq.inst_mode_switch = true;
 	} 
 	this->Daq.cv_mode_switch.notify_all();
-	this->SetInstMode(RunInstrument::DAY);
+	this->SetInstMode(DAY);
       }
-      sleep(LIGHT_POLL_TIME);
       break;
       
     case DAY:
-      /* check the output of analog acquisition above threshold */
+      /* check the output of analog acquisition is above threshold */
+      sleep(LIGHT_POLL_TIME);
       if (!this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
 	{
@@ -349,7 +350,6 @@ int RunInstrument::PollLightLevel() {
 	this->Data.cv_mode_switch.notify_all();
 	this->SetInstMode(NIGHT);
       }
-      sleep(LIGHT_POLL_TIME);
       break;
       
     case INST_UNDEF:
@@ -409,7 +409,7 @@ int RunInstrument::Acquisition() {
 
   
   /* reached for SCURVE acq and instrument mode change */
-  this->Usb.KillDataBackup();
+  //this->Usb.KillDataBackup();
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }

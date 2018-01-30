@@ -209,7 +209,8 @@ bool AnalogManager::CompareLightLevel() {
     above_light_threshold = true;
     clog << "info: " << logstream::info << "light level is ABOVE threshold" << std::endl;
   }
-  clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
-  
+  else { 
+    clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
+  }
   return above_light_threshold;
 }

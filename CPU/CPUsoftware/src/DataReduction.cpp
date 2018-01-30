@@ -17,7 +17,9 @@ int DataReduction::Start() {
   
   std::cout << "try to join thread" << std::endl;
   /* wait for thread to exit, when instrument mode switches */
-  data_reduction.join();
+  if (data_reduction.joinable){
+    data_reduction.join();
+  }
   
   return 0;
 }

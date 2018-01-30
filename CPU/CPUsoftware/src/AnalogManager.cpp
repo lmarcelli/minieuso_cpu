@@ -187,19 +187,22 @@ bool AnalogManager::CompareLightLevel() {
 
   if (!this->night_mode) {
     /* get the current light level */
-    GetLightLevel();
+    auto light_level = this->GetLightLevel();
   }
-
+  else {
+    {
+      std::unique_lock<std::mutex> lock(this->m_light_level);
+      auto light_level = this->light_level;
+    } /* release mutex */
+  
+  }
+  
   /* read the light level */
-  {
-     std::unique_lock<std::mutex> lock(this->m_light_level);
-
-     /* average the 4 photodiode values */
-     for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-       ph_avg += this->light_level->photodiode_data[i];
-     }
-     ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
-  } /* release mutex */
+  /* average the 4 photodiode values */
+  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+    ph_avg += light_level->photodiode_data[i];
+  }
+  ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
   
   std::cout << "photodiode average = " << ph_avg << std::endl;
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
@@ -212,5 +215,6 @@ bool AnalogManager::CompareLightLevel() {
   else { 
     clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
   }
+  
   return above_light_threshold;
 }

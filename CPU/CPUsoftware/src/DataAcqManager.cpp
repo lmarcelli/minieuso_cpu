@@ -8,6 +8,7 @@ DataAcqManager::DataAcqManager() {
   this->cpu_hv_file_name = "";
   
   this->usb_num_storage_dev = 0;
+  this->inst_mode_switch = false;
 }
   
 /* create cpu run file name */
@@ -309,153 +310,29 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
   return zynq_packet;
 }
 
-/* analog board read out */
-AnalogAcq * DataAcqManager::AnalogDataCollect() {
-  AnalogAcq * acq_output = new AnalogAcq();
-#ifndef __APPLE__  
-  DM75xx_Board_Descriptor * brd;
-  DM75xx_Error dm75xx_status;
-  dm75xx_cgt_entry_t cgt[CHANNELS];
-  int i, j;
-  float actR;
-  uint16_t data = 0x0000;  
-  unsigned long int minor_number = 0;
-
-  clog << "info: " << logstream::info << "starting analog acquistion" << std::endl;
-
-  /* Device initialisation */
-  dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
-  dm75xx_status = DM75xx_Board_Init(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");
-  
-  /* Clear the FIFO */
-  dm75xx_status = DM75xx_ADC_Clear(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Clear_AD_FIFO");
-  dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
-  
-  /* enable the channel gain table */
-  dm75xx_status = DM75xx_CGT_Enable(brd, 0xFF);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Enable");
-  
-  /* set the channel gain table for all channels */
-  for (i = 0; i < CHANNELS; i++) {
-    cgt[i].channel = i;
-    cgt[i].gain = 0;
-    cgt[i].nrse = 0;
-    cgt[i].range = 0;
-    cgt[i].ground = 0;
-    cgt[i].pause = 0;
-    cgt[i].dac1 = 0;
-    cgt[i].dac2 = 0;
-    cgt[i].skip = 0;
-    dm75xx_status = DM75xx_CGT_Write(brd, cgt[i]);
-    DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_CGT_Write");
-  }
-  
-  /* set up clocks */
-  dm75xx_status = DM75xx_BCLK_Setup(brd,
-				    DM75xx_BCLK_START_PACER,
-				    DM75xx_BCLK_FREQ_8_MHZ,
-				    BURST_RATE, &actR);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
-  dm75xx_status = DM75xx_PCLK_Setup(brd,
-				    DM75xx_PCLK_INTERNAL,
-				    DM75xx_PCLK_FREQ_8_MHZ,
-				    DM75xx_PCLK_NO_REPEAT,
-				    DM75xx_PCLK_START_SOFTWARE,
-				    DM75xx_PCLK_STOP_SOFTWARE,
-				    PACER_RATE, &actR);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Setup");
-  
-  /* Set ADC Conversion Signal Select */
-  dm75xx_status =
-    DM75xx_ADC_Conv_Signal(brd, DM75xx_ADC_CONV_SIGNAL_BCLK);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_ADC_Conv_Signal");
-  
-  /* Start the pacer clock */
-  dm75xx_status = DM75xx_PCLK_Start(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Start");
-  
-  /* Read data into the FIFO */
-  do {
-    dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-    DM75xx_Exit_On_Error(brd, dm75xx_status,
-			 (char *)"DM75xx_FIFO_Get_Status");
-  }
-  while (data & DM75xx_FIFO_ADC_NOT_FULL);
-  
-  /* Stop the pacer clock */
-  dm75xx_status = DM75xx_PCLK_Stop(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
-  
-  /* Read out data from the FIFO */
-  do {
-    
-    /* Reading the FIFO */
-    for (i = 0; i < FIFO_DEPTH; i++) {
-      for (j = 0; j < CHANNELS; j++) {
-	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
-	DM75xx_Exit_On_Error(brd, dm75xx_status,
-			     (char *)"DM75xx_ADC_FIFO_Read");
-	acq_output->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
-
-	/* Check the FIFO status each time */
-	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
-	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
-      }
-    }
-  }
-  while (data & DM75xx_FIFO_ADC_NOT_EMPTY);
-  
-  /* Print how many samples were received */
-  clog << "info: " << logstream::info << "received " << (unsigned)(i * j) << " analog samples" << std::endl;
-
-  /* Reset the board and close the device */
-  dm75xx_status = DM75xx_Board_Reset(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Reset");
-  dm75xx_status = DM75xx_Board_Close(brd);
-  DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Close");
-  
-  return acq_output;
-#endif
-  return acq_output;
-}
-
 /* read out a hk packet */
-HK_PACKET * DataAcqManager::AnalogPktReadOut(AnalogAcq * acq_output) {
+HK_PACKET * DataAcqManager::AnalogPktReadOut() {
 
-  int i, k;
-  float sum_ph[PH_CHANNELS];
-  float sum_sipm1 = 0;
+  int i, j = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
+ 
+  /* collect data */
+  auto light_level = this->Analog->GetLightLevel();
   
   /* make the header of the hk packet and timestamp */
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
   hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
+
+  /* read out the values */
+  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+    hk_packet->photodiode_data[i] = light_level->photodiode_data[i];
+  }
+  for (j = 0; j < N_CHANNELS_SIPM; j++) {
+    hk_packet->sipm_data[j] = light_level->sipm_data[j];
+  }
+  hk_packet->sipm_single = light_level->sipm_single;
   
-  /* initialise */
-  for(k = 0; k < PH_CHANNELS; k++) {
-    sum_ph[k] = 0;
-  }
-
-  /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
-  for(i = 0; i < FIFO_DEPTH; i++) {
-    sum_ph[0] += acq_output->val[i][0];
-    sum_ph[1] += acq_output->val[i][1];
-    sum_ph[2] += acq_output->val[i][2];
-    sum_ph[3] += acq_output->val[i][3];
-    sum_sipm1 += acq_output->val[i][4];
-    hk_packet->sipm_data[i] = acq_output->val[i][5];
-  }
-
-  for (k = 0; k < PH_CHANNELS; k++) {
-    hk_packet->photodiode_data[k] = sum_ph[k]/FIFO_DEPTH;
-  }
-  hk_packet->sipm_single = sum_sipm1/FIFO_DEPTH;
-
   return hk_packet;
 }
 
@@ -577,8 +454,12 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
   /* handling the zynq file names */
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
-    
-  while(1) {
+
+  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  /* enter loop while instrument mode switching not requested */
+  while(!this->cv_mode_switch.wait_for(lock,
+				       std::chrono::milliseconds(WAIT_PERIOD),
+				       [this] { return this->inst_mode_switch; })) { 
     
     struct inotify_event * event;
     
@@ -639,8 +520,7 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 	    
 	    /* generate sub packets */
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
-	    AnalogAcq * acq = AnalogDataCollect();
-	    HK_PACKET * hk_packet = AnalogPktReadOut(acq);
+	    HK_PACKET * hk_packet = AnalogPktReadOut();
 	    
 	    /* check for NULL packets */
 	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
@@ -784,7 +664,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   
   collect_main_data.join();
  
-  /* never reached for infinite acquisition */
+  /* only reached for instrument mode change */
   ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
   

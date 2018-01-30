@@ -39,13 +39,13 @@ class logstream: public std::ostringstream {
      
  public:
      void flush() {
-       if (_m_current_level<=_m_log_level) {
+       if (_m_current_level <= _m_log_level) {
 	 struct timeval tv;
-	 gettimeofday(&tv,0);
+	 gettimeofday(&tv, 0);
 	 time_t now = tv.tv_sec;
 	 struct tm * now_tm = localtime(&now);
 	 char buffer[40];
-	 strftime(buffer,sizeof(buffer),"%Y/%m/%d %H:%M:%S",now_tm);
+	 strftime(buffer, sizeof(buffer), "%Y/%m/%d %H:%M:%S", now_tm);
 	 out << buffer
              << "." << std::setfill('0') 
 	     << std::setw(6) << (tv.tv_usec) 
@@ -55,16 +55,16 @@ class logstream: public std::ostringstream {
        }
        
        str("");
-       _m_current_level=none;
+       _m_current_level = none;
      }
      
      template <typename T>
        inline logstream & operator<<( const T & t ) {
        (*(std::ostringstream*)this) << t;
-       return *this;
+       return * this;
      }
      
-     inline logstream & operator<<(const log_level & level) { _m_current_level=level; return *this;} 
+     inline logstream & operator<<(const log_level & level) { _m_current_level = level; return * this; } 
      
      /* sets the acceptable message level */
      /* until next flush/endl */
@@ -84,7 +84,7 @@ class logstream: public std::ostringstream {
      */
 
      logstream ( std::ostream & log_stream,
-		 log_level level=all)
+		 log_level level = all)
        : _m_log_level(level),
        _m_current_level(none),
        out(log_stream){}

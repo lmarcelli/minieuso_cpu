@@ -3,7 +3,11 @@
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
-  this->current_inst_mode = RunInstrument::INST_UNDEF;
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    this->current_inst_mode = RunInstrument::INST_UNDEF;
+  } /* relase mutex */
   this->current_acq_mode = RunInstrument::ACQ_UNDEF;
 }
 
@@ -92,6 +96,50 @@ int RunInstrument::DebugMode() {
   return 0;
 }
 
+/* set the instrument mode with mutex protection */
+int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    this->current_inst_mode = mode_to_set;
+  } /* release mutex */
+
+  return 0;
+}
+
+/* read the instrument mode with mutex protection */
+RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
+  InstrumentMode current_inst_mode;
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_inst_mode);
+    current_inst_mode = this->current_inst_mode;
+  } /* release mutex */
+  
+  return current_inst_mode;
+}
+
+/* initialise instrument mode using the current light level */
+int RunInstrument::InitInstMode() {
+
+  clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
+
+  /* get the current light level */
+  bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
+
+  /* make a decision */
+  if (above_light_threshold) {
+    /* set to day mode */
+    this->SetInstMode(RunInstrument::DAY);
+  }
+  else {
+    /* set to night mode */
+   this->SetInstMode(RunInstrument::NIGHT);
+  }
+  
+  return 0;
+}
+
 
 /* define start-up procedure upon switch-on */
 int RunInstrument::StartUp() {
@@ -105,6 +153,11 @@ int RunInstrument::StartUp() {
   /* check the log level */
   if (this->CmdLine->log_on) {
     clog.change_log_level(logstream::all);
+  }
+  else {
+    /* remove the log file */
+    std::string cmd = "rm " + log_name;
+    system(cmd.c_str());
   }
   clog << std::endl;
   clog << "info: " << logstream::info << "log created" << std::endl;
@@ -167,12 +220,19 @@ int RunInstrument::CheckSystems() {
     this->Zynq.GetInstStatus();
     this->Zynq.GetHvpsStatus();
   }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
   this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
   this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
 
+  /* initialise the instrument mode */
+  InitInstMode();
+  
   return 0;
 }
 
@@ -201,10 +261,10 @@ int RunInstrument::LaunchCam() {
   this->Cam.n_relaunch_attempt = 0;
   
   /* launch cameras, if required */
-  if (CmdLine->cam_on) {
+  if (this->CmdLine->cam_on) {
     
     /* check verbosity */
-    if (CmdLine->cam_verbose) {
+    if (this->CmdLine->cam_verbose) {
       this->Cam.SetVerbose();
     }
   
@@ -244,6 +304,66 @@ int RunInstrument::LaunchCam() {
   return 0;
 }
 
+/* monitor the photodiode data to determine the instrument mode */
+int RunInstrument::MonitorLightLevel() {
+
+  /* launch a thread to watch the photodiode measurements */
+  std::thread monitor_light (&RunInstrument::PollLightLevel, this);
+
+  /* detach */
+  monitor_light.detach();
+  
+  return 0;
+}
+
+int RunInstrument::PollLightLevel() {
+
+  bool undefined = false;
+  
+  /* different procedure for day and night */
+  while (!undefined) {    
+    switch(GetInstMode()) {
+
+    case NIGHT:
+      /* check the output of the analog acquisition is below threshold */
+      if (this->Daq.Analog->CompareLightLevel()) {
+	/* switch mode to DAY */
+	{
+	  std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
+	  this->Daq.inst_mode_switch = true;
+	} 
+	this->Daq.cv_mode_switch.notify_all();
+	this->SetInstMode(RunInstrument::DAY);
+      }
+      sleep(LIGHT_POLL_TIME);
+      break;
+      
+    case DAY:
+      /* check the output of analog acquisition above threshold */
+      if (!this->Daq.Analog->CompareLightLevel()) {
+	/* switch mode to NIGHT */
+	{
+	  std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
+	  this->Data.inst_mode_switch = true;
+	} 
+	this->Data.cv_mode_switch.notify_all();
+	this->SetInstMode(NIGHT);
+      }
+      sleep(LIGHT_POLL_TIME);
+      break;
+      
+    case INST_UNDEF:
+      std::cout << "ERROR: instrument mode is undefined" << std::endl;
+      undefined = true;
+      break;
+    }
+    
+  }
+
+  /* reached only when instrument undefined */
+  return 0;
+}
+
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
 
@@ -260,7 +380,10 @@ int RunInstrument::Acquisition() {
   this->Usb.RunDataBackup();
 
   /* add acquisition with cameras if required */
-  LaunchCam();
+  this->LaunchCam();
+
+  /* check for light level in the background */
+  this->MonitorLightLevel();
   
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
@@ -284,15 +407,73 @@ int RunInstrument::Acquisition() {
     }
   }
 
-  if (this->Cam.launch_running) {
-    /* run infinite loop to allow cameras to run */
-    while (1) {}
+  
+  /* reached for SCURVE acq and instrument mode change */
+  this->Usb.KillDataBackup();
+  if (this->CmdLine->cam_on) {
+    this->Cam.KillCamAcq();
+  }
+  return 0;
+}
+
+/* night time operational procedure */
+int RunInstrument::NightOperations() {
+
+  clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
+  std::cout << "entering NIGHT mode..." << std::endl;
+
+  /* reset mode switching */
+  {
+    std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
+    this->Daq.inst_mode_switch = false;
   } 
   
-  /* never reached for infinite acquisition */
+  /* set the HV as required */
+  if (this->CmdLine->hvps_on) {
+    HvpsSwitch();
+  }
+  
+  /* start data acquisition */
+  /* acquisition runs until signal to switch mode */
+  Acquisition();
+  
+  /* turn off HV */
+  if (this->Zynq.telnet_connected) {
+    this->CmdLine->hvps_status = ZynqManager::OFF;
+    HvpsSwitch();
+  }
+  
+  /* turn off all subsystems */
+  this->CmdLine->lvps_status = LvpsManager::OFF;
+  this->CmdLine->lvps_subsystem = LvpsManager::HK;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+  LvpsSwitch();
+  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+  LvpsSwitch();    
 
   return 0;
 }
+
+
+/* day time operational procedure */
+int RunInstrument::DayOperations() {
+
+  clog << "info: " << logstream::info << "entering DAY mode" << std::endl;
+  std::cout << "entering DAY mode..." << std::endl;
+
+  /* reset mode switching */
+  {
+    std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
+    this->Data.inst_mode_switch = false;
+  } 
+  
+  /* data reduction runs until signal to switch mode */
+  this->Data.Start();
+  
+  return 0;
+}
+
 
 /* start running the instrument according to specifications */
 int RunInstrument::Start() {
@@ -304,7 +485,7 @@ int RunInstrument::Start() {
   }
   
   /* run start-up  */
-  StartUp();
+  this->StartUp();
 
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_on) {
@@ -314,38 +495,49 @@ int RunInstrument::Start() {
   else if (this->CmdLine->debug_mode) {
     DebugMode();
     return 0;
-  } 
+  }
  
   /* check systems and operational mode */
-  CheckSystems();
-  
-  /* add mode switching DAY/NIGHT here */
-  /* switch (DAY/NIGHT) */
+  this->CheckSystems();
 
-  /* case: NIGHT */
-  /* set the HV as required */
-  if (this->CmdLine->hvps_on) {
-    HvpsSwitch();
+  if (!this->Zynq.telnet_connected) {
+    std::cout << "no Zynq connection, exiting the program" << std::endl;
+    return 1;
   }
   
-  /* start data acquisition */
-  Acquisition();
-  
-  /* only reached for SCURVE and SHORT acquisitions */
-  /* turn off HV */
-  if (this->Zynq.telnet_connected) {
-    this->CmdLine->hvps_status = ZynqManager::OFF;
-    HvpsSwitch();
-  }
+  /* launch background process to monitor the light level */
+  this->MonitorLightLevel();
 
-  /* turn off all subsystems */
-  this->CmdLine->lvps_status = LvpsManager::OFF;
-  this->CmdLine->lvps_subsystem = LvpsManager::HK;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-  LvpsSwitch();
+  bool undefined = false;
+  /* enter instrument mode */
+  while (!undefined) {
+    switch(GetInstMode()) {
+      
+    
+      /* NIGHT OPERATIONS */
+      /*------------------*/
+    case NIGHT:
+      this->NightOperations();
+      break;
+
+      
+      /* DAY OPERATIONS */
+      /*----------------*/
+    case DAY:
+      this->DayOperations();
+      break;
+
+      /* UNDEFINED */
+      /*-----------*/
+    case INST_UNDEF:
+      std::cout << "ERROR: instrument mode undefined, cannot start acquisition" << std::endl;
+      std::cout << "exiting the program" << std::endl;
+      
+      break;
+    } /* end switch statement */
    
+  } /* end infinite loop */
+  
   return 0;
 }
+

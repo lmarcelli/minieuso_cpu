@@ -40,10 +40,11 @@ int DataReduction::RunDataReduction() {
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; } )) { 
 
-    
+
     /* add data reduction procedure here */
     std::cout << "daytime work..." << std::endl; 
 
+    
     /* for now just sleep */
     sleep(5);
   }

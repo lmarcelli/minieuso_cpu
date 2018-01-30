@@ -409,7 +409,6 @@ int RunInstrument::Acquisition() {
 
   
   /* reached for SCURVE acq and instrument mode change */
-  //this->Usb.KillDataBackup();
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }
@@ -530,7 +529,8 @@ int RunInstrument::Start() {
       /* DAY OPERATIONS */
       /*----------------*/
     case DAY:
-      this->DayOperations();
+      this->NightOperations();
+      //this->DayOperations();
       break;
 
       /* UNDEFINED */

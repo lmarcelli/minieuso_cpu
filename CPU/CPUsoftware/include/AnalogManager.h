@@ -40,7 +40,8 @@ public:
   bool night_mode;
   
   AnalogManager();
-  std::shared_ptr<LightLevel> GetLightLevel();
+  int GetLightLevel();
+  std::shared_ptr<LightLevel> ReadLightLevel();
   bool CompareLightLevel();
   
 private:

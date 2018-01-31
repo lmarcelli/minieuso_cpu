@@ -125,6 +125,7 @@ int RunInstrument::InitInstMode() {
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
 
   /* get the current light level */
+  this->Daq.Analog->GetLightLevel();
   bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
 
   /* make a decision */
@@ -321,9 +322,11 @@ int RunInstrument::PollLightLevel() {
   bool undefined = false;
   
   /* different procedure for day and night */
-  while (!undefined) {    
+  while (!undefined) {
+    /* update the light level */
+    this->Daq.Analog->GetLightLevel();
+    
     switch(GetInstMode()) {
-
     case NIGHT:
       /* check the output of the analog acquisition is below threshold */
       sleep(LIGHT_POLL_TIME);

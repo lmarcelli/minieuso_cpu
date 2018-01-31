@@ -124,7 +124,7 @@ int AnalogManager::AnalogDataCollect() {
 
 
 /* get the current light level */
-std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {
+int AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
@@ -170,10 +170,21 @@ std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {
    {
      std::unique_lock<std::mutex> lock(this->m_light_level);
      this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
-     current_light_level = this->light_level;
    } /* release mutex */
    
-   return current_light_level;
+   return 0;
+}
+
+/* read light level from object, making an acquisition */
+std::shared_ptr<LightLevel> AnalogManager::ReadLightLevel() {
+  
+  {
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    auto light_level = this->light_level;
+  } /* release mutex */
+  
+ 
+  return light_level; 
 }
 
 /* compare light level to threshold value */
@@ -184,25 +195,19 @@ bool AnalogManager::CompareLightLevel() {
   int i;
   
   clog << "info: " << logstream::info << "comparing light level to threshold" << std::endl;
-
-  //  if (!this->night_mode) {
-    /* if day, get the current light level */
-  // auto light_level = this->GetLightLevel();
-  // }
-  // else {
-  //  {
-      /* if night, just read what is output by acquisition */
-  //    std::unique_lock<std::mutex> lock(this->m_light_level);
-  //   auto light_level = this->light_level;
-  // } /* release mutex */
-  // }
+  
+  {
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    auto light_level = this->light_level;
+  } /* release mutex */
+  
   
   /* read the light level */
   /* average the 4 photodiode values */
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
     for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-      ph_avg += this->light_level->photodiode_data[i];
+      ph_avg += light_level->photodiode_data[i];
     }
   } /* release mutex */
   ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;

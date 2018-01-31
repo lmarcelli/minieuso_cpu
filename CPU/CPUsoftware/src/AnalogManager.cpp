@@ -261,7 +261,7 @@ int AnalogManager::NotifySwitch() {
 
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
-    this->inst_mode_switch = false;
+    this->inst_mode_switch = true;
   } /* release mutex */
   
   return 0;

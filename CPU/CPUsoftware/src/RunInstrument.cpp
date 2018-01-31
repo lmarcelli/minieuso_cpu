@@ -311,6 +311,8 @@ int RunInstrument::MonitorLightLevel() {
   /* launch a thread to watch the photodiode measurements */
   std::thread monitor_light (&RunInstrument::PollLightLevel, this);
 
+  sleep(10);
+  
   /* detach */
   monitor_light.detach();
   

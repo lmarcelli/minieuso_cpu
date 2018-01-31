@@ -9,6 +9,7 @@
 #include <memory>
 #include <thread>
 #include <unistd.h>
+#include <condition_variable>
 
 #include "log.h"
 #include "data_format.h"

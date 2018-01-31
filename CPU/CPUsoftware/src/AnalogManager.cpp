@@ -2,9 +2,10 @@
 
 /* default constructor */
 AnalogManager::AnalogManager() {
-  this->night_mode = false;
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
+
+  this->inst_mode_switch = false;
 }
 
 
@@ -225,4 +226,43 @@ bool AnalogManager::CompareLightLevel() {
   }
   
   return above_light_threshold;
+}
+
+int AnalogManager::ProcessAnalogData() {
+
+
+  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  /* enter loop while instrument mode switching not requested */
+  while(!this->cv_mode_switch.wait_for(lock,
+				       std::chrono::milliseconds(WAIT_PERIOD),
+				       [this] { return this->inst_mode_switch; })) { 
+
+    this->GetLightLevel();
+
+    sleep(LIGHT_ACQ_TIME);
+  }
+  return 0;
+}
+
+
+/* reset the mode switching */
+int AnalogManager::ResetSwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+  
+  return 0;
+}
+
+/* notify the object of an instrument mode switch */
+int AnalogManager::NotifySwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+  
+  return 0;
 }

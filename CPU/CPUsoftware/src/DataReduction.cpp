@@ -14,12 +14,13 @@ int DataReduction::Start() {
   
   /* launch thread */
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
+
+  /* launch the analog acquisition */
+  std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
+  analog.join();
   
-  std::cout << "try to join thread" << std::endl;
   /* wait for thread to exit, when instrument mode switches */
-  if (data_reduction.joinable()){
-    data_reduction.join();
-  }
+  data_reduction.join();
   
   return 0;
 }
@@ -52,3 +53,27 @@ int DataReduction::RunDataReduction() {
   
   return 0;
 }
+
+/* notify of an instrument mode switch */
+int DataReduction::NotifySwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release the mutex */
+  this->cv_mode_switch.notify_all();
+
+  return 0;
+}
+
+/* reset the instrument mode switch */
+int DataReduction::ResetSwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+    
+  return 0;
+}
+

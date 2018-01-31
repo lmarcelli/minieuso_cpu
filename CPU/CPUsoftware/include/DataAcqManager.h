@@ -20,9 +20,6 @@
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
-/* for use with conditional variable */
-#define WAIT_PERIOD 1 /* milliseconds */
-
 
 /* class for controlling the main Zynq-driven acquisition */
 /* (the Zynq board, the thermistors and the Analog board) */
@@ -40,11 +37,6 @@ public:
   /* subsystems controlled */
   ThermManager * ThManager = new ThermManager();
   AnalogManager * Analog = new AnalogManager();
-
-  /* handle mode switching signal from RunInstrument::MonitorLightLevel */
-  bool inst_mode_switch;
-  std::condition_variable cv_mode_switch;
-  std::mutex m_mode_switch;
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -59,8 +51,17 @@ public:
   int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
+
+  /* handle instrument mode switching */
+  int NotifySwitch();
+  int ResetSwitch();
   
 private:  
+  /* handle mode switching signal from RunInstrument::MonitorLightLevel */
+  bool inst_mode_switch;
+  std::condition_variable cv_mode_switch;
+  std::mutex m_mode_switch;
+
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);

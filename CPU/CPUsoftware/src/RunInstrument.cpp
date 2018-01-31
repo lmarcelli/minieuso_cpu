@@ -311,8 +311,6 @@ int RunInstrument::MonitorLightLevel() {
   /* launch a thread to watch the photodiode measurements */
   std::thread monitor_light (&RunInstrument::PollLightLevel, this);
 
-  sleep(10);
-  
   /* detach */
   monitor_light.detach();
   
@@ -325,8 +323,6 @@ int RunInstrument::PollLightLevel() {
   
   /* different procedure for day and night */
   while (!undefined) {
-    /* update the light level */
-    this->Daq.Analog->GetLightLevel();
     
     switch(GetInstMode()) {
     case NIGHT:
@@ -334,11 +330,7 @@ int RunInstrument::PollLightLevel() {
       sleep(LIGHT_POLL_TIME);
       if (this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to DAY */
-	{
-	  std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
-	  this->Daq.inst_mode_switch = true;
-	} 
-	this->Daq.cv_mode_switch.notify_all();
+	this->Daq.NotifySwitch();
 	this->SetInstMode(DAY);
       }
       break;
@@ -348,11 +340,7 @@ int RunInstrument::PollLightLevel() {
       sleep(LIGHT_POLL_TIME);
       if (!this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
-	{
-	  std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
-	  this->Data.inst_mode_switch = true;
-	} 
-	this->Data.cv_mode_switch.notify_all();
+	this->Data.NotifySwitch();
 	this->SetInstMode(NIGHT);
       }
       break;
@@ -427,19 +415,13 @@ int RunInstrument::NightOperations() {
   std::cout << "entering NIGHT mode..." << std::endl;
 
   /* reset mode switching */
-  {
-    std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
-    this->Daq.inst_mode_switch = false;
-  } 
-  
+  this->Daq.ResetSwitch();
+    
   /* set the HV as required */
   if (this->CmdLine->hvps_on) {
     HvpsSwitch();
   }
 
-  /* set Analog to night mode */
-  this->Daq.Analog->night_mode = true;
-  
   /* start data acquisition */
   /* acquisition runs until signal to switch mode */
   Acquisition();
@@ -470,13 +452,7 @@ int RunInstrument::DayOperations() {
   std::cout << "entering DAY mode..." << std::endl;
 
   /* reset mode switching */
-  {
-    std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
-    this->Data.inst_mode_switch = false;
-  }
-  
-  /* set Analog to day mode */
-  this->Daq.Analog->night_mode = false;
+  this->Data.ResetSwitch();
   
   /* data reduction runs until signal to switch mode */
   this->Data.Start();

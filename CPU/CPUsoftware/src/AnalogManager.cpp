@@ -100,8 +100,7 @@ int AnalogManager::AnalogDataCollect() {
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
 	this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
-	std::cout << this->analog_acq->val[i][j] << std::endl;
-  
+
 	/* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
@@ -173,7 +172,7 @@ int AnalogManager::GetLightLevel() {
      std::unique_lock<std::mutex> lock(this->m_light_level);
      this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
    } /* release mutex */
-   
+
    return 0;
 }
 

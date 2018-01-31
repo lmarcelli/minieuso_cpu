@@ -338,7 +338,7 @@ int RunInstrument::PollLightLevel() {
     case DAY:
       /* check the output of analog acquisition is above threshold */
       sleep(LIGHT_POLL_TIME);
-      if (!this->Daq.Analog->CompareLightLevel()) {
+      if (!this->Data.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
 	this->Data.NotifySwitch();
 	this->SetInstMode(NIGHT);

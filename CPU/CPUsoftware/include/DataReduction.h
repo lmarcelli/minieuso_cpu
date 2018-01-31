@@ -19,6 +19,7 @@ public:
   std::condition_variable cv_mode_switch;
   std::mutex m_mode_switch;
   
+  
   DataReduction();
   int Start();
   

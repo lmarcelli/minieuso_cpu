@@ -63,6 +63,9 @@ int DataReduction::NotifySwitch() {
   } /* release the mutex */
   this->cv_mode_switch.notify_all();
 
+  /* also notify the analog acquisition */
+  this->Analog->NotifySwitch();
+  
   return 0;
 }
 
@@ -73,7 +76,10 @@ int DataReduction::ResetSwitch() {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
     this->inst_mode_switch = false;
   } /* release mutex */
-    
+
+  /* also reset the analog switch */
+  this->Analog->ResetSwitch();
+  
   return 0;
 }
 

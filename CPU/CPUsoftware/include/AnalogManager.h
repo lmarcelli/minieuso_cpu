@@ -53,6 +53,7 @@ public:
   std::shared_ptr<LightLevel> ReadLightLevel();
   bool CompareLightLevel();
   int ProcessAnalogData();  
+  int GetLightLevel();
 
   /* handle instrument mode switching */
   int NotifySwitch();
@@ -68,7 +69,6 @@ private:
   std::condition_variable cv_mode_switch;
 
   int AnalogDataCollect();
-  int GetLightLevel();
 };
 
 #endif

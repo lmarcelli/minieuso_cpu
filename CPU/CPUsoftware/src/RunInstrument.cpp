@@ -125,7 +125,7 @@ int RunInstrument::InitInstMode() {
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
 
   /* get the current light level */
-  //this->Daq.Analog->GetLightLevel();
+  this->Daq.Analog->GetLightLevel();
   bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
 
   /* make a decision */

@@ -38,13 +38,14 @@ struct CmdLineInputs {
 
 };
 
-
+static const std::string empty_string("");
+   
 /* class to parse command line input to program */
 class InputParser{
 public:
   CmdLineInputs * CmdLine = new CmdLineInputs();
   
-  InputParser(int &argc, char **argv); 
+  InputParser(int & argc, char ** argv); 
   CmdLineInputs * ParseCmdLineInputs();
   /* get the command line options */
   const std::string getCmdOption(const std::string &option) const {
@@ -53,7 +54,6 @@ public:
     if (itr != this->tokens.end() && itr++ != this->tokens.end()) {
 	return * itr;
     }
-    static const std::string empty_string("");
     return empty_string;
   }
   

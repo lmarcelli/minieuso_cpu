@@ -66,7 +66,7 @@ void CpuTools::SignalHandler(int signum) {
   
   /* turn off the HV */
   //ZynqManager::HvpsTurnOff();
-  /* cannot do this as causes data scarmbling in Zynq */
+  /* cannot do this as causes data scrambling in Zynq */
   
   /* terminate the program */
   exit(signum);  

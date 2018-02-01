@@ -2,9 +2,10 @@
 
 /* default constructor */
 AnalogManager::AnalogManager() {
-  this->night_mode = true;
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
+
+  this->inst_mode_switch = false;
 }
 
 
@@ -24,6 +25,10 @@ int AnalogManager::AnalogDataCollect() {
 
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
+  if (brd == NULL) {
+    clog << "error: " << logstream::error << "the analog board is not connected" << std::endl;
+    return 1;
+  }
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
   dm75xx_status = DM75xx_Board_Init(brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");
@@ -121,8 +126,10 @@ int AnalogManager::AnalogDataCollect() {
   return 0;
 }
 
+
+
 /* get the current light level */
-std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {
+int AnalogManager::GetLightLevel() {
 
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
@@ -168,10 +175,21 @@ std::shared_ptr<LightLevel> AnalogManager::GetLightLevel() {
    {
      std::unique_lock<std::mutex> lock(this->m_light_level);
      this->light_level->sipm_single = sum_sipm1/FIFO_DEPTH;
-     current_light_level = this->light_level;
    } /* release mutex */
-   
-   return current_light_level;
+
+   return 0;
+}
+
+/* read light level from object, making an acquisition */
+std::shared_ptr<LightLevel> AnalogManager::ReadLightLevel() {
+  
+  {
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    auto light_level = this->light_level;
+  } /* release mutex */
+  
+ 
+  return light_level; 
 }
 
 /* compare light level to threshold value */
@@ -182,24 +200,23 @@ bool AnalogManager::CompareLightLevel() {
   int i;
   
   clog << "info: " << logstream::info << "comparing light level to threshold" << std::endl;
-
-  if (!this->night_mode) {
-    /* get the current light level */
-    GetLightLevel();
-  }
-
-  /* read the light level */
+  
   {
-     std::unique_lock<std::mutex> lock(this->m_light_level);
-
-     /* average the 4 photodiode values */
-     for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-       ph_avg += this->light_level->photodiode_data[i];
-     }
-     ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    auto light_level = this->light_level;
   } /* release mutex */
   
-  std::cout << "photodiode average = " << ph_avg << std::endl;
+  
+  /* read the light level */
+  /* average the 4 photodiode values */
+  {
+    std::unique_lock<std::mutex> lock(this->m_light_level);
+    for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+      ph_avg += light_level->photodiode_data[i];
+    }
+  } /* release mutex */
+  ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
+  
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
      
   /* compare the result to threshold */
@@ -207,7 +224,48 @@ bool AnalogManager::CompareLightLevel() {
     above_light_threshold = true;
     clog << "info: " << logstream::info << "light level is ABOVE threshold" << std::endl;
   }
-  clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
+  else { 
+    clog << "info: " << logstream::info << "light level is BELOW threshold" << std::endl;
+  }
   
   return above_light_threshold;
+}
+
+int AnalogManager::ProcessAnalogData() {
+
+
+  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  /* enter loop while instrument mode switching not requested */
+  while(!this->cv_mode_switch.wait_for(lock,
+				       std::chrono::milliseconds(WAIT_PERIOD),
+				       [this] { return this->inst_mode_switch; })) { 
+
+    this->GetLightLevel();
+
+    sleep(LIGHT_ACQ_TIME);
+  }
+  return 0;
+}
+
+
+/* reset the mode switching */
+int AnalogManager::ResetSwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+  
+  return 0;
+}
+
+/* notify the object of an instrument mode switch */
+int AnalogManager::NotifySwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release mutex */
+  
+  return 0;
 }

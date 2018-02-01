@@ -38,27 +38,34 @@ struct CmdLineInputs {
 
 };
 
-
+static const std::string empty_string("");
+   
 /* class to parse command line input to program */
 class InputParser{
 public:
   CmdLineInputs * CmdLine = new CmdLineInputs();
   
-  InputParser(int &argc, char **argv); 
+  InputParser(int & argc, char ** argv); 
   CmdLineInputs * ParseCmdLineInputs();
+
   /* get the command line options */
   const std::string getCmdOption(const std::string &option) const {
+
     std::vector<std::string>::const_iterator itr;
     itr = std::find(this->tokens.begin(), this->tokens.end(), option);
-    if (itr != this->tokens.end() && itr++ != this->tokens.end()) {
+    if (itr != this->tokens.end()) {
+      itr++;
+      if (itr++ != this->tokens.end()) {
+	itr--;
 	return * itr;
+      }
     }
-    static const std::string empty_string("");
     return empty_string;
   }
   
   /* check if the command line options exists */
   bool cmdOptionExists(const std::string &option) const {
+
     return std::find(this->tokens.begin(), this->tokens.end(), option)
       != this->tokens.end();
   }

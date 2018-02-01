@@ -14,7 +14,11 @@ int DataReduction::Start() {
   
   /* launch thread */
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
-    
+
+  /* launch the analog acquisition */
+  std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
+  analog.join();
+  
   /* wait for thread to exit, when instrument mode switches */
   data_reduction.join();
   
@@ -23,16 +27,25 @@ int DataReduction::Start() {
 
 /* data reduction procedure */
 int DataReduction::RunDataReduction() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);
+    if(!this->inst_mode_switch) {
+      std::cout << "inst_mode_switch is false, as expected" << std::endl;
+    }
+  }
   
-  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  std::unique_lock<std::mutex> lock(this->m_mode_switch); 
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; } )) { 
 
-    
-    /* add data reduction procedure here */
 
+    /* add data reduction procedure here */
+    std::cout << "daytime work..." << std::endl; 
+
+    
     /* for now just sleep */
     sleep(5);
   }
@@ -40,3 +53,33 @@ int DataReduction::RunDataReduction() {
   
   return 0;
 }
+
+/* notify of an instrument mode switch */
+int DataReduction::NotifySwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release the mutex */
+  this->cv_mode_switch.notify_all();
+
+  /* also notify the analog acquisition */
+  this->Analog->NotifySwitch();
+  
+  return 0;
+}
+
+/* reset the instrument mode switch */
+int DataReduction::ResetSwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+
+  /* also reset the analog switch */
+  this->Analog->ResetSwitch();
+  
+  return 0;
+}
+

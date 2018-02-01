@@ -14,7 +14,7 @@ else
 LIB_FLAGS:=-L../lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 CFLAGS:=-std=c++11 $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS) $(DEBUG_FLAGS)
 endif
-SOURCES := $(shell find . -name '*.cpp') # -and -not -name "*lvps_switch*")
+SOURCES := $(shell find . -name '*.cpp') 
 
 OUTDIR = ../bin/
 

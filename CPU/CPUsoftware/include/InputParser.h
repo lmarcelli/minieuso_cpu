@@ -53,8 +53,12 @@ public:
 
     std::vector<std::string>::const_iterator itr;
     itr = std::find(this->tokens.begin(), this->tokens.end(), option);
-    if (itr != this->tokens.end()) {// && itr++ != this->tokens.end()) {
+    if (itr != this->tokens.end()) {
+      itr++;
+      if (itr++ != this->tokens.end()) {
+	itr--;
 	return * itr;
+      }
     }
     return empty_string;
   }

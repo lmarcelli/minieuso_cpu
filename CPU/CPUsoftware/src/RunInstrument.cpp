@@ -97,10 +97,15 @@ int RunInstrument::DebugMode() {
   std::cout << "LVPS" << std::endl;
   std::cout << "switching on/off all subsystems... ";  
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
+  sleep(1);
   this->Lvps.SwitchOn(LvpsManager::HK);
+  sleep(1);
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
+  sleep(1);
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  sleep(1);
   this->Lvps.SwitchOff(LvpsManager::HK);
+  sleep(1)
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
   std::cout << std::endl;

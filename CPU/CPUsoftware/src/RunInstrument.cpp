@@ -105,7 +105,7 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   sleep(1);
   this->Lvps.SwitchOff(LvpsManager::HK);
-  sleep(1)
+  sleep(1);
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
   std::cout << std::endl;

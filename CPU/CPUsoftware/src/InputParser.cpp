@@ -170,6 +170,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->lvps_subsystem = LvpsManager::HK;
     }
   }
+  else {
+    std::cout << "no subsystem specified, using default: zynq" << std::endl;
+  }
 
   /* HVPS on/off */
   const std::string & hv_status_str = getCmdOption("-hv");

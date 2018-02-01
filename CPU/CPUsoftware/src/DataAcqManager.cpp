@@ -317,7 +317,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
   HK_PACKET * hk_packet = new HK_PACKET();
  
   /* collect data */
-  auto light_level = this->Analog->GetLightLevel();
+  auto light_level = this->Analog->ReadLightLevel();
   
   /* make the header of the hk packet and timestamp */
   hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
@@ -335,6 +335,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
   
   return hk_packet;
 }
+
 
 
 /* write the cpu packet to the cpu file */
@@ -654,6 +655,10 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   /* set a mode to start data gathering */
   ZqManager->SetInstrumentMode(ZqManager->instrument_mode);
 
+  /* add acquisition with the analog board */
+  std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
+  analog.join();
+  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->ThManager->Init();
@@ -661,7 +666,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
     collect_therm_data.join();
   }
   
-  
+  /* wait for main data acquisition thread to join */
   collect_main_data.join();
  
   /* only reached for instrument mode change */
@@ -669,6 +674,37 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   CloseCpuRun(CPU);
   
   return 0;
+}
+
+/* notify the object of an instrument mode switch */
+int DataAcqManager::NotifySwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release mutex */
+  this->cv_mode_switch.notify_all();
+
+  /* also notify the analog system */
+  this->Analog->NotifySwitch();
+    
+  return 0;
+
+}
+
+/* reset the instrument mode switch */
+int DataAcqManager::ResetSwitch() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+
+  /* also reset the analog system */
+  this->Analog->ResetSwitch();
+    
+  return 0;
+
 }
 
 /* function to generate and write a fake Zynq packet */
@@ -829,3 +865,4 @@ int DataAcqManager::ReadFakeZynqPkt() {
     fclose(fake_zynq_pkt);
     return 0;
 }
+

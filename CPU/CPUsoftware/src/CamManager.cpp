@@ -97,11 +97,14 @@ int CamManager::CollectData() {
 /* kill the data collection thread */
 int CamManager::KillCamAcq() {
 
-  clog << "info: " << logstream::info << "killing the camera acquisition" << std::endl;
+  clog << "info: " << logstream::info << "killing the camera acquisition, if possible" << std::endl;
 
-  /* kill the thread */
-  /* justifiable as no locked resources */
-  pthread_cancel(this->cam_thread_handle);
+  /* check camera launch successful, ie. thread runnning */
+  if (this->launch_running) {
+    /* kill the thread */
+    /* justifiable as no locked resources */
+    pthread_cancel(this->cam_thread_handle);
+  }
   
   return 0;
 }

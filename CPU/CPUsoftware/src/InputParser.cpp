@@ -77,8 +77,61 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-scurve")){
     this->CmdLine->sc_on = true;
   }
+  if(cmdOptionExists("-zynq")){
+
+    /* zynq instrument mode */
+    const std::string &mode = getCmdOption("-zynq");
+    if (!mode.empty()){
+      if (mode == "0") {
+	this->CmdLine->zynq_mode = ZynqManager::MODE0;
+      }
+      else if (mode == "1") {
+	this->CmdLine->zynq_mode = ZynqManager::MODE1;
+      }
+      else if (mode == "periodic") {
+	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
+      }
+      else if (mode == "trigger") {
+	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
+      }
+    }
+    else {
+      std::cout << "WARNING: could not identify required zynq mode, using default: periodic" << std::endl;
+    }
+
+  }
   if(cmdOptionExists("-test_zynq")){
     this->CmdLine->test_zynq_on = true;
+
+    /* zynq test mode */
+    const std::string &test_mode = getCmdOption("-test_zynq");
+    if (!test_mode.empty()){
+      if (test_mode == "0") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE0;
+      }
+      else if (test_mode == "1") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE1;
+      }
+      else if (test_mode == "2") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE2;
+      }
+      else if (test_mode == "3") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+      }
+      else if (test_mode == "4") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE4;
+      }
+      else if (test_mode == "5") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE5;
+      }
+      else if (test_mode == "6") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
+      }
+    }
+    else {
+      std::cout << "WARNING: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+    }
+   
   }
   if(cmdOptionExists("-keep_zynq_pkt")){
     this->CmdLine->keep_zynq_pkt = true;
@@ -95,57 +148,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   const std::string &hv_dac = getCmdOption("-hvdac");
   if (!hv_dac.empty()){
     this->CmdLine->hvdac = std::stoi(hv_dac);
-  }
-
-  /* zynq instrument mode */
-  const std::string &mode = getCmdOption("-zynq");
-  if (!mode.empty()){
-    if (mode == "0") {
-      this->CmdLine->zynq_mode = ZynqManager::MODE0;
-    }
-    else if (mode == "1") {
-      this->CmdLine->zynq_mode = ZynqManager::MODE1;
-    }
-    else if (mode == "periodic") {
-      this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
-    }
-    else if (mode == "trigger") {
-      this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
-    }
-    else {
-      std::cout << "Error: could not identify required zynq mode, using default: periodic" << std::endl;
-    }
-  }
-  
-  /* zynq test mode */
-  const std::string &test_mode = getCmdOption("-test_zynq");
-  if (!test_mode.empty()){
-    if (test_mode == "0") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE0;
-    }
-    else if (test_mode == "1") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE1;
-    }
-    else if (test_mode == "2") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE2;
-    }
-    else if (test_mode == "3") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
-    }
-    else if (test_mode == "4") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE4;
-    }
-    else if (test_mode == "5") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE5;
-    }
-    else if (test_mode == "6") {
-      this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
-    }
-    else {
-      std::cout << "Error: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
-    }
-  }
-
+  }  
+   
   /* LVPS on/off */
   const std::string & lvps_status_str = getCmdOption("-lvps");
   if (!lvps_status_str.empty()) {
@@ -170,6 +174,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->lvps_subsystem = LvpsManager::HK;
     }
   }
+  else {
+    std::cout << "WARNING: no subsystem specified, using default: zynq" << std::endl;
+  }
 
   /* HVPS on/off */
   const std::string & hv_status_str = getCmdOption("-hv");
@@ -181,7 +188,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->hvps_status = ZynqManager::OFF;   
     }
   }
-  
+
   return this->CmdLine;
 }
 

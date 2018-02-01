@@ -80,14 +80,89 @@ int RunInstrument::HvpsSwitch() {
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
 
-  std::cout << "-----------------------------" <<std::endl; 
+  /* run through main subsystems for easy debugging */
+  
+  std::cout << "-----------------------------" << std::endl; 
   std::cout << "Mini-EUSO software debug mode" << std::endl;
-  std::cout << "-----------------------------" <<std::endl; 
+  std::cout << "-----------------------------" << std::endl; 
+  std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
+  std::cout << std::endl;
+  std::cout << "running checks of all subsystems..." <<std::endl; 
+  std::cout << std::endl;
+
+  std::cout << "USB" << std::endl;
+  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << "USB storage devices connected" << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "LVPS" << std::endl;
+  std::cout << "switching on/off all subsystems... ";  
+  this->Lvps.SwitchOn(LvpsManager::CAMERAS);
+  sleep(1);
+  this->Lvps.SwitchOn(LvpsManager::HK);
+  sleep(1);
+  this->Lvps.SwitchOn(LvpsManager::ZYNQ);
+  sleep(1);
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  sleep(1);
+  this->Lvps.SwitchOff(LvpsManager::HK);
+  sleep(1);
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  std::cout << "done!" << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "ANALOG" << std::endl;
+  std::cout << "running an acquisition..." << std::endl;  
+  this->Daq.Analog->GetLightLevel();
+  auto light_level = this->Daq.Analog->ReadLightLevel();
+  int i = 0;
+  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+    std::cout << "photodiode channel " << i << ": " << light_level->photodiode_data[i] << std::endl;
+  }
+  float avg_sipm = 0;
+  for (i = 0; i < N_CHANNELS_SIPM; i++) {
+    avg_sipm += light_level->sipm_data[i];
+  }
+  avg_sipm = avg_sipm/N_CHANNELS_SIPM;
+  std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
+  std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "THERMISTORS" << std::endl;
+  std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
+  this->Daq.ThManager->PrintTemperature();
+  std::cout << std::endl;
+
+  /* uncomment when ST has given updates */
+  /*
+  this->Lvps.SwitchOn(LvpsManager::CAMERAS);
+  std::cout << "CAMERAS" << std::endl;
+  std::cout << "running an acquisition..." << std::endl;  
+  this->CmdLine->cam_on = true;
+  this->CmdLine->cam_verbose = true;
+  this->LaunchCam();
+  std::cout << "stopping acquisition... ";
+  this->Cam.KillCamAcq();
+  std::cout << "done!" << std::endl;
+  std::cout << std::endl;
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  */
   
-  /* add any quick tests here */
+  this->Lvps.SwitchOn(LvpsManager::ZYNQ);
+  std::cout << "ZYNQ" << std::endl;
+  this->Zynq.CheckTelnet();
+  if (this->Zynq.telnet_connected) {
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
+  std::cout << std::endl;
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+
   
-  /* print the USB devices connected */
-  this->Usb.LookupUsbStorage();
+  std::cout << "debug tests completed, exiting the program" << std::endl;
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();
@@ -125,6 +200,7 @@ int RunInstrument::InitInstMode() {
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
 
   /* get the current light level */
+  this->Daq.Analog->GetLightLevel();
   bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
 
   /* make a decision */
@@ -321,35 +397,27 @@ int RunInstrument::PollLightLevel() {
   bool undefined = false;
   
   /* different procedure for day and night */
-  while (!undefined) {    
+  while (!undefined) {
+    
     switch(GetInstMode()) {
-
     case NIGHT:
       /* check the output of the analog acquisition is below threshold */
+      sleep(LIGHT_POLL_TIME);
       if (this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to DAY */
-	{
-	  std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
-	  this->Daq.inst_mode_switch = true;
-	} 
-	this->Daq.cv_mode_switch.notify_all();
-	this->SetInstMode(RunInstrument::DAY);
+	this->Daq.NotifySwitch();
+	this->SetInstMode(DAY);
       }
-      sleep(LIGHT_POLL_TIME);
       break;
       
     case DAY:
-      /* check the output of analog acquisition above threshold */
-      if (!this->Daq.Analog->CompareLightLevel()) {
+      /* check the output of analog acquisition is above threshold */
+      sleep(LIGHT_POLL_TIME);
+      if (!this->Data.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
-	{
-	  std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
-	  this->Data.inst_mode_switch = true;
-	} 
-	this->Data.cv_mode_switch.notify_all();
+	this->Data.NotifySwitch();
 	this->SetInstMode(NIGHT);
       }
-      sleep(LIGHT_POLL_TIME);
       break;
       
     case INST_UNDEF:
@@ -409,7 +477,6 @@ int RunInstrument::Acquisition() {
 
   
   /* reached for SCURVE acq and instrument mode change */
-  this->Usb.KillDataBackup();
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }
@@ -423,16 +490,13 @@ int RunInstrument::NightOperations() {
   std::cout << "entering NIGHT mode..." << std::endl;
 
   /* reset mode switching */
-  {
-    std::unique_lock<std::mutex> lock(this->Daq.m_mode_switch);
-    this->Daq.inst_mode_switch = false;
-  } 
-  
+  this->Daq.ResetSwitch();
+    
   /* set the HV as required */
   if (this->CmdLine->hvps_on) {
     HvpsSwitch();
   }
-  
+
   /* start data acquisition */
   /* acquisition runs until signal to switch mode */
   Acquisition();
@@ -463,10 +527,7 @@ int RunInstrument::DayOperations() {
   std::cout << "entering DAY mode..." << std::endl;
 
   /* reset mode switching */
-  {
-    std::unique_lock<std::mutex> lock(this->Data.m_mode_switch);
-    this->Data.inst_mode_switch = false;
-  } 
+  this->Data.ResetSwitch();
   
   /* data reduction runs until signal to switch mode */
   this->Data.Start();

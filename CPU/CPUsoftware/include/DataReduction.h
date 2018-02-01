@@ -7,6 +7,8 @@
 #include <condition_variable>
 
 #include "log.h"
+#include "AnalogManager.h"
+#include "ThermManager.h"
 
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
@@ -14,15 +16,22 @@
 /* class to handle data reduction in DAY mode */
 class DataReduction {
 public:
-  /* handle mode switching signal from RunInstrument::MonitorLightLevel */
-  bool inst_mode_switch;
-  std::condition_variable cv_mode_switch;
-  std::mutex m_mode_switch;
+  /* subsystems controlled */
+  ThermManager * ThManager = new ThermManager();
+  AnalogManager * Analog = new AnalogManager();
   
   DataReduction();
   int Start();
+
+  /* handle instrument mode switching */
+  int NotifySwitch();
+  int ResetSwitch();
   
 private:
+  bool inst_mode_switch;
+  std::condition_variable cv_mode_switch;
+  std::mutex m_mode_switch;
+
   int RunDataReduction();
   
 };

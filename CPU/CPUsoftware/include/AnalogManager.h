@@ -7,6 +7,9 @@
 
 #include <mutex>
 #include <memory>
+#include <thread>
+#include <unistd.h>
+#include <condition_variable>
 
 #include "log.h"
 #include "data_format.h"
@@ -20,6 +23,16 @@
 /* light threshold for photodiodes */
 /* used to determine instrument mode via CompareLightLevel */
 #define LIGHT_THRESHOLD 100
+
+/* number of seconds between light level polling */
+#define LIGHT_POLL_TIME 2
+
+/* seconds between data collection */
+#define LIGHT_ACQ_TIME 2
+
+/* for use with conditional variable */
+#define WAIT_PERIOD 1 /* milliseconds */
+
 
 /* acquisition structure for analog readout */
 typedef struct {
@@ -36,21 +49,26 @@ typedef struct {
 /* class to handle the analog data acquisition (photodiodes and SiPMs) */
 class AnalogManager {
 public:
-  
-  /* mutex protected LightLevel */
-  bool night_mode;
-  
   AnalogManager();
-  std::shared_ptr<LightLevel> GetLightLevel();
+  std::shared_ptr<LightLevel> ReadLightLevel();
   bool CompareLightLevel();
+  int ProcessAnalogData();  
+  int GetLightLevel();
+
+  /* handle instrument mode switching */
+  int NotifySwitch();
+  int ResetSwitch();
   
 private:
   std::mutex m_light_level;
   std::shared_ptr<LightLevel> light_level;
   std::shared_ptr<AnalogAcq> analog_acq;
 
+  bool inst_mode_switch;
+  std::mutex m_mode_switch;
+  std::condition_variable cv_mode_switch;
+
   int AnalogDataCollect();
-  
 };
 
 #endif

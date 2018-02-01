@@ -47,11 +47,13 @@ public:
   
   InputParser(int & argc, char ** argv); 
   CmdLineInputs * ParseCmdLineInputs();
+
   /* get the command line options */
   const std::string getCmdOption(const std::string &option) const {
+
     std::vector<std::string>::const_iterator itr;
     itr = std::find(this->tokens.begin(), this->tokens.end(), option);
-    if (itr != this->tokens.end() && itr++ != this->tokens.end()) {
+    if (itr != this->tokens.end()) {// && itr++ != this->tokens.end()) {
 	return * itr;
     }
     return empty_string;
@@ -59,6 +61,7 @@ public:
   
   /* check if the command line options exists */
   bool cmdOptionExists(const std::string &option) const {
+
     return std::find(this->tokens.begin(), this->tokens.end(), option)
       != this->tokens.end();
   }

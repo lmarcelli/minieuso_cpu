@@ -32,6 +32,7 @@ public:
   int ProcessThermData();
   TemperatureAcq * GetTemperature();
   int WriteThermPkt(TemperatureAcq * temperature_results);
+  void PrintTemperature();
   
 private:
   TemperatureAcq * ParseDigitempOutput(std::string input_string);

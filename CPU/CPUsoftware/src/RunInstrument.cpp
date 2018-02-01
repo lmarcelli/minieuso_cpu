@@ -87,14 +87,13 @@ int RunInstrument::DebugMode() {
   std::cout << "-----------------------------" << std::endl; 
   std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
-  if (!this->CmdLine->log_on) {
-    std::cout << "WARNING: this mode is best used with -log" <<std::endl;
-  }
   std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
+
   std::cout << "USB" << std::endl;
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << "USB storage devices connected" << std::endl;
   std::cout << std::endl;
+
   std::cout << "LVPS" << std::endl;
   std::cout << "switching on/off all subsystems... ";  
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
@@ -105,11 +104,55 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
   std::cout << std::endl;
+
   std::cout << "ANALOG" << std::endl;
-  std::cout << "" << std::endl;  
+  std::cout << "running an acquisition..." << std::endl;  
+  this->Daq.Analog->GetLightLevel();
+  auto light_level = this->Daq.Analog->ReadLightLevel();
+  int i = 0;
+  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
+    std::cout << "photodiode channel " << i << ": " << light_level->photodiode_data[i] << std::endl;
+  }
+  float avg_sipm = 0;
+  for (i = 0; i < N_CHANNELS_SIPM; i++) {
+    avg_sipm += light_level->sipm_data[i];
+  }
+  avg_sipm = avg_sipm/N_CHANNELS_SIPM;
+  std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
+  std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
+  std::cout << std::endl;
+
+  std::cout << "THERMISTORS" << std::endl;
+  std::cout << "running an acquisition..." << std::endl;  
+  this->Daq.ThManager->PrintTemperature();
+  std::cout << std::endl;
+
+  this->Lvps.SwitchOn(LvpsManager::CAMERAS);
+  std::cout << "CAMERAS" << std::endl;
+  std::cout << "running an acquisition..." << std::endl;  
+  this->CmdLine->cam_on = true;
+  this->CmdLine->cam_verbose = true;
+  this->LaunchCam();
+  this->Cam.KillCamAcq();
+  std::cout << std::endl;
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+
+  this->Lvps.SwitchOn(LvpsManager::ZYNQ);
+  std::cout << "ZYNQ" << std::endl;
+  this->Zynq.CheckTelnet();
+  if (this->Zynq.telnet_connected) {
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
+  std::cout << std::endl;
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+
   
-  
- 
+  std::cout << "debug tests completed, exiting the program" << std::endl;
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();

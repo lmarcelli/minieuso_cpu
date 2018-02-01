@@ -123,20 +123,25 @@ int RunInstrument::DebugMode() {
   std::cout << std::endl;
 
   std::cout << "THERMISTORS" << std::endl;
-  std::cout << "running an acquisition..." << std::endl;  
+  std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.ThManager->PrintTemperature();
   std::cout << std::endl;
 
+  /* uncomment when ST has given updates */
+  /*
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   std::cout << "CAMERAS" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->CmdLine->cam_on = true;
   this->CmdLine->cam_verbose = true;
   this->LaunchCam();
+  std::cout << "stopping acquisition... ";
   this->Cam.KillCamAcq();
+  std::cout << "done!" << std::endl;
   std::cout << std::endl;
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
-
+  */
+  
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   std::cout << "ZYNQ" << std::endl;
   this->Zynq.CheckTelnet();

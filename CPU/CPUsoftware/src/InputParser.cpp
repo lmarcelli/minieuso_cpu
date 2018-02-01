@@ -112,9 +112,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     else if (mode == "trigger") {
       this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
     }
-    else {
-      std::cout << "Error: could not identify required zynq mode, using default: periodic" << std::endl;
-    }
+  }
+  else {
+    std::cout << "Error: could not identify required zynq mode, using default: periodic" << std::endl;
   }
   
   /* zynq test mode */
@@ -141,11 +141,11 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     else if (test_mode == "6") {
       this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
     }
-    else {
-      std::cout << "Error: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
-    }
   }
-
+  else {
+    std::cout << "Error: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+  }
+  
   /* LVPS on/off */
   const std::string & lvps_status_str = getCmdOption("-lvps");
   if (!lvps_status_str.empty()) {
@@ -181,7 +181,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->hvps_status = ZynqManager::OFF;   
     }
   }
-  
+
   return this->CmdLine;
 }
 

@@ -1,5 +1,0 @@
-set title "DM75xx Data"
-set xlabel "Sample"
-set ylabel "Value"
-set grid
-plot "test.dat" title ""

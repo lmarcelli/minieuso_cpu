@@ -11,6 +11,7 @@ ZYNQ_IP=192.168.7.10
 CPU_IP=192.168.7.2
 TEST_IP=8.8.8.8
 
+echo "*******************"
 echo "Mini-EUSO CPU setup"
 echo "*******************"
 
@@ -109,15 +110,15 @@ echo "analog software is set up"
 # Set up the aDIO ports on CPU
 echo "Setting up the aDIO port software..."
 echo "rtd_aDIO" >> /etc/modules
-make -C $HOME_DIR/aDIO_cpu/driver
-(cd $HOME_DIR/aDIO_cpu/driver && make load)
-cp $HOME_DIR/aDIO_cpu/driver/rtd-aDIO.ko /lib/modules/$(uname -r)/kernel/rtd/
-(cd $HOME_DIR/aDIO_cpu/driver && depmod -a)
+make -C $HOME_DIR/aDIO/driver
+(cd $HOME_DIR/aDIO/driver && make load)
+cp $HOME_DIR/aDIO/driver/rtd-aDIO.ko /lib/modules/$(uname -r)/kernel/rtd/
+(cd $HOME_DIR/aDIO/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
-make -C $HOME_DIR/aDIO_cpu/lib
-mkdir $HOME_DIR/aDIO_cpu/bin
-make -C $HOME_DIR/aDIO_cpu/src
+make -C $HOME_DIR/aDIO/lib
+mkdir $HOME_DIR/aDIO/bin
+make -C $HOME_DIR/aDIO/src
 echo "aDIO software is set up"
 
 # Set the local time to UTC

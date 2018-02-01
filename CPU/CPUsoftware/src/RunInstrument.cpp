@@ -80,14 +80,36 @@ int RunInstrument::HvpsSwitch() {
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
 
-  std::cout << "-----------------------------" <<std::endl; 
+  /* run through main subsystems for easy debugging */
+  
+  std::cout << "-----------------------------" << std::endl; 
   std::cout << "Mini-EUSO software debug mode" << std::endl;
-  std::cout << "-----------------------------" <<std::endl; 
+  std::cout << "-----------------------------" << std::endl; 
+  std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
+  std::cout << std::endl;
+  if (!this->CmdLine->log_on) {
+    std::cout << "WARNING: this mode is best used with -log" <<std::endl;
+  }
+  std::cout << "running checks of all subsystems..." <<std::endl; 
+  std::cout << std::endl;
+  std::cout << "USB" << std::endl;
+  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << "USB storage devices connected" << std::endl;
+  std::cout << std::endl;
+  std::cout << "LVPS" << std::endl;
+  std::cout << "switching on/off all subsystems... ";  
+  this->Lvps.SwitchOn(LvpsManager::CAMERAS);
+  this->Lvps.SwitchOn(LvpsManager::HK);
+  this->Lvps.SwitchOn(LvpsManager::ZYNQ);
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  this->Lvps.SwitchOff(LvpsManager::HK);
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  std::cout << "done!" << std::endl;
+  std::cout << std::endl;
+  std::cout << "ANALOG" << std::endl;
+  std::cout << "" << std::endl;  
   
-  /* add any quick tests here */
   
-  /* print the USB devices connected */
-  this->Usb.LookupUsbStorage();
+ 
   
   /* make a test Zynq packet */
   //DataAcqManager::WriteFakeZynqPkt();

@@ -25,6 +25,10 @@ int AnalogManager::AnalogDataCollect() {
 
   /* Device initialisation */
   dm75xx_status = DM75xx_Board_Open(minor_number, &brd);
+  if (brd == NULL) {
+    clog << "error: " << logstream::error << "the analog board is not connected" << std::endl;
+    return 1;
+  }
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Open");
   dm75xx_status = DM75xx_Board_Init(brd);
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_Board_Init");

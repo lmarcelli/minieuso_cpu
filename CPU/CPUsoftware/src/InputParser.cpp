@@ -129,7 +129,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       }
     }
     else {
-      std::cout << "Error: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+      std::cout << "WARNING: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
     }
    
   }
@@ -175,7 +175,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     }
   }
   else {
-    std::cout << "no subsystem specified, using default: zynq" << std::endl;
+    std::cout << "WARNING: no subsystem specified, using default: zynq" << std::endl;
   }
 
   /* HVPS on/off */

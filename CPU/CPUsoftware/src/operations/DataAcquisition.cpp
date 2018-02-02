@@ -661,10 +661,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
   analog.join();
-
-  /* debug */
-  std::cout << "analog thread joined!" << std::endl;
-  
+ 
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->ThManager->Init();
@@ -674,10 +671,6 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
   
   /* wait for main data acquisition thread to join */
   collect_main_data.join();
-
-  /* debug */
-  std::cout << "data thread joined!" << std::endl;
-  
   
   /* only reached for instrument mode change */
   ZqManager->SetInstrumentMode(ZynqManager::MODE0);

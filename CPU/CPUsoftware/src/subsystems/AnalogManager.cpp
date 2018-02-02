@@ -253,18 +253,21 @@ int AnalogManager::ProcessAnalogData() {
 
 
 /* reset the mode switching */
-int AnalogManager::ResetSwitch() {
+int AnalogManager::Reset() {
 
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
     this->inst_mode_switch = false;
   } /* release mutex */
+
+  /* update measurement */
+  this->GetLightLevel();
   
   return 0;
 }
 
 /* notify the object of an instrument mode switch */
-int AnalogManager::NotifySwitch() {
+int AnalogManager::Notify() {
 
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   

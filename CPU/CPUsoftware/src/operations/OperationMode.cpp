@@ -18,7 +18,7 @@ void OperationMode::Notify() {
   this->_cv_switch.notify_all();
 
   /* also notify the analog acquisition */
-  this->Analog->NotifySwitch();
+  this->Analog->Notify();
 
 }
 
@@ -31,7 +31,7 @@ void OperationMode::Reset() {
   } /* release mutex */
 
   /* also reset the analog switch */
-  this->Analog->ResetSwitch();
+  this->Analog->Reset();
 
   
 }

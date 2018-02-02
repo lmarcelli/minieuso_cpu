@@ -56,8 +56,8 @@ public:
   int GetLightLevel();
 
   /* handle instrument mode switching */
-  int NotifySwitch();
-  int ResetSwitch();
+  int Notify();
+  int Reset();
   
 private:
   std::mutex m_light_level;

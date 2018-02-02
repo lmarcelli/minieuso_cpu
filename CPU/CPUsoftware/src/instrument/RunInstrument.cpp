@@ -444,9 +444,6 @@ int RunInstrument::Acquisition() {
   /* enable signal handling */
   signal(SIGINT, CpuTools::SignalHandler);  
   
-  /* launch data backup in background */
-  this->Usb.RunDataBackup();
-
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
@@ -565,6 +562,9 @@ int RunInstrument::Start() {
     std::cout << "no Zynq connection, exiting the program" << std::endl;
     return 1;
   }
+
+  /* launch data backup in background */
+  this->Usb.RunDataBackup();
   
   /* launch background process to monitor the light level */
   this->MonitorLightLevel();

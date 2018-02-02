@@ -455,7 +455,7 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
 
-  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  std::unique_lock<std::mutex> lock(this->_m_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),

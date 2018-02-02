@@ -122,7 +122,7 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
       therm_packet->therm_data[i] = temperature_result->val[i];
     }
   }
-  delete temperature_results;
+  delete temperature_result;
   
   /* write the therm packet */
   this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet, SynchronisedFile::CONSTANT);
@@ -141,7 +141,7 @@ int ThermManager::ProcessThermData() {
   while(1) {
     
     /* collect data */
-    TemperatureAcq * temperature_results = GetTemperature();
+    TemperatureAcq * temperature_result = GetTemperature();
 
     
     /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
@@ -150,8 +150,8 @@ int ThermManager::ProcessThermData() {
     
     
     /* write to file */
-    if (temperature_results != NULL) {
-      WriteThermPkt(temperature_results);
+    if (temperature_result != NULL) {
+      WriteThermPkt(temperature_result);
     }
     
     /* sleep */

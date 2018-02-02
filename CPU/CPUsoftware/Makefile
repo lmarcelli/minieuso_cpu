@@ -17,10 +17,10 @@ DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools
 platform=$(shell uname -s)
 ifeq ($(platform), Darwin)
-CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES)
+CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES)
 LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
 else
-CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG) 
+CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG) 
 LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 endif
 
@@ -29,6 +29,7 @@ CXX = g++
 
 ifeq ($(SRCEXT), cpp)
 CC       = $(CXX)
+CFLAGS  += -std=c++11
 else
 CFLAGS  += -std=gnu99
 endif

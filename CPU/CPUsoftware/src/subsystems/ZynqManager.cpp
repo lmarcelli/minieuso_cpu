@@ -7,7 +7,7 @@ ZynqManager::ZynqManager () {
   this->instrument_mode = ZynqManager::MODE0;
   this->test_mode = ZynqManager::T_MODE0;
   this->telnet_connected = false;
-};
+}
 
 /* check telnet connection on a certain IP address */
 /* closes the telnet connection after */

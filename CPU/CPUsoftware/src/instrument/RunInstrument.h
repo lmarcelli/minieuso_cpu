@@ -4,7 +4,7 @@
 #include "LvpsManager.h"
 #include "UsbManager.h"
 #include "CamManager.h"
-#include "DataAcqManager.h"
+#include "DataAcquisition.h"
 #include "DataReduction.h"
 
 /* number of seconds CPU waits for other systems to boot */
@@ -44,7 +44,7 @@ public:
   LvpsManager Lvps;
   UsbManager Usb;
   CamManager Cam;
-  DataAcqManager Daq;
+  DataAcquisition Daq;
   DataReduction Data;
   
   RunInstrument(CmdLineInputs * CmdLine);

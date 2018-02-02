@@ -1,18 +1,17 @@
-#include "DataAcqManager.h"
+#include "DataAcquisition.h"
 
 /* default constructor */
-DataAcqManager::DataAcqManager() { 
+DataAcquisition::DataAcquisition() { 
   /* filename initialisation */
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";    
   this->cpu_hv_file_name = "";
   
   this->usb_num_storage_dev = 0;
-  this->inst_mode_switch = false;
 }
   
 /* create cpu run file name */
-std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOut) {
+std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigOut) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -53,7 +52,7 @@ std::string DataAcqManager::CreateCpuRunName(RunType run_type, Config * ConfigOu
 }
 
 /* build the cpu file header */
-uint32_t DataAcqManager::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -62,7 +61,7 @@ uint32_t DataAcqManager::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu packet header */
-uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcquisition::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
@@ -71,7 +70,7 @@ uint32_t DataAcqManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 }
 
 /* build the cpu timestamp */
-uint32_t DataAcqManager::BuildCpuTimeStamp() {
+uint32_t DataAcquisition::BuildCpuTimeStamp() {
 
   uint32_t timestamp = time(NULL);
 
@@ -79,7 +78,7 @@ uint32_t DataAcqManager::BuildCpuTimeStamp() {
 }
 
 /* make a cpu data file for a new run */
-int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
+int DataAcquisition::CreateCpuRun(RunType run_type, Config * ConfigOut) {
 
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   
@@ -123,7 +122,7 @@ int DataAcqManager::CreateCpuRun(RunType run_type, Config * ConfigOut) {
 }
 
 /* close the CPU file run and append CRC */
-int DataAcqManager::CloseCpuRun(RunType run_type) {
+int DataAcquisition::CloseCpuRun(RunType run_type) {
 
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
   
@@ -144,7 +143,7 @@ int DataAcqManager::CloseCpuRun(RunType run_type) {
 
 
 /* read out an scurve file into an scurve packet */
-SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
   SC_PACKET * sc_packet = new SC_PACKET();
@@ -189,7 +188,7 @@ SC_PACKET * DataAcqManager::ScPktReadOut(std::string sc_file_name, Config * Conf
 
 
 /* read out a hv file into an hv packet */
-HV_PACKET * DataAcqManager::HvPktReadOut(std::string hv_file_name) {
+HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
 
   FILE * ptr_hvfile;
   HV_PACKET * hv_packet = new HV_PACKET();
@@ -230,7 +229,7 @@ HV_PACKET * DataAcqManager::HvPktReadOut(std::string hv_file_name) {
 
 
 /* read out a zynq data file into a zynq packet */
-ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
+ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
 
   FILE * ptr_zfile;
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
@@ -311,7 +310,7 @@ ZYNQ_PACKET * DataAcqManager::ZynqPktReadOut(std::string zynq_file_name, Config 
 }
 
 /* read out a hk packet */
-HK_PACKET * DataAcqManager::AnalogPktReadOut() {
+HK_PACKET * DataAcquisition::AnalogPktReadOut() {
 
   int i, j = 0;
   HK_PACKET * hk_packet = new HK_PACKET();
@@ -339,7 +338,7 @@ HK_PACKET * DataAcqManager::AnalogPktReadOut() {
 
 
 /* write the cpu packet to the cpu file */
-int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
+int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
 
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
@@ -354,9 +353,13 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
 
   /* add the zynq and hk packets */
-  cpu_packet->zynq_packet = *zynq_packet;
+  if (zynq_packet != NULL) {
+    cpu_packet->zynq_packet = * zynq_packet;
+  }
   delete zynq_packet;
-  cpu_packet->hk_packet = *hk_packet;
+  if (hk_packet != NULL) {
+    cpu_packet->hk_packet = * hk_packet;
+  }
   delete hk_packet;
 
   /* write the CPU packet */
@@ -389,7 +392,7 @@ int DataAcqManager::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet
 
 
 /* write the sc packet to the cpu file */
-int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
+int DataAcquisition::WriteScPkt(SC_PACKET * sc_packet) {
 
   static unsigned int pkt_counter = 0;
 
@@ -405,7 +408,7 @@ int DataAcqManager::WriteScPkt(SC_PACKET * sc_packet) {
 
 
 /* write the hv packet to the cpu file */
-int DataAcqManager::WriteHvPkt(HV_PACKET * hv_packet) {
+int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
 
   static unsigned int pkt_counter = 0;
 
@@ -421,7 +424,7 @@ int DataAcqManager::WriteHvPkt(HV_PACKET * hv_packet) {
 
 
 /* Look for new files in the data directory and process them */
-int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -456,11 +459,11 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
   std::string zynq_filename_stem = "frm_cc_";
   std::string zynq_filename_end = ".dat";
 
-  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  std::unique_lock<std::mutex> lock(this->_m_switch);
   /* enter loop while instrument mode switching not requested */
-  while(!this->cv_mode_switch.wait_for(lock,
+  while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
-				       [this] { return this->inst_mode_switch; })) { 
+				       [this] { return this->_switch; })) { 
     
     struct inotify_event * event;
     
@@ -626,10 +629,10 @@ int DataAcqManager::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdL
 }
 
 /* spawn thread to collect an S-curve */
-int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -637,10 +640,10 @@ int DataAcqManager::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLi
 }
 
 /* spawn threads to collect data */
-int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcqManager::ProcessIncomingData, this, ConfigOut, CmdLine);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */
@@ -658,7 +661,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
   analog.join();
-  
+ 
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->ThManager->Init();
@@ -668,7 +671,7 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   
   /* wait for main data acquisition thread to join */
   collect_main_data.join();
- 
+  
   /* only reached for instrument mode change */
   ZqManager->SetInstrumentMode(ZynqManager::MODE0);
   CloseCpuRun(CPU);
@@ -676,40 +679,10 @@ int DataAcqManager::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cmd
   return 0;
 }
 
-/* notify the object of an instrument mode switch */
-int DataAcqManager::NotifySwitch() {
-
-  {
-    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
-    this->inst_mode_switch = true;
-  } /* release mutex */
-  this->cv_mode_switch.notify_all();
-
-  /* also notify the analog system */
-  this->Analog->NotifySwitch();
-    
-  return 0;
-
-}
-
-/* reset the instrument mode switch */
-int DataAcqManager::ResetSwitch() {
-
-  {
-    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
-    this->inst_mode_switch = false;
-  } /* release mutex */
-
-  /* also reset the analog system */
-  this->Analog->ResetSwitch();
-    
-  return 0;
-
-}
 
 /* function to generate and write a fake Zynq packet */
 /* used for testing data format updates */
-int DataAcqManager::WriteFakeZynqPkt() {
+int DataAcquisition::WriteFakeZynqPkt() {
 
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
   Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
@@ -792,9 +765,9 @@ int DataAcqManager::WriteFakeZynqPkt() {
   return 0;
 } 
 
-/* function to read the output of DataAcqManager::WriteFakeZynqPkt */
+/* function to read the output of DataAcquisition::WriteFakeZynqPkt */
 /* used for testing the new data format */
-int DataAcqManager::ReadFakeZynqPkt() {
+int DataAcquisition::ReadFakeZynqPkt() {
 
   FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET;

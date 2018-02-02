@@ -4,7 +4,12 @@
 AnalogManager::AnalogManager() {
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
-
+  int i = 0, j = 0;
+  for (i = 0; i < FIFO_DEPTH; i++) {
+    for (j = 0; j < CHANNELS; j++) {
+      this->analog_acq->val[i][j] = 0;
+    }
+  }
   this->inst_mode_switch = false;
 }
 
@@ -95,17 +100,16 @@ int AnalogManager::AnalogDataCollect() {
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
   
   /* Read out data from the FIFO */
-  do {
-    
+  do {	
     /* Reading the FIFO */
     for (i = 0; i < FIFO_DEPTH; i++) {
       for (j = 0; j < CHANNELS; j++) {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
-	this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
 
-	/* Check the FIFO status each time */
+	this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+        /* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_FIFO_Get_Status");
       }
@@ -134,7 +138,6 @@ int AnalogManager::GetLightLevel() {
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
   float sum_sipm1 = 0;
-  auto current_light_level = std::make_shared<LightLevel>();
  
   /* read out the data */
   AnalogDataCollect();
@@ -216,7 +219,8 @@ bool AnalogManager::CompareLightLevel() {
     }
   } /* release mutex */
   ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
-  
+
+  std::cout << "photodiode average = " << ph_avg << std::endl;
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
      
   /* compare the result to threshold */
@@ -249,18 +253,21 @@ int AnalogManager::ProcessAnalogData() {
 
 
 /* reset the mode switching */
-int AnalogManager::ResetSwitch() {
+int AnalogManager::Reset() {
 
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
     this->inst_mode_switch = false;
   } /* release mutex */
+
+  /* update measurement */
+  this->GetLightLevel();
   
   return 0;
 }
 
 /* notify the object of an instrument mode switch */
-int AnalogManager::NotifySwitch() {
+int AnalogManager::Notify() {
 
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   

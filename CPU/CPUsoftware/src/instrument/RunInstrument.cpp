@@ -405,7 +405,7 @@ int RunInstrument::PollLightLevel() {
       sleep(LIGHT_POLL_TIME);
       if (this->Daq.Analog->CompareLightLevel()) {
 	/* switch mode to DAY */
-	this->Daq.NotifySwitch();
+	this->Daq.Notify();
 	this->SetInstMode(DAY);
       }
       break;
@@ -415,7 +415,7 @@ int RunInstrument::PollLightLevel() {
       sleep(LIGHT_POLL_TIME);
       if (!this->Data.Analog->CompareLightLevel()) {
 	/* switch mode to NIGHT */
-	this->Data.NotifySwitch();
+	this->Data.Notify();
 	this->SetInstMode(NIGHT);
       }
       break;
@@ -444,9 +444,6 @@ int RunInstrument::Acquisition() {
   /* enable signal handling */
   signal(SIGINT, CpuTools::SignalHandler);  
   
-  /* launch data backup in background */
-  this->Usb.RunDataBackup();
-
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
@@ -490,7 +487,7 @@ int RunInstrument::NightOperations() {
   std::cout << "entering NIGHT mode..." << std::endl;
 
   /* reset mode switching */
-  this->Daq.ResetSwitch();
+  this->Daq.Reset();
     
   /* set the HV as required */
   if (this->CmdLine->hvps_on) {
@@ -527,7 +524,7 @@ int RunInstrument::DayOperations() {
   std::cout << "entering DAY mode..." << std::endl;
 
   /* reset mode switching */
-  this->Data.ResetSwitch();
+  this->Data.Reset();
   
   /* data reduction runs until signal to switch mode */
   this->Data.Start();
@@ -565,6 +562,9 @@ int RunInstrument::Start() {
     std::cout << "no Zynq connection, exiting the program" << std::endl;
     return 1;
   }
+
+  /* launch data backup in background */
+  this->Usb.RunDataBackup();
   
   /* launch background process to monitor the light level */
   this->MonitorLightLevel();

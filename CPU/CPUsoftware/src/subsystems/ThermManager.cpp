@@ -42,9 +42,17 @@ TemperatureAcq * ThermManager::GetTemperature() {
   /* run the digitemp command */
   std::string output = CpuTools::CommandToStr(cmd);
   
-  /* parse the output */
-  TemperatureAcq * temperature_result = ParseDigitempOutput(output);
-    
+  TemperatureAcq * temperature_result;
+  size_t found = output.find("Error 10:");
+  if (found != std::string::npos) {
+    clog << "error: " << logstream::error << "cannot connect to temprature sensors" << std::endl;
+    temperature_result = NULL;
+  }
+  else {
+    /* parse the output */
+    temperature_result = ParseDigitempOutput(output);
+  }
+  
   return temperature_result;
 }
 
@@ -57,9 +65,15 @@ void ThermManager::PrintTemperature() {
   /* run the digitemp command */
   std::string output = CpuTools::CommandToStr(cmd);
   
-  /* print the output */
-  std::cout << output << std::endl;
-  
+ size_t found = output.find("Error 10:");
+ if (found != std::string::npos) {
+   clog << "error: " << logstream::error << "cannot connect to temprature sensors" << std::endl;
+ }
+ else {
+   /* print the output */
+   std::cout << output << std::endl;
+ }
+ 
 }
 
 
@@ -68,7 +82,7 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
 
   std::regex num_with_two_dp("([0-9]+\\.[0-9]{2})");
   std::smatch match;
-  TemperatureAcq * temperature_results = new TemperatureAcq();
+  TemperatureAcq * temperature_result = new TemperatureAcq();
 
   /* search for numbers with 2 decimal places */ 
   std::string::const_iterator searchStart(input_string.cbegin());
@@ -78,9 +92,7 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
 
     /* fill the results for even values only (ignore Fahrenheit results) */
     if (i % 2 == 0) {
-      temperature_results->val[j] = std::stof(match[0]);
-      //std::cout << std::stof(match[0]) << std::endl;
-      /* ADD: throw exception if no readout/sensors not connected */
+      temperature_result->val[j] = std::stof(match[0]);
       j++;
     }
     
@@ -88,11 +100,11 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
     searchStart += match.position() + match.length();
   }
     
-  return temperature_results;
+  return temperature_result;
 }
 
 /* write the temperature packet to file */
-int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
+int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
 
   THERM_PACKET * therm_packet = new THERM_PACKET();
   static unsigned int pkt_counter = 0;
@@ -104,11 +116,13 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_results) {
   therm_packet->therm_packet_header.pkt_num = pkt_counter; 
   therm_packet->therm_time.cpu_time_stamp = BuildCpuTimeStamp();
 
-  /* get the temperature data */
-  for (int i = 0; i < N_CHANNELS_THERM; i++) {
-    therm_packet->therm_data[i] = temperature_results->val[i];
+  if (temperature_result != NULL) {
+    /* get the temperature data */
+    for (int i = 0; i < N_CHANNELS_THERM; i++) {
+      therm_packet->therm_data[i] = temperature_result->val[i];
+    }
   }
-  delete temperature_results;
+  delete temperature_result;
   
   /* write the therm packet */
   this->RunAccess->WriteToSynchFile<THERM_PACKET *>(therm_packet, SynchronisedFile::CONSTANT);
@@ -127,7 +141,7 @@ int ThermManager::ProcessThermData() {
   while(1) {
     
     /* collect data */
-    TemperatureAcq * temperature_results = GetTemperature();
+    TemperatureAcq * temperature_result = GetTemperature();
 
     
     /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
@@ -136,8 +150,8 @@ int ThermManager::ProcessThermData() {
     
     
     /* write to file */
-    if (temperature_results != NULL) {
-      WriteThermPkt(temperature_results);
+    if (temperature_result != NULL) {
+      WriteThermPkt(temperature_result);
     }
     
     /* sleep */

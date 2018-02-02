@@ -42,15 +42,15 @@ TemperatureAcq * ThermManager::GetTemperature() {
   /* run the digitemp command */
   std::string output = CpuTools::CommandToStr(cmd);
   
-    
+  TemperatureAcq * temperature_result;
   size_t found = output.find("Error 10:");
   if (found != std::string::npos) {
     clog << "error: " << logstream::error << "cannot connect to temprature sensors" << std::endl;
-    TemperatureAcq * temperature_result = NULL;
+    temperature_result = NULL;
   }
   else {
     /* parse the output */
-    TemperatureAcq * temperature_result = ParseDigitempOutput(output);
+    temperature_result = ParseDigitempOutput(output);
   }
   
   return temperature_result;

@@ -62,7 +62,7 @@ public:
 private:
   std::mutex m_light_level;
   std::shared_ptr<LightLevel> light_level;
-  std::shared_ptr<AnalogAcq> analog_acq;
+  std::unique_ptr<AnalogAcq> analog_acq;
 
   bool inst_mode_switch;
   std::mutex m_mode_switch;

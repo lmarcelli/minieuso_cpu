@@ -37,7 +37,6 @@ public:
 
   /* subsystems controlled */
   ThermManager * ThManager = new ThermManager();
-  AnalogManager * Analog = new AnalogManager();
   
   enum RunType : uint8_t {
     CPU = 0,

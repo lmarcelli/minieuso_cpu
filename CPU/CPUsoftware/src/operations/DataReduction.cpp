@@ -29,9 +29,6 @@ int DataReduction::RunDataReduction() {
 
   {
     std::unique_lock<std::mutex> lock(this->_m_switch);
-    if(!this->_switch) {
-      std::cout << "_switch is false, as expected" << std::endl;
-    }
   }
   
   std::unique_lock<std::mutex> lock(this->_m_switch); 

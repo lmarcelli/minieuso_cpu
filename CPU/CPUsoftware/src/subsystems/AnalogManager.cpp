@@ -3,7 +3,7 @@
 /* default constructor */
 AnalogManager::AnalogManager() {
   this->light_level = std::make_shared<LightLevel>();
-  this->analog_acq = std::make_shared<AnalogAcq>());
+  this->analog_acq = std::make_shared<AnalogAcq>();
 
   this->inst_mode_switch = false;
 }

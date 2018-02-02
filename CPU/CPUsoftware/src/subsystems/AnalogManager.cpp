@@ -216,7 +216,8 @@ bool AnalogManager::CompareLightLevel() {
     }
   } /* release mutex */
   ph_avg = ph_avg/(float)N_CHANNELS_PHOTODIODE;
-  
+
+  std::cout << "photodiode average = " << ph_avg << std::endl;
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
      
   /* compare the result to threshold */

@@ -8,6 +8,7 @@ OBJDIR   = obj
 BINDIR   = bin
 
 # paths
+DIR     := ${CURDIR}
 SRCS    := $(shell find $(SRCDIR) -name '*.$(SRCEXT)')
 SRCDIRS := $(shell find . -name '*.$(SRCEXT)' -exec dirname {} \; | uniq)
 OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
@@ -44,6 +45,8 @@ $(BINDIR)/$(APP): buildrepo $(OBJS)
 	@mkdir -p `dirname $@`
 	@echo "Linking $@..."
 	@$(CC) $(OBJS) $(LDFLAGS) -o $@
+	ln -sf $(DIR)/$(BINDIR)/$(APP) /usr/local/bin/$(APP)
+
 
 # objects
 $(OBJDIR)/%.o: %.$(SRCEXT)

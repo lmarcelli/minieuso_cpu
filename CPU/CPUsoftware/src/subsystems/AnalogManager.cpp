@@ -104,7 +104,8 @@ int AnalogManager::AnalogDataCollect() {
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
         if (this->analog_acq) {
-	  this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+	  //this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
+	  std::cout << ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10) << std::endl;
 	}
 	else {
 	  std::cout << "analog acq is Null" << std::endl;

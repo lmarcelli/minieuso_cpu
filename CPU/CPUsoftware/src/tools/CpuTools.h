@@ -10,6 +10,7 @@
 #include <string>
 #include <array>
 #include <dirent.h>
+#include <unistd.h>
 
 #include "ZynqManager.h"
 

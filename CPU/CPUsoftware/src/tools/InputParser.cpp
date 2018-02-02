@@ -73,6 +73,35 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-lvps")){
     this->CmdLine->lvps_on = true;  
+
+    /* LVPS on/off */
+    const std::string & lvps_status_str = getCmdOption("-lvps");
+    if (!lvps_status_str.empty()) {
+      if (lvps_status_str == "on") {
+	this->CmdLine->lvps_status = LvpsManager::ON;
+      }
+      else if (lvps_status_str == "off") {
+	this->CmdLine->lvps_status = LvpsManager::OFF;   
+      }
+    }
+    
+    /* LVPS subsystem */    
+    const std::string & subsystem_str = getCmdOption("-subsystem");
+    if (!subsystem_str.empty()) {
+      if (subsystem_str == "zynq") {
+	this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
+      }
+      else if (subsystem_str == "cam") {
+	this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
+      }
+      else if (subsystem_str == "hk") {
+	this->CmdLine->lvps_subsystem = LvpsManager::HK;
+      }
+    }
+    else {
+      std::cout << "WARNING: no subsystem specified, using default: zynq" << std::endl;
+    }
+    
   }
   if(cmdOptionExists("-scurve")){
     this->CmdLine->sc_on = true;
@@ -150,34 +179,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->hvdac = std::stoi(hv_dac);
   }  
    
-  /* LVPS on/off */
-  const std::string & lvps_status_str = getCmdOption("-lvps");
-  if (!lvps_status_str.empty()) {
-    if (lvps_status_str == "on") {
-      this->CmdLine->lvps_status = LvpsManager::ON;
-    }
-    else if (lvps_status_str == "off") {
-      this->CmdLine->lvps_status = LvpsManager::OFF;   
-    }
-  }
-  
-  /* LVPS subsystem */    
-  const std::string & subsystem_str = getCmdOption("-subsystem");
-  if (!subsystem_str.empty()) {
-    if (subsystem_str == "zynq") {
-      this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-    }
-    else if (subsystem_str == "cam") {
-      this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-    }
-    else if (subsystem_str == "hk") {
-      this->CmdLine->lvps_subsystem = LvpsManager::HK;
-    }
-  }
-  else {
-    std::cout << "WARNING: no subsystem specified, using default: zynq" << std::endl;
-  }
-
   /* HVPS on/off */
   const std::string & hv_status_str = getCmdOption("-hv");
   if (!hv_status_str.empty()) {

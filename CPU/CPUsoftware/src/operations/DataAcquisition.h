@@ -1,11 +1,12 @@
-#ifndef _DATA_ACQ_H
-#define _DATA_ACQ_H
+#ifndef _DATA_ACQUISITION_H
+#define _DATA_ACQUISITION_H
 
 #ifndef __APPLE__
 #include <sys/inotify.h>
 #endif /* __APPLE__ */
 #include <thread>
 
+#include "OperationMode.h"
 #include "ThermManager.h"
 #include "AnalogManager.h"
 #include "pdmdata.h"
@@ -20,10 +21,10 @@
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 
-
-/* class for controlling the main Zynq-driven acquisition */
+/* NIGHT operational mode: data acquisition */
+/* class for controlling the main acquisition */
 /* (the Zynq board, the thermistors and the Analog board) */
-class DataAcqManager {   
+class DataAcquisition : public OperationMode {   
 public:  
   std::string cpu_main_file_name;
   std::string cpu_sc_file_name;
@@ -36,7 +37,6 @@ public:
 
   /* subsystems controlled */
   ThermManager * ThManager = new ThermManager();
-  AnalogManager * Analog = new AnalogManager();
   
   enum RunType : uint8_t {
     CPU = 0,
@@ -44,24 +44,15 @@ public:
     HV = 2,
   };
 
-  DataAcqManager();
+  DataAcquisition();
   int CreateCpuRun(RunType run_type, Config * ConfigOut);
   int CloseCpuRun(RunType run_type);
   int CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
-
-  /* handle instrument mode switching */
-  int NotifySwitch();
-  int ResetSwitch();
   
 private:  
-  /* handle mode switching signal from RunInstrument::MonitorLightLevel */
-  bool inst_mode_switch;
-  std::condition_variable cv_mode_switch;
-  std::mutex m_mode_switch;
-
   std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
@@ -78,4 +69,4 @@ private:
 };
 
 #endif
-/* _DATA_ACQ_H */
+/* _DATA_ACQUISITION_H */

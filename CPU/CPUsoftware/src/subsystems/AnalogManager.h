@@ -22,7 +22,7 @@
 
 /* light threshold for photodiodes */
 /* used to determine instrument mode via CompareLightLevel */
-#define LIGHT_THRESHOLD 100
+#define LIGHT_THRESHOLD 0
 
 /* number of seconds between light level polling */
 #define LIGHT_POLL_TIME 2
@@ -56,8 +56,8 @@ public:
   int GetLightLevel();
 
   /* handle instrument mode switching */
-  int NotifySwitch();
-  int ResetSwitch();
+  int Notify();
+  int Reset();
   
 private:
   std::mutex m_light_level;

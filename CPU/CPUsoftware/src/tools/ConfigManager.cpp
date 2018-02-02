@@ -5,13 +5,13 @@ ConfigManager::ConfigManager () {
   this->config_file_local = CONFIG_FILE_LOCAL;
   this->config_file = CONFIG_FILE_USB;
     
-};
+}
 
 /* constructor */
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->config_file_local = cfl;
   this->config_file = cf;
-};
+}
 
 /* copy a file */
 bool ConfigManager::CopyFile(const char * SRC, const char * DEST) { 

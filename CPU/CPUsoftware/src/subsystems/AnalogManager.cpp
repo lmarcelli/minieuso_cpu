@@ -100,12 +100,7 @@ int AnalogManager::AnalogDataCollect() {
   DM75xx_Exit_On_Error(brd, dm75xx_status, (char *)"DM75xx_PCLK_Stop");
   
   /* Read out data from the FIFO */
-  do {
-    
-    /* debug */
-    std::cout << "this->analog_acq.use_count(): " << this->analog_acq.use_count() << std::endl;
-    std::cout << "this->analog_acq.unique(): " << this->analog_acq.unique() << std::endl;
-	
+  do {	
     /* Reading the FIFO */
     for (i = 0; i < FIFO_DEPTH; i++) {
       for (j = 0; j < CHANNELS; j++) {

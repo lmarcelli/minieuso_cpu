@@ -354,11 +354,11 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
 
   /* add the zynq and hk packets */
   if (zynq_packet != NULL) {
-    cpu_packet->zynq_packet = *zynq_packet;
+    cpu_packet->zynq_packet = * zynq_packet;
   }
   delete zynq_packet;
   if (hk_packet != NULL) {
-    cpu_packet->hk_packet = *hk_packet;
+    cpu_packet->hk_packet = * hk_packet;
   }
   delete hk_packet;
 

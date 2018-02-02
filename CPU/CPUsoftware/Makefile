@@ -1,17 +1,20 @@
+# define application
 APP      = mecontrol
 
+# definitions
 SRCEXT   = cpp
 SRCDIR   = src
 OBJDIR   = obj
 BINDIR   = bin
 
+# paths
 SRCS    := $(shell find $(SRCDIR) -name '*.$(SRCEXT)')
 SRCDIRS := $(shell find . -name '*.$(SRCEXT)' -exec dirname {} \; | uniq)
 OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
 
+# flags
 DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools
-
 platform=$(shell uname -s)
 ifeq ($(platform), Darwin)
 CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES)
@@ -21,6 +24,7 @@ CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 endif
 
+# compiler
 CXX = g++
 
 ifeq ($(SRCEXT), cpp)
@@ -34,11 +38,13 @@ endif
 
 all: $(BINDIR)/$(APP)
 
+# target
 $(BINDIR)/$(APP): buildrepo $(OBJS)
 	@mkdir -p `dirname $@`
 	@echo "Linking $@..."
 	@$(CC) $(OBJS) $(LDFLAGS) -o $@
 
+# objects
 $(OBJDIR)/%.o: %.$(SRCEXT)
 	@echo "Generating dependencies for $<..."
 	@$(call make-depend,$<,$@,$(subst .o,.d,$@))
@@ -62,7 +68,7 @@ define make-repo
 endef
 
 
-# usage: $(call make-depend,source-file,object-file,depend-file)
+# usage: $(call make-depend, source-file, object-file, depend-file)
 define make-depend
   $(CC) -MM       \
         -MF $3    \

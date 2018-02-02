@@ -4,7 +4,12 @@
 AnalogManager::AnalogManager() {
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
-
+  int i = 0, j = 0;
+  for (i = 0; i < FIFO_DEPTH; i++) {
+    for (j = 0; j < CHANNELS; j++) {
+      this->analog_acq->val[i][j] = 0;
+    }
+  }
   this->inst_mode_switch = false;
 }
 

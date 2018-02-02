@@ -103,6 +103,9 @@ int AnalogManager::AnalogDataCollect() {
 	dm75xx_status = DM75xx_ADC_FIFO_Read(brd, &data);
 	DM75xx_Exit_On_Error(brd, dm75xx_status,
 			     (char *)"DM75xx_ADC_FIFO_Read");
+
+	std::cout << "this->analog_acq.use_count()" << this->analog_acq.use_count() << std::endl;
+	std::cout << "this->analog_acq.unique()" << this->analog_acq.unique() std::endl;
 	this->analog_acq->val[i][j] = ((DM75xx_ADC_ANALOG_DATA(data) / 4096.) * 10);
         /* Check the FIFO status each time */
 	dm75xx_status = DM75xx_FIFO_Get_Status(brd, &data);

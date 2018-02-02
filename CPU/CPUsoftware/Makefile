@@ -15,7 +15,7 @@ OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
 
 # flags
 DEBUG    = -g
-INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools
+INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools -I./src/data_format
 platform=$(shell uname -s)
 ifeq ($(platform), Darwin)
 CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES)

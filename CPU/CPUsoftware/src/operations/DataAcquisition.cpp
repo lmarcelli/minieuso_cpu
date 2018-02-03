@@ -638,16 +638,17 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
 	      return 0;
 	      
 	    } /* end no matching packets */
+
 	  } /* if a file */
 	} /* if event mode is CREATE */ 
       } /* if event->len */
+      
     } /* end of timeout */
   } /* end of while loop */
 
   /* stop watching the directory */
   inotify_rm_watch(fd, wd);
   close(fd);
-  return 0;
 #endif /* #ifndef __APPLE__ */
   return 0;
 }

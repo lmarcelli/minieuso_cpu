@@ -22,7 +22,7 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
 /* handle SIGINT */
 void RunInstrument::SignalHandler(int signum) {
 
-  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
+  std::cout << "interrupt signal (" << signum << ") received" << std::endl;  
 
   /* signal to main program */
   signal_shutdown.store(true);
@@ -472,11 +472,33 @@ int RunInstrument::PollLightLevel() {
       break;
     }
     
-  }
+  } /* end loop when stop signal sent */
+  
+  /* stop running threads */
+  clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
+  std::cout << "stopping joinable threads..." << std::endl;
+  
+  switch(GetInstMode()) {
+  case NIGHT:
+    
+    this->Daq.Notify();
+    break;
+    
+  case DAY:
 
-  /* reached only when stop signal sent */
-  std::cout << "exiting light monitoring thread..." << std::endl;
- 
+    this->Data.Notify();
+    break;
+    
+  case INST_UNDEF:
+    
+    clog << "info: " << logstream::info << "instrument mode undefined, no threads to stop" << std::endl;
+    std::cout << "instrument mode undefined, no threads to stop" << std::endl;
+    break;
+    
+  }
+  
+
+  std::cout << "exiting instrument monitoring thread..." << std::endl;
   return 0;
 }
 
@@ -573,29 +595,6 @@ int RunInstrument::DayOperations() {
 /* shut down upon SIGINT */
 int RunInstrument::Stop() {
 
-  /* stop running threads */
-  clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
-  std::cout << "stopping joinable threads..." << std::endl;
-  
-  switch(GetInstMode()) {
-  case NIGHT:
-
-    this->Daq.Notify();
-    break;
-    
-  case DAY:
-
-    this->Data.Notify();
-    break;
-    
-  case INST_UNDEF:
-    
-    clog << "info: " << logstream::info << "instrument mode undefined, no threads to stop" << std::endl;
-    std::cout << "instrument mode undefined, no threads to stop" << std::endl;
-    break;
-    
-  }
-  
   /* kill detached threads */
   clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
   std::cout << "stopping deatached threads..." << std::endl;

@@ -16,7 +16,11 @@ Table of Contents
     * [Functionality](#functionality)
     * [The data format](#the-data-format)
     * [Backwards compatibility](#backwards-compatilbilty)
-* [Hardware interfaces](#the-software)
+* [Hardware interfaces](#hardware-interfaces)
+    * [Ethernet](#etherney)
+    * [aDIO (LVPS)](#adio-lvps)
+    * [DM75xx (Photodiodes/SiPMs)](#dm75xx)
+    * [Thermistors](#thermistors)
     
 
 # Install
@@ -188,7 +192,7 @@ The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface t
 
 
 ## DM75xx ports (SiPM/photodiodes/thermistors)
-The DM75xx series board is used in addition to the main CPU board to handle the analog acquisition. An external 68 pin I/O connector (CN3) is used to interface to the analog signals, but only the utlised channels are shown here. For the full pinout, refer to the Mini-EUSO wiki page (http://jemeuso2.riken.jp/TAEUSO/wiki/index.php?Mini-EUSO).
+The DM75xx series board is used in addition to the main CPU board to handle the analog acquisition. An external 68 pin I/O connector (CN3) is used to interface to the analog signals, but only the utlised channels are shown here. 
 
 | Pin      | Analog channel | Function  | Pin      | Analog channel | Function  | 
 | -------- | -------------- | --------- | -------- | -------------- | --------- |
@@ -197,3 +201,6 @@ The DM75xx series board is used in addition to the main CPU board to handle the 
 | **11**   | 5              | SiPM 1    | **13**   | 6              | SiPM 64.1 |
 | **15**   | 7              | SiPM 64.2 | **17**   | 8              | SiPM 64.1 |
 | **9**    |                | AINSENSE  | **10**   |                | AGND      |
+
+## Thermistors
+The OneWire thermistors are connected to the CPU via a OneWire-RS232 adapter on the COM1/3 port. They are read out asynchronously and stored in the main CPU file in separate THERM_PACKETs.

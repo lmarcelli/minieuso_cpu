@@ -652,6 +652,52 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
   return 0;
 }
 
+/* read out the HV file */
+int DataAcquisition::GetHvInfo(Config * ConfigOut) {
+
+  std::string data_str(DATA_DIR);
+    
+  /* get the filename */
+  DIR * dir;
+  struct dirent * ent;
+  if ((dir = opendir (data_str.c_str())) != NULL) {
+
+    /* check all files within directory */
+    while ((ent = readdir (dir)) != NULL) {
+
+      std::string fname(ent->d_name);
+      if (fname.compare(0, 2, "hv") == 0) {
+	/* read out the HV file, if it exists */
+	std::string hv_file_name = data_str + "/" + fname;
+
+	
+	CreateCpuRun(HV, ConfigOut);
+	
+	/* generate hv packet to append to the file */
+	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
+	WriteHvPkt(hv_packet);
+	
+	CloseCpuRun(HV);
+	
+	/* delete upon completion */
+	std::remove(hv_file_name.c_str());
+  
+	/* print update */
+	clog << "info: " << logstream::info << "read out the HV file" << std::endl;
+	std::cout << "read out the HV file" << std::endl;
+	
+      }
+    }
+    closedir (dir);
+  }
+  else {
+    clog << "error: " << logstream::error << "cannot open the data directory" << std::endl;
+  }
+  
+  return 0;
+}
+
+
 /* spawn thread to collect an S-curve */
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
@@ -702,13 +748,11 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
   /* close the CPU file */
   CloseCpuRun(CPU);
 
-  /* read out HV file */
-  std::thread collect_hv_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
-
   /* stop Zynq acquisition */
   ZqManager->StopAcquisition();
-  collect_hv_data.join();
-  
+  /* read out HV file */
+  GetHvInfo(ConfigOut);
+
   return 0;
 }
 

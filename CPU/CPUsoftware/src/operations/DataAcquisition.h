@@ -65,6 +65,7 @@ private:
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteHvPkt(HV_PACKET * hv_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
+  int GetHvInfo(Config * ConfigOut);
   int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
   
 };

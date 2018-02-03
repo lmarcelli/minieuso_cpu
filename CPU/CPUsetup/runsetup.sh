@@ -49,26 +49,17 @@ mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
 echo "FTP server is set up"
 
-# Set up the test code and telnet scripts
-echo "Compiling the test code..."
-mkdir $HOME_DIR/test/bin > /dev/null 2>&1
-make -C $HOME_DIR/test/src > /dev/null 2>&1
-echo "The test code has been compiled"
+# Set up the telnet scripts
 chmod +x $HOME_DIR/zynq/telnet/*
 
 # Set up the EM software
-mkdir $HOME_DIR/CPUsoftware/log > /dev/null 2>&1
-mkdir $HOME_DIR/CPUsoftware/bin > /dev/null 2>&1
 make -C $HOME_DIR/CPU/CPUsoftware/lib > /dev/null 2>&1
-make -C $HOME_DIR/CPU/CPUsoftware/src > /dev/null 2>&1
+make -C $HOME_DIR/CPU/CPUsoftware > /dev/null 2>&1
 
 # Setup symlinks for commands
 echo "Creating symlinks"
 # correct digitemp command
 ln -s /usr/bin/digitemp_DS9097U /usr/local/bin/digitemp
-# mini-euso control executable
-ln -s $HOME_DIR/CPUsoftware/bin/mecontrol /usr/local/bin/mecontrol
-echo "Symlinks created"
 
 # Network configuration 
 echo "Setting up the network configuration..."
@@ -102,9 +93,6 @@ cp $HOME_DIR/analog/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
 (cd $HOME_DIR/analog/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
-make -C $HOME_DIR/analog/lib
-mkdir $HOME_DIR/analog/bin
-make -C $HOME_DIR/analog/src
 echo "analog software is set up"
  
 # Set up the aDIO ports on CPU
@@ -116,9 +104,6 @@ cp $HOME_DIR/aDIO/driver/rtd-aDIO.ko /lib/modules/$(uname -r)/kernel/rtd/
 (cd $HOME_DIR/aDIO/driver && depmod -a)
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
-make -C $HOME_DIR/aDIO/lib
-mkdir $HOME_DIR/aDIO/bin
-make -C $HOME_DIR/aDIO/src
 echo "aDIO software is set up"
 
 # Set the local time to UTC

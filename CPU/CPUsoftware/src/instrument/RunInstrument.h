@@ -49,11 +49,18 @@ public:
   
   RunInstrument(CmdLineInputs * CmdLine);
   int Start();
+  int Stop();
+  
   int SetInstMode(InstrumentMode mode_to_set);
   InstrumentMode GetInstMode();
-  //int Stop();
   
 private:
+  /* to handle stopping */
+  std::mutex _m_stop;
+  std::condition_variable _cv_stop;
+  bool _stop;
+
+  /* start-up procedure */
   int StartUp();
 
   /* execute-and-exit commands */
@@ -71,7 +78,9 @@ private:
   int Acquisition();
   int MonitorLightLevel();
   int PollLightLevel();
- 
+  int SetStop();
+  bool CheckStop();
+  
   /* define main operational procedures */
   int NightOperations();
   int DayOperations();

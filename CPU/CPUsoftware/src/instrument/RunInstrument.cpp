@@ -9,6 +9,12 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
     this->current_inst_mode = RunInstrument::INST_UNDEF;
   } /* relase mutex */
   this->current_acq_mode = RunInstrument::ACQ_UNDEF;
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    this->_stop = false;
+  } /* relase mutex */
+
 }
 
 /* switching of LVPS then exit */
@@ -384,20 +390,41 @@ int RunInstrument::LaunchCam() {
 int RunInstrument::MonitorLightLevel() {
 
   /* launch a thread to watch the photodiode measurements */
-  std::thread monitor_light (&RunInstrument::PollLightLevel, this);
+  std::thread light_monitor (&RunInstrument::PollLightLevel, this);
 
   /* detach */
-  monitor_light.detach();
+  light_monitor.detach();
   
   return 0;
 }
 
+
+/* set the stop signal in a thread-safe way */
+int RunInstrument::SetStop() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    this->_stop = true;
+  } /* release mutex */
+  
+  return 0;
+}
+/* check if stop signal sent in a thread-safe way */
+bool RunInstrument::CheckStop() {
+  bool stop_status;
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    stop_status = this->_stop;
+  } /* release mutex */
+
+  return stop_status;
+}
+
 int RunInstrument::PollLightLevel() {
 
-  bool undefined = false;
-  
   /* different procedure for day and night */
-  while (!undefined) {
+  while (!this->CheckStop()) {
     
     switch(GetInstMode()) {
     case NIGHT:
@@ -422,13 +449,14 @@ int RunInstrument::PollLightLevel() {
       
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode is undefined" << std::endl;
-      undefined = true;
       break;
     }
     
   }
 
-  /* reached only when instrument undefined */
+  /* reached only when stop signal sent */
+  std::cout << "exiting light monitoring thread..." << std::endl;
+ 
   return 0;
 }
 
@@ -504,15 +532,6 @@ int RunInstrument::NightOperations() {
     HvpsSwitch();
   }
   
-  /* turn off all subsystems */
-  this->CmdLine->lvps_status = LvpsManager::OFF;
-  this->CmdLine->lvps_subsystem = LvpsManager::HK;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-  LvpsSwitch();    
-
   return 0;
 }
 
@@ -529,6 +548,46 @@ int RunInstrument::DayOperations() {
   /* data reduction runs until signal to switch mode */
   this->Data.Start();
   
+  return 0;
+}
+
+/* shut down upon SIGINT */
+int RunInstrument::Stop() {
+
+  /* stop running threads */
+  clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
+  std::cout << "stopping joinable threads..." << std::endl;
+  
+  switch(GetInstMode()) {
+  case NIGHT:
+
+    this->Daq.Notify();
+    break;
+    
+  case DAY:
+
+    this->Data.Notify();
+    break;
+    
+  case INST_UNDEF:
+    
+    clog << "info: " << logstream::info << "instrument mode undefined, no threads to stop" << std::endl;
+    std::cout << "instrument mode undefined, no threads to stop" << std::endl;
+    break;
+    
+  }
+  
+  /* kill detached threads */
+  clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
+  std::cout << "stopping deatached threads..." << std::endl;
+  this->Cam.KillCamAcq();
+  this->Usb.KillDataBackup();
+
+  /* turn off all subsystems */
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  this->Lvps.SwitchOff(LvpsManager::HK);    
+
   return 0;
 }
 
@@ -569,9 +628,8 @@ int RunInstrument::Start() {
   /* launch background process to monitor the light level */
   this->MonitorLightLevel();
 
-  bool undefined = false;
   /* enter instrument mode */
-  while (!undefined) {
+  while (!this->CheckStop()) {
     switch(GetInstMode()) {
       
     
@@ -592,13 +650,17 @@ int RunInstrument::Start() {
       /*-----------*/
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode undefined, cannot start acquisition" << std::endl;
-      std::cout << "exiting the program" << std::endl;
       
       break;
     } /* end switch statement */
    
-  } /* end infinite loop */
-  
+  } /* end loop when stop signal sent */
+
+  /* program shutdown */
+  this->Stop();
+
+  std::cout << "exiting the program..." << std::endl;
+ 
   return 0;
 }
 

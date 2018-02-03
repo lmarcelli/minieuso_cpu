@@ -68,6 +68,7 @@ private:
   std::mutex m_mode_switch;
   std::condition_variable cv_mode_switch;
 
+  
   int AnalogDataCollect();
 };
 

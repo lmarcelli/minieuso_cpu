@@ -671,10 +671,19 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
   
   /* wait for main data acquisition thread to join */
   collect_main_data.join();
+
   
   /* only reached for instrument mode change */
-  ZqManager->SetInstrumentMode(ZynqManager::MODE0);
+
+  /* close the CPU file */
   CloseCpuRun(CPU);
+
+  /* read out HV file */
+  std::thread collect_hv_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
+
+  /* stop Zynq acquisition */
+  ZqManager->StopAcquisition();
+  collect_hv_data.join();
   
   return 0;
 }

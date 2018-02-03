@@ -55,18 +55,8 @@ void CpuTools::ClearFolder(const char * data_dir) {
 void CpuTools::SignalHandler(int signum) {
 
   std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
-  
-  /* stop the data acquisition */
-  ZynqManager::StopAcquisition();
-  std::cout << "Acquisition stopped" << std::endl;  
 
-  /* wait for the HV file to be read out */
-  std::cout << "Reading out the HV file..." << std::endl;  
-  sleep(2);
-  
-  /* turn off the HV */
-  //ZynqManager::HvpsTurnOff();
-  /* cannot do this as causes data scrambling in Zynq */
+  /* signal to main program */
   
   /* terminate the program */
   exit(signum);  

@@ -17,9 +17,9 @@ Table of Contents
     * [The data format](#the-data-format)
     * [Backwards compatibility](#backwards-compatilbilty)
 * [Hardware interfaces](#hardware-interfaces)
-    * [Ethernet](#etherney)
-    * [aDIO (LVPS)](#adio-lvps)
-    * [DM75xx (Photodiodes/SiPMs)](#dm75xx)
+    * [Ethernet Ports](#ethernet-ports)
+    * [aDIO (LVPS)](#adio-ports---LVPS)
+    * [DM75xx (Photodiodes/SiPMs)](#dm75xx-ports---SiPM/photodiodes)
     * [Thermistors](#thermistors)
     
 
@@ -176,7 +176,7 @@ The location of these two ports is shown in here:
 
 **NB: this is true for the CMX34GS model (original CPU), for the CMX34BTS model (new CPU) the ethernet ports are switched.**
 
-## aDIO ports (LVPS)
+## aDIO ports - LVPS
 The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface to the LVPS, in order to control the power to the instrument subsystems. The Port0 8-bit programmable port is used for handling these commands. The pinout of this connecter is:
 
 | Pin      | I/O Port | Function  | Pin      | I/O Port | Function   | 
@@ -191,7 +191,7 @@ The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface t
 | **15**   |          | DGND      | **16**   |          | +5 V       |
 
 
-## DM75xx ports (SiPM/photodiodes/thermistors)
+## DM75xx ports - SiPM/photodiodes
 The DM75xx series board is used in addition to the main CPU board to handle the analog acquisition. An external 68 pin I/O connector (CN3) is used to interface to the analog signals, but only the utlised channels are shown here. 
 
 | Pin      | Analog channel | Function  | Pin      | Analog channel | Function  | 

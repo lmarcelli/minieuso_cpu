@@ -68,49 +68,49 @@ To update the software following installation:
 
 2. Run ```git pull``` from the command line within the ```/home/software``` directory
 
+3. Run ```make``` inside ```/home/software/CPU/CPUsoftware```
+
+4. The executable ```mecontrol``` will now be available for use
+
 ## SSH connection
 Mini-EUSO has 2 ethernet ports, eth0 as a connection to the outside world and eth1 configured for a statuc connection to the Zynq board. eth0 can be used both for connection to the internet and over ssh. Simply check the IP adress of eth0 once connected to your machine and run the following command:
 ```
-ssh minieusouser@<ip_adress>
+ssh minieusouser@<ip_address>
 ```
 Once logged in, run ```su -l``` to run as superuser. 
 
 # The software
-The source code is inside the ```CPUsoftware/``` directory and divided into ```src/```,  ```lib/``` and ```include/```. To build the software run ```make``` inside ```CPUsoftware/src```. This will create the executable ```mecontrol``` in ```CPUsoftware/bin```.
+The source code is inside the ```CPU/CPUsoftware/``` directory and divided into ```src/```,  ```lib/``` and ```include/```. To build the software run ```make``` inside ```CPUsoftware/```. This will create and symlink the executable ```mecontrol```.
 
+## Usage
 To run the software in default mode (standard untriggered data gathering without high voltage) simply run:
 ```
 mecontrol
 ```
 
-The following command line options are available:
+For a full list of command line options run:
 ```
-mecontrol -db -log -hv -short -trig -cam -lvps -scurve
+mecontrol -help
 ```
 
-* db: runs in debug mode (test functionallity executed)
-* log: produces a log with all levels of output printed
-* hv: switches the high voltage on to normal operational level (1100 V)
-* short: produces a single run file then exits 
-* trig: runs with triggered data acquisition
-* cam: runs 2 min camera acquisition for every CPU_RUN_MAIN
-* lvps: allows power control of subsystems via the LVPS interface
-* scurve: takes an S-curve for every cpu file acquired
+To safely stop the software whilst it is running, use ```CTRL-C```. 
 
 ## Functionality
-* Full power control of the instrument subsystems via the LVPS (low voltage power supply), the HV (high voltage) to the PMTs is controlled by the Zynq board.
+* Full power control of the instrument subsystems via the LVPS (low voltage power supply) and the HV (high voltage)
 * Data acquisition: 
-  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data and information on timestamping and the HV status. Level 1 and Level 2 have 4 packets of data and level 3 has 1  packet.
+  * data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data (D1, D2 and D3) and information on timestamping and the HV status. 
+  * The number of packets for D1 and D2 data, N1 and N2, can be set in the configuration file
   * analog and housekeeping data are also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet
   * one CPU packet is appended to the current CPU run file every 5.24s
-  * data from the cameras is collected every 5.24 s with both cameras operating simultaneously
-* the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames of the form ```CPU_RUN_<run_type>__<current_date>__<current_time>.dat```
+  * data from the cameras is collected independently with both cameras operating simultaneously
+* if no USB storage is available, the output data from the CPU is in ```/home/minieusouser/DONE``` with filenames of the form ```CPU_RUN_<run_type>__<current_date>__<current_time>.dat```
   * S-curve files also have the configured dynode voltage appended to the filename, even if the HV is not switched on 
-  * the data format of these files is documented in ```CPUsoftware/include/data_format.h``` 
-  * log files are in ```/home/minieusouser/log/```, if log output is switched on with ```-log```
+  * the data format of these files is documented in ```CPUsoftware/src/data_format/data_format.h``` 
+  * log files are in ```CPUsoftware/log```, if log output is switched on with ```-log```
 * the output data from the cameras is in ```cameras/multiplecam/<NIR/VIS>/<current_date>```
   * .raw for the photos from the cameras
   * log files are in ```cameras/multiplecam/log/```
+* if USB storage is detected on the system, the output files will be automatically written there instead, and backed up if there is more than one device.
 
 ## The data format
 PDM data is acquired, triggered and time-stamped in the Zynq board. This data is then passed to the CPU. The CPU also acquires data from the other subsystems and packages this together with the PDM data during nominal night-time observations. Data is acquired every 5.24 s (128 x 128 x 128 x 1 GTU, 1 GTU = 2.5 us). The CPU generates 2 types of files, CPU_RUN_MAIN containing the standard data acquistion and CPU_RUN_SC for S-curve data. Both data file have a matryoshka structure that is summarised below.
@@ -119,8 +119,8 @@ PDM data is acquired, triggered and time-stamped in the Zynq board. This data is
 ![](CPU/images/cpu_format.png?raw=true)
 
 At present the Zynq data format is fixed so that each ZYNQ_PACKET contains:
-* 4 x 128 GTU packet of L1 data (1 byte/pixel)
-* 4 x 128 GTU_L2 packet of L2 data (2 bytes/pixel) 
+* N1 x 128 GTU packet of L1 data (1 byte/pixel)
+* N2 x 128 GTU_L2 packet of L2 data (2 bytes/pixel) 
 * 1 x 128 GTU_L3 packet of L3 data (4 bytes/pixel)
 The data format holds for both triggered and non-triggered readout.
 
@@ -137,15 +137,23 @@ A 32 bit CRC is calculated for each CPU_RUN file prior to adding the CpuFileTrai
 Stable ersions of the software used in previous integration tests of the Mini-EUSO instrument are stored in the following branches named after the integration date. The current stable version of the software is in the ```master``` branch. 
 
 1. ```aug_06_2017```: August integration in Tor Vergata, Rome
-2. ```oct_16_2017```: October integration in TorVergata, Rome
+2. ```oct_16_2017```: October integration in Tor Vergata, Rome
+3. ```dec_17_2017```: December integration in Tor Vergata, Rome
 
-Some key differences of the previous software current version:
+Some key differences of the previous software with the current version:
 * ```aug_06_2017```
   * The CPU generates only one run file, with the S-curve packet stored first, followed by RUN_SIZE CPU packets. 
   * S-curves are gathered from DAC 0 - 1000 (inclusive), with a step size of 1 and an accumulation of 1.
   * S-curve accumulation is not calculated, the frames are simply stored for post-processing
 * ```oct_16_2017```
-  * to be update once updates completed
+  * no LVPS control
+  * no variable N1 and N2
+* ```dec_16_2017```
+   * no automated instrument mode switching
+   * no LVPS status checking
+   * less robust checks on subsystems
+   * different class structure
+
 
 # Hardware interfaces
 The software is designed to cater to a specific hardware setup, with well defined ethernet interfaces and analog and digital I/O channels. These are desribed here.
@@ -163,16 +171,16 @@ NB: this is true for the CMX34GS model (original CPU), for the CMX34BTS model (n
 ## aDIO ports (LVPS)
 The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface to the LVPS, in order to control the power to the instrument subsystems. The Port0 8-bit programmable port is used for handling these commands. The pinout of this connecter is:
 
-| Pin      | I/O Port | Function | Pin      | I/O Port | Function | 
-| -------- | -------- | -------- | -------- | -------- | -------- |
-| **1**    | P0-0     | CAM ON   | **2**    | P0-1     | CAM OFF  |
-| **3**    | P0-2     | HK ON    | **4**    | P0-3     | HK OFF   |
-| **5**    | P0-4     | CCLVPS1  | **6**    | P0-5     | RETLVPS1 |
-| **7**    | P0-6     | CCLVPS2  | **8**    | P0-7     | RETLVPS2 |
-| **9**    |          | STROBE0  | **10**   |          | STROBE1  |
-| **11**   | P1-0     |          | **12**   | P1-1     |          |
-| **13**   | P1-2     |          | **14**   | P1-3     |          |
-| **15**   |          | DGND     | **16**   |          | +5 V     |
+| Pin      | I/O Port | Function  | Pin      | I/O Port | Function   | 
+| -------- | -------- | --------- | -------- | -------- | ---------- |
+| **1**    | P0-0     | HK ON     | **2**    | P0-1     | HK OFF     |
+| **3**    | P0-2     | ZYNQ ON   | **4**    | P0-3     | ZYNQ OFF   |
+| **5**    | P0-4     | CAM ON    | **6**    | P0-5     | CAM OFF    |
+| **7**    | P0-6     |           | **8**    | P0-7     |            |
+| **9**    |          | STROBE0   | **10**   |          | STROBE1    |
+| **11**   | P1-0     | HK CHECK  | **12**   | P1-1     | ZYNQ CHECK |
+| **13**   | P1-2     | CAM CHECK | **14**   | P1-3     |            |
+| **15**   |          | DGND      | **16**   |          | +5 V       |
 
 
 ## DM75xx ports (SiPM/photodiodes/thermistors)

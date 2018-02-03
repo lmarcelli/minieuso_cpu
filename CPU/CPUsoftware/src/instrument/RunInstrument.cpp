@@ -1,5 +1,6 @@
 #include "RunInstrument.h"
 
+std::atomic<bool> signal_shutdown{false};
 
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
@@ -18,8 +19,7 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
 
 }
 
-
-/* handle SIGINT */
+/* handle signal */
 void RunInstrument::SignalHandler(int signum) {
 
   std::cout << "interrupt signal (" << signum << ") received" << std::endl;  
@@ -418,7 +418,7 @@ int RunInstrument::MonitorInstrument() {
 
 /* set the stop signal in a thread-safe way */
 int RunInstrument::SetStop() {
-
+  
   {
     std::unique_lock<std::mutex> lock(this->_m_stop);
     this->_stop = true;
@@ -474,9 +474,8 @@ int RunInstrument::PollInstrument() {
     
   } /* end loop when stop signal sent */
 
-  /* signal to RunInstrument */
   SetStop();
- 
+  
   /* stop running threads */
   clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
   std::cout << "stopping joinable threads..." << std::endl;
@@ -681,6 +680,6 @@ void RunInstrument::Start() {
   Stop();
 
   std::cout << "exiting the program..." << std::endl;
-  exit(2);
+  return;
 }
 

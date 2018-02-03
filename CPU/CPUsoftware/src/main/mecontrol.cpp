@@ -9,6 +9,7 @@ capel.francesca@gmail.com
 --------------------------------*/
 #include "mecontrol.h"
 
+
 /* main program */
 /*--------------*/
 int main(int argc, char ** argv) {
@@ -25,6 +26,7 @@ int main(int argc, char ** argv) {
   /* run instrument according to specifications */
   RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
+
 
   std::cout << "leaving mecontrol" << std::endl;
   return 0; 

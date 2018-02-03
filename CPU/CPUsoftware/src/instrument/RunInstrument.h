@@ -19,7 +19,6 @@
 #define VERSION 4.6
 #define VERSION_DATE_STRING "01/02/2018"
 
-std::atomic<bool> signal_shutdown{false};
 
 /* class to handle different instrument operational modes */
 class RunInstrument {

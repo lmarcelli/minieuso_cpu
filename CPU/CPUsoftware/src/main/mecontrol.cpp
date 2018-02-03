@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
   RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
 
-  delete input;
+  std::cout << "leaving mecontrol" << std::endl;
   return 0; 
 }
 

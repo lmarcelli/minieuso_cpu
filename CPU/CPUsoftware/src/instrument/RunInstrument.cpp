@@ -497,7 +497,7 @@ int RunInstrument::PollInstrument() {
     
   }
   
-
+  clog << "info: " << logstream::info << "exiting instrument monitoring thread..." << std::endl;
   std::cout << "exiting instrument monitoring thread..." << std::endl;
   return 0;
 }
@@ -676,10 +676,11 @@ int RunInstrument::Start() {
 
   /* program shutdown */
   SetStop();
-  this->Stop();
+  Stop();
 
+  /* wait for monitoring thread to react */
+  sleep(2);
   std::cout << "exiting the program..." << std::endl;
- 
   return 0;
 }
 

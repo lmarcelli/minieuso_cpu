@@ -679,11 +679,11 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
   CloseCpuRun(CPU);
 
   /* read out HV file */
-  std::thread collect_hv_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
+  //std::thread collect_hv_data (&DataAcquisition::ProcessHvData, this, ConfigOut, CmdLine);
 
   /* stop Zynq acquisition */
   ZqManager->StopAcquisition();
-  collect_hv_data.join();
+  //collect_hv_data.join();
   
   return 0;
 }

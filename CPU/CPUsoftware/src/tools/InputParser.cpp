@@ -248,9 +248,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096), default in ../config/dummy.conf" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000), default in ../config/dummy.conf" << std::endl;
   std::cout << "Example use case: mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
-  std::cout << "Note: high voltage does not switch off automatically if the program is interrupted with CTRL-C!" << std::endl;
-  std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
-  std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
+  std::cout << "Note: high voltage should switch off automatically if the program is interrupted with CTRL-C" << std::endl;
   std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << "-scurve: take a single S-curve and exit" << std::endl;
@@ -264,6 +262,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "NOTES" << std::endl;
   std::cout << "Execute-and-exit flags such as -db, -hv on/off and -lvps on/off can only be used one at a time" << std::endl;
   std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
+  std::cout << "to safely stop the program's exectution use CTRL-C" << std::endl;
  
   return 0;
 }

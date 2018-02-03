@@ -683,6 +683,7 @@ int RunInstrument::Start() {
   /* wait for monitoring thread to react */
   sleep(2);
   std::cout << "exiting the program..." << std::endl;
+  exit(2);
   return 0;
 }
 

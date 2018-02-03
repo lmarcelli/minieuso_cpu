@@ -18,8 +18,8 @@ Table of Contents
     * [Backwards compatibility](#backwards-compatilbilty)
 * [Hardware interfaces](#hardware-interfaces)
     * [Ethernet ports](#ethernet-ports)
-    * [aDIO ports - LVPS](#adio-ports-lvps)
-    * [DM75xx ports - Photodiodes/SiPMs](#dm75xx-ports)
+    * [aDIO ports](#adio-ports)
+    * [DM75xx ports](#dm75xx-ports)
     * [Thermistors](#thermistors)
     
 

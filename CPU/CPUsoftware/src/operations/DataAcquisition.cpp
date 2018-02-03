@@ -471,7 +471,7 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
 				       [this] { return this->_switch; })) { 
 
     /* timeout if no activity after FTP_TIMEOUT reached */
-    while (time_left > 0 && first_loop) {
+    while (time_left > 0 || !first_loop ) {
       time_t end = time(0);
       time_t time_taken = end - start;
       time_left = FTP_TIMEOUT - time_taken;

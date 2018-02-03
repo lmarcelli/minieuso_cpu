@@ -27,10 +27,6 @@ void RunInstrument::SignalHandler(int signum) {
   /* signal to main program */
   signal_shutdown.store(true);
 
-  sleep(10);
-  
-  /* terminate the program */
-  exit(signum);  
 }
 
 

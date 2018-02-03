@@ -5,6 +5,7 @@ CpuTools::CpuTools() {
 
 }
 
+
 /* function to run command and pass stdout to a string */
 std::string CpuTools::CommandToStr(const char * cmd) {
   const int buf_size = 512;
@@ -38,6 +39,7 @@ std::string CpuTools::IntToFixedLenStr(const int input, const int length)
     return ostr.str();
 }
 
+
 /* function to clear a directory  */
 void CpuTools::ClearFolder(const char * data_dir) {
 
@@ -51,13 +53,3 @@ void CpuTools::ClearFolder(const char * data_dir) {
   closedir(theFolder);    
 }
 
-/* handle SIGINT */
-void CpuTools::SignalHandler(int signum) {
-
-  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
-
-  /* signal to main program */
-  
-  /* terminate the program */
-  exit(signum);  
-}

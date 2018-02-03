@@ -19,6 +19,19 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
 }
 
 
+/* handle SIGINT */
+void RunInstrument::SignalHandler(int signum) {
+
+  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
+
+  /* signal to main program */
+  signal_shutdown.store(true);
+  
+  /* terminate the program */
+  exit(signum);  
+}
+
+
 /* switching of LVPS then exit */
 int RunInstrument::LvpsSwitch() {
 
@@ -479,7 +492,7 @@ int RunInstrument::Acquisition() {
   CpuTools::ClearFolder(DATA_DIR);
   
   /* enable signal handling */
-  signal(SIGINT, CpuTools::SignalHandler);  
+  signal(SIGINT, SignalHandler);  
   
   /* add acquisition with cameras if required */
   this->LaunchCam();
@@ -640,7 +653,7 @@ int RunInstrument::Start() {
   this->MonitorLightLevel();
 
   /* enter instrument mode */
-  while (!this->CheckStop()) {
+  while (!signal_shutdown.load()) {
     switch(GetInstMode()) {
       
     
@@ -668,6 +681,7 @@ int RunInstrument::Start() {
   } /* end loop when stop signal sent */
 
   /* program shutdown */
+  SetStop();
   this->Stop();
 
   std::cout << "exiting the program..." << std::endl;

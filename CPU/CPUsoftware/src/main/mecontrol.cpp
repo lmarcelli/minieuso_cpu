@@ -9,6 +9,7 @@ capel.francesca@gmail.com
 --------------------------------*/
 #include "mecontrol.h"
 
+
 /* main program */
 /*--------------*/
 int main(int argc, char ** argv) {
@@ -26,7 +27,7 @@ int main(int argc, char ** argv) {
   RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
 
-  delete input;
+
   return 0; 
 }
 

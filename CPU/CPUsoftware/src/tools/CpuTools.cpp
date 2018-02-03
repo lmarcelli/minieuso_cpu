@@ -5,6 +5,7 @@ CpuTools::CpuTools() {
 
 }
 
+
 /* function to run command and pass stdout to a string */
 std::string CpuTools::CommandToStr(const char * cmd) {
   const int buf_size = 512;
@@ -38,6 +39,7 @@ std::string CpuTools::IntToFixedLenStr(const int input, const int length)
     return ostr.str();
 }
 
+
 /* function to clear a directory  */
 void CpuTools::ClearFolder(const char * data_dir) {
 
@@ -51,23 +53,3 @@ void CpuTools::ClearFolder(const char * data_dir) {
   closedir(theFolder);    
 }
 
-/* handle SIGINT */
-void CpuTools::SignalHandler(int signum) {
-
-  std::cout << "Interrupt signal (" << signum << ") received" << std::endl;  
-  
-  /* stop the data acquisition */
-  ZynqManager::StopAcquisition();
-  std::cout << "Acquisition stopped" << std::endl;  
-
-  /* wait for the HV file to be read out */
-  std::cout << "Reading out the HV file..." << std::endl;  
-  sleep(2);
-  
-  /* turn off the HV */
-  //ZynqManager::HvpsTurnOff();
-  /* cannot do this as causes data scrambling in Zynq */
-  
-  /* terminate the program */
-  exit(signum);  
-}

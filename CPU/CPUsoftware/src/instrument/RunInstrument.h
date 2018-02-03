@@ -48,30 +48,41 @@ public:
   DataReduction Data;
   
   RunInstrument(CmdLineInputs * CmdLine);
-  int Start();
+  void Start();
+  void Stop();
+  
   int SetInstMode(InstrumentMode mode_to_set);
   InstrumentMode GetInstMode();
-  //int Stop();
   
 private:
+  /* to handle stopping */
+  std::mutex _m_stop;
+  std::condition_variable _cv_stop;
+  bool _stop;
+
+  /* start-up procedure */
   int StartUp();
 
   /* execute-and-exit commands */
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
-
+  int CheckStatus();
+  
   /* initialisation */
   int InitInstMode();
   int CheckSystems();
   int SelectAcqOption();
 
   /* used in operations */
+  static void SignalHandler(int signum);
   int LaunchCam();
   int Acquisition();
-  int MonitorLightLevel();
-  int PollLightLevel();
- 
+  int MonitorInstrument();
+  int PollInstrument();
+  int SetStop();
+  bool CheckStop();
+  
   /* define main operational procedures */
   int NightOperations();
   int DayOperations();

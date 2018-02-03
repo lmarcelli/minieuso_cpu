@@ -507,7 +507,7 @@ int RunInstrument::PollInstrument() {
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
 
-  std::cout << "starting acqusition run..." <<std::endl; 
+  std::cout << "starting acquisition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
   /* clear the FTP server */

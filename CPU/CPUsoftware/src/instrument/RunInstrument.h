@@ -78,8 +78,8 @@ private:
   static void SignalHandler(int signum);
   int LaunchCam();
   int Acquisition();
-  int MonitorLightLevel();
-  int PollLightLevel();
+  int MonitorInstrument();
+  int PollInstrument();
   int SetStop();
   bool CheckStop();
   

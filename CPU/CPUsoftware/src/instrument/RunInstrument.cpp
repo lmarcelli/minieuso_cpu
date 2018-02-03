@@ -404,13 +404,13 @@ int RunInstrument::LaunchCam() {
 
 
 /* monitor the photodiode data to determine the instrument mode */
-int RunInstrument::MonitorLightLevel() {
+int RunInstrument::MonitorInstrument() {
 
   /* launch a thread to watch the photodiode measurements */
-  std::thread light_monitor (&RunInstrument::PollLightLevel, this);
+  std::thread instrument_monitor (&RunInstrument::PollInstrument, this);
 
   /* detach */
-  light_monitor.detach();
+  instrument_monitor.detach();
   
   return 0;
 }
@@ -441,7 +441,7 @@ bool RunInstrument::CheckStop() {
 }
 
 
-int RunInstrument::PollLightLevel() {
+int RunInstrument::PollInstrument() {
 
   /* different procedure for day and night */
   while (!this->CheckStop()) {
@@ -514,9 +514,6 @@ int RunInstrument::Acquisition() {
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
-  /* check for light level in the background */
-  this->MonitorLightLevel();
-  
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
     SelectAcqOption();
@@ -540,7 +537,7 @@ int RunInstrument::Acquisition() {
   }
 
   
-  /* reached for SCURVE acq and instrument mode change */
+  /* reached for SCURVE acq and instrument mode switch or stop */
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }
@@ -643,8 +640,8 @@ int RunInstrument::Start() {
   /* launch data backup in background */
   this->Usb.RunDataBackup();
   
-  /* launch background process to monitor the light level */
-  this->MonitorLightLevel();
+  /* launch background process to monitor the instrument */
+  this->MonitorInstrument();
 
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  

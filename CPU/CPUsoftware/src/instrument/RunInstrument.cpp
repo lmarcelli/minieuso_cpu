@@ -444,7 +444,7 @@ bool RunInstrument::CheckStop() {
 int RunInstrument::PollInstrument() {
 
   /* different procedure for day and night */
-  while (!this->CheckStop()) {
+  while (!signal_shutdown.load()) {
     
     switch(GetInstMode()) {
     case NIGHT:
@@ -473,7 +473,10 @@ int RunInstrument::PollInstrument() {
     }
     
   } /* end loop when stop signal sent */
-  
+
+  /* signal to RunInstrument */
+  SetStop();
+ 
   /* stop running threads */
   clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
   std::cout << "stopping joinable threads..." << std::endl;
@@ -647,7 +650,7 @@ int RunInstrument::Start() {
   signal(SIGINT, SignalHandler);  
   
   /* enter instrument mode */
-  while (!signal_shutdown.load()) {
+  while (!CheckStop()) {
     switch(GetInstMode()) {
       
     
@@ -675,7 +678,6 @@ int RunInstrument::Start() {
   } /* end loop when stop signal sent */
 
   /* program shutdown */
-  SetStop();
   Stop();
 
   /* wait for monitoring thread to react */

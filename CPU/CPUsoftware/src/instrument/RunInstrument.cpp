@@ -593,7 +593,7 @@ int RunInstrument::DayOperations() {
 
 
 /* shut down upon SIGINT */
-int RunInstrument::Stop() {
+void RunInstrument::Stop() {
 
   /* kill detached threads */
   clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
@@ -606,17 +606,17 @@ int RunInstrument::Stop() {
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   this->Lvps.SwitchOff(LvpsManager::HK);    
 
-  return 0;
+  return;
 }
 
 
 /* start running the instrument according to specifications */
-int RunInstrument::Start() {
+void RunInstrument::Start() {
 
   /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
-    return 0;
+    return;
   }
   
   /* run start-up  */
@@ -625,11 +625,11 @@ int RunInstrument::Start() {
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();
-    return 0;
+    return;
   }
   else if (this->CmdLine->debug_mode) {
     DebugMode();
-    return 0;
+    return;
   }
  
   /* check systems and operational mode */
@@ -637,7 +637,7 @@ int RunInstrument::Start() {
 
   if (!this->Zynq.telnet_connected) {
     std::cout << "no Zynq connection, exiting the program" << std::endl;
-    return 1;
+    return;
   }
 
   /* launch data backup in background */
@@ -680,8 +680,6 @@ int RunInstrument::Start() {
   /* program shutdown */
   Stop();
 
-  /* wait for monitoring thread to react */
-  sleep(2);
   std::cout << "exiting the program..." << std::endl;
   exit(2);
 }

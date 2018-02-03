@@ -49,8 +49,8 @@ public:
   DataReduction Data;
   
   RunInstrument(CmdLineInputs * CmdLine);
-  int Start();
-  int Stop();
+  void Start();
+  void Stop();
   
   int SetInstMode(InstrumentMode mode_to_set);
   InstrumentMode GetInstMode();

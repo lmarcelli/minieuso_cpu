@@ -8,15 +8,15 @@ Further information on the status of the Mini-EUSO integration and testing, as w
 Table of Contents
 =================
 
-  * [Install](#install)
-  * [Update](#update)
-  * [SSH connection](#ssh-connection)
-  * [The software](#the-software)  
-   * [Usage](#usage)   
-   * [Functionality](#functionality)  
-   * [The data format](#the-data-format)  
-   * [Backwards compatibility](#backwards-compatilbilty)  
-  * [Hardware interfaces](#the-software)
+* [Install](#install)
+* [Update](#update)
+* [SSH connection](#ssh-connection)
+* [The software](#the-software)
+ * [Usage](#usage)
+ * [Functionality](#functionality)
+ * [The data format](#the-data-format)
+ * [Backwards compatibility](#backwards-compatilbilty)
+* [Hardware interfaces](#the-software)
     
 
 # Install

@@ -3,7 +3,6 @@
 /* default constructor */
 OperationMode::OperationMode() {
   this->_switch = false;
-  this->_stop =false;
 }
 
 
@@ -41,13 +40,3 @@ void OperationMode::Start() {
 
 }
 
-/* stop the operational mode - exit all processes */
-void OperationMode::Stop() {
-
-  {
-    std::unique_lock<std::mutex> lock(this->_m_stop);   
-    this->_stop = true;
-  } /* release mutex */
-  this->_cv_stop.notify_all();
-    
-}

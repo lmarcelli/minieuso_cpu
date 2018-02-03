@@ -1,5 +1,7 @@
 #include "RunInstrument.h"
 
+std::atomic<bool> signal_shutdown{false};
+
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
@@ -9,7 +11,24 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
     this->current_inst_mode = RunInstrument::INST_UNDEF;
   } /* relase mutex */
   this->current_acq_mode = RunInstrument::ACQ_UNDEF;
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    this->_stop = false;
+  } /* relase mutex */
+
 }
+
+/* handle signal */
+void RunInstrument::SignalHandler(int signum) {
+
+  std::cout << "interrupt signal (" << signum << ") received" << std::endl;  
+
+  /* signal to main program */
+  signal_shutdown.store(true);
+
+}
+
 
 /* switching of LVPS then exit */
 int RunInstrument::LvpsSwitch() {
@@ -54,6 +73,7 @@ int RunInstrument::LvpsSwitch() {
   return 0;
 }
 
+
 /* switching of HVPS then exit */
 int RunInstrument::HvpsSwitch() {
 
@@ -76,6 +96,25 @@ int RunInstrument::HvpsSwitch() {
   return 0;
 }
 
+/* switching of HVPS then exit */
+int RunInstrument::CheckStatus() {
+
+  /* test the connection to the zynq board */
+  this->Zynq.CheckTelnet();
+
+  if (this->Zynq.telnet_connected) {
+    /* check the instrument and HV status */
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
+ 
+  return 0;
+}
+
 
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
@@ -95,7 +134,7 @@ int RunInstrument::DebugMode() {
   std::cout << std::endl;
 
   std::cout << "LVPS" << std::endl;
-  std::cout << "switching on/off all subsystems... ";  
+  std::cout << "switching on/off all subsystems... (takes ~5 s) " << std::endl;  
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   sleep(1);
   this->Lvps.SwitchOn(LvpsManager::HK);
@@ -163,13 +202,10 @@ int RunInstrument::DebugMode() {
 
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
-  
-  /* make a test Zynq packet */
-  //DataAcqManager::WriteFakeZynqPkt();
-  //DataAcqManager::ReadFakeZynqPkt();  
-    
+      
   return 0;
 }
+
 
 /* set the instrument mode with mutex protection */
 int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
@@ -182,6 +218,7 @@ int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
   return 0;
 }
 
+
 /* read the instrument mode with mutex protection */
 RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
   InstrumentMode current_inst_mode;
@@ -193,6 +230,7 @@ RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
   
   return current_inst_mode;
 }
+
 
 /* initialise instrument mode using the current light level */
 int RunInstrument::InitInstMode() {
@@ -256,6 +294,8 @@ int RunInstrument::StartUp() {
   return 0;
 }
 
+
+/* check the systems */
 int RunInstrument::CheckSystems() {
 
   std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
@@ -288,18 +328,7 @@ int RunInstrument::CheckSystems() {
   std::cout << "waiting for boot..." << std::endl;
   sleep(BOOT_TIME);
   
-  /* test the connection to the zynq board */
-  this->Zynq.CheckTelnet();
-
-  if (this->Zynq.telnet_connected) {
-    /* check the instrument and HV status */
-    this->Zynq.GetInstStatus();
-    this->Zynq.GetHvpsStatus();
-  }
-  else {
-    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
-    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
-  }
+  this->CheckStatus();
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
@@ -311,6 +340,7 @@ int RunInstrument::CheckSystems() {
   
   return 0;
 }
+
 
 /* determine acquisition mode from program inputs */
 int RunInstrument::SelectAcqOption() {
@@ -380,24 +410,49 @@ int RunInstrument::LaunchCam() {
   return 0;
 }
 
+
 /* monitor the photodiode data to determine the instrument mode */
-int RunInstrument::MonitorLightLevel() {
+int RunInstrument::MonitorInstrument() {
 
   /* launch a thread to watch the photodiode measurements */
-  std::thread monitor_light (&RunInstrument::PollLightLevel, this);
+  std::thread instrument_monitor (&RunInstrument::PollInstrument, this);
 
   /* detach */
-  monitor_light.detach();
+  instrument_monitor.detach();
   
   return 0;
 }
 
-int RunInstrument::PollLightLevel() {
 
-  bool undefined = false;
+/* set the stop signal in a thread-safe way */
+int RunInstrument::SetStop() {
   
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    this->_stop = true;
+  } /* release mutex */
+  
+  return 0;
+}
+
+
+/* check if stop signal sent in a thread-safe way */
+bool RunInstrument::CheckStop() {
+  bool stop_status;
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_stop);
+    stop_status = this->_stop;
+  } /* release mutex */
+
+  return stop_status;
+}
+
+
+int RunInstrument::PollInstrument() {
+
   /* different procedure for day and night */
-  while (!undefined) {
+  while (!signal_shutdown.load()) {
     
     switch(GetInstMode()) {
     case NIGHT:
@@ -422,34 +477,53 @@ int RunInstrument::PollLightLevel() {
       
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode is undefined" << std::endl;
-      undefined = true;
       break;
     }
     
-  }
+  } /* end loop when stop signal sent */
 
-  /* reached only when instrument undefined */
+  SetStop();
+  
+  /* stop running threads */
+  clog << "info: " << logstream::info << "stopping joinable threads..." << std::endl;
+  std::cout << "stopping joinable threads..." << std::endl;
+  
+  switch(GetInstMode()) {
+  case NIGHT:
+    
+    this->Daq.Notify();
+    break;
+    
+  case DAY:
+
+    this->Data.Notify();
+    break;
+    
+  case INST_UNDEF:
+    
+    clog << "info: " << logstream::info << "instrument mode undefined, no threads to stop" << std::endl;
+    std::cout << "instrument mode undefined, no threads to stop" << std::endl;
+    break;
+    
+  }
+  
+  clog << "info: " << logstream::info << "exiting instrument monitoring thread..." << std::endl;
+  std::cout << "exiting instrument monitoring thread..." << std::endl;
   return 0;
 }
 
 /* interface to the whole data acquisition */
 int RunInstrument::Acquisition() {
 
-  std::cout << "starting acqusition run..." <<std::endl; 
+  std::cout << "starting acquisition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
   
-  /* enable signal handling */
-  signal(SIGINT, CpuTools::SignalHandler);  
-  
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
-  /* check for light level in the background */
-  this->MonitorLightLevel();
-  
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
     SelectAcqOption();
@@ -473,12 +547,13 @@ int RunInstrument::Acquisition() {
   }
 
   
-  /* reached for SCURVE acq and instrument mode change */
+  /* reached for SCURVE acq and instrument mode switch or stop */
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }
   return 0;
 }
+
 
 /* night time operational procedure */
 int RunInstrument::NightOperations() {
@@ -504,15 +579,6 @@ int RunInstrument::NightOperations() {
     HvpsSwitch();
   }
   
-  /* turn off all subsystems */
-  this->CmdLine->lvps_status = LvpsManager::OFF;
-  this->CmdLine->lvps_subsystem = LvpsManager::HK;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::CAMERAS;
-  LvpsSwitch();
-  this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
-  LvpsSwitch();    
-
   return 0;
 }
 
@@ -533,13 +599,35 @@ int RunInstrument::DayOperations() {
 }
 
 
+/* shut down upon SIGINT */
+void RunInstrument::Stop() {
+
+  /* kill detached threads */
+  clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
+  std::cout << "stopping detached threads..." << std::endl;
+  this->Cam.KillCamAcq();
+  this->Usb.KillDataBackup();
+
+  /* turn off all subsystems */
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  this->Lvps.SwitchOff(LvpsManager::HK);    
+
+  return;
+}
+
+
 /* start running the instrument according to specifications */
-int RunInstrument::Start() {
+void RunInstrument::Start() {
 
   /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
-    return 0;
+    return;
+  }
+  if (this->CmdLine->check_status) {
+    CheckStatus();
+    return;
   }
   
   /* run start-up  */
@@ -548,11 +636,11 @@ int RunInstrument::Start() {
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();
-    return 0;
+    return;
   }
   else if (this->CmdLine->debug_mode) {
     DebugMode();
-    return 0;
+    return;
   }
  
   /* check systems and operational mode */
@@ -560,18 +648,20 @@ int RunInstrument::Start() {
 
   if (!this->Zynq.telnet_connected) {
     std::cout << "no Zynq connection, exiting the program" << std::endl;
-    return 1;
+    return;
   }
 
   /* launch data backup in background */
   this->Usb.RunDataBackup();
   
-  /* launch background process to monitor the light level */
-  this->MonitorLightLevel();
+  /* launch background process to monitor the instrument */
+  this->MonitorInstrument();
 
-  bool undefined = false;
+  /* enable signal handling */
+  signal(SIGINT, SignalHandler);  
+  
   /* enter instrument mode */
-  while (!undefined) {
+  while (!CheckStop()) {
     switch(GetInstMode()) {
       
     
@@ -592,13 +682,16 @@ int RunInstrument::Start() {
       /*-----------*/
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode undefined, cannot start acquisition" << std::endl;
-      std::cout << "exiting the program" << std::endl;
       
       break;
     } /* end switch statement */
    
-  } /* end infinite loop */
-  
-  return 0;
+  } /* end loop when stop signal sent */
+
+  /* program shutdown */
+  Stop();
+
+  std::cout << "exiting the program..." << std::endl;
+  return;
 }
 

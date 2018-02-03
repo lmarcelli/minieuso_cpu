@@ -26,11 +26,6 @@ protected:
   std::mutex _m_switch;
   std::condition_variable _cv_switch;
   bool _switch;
-
-  /* to handle stopping */
-  std::mutex _m_stop;
-  std::condition_variable _cv_stop;
-  bool _stop;
   
 };
 

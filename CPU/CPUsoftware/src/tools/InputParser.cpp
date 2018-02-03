@@ -18,7 +18,8 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->single_run = false;
   this->CmdLine->test_zynq_on = false;
   this->CmdLine->keep_zynq_pkt = false;
-
+  this->CmdLine->check_status = false;
+  
   this->CmdLine->dv = -1;
   this->CmdLine->hvdac = -1;
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
@@ -165,6 +166,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-keep_zynq_pkt")){
     this->CmdLine->keep_zynq_pkt = true;
   }
+  if(cmdOptionExists("-check_status")){
+    this->CmdLine->check_status = true;
+  }
+  
   
   /* get the arguments */
   /* dynode voltage */

@@ -25,7 +25,8 @@ struct CmdLineInputs {
   bool single_run; 
   bool test_zynq_on;
   bool keep_zynq_pkt;
-
+  bool check_status;
+  
   /* command line arguments */
   int dv;
   int hvdac;

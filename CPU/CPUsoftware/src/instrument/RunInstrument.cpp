@@ -96,6 +96,25 @@ int RunInstrument::HvpsSwitch() {
   return 0;
 }
 
+/* switching of HVPS then exit */
+int RunInstrument::CheckStatus() {
+
+  /* test the connection to the zynq board */
+  this->Zynq.CheckTelnet();
+
+  if (this->Zynq.telnet_connected) {
+    /* check the instrument and HV status */
+    this->Zynq.GetInstStatus();
+    this->Zynq.GetHvpsStatus();
+  }
+  else {
+    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  }
+ 
+  return 0;
+}
+
 
 /* enter the debug mode then exit */
 int RunInstrument::DebugMode() {
@@ -309,18 +328,7 @@ int RunInstrument::CheckSystems() {
   std::cout << "waiting for boot..." << std::endl;
   sleep(BOOT_TIME);
   
-  /* test the connection to the zynq board */
-  this->Zynq.CheckTelnet();
-
-  if (this->Zynq.telnet_connected) {
-    /* check the instrument and HV status */
-    this->Zynq.GetInstStatus();
-    this->Zynq.GetHvpsStatus();
-  }
-  else {
-    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
-    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
-  }
+  this->CheckZynqStatus();
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
@@ -615,6 +623,10 @@ void RunInstrument::Start() {
   /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
+    return;
+  }
+  if (this->CmdLine->check_status) {
+    CheckZynqStatus();
     return;
   }
   

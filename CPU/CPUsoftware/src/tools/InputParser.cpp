@@ -224,30 +224,30 @@ int InputParser::PrintHelpMsg() {
   std::cout << "Switching the LVPS manually" << std::endl;
   std::cout << "-lvps MODE: switch a subsystem using the LVPS (MODE = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-subsystem SUBSYS: select subsystem to switch (SUBSYS = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
-  std::cout << "Example use case: ./mecontrol -lvps on -subsystem zynq" << std::endl;
+  std::cout << "Example use case: mecontrol -lvps on -subsystem zynq" << std::endl;
   std::cout << "Note: the automated acquisition program switches subsystems on/off automatically as required" << std::endl;
   std::cout << "Switchcing the HVPS manually" << std::endl;
   std::cout << "-hvps MODE: switch the high voltage (MODE = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096)" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000)" << std::endl;
-  std::cout << "Example use case: ./mecontrol -hvps on -dv 3200 -hvdac 500" << std::endl;
-  std::cout << "Example use case: ./mecontrol -hvps off" << std::endl;
+  std::cout << "Example use case: mecontrol -hvps on -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Example use case: mecontrol -hvps off" << std::endl;
   std::cout << "Note: the automated acquisition program switches the HV on automatically as required," << std::endl;
-  std::cout << "but does not switch if off if the program is interrupted with CTRL-C" << std::endl;
-  std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
-  std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
+  std::cout << "and switches it off automatically if the program is interrupted with CTRL-C" << std::endl;
+  std::cout << "Checking the instrument status" << std::endl;
+  std::cout << "-check_status: check the Zynq telnet connection, instrument status and HV status" << std::endl;
   std::cout << std::endl;
   std::cout << "SUBSYSTEMS" << std::endl;
   std::cout << "-cam: make an independent or simultaneous acquisition with the cameras" << std::endl;
   std::cout << "-cam -v: make an independent or simultaneous acquisition with the cameras with verbose output" << std::endl;
   std::cout << "-therm: make a simultaneous acquisition with the thermistors" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -cam -therm" << std::endl;
+  std::cout << "Example use case: mecontrol -log -cam -therm" << std::endl;
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
   std::cout << "-hv: run an automated acquisition with the HV on" << std::endl;
   std::cout << "-dv X: provide the dynode voltage (X = 0 - 4096), default in ../config/dummy.conf" << std::endl;
   std::cout << "-hvdac X: provide the HV DAC (X = 0 - 1000), default in ../config/dummy.conf" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
+  std::cout << "Example use case: mecontrol -log -hv -dv 3200 -hvdac 500" << std::endl;
   std::cout << "Note: high voltage does not switch off automatically if the program is interrupted with CTRL-C!" << std::endl;
   std::cout << "(this could not be implemented as it caused errors with Zynq functionality)" << std::endl;
   std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
@@ -258,11 +258,12 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-zynq MODE: use the Zynq acquisition mode (MODE = 0, 1, periodic, trigger, default = periodic)" << std::endl;
   std::cout << "-test_zynq MODE: use the Zynq test mode (MODE = 0 - 6, default = 3)" << std::endl;
   std::cout << "-keep_zynq_pkt: keep the Zynq packets on FTP" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
-  std::cout << "Example use case: ./mecontrol -log -hv on -zynq trigger" << std::endl;
+  std::cout << "Example use case: mecontrol -log -test_zynq 3 -keep_zynq_pkt" << std::endl;
+  std::cout << "Example use case: mecontrol -log -hv on -zynq trigger" << std::endl;
   std::cout << std::endl;
   std::cout << "NOTES" << std::endl;
   std::cout << "Execute-and-exit flags such as -db, -hv on/off and -lvps on/off can only be used one at a time" << std::endl;
-  
+  std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
+ 
   return 0;
 }

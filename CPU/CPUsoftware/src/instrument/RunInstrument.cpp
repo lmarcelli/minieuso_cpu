@@ -328,7 +328,7 @@ int RunInstrument::CheckSystems() {
   std::cout << "waiting for boot..." << std::endl;
   sleep(BOOT_TIME);
   
-  this->CheckZynqStatus();
+  this->CheckStatus();
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
@@ -626,7 +626,7 @@ void RunInstrument::Start() {
     return;
   }
   if (this->CmdLine->check_status) {
-    CheckZynqStatus();
+    CheckStatus();
     return;
   }
   

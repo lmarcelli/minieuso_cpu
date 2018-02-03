@@ -67,7 +67,8 @@ private:
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
-
+  int CheckStatus();
+  
   /* initialisation */
   int InitInstMode();
   int CheckSystems();

@@ -1,5 +1,6 @@
 #include "RunInstrument.h"
 
+
 /* default constructor */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
@@ -16,6 +17,7 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   } /* relase mutex */
 
 }
+
 
 /* switching of LVPS then exit */
 int RunInstrument::LvpsSwitch() {
@@ -59,6 +61,7 @@ int RunInstrument::LvpsSwitch() {
    
   return 0;
 }
+
 
 /* switching of HVPS then exit */
 int RunInstrument::HvpsSwitch() {
@@ -169,13 +172,10 @@ int RunInstrument::DebugMode() {
 
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
-  
-  /* make a test Zynq packet */
-  //DataAcqManager::WriteFakeZynqPkt();
-  //DataAcqManager::ReadFakeZynqPkt();  
-    
+      
   return 0;
 }
+
 
 /* set the instrument mode with mutex protection */
 int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
@@ -188,6 +188,7 @@ int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
   return 0;
 }
 
+
 /* read the instrument mode with mutex protection */
 RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
   InstrumentMode current_inst_mode;
@@ -199,6 +200,7 @@ RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
   
   return current_inst_mode;
 }
+
 
 /* initialise instrument mode using the current light level */
 int RunInstrument::InitInstMode() {
@@ -262,6 +264,8 @@ int RunInstrument::StartUp() {
   return 0;
 }
 
+
+/* check the systems */
 int RunInstrument::CheckSystems() {
 
   std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
@@ -317,6 +321,7 @@ int RunInstrument::CheckSystems() {
   
   return 0;
 }
+
 
 /* determine acquisition mode from program inputs */
 int RunInstrument::SelectAcqOption() {
@@ -386,6 +391,7 @@ int RunInstrument::LaunchCam() {
   return 0;
 }
 
+
 /* monitor the photodiode data to determine the instrument mode */
 int RunInstrument::MonitorLightLevel() {
 
@@ -409,6 +415,8 @@ int RunInstrument::SetStop() {
   
   return 0;
 }
+
+
 /* check if stop signal sent in a thread-safe way */
 bool RunInstrument::CheckStop() {
   bool stop_status;
@@ -420,6 +428,7 @@ bool RunInstrument::CheckStop() {
 
   return stop_status;
 }
+
 
 int RunInstrument::PollLightLevel() {
 
@@ -508,6 +517,7 @@ int RunInstrument::Acquisition() {
   return 0;
 }
 
+
 /* night time operational procedure */
 int RunInstrument::NightOperations() {
 
@@ -550,6 +560,7 @@ int RunInstrument::DayOperations() {
   
   return 0;
 }
+
 
 /* shut down upon SIGINT */
 int RunInstrument::Stop() {

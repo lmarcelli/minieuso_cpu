@@ -29,7 +29,7 @@ Table of Contents
 
 2. Download and install the Debian amd64 Standard Desktop from a bootable USB. Follow the default options and install onto the 32 GB flash storage of the CPU.
  * user: minieusouser
- * password: in documentation
+ * password: on wiki
  * connect to the network mirror to allow updates
  * install GRUB onto the 32 GB flash drive 
 
@@ -57,13 +57,22 @@ cd /home/software/CPU/CPUsetup/
 ```
  * downloads the necessary packages
  * sets up the FTP server
- * sets up the directory structure
+ * builds the software
+ * set the local time to UTC 
  * configures the network for use with the Zynq board
- * installs and sets up the test software for all systems
  * sets up autologin to the root user on boot
  * restarts the shell 
  
-6. Set the local time to UTC 
+6. Check the time on the CPU is sensible (it resets if the battery is disconnected)
+```
+date
+```
+* if the time is incorrect, use:
+```
+hwclock --set --date “2016-10-04 09:41:50” --utc
+hwclock --hctosys
+```
+to set the current time.
 
 # Update
 To update the software following installation: 
@@ -75,6 +84,8 @@ To update the software following installation:
 3. Run ```make``` inside ```/home/software/CPU/CPUsoftware```
 
 4. The executable ```mecontrol``` will now be available for use
+
+If there are any conflicts when running ```git pull```, resolve these conflicts as desired by editing the files and then use ```git commit``` to store the changes before trying again.
 
 # SSH connection
 Mini-EUSO has 2 ethernet ports, eth0 as a connection to the outside world and eth1 configured for a statuc connection to the Zynq board. eth0 can be used both for connection to the internet and over ssh. Simply check the IP adress of eth0 once connected to your machine and run the following command:

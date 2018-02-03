@@ -17,9 +17,9 @@ Table of Contents
     * [The data format](#the-data-format)
     * [Backwards compatibility](#backwards-compatilbilty)
 * [Hardware interfaces](#hardware-interfaces)
-    * [Ethernet Ports](#ethernet-ports)
-    * [aDIO (LVPS)](#adio-ports---LVPS)
-    * [DM75xx (Photodiodes/SiPMs)](#dm75xx-ports---SiPM/photodiodes)
+    * [Ethernet ports](#ethernet-ports)
+    * [aDIO ports - LVPS](#adio-ports---LVPS)
+    * [DM75xx ports - Photodiodes/SiPMs](#dm75xx-ports---SiPM/photodiodes)
     * [Thermistors](#thermistors)
     
 

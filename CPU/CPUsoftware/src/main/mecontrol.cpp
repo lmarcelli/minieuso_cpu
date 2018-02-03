@@ -28,7 +28,6 @@ int main(int argc, char ** argv) {
   MiniEuso.Start();
 
 
-  std::cout << "leaving mecontrol" << std::endl;
   return 0; 
 }
 

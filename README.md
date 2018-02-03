@@ -72,7 +72,7 @@ To update the software following installation:
 
 4. The executable ```mecontrol``` will now be available for use
 
-## SSH connection
+# SSH connection
 Mini-EUSO has 2 ethernet ports, eth0 as a connection to the outside world and eth1 configured for a statuc connection to the Zynq board. eth0 can be used both for connection to the internet and over ssh. Simply check the IP adress of eth0 once connected to your machine and run the following command:
 ```
 ssh minieusouser@<ip_address>
@@ -133,6 +133,10 @@ The format is described in detail by the two header files ```pdmdata.h``` (the Z
 
 A 32 bit CRC is calculated for each CPU_RUN file prior to adding the CpuFileTrailer (the last 10 bytes). This CRC is appended to each CPU_RUN file as part of the CpuFileTrailer. 
 
+3. The CPU_RUN_HV file format
+
+This file also has a fixed size and is used to store information on the HV status at the end of a run. This information is additional and complementary to that stored inside the ZYNQ_PACKETS.
+
 ## Backwards compatibility
 Stable ersions of the software used in previous integration tests of the Mini-EUSO instrument are stored in the following branches named after the integration date. The current stable version of the software is in the ```master``` branch. 
 
@@ -166,7 +170,7 @@ The CPU system has two ethernet ports:
 The location of these two ports is shown in here:
 ![](CPU/images/cpu_ethernet_ports.png?raw=true)
 
-NB: this is true for the CMX34GS model (original CPU), for the CMX34BTS model (new CPU) the ethernet ports are switched.
+**NB: this is true for the CMX34GS model (original CPU), for the CMX34BTS model (new CPU) the ethernet ports are switched.**
 
 ## aDIO ports (LVPS)
 The advanced digital I/O ports (aDIO, CN6) of the CPU are used as an interface to the LVPS, in order to control the power to the instrument subsystems. The Port0 8-bit programmable port is used for handling these commands. The pinout of this connecter is:

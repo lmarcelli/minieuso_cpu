@@ -26,7 +26,7 @@ void RunInstrument::SignalHandler(int signum) {
 
   /* signal to main program */
   signal_shutdown.store(true);
-  
+
   /* terminate the program */
   exit(signum);  
 }
@@ -491,9 +491,6 @@ int RunInstrument::Acquisition() {
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
   
-  /* enable signal handling */
-  signal(SIGINT, SignalHandler);  
-  
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
@@ -652,6 +649,9 @@ int RunInstrument::Start() {
   /* launch background process to monitor the light level */
   this->MonitorLightLevel();
 
+  /* enable signal handling */
+  signal(SIGINT, SignalHandler);  
+  
   /* enter instrument mode */
   while (!signal_shutdown.load()) {
     switch(GetInstMode()) {

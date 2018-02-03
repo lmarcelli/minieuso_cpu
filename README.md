@@ -1,13 +1,23 @@
-:toc: macro   
-:toc-title:  
-:toclevels: 9  
-
-
-# Mini-EUSO CPU Software
+Mini-EUSO CPU Software
+======================
 
 The CPU software controls the startup, data acquisition and housekeeping of the Mini-EUSO instrument. The data acquisition chain of the main instrument is controlled by the Zynq board of the PDM-DP system. The setup of the CPU environment needed to run the CPU software is automated by running the scripts in the ```CPUsetup/``` directory as detailed below.
 
 Further information on the status of the Mini-EUSO integration and testing, as well as more detailed documentation, can be found on the Mini-EUSO wiki page: https://jemeuso.riken.jp/wiki/index.php?Mini-EUSO
+
+Table of Contents
+=================
+
+  * [Install](#install)
+  * [Update](#update)
+  * [SSH connection](#ssh-connection)
+  * [The software](#the-software)
+          * [Usage](#usage)
+          * [Functionality](#functionality)
+          * [The data format](#the-data-format)
+          * [Backwards compatibility](#backwards-compatilbilty)
+  * [Hardware interfaces](#the-software)
+    
 
 # Install
 

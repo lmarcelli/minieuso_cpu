@@ -597,7 +597,7 @@ int RunInstrument::Stop() {
 
   /* kill detached threads */
   clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
-  std::cout << "stopping deatached threads..." << std::endl;
+  std::cout << "stopping detached threads..." << std::endl;
   this->Cam.KillCamAcq();
   this->Usb.KillDataBackup();
 
@@ -684,6 +684,5 @@ int RunInstrument::Start() {
   sleep(2);
   std::cout << "exiting the program..." << std::endl;
   exit(2);
-  return 0;
 }
 

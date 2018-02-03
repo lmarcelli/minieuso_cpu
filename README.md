@@ -12,10 +12,10 @@ Table of Contents
 * [Update](#update)
 * [SSH connection](#ssh-connection)
 * [The software](#the-software)
- * [Usage](#usage)
- * [Functionality](#functionality)
- * [The data format](#the-data-format)
- * [Backwards compatibility](#backwards-compatilbilty)
+    * [Usage](#usage)
+    * [Functionality](#functionality)
+    * [The data format](#the-data-format)
+    * [Backwards compatibility](#backwards-compatilbilty)
 * [Hardware interfaces](#the-software)
     
 
@@ -61,7 +61,7 @@ cd /home/software/CPU/CPUsetup/
  
 6. Set the local time to UTC 
 
-## Update
+# Update
 To update the software following installation: 
 
 1. Connect to the internet 

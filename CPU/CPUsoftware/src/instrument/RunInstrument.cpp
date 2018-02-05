@@ -134,21 +134,18 @@ int RunInstrument::DebugMode() {
   std::cout << std::endl;
 
   std::cout << "LVPS" << std::endl;
-  std::cout << "switching on/off all subsystems... (takes ~5 s) " << std::endl;  
+  std::cout << "switching on all subsystems... " << std::endl;  
+  std::cout << "cameras ON " << std::endl;  
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   sleep(1);
+  std::cout << "HK ON" << std::endl;  
   this->Lvps.SwitchOn(LvpsManager::HK);
   sleep(1);
+  std::cout << "Zynq ON" << std::endl;  
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
-  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
-  sleep(1);
-  this->Lvps.SwitchOff(LvpsManager::HK);
-  sleep(1);
-  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
-  std::cout << "done!" << std::endl;
   std::cout << std::endl;
-
+  
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->Daq.Analog->GetLightLevel();
@@ -186,7 +183,6 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   */
   
-  this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   std::cout << "ZYNQ" << std::endl;
   this->Zynq.CheckTelnet();
   if (this->Zynq.telnet_connected) {
@@ -198,8 +194,18 @@ int RunInstrument::DebugMode() {
     std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
   }
   std::cout << std::endl;
-  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
 
+  std::cout << "switching ff all subsystems... " << std::endl;  
+  std::cout << "cameras OFF" << std::endl;  
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  sleep(1);
+  std::cout << "HK OFF" << std::endl;   
+  this->Lvps.SwitchOff(LvpsManager::HK);
+  sleep(1);
+  std::cout << "Zynq OFF " << std::endl;  
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  std::cout << "done!" << std::endl;
+ 
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
       

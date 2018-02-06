@@ -59,6 +59,8 @@ TemperatureAcq * ThermManager::GetTemperature() {
 /* print the temperature */
 void ThermManager::PrintTemperature() {
  
+  Init();
+
   /* define command to read temperature from all thermistors on COM port 1 */
   const char * cmd = "digitemp -s /dev/ttyS0 -a";
 

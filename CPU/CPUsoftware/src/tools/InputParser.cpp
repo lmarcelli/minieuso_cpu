@@ -50,6 +50,18 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-hvps")){
     this->CmdLine->hvps_switch = true;
+
+    /* HVPS on/off */
+    const std::string & hv_status_str = getCmdOption("-hvps");
+    if (!hv_status_str.empty()) {
+      if (hv_status_str == "on") {
+	this->CmdLine->hvps_status = ZynqManager::ON;
+      }
+      else if (hv_status_str == "off") {
+	this->CmdLine->hvps_status = ZynqManager::OFF;   
+      }
+    }   
+
   }
   if(cmdOptionExists("-short")){
     this->CmdLine->single_run = true;
@@ -184,16 +196,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->hvdac = std::stoi(hv_dac);
   }  
    
-  /* HVPS on/off */
-  const std::string & hv_status_str = getCmdOption("-hv");
-  if (!hv_status_str.empty()) {
-    if (hv_status_str == "on") {
-      this->CmdLine->hvps_status = ZynqManager::ON;
-    }
-    else if (hv_status_str == "off") {
-      this->CmdLine->hvps_status = ZynqManager::OFF;   
-    }
-  }
 
   return this->CmdLine;
 }

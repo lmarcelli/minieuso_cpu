@@ -47,6 +47,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){
     this->CmdLine->hvps_on = true;
+    this->CmdLine->hvps_status = ZynqManager::ON;
+
   }
   if(cmdOptionExists("-hvps")){
     this->CmdLine->hvps_switch = true;

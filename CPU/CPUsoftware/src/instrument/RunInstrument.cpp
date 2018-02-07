@@ -92,8 +92,7 @@ int RunInstrument::HvpsSwitch() {
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
     break;
   }
-  
-  return 0;
+return 0;
 }
 
 /* switching of HVPS then exit */

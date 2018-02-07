@@ -137,6 +137,16 @@ The CPU controls the powering of the other sub-systems via the LVPS.
    * ```mecontrol -lvps off -subsystem <S>``` will switch off the specified sub-system
 
 ### Data acquisition
+The CPU handles the data acquisition from all subsystems. 
+
+* Summary of main command options
+   * ```-scurve```: take a single S-curve and exit
+   * ```-short```: take a single file (~ 2min) acquisition and exit
+   * ```-zynq <MODE>```: use the Zynq acquisition mode (```<MODE>``` = ```0```, ```1```, ```periodic```, ```trigger```, default = ```periodic```)
+   * ```-test_zynq <MODE>```: use the Zynq test mode (```<MODE>``` = ```0``` - ```6```, default = ```3```)
+   * ```-keep_zynq_pkt```: keep the Zynq packets on FTP
+* An example use case: ```mecontrol -log -test_zynq 3 -keep_zynq_pkt``` would start and acquisition in Zynq test mode 3 and keep the Zynq packets on the FTP server to check them
+
 * Data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data (D1, D2 and D3) and information on timestamping and the HV status. 
   * The number of packets for D1 and D2 data, N1 and N2, can be set in the configuration file
   * Analog and housekeeping data are also gathered every 5.24 s and packaged together with the Zynq data into a CPU packet

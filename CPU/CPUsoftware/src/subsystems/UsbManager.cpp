@@ -183,6 +183,7 @@ uint8_t UsbManager::LookupUsbStorage() {
   libusb_free_device_list(all_devs, 1);
   libusb_exit(ctx);
   
+  this->num_storage_dev = num_storage_dev;
   return num_storage_dev;  
 }
 

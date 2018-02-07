@@ -36,7 +36,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigO
   if (this->usb_num_storage_dev == 1 || usb_num_storage_dev == 2) {
     cpu_str = usb_str + time_str;
   }
-  /* other write in DONE_DIR */
+  /* else write in DONE_DIR */
   else {
     cpu_str = done_str + time_str;
   }

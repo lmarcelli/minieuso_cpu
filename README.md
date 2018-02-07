@@ -127,6 +127,7 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
    * the flag ```-hvdac <Y>``` sets the ASIC dac level, or the point in an S-curve that we want to use to acquire data
    * if these flags are not supplied, their default values are used from the configuration file in ```CPUsoftware/config```
 * To check the current status, use ```mecontrol -check_status```
+* If an acquisition with HV is interrupted using ```CTRL-C```, the HV will be switched off automatically
    
 ### Control of the low voltage power supply (LVPS)
 The CPU controls the powering of the other sub-systems via the LVPS.

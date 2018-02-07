@@ -124,7 +124,7 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
 * Explanation of the command flags
    * the flag ```-dv <X>``` sets the dynode voltage to X, where X is the DAC between 0 and 4096 
    * the conversion between this number ```<X>``` and a voltage is ```<X>/4096 * 2.44 * 466```, ie. ```DAC/maxDAC * maxDAC_voltage * (2 ** 12)```
-   * the flag ```-hvdac <Y>``` sets the ASIC dac level, or the point in an S-curve that we want to use to acquire data
+   * the flag ```-hvdac <Y>``` sets the ASIC dac level, or the point in an S-curve that we want to use to acquire data (should be in the S-curve plateau)
    * if these flags are not supplied, their default values are used from the configuration file in ```CPUsoftware/config```
 * To check the current status, use ```mecontrol -check_status```
 * If an acquisition with HV is interrupted using ```CTRL-C```, the HV will be switched off automatically

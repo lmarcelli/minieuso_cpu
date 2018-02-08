@@ -343,35 +343,43 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   printf("Turn on HVPS: %s\n", kStatStr);
 
   /* ramp up in steps of 500 */
-  status_string = SendRecvTelnet("hvps setdac 1000 1000 1000 1000 1000 1000 1000 1000 1000\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to 1000: %s\n", kStatStr);
-  usleep(sleep_time);  
-  status_string = SendRecvTelnet("hvps setdac 1500 1500 1500 1500 1500 1500 1500 1500 1500\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to 1500: %s\n", kStatStr);
-  usleep(sleep_time);  
-  status_string = SendRecvTelnet("hvps setdac 2000 2000 2000 2000 2000 2000 2000 2000 2000\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to 2000: %s\n", kStatStr);
-  usleep(sleep_time);  
-  status_string = SendRecvTelnet("hvps setdac 2500 2500 2500 2500 2500 2500 2500 2500 2500\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to 2500: %s\n", kStatStr);
-  usleep(sleep_time);
-  if (dv > 3000) {
-    status_string = SendRecvTelnet("hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000\n", sockfd);
+  if (dv > 1000) {
+    status_string = SendRecvTelnet("hvps setdac 1000 1000 1000 1000 1000 1000 1000 1000 1000\n", sockfd);
     kStatStr = status_string.c_str();
-    printf("Set HVPS dac to 3000: %s\n", kStatStr);
+    printf("Set HVPS dac to 1000: %s\n", kStatStr);
     usleep(sleep_time);
+    if (dv > 1500) {
+      status_string = SendRecvTelnet("hvps setdac 1500 1500 1500 1500 1500 1500 1500 1500 1500\n", sockfd);
+      kStatStr = status_string.c_str();
+      printf("Set HVPS dac to 1500: %s\n", kStatStr);
+      usleep(sleep_time);
+      if (dv > 2000) {
+	status_string = SendRecvTelnet("hvps setdac 2000 2000 2000 2000 2000 2000 2000 2000 2000\n", sockfd);
+	kStatStr = status_string.c_str();
+	printf("Set HVPS dac to 2000: %s\n", kStatStr);
+	usleep(sleep_time);
+	if (dv > 2500) {
+	  status_string = SendRecvTelnet("hvps setdac 2500 2500 2500 2500 2500 2500 2500 2500 2500\n", sockfd);
+	  kStatStr = status_string.c_str();
+	  printf("Set HVPS dac to 2500: %s\n", kStatStr);
+	  usleep(sleep_time);
+	  if (dv > 3000) {
+	    status_string = SendRecvTelnet("hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000\n", sockfd);
+	    kStatStr = status_string.c_str();
+	    printf("Set HVPS dac to 3000: %s\n", kStatStr);
+	    usleep(sleep_time);
+	    if (dv > 3500) {
+	      status_string = SendRecvTelnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
+	      kStatStr = status_string.c_str();
+	      printf("Set HVPS dac to 3500: %s\n", kStatStr);
+	      usleep(sleep_time);  
+	    }
+	  }
+	}
+      }
+    }
   }
-  if (dv > 3500) {
-    status_string = SendRecvTelnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
-    kStatStr = status_string.c_str();
-    printf("Set HVPS dac to 3500: %s\n", kStatStr);
-    usleep(sleep_time);  
-  }
-  
+
   /* set the final DAC */
   conv1 << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
   cmd1 = conv1.str();

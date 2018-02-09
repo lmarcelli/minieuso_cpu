@@ -91,7 +91,7 @@ todo_include_todos = True
 
 #    subprocess.call('cd doxygen; doxygen', shell=True)
 
-breathe_projects = { "minieuso": "/Users/fran/projects/euso/mini_euso/me_cpu/docs/doxygen/xml/" }
+breathe_projects = { "minieuso": "doxygen/xml/" }
 breathe_default_project = "minieuso"
 
 

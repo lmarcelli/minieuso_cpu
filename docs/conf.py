@@ -82,6 +82,11 @@ pygments_style = 'sphinx'
 todo_include_todos = True
 
 
+# -- Options for breathe ----------------------------------------------
+breathe_projects = { "minieuso": "/Users/fran/projects/euso/mini_euso/me_cpu/docs/doxygen/xml/" }
+breathe_default_project = "minieuso"
+
+
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for

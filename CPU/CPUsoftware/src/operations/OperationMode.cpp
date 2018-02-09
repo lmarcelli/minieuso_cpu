@@ -1,13 +1,17 @@
 #include "OperationMode.h"
 
-/* default constructor */
+/**
+ * constructor
+ */
 OperationMode::OperationMode() {
   this->_switch = false;
 }
 
 
 
-/* notify the object of a mode switch */
+/**
+ * notify the object of a mode switch
+ */
 void OperationMode::Notify() {
 
   {
@@ -21,7 +25,9 @@ void OperationMode::Notify() {
 
 }
 
-/* reset the object's mode switch */
+/**
+ * reset the objects mode switch
+ */
 void OperationMode::Reset() {
 
   {
@@ -35,7 +41,10 @@ void OperationMode::Reset() {
   
 }
 
-/* start the operational mode - launch all processes */
+/**
+ * start the operational mode, 
+ * virtual function for overloading
+ */
 void OperationMode::Start() {
 
 }

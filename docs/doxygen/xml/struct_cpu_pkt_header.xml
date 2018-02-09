@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_cpu_pkt_header" kind="struct" language="C++" prot="public">
+    <compoundname>CpuPktHeader</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_cpu_pkt_header_1ac46a1be92a277659b5f003f9d63e3252" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuPktHeader::spacer</definition>
+        <argsstring></argsstring>
+        <name>spacer</name>
+        <initializer>= <ref refid="data__format_8h_1a3b3d331d484f85bfe51cf74f44d339ab" kindref="member">ID_TAG</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="46" column="1" bodyfile="src/data_format/data_format.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cpu_pkt_header_1a63b706a8d330d8f64474ab2bd9d7b2f3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuPktHeader::header</definition>
+        <argsstring></argsstring>
+        <name>header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="47" column="1" bodyfile="src/data_format/data_format.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cpu_pkt_header_1ae654e77a6daad283c09b48296db7d52a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuPktHeader::pkt_size</definition>
+        <argsstring></argsstring>
+        <name>pkt_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="48" column="1" bodyfile="src/data_format/data_format.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cpu_pkt_header_1af6d7f540f11ef7693959452a241e1cb2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuPktHeader::pkt_num</definition>
+        <argsstring></argsstring>
+        <name>pkt_num</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="49" column="1" bodyfile="src/data_format/data_format.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data_format/data_format.h" line="45" column="1" bodyfile="src/data_format/data_format.h" bodystart="44" bodyend="50"/>
+    <listofallmembers>
+      <member refid="struct_cpu_pkt_header_1a63b706a8d330d8f64474ab2bd9d7b2f3" prot="public" virt="non-virtual"><scope>CpuPktHeader</scope><name>header</name></member>
+      <member refid="struct_cpu_pkt_header_1af6d7f540f11ef7693959452a241e1cb2" prot="public" virt="non-virtual"><scope>CpuPktHeader</scope><name>pkt_num</name></member>
+      <member refid="struct_cpu_pkt_header_1ae654e77a6daad283c09b48296db7d52a" prot="public" virt="non-virtual"><scope>CpuPktHeader</scope><name>pkt_size</name></member>
+      <member refid="struct_cpu_pkt_header_1ac46a1be92a277659b5f003f9d63e3252" prot="public" virt="non-virtual"><scope>CpuPktHeader</scope><name>spacer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

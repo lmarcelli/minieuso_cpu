@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_c_p_u___f_i_l_e" kind="struct" language="C++" prot="public">
+    <compoundname>CPU_FILE</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_p_u___f_i_l_e_1aaa203cbd5689324ef7840d87443e8861" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_file_header" kindref="compound">CpuFileHeader</ref></type>
+        <definition>CpuFileHeader CPU_FILE::cpu_file_header</definition>
+        <argsstring></argsstring>
+        <name>cpu_file_header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="134" column="1" bodyfile="src/data_format/data_format.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_p_u___f_i_l_e_1a0b777aa887502aba30db59e4b2f34af9" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_c_p_u___p_a_c_k_e_t" kindref="compound">CPU_PACKET</ref></type>
+        <definition>CPU_PACKET CPU_FILE::cpu_run_payload[RUN_SIZE]</definition>
+        <argsstring>[RUN_SIZE]</argsstring>
+        <name>cpu_run_payload</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="135" column="1" bodyfile="src/data_format/data_format.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_p_u___f_i_l_e_1a3d11843a09f6df2c4e9fdc8ec4ce1f9c" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_file_trailer" kindref="compound">CpuFileTrailer</ref></type>
+        <definition>CpuFileTrailer CPU_FILE::cpu_file_trailer</definition>
+        <argsstring></argsstring>
+        <name>cpu_file_trailer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="136" column="1" bodyfile="src/data_format/data_format.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="25">
+        <label>ZynqBoardHeader</label>
+        <link refid="struct_zynq_board_header"/>
+      </node>
+      <node id="23">
+        <label>DATA_TYPE_SCI_L3_V2</label>
+        <link refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2"/>
+        <childnode refid="24" relation="usage">
+          <edgelabel>ts</edgelabel>
+        </childnode>
+      </node>
+      <node id="24">
+        <label>TimeStamp_dual</label>
+        <link refid="struct_time_stamp__dual"/>
+      </node>
+      <node id="17">
+        <label>CPU_FILE</label>
+        <link refid="struct_c_p_u___f_i_l_e"/>
+        <childnode refid="18" relation="usage">
+          <edgelabel>cpu_file_header</edgelabel>
+        </childnode>
+        <childnode refid="19" relation="usage">
+          <edgelabel>cpu_file_trailer</edgelabel>
+        </childnode>
+        <childnode refid="20" relation="usage">
+          <edgelabel>cpu_run_payload</edgelabel>
+        </childnode>
+      </node>
+      <node id="26">
+        <label>CpuPktHeader</label>
+        <link refid="struct_cpu_pkt_header"/>
+      </node>
+      <node id="22">
+        <label>Z_DATA_TYPE_SCI_L3_V2</label>
+        <link refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2"/>
+        <childnode refid="23" relation="usage">
+          <edgelabel>payload</edgelabel>
+        </childnode>
+        <childnode refid="25" relation="usage">
+          <edgelabel>zbh</edgelabel>
+        </childnode>
+      </node>
+      <node id="20">
+        <label>CPU_PACKET</label>
+        <link refid="struct_c_p_u___p_a_c_k_e_t"/>
+        <childnode refid="21" relation="usage">
+          <edgelabel>zynq_packet</edgelabel>
+        </childnode>
+        <childnode refid="26" relation="usage">
+          <edgelabel>cpu_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>cpu_time</edgelabel>
+        </childnode>
+        <childnode refid="28" relation="usage">
+          <edgelabel>hk_packet</edgelabel>
+        </childnode>
+      </node>
+      <node id="27">
+        <label>CpuTimeStamp</label>
+        <link refid="struct_cpu_time_stamp"/>
+      </node>
+      <node id="19">
+        <label>CpuFileTrailer</label>
+        <link refid="struct_cpu_file_trailer"/>
+      </node>
+      <node id="28">
+        <label>HK_PACKET</label>
+        <link refid="struct_h_k___p_a_c_k_e_t"/>
+        <childnode refid="26" relation="usage">
+          <edgelabel>hk_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>hk_time</edgelabel>
+        </childnode>
+      </node>
+      <node id="21">
+        <label>ZYNQ_PACKET</label>
+        <link refid="struct_z_y_n_q___p_a_c_k_e_t"/>
+        <childnode refid="22" relation="usage">
+          <edgelabel>level3_data</edgelabel>
+        </childnode>
+      </node>
+      <node id="18">
+        <label>CpuFileHeader</label>
+        <link refid="struct_cpu_file_header"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/data_format/data_format.h" line="133" column="1" bodyfile="src/data_format/data_format.h" bodystart="132" bodyend="137"/>
+    <listofallmembers>
+      <member refid="struct_c_p_u___f_i_l_e_1aaa203cbd5689324ef7840d87443e8861" prot="public" virt="non-virtual"><scope>CPU_FILE</scope><name>cpu_file_header</name></member>
+      <member refid="struct_c_p_u___f_i_l_e_1a3d11843a09f6df2c4e9fdc8ec4ce1f9c" prot="public" virt="non-virtual"><scope>CPU_FILE</scope><name>cpu_file_trailer</name></member>
+      <member refid="struct_c_p_u___f_i_l_e_1a0b777aa887502aba30db59e4b2f34af9" prot="public" virt="non-virtual"><scope>CPU_FILE</scope><name>cpu_run_payload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

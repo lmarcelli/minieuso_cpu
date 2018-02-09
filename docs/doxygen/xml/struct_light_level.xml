@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_light_level" kind="struct" language="C++" prot="public">
+    <compoundname>LightLevel</compoundname>
+    <includes refid="_analog_manager_8h" local="no">AnalogManager.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_light_level_1afe23ad9d5689ae0d1003212992ec5de5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float LightLevel::photodiode_data[N_CHANNELS_PHOTODIODE]</definition>
+        <argsstring>[N_CHANNELS_PHOTODIODE]</argsstring>
+        <name>photodiode_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="44" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_light_level_1a5ab6f73e09fc059f4cc4f1fa13fd3368" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float LightLevel::sipm_data[N_CHANNELS_SIPM]</definition>
+        <argsstring>[N_CHANNELS_SIPM]</argsstring>
+        <name>sipm_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="45" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_light_level_1ab2a13d679c44605f5a8260e1a45ae1e3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float LightLevel::sipm_single</definition>
+        <argsstring></argsstring>
+        <name>sipm_single</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="46" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/subsystems/AnalogManager.h" line="43" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="43" bodyend="47"/>
+    <listofallmembers>
+      <member refid="struct_light_level_1afe23ad9d5689ae0d1003212992ec5de5" prot="public" virt="non-virtual"><scope>LightLevel</scope><name>photodiode_data</name></member>
+      <member refid="struct_light_level_1a5ab6f73e09fc059f4cc4f1fa13fd3368" prot="public" virt="non-virtual"><scope>LightLevel</scope><name>sipm_data</name></member>
+      <member refid="struct_light_level_1ab2a13d679c44605f5a8260e1a45ae1e3" prot="public" virt="non-virtual"><scope>LightLevel</scope><name>sipm_single</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

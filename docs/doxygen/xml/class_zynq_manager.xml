@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_zynq_manager" kind="class" language="C++" prot="public">
+    <compoundname>ZynqManager</compoundname>
+    <includes refid="_zynq_manager_8h" local="no">ZynqManager.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>InstrumentMode</name>
+        <enumvalue id="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e8f29e7614620c810c56d8de4ef2f94" prot="public">
+          <name>MODE0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa73e5342da2e4b1777631e3b7c5e8e909" prot="public">
+          <name>MODE1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa75200ad719a8d9e830968dca0adce503" prot="public">
+          <name>PERIODIC</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e53eae0b5a50de5f2d57ad95b6ae7b8" prot="public">
+          <name>TRIGGER</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="30" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>TestMode</name>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a524dbfd45962699e76a5782e4904d65b" prot="public">
+          <name>T_MODE0</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a7fbe9ecf77701cacdcb53973b71d3809" prot="public">
+          <name>T_MODE1</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213aa932f57b8a9dd532ed88ebc360f57fb9" prot="public">
+          <name>T_MODE2</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213afc07035856a702cab9748ea917f4cc5c" prot="public">
+          <name>T_MODE3</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a330a3719dda034bd09525263e3beeaf9" prot="public">
+          <name>T_MODE4</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a90ffa35e6d3bc494f592e0302f7f8ac0" prot="public">
+          <name>T_MODE5</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a47c3abcd551abe197ab34f15ba34f511" prot="public">
+          <name>T_MODE6</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="37" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>HvpsStatus</name>
+        <enumvalue id="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1a8d34598513f64590dac8620c0f2f1dbb" prot="public">
+          <name>OFF</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ae11fe7979814ec644b6848fca4835fca" prot="public">
+          <name>ON</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ad69401c71fa8c52fd8b715ad29702a99" prot="public">
+          <name>UNDEF</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="47" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="47" bodyend="51"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_zynq_manager_1a45db60b5e4a84371edd526b7af16b785" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" kindref="member">InstrumentMode</ref></type>
+        <definition>InstrumentMode ZynqManager::instrument_mode</definition>
+        <argsstring></argsstring>
+        <name>instrument_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="36" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_zynq_manager_1a28d67e4ac036dc8528dc5575563f62b2" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" kindref="member">TestMode</ref></type>
+        <definition>TestMode ZynqManager::test_mode</definition>
+        <argsstring></argsstring>
+        <name>test_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="46" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_zynq_manager_1aacfe8fa72d1bf4cfdedfd49ef7527300" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1" kindref="member">HvpsStatus</ref></type>
+        <definition>HvpsStatus ZynqManager::hvps_status</definition>
+        <argsstring></argsstring>
+        <name>hvps_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="52" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_zynq_manager_1a3e5cbe48e0d62ccb1b2429b165c673fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ZynqManager::telnet_connected</definition>
+        <argsstring></argsstring>
+        <name>telnet_connected</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="54" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_zynq_manager_1a1a7ef0b8c8708600be90524b1291508f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ZynqManager::ZynqManager</definition>
+        <argsstring>()</argsstring>
+        <name>ZynqManager</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="56" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="5" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1adf1e86c89592758915e7357bf7989595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::CheckTelnet</definition>
+        <argsstring>()</argsstring>
+        <name>CheckTelnet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="57" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="14" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a56b95f7ffd34292a8863cd7c39e39a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::GetInstStatus</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="59" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="202" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a5259383f5f9a7e9a8816803c45d25fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::GetHvpsStatus</definition>
+        <argsstring>()</argsstring>
+        <name>GetHvpsStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="60" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="283" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1abd4555943234c7cbeb89525f48106b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::HvpsTurnOn</definition>
+        <argsstring>(int cv, int dv)</argsstring>
+        <name>HvpsTurnOn</name>
+        <param>
+          <type>int</type>
+          <declname>cv</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="61" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="308" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a06e33d748fef60a4dc40cded5526ab75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::HvpsTurnOff</definition>
+        <argsstring>()</argsstring>
+        <name>HvpsTurnOff</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="62" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="401" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a68834210d663cb799f19c6d1a45ac727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::Scurve</definition>
+        <argsstring>(int start, int step, int stop, int acc)</argsstring>
+        <name>Scurve</name>
+        <param>
+          <type>int</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>stop</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>acc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="63" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="432" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a96edfca4dd9f310be5fa64ca2be734ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::SetDac</definition>
+        <argsstring>(int dac_level)</argsstring>
+        <name>SetDac</name>
+        <param>
+          <type>int</type>
+          <declname>dac_level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="64" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="462" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a1fc298012cd8d33ad29b13524873b59c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::AcqShot</definition>
+        <argsstring>()</argsstring>
+        <name>AcqShot</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="65" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="489" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1ae834b6a1843ea4c7a636f0b51c9f3164" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" kindref="member">InstrumentMode</ref></type>
+        <definition>ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode</definition>
+        <argsstring>(InstrumentMode input_mode)</argsstring>
+        <name>SetInstrumentMode</name>
+        <param>
+          <type><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" kindref="member">InstrumentMode</ref></type>
+          <declname>input_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="66" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="515" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a6bb44cc05c5b7d2af824f250c3c5fac1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" kindref="member">TestMode</ref></type>
+        <definition>ZynqManager::TestMode ZynqManager::SetTestMode</definition>
+        <argsstring>(TestMode input_mode)</argsstring>
+        <name>SetTestMode</name>
+        <param>
+          <type><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" kindref="member">TestMode</ref></type>
+          <declname>input_mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="67" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="567" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1a50d651ef2c6b81210553d1afe6451c3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::SetNPkts</definition>
+        <argsstring>(int N1, int N2)</argsstring>
+        <name>SetNPkts</name>
+        <param>
+          <type>int</type>
+          <declname>N1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>N2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="69" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="638" bodyend="666"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_zynq_manager_1a80739bb8064bbce228ae57ec4e3d3ae2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::ConnectTelnet</definition>
+        <argsstring>()</argsstring>
+        <name>ConnectTelnet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="58" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="128" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="class_zynq_manager_1ac044c7648def418e49617258c1f1394c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::StopAcquisition</definition>
+        <argsstring>()</argsstring>
+        <name>StopAcquisition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="68" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="620" bodyend="634"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_zynq_manager_1a892853bd90eee653c39787a788fa1a39" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ZynqManager::SendRecvTelnet</definition>
+        <argsstring>(std::string send_msg, int sockfd)</argsstring>
+        <name>SendRecvTelnet</name>
+        <param>
+          <type>std::string</type>
+          <declname>send_msg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sockfd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="72" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="94" bodyend="124"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_zynq_manager_1a706206b4ac05fa3295d90b0a9a15c8af" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ZynqManager::InstStatusTest</definition>
+        <argsstring>(std::string send_msg)</argsstring>
+        <name>InstStatusTest</name>
+        <param>
+          <type>std::string</type>
+          <declname>send_msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ZynqManager.h" line="73" column="1" bodyfile="src/subsystems/ZynqManager.cpp" bodystart="228" bodyend="279"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/subsystems/ZynqManager.h" line="28" column="1" bodyfile="src/subsystems/ZynqManager.h" bodystart="28" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_zynq_manager_1a1fc298012cd8d33ad29b13524873b59c" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>AcqShot</name></member>
+      <member refid="class_zynq_manager_1adf1e86c89592758915e7357bf7989595" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>CheckTelnet</name></member>
+      <member refid="class_zynq_manager_1a80739bb8064bbce228ae57ec4e3d3ae2" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>ConnectTelnet</name></member>
+      <member refid="class_zynq_manager_1a5259383f5f9a7e9a8816803c45d25fdd" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>GetHvpsStatus</name></member>
+      <member refid="class_zynq_manager_1a56b95f7ffd34292a8863cd7c39e39a0a" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>GetInstStatus</name></member>
+      <member refid="class_zynq_manager_1aacfe8fa72d1bf4cfdedfd49ef7527300" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>hvps_status</name></member>
+      <member refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>HvpsStatus</name></member>
+      <member refid="class_zynq_manager_1a06e33d748fef60a4dc40cded5526ab75" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>HvpsTurnOff</name></member>
+      <member refid="class_zynq_manager_1abd4555943234c7cbeb89525f48106b0a" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>HvpsTurnOn</name></member>
+      <member refid="class_zynq_manager_1a45db60b5e4a84371edd526b7af16b785" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>instrument_mode</name></member>
+      <member refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>InstrumentMode</name></member>
+      <member refid="class_zynq_manager_1a706206b4ac05fa3295d90b0a9a15c8af" prot="private" virt="non-virtual"><scope>ZynqManager</scope><name>InstStatusTest</name></member>
+      <member refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e8f29e7614620c810c56d8de4ef2f94" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>MODE0</name></member>
+      <member refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa73e5342da2e4b1777631e3b7c5e8e909" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>MODE1</name></member>
+      <member refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1a8d34598513f64590dac8620c0f2f1dbb" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>OFF</name></member>
+      <member refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ae11fe7979814ec644b6848fca4835fca" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>ON</name></member>
+      <member refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa75200ad719a8d9e830968dca0adce503" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>PERIODIC</name></member>
+      <member refid="class_zynq_manager_1a68834210d663cb799f19c6d1a45ac727" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>Scurve</name></member>
+      <member refid="class_zynq_manager_1a892853bd90eee653c39787a788fa1a39" prot="private" virt="non-virtual"><scope>ZynqManager</scope><name>SendRecvTelnet</name></member>
+      <member refid="class_zynq_manager_1a96edfca4dd9f310be5fa64ca2be734ff" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>SetDac</name></member>
+      <member refid="class_zynq_manager_1ae834b6a1843ea4c7a636f0b51c9f3164" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>SetInstrumentMode</name></member>
+      <member refid="class_zynq_manager_1a50d651ef2c6b81210553d1afe6451c3d" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>SetNPkts</name></member>
+      <member refid="class_zynq_manager_1a6bb44cc05c5b7d2af824f250c3c5fac1" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>SetTestMode</name></member>
+      <member refid="class_zynq_manager_1ac044c7648def418e49617258c1f1394c" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>StopAcquisition</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a524dbfd45962699e76a5782e4904d65b" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE0</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a7fbe9ecf77701cacdcb53973b71d3809" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE1</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213aa932f57b8a9dd532ed88ebc360f57fb9" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE2</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213afc07035856a702cab9748ea917f4cc5c" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE3</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a330a3719dda034bd09525263e3beeaf9" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE4</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a90ffa35e6d3bc494f592e0302f7f8ac0" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE5</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a47c3abcd551abe197ab34f15ba34f511" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>T_MODE6</name></member>
+      <member refid="class_zynq_manager_1a3e5cbe48e0d62ccb1b2429b165c673fb" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>telnet_connected</name></member>
+      <member refid="class_zynq_manager_1a28d67e4ac036dc8528dc5575563f62b2" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>test_mode</name></member>
+      <member refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>TestMode</name></member>
+      <member refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e53eae0b5a50de5f2d57ad95b6ae7b8" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>TRIGGER</name></member>
+      <member refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ad69401c71fa8c52fd8b715ad29702a99" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>UNDEF</name></member>
+      <member refid="class_zynq_manager_1a1a7ef0b8c8708600be90524b1291508f" prot="public" virt="non-virtual"><scope>ZynqManager</scope><name>ZynqManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

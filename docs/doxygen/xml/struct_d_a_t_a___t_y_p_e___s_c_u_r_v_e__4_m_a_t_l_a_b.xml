@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b" kind="struct" language="C++" prot="public">
+    <compoundname>DATA_TYPE_SCURVE_4MATLAB</compoundname>
+    <includes refid="pdmdata_8h" local="no">pdmdata.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b_1af066a56acdb79e032406f6398f8504f6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t DATA_TYPE_SCURVE_4MATLAB::int32_data[NMAX_OF_THESHOLDS_4MATLAB][N_OF_PIXEL_PER_PDM]</definition>
+        <argsstring>[NMAX_OF_THESHOLDS_4MATLAB][N_OF_PIXEL_PER_PDM]</argsstring>
+        <name>int32_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="282" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data_format/pdmdata.h" line="281" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="280" bodyend="283"/>
+    <listofallmembers>
+      <member refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b_1af066a56acdb79e032406f6398f8504f6" prot="public" virt="non-virtual"><scope>DATA_TYPE_SCURVE_4MATLAB</scope><name>int32_data</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

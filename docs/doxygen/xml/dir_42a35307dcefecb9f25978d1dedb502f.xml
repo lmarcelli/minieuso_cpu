@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="dir_42a35307dcefecb9f25978d1dedb502f" kind="dir">
+    <compoundname>src/subsystems</compoundname>
+    <innerfile refid="_analog_manager_8cpp">AnalogManager.cpp</innerfile>
+    <innerfile refid="_analog_manager_8h">AnalogManager.h</innerfile>
+    <innerfile refid="_cam_manager_8cpp">CamManager.cpp</innerfile>
+    <innerfile refid="_cam_manager_8h">CamManager.h</innerfile>
+    <innerfile refid="_lvps_manager_8cpp">LvpsManager.cpp</innerfile>
+    <innerfile refid="_lvps_manager_8h">LvpsManager.h</innerfile>
+    <innerfile refid="_therm_manager_8cpp">ThermManager.cpp</innerfile>
+    <innerfile refid="_therm_manager_8h">ThermManager.h</innerfile>
+    <innerfile refid="_usb_manager_8cpp">UsbManager.cpp</innerfile>
+    <innerfile refid="_usb_manager_8h">UsbManager.h</innerfile>
+    <innerfile refid="_zynq_manager_8cpp">ZynqManager.cpp</innerfile>
+    <innerfile refid="_zynq_manager_8h">ZynqManager.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/subsystems/"/>
+  </compounddef>
+</doxygen>

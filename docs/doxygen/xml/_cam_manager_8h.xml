@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_cam_manager_8h" kind="file" language="C++">
+    <compoundname>CamManager.h</compoundname>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">sys/types.h</includes>
+    <includes local="no">signal.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">future</includes>
+    <includes local="no">chrono</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includes refid="_cpu_tools_8h" local="yes">CpuTools.h</includes>
+    <includedby refid="_run_instrument_8h" local="yes">src/instrument/RunInstrument.h</includedby>
+    <includedby refid="_cam_manager_8cpp" local="yes">src/subsystems/CamManager.cpp</includedby>
+    <incdepgraph>
+      <node id="607">
+        <label>src/subsystems/CamManager.h</label>
+        <link refid="_cam_manager_8h"/>
+        <childnode refid="608" relation="include">
+        </childnode>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="610" relation="include">
+        </childnode>
+        <childnode refid="611" relation="include">
+        </childnode>
+        <childnode refid="612" relation="include">
+        </childnode>
+        <childnode refid="613" relation="include">
+        </childnode>
+        <childnode refid="614" relation="include">
+        </childnode>
+        <childnode refid="615" relation="include">
+        </childnode>
+        <childnode refid="621" relation="include">
+        </childnode>
+      </node>
+      <node id="632">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="634">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="620">
+        <label>iomanip</label>
+      </node>
+      <node id="628">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="629" relation="include">
+        </childnode>
+        <childnode refid="630" relation="include">
+        </childnode>
+        <childnode refid="631" relation="include">
+        </childnode>
+        <childnode refid="616" relation="include">
+        </childnode>
+        <childnode refid="610" relation="include">
+        </childnode>
+        <childnode refid="632" relation="include">
+        </childnode>
+        <childnode refid="633" relation="include">
+        </childnode>
+        <childnode refid="634" relation="include">
+        </childnode>
+        <childnode refid="635" relation="include">
+        </childnode>
+        <childnode refid="617" relation="include">
+        </childnode>
+        <childnode refid="636" relation="include">
+        </childnode>
+        <childnode refid="615" relation="include">
+        </childnode>
+      </node>
+      <node id="608">
+        <label>stdlib.h</label>
+      </node>
+      <node id="624">
+        <label>stdexcept</label>
+      </node>
+      <node id="635">
+        <label>fcntl.h</label>
+      </node>
+      <node id="625">
+        <label>string</label>
+      </node>
+      <node id="617">
+        <label>fstream</label>
+      </node>
+      <node id="633">
+        <label>netdb.h</label>
+      </node>
+      <node id="621">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="622" relation="include">
+        </childnode>
+        <childnode refid="619" relation="include">
+        </childnode>
+        <childnode refid="618" relation="include">
+        </childnode>
+        <childnode refid="620" relation="include">
+        </childnode>
+        <childnode refid="623" relation="include">
+        </childnode>
+        <childnode refid="624" relation="include">
+        </childnode>
+        <childnode refid="625" relation="include">
+        </childnode>
+        <childnode refid="626" relation="include">
+        </childnode>
+        <childnode refid="627" relation="include">
+        </childnode>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="628" relation="include">
+        </childnode>
+      </node>
+      <node id="610">
+        <label>sys/types.h</label>
+      </node>
+      <node id="630">
+        <label>string.h</label>
+      </node>
+      <node id="622">
+        <label>cstdio</label>
+      </node>
+      <node id="613">
+        <label>future</label>
+      </node>
+      <node id="609">
+        <label>unistd.h</label>
+      </node>
+      <node id="611">
+        <label>signal.h</label>
+      </node>
+      <node id="626">
+        <label>array</label>
+      </node>
+      <node id="618">
+        <label>sstream</label>
+      </node>
+      <node id="615">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="616" relation="include">
+        </childnode>
+        <childnode refid="617" relation="include">
+        </childnode>
+        <childnode refid="618" relation="include">
+        </childnode>
+        <childnode refid="619" relation="include">
+        </childnode>
+        <childnode refid="620" relation="include">
+        </childnode>
+      </node>
+      <node id="616">
+        <label>sys/time.h</label>
+      </node>
+      <node id="619">
+        <label>iostream</label>
+      </node>
+      <node id="629">
+        <label>strings.h</label>
+      </node>
+      <node id="614">
+        <label>chrono</label>
+      </node>
+      <node id="631">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="612">
+        <label>thread</label>
+      </node>
+      <node id="636">
+        <label>algorithm</label>
+      </node>
+      <node id="623">
+        <label>memory</label>
+      </node>
+      <node id="627">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="637">
+        <label>src/subsystems/CamManager.h</label>
+        <link refid="_cam_manager_8h"/>
+        <childnode refid="638" relation="include">
+        </childnode>
+        <childnode refid="642" relation="include">
+        </childnode>
+      </node>
+      <node id="640">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="641" relation="include">
+        </childnode>
+      </node>
+      <node id="641">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="642">
+        <label>src/subsystems/CamManager.cpp</label>
+        <link refid="_cam_manager_8cpp"/>
+      </node>
+      <node id="638">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="639" relation="include">
+        </childnode>
+        <childnode refid="640" relation="include">
+        </childnode>
+      </node>
+      <node id="639">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_cam_manager" prot="public">CamManager</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_cam_manager_8h_1a1862416cf54c57e6951e31a008c6f4fe" prot="public" static="no">
+        <name>CAMERA_DIR</name>
+        <initializer>&quot;/home/software/CPU/cameras/multiplecam&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/CamManager.h" line="15" column="9" bodyfile="src/subsystems/CamManager.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_cam_manager_8h_1a39e0d9a5e6f009a7606ac1015300e3fd" prot="public" static="no">
+        <name>CAMERA_EXEC</name>
+        <initializer>&quot;(cd /home/software/CPU/cameras/multiplecam &amp;&amp; ./multiplecam.sh)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/CamManager.h" line="16" column="9" bodyfile="src/subsystems/CamManager.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_cam_manager_8h_1a81f7894d1788b13ba22a8fb2fb192554" prot="public" static="no">
+        <name>CAMERA_EXEC_USB</name>
+        <initializer>&quot;(cd /home/software/CPU/cameras/multiplecam &amp;&amp; ./multiplecam.sh)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/CamManager.h" line="17" column="9" bodyfile="src/subsystems/CamManager.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_cam_manager_8h_1a163de8714baecce80d3b8f1e11194725" prot="public" static="no">
+        <name>N_TRY_RELAUNCH</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/CamManager.h" line="20" column="9" bodyfile="src/subsystems/CamManager.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_cam_manager_8h_1ae7676cdfa371dfdcf6fb0687737c29a6" prot="public" static="no">
+        <name>WAIT_TIME</name>
+        <initializer>120</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/CamManager.h" line="21" column="9" bodyfile="src/subsystems/CamManager.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_CAM_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_CAM_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;signal.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_cpu_tools_8h" kindref="compound">CpuTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="_cam_manager_8h_1a1862416cf54c57e6951e31a008c6f4fe" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CAMERA_DIR<sp/>&quot;/home/software/CPU/cameras/multiplecam&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="_cam_manager_8h_1a39e0d9a5e6f009a7606ac1015300e3fd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CAMERA_EXEC<sp/>&quot;(cd<sp/>/home/software/CPU/cameras/multiplecam<sp/>&amp;&amp;<sp/>./multiplecam.sh)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="_cam_manager_8h_1a81f7894d1788b13ba22a8fb2fb192554" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CAMERA_EXEC_USB<sp/>&quot;(cd<sp/>/home/software/CPU/cameras/multiplecam<sp/>&amp;&amp;<sp/>./multiplecam.sh)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>to<sp/>be<sp/>updated<sp/>when<sp/>ST<sp/>updates<sp/>multiplecam<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//#define<sp/>CAMERA_EXEC_USB<sp/>&quot;(cd<sp/>/home/software/CPU/cameras/multiplecam<sp/>&amp;&amp;<sp/>./multiplecam.sh<sp/>/home/software/CPU/cameras/multiplecam<sp/>/media/usb0)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="_cam_manager_8h_1a163de8714baecce80d3b8f1e11194725" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_TRY_RELAUNCH<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="_cam_manager_8h_1ae7676cdfa371dfdcf6fb0687737c29a6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>WAIT_TIME<sp/>120</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_cam_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cam_manager" kindref="compound">CamManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="class_cam_manager_1a9c0537cf946d6028ba3f10986eec71dc" refkind="member"><highlight class="normal"><sp/><sp/>std::thread::native_handle_type<sp/><ref refid="class_cam_manager_1a9c0537cf946d6028ba3f10986eec71dc" kindref="member">cam_thread_handle</ref>;</highlight></codeline>
+<codeline lineno="26" refid="class_cam_manager_1a8a1554258516ae118da1ef92c631a995" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1a8a1554258516ae118da1ef92c631a995" kindref="member">usb_num_storage_dev</ref>;</highlight></codeline>
+<codeline lineno="27" refid="class_cam_manager_1ac035915a8cad353926632b2e61369764" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1ac035915a8cad353926632b2e61369764" kindref="member">n_relaunch_attempt</ref>;</highlight></codeline>
+<codeline lineno="28" refid="class_cam_manager_1a4b955a764a52fe2efc22111cae9d201d" refkind="member"><highlight class="normal"><sp/><sp/>std::promise&lt;bool&gt;<sp/><ref refid="class_cam_manager_1a4b955a764a52fe2efc22111cae9d201d" kindref="member">launch_failed</ref>;</highlight></codeline>
+<codeline lineno="29" refid="class_cam_manager_1ae4bb5d125596601afc67732d0bfd66a9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1ae4bb5d125596601afc67732d0bfd66a9" kindref="member">launch_running</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><ref refid="class_cam_manager_1a643cdee3ae33e1f160eb816ed47962cd" kindref="member">CamManager</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1af48813c7c6d9c46c0d856ab71596e7af" kindref="member">SetVerbose</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1ad6f8151290a70d0b00ec7ef331851706" kindref="member">KillCamAcq</ref>();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_cam_manager_1abf91c3d789007be17ffc9edfab13e2e4" kindref="member">CollectData</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verbose<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>StartAcquisition();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_CAM_MANAGER_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/CamManager.h"/>
+  </compounddef>
+</doxygen>

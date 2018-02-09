@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_cmd_line_inputs" kind="struct" language="C++" prot="public">
+    <compoundname>CmdLineInputs</compoundname>
+    <includes refid="_input_parser_8h" local="no">InputParser.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a3caced8b01d112efe51d04001af01a51" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::help</definition>
+        <argsstring></argsstring>
+        <name>help</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="15" column="1" bodyfile="src/tools/InputParser.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a245e63ae022f665018212b1a391f8fec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::hvps_on</definition>
+        <argsstring></argsstring>
+        <name>hvps_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="16" column="1" bodyfile="src/tools/InputParser.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a865ccb1849979316588536a59213f8a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::hvps_switch</definition>
+        <argsstring></argsstring>
+        <name>hvps_switch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="17" column="1" bodyfile="src/tools/InputParser.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1afbf6dcfc236f225b09beec20228bb17d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::debug_mode</definition>
+        <argsstring></argsstring>
+        <name>debug_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="18" column="1" bodyfile="src/tools/InputParser.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a88c728d5406ac3afea898f6cd9042de9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::log_on</definition>
+        <argsstring></argsstring>
+        <name>log_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="19" column="1" bodyfile="src/tools/InputParser.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a10db365c09b98a738257a93d6718aeaa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::trig_on</definition>
+        <argsstring></argsstring>
+        <name>trig_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="20" column="1" bodyfile="src/tools/InputParser.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1ae6172212a136f5c803e6af0a5e2daa53" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::cam_on</definition>
+        <argsstring></argsstring>
+        <name>cam_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="21" column="1" bodyfile="src/tools/InputParser.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a036ab31a6d1c9b9b0c1e4b529eecfd39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::therm_on</definition>
+        <argsstring></argsstring>
+        <name>therm_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="22" column="1" bodyfile="src/tools/InputParser.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a7e8f543661cd5741d4a1bbe3e24a9030" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::lvps_on</definition>
+        <argsstring></argsstring>
+        <name>lvps_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="23" column="1" bodyfile="src/tools/InputParser.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a98db4b47df61f89208118dc3e4f56854" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::sc_on</definition>
+        <argsstring></argsstring>
+        <name>sc_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="24" column="1" bodyfile="src/tools/InputParser.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1ab32a29de930637b7a172d507b9c3c8a3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::single_run</definition>
+        <argsstring></argsstring>
+        <name>single_run</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="25" column="1" bodyfile="src/tools/InputParser.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a5c00ff8d6306c48203584982ac2f9524" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::test_zynq_on</definition>
+        <argsstring></argsstring>
+        <name>test_zynq_on</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="26" column="1" bodyfile="src/tools/InputParser.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1ad050b3e333d5414fef2848ba2408e1d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::keep_zynq_pkt</definition>
+        <argsstring></argsstring>
+        <name>keep_zynq_pkt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="27" column="1" bodyfile="src/tools/InputParser.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a8aebdd0a34c7ba1ab780102425dfa688" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::check_status</definition>
+        <argsstring></argsstring>
+        <name>check_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="28" column="1" bodyfile="src/tools/InputParser.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a93e2a8e691377cb64562c164ddc1cc59" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CmdLineInputs::dv</definition>
+        <argsstring></argsstring>
+        <name>dv</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="31" column="1" bodyfile="src/tools/InputParser.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1ae04912996c647a651112560d79720b18" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int CmdLineInputs::hvdac</definition>
+        <argsstring></argsstring>
+        <name>hvdac</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="32" column="1" bodyfile="src/tools/InputParser.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1ae165595c206085e64818cd797686c2f0" prot="public" static="no" mutable="no">
+        <type><ref refid="class_lvps_manager_1a28b906147042a75a75377858218fe1b6" kindref="member">LvpsManager::Status</ref></type>
+        <definition>LvpsManager::Status CmdLineInputs::lvps_status</definition>
+        <argsstring></argsstring>
+        <name>lvps_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="33" column="1" bodyfile="src/tools/InputParser.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" prot="public" static="no" mutable="no">
+        <type><ref refid="class_lvps_manager_1a2bbab5dd2243712f1046d77aac49e5ad" kindref="member">LvpsManager::SubSystem</ref></type>
+        <definition>LvpsManager::SubSystem CmdLineInputs::lvps_subsystem</definition>
+        <argsstring></argsstring>
+        <name>lvps_subsystem</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="34" column="1" bodyfile="src/tools/InputParser.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1" kindref="member">ZynqManager::HvpsStatus</ref></type>
+        <definition>ZynqManager::HvpsStatus CmdLineInputs::hvps_status</definition>
+        <argsstring></argsstring>
+        <name>hvps_status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="35" column="1" bodyfile="src/tools/InputParser.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddf" kindref="member">ZynqManager::InstrumentMode</ref></type>
+        <definition>ZynqManager::InstrumentMode CmdLineInputs::zynq_mode</definition>
+        <argsstring></argsstring>
+        <name>zynq_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="36" column="1" bodyfile="src/tools/InputParser.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213" kindref="member">ZynqManager::TestMode</ref></type>
+        <definition>ZynqManager::TestMode CmdLineInputs::zynq_test_mode</definition>
+        <argsstring></argsstring>
+        <name>zynq_test_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="37" column="1" bodyfile="src/tools/InputParser.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cmd_line_inputs_1a480650fe2fe4cc380125e987e02baaa5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CmdLineInputs::cam_verbose</definition>
+        <argsstring></argsstring>
+        <name>cam_verbose</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="38" column="1" bodyfile="src/tools/InputParser.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/InputParser.h" line="12" column="1" bodyfile="src/tools/InputParser.h" bodystart="12" bodyend="40"/>
+    <listofallmembers>
+      <member refid="struct_cmd_line_inputs_1ae6172212a136f5c803e6af0a5e2daa53" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>cam_on</name></member>
+      <member refid="struct_cmd_line_inputs_1a480650fe2fe4cc380125e987e02baaa5" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>cam_verbose</name></member>
+      <member refid="struct_cmd_line_inputs_1a8aebdd0a34c7ba1ab780102425dfa688" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>check_status</name></member>
+      <member refid="struct_cmd_line_inputs_1afbf6dcfc236f225b09beec20228bb17d" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>debug_mode</name></member>
+      <member refid="struct_cmd_line_inputs_1a93e2a8e691377cb64562c164ddc1cc59" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>dv</name></member>
+      <member refid="struct_cmd_line_inputs_1a3caced8b01d112efe51d04001af01a51" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>help</name></member>
+      <member refid="struct_cmd_line_inputs_1ae04912996c647a651112560d79720b18" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>hvdac</name></member>
+      <member refid="struct_cmd_line_inputs_1a245e63ae022f665018212b1a391f8fec" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>hvps_on</name></member>
+      <member refid="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>hvps_status</name></member>
+      <member refid="struct_cmd_line_inputs_1a865ccb1849979316588536a59213f8a5" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>hvps_switch</name></member>
+      <member refid="struct_cmd_line_inputs_1ad050b3e333d5414fef2848ba2408e1d1" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>keep_zynq_pkt</name></member>
+      <member refid="struct_cmd_line_inputs_1a88c728d5406ac3afea898f6cd9042de9" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>log_on</name></member>
+      <member refid="struct_cmd_line_inputs_1a7e8f543661cd5741d4a1bbe3e24a9030" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>lvps_on</name></member>
+      <member refid="struct_cmd_line_inputs_1ae165595c206085e64818cd797686c2f0" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>lvps_status</name></member>
+      <member refid="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>lvps_subsystem</name></member>
+      <member refid="struct_cmd_line_inputs_1a98db4b47df61f89208118dc3e4f56854" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>sc_on</name></member>
+      <member refid="struct_cmd_line_inputs_1ab32a29de930637b7a172d507b9c3c8a3" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>single_run</name></member>
+      <member refid="struct_cmd_line_inputs_1a5c00ff8d6306c48203584982ac2f9524" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>test_zynq_on</name></member>
+      <member refid="struct_cmd_line_inputs_1a036ab31a6d1c9b9b0c1e4b529eecfd39" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>therm_on</name></member>
+      <member refid="struct_cmd_line_inputs_1a10db365c09b98a738257a93d6718aeaa" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>trig_on</name></member>
+      <member refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>zynq_mode</name></member>
+      <member refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" prot="public" virt="non-virtual"><scope>CmdLineInputs</scope><name>zynq_test_mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" kind="struct" language="C++" prot="public">
+    <compoundname>Z_DATA_TYPE_SCURVE_V1</compoundname>
+    <includes refid="pdmdata_8h" local="no">pdmdata.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1aa884de4adf7e1cbf5fc1b044f23aef86" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref></type>
+        <definition>ZynqBoardHeader Z_DATA_TYPE_SCURVE_V1::zbh</definition>
+        <argsstring></argsstring>
+        <name>zbh</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="269" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1abd36d82dd35b7924899071e6e9ace582" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" kindref="compound">DATA_TYPE_SCURVE_V1</ref></type>
+        <definition>DATA_TYPE_SCURVE_V1 Z_DATA_TYPE_SCURVE_V1::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="270" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="185">
+        <label>ZynqBoardHeader</label>
+        <link refid="struct_zynq_board_header"/>
+      </node>
+      <node id="184">
+        <label>DATA_TYPE_SCURVE_V1</label>
+        <link refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1"/>
+      </node>
+      <node id="183">
+        <label>Z_DATA_TYPE_SCURVE_V1</label>
+        <link refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1"/>
+        <childnode refid="184" relation="usage">
+          <edgelabel>payload</edgelabel>
+        </childnode>
+        <childnode refid="185" relation="usage">
+          <edgelabel>zbh</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/data_format/pdmdata.h" line="268" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="267" bodyend="271"/>
+    <listofallmembers>
+      <member refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1abd36d82dd35b7924899071e6e9ace582" prot="public" virt="non-virtual"><scope>Z_DATA_TYPE_SCURVE_V1</scope><name>payload</name></member>
+      <member refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1aa884de4adf7e1cbf5fc1b044f23aef86" prot="public" virt="non-virtual"><scope>Z_DATA_TYPE_SCURVE_V1</scope><name>zbh</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

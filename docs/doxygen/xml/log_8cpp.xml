@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="log_8cpp" kind="file" language="C++">
+    <compoundname>log.cpp</compoundname>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <incdepgraph>
+      <node id="1055">
+        <label>iomanip</label>
+      </node>
+      <node id="1049">
+        <label>src/tools/log.cpp</label>
+        <link refid="log_8cpp"/>
+        <childnode refid="1050" relation="include">
+        </childnode>
+      </node>
+      <node id="1052">
+        <label>fstream</label>
+      </node>
+      <node id="1053">
+        <label>sstream</label>
+      </node>
+      <node id="1050">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="1051" relation="include">
+        </childnode>
+        <childnode refid="1052" relation="include">
+        </childnode>
+        <childnode refid="1053" relation="include">
+        </childnode>
+        <childnode refid="1054" relation="include">
+        </childnode>
+        <childnode refid="1055" relation="include">
+        </childnode>
+      </node>
+      <node id="1051">
+        <label>sys/time.h</label>
+      </node>
+      <node id="1054">
+        <label>iostream</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="log_8cpp_1a8779964f932c525ed6d4fc9d824838ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string log_name</definition>
+        <argsstring></argsstring>
+        <name>log_name</name>
+        <initializer>= <ref refid="log_8h_1ad1473f4789f3b1e90fe9d5ab020f4b7e" kindref="member">CreateLogname</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.cpp" line="3" column="1" bodyfile="src/tools/log.cpp" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" prot="public" static="no" mutable="no">
+        <type><ref refid="classlogstream" kindref="compound">logstream</ref></type>
+        <definition>logstream clog(log_file, logstream::quiet)</definition>
+        <argsstring>(log_file, logstream::quiet)</argsstring>
+        <name>clog</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.cpp" line="7" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="log_8cpp_1af1d40de05059ec682c83b8c6a117c05b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ofstream</type>
+        <definition>std::ofstream log_file</definition>
+        <argsstring>(log_name, std::ios::out)</argsstring>
+        <name>log_file</name>
+        <param>
+          <type><ref refid="log_8h_1a8779964f932c525ed6d4fc9d824838ab" kindref="member">log_name</ref></type>
+        </param>
+        <param>
+          <type>std::ios::out</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.cpp" line="6" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="log_8cpp_1ad1473f4789f3b1e90fe9d5ab020f4b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string CreateLogname</definition>
+        <argsstring>(void)</argsstring>
+        <name>CreateLogname</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.cpp" line="10" column="1" bodyfile="src/tools/log.cpp" bodystart="10" bodyend="24"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal">std::string<sp/><ref refid="log_8cpp_1a8779964f932c525ed6d4fc9d824838ab" kindref="member">log_name</ref><sp/>=<sp/><ref refid="log_8cpp_1ad1473f4789f3b1e90fe9d5ab020f4b7e" kindref="member">CreateLogname</ref>();<sp/></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>logging<sp/>definition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">std::ofstream<sp/><ref refid="log_8cpp_1af1d40de05059ec682c83b8c6a117c05b" kindref="member">log_file</ref>(<ref refid="log_8cpp_1a8779964f932c525ed6d4fc9d824838ab" kindref="member">log_name</ref>,<sp/>std::ios::out);</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><ref refid="classlogstream" kindref="compound">logstream</ref><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref>(<ref refid="log_8cpp_1af1d40de05059ec682c83b8c6a117c05b" kindref="member">log_file</ref>,<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a46b3906961f80dad75595bc200c975ef" kindref="member">logstream::quiet</ref>);</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>create<sp/>log<sp/>file<sp/>name<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">std::string<sp/><ref refid="log_8cpp_1ad1473f4789f3b1e90fe9d5ab020f4b7e" kindref="member">CreateLogname</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timeval<sp/>tv;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>logname[80];</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/>std::string<sp/>log_dir(<ref refid="log_8h_1acd4d3023d24d5314b895981b17825666" kindref="member">LOG_DIR</ref>);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/>std::string<sp/>time_str(</highlight><highlight class="stringliteral">&quot;/CPU_MAIN__%Y_%m_%d__%H_%M_%S.log&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/>std::string<sp/>log_str<sp/>=<sp/>log_dir<sp/>+<sp/>time_str;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>kLogCh<sp/>=<sp/>log_str.c_str();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/>gettimeofday(&amp;tv,0);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>time_t<sp/>now<sp/>=<sp/>tv.tv_sec;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">tm<sp/>*<sp/>now_tm<sp/>=<sp/>localtime(&amp;now);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>strftime(logname,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(logname),<sp/>kLogCh,<sp/>now_tm);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>logname;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/log.cpp"/>
+  </compounddef>
+</doxygen>

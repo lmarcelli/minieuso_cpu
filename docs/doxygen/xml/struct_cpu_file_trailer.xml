@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_cpu_file_trailer" kind="struct" language="C++" prot="public">
+    <compoundname>CpuFileTrailer</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_cpu_file_trailer_1a855be80d4e1a9b53d677469240c6eaa2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuFileTrailer::spacer</definition>
+        <argsstring></argsstring>
+        <name>spacer</name>
+        <initializer>= <ref refid="data__format_8h_1a3b3d331d484f85bfe51cf74f44d339ab" kindref="member">ID_TAG</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="36" column="1" bodyfile="src/data_format/data_format.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cpu_file_trailer_1a736a61cbbd52ce41d2eec9b7bb638dad" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuFileTrailer::run_size</definition>
+        <argsstring></argsstring>
+        <name>run_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="37" column="1" bodyfile="src/data_format/data_format.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_cpu_file_trailer_1a26f3adebfa390d51e8ed9b5dcf1d1dab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t CpuFileTrailer::crc</definition>
+        <argsstring></argsstring>
+        <name>crc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="38" column="1" bodyfile="src/data_format/data_format.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data_format/data_format.h" line="35" column="1" bodyfile="src/data_format/data_format.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="struct_cpu_file_trailer_1a26f3adebfa390d51e8ed9b5dcf1d1dab" prot="public" virt="non-virtual"><scope>CpuFileTrailer</scope><name>crc</name></member>
+      <member refid="struct_cpu_file_trailer_1a736a61cbbd52ce41d2eec9b7bb638dad" prot="public" virt="non-virtual"><scope>CpuFileTrailer</scope><name>run_size</name></member>
+      <member refid="struct_cpu_file_trailer_1a855be80d4e1a9b53d677469240c6eaa2" prot="public" virt="non-virtual"><scope>CpuFileTrailer</scope><name>spacer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_h_k___p_a_c_k_e_t" kind="struct" language="C++" prot="public">
+    <compoundname>HK_PACKET</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_h_k___p_a_c_k_e_t_1a9530cef04346ba3f2f5463335c754109" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_pkt_header" kindref="compound">CpuPktHeader</ref></type>
+        <definition>CpuPktHeader HK_PACKET::hk_packet_header</definition>
+        <argsstring></argsstring>
+        <name>hk_packet_header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="99" column="1" bodyfile="src/data_format/data_format.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_k___p_a_c_k_e_t_1ad846026661a93daaa9a52b8a5c9e71c5" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_time_stamp" kindref="compound">CpuTimeStamp</ref></type>
+        <definition>CpuTimeStamp HK_PACKET::hk_time</definition>
+        <argsstring></argsstring>
+        <name>hk_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="100" column="1" bodyfile="src/data_format/data_format.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_k___p_a_c_k_e_t_1a5ff5f449b077701216738752eacb0f09" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float HK_PACKET::photodiode_data[N_CHANNELS_PHOTODIODE]</definition>
+        <argsstring>[N_CHANNELS_PHOTODIODE]</argsstring>
+        <name>photodiode_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="101" column="1" bodyfile="src/data_format/data_format.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_k___p_a_c_k_e_t_1ac838724962de25b788628f19f5e301e3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float HK_PACKET::sipm_data[N_CHANNELS_SIPM]</definition>
+        <argsstring>[N_CHANNELS_SIPM]</argsstring>
+        <name>sipm_data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="102" column="1" bodyfile="src/data_format/data_format.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_k___p_a_c_k_e_t_1a52530e27c4abe5de04c9b7f69bd998ea" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float HK_PACKET::sipm_single</definition>
+        <argsstring></argsstring>
+        <name>sipm_single</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="103" column="1" bodyfile="src/data_format/data_format.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="79">
+        <label>CpuPktHeader</label>
+        <link refid="struct_cpu_pkt_header"/>
+      </node>
+      <node id="80">
+        <label>CpuTimeStamp</label>
+        <link refid="struct_cpu_time_stamp"/>
+      </node>
+      <node id="78">
+        <label>HK_PACKET</label>
+        <link refid="struct_h_k___p_a_c_k_e_t"/>
+        <childnode refid="79" relation="usage">
+          <edgelabel>hk_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="80" relation="usage">
+          <edgelabel>hk_time</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/data_format/data_format.h" line="98" column="1" bodyfile="src/data_format/data_format.h" bodystart="97" bodyend="104"/>
+    <listofallmembers>
+      <member refid="struct_h_k___p_a_c_k_e_t_1a9530cef04346ba3f2f5463335c754109" prot="public" virt="non-virtual"><scope>HK_PACKET</scope><name>hk_packet_header</name></member>
+      <member refid="struct_h_k___p_a_c_k_e_t_1ad846026661a93daaa9a52b8a5c9e71c5" prot="public" virt="non-virtual"><scope>HK_PACKET</scope><name>hk_time</name></member>
+      <member refid="struct_h_k___p_a_c_k_e_t_1a5ff5f449b077701216738752eacb0f09" prot="public" virt="non-virtual"><scope>HK_PACKET</scope><name>photodiode_data</name></member>
+      <member refid="struct_h_k___p_a_c_k_e_t_1ac838724962de25b788628f19f5e301e3" prot="public" virt="non-virtual"><scope>HK_PACKET</scope><name>sipm_data</name></member>
+      <member refid="struct_h_k___p_a_c_k_e_t_1a52530e27c4abe5de04c9b7f69bd998ea" prot="public" virt="non-virtual"><scope>HK_PACKET</scope><name>sipm_single</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

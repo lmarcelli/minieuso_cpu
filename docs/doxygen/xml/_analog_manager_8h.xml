@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_analog_manager_8h" kind="file" language="C++">
+    <compoundname>AnalogManager.h</compoundname>
+    <includes local="yes">dm75xx_library.h</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">condition_variable</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includes refid="data__format_8h" local="yes">data_format.h</includes>
+    <includedby refid="_operation_mode_8h" local="yes">src/operations/OperationMode.h</includedby>
+    <includedby refid="_data_acquisition_8h" local="yes">src/operations/DataAcquisition.h</includedby>
+    <includedby refid="_data_reduction_8h" local="yes">src/operations/DataReduction.h</includedby>
+    <includedby refid="_analog_manager_8cpp" local="yes">src/subsystems/AnalogManager.cpp</includedby>
+    <incdepgraph>
+      <node id="558">
+        <label>iomanip</label>
+      </node>
+      <node id="547">
+        <label>dm75xx_library.h</label>
+      </node>
+      <node id="562">
+        <label>stdint.h</label>
+      </node>
+      <node id="561">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="562" relation="include">
+        </childnode>
+        <childnode refid="561" relation="include">
+        </childnode>
+      </node>
+      <node id="555">
+        <label>fstream</label>
+      </node>
+      <node id="552">
+        <label>condition_variable</label>
+      </node>
+      <node id="551">
+        <label>unistd.h</label>
+      </node>
+      <node id="560">
+        <label>vector</label>
+      </node>
+      <node id="556">
+        <label>sstream</label>
+      </node>
+      <node id="559">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="560" relation="include">
+        </childnode>
+        <childnode refid="561" relation="include">
+        </childnode>
+      </node>
+      <node id="553">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="554" relation="include">
+        </childnode>
+        <childnode refid="555" relation="include">
+        </childnode>
+        <childnode refid="556" relation="include">
+        </childnode>
+        <childnode refid="557" relation="include">
+        </childnode>
+        <childnode refid="558" relation="include">
+        </childnode>
+      </node>
+      <node id="554">
+        <label>sys/time.h</label>
+      </node>
+      <node id="557">
+        <label>iostream</label>
+      </node>
+      <node id="548">
+        <label>mutex</label>
+      </node>
+      <node id="550">
+        <label>thread</label>
+      </node>
+      <node id="546">
+        <label>src/subsystems/AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="547" relation="include">
+        </childnode>
+        <childnode refid="548" relation="include">
+        </childnode>
+        <childnode refid="549" relation="include">
+        </childnode>
+        <childnode refid="550" relation="include">
+        </childnode>
+        <childnode refid="551" relation="include">
+        </childnode>
+        <childnode refid="552" relation="include">
+        </childnode>
+        <childnode refid="553" relation="include">
+        </childnode>
+        <childnode refid="559" relation="include">
+        </childnode>
+      </node>
+      <node id="549">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="568">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="569" relation="include">
+        </childnode>
+      </node>
+      <node id="570">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="569">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="565">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="566" relation="include">
+        </childnode>
+        <childnode refid="570" relation="include">
+        </childnode>
+      </node>
+      <node id="574">
+        <label>src/subsystems/AnalogManager.cpp</label>
+        <link refid="_analog_manager_8cpp"/>
+      </node>
+      <node id="573">
+        <label>src/operations/OperationMode.cpp</label>
+        <link refid="_operation_mode_8cpp"/>
+      </node>
+      <node id="572">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="564">
+        <label>src/operations/OperationMode.h</label>
+        <link refid="_operation_mode_8h"/>
+        <childnode refid="565" relation="include">
+        </childnode>
+        <childnode refid="571" relation="include">
+        </childnode>
+        <childnode refid="573" relation="include">
+        </childnode>
+      </node>
+      <node id="566">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="567" relation="include">
+        </childnode>
+        <childnode refid="568" relation="include">
+        </childnode>
+      </node>
+      <node id="571">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="566" relation="include">
+        </childnode>
+        <childnode refid="572" relation="include">
+        </childnode>
+      </node>
+      <node id="567">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+      <node id="563">
+        <label>src/subsystems/AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="564" relation="include">
+        </childnode>
+        <childnode refid="565" relation="include">
+        </childnode>
+        <childnode refid="571" relation="include">
+        </childnode>
+        <childnode refid="574" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_analog_acq" prot="public">AnalogAcq</innerclass>
+    <innerclass refid="struct_light_level" prot="public">LightLevel</innerclass>
+    <innerclass refid="class_analog_manager" prot="public">AnalogManager</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" prot="public" static="no">
+        <name>CHANNELS</name>
+        <initializer>16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="18" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" prot="public" static="no">
+        <name>FIFO_DEPTH</name>
+        <initializer>64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="19" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1a96a916a32b02c011ddbf59823752e333" prot="public" static="no">
+        <name>BURST_RATE</name>
+        <initializer>1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="20" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1aa613c2101f983ffb94bcd9727ca39f94" prot="public" static="no">
+        <name>PACER_RATE</name>
+        <initializer>100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="21" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1ae1f2dcc3a66f675b0f26bb2cc41f0497" prot="public" static="no">
+        <name>LIGHT_THRESHOLD</name>
+        <initializer>100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="25" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1a310fc17ce8b4d9922f77b72d88c1ab8a" prot="public" static="no">
+        <name>LIGHT_POLL_TIME</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="28" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1acfe246bbc24a6d872182448399399a7b" prot="public" static="no">
+        <name>LIGHT_ACQ_TIME</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="31" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_analog_manager_8h_1ae7eeb45aceab0e4a2867080b5c9dc68f" prot="public" static="no">
+        <name>WAIT_PERIOD</name>
+        <initializer>1 /* milliseconds */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="34" column="9" bodyfile="src/subsystems/AnalogManager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_ANALOG_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_ANALOG_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;dm75xx_library.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>__APPLE__<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="data__format_8h" kindref="compound">data_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>for<sp/>use<sp/>with<sp/>analog<sp/>readout<sp/>functions<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CHANNELS<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FIFO_DEPTH<sp/>64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="_analog_manager_8h_1a96a916a32b02c011ddbf59823752e333" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>BURST_RATE<sp/>1000000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="_analog_manager_8h_1aa613c2101f983ffb94bcd9727ca39f94" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PACER_RATE<sp/>100000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>light<sp/>threshold<sp/>for<sp/>photodiodes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>used<sp/>to<sp/>determine<sp/>instrument<sp/>mode<sp/>via<sp/>CompareLightLevel<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="_analog_manager_8h_1ae1f2dcc3a66f675b0f26bb2cc41f0497" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LIGHT_THRESHOLD<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>seconds<sp/>between<sp/>light<sp/>level<sp/>polling<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="_analog_manager_8h_1a310fc17ce8b4d9922f77b72d88c1ab8a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LIGHT_POLL_TIME<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>seconds<sp/>between<sp/>data<sp/>collection<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="_analog_manager_8h_1acfe246bbc24a6d872182448399399a7b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LIGHT_ACQ_TIME<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>for<sp/>use<sp/>with<sp/>conditional<sp/>variable<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="_analog_manager_8h_1ae7eeb45aceab0e4a2867080b5c9dc68f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>WAIT_PERIOD<sp/>1<sp/></highlight><highlight class="comment">/*<sp/>milliseconds<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>acquisition<sp/>structure<sp/>for<sp/>analog<sp/>readout<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="struct_analog_acq" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39" refid="struct_analog_acq_1a8e6e794fcc6387578ce3943be8dcc9a9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>[<ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>][<ref refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" kindref="member">CHANNELS</ref>];</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}<sp/><ref refid="struct_analog_acq" kindref="compound">AnalogAcq</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>struct<sp/>to<sp/>hold<sp/>average<sp/>light<sp/>levels<sp/>for<sp/>polling<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="struct_light_level" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="44" refid="struct_light_level_1afe23ad9d5689ae0d1003212992ec5de5" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>photodiode_data[<ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>];<sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="struct_light_level_1a5ab6f73e09fc059f4cc4f1fa13fd3368" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sipm_data[<ref refid="data__format_8h_1ae3d059c4bf8bdd664a21c81ac911af3d" kindref="member">N_CHANNELS_SIPM</ref>];<sp/></highlight></codeline>
+<codeline lineno="46" refid="struct_light_level_1ab2a13d679c44605f5a8260e1a45ae1e3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="struct_light_level_1ab2a13d679c44605f5a8260e1a45ae1e3" kindref="member">sipm_single</ref>;<sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}<sp/><ref refid="struct_light_level" kindref="compound">LightLevel</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>class<sp/>to<sp/>handle<sp/>the<sp/>analog<sp/>data<sp/>acquisition<sp/>(photodiodes<sp/>and<sp/>SiPMs)<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="class_analog_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_analog_manager" kindref="compound">AnalogManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><ref refid="class_analog_manager_1a48419200fb5037985a4457c8227eb74b" kindref="member">AnalogManager</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;LightLevel&gt;<sp/><ref refid="class_analog_manager_1af2606ea4f43b699304e12c509c661e89" kindref="member">ReadLightLevel</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1a7a31ea8b7364f39b27081c04c22e052f" kindref="member">CompareLightLevel</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1abd34bb0d49b6f0ca396000a93b82fd8a" kindref="member">ProcessAnalogData</ref>();<sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" kindref="member">GetLightLevel</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>handle<sp/>instrument<sp/>mode<sp/>switching<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1ad34ef4992ed659e33b4a6118a6d337df" kindref="member">Notify</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1ac7a815e3c709a3881d4f447eb8c7e16c" kindref="member">Reset</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>std::mutex<sp/>m_light_level;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;LightLevel&gt;<sp/>light_level;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;AnalogAcq&gt;<sp/>analog_acq;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inst_mode_switch;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>std::mutex<sp/>m_mode_switch;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>std::condition_variable<sp/>cv_mode_switch;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>AnalogDataCollect();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_ANALOG_MANAGER_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/AnalogManager.h"/>
+  </compounddef>
+</doxygen>

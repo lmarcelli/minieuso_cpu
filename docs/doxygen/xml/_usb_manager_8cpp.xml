@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_usb_manager_8cpp" kind="file" language="C++">
+    <compoundname>UsbManager.cpp</compoundname>
+    <includes refid="_usb_manager_8h" local="yes">UsbManager.h</includes>
+    <incdepgraph>
+      <node id="769">
+        <label>libusb-1.0/libusb.h</label>
+      </node>
+      <node id="790">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="792">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="776">
+        <label>iomanip</label>
+      </node>
+      <node id="785">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="784" relation="include">
+        </childnode>
+        <childnode refid="786" relation="include">
+        </childnode>
+        <childnode refid="787" relation="include">
+        </childnode>
+        <childnode refid="788" relation="include">
+        </childnode>
+        <childnode refid="772" relation="include">
+        </childnode>
+        <childnode refid="789" relation="include">
+        </childnode>
+        <childnode refid="790" relation="include">
+        </childnode>
+        <childnode refid="791" relation="include">
+        </childnode>
+        <childnode refid="792" relation="include">
+        </childnode>
+        <childnode refid="793" relation="include">
+        </childnode>
+        <childnode refid="773" relation="include">
+        </childnode>
+        <childnode refid="794" relation="include">
+        </childnode>
+        <childnode refid="771" relation="include">
+        </childnode>
+      </node>
+      <node id="780">
+        <label>stdexcept</label>
+      </node>
+      <node id="793">
+        <label>fcntl.h</label>
+      </node>
+      <node id="781">
+        <label>string</label>
+      </node>
+      <node id="773">
+        <label>fstream</label>
+      </node>
+      <node id="791">
+        <label>netdb.h</label>
+      </node>
+      <node id="777">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="778" relation="include">
+        </childnode>
+        <childnode refid="775" relation="include">
+        </childnode>
+        <childnode refid="774" relation="include">
+        </childnode>
+        <childnode refid="776" relation="include">
+        </childnode>
+        <childnode refid="779" relation="include">
+        </childnode>
+        <childnode refid="780" relation="include">
+        </childnode>
+        <childnode refid="781" relation="include">
+        </childnode>
+        <childnode refid="782" relation="include">
+        </childnode>
+        <childnode refid="783" relation="include">
+        </childnode>
+        <childnode refid="784" relation="include">
+        </childnode>
+        <childnode refid="785" relation="include">
+        </childnode>
+      </node>
+      <node id="767">
+        <label>src/subsystems/UsbManager.cpp</label>
+        <link refid="_usb_manager_8cpp"/>
+        <childnode refid="768" relation="include">
+        </childnode>
+      </node>
+      <node id="789">
+        <label>sys/types.h</label>
+      </node>
+      <node id="787">
+        <label>string.h</label>
+      </node>
+      <node id="778">
+        <label>cstdio</label>
+      </node>
+      <node id="784">
+        <label>unistd.h</label>
+      </node>
+      <node id="782">
+        <label>array</label>
+      </node>
+      <node id="774">
+        <label>sstream</label>
+      </node>
+      <node id="771">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="772" relation="include">
+        </childnode>
+        <childnode refid="773" relation="include">
+        </childnode>
+        <childnode refid="774" relation="include">
+        </childnode>
+        <childnode refid="775" relation="include">
+        </childnode>
+        <childnode refid="776" relation="include">
+        </childnode>
+      </node>
+      <node id="772">
+        <label>sys/time.h</label>
+      </node>
+      <node id="775">
+        <label>iostream</label>
+      </node>
+      <node id="768">
+        <label>UsbManager.h</label>
+        <link refid="_usb_manager_8h"/>
+        <childnode refid="769" relation="include">
+        </childnode>
+        <childnode refid="770" relation="include">
+        </childnode>
+        <childnode refid="771" relation="include">
+        </childnode>
+        <childnode refid="777" relation="include">
+        </childnode>
+      </node>
+      <node id="786">
+        <label>strings.h</label>
+      </node>
+      <node id="788">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="770">
+        <label>thread</label>
+      </node>
+      <node id="794">
+        <label>algorithm</label>
+      </node>
+      <node id="779">
+        <label>memory</label>
+      </node>
+      <node id="783">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_usb_manager_8h" kindref="compound">UsbManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>default<sp/>constructor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><ref refid="class_usb_manager_1a4877fd06ccee69aabd17dfb66a3acfa9" kindref="member">UsbManager::UsbManager</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref><sp/>=<sp/><ref refid="_usb_manager_8h_1a6d1db5e0edf1c76adb9a06984bd2b03e" kindref="member">N_USB_UNDEF</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>check<sp/>cpu<sp/>model<sp/>to<sp/>select<sp/>correct<sp/>bus<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>UsbManager::CheckCpuModel()<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>check<sp/>the<sp/>system<sp/>information<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/>std::string<sp/>cmd<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dmidecode<sp/>|<sp/>grep<sp/>-A3<sp/>&apos;^System<sp/>Information&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/>std::string<sp/>output<sp/>=<sp/><ref refid="class_cpu_tools_1af7cde21dc0939ef2c2a0c6d8d347901f" kindref="member">CpuTools::CommandToStr</ref>(cmd.c_str());</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/>std::string<sp/>new_cpu_model<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CMX34BT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>output.find(new_cpu_model);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>if<sp/>new<sp/>CPU<sp/>model<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(found<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_usb_manager_1aebcc534c8923c0527e06faf6ea1cdb5a" kindref="member">storage_bus</ref><sp/>=<sp/><ref refid="_usb_manager_8h_1af495cd10cb41a756823a250378ae2cab" kindref="member">STORAGE_BUS_NEW</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_usb_manager_1aebcc534c8923c0527e06faf6ea1cdb5a" kindref="member">storage_bus</ref><sp/>=<sp/><ref refid="_usb_manager_8h_1aab421a33ba939549360cbccc37006163" kindref="member">STORAGE_BUS</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>print<sp/>a<sp/>description<sp/>of<sp/>usb<sp/>devices<sp/>connected<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>UsbManager::PrintDev(libusb_device<sp/>*<sp/>dev)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>device<sp/>descriptor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>libusb_device_descriptor<sp/>desc;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>libusb_get_device_descriptor(dev,<sp/>&amp;desc);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;failed<sp/>to<sp/>get<sp/>device<sp/>descriptor&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Number<sp/>of<sp/>possible<sp/>configurations:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(int)desc.bNumConfigurations<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Device<sp/>Class:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)desc.bDeviceClass<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VendorID:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>desc.idVendor<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ProductID:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>desc.idProduct<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>config<sp/>descriptor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/>libusb_config_descriptor<sp/>*<sp/>config;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/>libusb_get_config_descriptor(dev,<sp/>0,<sp/>&amp;config);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>number<sp/>of<sp/>interfaces<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Interfaces:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(int)config-&gt;bNumInterfaces<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|||<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libusb_interface<sp/>*<sp/>inter;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libusb_interface_descriptor<sp/>*<sp/>interdesc;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>libusb_endpoint_descriptor<sp/>*<sp/>epdesc;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>print<sp/>information<sp/>on<sp/>each<sp/>device<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i=0;<sp/>i<sp/>&lt;<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)config-&gt;bNumInterfaces;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>inter<sp/>=<sp/>&amp;config-&gt;interface[i];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Number<sp/>of<sp/>alternate<sp/>settings:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>inter-&gt;num_altsetting<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j=0;<sp/>j<sp/>&lt;<sp/>inter-&gt;num_altsetting;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>interdesc<sp/>=<sp/>&amp;inter-&gt;altsetting[j];</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Interface<sp/>Number:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(int)interdesc-&gt;bInterfaceNumber<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Number<sp/>of<sp/>endpoints:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)interdesc-&gt;bNumEndpoints<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k=0;<sp/>k<sp/>&lt;<sp/>(int)interdesc-&gt;bNumEndpoints;<sp/>k++)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>epdesc<sp/>=<sp/>&amp;interdesc-&gt;endpoint[k];</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Descriptor<sp/>Type:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(int)epdesc-&gt;bDescriptorType<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;EP<sp/>Address:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">)epdesc-&gt;bEndpointAddress<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>|<sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>free<sp/>the<sp/>descriptor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>libusb_free_config_descriptor(config);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>check<sp/>the<sp/>number<sp/>of<sp/>devices<sp/>connected<sp/>and<sp/>print<sp/>their<sp/>info<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1a30a34251f8b7f987b41e2ddcd221fd01" kindref="member">UsbManager::CheckUsb</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>libusb_device<sp/>**<sp/>devs;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/>libusb_context<sp/>*<sp/>ctx<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>ssize_t<sp/>cnt,<sp/>i;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>initialise<sp/>a<sp/>libusb<sp/>session<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>r<sp/>=<sp/>libusb_init(&amp;ctx);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;init<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>set<sp/>the<sp/>verbosity<sp/>level<sp/>to<sp/>3,<sp/>as<sp/>suggested<sp/>by<sp/>docs<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>libusb_set_debug(ctx,<sp/>3);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>list<sp/>of<sp/>devices<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>cnt<sp/>=<sp/>libusb_get_device_list(ctx,<sp/>&amp;devs);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cnt<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;get<sp/>device<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>number<sp/>of<sp/>connected<sp/>devices<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>cnt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>USB<sp/>devices<sp/>connected&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cnt;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>specs<sp/>of<sp/>each<sp/>device<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>PrintDev(devs[i]);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>(int)libusb_get_port_number(devs[i])<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>clean<sp/>up<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/>libusb_free_device_list(devs,<sp/>1);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>libusb_exit(ctx);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>lookup<sp/>usb<sp/>storage<sp/>devices<sp/>connected<sp/>and<sp/>identify<sp/>them<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">uint8_t<sp/><ref refid="class_usb_manager_1a7f0fc76903911c3fef6361091272dca9" kindref="member">UsbManager::LookupUsbStorage</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/>libusb_device<sp/>**<sp/>all_devs;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/>libusb_device<sp/>*<sp/>dev;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>libusb_device_descriptor<sp/>desc<sp/>=<sp/>{0};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>libusb_context<sp/>*<sp/>ctx<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r,<sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>ssize_t<sp/>cnt,<sp/>i;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;looking<sp/>up<sp/>USB<sp/>storage<sp/>devices&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>check<sp/>the<sp/>CPU<sp/>model<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/>this-&gt;CheckCpuModel();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>initialise<sp/>a<sp/>libusb<sp/>session<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>r<sp/>=<sp/>libusb_init(&amp;ctx);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;init<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;init<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>set<sp/>the<sp/>verbosity<sp/>level<sp/>to<sp/>3,<sp/>as<sp/>suggested<sp/>by<sp/>docs<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/>libusb_set_debug(ctx,<sp/>3);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>list<sp/>of<sp/>devices<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/>cnt<sp/>=<sp/>libusb_get_device_list(ctx,<sp/>&amp;all_devs);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cnt<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;get<sp/>device<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>check<sp/>number<sp/>of<sp/>connected<sp/>devices<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cnt<sp/>==<sp/><ref refid="_usb_manager_8h_1a7c650f50980a8cf6b982a2851dba7e44" kindref="member">MIN_DEVICE_NUM</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;no<sp/>storage<sp/>or<sp/>config<sp/>USBs<sp/>connected&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cnt<sp/>&lt;<sp/><ref refid="_usb_manager_8h_1a7c650f50980a8cf6b982a2851dba7e44" kindref="member">MIN_DEVICE_NUM</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;less<sp/>USB<sp/>devices<sp/>connected<sp/>than<sp/>expected&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cnt<sp/>&gt;<sp/><ref refid="_usb_manager_8h_1a7c650f50980a8cf6b982a2851dba7e44" kindref="member">MIN_DEVICE_NUM</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>some<sp/>storage<sp/>or<sp/>config<sp/>devices<sp/>detected<sp/>*/</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>identify<sp/>the<sp/>devices<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cnt;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>dev<sp/>=<sp/>all_devs[i];</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>r<sp/>=<sp/>libusb_get_device_descriptor(dev,<sp/>&amp;desc);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r<sp/>&lt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;get<sp/>device<sp/>descriptor<sp/>error<sp/>for<sp/>libusb&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>require<sp/>bDeviceClass<sp/>as<sp/>not<sp/>a<sp/>hub,<sp/>vendor<sp/>specified<sp/>(cameras)</highlight></codeline>
+<codeline lineno="169"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>or<sp/>human<sp/>interface<sp/>(keyboard)<sp/>and<sp/>presence<sp/>on<sp/>STORAGE_BUS<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(libusb_get_bus_number(dev)<sp/>==<sp/>this-&gt;<ref refid="class_usb_manager_1aebcc534c8923c0527e06faf6ea1cdb5a" kindref="member">storage_bus</ref></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>desc.bDeviceClass<sp/>!=<sp/>LIBUSB_CLASS_HUB</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>desc.bDeviceClass<sp/>!=<sp/>LIBUSB_CLASS_VENDOR_SPEC</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>desc.bDeviceClass<sp/>!=<sp/>LIBUSB_CLASS_HID)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>debug<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;USB<sp/>device<sp/>class:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>desc.bDeviceClass<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref>++;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>log<sp/>number<sp/>of<sp/>connected<sp/>storage<sp/>USBs<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;There<sp/>are<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>storage<sp/>devices<sp/>connected&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>clean<sp/>up<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/>libusb_free_device_list(all_devs,<sp/>1);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/>libusb_exit(ctx);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>this-&gt;num_storage_dev<sp/>=<sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>define<sp/>data<sp/>backup<sp/>based<sp/>on<sp/>LookupUsbStorage()<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>UsbManager::DataBackup()<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/>std::string<sp/>cmd;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/>std::string<sp/>log_path(<ref refid="log_8h_1acd4d3023d24d5314b895981b17825666" kindref="member">LOG_DIR</ref>);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/>std::string<sp/>inotify_log<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/inotify.log&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>std::string<sp/>mp_0(<ref refid="_data_acquisition_8h_1a118e1e5950681c5a19ae6ccdd0315611" kindref="member">USB_MOUNTPOINT_0</ref>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/>std::string<sp/>mp_1(<ref refid="_data_acquisition_8h_1a38aaf5e8028c0029416a343a98b7ecb5" kindref="member">USB_MOUNTPOINT_1</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;defining<sp/>data<sp/>backup<sp/>procedure&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/>this-&gt;num_storage_dev<sp/>=<sp/><ref refid="class_usb_manager_1a7f0fc76903911c3fef6361091272dca9" kindref="member">LookupUsbStorage</ref>();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>require<sp/>2+<sp/>storage<sp/>devices<sp/>for<sp/>backup<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(this-&gt;num_storage_dev<sp/>&gt;=<sp/>2<sp/>&amp;&amp;<sp/>this-&gt;num_storage_dev<sp/>!=<sp/><ref refid="_usb_manager_8h_1a6d1db5e0edf1c76adb9a06984bd2b03e" kindref="member">N_USB_UNDEF</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>run<sp/>backup<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;running<sp/>data<sp/>backup<sp/>in<sp/>the<sp/>background&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>synchronise<sp/>/media/usb0<sp/>to<sp/>/media/usb1<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>cmd<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;while<sp/>true;<sp/>do<sp/>rsync<sp/>-avzr<sp/>/media/usb0/*<sp/>/media/usb1;<sp/>done<sp/>2&gt;&amp;1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="215"><highlight class="comment"><sp/><sp/><sp/><sp/>alternative<sp/>command<sp/>which<sp/>works<sp/>on<sp/>creation/modification/deletion</highlight></codeline>
+<codeline lineno="216"><highlight class="comment"><sp/><sp/><sp/><sp/>cmd<sp/>=<sp/>&quot;while<sp/>inotifywait<sp/>-m<sp/>-r<sp/>-e<sp/>modify,create,delete<sp/>-o<sp/>&quot;</highlight></codeline>
+<codeline lineno="217"><highlight class="comment"><sp/><sp/><sp/><sp/>+<sp/>log_path<sp/>+<sp/>inotify_log<sp/>+<sp/>&quot;<sp/>&quot;<sp/>+<sp/>mp_0<sp/>+</highlight></codeline>
+<codeline lineno="218"><highlight class="comment"><sp/><sp/><sp/><sp/>&quot;;<sp/>do<sp/>rsync<sp/>-avz<sp/>&quot;<sp/>+<sp/>mp_0<sp/>+<sp/>&quot;<sp/>&quot;<sp/>+<sp/>mp_1<sp/>+<sp/>&quot;;<sp/>done&quot;;<sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="comment"><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;running<sp/>backup<sp/>with:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>cmd<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>command<sp/>=<sp/>cmd.c_str();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>run<sp/>the<sp/>backup<sp/>command<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>output<sp/>=<sp/><ref refid="class_cpu_tools_1af7cde21dc0939ef2c2a0c6d8d347901f" kindref="member">CpuTools::CommandToStr</ref>(command);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>output.find(</highlight><highlight class="stringliteral">&quot;sending<sp/>incremental<sp/>file<sp/>list&quot;</highlight><highlight class="normal">);<sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(found<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>following:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>cmd<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exited<sp/>successfully&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>following:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>cmd<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exited<sp/>with<sp/>an<sp/>error&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>enough<sp/>storage<sp/>devices<sp/>for<sp/>backup&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>spawn<sp/>thread<sp/>to<sp/>run<sp/>data<sp/>backup<sp/>in<sp/>the<sp/>background<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1ac2a208aaaa800091a9a32f65ccf59a46" kindref="member">UsbManager::RunDataBackup</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;running<sp/>data<sp/>backup<sp/>in<sp/>the<sp/>background&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>run<sp/>the<sp/>backup<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/>std::thread<sp/>run_backup<sp/>(&amp;UsbManager::DataBackup,<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>store<sp/>the<sp/>thread<sp/>handle<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/>this-&gt;backup_thread_handle<sp/>=<sp/>run_backup.native_handle();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>detach<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/>run_backup.detach();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>kill<sp/>the<sp/>data<sp/>backup<sp/>thread<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1a0b7b95feb3cc0bc64ed01315f8140b5a" kindref="member">UsbManager::KillDataBackup</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;killing<sp/>the<sp/>data<sp/>backup<sp/>thread&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>kill<sp/>the<sp/>thread<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>justifiable<sp/>as<sp/>no<sp/>locked<sp/>resources<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/>pthread_cancel(this-&gt;backup_thread_handle);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/UsbManager.cpp"/>
+  </compounddef>
+</doxygen>

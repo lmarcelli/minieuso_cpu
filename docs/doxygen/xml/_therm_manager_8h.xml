@@ -1,0 +1,366 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_therm_manager_8h" kind="file" language="C++">
+    <compoundname>ThermManager.h</compoundname>
+    <includes local="no">regex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includes refid="data__format_8h" local="yes">data_format.h</includes>
+    <includes refid="_cpu_tools_8h" local="yes">CpuTools.h</includes>
+    <includes refid="_synchronised_file_8h" local="yes">SynchronisedFile.h</includes>
+    <includedby refid="_data_acquisition_8h" local="yes">src/operations/DataAcquisition.h</includedby>
+    <includedby refid="_data_reduction_8h" local="yes">src/operations/DataReduction.h</includedby>
+    <includedby refid="_therm_manager_8cpp" local="yes">src/subsystems/ThermManager.cpp</includedby>
+    <incdepgraph>
+      <node id="746">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="748">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="728">
+        <label>iomanip</label>
+      </node>
+      <node id="741">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="740" relation="include">
+        </childnode>
+        <childnode refid="742" relation="include">
+        </childnode>
+        <childnode refid="743" relation="include">
+        </childnode>
+        <childnode refid="744" relation="include">
+        </childnode>
+        <childnode refid="724" relation="include">
+        </childnode>
+        <childnode refid="745" relation="include">
+        </childnode>
+        <childnode refid="746" relation="include">
+        </childnode>
+        <childnode refid="747" relation="include">
+        </childnode>
+        <childnode refid="748" relation="include">
+        </childnode>
+        <childnode refid="749" relation="include">
+        </childnode>
+        <childnode refid="725" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+        <childnode refid="723" relation="include">
+        </childnode>
+      </node>
+      <node id="732">
+        <label>stdint.h</label>
+      </node>
+      <node id="755">
+        <label>stdlib.h</label>
+      </node>
+      <node id="754">
+        <label>ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="755" relation="include">
+        </childnode>
+        <childnode refid="756" relation="include">
+        </childnode>
+        <childnode refid="740" relation="include">
+        </childnode>
+        <childnode refid="737" relation="include">
+        </childnode>
+        <childnode refid="725" relation="include">
+        </childnode>
+        <childnode refid="723" relation="include">
+        </childnode>
+      </node>
+      <node id="736">
+        <label>stdexcept</label>
+      </node>
+      <node id="749">
+        <label>fcntl.h</label>
+      </node>
+      <node id="731">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="732" relation="include">
+        </childnode>
+        <childnode refid="731" relation="include">
+        </childnode>
+      </node>
+      <node id="737">
+        <label>string</label>
+      </node>
+      <node id="721">
+        <label>regex</label>
+      </node>
+      <node id="725">
+        <label>fstream</label>
+      </node>
+      <node id="747">
+        <label>netdb.h</label>
+      </node>
+      <node id="733">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="734" relation="include">
+        </childnode>
+        <childnode refid="727" relation="include">
+        </childnode>
+        <childnode refid="726" relation="include">
+        </childnode>
+        <childnode refid="728" relation="include">
+        </childnode>
+        <childnode refid="735" relation="include">
+        </childnode>
+        <childnode refid="736" relation="include">
+        </childnode>
+        <childnode refid="737" relation="include">
+        </childnode>
+        <childnode refid="738" relation="include">
+        </childnode>
+        <childnode refid="739" relation="include">
+        </childnode>
+        <childnode refid="740" relation="include">
+        </childnode>
+        <childnode refid="741" relation="include">
+        </childnode>
+      </node>
+      <node id="722">
+        <label>condition_variable</label>
+      </node>
+      <node id="745">
+        <label>sys/types.h</label>
+      </node>
+      <node id="743">
+        <label>string.h</label>
+      </node>
+      <node id="734">
+        <label>cstdio</label>
+      </node>
+      <node id="752">
+        <label>boost/crc.hpp</label>
+      </node>
+      <node id="740">
+        <label>unistd.h</label>
+      </node>
+      <node id="730">
+        <label>vector</label>
+      </node>
+      <node id="738">
+        <label>array</label>
+      </node>
+      <node id="726">
+        <label>sstream</label>
+      </node>
+      <node id="729">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="730" relation="include">
+        </childnode>
+        <childnode refid="731" relation="include">
+        </childnode>
+      </node>
+      <node id="723">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="724" relation="include">
+        </childnode>
+        <childnode refid="725" relation="include">
+        </childnode>
+        <childnode refid="726" relation="include">
+        </childnode>
+        <childnode refid="727" relation="include">
+        </childnode>
+        <childnode refid="728" relation="include">
+        </childnode>
+      </node>
+      <node id="724">
+        <label>sys/time.h</label>
+      </node>
+      <node id="727">
+        <label>iostream</label>
+      </node>
+      <node id="742">
+        <label>strings.h</label>
+      </node>
+      <node id="753">
+        <label>mutex</label>
+      </node>
+      <node id="744">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="750">
+        <label>algorithm</label>
+      </node>
+      <node id="720">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="721" relation="include">
+        </childnode>
+        <childnode refid="722" relation="include">
+        </childnode>
+        <childnode refid="723" relation="include">
+        </childnode>
+        <childnode refid="729" relation="include">
+        </childnode>
+        <childnode refid="733" relation="include">
+        </childnode>
+        <childnode refid="751" relation="include">
+        </childnode>
+      </node>
+      <node id="756">
+        <label>stdio.h</label>
+      </node>
+      <node id="751">
+        <label>SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="752" relation="include">
+        </childnode>
+        <childnode refid="753" relation="include">
+        </childnode>
+        <childnode refid="735" relation="include">
+        </childnode>
+        <childnode refid="723" relation="include">
+        </childnode>
+        <childnode refid="729" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+      </node>
+      <node id="735">
+        <label>memory</label>
+      </node>
+      <node id="739">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="761">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="762" relation="include">
+        </childnode>
+      </node>
+      <node id="763">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="762">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="758">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="763" relation="include">
+        </childnode>
+      </node>
+      <node id="766">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+      </node>
+      <node id="765">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="759">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="760" relation="include">
+        </childnode>
+        <childnode refid="761" relation="include">
+        </childnode>
+      </node>
+      <node id="764">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="765" relation="include">
+        </childnode>
+      </node>
+      <node id="757">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="758" relation="include">
+        </childnode>
+        <childnode refid="764" relation="include">
+        </childnode>
+        <childnode refid="766" relation="include">
+        </childnode>
+      </node>
+      <node id="760">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_temperature_acq" prot="public">TemperatureAcq</innerclass>
+    <innerclass refid="class_therm_manager" prot="public">ThermManager</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_therm_manager_8h_1aeaecc01a119276a24650a312edcd28e9" prot="public" static="no">
+        <name>THERM_ACQ_SLEEP</name>
+        <initializer>60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/ThermManager.h" line="14" column="9" bodyfile="src/subsystems/ThermManager.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_THERM_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_THERM_MANAGER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;regex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="data__format_8h" kindref="compound">data_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_cpu_tools_8h" kindref="compound">CpuTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_synchronised_file_8h" kindref="compound">SynchronisedFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>seconds<sp/>between<sp/>temperature<sp/>acquisitions<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="_therm_manager_8h_1aeaecc01a119276a24650a312edcd28e9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THERM_ACQ_SLEEP<sp/>60</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>acquisition<sp/>structure<sp/>for<sp/>temperature<sp/>readout<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="struct_temperature_acq" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19" refid="struct_temperature_acq_1a2f9946e0a425401819c9892d3f2969b8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>val<sp/>[<ref refid="data__format_8h_1a8f489c987d5dca96d8bf20650a164a7e" kindref="member">N_CHANNELS_THERM</ref>];</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}<sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>class<sp/>to<sp/>control<sp/>the<sp/>thermistor<sp/>acquisition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_therm_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_therm_manager" kindref="compound">ThermManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="class_therm_manager_1abc781a3c326f8f2ba4496ab7caf05d34" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="class_access" kindref="compound">Access</ref><sp/>*<sp/><ref refid="class_therm_manager_1abc781a3c326f8f2ba4496ab7caf05d34" kindref="member">RunAccess</ref>;</highlight></codeline>
+<codeline lineno="27" refid="class_therm_manager_1aae3e4ef31df368f130815733c924ffab" refkind="member"><highlight class="normal"><sp/><sp/>std::condition_variable<sp/><ref refid="class_therm_manager_1aae3e4ef31df368f130815733c924ffab" kindref="member">cond_var</ref>;</highlight></codeline>
+<codeline lineno="28" refid="class_therm_manager_1a397e05cdfa3fd1241c4b45735b368fb1" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a397e05cdfa3fd1241c4b45735b368fb1" kindref="member">cpu_file_is_set</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><ref refid="class_therm_manager_1ab231ca4ccd8f6034a293a13f8522579d" kindref="member">ThermManager</ref>();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a3a4bf325f9e6474a741cba4ae10cd485" kindref="member">Init</ref>();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1aa83488faa792cdd86825764a357511b8" kindref="member">ProcessThermData</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/><ref refid="class_therm_manager_1a262e8ca53e0791daeb59064b169db6f0" kindref="member">GetTemperature</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a9fa30101539e661ccd96fa486d06c350" kindref="member">WriteThermPkt</ref>(<ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>temperature_results);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a4fa97967e3b392377049e1aebf4e333a" kindref="member">PrintTemperature</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>ParseDigitempOutput(std::string<sp/>input_string);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>uint32_t<sp/>BuildCpuPktHeader(uint32_t<sp/>type,<sp/>uint32_t<sp/>ver);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>uint32_t<sp/>BuildCpuTimeStamp();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>_THERM_MANAGER_H<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/ThermManager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="dir_0130712cf19296157468ab3e935b481e" kind="dir">
+    <compoundname>src/operations</compoundname>
+    <innerfile refid="_data_acquisition_8cpp">DataAcquisition.cpp</innerfile>
+    <innerfile refid="_data_acquisition_8h">DataAcquisition.h</innerfile>
+    <innerfile refid="_data_reduction_8cpp">DataReduction.cpp</innerfile>
+    <innerfile refid="_data_reduction_8h">DataReduction.h</innerfile>
+    <innerfile refid="_operation_mode_8cpp">OperationMode.cpp</innerfile>
+    <innerfile refid="_operation_mode_8h">OperationMode.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/operations/"/>
+  </compounddef>
+</doxygen>

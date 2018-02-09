@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_operation_mode_8cpp" kind="file" language="C++">
+    <compoundname>OperationMode.cpp</compoundname>
+    <includes refid="_operation_mode_8h" local="yes">OperationMode.h</includes>
+    <incdepgraph>
+      <node id="493">
+        <label>iomanip</label>
+      </node>
+      <node id="484">
+        <label>dm75xx_library.h</label>
+      </node>
+      <node id="497">
+        <label>stdint.h</label>
+      </node>
+      <node id="496">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="497" relation="include">
+        </childnode>
+        <childnode refid="496" relation="include">
+        </childnode>
+      </node>
+      <node id="490">
+        <label>fstream</label>
+      </node>
+      <node id="482">
+        <label>condition_variable</label>
+      </node>
+      <node id="487">
+        <label>unistd.h</label>
+      </node>
+      <node id="495">
+        <label>vector</label>
+      </node>
+      <node id="479">
+        <label>src/operations/OperationMode.cpp</label>
+        <link refid="_operation_mode_8cpp"/>
+        <childnode refid="480" relation="include">
+        </childnode>
+      </node>
+      <node id="491">
+        <label>sstream</label>
+      </node>
+      <node id="494">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="495" relation="include">
+        </childnode>
+        <childnode refid="496" relation="include">
+        </childnode>
+      </node>
+      <node id="488">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="489" relation="include">
+        </childnode>
+        <childnode refid="490" relation="include">
+        </childnode>
+        <childnode refid="491" relation="include">
+        </childnode>
+        <childnode refid="492" relation="include">
+        </childnode>
+        <childnode refid="493" relation="include">
+        </childnode>
+      </node>
+      <node id="489">
+        <label>sys/time.h</label>
+      </node>
+      <node id="492">
+        <label>iostream</label>
+      </node>
+      <node id="480">
+        <label>OperationMode.h</label>
+        <link refid="_operation_mode_8h"/>
+        <childnode refid="481" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+        <childnode refid="483" relation="include">
+        </childnode>
+      </node>
+      <node id="481">
+        <label>mutex</label>
+      </node>
+      <node id="486">
+        <label>thread</label>
+      </node>
+      <node id="483">
+        <label>AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="484" relation="include">
+        </childnode>
+        <childnode refid="481" relation="include">
+        </childnode>
+        <childnode refid="485" relation="include">
+        </childnode>
+        <childnode refid="486" relation="include">
+        </childnode>
+        <childnode refid="487" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+        <childnode refid="488" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
+        </childnode>
+      </node>
+      <node id="485">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_operation_mode_8h" kindref="compound">OperationMode.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><ref refid="class_operation_mode_1ae5f600e33d74a4567e3363f461d48e92" kindref="member">OperationMode::OperationMode</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1add634bb194be6d29ec9449a8ceae1da3" kindref="member">_switch</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_operation_mode_1a6b26b89083523650d675f310f9b156c4" kindref="member">OperationMode::Notify</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;<ref refid="class_operation_mode_1a191135ef67e176c036296fbcdf443c73" kindref="member">_m_switch</ref>);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1add634bb194be6d29ec9449a8ceae1da3" kindref="member">_switch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1abfdfc50fff9045cc980be2c486936f21" kindref="member">_cv_switch</ref>.notify_all();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>also<sp/>notify<sp/>the<sp/>analog<sp/>acquisition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1af24f59ca2f4db0d67f15125c48a54eeb" kindref="member">Analog</ref>-&gt;<ref refid="class_analog_manager_1ad34ef4992ed659e33b4a6118a6d337df" kindref="member">Notify</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_operation_mode_1ae194e6169bbf783a45d8ee6669e75355" kindref="member">OperationMode::Reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;<ref refid="class_operation_mode_1a191135ef67e176c036296fbcdf443c73" kindref="member">_m_switch</ref>);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1add634bb194be6d29ec9449a8ceae1da3" kindref="member">_switch</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>also<sp/>reset<sp/>the<sp/>analog<sp/>switch<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_operation_mode_1af24f59ca2f4db0d67f15125c48a54eeb" kindref="member">Analog</ref>-&gt;<ref refid="class_analog_manager_1ac7a815e3c709a3881d4f447eb8c7e16c" kindref="member">Reset</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_operation_mode_1abea0ed26f35b9d8f70107d3c40bdcaa2" kindref="member">OperationMode::Start</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/operations/OperationMode.cpp"/>
+  </compounddef>
+</doxygen>

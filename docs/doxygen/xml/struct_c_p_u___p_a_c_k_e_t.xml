@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_c_p_u___p_a_c_k_e_t" kind="struct" language="C++" prot="public">
+    <compoundname>CPU_PACKET</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_c_p_u___p_a_c_k_e_t_1a984a420cab69b54fc63410a405a06020" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_pkt_header" kindref="compound">CpuPktHeader</ref></type>
+        <definition>CpuPktHeader CPU_PACKET::cpu_packet_header</definition>
+        <argsstring></argsstring>
+        <name>cpu_packet_header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="123" column="1" bodyfile="src/data_format/data_format.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_p_u___p_a_c_k_e_t_1a92b40b2a7c75f7b9265adb5043b1c053" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_time_stamp" kindref="compound">CpuTimeStamp</ref></type>
+        <definition>CpuTimeStamp CPU_PACKET::cpu_time</definition>
+        <argsstring></argsstring>
+        <name>cpu_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="124" column="1" bodyfile="src/data_format/data_format.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_p_u___p_a_c_k_e_t_1a346d6fe6a3dc54fe90caa95dd5561c79" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_h_k___p_a_c_k_e_t" kindref="compound">HK_PACKET</ref></type>
+        <definition>HK_PACKET CPU_PACKET::hk_packet</definition>
+        <argsstring></argsstring>
+        <name>hk_packet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="125" column="1" bodyfile="src/data_format/data_format.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_c_p_u___p_a_c_k_e_t_1a52e47702814b90e73aa036329d47e084" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_z_y_n_q___p_a_c_k_e_t" kindref="compound">ZYNQ_PACKET</ref></type>
+        <definition>ZYNQ_PACKET CPU_PACKET::zynq_packet</definition>
+        <argsstring></argsstring>
+        <name>zynq_packet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="126" column="1" bodyfile="src/data_format/data_format.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="35">
+        <label>ZynqBoardHeader</label>
+        <link refid="struct_zynq_board_header"/>
+      </node>
+      <node id="33">
+        <label>DATA_TYPE_SCI_L3_V2</label>
+        <link refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2"/>
+        <childnode refid="34" relation="usage">
+          <edgelabel>ts</edgelabel>
+        </childnode>
+      </node>
+      <node id="34">
+        <label>TimeStamp_dual</label>
+        <link refid="struct_time_stamp__dual"/>
+      </node>
+      <node id="36">
+        <label>CpuPktHeader</label>
+        <link refid="struct_cpu_pkt_header"/>
+      </node>
+      <node id="32">
+        <label>Z_DATA_TYPE_SCI_L3_V2</label>
+        <link refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2"/>
+        <childnode refid="33" relation="usage">
+          <edgelabel>payload</edgelabel>
+        </childnode>
+        <childnode refid="35" relation="usage">
+          <edgelabel>zbh</edgelabel>
+        </childnode>
+      </node>
+      <node id="30">
+        <label>CPU_PACKET</label>
+        <link refid="struct_c_p_u___p_a_c_k_e_t"/>
+        <childnode refid="31" relation="usage">
+          <edgelabel>zynq_packet</edgelabel>
+        </childnode>
+        <childnode refid="36" relation="usage">
+          <edgelabel>cpu_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>cpu_time</edgelabel>
+        </childnode>
+        <childnode refid="38" relation="usage">
+          <edgelabel>hk_packet</edgelabel>
+        </childnode>
+      </node>
+      <node id="37">
+        <label>CpuTimeStamp</label>
+        <link refid="struct_cpu_time_stamp"/>
+      </node>
+      <node id="38">
+        <label>HK_PACKET</label>
+        <link refid="struct_h_k___p_a_c_k_e_t"/>
+        <childnode refid="36" relation="usage">
+          <edgelabel>hk_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>hk_time</edgelabel>
+        </childnode>
+      </node>
+      <node id="31">
+        <label>ZYNQ_PACKET</label>
+        <link refid="struct_z_y_n_q___p_a_c_k_e_t"/>
+        <childnode refid="32" relation="usage">
+          <edgelabel>level3_data</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/data_format/data_format.h" line="122" column="1" bodyfile="src/data_format/data_format.h" bodystart="121" bodyend="127"/>
+    <listofallmembers>
+      <member refid="struct_c_p_u___p_a_c_k_e_t_1a984a420cab69b54fc63410a405a06020" prot="public" virt="non-virtual"><scope>CPU_PACKET</scope><name>cpu_packet_header</name></member>
+      <member refid="struct_c_p_u___p_a_c_k_e_t_1a92b40b2a7c75f7b9265adb5043b1c053" prot="public" virt="non-virtual"><scope>CPU_PACKET</scope><name>cpu_time</name></member>
+      <member refid="struct_c_p_u___p_a_c_k_e_t_1a346d6fe6a3dc54fe90caa95dd5561c79" prot="public" virt="non-virtual"><scope>CPU_PACKET</scope><name>hk_packet</name></member>
+      <member refid="struct_c_p_u___p_a_c_k_e_t_1a52e47702814b90e73aa036329d47e084" prot="public" virt="non-virtual"><scope>CPU_PACKET</scope><name>zynq_packet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

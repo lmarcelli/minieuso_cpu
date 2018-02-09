@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_access" kind="class" language="C++" prot="public">
+    <compoundname>Access</compoundname>
+    <includes refid="_synchronised_file_8h" local="no">SynchronisedFile.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_access_1a3e81a676c4d5ccb5e7776928f1cb836d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Access::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="105" column="1" bodyfile="src/tools/SynchronisedFile.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_access_1ac75072c703b3f485c6f28dee1b3841eb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_synchronised_file" kindref="compound">SynchronisedFile</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SynchronisedFile&gt; Access::_sf</definition>
+        <argsstring></argsstring>
+        <name>_sf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="116" column="1" bodyfile="src/tools/SynchronisedFile.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_access_1acf8924ccba0ed016abebc511a64f8522" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Access::Access</definition>
+        <argsstring>(std::shared_ptr&lt; SynchronisedFile &gt; sf)</argsstring>
+        <name>Access</name>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_synchronised_file" kindref="compound">SynchronisedFile</ref> &gt;</type>
+          <declname>sf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="103" column="1" bodyfile="src/tools/SynchronisedFile.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_access_1a52e689eb4ba9cca3405ea698ed4d3a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t Access::GetChecksum</definition>
+        <argsstring>()</argsstring>
+        <name>GetChecksum</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="106" column="1" bodyfile="src/tools/SynchronisedFile.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_access_1ae37eec3b3f9ca44abf2d0ebbea87715b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Access::CloseSynchFile</definition>
+        <argsstring>()</argsstring>
+        <name>CloseSynchFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="107" column="1" bodyfile="src/tools/SynchronisedFile.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_access_1aded6a66f29109e43c80cd0aaade56709" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class GenericType</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void Access::WriteToSynchFile</definition>
+        <argsstring>(GenericType payload, SynchronisedFile::WriteType write_type, Config *ConfigOut=NULL)</argsstring>
+        <name>WriteToSynchFile</name>
+        <param>
+          <type>GenericType</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03" kindref="member">SynchronisedFile::WriteType</ref></type>
+          <declname>write_type</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+          <defval>NULL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="110" column="1" bodyfile="src/tools/SynchronisedFile.h" bodystart="110" bodyend="113"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/SynchronisedFile.h" line="101" column="1" bodyfile="src/tools/SynchronisedFile.h" bodystart="101" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_access_1ac75072c703b3f485c6f28dee1b3841eb" prot="private" virt="non-virtual"><scope>Access</scope><name>_sf</name></member>
+      <member refid="class_access_1acf8924ccba0ed016abebc511a64f8522" prot="public" virt="non-virtual"><scope>Access</scope><name>Access</name></member>
+      <member refid="class_access_1ae37eec3b3f9ca44abf2d0ebbea87715b" prot="public" virt="non-virtual"><scope>Access</scope><name>CloseSynchFile</name></member>
+      <member refid="class_access_1a52e689eb4ba9cca3405ea698ed4d3a6c" prot="public" virt="non-virtual"><scope>Access</scope><name>GetChecksum</name></member>
+      <member refid="class_access_1a3e81a676c4d5ccb5e7776928f1cb836d" prot="public" virt="non-virtual"><scope>Access</scope><name>path</name></member>
+      <member refid="class_access_1aded6a66f29109e43c80cd0aaade56709" prot="public" virt="non-virtual"><scope>Access</scope><name>WriteToSynchFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

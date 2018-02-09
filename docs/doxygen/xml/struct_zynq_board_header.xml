@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_zynq_board_header" kind="struct" language="C++" prot="public">
+    <compoundname>ZynqBoardHeader</compoundname>
+    <includes refid="pdmdata_8h" local="no">pdmdata.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_zynq_board_header_1ab803d6150ab537b637131da775d29bd7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ZynqBoardHeader::header</definition>
+        <argsstring></argsstring>
+        <name>header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="33" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_zynq_board_header_1ad8dd659ca026ed589cb61a3e1ab469ca" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ZynqBoardHeader::payload_size</definition>
+        <argsstring></argsstring>
+        <name>payload_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="34" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data_format/pdmdata.h" line="32" column="1" bodyfile="src/data_format/pdmdata.h" bodystart="31" bodyend="35"/>
+    <listofallmembers>
+      <member refid="struct_zynq_board_header_1ab803d6150ab537b637131da775d29bd7" prot="public" virt="non-virtual"><scope>ZynqBoardHeader</scope><name>header</name></member>
+      <member refid="struct_zynq_board_header_1ad8dd659ca026ed589cb61a3e1ab469ca" prot="public" virt="non-virtual"><scope>ZynqBoardHeader</scope><name>payload_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

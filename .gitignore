@@ -41,6 +41,6 @@ Thumbs.db
 .build
 
 # doxygen build folder
-doxygen
+# doxygen
 
 CPU/CPUsoftware/bin/*

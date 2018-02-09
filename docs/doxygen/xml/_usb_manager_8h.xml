@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_usb_manager_8h" kind="file" language="C++">
+    <compoundname>UsbManager.h</compoundname>
+    <includes local="no">libusb-1.0/libusb.h</includes>
+    <includes local="no">thread</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includes refid="_cpu_tools_8h" local="yes">CpuTools.h</includes>
+    <includedby refid="_run_instrument_8h" local="yes">src/instrument/RunInstrument.h</includedby>
+    <includedby refid="_usb_manager_8cpp" local="yes">src/subsystems/UsbManager.cpp</includedby>
+    <incdepgraph>
+      <node id="797">
+        <label>libusb-1.0/libusb.h</label>
+      </node>
+      <node id="818">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="820">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="804">
+        <label>iomanip</label>
+      </node>
+      <node id="813">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="812" relation="include">
+        </childnode>
+        <childnode refid="814" relation="include">
+        </childnode>
+        <childnode refid="815" relation="include">
+        </childnode>
+        <childnode refid="816" relation="include">
+        </childnode>
+        <childnode refid="800" relation="include">
+        </childnode>
+        <childnode refid="817" relation="include">
+        </childnode>
+        <childnode refid="818" relation="include">
+        </childnode>
+        <childnode refid="819" relation="include">
+        </childnode>
+        <childnode refid="820" relation="include">
+        </childnode>
+        <childnode refid="821" relation="include">
+        </childnode>
+        <childnode refid="801" relation="include">
+        </childnode>
+        <childnode refid="822" relation="include">
+        </childnode>
+        <childnode refid="799" relation="include">
+        </childnode>
+      </node>
+      <node id="808">
+        <label>stdexcept</label>
+      </node>
+      <node id="821">
+        <label>fcntl.h</label>
+      </node>
+      <node id="809">
+        <label>string</label>
+      </node>
+      <node id="801">
+        <label>fstream</label>
+      </node>
+      <node id="819">
+        <label>netdb.h</label>
+      </node>
+      <node id="805">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="806" relation="include">
+        </childnode>
+        <childnode refid="803" relation="include">
+        </childnode>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="804" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="808" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+        <childnode refid="810" relation="include">
+        </childnode>
+        <childnode refid="811" relation="include">
+        </childnode>
+        <childnode refid="812" relation="include">
+        </childnode>
+        <childnode refid="813" relation="include">
+        </childnode>
+      </node>
+      <node id="817">
+        <label>sys/types.h</label>
+      </node>
+      <node id="815">
+        <label>string.h</label>
+      </node>
+      <node id="806">
+        <label>cstdio</label>
+      </node>
+      <node id="812">
+        <label>unistd.h</label>
+      </node>
+      <node id="810">
+        <label>array</label>
+      </node>
+      <node id="802">
+        <label>sstream</label>
+      </node>
+      <node id="799">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="800" relation="include">
+        </childnode>
+        <childnode refid="801" relation="include">
+        </childnode>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="803" relation="include">
+        </childnode>
+        <childnode refid="804" relation="include">
+        </childnode>
+      </node>
+      <node id="800">
+        <label>sys/time.h</label>
+      </node>
+      <node id="803">
+        <label>iostream</label>
+      </node>
+      <node id="796">
+        <label>src/subsystems/UsbManager.h</label>
+        <link refid="_usb_manager_8h"/>
+        <childnode refid="797" relation="include">
+        </childnode>
+        <childnode refid="798" relation="include">
+        </childnode>
+        <childnode refid="799" relation="include">
+        </childnode>
+        <childnode refid="805" relation="include">
+        </childnode>
+      </node>
+      <node id="814">
+        <label>strings.h</label>
+      </node>
+      <node id="816">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="798">
+        <label>thread</label>
+      </node>
+      <node id="822">
+        <label>algorithm</label>
+      </node>
+      <node id="807">
+        <label>memory</label>
+      </node>
+      <node id="811">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="826">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="827" relation="include">
+        </childnode>
+      </node>
+      <node id="827">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="828">
+        <label>src/subsystems/UsbManager.cpp</label>
+        <link refid="_usb_manager_8cpp"/>
+      </node>
+      <node id="823">
+        <label>src/subsystems/UsbManager.h</label>
+        <link refid="_usb_manager_8h"/>
+        <childnode refid="824" relation="include">
+        </childnode>
+        <childnode refid="828" relation="include">
+        </childnode>
+      </node>
+      <node id="824">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="825" relation="include">
+        </childnode>
+        <childnode refid="826" relation="include">
+        </childnode>
+      </node>
+      <node id="825">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_usb_manager" prot="public">UsbManager</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_usb_manager_8h_1a7c650f50980a8cf6b982a2851dba7e44" prot="public" static="no">
+        <name>MIN_DEVICE_NUM</name>
+        <initializer>5 /* number of devices without extra storage or config USBs */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="11" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1aebcca32b7bac1c679acd0034b4f1556a" prot="public" static="no">
+        <name>NOMINAL_DEVICE_NUM</name>
+        <initializer>9 /* number of devices expected */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="12" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1a118e1e5950681c5a19ae6ccdd0315611" prot="public" static="no">
+        <name>USB_MOUNTPOINT_0</name>
+        <initializer>&quot;/media/usb0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="14" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1a38aaf5e8028c0029416a343a98b7ecb5" prot="public" static="no">
+        <name>USB_MOUNTPOINT_1</name>
+        <initializer>&quot;/media/usb1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="15" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1a6d1db5e0edf1c76adb9a06984bd2b03e" prot="public" static="no">
+        <name>N_USB_UNDEF</name>
+        <initializer>0xFF</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="17" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1aab421a33ba939549360cbccc37006163" prot="public" static="no">
+        <name>STORAGE_BUS</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="20" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1aa54a1de0aed64bf973484a36ca2a798c" prot="public" static="no">
+        <name>CAMERA_BUS</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="21" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1a89379e4ff4a6d6e0c37c89f61b125fe4" prot="public" static="no">
+        <name>CONFIG_BUS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="22" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1af495cd10cb41a756823a250378ae2cab" prot="public" static="no">
+        <name>STORAGE_BUS_NEW</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="25" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_usb_manager_8h_1a60622bff2b1781f0b79c059a97deb22e" prot="public" static="no">
+        <name>CAMERA_BUS_NEW</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/UsbManager.h" line="26" column="9" bodyfile="src/subsystems/UsbManager.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_USB_INTERFACE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_USB_INTERFACE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;libusb-1.0/libusb.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_cpu_tools_8h" kindref="compound">CpuTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="_usb_manager_8h_1a7c650f50980a8cf6b982a2851dba7e44" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>MIN_DEVICE_NUM<sp/>5<sp/></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>devices<sp/>without<sp/>extra<sp/>storage<sp/>or<sp/>config<sp/>USBs<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="_usb_manager_8h_1aebcca32b7bac1c679acd0034b4f1556a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NOMINAL_DEVICE_NUM<sp/>9<sp/></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>devices<sp/>expected<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="_usb_manager_8h_1a118e1e5950681c5a19ae6ccdd0315611" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>USB_MOUNTPOINT_0<sp/>&quot;/media/usb0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="_usb_manager_8h_1a38aaf5e8028c0029416a343a98b7ecb5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>USB_MOUNTPOINT_1<sp/>&quot;/media/usb1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="_usb_manager_8h_1a6d1db5e0edf1c76adb9a06984bd2b03e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_USB_UNDEF<sp/>0xFF</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>configuration<sp/>for<sp/>spare<sp/>CPU<sp/>in<sp/>Stockholm<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="_usb_manager_8h_1aab421a33ba939549360cbccc37006163" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>STORAGE_BUS<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="_usb_manager_8h_1aa54a1de0aed64bf973484a36ca2a798c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CAMERA_BUS<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="_usb_manager_8h_1a89379e4ff4a6d6e0c37c89f61b125fe4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONFIG_BUS<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>configuration<sp/>for<sp/>new<sp/>CPU<sp/>in<sp/>Italy<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="_usb_manager_8h_1af495cd10cb41a756823a250378ae2cab" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>STORAGE_BUS_NEW<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="_usb_manager_8h_1a60622bff2b1781f0b79c059a97deb22e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CAMERA_BUS_NEW<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_usb_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_usb_manager" kindref="compound">UsbManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="class_usb_manager_1aebcc534c8923c0527e06faf6ea1cdb5a" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="class_usb_manager_1aebcc534c8923c0527e06faf6ea1cdb5a" kindref="member">storage_bus</ref>;</highlight></codeline>
+<codeline lineno="31" refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="class_usb_manager_1a97646fc9649137739f833bd8bc8e830b" kindref="member">num_storage_dev</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><ref refid="class_usb_manager_1a4877fd06ccee69aabd17dfb66a3acfa9" kindref="member">UsbManager</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1a30a34251f8b7f987b41e2ddcd221fd01" kindref="member">CheckUsb</ref>();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="class_usb_manager_1a7f0fc76903911c3fef6361091272dca9" kindref="member">LookupUsbStorage</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1ac2a208aaaa800091a9a32f65ccf59a46" kindref="member">RunDataBackup</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_usb_manager_1a0b7b95feb3cc0bc64ed01315f8140b5a" kindref="member">KillDataBackup</ref>();</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>std::thread::native_handle_type<sp/>backup_thread_handle;<sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>CheckCpuModel();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PrintDev(libusb_device<sp/>*<sp/>dev);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>DataBackup();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_USB_INTERFACE_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/UsbManager.h"/>
+  </compounddef>
+</doxygen>

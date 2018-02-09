@@ -1,0 +1,614 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_data_acquisition" kind="class" language="C++" prot="public">
+    <compoundname>DataAcquisition</compoundname>
+    <basecompoundref refid="class_operation_mode" prot="public" virt="non-virtual">OperationMode</basecompoundref>
+    <includes refid="_data_acquisition_8h" local="no">DataAcquisition.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>RunType</name>
+        <enumvalue id="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20daf978f95aced804ab98e3e4027f8b8e9f" prot="public">
+          <name>CPU</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da8171d535bc60ceeabc4f07a40b102b62" prot="public">
+          <name>SC</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da5a3f69a5b5c269eba232211210be1a2b" prot="public">
+          <name>HV</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="42" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="42" bodyend="46"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_data_acquisition_1a4d03a22366d17e58d50c8e191b884235" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DataAcquisition::cpu_main_file_name</definition>
+        <argsstring></argsstring>
+        <name>cpu_main_file_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="30" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1af29f7044d5d81a1d24055be285845a41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DataAcquisition::cpu_sc_file_name</definition>
+        <argsstring></argsstring>
+        <name>cpu_sc_file_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="31" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1affe81aa950d46b625c2479b0dd9bfb45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DataAcquisition::cpu_hv_file_name</definition>
+        <argsstring></argsstring>
+        <name>cpu_hv_file_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="32" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1abb672ec183e304bca94c944de0857e60" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t DataAcquisition::usb_num_storage_dev</definition>
+        <argsstring></argsstring>
+        <name>usb_num_storage_dev</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="33" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1a2cff57118c2529ee0ba537eeae3e1114" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_synchronised_file" kindref="compound">SynchronisedFile</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SynchronisedFile&gt; DataAcquisition::CpuFile</definition>
+        <argsstring></argsstring>
+        <name>CpuFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="36" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1aba26642e86289cae1600e151d7c36069" prot="public" static="no" mutable="no">
+        <type><ref refid="class_access" kindref="compound">Access</ref> *</type>
+        <definition>Access* DataAcquisition::RunAccess</definition>
+        <argsstring></argsstring>
+        <name>RunAccess</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="37" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_data_acquisition_1aa55f142e7fb5dececc8568427408d09e" prot="public" static="no" mutable="no">
+        <type><ref refid="class_therm_manager" kindref="compound">ThermManager</ref> *</type>
+        <definition>ThermManager* DataAcquisition::ThManager</definition>
+        <argsstring></argsstring>
+        <name>ThManager</name>
+        <initializer>= new <ref refid="class_therm_manager" kindref="compound">ThermManager</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="40" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_data_acquisition_1a219a57019cb7f899040d2d852790b0cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DataAcquisition::DataAcquisition</definition>
+        <argsstring>()</argsstring>
+        <name>DataAcquisition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="48" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="4" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1af6a5c877aa07e62c5a7d554969804805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::CreateCpuRun</definition>
+        <argsstring>(RunType run_type, Config *ConfigOut)</argsstring>
+        <name>CreateCpuRun</name>
+        <param>
+          <type><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref></type>
+          <declname>run_type</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="49" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="81" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a449b9464c65c139ecefbe7b7e4ee7753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::CloseCpuRun</definition>
+        <argsstring>(RunType run_type)</argsstring>
+        <name>CloseCpuRun</name>
+        <param>
+          <type><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref></type>
+          <declname>run_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="50" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="125" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a896eb8e27c5d4587e1c6bf9b4ba67600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::CollectSc</definition>
+        <argsstring>(ZynqManager *ZqManager, Config *ConfigOut, CmdLineInputs *CmdLine)</argsstring>
+        <name>CollectSc</name>
+        <param>
+          <type><ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref> *</type>
+          <declname>ZqManager</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+          <declname>CmdLine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="51" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="703" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a11e48bbcbc51b6c02486ccf48614f3e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::CollectData</definition>
+        <argsstring>(ZynqManager *ZqManager, Config *ConfigOut, CmdLineInputs *CmdLine)</argsstring>
+        <name>CollectData</name>
+        <param>
+          <type><ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref> *</type>
+          <declname>ZqManager</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+          <declname>CmdLine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="52" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="714" bodyend="758"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_data_acquisition_1aec3390f5ba9721d620a3ae1e4e1388ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::WriteFakeZynqPkt</definition>
+        <argsstring>()</argsstring>
+        <name>WriteFakeZynqPkt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="53" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="763" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a56796ee38b685d91e61eee1bffe5297e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::ReadFakeZynqPkt</definition>
+        <argsstring>()</argsstring>
+        <name>ReadFakeZynqPkt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="54" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="848" bodyend="918"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_data_acquisition_1a5d0086419aac0901b4c578930dc3c72d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string DataAcquisition::CreateCpuRunName</definition>
+        <argsstring>(RunType run_type, Config *ConfigOut)</argsstring>
+        <name>CreateCpuRunName</name>
+        <param>
+          <type><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref></type>
+          <declname>run_type</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="57" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="14" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a2c13a1b06b0f462906852e875d2f4855" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_s_c___p_a_c_k_e_t" kindref="compound">SC_PACKET</ref> *</type>
+        <definition>SC_PACKET * DataAcquisition::ScPktReadOut</definition>
+        <argsstring>(std::string sc_file_name, Config *ConfigOut)</argsstring>
+        <name>ScPktReadOut</name>
+        <param>
+          <type>std::string</type>
+          <declname>sc_file_name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="61" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="146" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1aeb0ae155fabfe8b4ab2dc0d663316f5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_h_v___p_a_c_k_e_t" kindref="compound">HV_PACKET</ref> *</type>
+        <definition>HV_PACKET * DataAcquisition::HvPktReadOut</definition>
+        <argsstring>(std::string hv_file_name)</argsstring>
+        <name>HvPktReadOut</name>
+        <param>
+          <type>std::string</type>
+          <declname>hv_file_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="62" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="191" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1aea3cd49597b63e56930ef90da509ee6f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_z_y_n_q___p_a_c_k_e_t" kindref="compound">ZYNQ_PACKET</ref> *</type>
+        <definition>ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut</definition>
+        <argsstring>(std::string zynq_file_name, Config *ConfigOut)</argsstring>
+        <name>ZynqPktReadOut</name>
+        <param>
+          <type>std::string</type>
+          <declname>zynq_file_name</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="63" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="232" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a1ad318ac9a8b5923e94d60c7cfc84729" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_h_k___p_a_c_k_e_t" kindref="compound">HK_PACKET</ref> *</type>
+        <definition>HK_PACKET * DataAcquisition::AnalogPktReadOut</definition>
+        <argsstring>()</argsstring>
+        <name>AnalogPktReadOut</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="64" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="313" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a971f9ce68f3d6b4e54a40770314be23c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::WriteScPkt</definition>
+        <argsstring>(SC_PACKET *sc_packet)</argsstring>
+        <name>WriteScPkt</name>
+        <param>
+          <type><ref refid="struct_s_c___p_a_c_k_e_t" kindref="compound">SC_PACKET</ref> *</type>
+          <declname>sc_packet</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="65" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="395" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a24cc5453b9b133eabd86560d8c31e713" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::WriteHvPkt</definition>
+        <argsstring>(HV_PACKET *hv_packet)</argsstring>
+        <name>WriteHvPkt</name>
+        <param>
+          <type><ref refid="struct_h_v___p_a_c_k_e_t" kindref="compound">HV_PACKET</ref> *</type>
+          <declname>hv_packet</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="66" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="411" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a17cb33a34f4231f4997d956c8b014fbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::WriteCpuPkt</definition>
+        <argsstring>(ZYNQ_PACKET *zynq_packet, HK_PACKET *hk_packet, Config *ConfigOut)</argsstring>
+        <name>WriteCpuPkt</name>
+        <param>
+          <type><ref refid="struct_z_y_n_q___p_a_c_k_e_t" kindref="compound">ZYNQ_PACKET</ref> *</type>
+          <declname>zynq_packet</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_h_k___p_a_c_k_e_t" kindref="compound">HK_PACKET</ref> *</type>
+          <declname>hk_packet</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="67" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="341" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a2bab7ca76b0dd7f515d86c6415ad93c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::GetHvInfo</definition>
+        <argsstring>(Config *ConfigOut)</argsstring>
+        <name>GetHvInfo</name>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="68" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="657" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a8d4cff8d10f1c1e1e3b63f074ebaa7aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int DataAcquisition::ProcessIncomingData</definition>
+        <argsstring>(Config *ConfigOut, CmdLineInputs *CmdLine)</argsstring>
+        <name>ProcessIncomingData</name>
+        <param>
+          <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+          <declname>ConfigOut</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+          <declname>CmdLine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="69" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="427" bodyend="654"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_data_acquisition_1a1f694d4a4ed71616e84b152e05b63e65" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t DataAcquisition::BuildCpuFileHeader</definition>
+        <argsstring>(uint32_t type, uint32_t ver)</argsstring>
+        <name>BuildCpuFileHeader</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="58" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1a1050559c3e6114fb5a27c42074081918" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t DataAcquisition::BuildCpuPktHeader</definition>
+        <argsstring>(uint32_t type, uint32_t ver)</argsstring>
+        <name>BuildCpuPktHeader</name>
+        <param>
+          <type>uint32_t</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="59" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_data_acquisition_1af53c3a8a4bcc2a4d1ed8afd08e5c7e6a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t DataAcquisition::BuildCpuTimeStamp</definition>
+        <argsstring>()</argsstring>
+        <name>BuildCpuTimeStamp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="60" column="1" bodyfile="src/operations/DataAcquisition.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="65">
+        <label>DataAcquisition</label>
+        <link refid="class_data_acquisition"/>
+        <childnode refid="66" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>OperationMode</label>
+        <link refid="class_operation_mode"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="67">
+        <label>DataAcquisition</label>
+        <link refid="class_data_acquisition"/>
+        <childnode refid="68" relation="public-inheritance">
+        </childnode>
+        <childnode refid="70" relation="usage">
+          <edgelabel>ThManager</edgelabel>
+        </childnode>
+        <childnode refid="71" relation="usage">
+          <edgelabel>RunAccess</edgelabel>
+        </childnode>
+      </node>
+      <node id="71">
+        <label>Access</label>
+        <link refid="class_access"/>
+      </node>
+      <node id="69">
+        <label>AnalogManager</label>
+        <link refid="class_analog_manager"/>
+      </node>
+      <node id="70">
+        <label>ThermManager</label>
+        <link refid="class_therm_manager"/>
+        <childnode refid="71" relation="usage">
+          <edgelabel>RunAccess</edgelabel>
+        </childnode>
+      </node>
+      <node id="68">
+        <label>OperationMode</label>
+        <link refid="class_operation_mode"/>
+        <childnode refid="69" relation="usage">
+          <edgelabel>Analog</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/operations/DataAcquisition.h" line="28" column="1" bodyfile="src/operations/DataAcquisition.h" bodystart="28" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_operation_mode_1abfdfc50fff9045cc980be2c486936f21" prot="protected" virt="non-virtual"><scope>DataAcquisition</scope><name>_cv_switch</name></member>
+      <member refid="class_operation_mode_1a191135ef67e176c036296fbcdf443c73" prot="protected" virt="non-virtual"><scope>DataAcquisition</scope><name>_m_switch</name></member>
+      <member refid="class_operation_mode_1add634bb194be6d29ec9449a8ceae1da3" prot="protected" virt="non-virtual"><scope>DataAcquisition</scope><name>_switch</name></member>
+      <member refid="class_operation_mode_1af24f59ca2f4db0d67f15125c48a54eeb" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>Analog</name></member>
+      <member refid="class_data_acquisition_1a1ad318ac9a8b5923e94d60c7cfc84729" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>AnalogPktReadOut</name></member>
+      <member refid="class_data_acquisition_1a1f694d4a4ed71616e84b152e05b63e65" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>BuildCpuFileHeader</name></member>
+      <member refid="class_data_acquisition_1a1050559c3e6114fb5a27c42074081918" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>BuildCpuPktHeader</name></member>
+      <member refid="class_data_acquisition_1af53c3a8a4bcc2a4d1ed8afd08e5c7e6a" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>BuildCpuTimeStamp</name></member>
+      <member refid="class_data_acquisition_1a449b9464c65c139ecefbe7b7e4ee7753" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CloseCpuRun</name></member>
+      <member refid="class_data_acquisition_1a11e48bbcbc51b6c02486ccf48614f3e9" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CollectData</name></member>
+      <member refid="class_data_acquisition_1a896eb8e27c5d4587e1c6bf9b4ba67600" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CollectSc</name></member>
+      <member refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20daf978f95aced804ab98e3e4027f8b8e9f" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CPU</name></member>
+      <member refid="class_data_acquisition_1affe81aa950d46b625c2479b0dd9bfb45" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>cpu_hv_file_name</name></member>
+      <member refid="class_data_acquisition_1a4d03a22366d17e58d50c8e191b884235" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>cpu_main_file_name</name></member>
+      <member refid="class_data_acquisition_1af29f7044d5d81a1d24055be285845a41" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>cpu_sc_file_name</name></member>
+      <member refid="class_data_acquisition_1a2cff57118c2529ee0ba537eeae3e1114" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CpuFile</name></member>
+      <member refid="class_data_acquisition_1af6a5c877aa07e62c5a7d554969804805" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>CreateCpuRun</name></member>
+      <member refid="class_data_acquisition_1a5d0086419aac0901b4c578930dc3c72d" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>CreateCpuRunName</name></member>
+      <member refid="class_data_acquisition_1a219a57019cb7f899040d2d852790b0cf" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>DataAcquisition</name></member>
+      <member refid="class_data_acquisition_1a2bab7ca76b0dd7f515d86c6415ad93c9" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>GetHvInfo</name></member>
+      <member refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da5a3f69a5b5c269eba232211210be1a2b" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>HV</name></member>
+      <member refid="class_data_acquisition_1aeb0ae155fabfe8b4ab2dc0d663316f5e" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>HvPktReadOut</name></member>
+      <member refid="class_operation_mode_1a6b26b89083523650d675f310f9b156c4" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>Notify</name></member>
+      <member refid="class_operation_mode_1ae5f600e33d74a4567e3363f461d48e92" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>OperationMode</name></member>
+      <member refid="class_data_acquisition_1a8d4cff8d10f1c1e1e3b63f074ebaa7aa" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>ProcessIncomingData</name></member>
+      <member refid="class_data_acquisition_1a56796ee38b685d91e61eee1bffe5297e" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>ReadFakeZynqPkt</name></member>
+      <member refid="class_operation_mode_1ae194e6169bbf783a45d8ee6669e75355" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>Reset</name></member>
+      <member refid="class_data_acquisition_1aba26642e86289cae1600e151d7c36069" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>RunAccess</name></member>
+      <member refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>RunType</name></member>
+      <member refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da8171d535bc60ceeabc4f07a40b102b62" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>SC</name></member>
+      <member refid="class_data_acquisition_1a2c13a1b06b0f462906852e875d2f4855" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>ScPktReadOut</name></member>
+      <member refid="class_operation_mode_1abea0ed26f35b9d8f70107d3c40bdcaa2" prot="public" virt="virtual"><scope>DataAcquisition</scope><name>Start</name></member>
+      <member refid="class_operation_mode_1afd531303d950050f3e978bd6fc7a39e4" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>Stop</name></member>
+      <member refid="class_data_acquisition_1aa55f142e7fb5dececc8568427408d09e" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>ThManager</name></member>
+      <member refid="class_data_acquisition_1abb672ec183e304bca94c944de0857e60" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>usb_num_storage_dev</name></member>
+      <member refid="class_data_acquisition_1a17cb33a34f4231f4997d956c8b014fbf" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>WriteCpuPkt</name></member>
+      <member refid="class_data_acquisition_1aec3390f5ba9721d620a3ae1e4e1388ec" prot="public" virt="non-virtual"><scope>DataAcquisition</scope><name>WriteFakeZynqPkt</name></member>
+      <member refid="class_data_acquisition_1a24cc5453b9b133eabd86560d8c31e713" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>WriteHvPkt</name></member>
+      <member refid="class_data_acquisition_1a971f9ce68f3d6b4e54a40770314be23c" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>WriteScPkt</name></member>
+      <member refid="class_data_acquisition_1aea3cd49597b63e56930ef90da509ee6f" prot="private" virt="non-virtual"><scope>DataAcquisition</scope><name>ZynqPktReadOut</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

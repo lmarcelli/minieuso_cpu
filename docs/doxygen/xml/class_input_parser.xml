@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_input_parser" kind="class" language="C++" prot="public">
+    <compoundname>InputParser</compoundname>
+    <includes refid="_input_parser_8h" local="no">InputParser.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_input_parser_1af608154335b0e4b3677147135d417d65" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+        <definition>CmdLineInputs* InputParser::CmdLine</definition>
+        <argsstring></argsstring>
+        <name>CmdLine</name>
+        <initializer>= new <ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="47" column="1" bodyfile="src/tools/InputParser.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_input_parser_1a23ce0e47972606dd65099570ec4385b8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; InputParser::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="76" column="1" bodyfile="src/tools/InputParser.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_input_parser_1af9fa5ead1f28b5294a713410df5b9531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>InputParser::InputParser</definition>
+        <argsstring>(int &amp;argc, char **argv)</argsstring>
+        <name>InputParser</name>
+        <param>
+          <type>int &amp;</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="49" column="1" bodyfile="src/tools/InputParser.cpp" bodystart="4" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_input_parser_1abe64c860556d66810e39d0d590002d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+        <definition>CmdLineInputs * InputParser::ParseCmdLineInputs</definition>
+        <argsstring>()</argsstring>
+        <name>ParseCmdLineInputs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="50" column="1" bodyfile="src/tools/InputParser.cpp" bodystart="39" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string</type>
+        <definition>const std::string InputParser::getCmdOption</definition>
+        <argsstring>(const std::string &amp;option) const</argsstring>
+        <name>getCmdOption</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="53" column="1" bodyfile="src/tools/InputParser.h" bodystart="53" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool InputParser::cmdOptionExists</definition>
+        <argsstring>(const std::string &amp;option) const</argsstring>
+        <name>cmdOptionExists</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>option</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="68" column="1" bodyfile="src/tools/InputParser.h" bodystart="68" bodyend="72"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_input_parser_1a8e18d77163dc4d978490832c7a110c05" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int InputParser::PrintHelpMsg</definition>
+        <argsstring>()</argsstring>
+        <name>PrintHelpMsg</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/InputParser.h" line="78" column="1" bodyfile="src/tools/InputParser.cpp" bodystart="206" bodyend="272"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="102">
+        <label>CmdLineInputs</label>
+        <link refid="struct_cmd_line_inputs"/>
+      </node>
+      <node id="101">
+        <label>InputParser</label>
+        <link refid="class_input_parser"/>
+        <childnode refid="102" relation="usage">
+          <edgelabel>CmdLine</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/tools/InputParser.h" line="45" column="1" bodyfile="src/tools/InputParser.h" bodystart="45" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_input_parser_1af608154335b0e4b3677147135d417d65" prot="public" virt="non-virtual"><scope>InputParser</scope><name>CmdLine</name></member>
+      <member refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" prot="public" virt="non-virtual"><scope>InputParser</scope><name>cmdOptionExists</name></member>
+      <member refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" prot="public" virt="non-virtual"><scope>InputParser</scope><name>getCmdOption</name></member>
+      <member refid="class_input_parser_1af9fa5ead1f28b5294a713410df5b9531" prot="public" virt="non-virtual"><scope>InputParser</scope><name>InputParser</name></member>
+      <member refid="class_input_parser_1abe64c860556d66810e39d0d590002d88" prot="public" virt="non-virtual"><scope>InputParser</scope><name>ParseCmdLineInputs</name></member>
+      <member refid="class_input_parser_1a8e18d77163dc4d978490832c7a110c05" prot="private" virt="non-virtual"><scope>InputParser</scope><name>PrintHelpMsg</name></member>
+      <member refid="class_input_parser_1a23ce0e47972606dd65099570ec4385b8" prot="private" virt="non-virtual"><scope>InputParser</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

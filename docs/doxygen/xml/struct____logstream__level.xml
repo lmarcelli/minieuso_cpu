@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct____logstream__level" kind="struct" language="C++" prot="public">
+    <compoundname>__logstream_level</compoundname>
+    <includes refid="log_8h" local="no">log.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct____logstream__level_1a4eb9a334fc3e636be9259e09e9fb48ab" prot="public" static="no" mutable="no">
+        <type><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">logstream::log_level</ref></type>
+        <definition>logstream::log_level __logstream_level::_m_level</definition>
+        <argsstring></argsstring>
+        <name>_m_level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="104" column="1" bodyfile="src/tools/log.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/tools/log.h" line="104" column="1" bodyfile="src/tools/log.h" bodystart="104" bodyend="104"/>
+    <listofallmembers>
+      <member refid="struct____logstream__level_1a4eb9a334fc3e636be9259e09e9fb48ab" prot="public" virt="non-virtual"><scope>__logstream_level</scope><name>_m_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

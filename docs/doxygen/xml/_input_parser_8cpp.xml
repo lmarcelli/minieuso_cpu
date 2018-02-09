@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_input_parser_8cpp" kind="file" language="C++">
+    <compoundname>InputParser.cpp</compoundname>
+    <includes refid="_input_parser_8h" local="yes">InputParser.h</includes>
+    <incdepgraph>
+      <node id="1011">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="1013">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="1005">
+        <label>iomanip</label>
+      </node>
+      <node id="998">
+        <label>error.h</label>
+      </node>
+      <node id="1006">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="997" relation="include">
+        </childnode>
+        <childnode refid="1007" relation="include">
+        </childnode>
+        <childnode refid="1008" relation="include">
+        </childnode>
+        <childnode refid="1009" relation="include">
+        </childnode>
+        <childnode refid="1001" relation="include">
+        </childnode>
+        <childnode refid="1010" relation="include">
+        </childnode>
+        <childnode refid="1011" relation="include">
+        </childnode>
+        <childnode refid="1012" relation="include">
+        </childnode>
+        <childnode refid="1013" relation="include">
+        </childnode>
+        <childnode refid="1014" relation="include">
+        </childnode>
+        <childnode refid="1002" relation="include">
+        </childnode>
+        <childnode refid="992" relation="include">
+        </childnode>
+        <childnode refid="1000" relation="include">
+        </childnode>
+      </node>
+      <node id="993">
+        <label>LvpsManager.h</label>
+        <link refid="_lvps_manager_8h"/>
+        <childnode refid="994" relation="include">
+        </childnode>
+        <childnode refid="995" relation="include">
+        </childnode>
+        <childnode refid="996" relation="include">
+        </childnode>
+        <childnode refid="997" relation="include">
+        </childnode>
+        <childnode refid="998" relation="include">
+        </childnode>
+        <childnode refid="999" relation="include">
+        </childnode>
+        <childnode refid="1000" relation="include">
+        </childnode>
+      </node>
+      <node id="994">
+        <label>errno.h</label>
+      </node>
+      <node id="1014">
+        <label>fcntl.h</label>
+      </node>
+      <node id="1002">
+        <label>fstream</label>
+      </node>
+      <node id="1012">
+        <label>netdb.h</label>
+      </node>
+      <node id="999">
+        <label>aDIO_library.h</label>
+      </node>
+      <node id="1010">
+        <label>sys/types.h</label>
+      </node>
+      <node id="1008">
+        <label>string.h</label>
+      </node>
+      <node id="997">
+        <label>unistd.h</label>
+      </node>
+      <node id="991">
+        <label>vector</label>
+      </node>
+      <node id="990">
+        <label>InputParser.h</label>
+        <link refid="_input_parser_8h"/>
+        <childnode refid="991" relation="include">
+        </childnode>
+        <childnode refid="992" relation="include">
+        </childnode>
+        <childnode refid="993" relation="include">
+        </childnode>
+        <childnode refid="1006" relation="include">
+        </childnode>
+      </node>
+      <node id="1003">
+        <label>sstream</label>
+      </node>
+      <node id="1000">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="1001" relation="include">
+        </childnode>
+        <childnode refid="1002" relation="include">
+        </childnode>
+        <childnode refid="1003" relation="include">
+        </childnode>
+        <childnode refid="1004" relation="include">
+        </childnode>
+        <childnode refid="1005" relation="include">
+        </childnode>
+      </node>
+      <node id="1001">
+        <label>sys/time.h</label>
+      </node>
+      <node id="1004">
+        <label>iostream</label>
+      </node>
+      <node id="1007">
+        <label>strings.h</label>
+      </node>
+      <node id="996">
+        <label>ctype.h</label>
+      </node>
+      <node id="1009">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="989">
+        <label>src/tools/InputParser.cpp</label>
+        <link refid="_input_parser_8cpp"/>
+        <childnode refid="990" relation="include">
+        </childnode>
+      </node>
+      <node id="992">
+        <label>algorithm</label>
+      </node>
+      <node id="995">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_input_parser_8h" kindref="compound">InputParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>default<sp/>constructor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><ref refid="class_input_parser_1af9fa5ead1f28b5294a713410df5b9531" kindref="member">InputParser::InputParser</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>**argv)<sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>initialise<sp/>the<sp/>struct<sp/>to<sp/>handle<sp/>input<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a3caced8b01d112efe51d04001af01a51" kindref="member">help</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a245e63ae022f665018212b1a391f8fec" kindref="member">hvps_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a865ccb1849979316588536a59213f8a5" kindref="member">hvps_switch</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1afbf6dcfc236f225b09beec20228bb17d" kindref="member">debug_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a88c728d5406ac3afea898f6cd9042de9" kindref="member">log_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a10db365c09b98a738257a93d6718aeaa" kindref="member">trig_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae6172212a136f5c803e6af0a5e2daa53" kindref="member">cam_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a480650fe2fe4cc380125e987e02baaa5" kindref="member">cam_verbose</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a036ab31a6d1c9b9b0c1e4b529eecfd39" kindref="member">therm_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7e8f543661cd5741d4a1bbe3e24a9030" kindref="member">lvps_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a98db4b47df61f89208118dc3e4f56854" kindref="member">sc_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ab32a29de930637b7a172d507b9c3c8a3" kindref="member">single_run</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5c00ff8d6306c48203584982ac2f9524" kindref="member">test_zynq_on</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ad050b3e333d5414fef2848ba2408e1d1" kindref="member">keep_zynq_pkt</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8aebdd0a34c7ba1ab780102425dfa688" kindref="member">check_status</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a93e2a8e691377cb64562c164ddc1cc59" kindref="member">dv</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae04912996c647a651112560d79720b18" kindref="member">hvdac</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae165595c206085e64818cd797686c2f0" kindref="member">lvps_status</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a28b906147042a75a75377858218fe1b6a809cb492d514212fa0d1254d235699da" kindref="member">LvpsManager::UNDEF</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" kindref="member">lvps_subsystem</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a2bbab5dd2243712f1046d77aac49e5adab58484cc0ba6925d2467cd52cfccd33a" kindref="member">LvpsManager::ZYNQ</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" kindref="member">hvps_status</ref><sp/>=<sp/><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ad69401c71fa8c52fd8b715ad29702a99" kindref="member">ZynqManager::UNDEF</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" kindref="member">zynq_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa75200ad719a8d9e830968dca0adce503" kindref="member">ZynqManager::PERIODIC</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213afc07035856a702cab9748ea917f4cc5c" kindref="member">ZynqManager::T_MODE3</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>command<sp/>line<sp/>input<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>argc;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;tokens.push_back(std::string(argv[i]));</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>parse<sp/>the<sp/>command<sp/>line<sp/>options<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref><sp/>*<sp/><ref refid="class_input_parser_1abe64c860556d66810e39d0d590002d88" kindref="member">InputParser::ParseCmdLineInputs</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>check<sp/>for<sp/>help<sp/>option<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-help&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a3caced8b01d112efe51d04001af01a51" kindref="member">help</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>PrintHelpMsg();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>check<sp/>what<sp/>comand<sp/>line<sp/>options<sp/>exist<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-hv&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a245e63ae022f665018212b1a391f8fec" kindref="member">hvps_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" kindref="member">hvps_status</ref><sp/>=<sp/><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ae11fe7979814ec644b6848fca4835fca" kindref="member">ZynqManager::ON</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-hvps&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a865ccb1849979316588536a59213f8a5" kindref="member">hvps_switch</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>HVPS<sp/>on/off<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/>hv_status_str<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-hvps&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hv_status_str.empty())<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hv_status_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;on&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" kindref="member">hvps_status</ref><sp/>=<sp/><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1ae11fe7979814ec644b6848fca4835fca" kindref="member">ZynqManager::ON</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hv_status_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;off&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1aa5258d4d03d904691d976207be2178c8" kindref="member">hvps_status</ref><sp/>=<sp/><ref refid="class_zynq_manager_1aaba16a841aa0e129f0a19da666d0bcd1a8d34598513f64590dac8620c0f2f1dbb" kindref="member">ZynqManager::OFF</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-short&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ab32a29de930637b7a172d507b9c3c8a3" kindref="member">single_run</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-db&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1afbf6dcfc236f225b09beec20228bb17d" kindref="member">debug_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-log&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a88c728d5406ac3afea898f6cd9042de9" kindref="member">log_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-trig&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a10db365c09b98a738257a93d6718aeaa" kindref="member">trig_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-cam&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae6172212a136f5c803e6af0a5e2daa53" kindref="member">cam_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-v&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a480650fe2fe4cc380125e987e02baaa5" kindref="member">cam_verbose</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-therm&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a036ab31a6d1c9b9b0c1e4b529eecfd39" kindref="member">therm_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-lvps&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7e8f543661cd5741d4a1bbe3e24a9030" kindref="member">lvps_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>LVPS<sp/>on/off<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/>lvps_status_str<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-lvps&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!lvps_status_str.empty())<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lvps_status_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;on&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae165595c206085e64818cd797686c2f0" kindref="member">lvps_status</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a28b906147042a75a75377858218fe1b6a5b38403228eaec52d40b9f7a869897be" kindref="member">LvpsManager::ON</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lvps_status_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;off&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae165595c206085e64818cd797686c2f0" kindref="member">lvps_status</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a28b906147042a75a75377858218fe1b6a74cb543a684b5c074965074293f914a6" kindref="member">LvpsManager::OFF</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>LVPS<sp/>subsystem<sp/>*/</highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;<sp/>subsystem_str<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-subsystem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!subsystem_str.empty())<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(subsystem_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;zynq&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" kindref="member">lvps_subsystem</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a2bbab5dd2243712f1046d77aac49e5adab58484cc0ba6925d2467cd52cfccd33a" kindref="member">LvpsManager::ZYNQ</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(subsystem_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cam&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" kindref="member">lvps_subsystem</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a2bbab5dd2243712f1046d77aac49e5ada2ca008491489967f49ce3900043c7c34" kindref="member">LvpsManager::CAMERAS</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(subsystem_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;hk&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5b639db0650084c1e39b4b6bcd023bb1" kindref="member">lvps_subsystem</ref><sp/>=<sp/><ref refid="class_lvps_manager_1a2bbab5dd2243712f1046d77aac49e5adaefcdddd0eda27894141310148970af6b" kindref="member">LvpsManager::HK</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WARNING:<sp/>no<sp/>subsystem<sp/>specified,<sp/>using<sp/>default:<sp/>zynq&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-scurve&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a98db4b47df61f89208118dc3e4f56854" kindref="member">sc_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-zynq&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>zynq<sp/>instrument<sp/>mode<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;mode<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-zynq&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!mode.empty()){</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" kindref="member">zynq_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e8f29e7614620c810c56d8de4ef2f94" kindref="member">ZynqManager::MODE0</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" kindref="member">zynq_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa73e5342da2e4b1777631e3b7c5e8e909" kindref="member">ZynqManager::MODE1</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;periodic&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" kindref="member">zynq_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa75200ad719a8d9e830968dca0adce503" kindref="member">ZynqManager::PERIODIC</ref>;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;trigger&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a7276bad10d5b41996c2c52aae0d239dd" kindref="member">zynq_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a34d816a00b2a70f0d48a7baf83238ddfa0e53eae0b5a50de5f2d57ad95b6ae7b8" kindref="member">ZynqManager::TRIGGER</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WARNING:<sp/>could<sp/>not<sp/>identify<sp/>required<sp/>zynq<sp/>mode,<sp/>using<sp/>default:<sp/>periodic&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-test_zynq&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a5c00ff8d6306c48203584982ac2f9524" kindref="member">test_zynq_on</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>zynq<sp/>test<sp/>mode<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_mode<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-test_zynq&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!test_mode.empty()){</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a524dbfd45962699e76a5782e4904d65b" kindref="member">ZynqManager::T_MODE0</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a7fbe9ecf77701cacdcb53973b71d3809" kindref="member">ZynqManager::T_MODE1</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213aa932f57b8a9dd532ed88ebc360f57fb9" kindref="member">ZynqManager::T_MODE2</ref>;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;3&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213afc07035856a702cab9748ea917f4cc5c" kindref="member">ZynqManager::T_MODE3</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;4&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a330a3719dda034bd09525263e3beeaf9" kindref="member">ZynqManager::T_MODE4</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;5&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a90ffa35e6d3bc494f592e0302f7f8ac0" kindref="member">ZynqManager::T_MODE5</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(test_mode<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;6&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8c1b2aca97fe4c468860bfb1d7ca5fd3" kindref="member">zynq_test_mode</ref><sp/>=<sp/><ref refid="class_zynq_manager_1a6d040f15092709bc1b21801eb57aa213a47c3abcd551abe197ab34f15ba34f511" kindref="member">ZynqManager::T_MODE6</ref>;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WARNING:<sp/>cannot<sp/>identify<sp/>required<sp/>zynq<sp/>test<sp/>mode,<sp/>using<sp/>default:<sp/>test<sp/>mode<sp/>3&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-keep_zynq_pkt&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ad050b3e333d5414fef2848ba2408e1d1" kindref="member">keep_zynq_pkt</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_input_parser_1aea813a8d6ee9ea6d250ab99333316bdf" kindref="member">cmdOptionExists</ref>(</highlight><highlight class="stringliteral">&quot;-check_status&quot;</highlight><highlight class="normal">)){</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a8aebdd0a34c7ba1ab780102425dfa688" kindref="member">check_status</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>arguments<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>dynode<sp/>voltage<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;dynode_voltage<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-dv&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!dynode_voltage.empty()){</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1a93e2a8e691377cb64562c164ddc1cc59" kindref="member">dv</ref><sp/>=<sp/>std::stoi(dynode_voltage);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>high<sp/>voltage<sp/>dac<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;hv_dac<sp/>=<sp/><ref refid="class_input_parser_1ac5d0fbee4cb1d4aea2931a4796b42448" kindref="member">getCmdOption</ref>(</highlight><highlight class="stringliteral">&quot;-hvdac&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hv_dac.empty()){</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>-&gt;<ref refid="struct_cmd_line_inputs_1ae04912996c647a651112560d79720b18" kindref="member">hvdac</ref><sp/>=<sp/>std::stoi(hv_dac);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/>}<sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;<ref refid="class_input_parser_1af608154335b0e4b3677147135d417d65" kindref="member">CmdLine</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>help<sp/>message<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>InputParser::PrintHelpMsg()<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;--------------------------------&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mini-EUSO<sp/>command<sp/>line<sp/>interface&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;--------------------------------&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;COMMAND:<sp/>mecontrol&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;USAGE:<sp/>mecontrol<sp/>-option<sp/>argument&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;DESCRIPTION&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>default<sp/>behaviour<sp/>of<sp/>the<sp/>software<sp/>is<sp/>to<sp/>run<sp/>an<sp/>infinite<sp/>acquisition,&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;without<sp/>HV<sp/>and<sp/>with<sp/>the<sp/>DAC<sp/>in<sp/>the<sp/>pedestal<sp/>(DAC<sp/>=<sp/>750).&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;For<sp/>further<sp/>information<sp/>on<sp/>the<sp/>default<sp/>configuration<sp/>see<sp/>the<sp/>online<sp/>documentation.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;https://github.com/cescalara/minieuso_cpu&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Contact:<sp/>capel.francesca@gmail.com&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GENERAL&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-db:<sp/>enter<sp/>software<sp/>test/debug<sp/>mode&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-log:<sp/>turn<sp/>on<sp/>logging<sp/>(off<sp/>by<sp/>default)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;EXECUTE-AND-EXIT&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;These<sp/>commands<sp/>execute<sp/>and<sp/>exit<sp/>without<sp/>running<sp/>an<sp/>automated<sp/>acquisition&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Switching<sp/>the<sp/>LVPS<sp/>manually&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-lvps<sp/>MODE:<sp/>switch<sp/>a<sp/>subsystem<sp/>using<sp/>the<sp/>LVPS<sp/>(MODE<sp/>=<sp/>\&quot;on\&quot;<sp/>or<sp/>\&quot;off\&quot;)<sp/>then<sp/>exit<sp/>the<sp/>program&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-subsystem<sp/>SUBSYS:<sp/>select<sp/>subsystem<sp/>to<sp/>switch<sp/>(SUBSYS<sp/>=<sp/>\&quot;zynq\&quot;,<sp/>\&quot;cam\&quot;<sp/>or<sp/>\&quot;hk\&quot;),<sp/>\&quot;zynq\&quot;<sp/>by<sp/>default&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-lvps<sp/>on<sp/>-subsystem<sp/>zynq&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Note:<sp/>the<sp/>automated<sp/>acquisition<sp/>program<sp/>switches<sp/>subsystems<sp/>on/off<sp/>automatically<sp/>as<sp/>required&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Switchcing<sp/>the<sp/>HVPS<sp/>manually&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-hvps<sp/>MODE:<sp/>switch<sp/>the<sp/>high<sp/>voltage<sp/>(MODE<sp/>=<sp/>\&quot;on\&quot;<sp/>or<sp/>\&quot;off\&quot;)<sp/>then<sp/>exit<sp/>the<sp/>program&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-dv<sp/>X:<sp/>provide<sp/>the<sp/>dynode<sp/>voltage<sp/>(X<sp/>=<sp/>0<sp/>-<sp/>4096)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-hvdac<sp/>X:<sp/>provide<sp/>the<sp/>HV<sp/>DAC<sp/>(X<sp/>=<sp/>0<sp/>-<sp/>1000)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-hvps<sp/>on<sp/>-dv<sp/>3200<sp/>-hvdac<sp/>500&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-hvps<sp/>off&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Note:<sp/>the<sp/>automated<sp/>acquisition<sp/>program<sp/>switches<sp/>the<sp/>HV<sp/>on<sp/>automatically<sp/>as<sp/>required,&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;and<sp/>switches<sp/>it<sp/>off<sp/>automatically<sp/>if<sp/>the<sp/>program<sp/>is<sp/>interrupted<sp/>with<sp/>CTRL-C&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Checking<sp/>the<sp/>instrument<sp/>status&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-check_status:<sp/>check<sp/>the<sp/>Zynq<sp/>telnet<sp/>connection,<sp/>instrument<sp/>status<sp/>and<sp/>HV<sp/>status&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SUBSYSTEMS&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-cam:<sp/>make<sp/>an<sp/>independent<sp/>or<sp/>simultaneous<sp/>acquisition<sp/>with<sp/>the<sp/>cameras&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-cam<sp/>-v:<sp/>make<sp/>an<sp/>independent<sp/>or<sp/>simultaneous<sp/>acquisition<sp/>with<sp/>the<sp/>cameras<sp/>with<sp/>verbose<sp/>output&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-therm:<sp/>make<sp/>a<sp/>simultaneous<sp/>acquisition<sp/>with<sp/>the<sp/>thermistors&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-log<sp/>-cam<sp/>-therm&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;HIGH<sp/>VOLTAGE&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-hv:<sp/>run<sp/>an<sp/>automated<sp/>acquisition<sp/>with<sp/>the<sp/>HV<sp/>on&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-dv<sp/>X:<sp/>provide<sp/>the<sp/>dynode<sp/>voltage<sp/>(X<sp/>=<sp/>0<sp/>-<sp/>4096),<sp/>default<sp/>in<sp/>../config/dummy.conf&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-hvdac<sp/>X:<sp/>provide<sp/>the<sp/>HV<sp/>DAC<sp/>(X<sp/>=<sp/>0<sp/>-<sp/>1000),<sp/>default<sp/>in<sp/>../config/dummy.conf&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-log<sp/>-hv<sp/>-dv<sp/>3200<sp/>-hvdac<sp/>500&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Note:<sp/>high<sp/>voltage<sp/>should<sp/>switch<sp/>off<sp/>automatically<sp/>if<sp/>the<sp/>program<sp/>is<sp/>interrupted<sp/>with<sp/>CTRL-C&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ACQUISITION&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-scurve:<sp/>take<sp/>a<sp/>single<sp/>S-curve<sp/>and<sp/>exit&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-short:<sp/>take<sp/>a<sp/>single<sp/>file<sp/>(~<sp/>2min)<sp/>acquisition<sp/>and<sp/>exit<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-zynq<sp/>MODE:<sp/>use<sp/>the<sp/>Zynq<sp/>acquisition<sp/>mode<sp/>(MODE<sp/>=<sp/>0,<sp/>1,<sp/>periodic,<sp/>trigger,<sp/>default<sp/>=<sp/>periodic)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-test_zynq<sp/>MODE:<sp/>use<sp/>the<sp/>Zynq<sp/>test<sp/>mode<sp/>(MODE<sp/>=<sp/>0<sp/>-<sp/>6,<sp/>default<sp/>=<sp/>3)&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-keep_zynq_pkt:<sp/>keep<sp/>the<sp/>Zynq<sp/>packets<sp/>on<sp/>FTP&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-log<sp/>-test_zynq<sp/>3<sp/>-keep_zynq_pkt&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Example<sp/>use<sp/>case:<sp/>mecontrol<sp/>-log<sp/>-hv<sp/>on<sp/>-zynq<sp/>trigger&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NOTES&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Execute-and-exit<sp/>flags<sp/>such<sp/>as<sp/>-db,<sp/>-hv<sp/>on/off<sp/>and<sp/>-lvps<sp/>on/off<sp/>can<sp/>only<sp/>be<sp/>used<sp/>one<sp/>at<sp/>a<sp/>time&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;*ALWAYS<sp/>CONFIRM<sp/>THE<sp/>HV<sp/>IS<sp/>SWITCHED<sp/>OFF<sp/>BEFORE<sp/>ALLOWING<sp/>LIGHT<sp/>ON<sp/>THE<sp/>PDM*&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;to<sp/>safely<sp/>stop<sp/>the<sp/>program&apos;s<sp/>exectution<sp/>use<sp/>CTRL-C&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/tools/InputParser.cpp"/>
+  </compounddef>
+</doxygen>

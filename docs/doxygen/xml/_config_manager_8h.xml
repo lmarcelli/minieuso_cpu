@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_config_manager_8h" kind="file" language="C++">
+    <compoundname>ConfigManager.h</compoundname>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">fstream</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includedby refid="_config_manager_8cpp" local="yes">src/tools/ConfigManager.cpp</includedby>
+    <includedby refid="_synchronised_file_8h" local="yes">src/tools/SynchronisedFile.h</includedby>
+    <incdepgraph>
+      <node id="908">
+        <label>iomanip</label>
+      </node>
+      <node id="899">
+        <label>stdlib.h</label>
+      </node>
+      <node id="898">
+        <label>src/tools/ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="899" relation="include">
+        </childnode>
+        <childnode refid="900" relation="include">
+        </childnode>
+        <childnode refid="901" relation="include">
+        </childnode>
+        <childnode refid="902" relation="include">
+        </childnode>
+        <childnode refid="903" relation="include">
+        </childnode>
+        <childnode refid="904" relation="include">
+        </childnode>
+      </node>
+      <node id="902">
+        <label>string</label>
+      </node>
+      <node id="903">
+        <label>fstream</label>
+      </node>
+      <node id="901">
+        <label>unistd.h</label>
+      </node>
+      <node id="906">
+        <label>sstream</label>
+      </node>
+      <node id="904">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="905" relation="include">
+        </childnode>
+        <childnode refid="903" relation="include">
+        </childnode>
+        <childnode refid="906" relation="include">
+        </childnode>
+        <childnode refid="907" relation="include">
+        </childnode>
+        <childnode refid="908" relation="include">
+        </childnode>
+      </node>
+      <node id="905">
+        <label>sys/time.h</label>
+      </node>
+      <node id="907">
+        <label>iostream</label>
+      </node>
+      <node id="900">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="916">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="917" relation="include">
+        </childnode>
+      </node>
+      <node id="909">
+        <label>src/tools/ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="910" relation="include">
+        </childnode>
+        <childnode refid="911" relation="include">
+        </childnode>
+      </node>
+      <node id="918">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="910">
+        <label>src/tools/ConfigManager.cpp</label>
+        <link refid="_config_manager_8cpp"/>
+      </node>
+      <node id="917">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="913">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="914" relation="include">
+        </childnode>
+        <childnode refid="918" relation="include">
+        </childnode>
+      </node>
+      <node id="921">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+      </node>
+      <node id="922">
+        <label>src/tools/SynchronisedFile.cpp</label>
+        <link refid="_synchronised_file_8cpp"/>
+      </node>
+      <node id="920">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="914">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="915" relation="include">
+        </childnode>
+        <childnode refid="916" relation="include">
+        </childnode>
+      </node>
+      <node id="919">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="914" relation="include">
+        </childnode>
+        <childnode refid="920" relation="include">
+        </childnode>
+      </node>
+      <node id="912">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="913" relation="include">
+        </childnode>
+        <childnode refid="919" relation="include">
+        </childnode>
+        <childnode refid="921" relation="include">
+        </childnode>
+      </node>
+      <node id="911">
+        <label>src/tools/SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="912" relation="include">
+        </childnode>
+        <childnode refid="922" relation="include">
+        </childnode>
+      </node>
+      <node id="915">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_config" prot="public">Config</innerclass>
+    <innerclass refid="class_config_manager" prot="public">ConfigManager</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_config_manager_8h_1a9af760f556bb9b1b66631e1bdd0d6b4b" prot="public" static="no">
+        <name>CONFIG_FILE_USB</name>
+        <initializer>&quot;/media/usb/main_cpu.conf&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/ConfigManager.h" line="13" column="9" bodyfile="src/tools/ConfigManager.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_config_manager_8h_1a269d23b0422f42bf7ca63a00a695099b" prot="public" static="no">
+        <name>CONFIG_FILE_LOCAL</name>
+        <initializer>&quot;/home/software/CPU/CPUsoftware/config/main_cpu.conf&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/ConfigManager.h" line="14" column="9" bodyfile="src/tools/ConfigManager.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_config_manager_8h_1ad3403f174a7be282e24dd51895067968" prot="public" static="no">
+        <name>CONFIG_DIR</name>
+        <initializer>&quot;/home/software/CPU/CPUsoftware/config&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/ConfigManager.h" line="15" column="9" bodyfile="src/tools/ConfigManager.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_CONFIGURATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_CONFIGURATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="_config_manager_8h_1a9af760f556bb9b1b66631e1bdd0d6b4b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONFIG_FILE_USB<sp/>&quot;/media/usb/main_cpu.conf&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="_config_manager_8h_1a269d23b0422f42bf7ca63a00a695099b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONFIG_FILE_LOCAL<sp/>&quot;/home/software/CPU/CPUsoftware/config/main_cpu.conf&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="_config_manager_8h_1ad3403f174a7be282e24dd51895067968" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONFIG_DIR<sp/>&quot;/home/software/CPU/CPUsoftware/config&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>struct<sp/>for<sp/>output<sp/>of<sp/>the<sp/>configuration<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="struct_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="struct_config_1a5bbcb3af65d60c300849a1799243a209" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a5bbcb3af65d60c300849a1799243a209" kindref="member">cathode_voltage</ref>;</highlight></codeline>
+<codeline lineno="20" refid="struct_config_1a866159dee6f5dc32675163e11388da49" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a866159dee6f5dc32675163e11388da49" kindref="member">dynode_voltage</ref>;</highlight></codeline>
+<codeline lineno="21" refid="struct_config_1a89ff46c885f7c94eef95a92edc0c4918" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a89ff46c885f7c94eef95a92edc0c4918" kindref="member">scurve_start</ref>;</highlight></codeline>
+<codeline lineno="22" refid="struct_config_1a42ddc101bf12c3af19223a4911f5e2dd" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a42ddc101bf12c3af19223a4911f5e2dd" kindref="member">scurve_step</ref>;</highlight></codeline>
+<codeline lineno="23" refid="struct_config_1a3a5e4bdbceefb070ab68e9eea77b79ca" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a3a5e4bdbceefb070ab68e9eea77b79ca" kindref="member">scurve_stop</ref>;</highlight></codeline>
+<codeline lineno="24" refid="struct_config_1a74a9b2aeef9bb431ba6ab05c93e98074" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a74a9b2aeef9bb431ba6ab05c93e98074" kindref="member">scurve_acc</ref>;</highlight></codeline>
+<codeline lineno="25" refid="struct_config_1a625448f4ce113cf62014125ab6d7c887" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a625448f4ce113cf62014125ab6d7c887" kindref="member">dac_level</ref>;</highlight></codeline>
+<codeline lineno="26" refid="struct_config_1a6928574559db9f8737d0a123d54df876" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a6928574559db9f8737d0a123d54df876" kindref="member">N1</ref>;</highlight></codeline>
+<codeline lineno="27" refid="struct_config_1a9d77f19e94f4e0e1f6d5dc02273ca2e6" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_config_1a9d77f19e94f4e0e1f6d5dc02273ca2e6" kindref="member">N2</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>class<sp/>for<sp/>configuring<sp/>the<sp/>instrument<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="class_config_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_config_manager" kindref="compound">ConfigManager</ref><sp/>{<sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33" refid="class_config_manager_1a108d6169a311eadccb72e29f58cd8855" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_config_manager_1a108d6169a311eadccb72e29f58cd8855" kindref="member">config_file_local</ref>;</highlight></codeline>
+<codeline lineno="34" refid="class_config_manager_1a2df1ebf4fece74e1aef30236b5df9215" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_config_manager_1a2df1ebf4fece74e1aef30236b5df9215" kindref="member">config_file</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><ref refid="class_config_manager_1a7d3d7c10423d969f7544509f6fcca32f" kindref="member">ConfigManager</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><ref refid="class_config_manager_1a7d3d7c10423d969f7544509f6fcca32f" kindref="member">ConfigManager</ref>(std::string,<sp/>std::string);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/><ref refid="class_config_manager_1a4211df2c1721b55df467619898468e3f" kindref="member">Configure</ref>();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CopyFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>SRC,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>DEST);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>Parse();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_CONFIGURATION_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/tools/ConfigManager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,722 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_run_instrument" kind="class" language="C++" prot="public">
+    <compoundname>RunInstrument</compoundname>
+    <includes refid="_run_instrument_8h" local="no">RunInstrument.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>InstrumentMode</name>
+        <enumvalue id="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58ac1162ad0374f6fa4fc4104dfef112463" prot="public">
+          <name>NIGHT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58abfae682baa0f084bdc86b5ac59909c2d" prot="public">
+          <name>DAY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58a1f73b7c211c8da6c46149f426e10e5bf" prot="public">
+          <name>INST_UNDEF</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>enum to specify the current operational mode of the instrument </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="32" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69" prot="public" static="no" strong="no">
+        <type>uint8_t</type>
+        <name>AcquisitionMode</name>
+        <enumvalue id="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69af2c16966af0d04464ebad7806e53a7a8" prot="public">
+          <name>STANDARD</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69ad379a4b995bea6eaec129f48207fcd5b" prot="public">
+          <name>SCURVE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69a5827f32ee9bddd4824748116e734ab9d" prot="public">
+          <name>ACQ_UNDEF</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>enum to specify the current acquisition mode of the instrument </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="43" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_run_instrument_1a0861b94434c54888822254fc5826765e" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+        <definition>CmdLineInputs* RunInstrument::CmdLine</definition>
+        <argsstring></argsstring>
+        <name>CmdLine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="28" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1a8dfdbe81fa8e65bc70e7f22e4dedb3e1" prot="public" static="no" mutable="no">
+        <type><ref refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58" kindref="member">InstrumentMode</ref></type>
+        <definition>InstrumentMode RunInstrument::current_inst_mode</definition>
+        <argsstring></argsstring>
+        <name>current_inst_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="37" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1ae5efe428957b1c5676c64dfd05ade775" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex RunInstrument::m_inst_mode</definition>
+        <argsstring></argsstring>
+        <name>m_inst_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="38" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1af6acb65aa21abca4603c592cc2e4be5a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69" kindref="member">AcquisitionMode</ref></type>
+        <definition>AcquisitionMode RunInstrument::current_acq_mode</definition>
+        <argsstring></argsstring>
+        <name>current_acq_mode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="48" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1aa4f561e76a233c0e325f9fb2fc8739d5" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref> *</type>
+        <definition>Config* RunInstrument::ConfigOut</definition>
+        <argsstring></argsstring>
+        <name>ConfigOut</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="50" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1a477b6d179774caacf6ecaf37ba1059a8" prot="public" static="no" mutable="no">
+        <type><ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref></type>
+        <definition>ZynqManager RunInstrument::Zynq</definition>
+        <argsstring></argsstring>
+        <name>Zynq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="51" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1a60707667cfbaeb2e4c9d6cb645a4f11d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_lvps_manager" kindref="compound">LvpsManager</ref></type>
+        <definition>LvpsManager RunInstrument::Lvps</definition>
+        <argsstring></argsstring>
+        <name>Lvps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="52" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1a710bf775ca4e28e6d1783b73f7ad045a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_usb_manager" kindref="compound">UsbManager</ref></type>
+        <definition>UsbManager RunInstrument::Usb</definition>
+        <argsstring></argsstring>
+        <name>Usb</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="53" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1ae6dd88633ba0a431dcc94b49bee3f929" prot="public" static="no" mutable="no">
+        <type><ref refid="class_cam_manager" kindref="compound">CamManager</ref></type>
+        <definition>CamManager RunInstrument::Cam</definition>
+        <argsstring></argsstring>
+        <name>Cam</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="54" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1aab08eb44b8a6c4a9d7bc4595f8b9039f" prot="public" static="no" mutable="no">
+        <type><ref refid="class_data_acquisition" kindref="compound">DataAcquisition</ref></type>
+        <definition>DataAcquisition RunInstrument::Daq</definition>
+        <argsstring></argsstring>
+        <name>Daq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="55" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1ac0038f40c81db9a3ed16494e5e235b78" prot="public" static="no" mutable="no">
+        <type><ref refid="class_data_reduction" kindref="compound">DataReduction</ref></type>
+        <definition>DataReduction RunInstrument::Data</definition>
+        <argsstring></argsstring>
+        <name>Data</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="56" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_run_instrument_1a04bc2d6751271de947a7265501fc401c" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex RunInstrument::_m_stop</definition>
+        <argsstring></argsstring>
+        <name>_m_stop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="67" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1ae34eaca6e76ac399bf18ea932771d960" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable RunInstrument::_cv_stop</definition>
+        <argsstring></argsstring>
+        <name>_cv_stop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="68" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_run_instrument_1aefaf4a1a4665be787c37945520e6463f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RunInstrument::_stop</definition>
+        <argsstring></argsstring>
+        <name>_stop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="69" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_run_instrument_1a996d51e4ada6831284872c8d0ddc2ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>RunInstrument::RunInstrument</definition>
+        <argsstring>(CmdLineInputs *CmdLine)</argsstring>
+        <name>RunInstrument</name>
+        <param>
+          <type><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref> *</type>
+          <declname>CmdLine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>the constructor <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>CmdLine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>is a struct storing command line inputs parsed with the <ref refid="class_input_parser" kindref="compound">InputParser</ref> class </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="58" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="10" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1abedc1db2ceb04dbaf6743340b4c8ff6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void RunInstrument::Start</definition>
+        <argsstring>()</argsstring>
+        <name>Start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>start running the instrument according to specifications checks for execute and exit functions, then moves on to automated loop over mode switching </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="59" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="689" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a535a2dff87cccc0b69864a289215c5af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void RunInstrument::Stop</definition>
+        <argsstring>()</argsstring>
+        <name>Stop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>shut down procedure called when stop signal sent </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="60" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="667" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ae7126724f4d87c8ada0da39eee5c599e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::SetInstMode</definition>
+        <argsstring>(InstrumentMode mode_to_set)</argsstring>
+        <name>SetInstMode</name>
+        <param>
+          <type><ref refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58" kindref="member">InstrumentMode</ref></type>
+          <declname>mode_to_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>set the instrument mode in a thread-safe way </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="62" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="235" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a24318f1fba2719afdeb5f28f25f37a4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58" kindref="member">InstrumentMode</ref></type>
+        <definition>RunInstrument::InstrumentMode RunInstrument::GetInstMode</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>read the instrument mode in a thread-safe way </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="63" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="249" bodyend="258"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_run_instrument_1ab4b99b82131a9c2e3a6b0af9f3dcabe9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::StartUp</definition>
+        <argsstring>()</argsstring>
+        <name>StartUp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>run the start-up procedure sets up logging, parses the config file and checks for command line override to configured values </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="72" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="293" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a08342de52a1fadd3a0a85c35fa4fe4e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::LvpsSwitch</definition>
+        <argsstring>()</argsstring>
+        <name>LvpsSwitch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function to switch a desired subsystem on/off as specified by the object&apos;s CmdLine struct </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="75" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="43" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1abeda3a070be4726c99fe342087733226" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::HvpsSwitch</definition>
+        <argsstring>()</argsstring>
+        <name>HvpsSwitch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function to switch on the HVPS if required by the object&apos;s CmdLine struct </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="76" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="90" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ab6b4537ef88bfbb425ad30517ac378fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::DebugMode</definition>
+        <argsstring>()</argsstring>
+        <name>DebugMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function to run quick debug tests of the subsystems </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="77" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="136" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1adaf649a94c5aa9971739bc6be8432af7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::CheckStatus</definition>
+        <argsstring>()</argsstring>
+        <name>CheckStatus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function to check the current instrument and HV status uses the <ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref> class member functions </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="78" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a97e1fc84200a68fe7812ca9251164be0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::InitInstMode</definition>
+        <argsstring>()</argsstring>
+        <name>InitInstMode</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>initialise the instrument mode using the current light level light level is acquired using the <ref refid="class_analog_manager" kindref="compound">AnalogManager</ref> to run an acquisition from the photodiodes </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="81" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="266" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a0c0bee852c975d28045a88feac37fee3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::CheckSystems</definition>
+        <argsstring>()</argsstring>
+        <name>CheckSystems</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>checks the subsystems are operating as required </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="82" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="335" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ab7646df73d68ea2b5dc7f2d955f60d1f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::SelectAcqOption</definition>
+        <argsstring>()</argsstring>
+        <name>SelectAcqOption</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>determines the AcquisitionMode from the program inputs </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="83" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="384" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a6a51e78ddef898448550ccdac3d64ae2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::LaunchCam</definition>
+        <argsstring>()</argsstring>
+        <name>LaunchCam</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>launches the camera acquisition in a robust way makes use of the <ref refid="class_cam_manager" kindref="compound">CamManager</ref> member functions to check if the launch fails and reacts by trying to relaunch up to 3 times </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="87" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="407" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ab10ed954c65f953bbc8db01265d60478" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::Acquisition</definition>
+        <argsstring>()</argsstring>
+        <name>Acquisition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>interface to the data acquisition uses the <ref refid="class_data_acquisition" kindref="compound">DataAcquisition</ref> class member functions </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="88" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="571" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ad120d5edfc6031fe4dcd32d42b43c3fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::MonitorInstrument</definition>
+        <argsstring>()</argsstring>
+        <name>MonitorInstrument</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>launches a background thread to monitor the instrument runs RunInstrument::PollInstrument member function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="89" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="461" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1af0eb2f34451c248c639ec7a03cb0f779" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::PollInstrument</definition>
+        <argsstring>()</argsstring>
+        <name>PollInstrument</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>instrument monitoring by checking the light level and shutdown signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="90" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="504" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a510db84219722d7cb02f6090ce8c8512" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::SetStop</definition>
+        <argsstring>()</argsstring>
+        <name>SetStop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>sends a stop signal to all processes in a thread-safe way </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="91" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="476" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1a062e6dc763680c3d12cef67742d76c0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RunInstrument::CheckStop</definition>
+        <argsstring>()</argsstring>
+        <name>CheckStop</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>checks if a stop signal has been sent </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="92" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="490" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1abc2aef41db12438823147d6c817aefdd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::NightOperations</definition>
+        <argsstring>()</argsstring>
+        <name>NightOperations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>night time operational procedure does not return until all night processes have joined </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="95" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="617" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="class_run_instrument_1ae14924cb8120cdb018f993a3853e0bd7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int RunInstrument::DayOperations</definition>
+        <argsstring>()</argsstring>
+        <name>DayOperations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>day time operational procedure does not returnuntil all day processes have joined </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="96" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="648" bodyend="660"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_run_instrument_1aa9b25d3950828b0830350976adabc731" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void RunInstrument::SignalHandler</definition>
+        <argsstring>(int signum)</argsstring>
+        <name>SignalHandler</name>
+        <param>
+          <type>int</type>
+          <declname>signum</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>function to handle interrupt signals to the program </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/instrument/RunInstrument.h" line="86" column="1" bodyfile="src/instrument/RunInstrument.cpp" bodystart="29" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>class to handle different instrument operational modes </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="123">
+        <label>DataAcquisition</label>
+        <link refid="class_data_acquisition"/>
+        <childnode refid="124" relation="public-inheritance">
+        </childnode>
+        <childnode refid="126" relation="usage">
+          <edgelabel>ThManager</edgelabel>
+        </childnode>
+        <childnode refid="127" relation="usage">
+          <edgelabel>RunAccess</edgelabel>
+        </childnode>
+      </node>
+      <node id="127">
+        <label>Access</label>
+        <link refid="class_access"/>
+      </node>
+      <node id="129">
+        <label>DataReduction</label>
+        <link refid="class_data_reduction"/>
+        <childnode refid="124" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="121">
+        <label>LvpsManager</label>
+        <link refid="class_lvps_manager"/>
+      </node>
+      <node id="128">
+        <label>UsbManager</label>
+        <link refid="class_usb_manager"/>
+      </node>
+      <node id="118">
+        <label>ZynqManager</label>
+        <link refid="class_zynq_manager"/>
+      </node>
+      <node id="120">
+        <label>CmdLineInputs</label>
+        <link refid="struct_cmd_line_inputs"/>
+      </node>
+      <node id="119">
+        <label>Config</label>
+        <link refid="struct_config"/>
+      </node>
+      <node id="125">
+        <label>AnalogManager</label>
+        <link refid="class_analog_manager"/>
+      </node>
+      <node id="122">
+        <label>CamManager</label>
+        <link refid="class_cam_manager"/>
+      </node>
+      <node id="126">
+        <label>ThermManager</label>
+        <link refid="class_therm_manager"/>
+        <childnode refid="127" relation="usage">
+          <edgelabel>RunAccess</edgelabel>
+        </childnode>
+      </node>
+      <node id="124">
+        <label>OperationMode</label>
+        <link refid="class_operation_mode"/>
+        <childnode refid="125" relation="usage">
+          <edgelabel>Analog</edgelabel>
+        </childnode>
+      </node>
+      <node id="117">
+        <label>RunInstrument</label>
+        <link refid="class_run_instrument"/>
+        <childnode refid="118" relation="usage">
+          <edgelabel>Zynq</edgelabel>
+        </childnode>
+        <childnode refid="119" relation="usage">
+          <edgelabel>ConfigOut</edgelabel>
+        </childnode>
+        <childnode refid="120" relation="usage">
+          <edgelabel>CmdLine</edgelabel>
+        </childnode>
+        <childnode refid="121" relation="usage">
+          <edgelabel>Lvps</edgelabel>
+        </childnode>
+        <childnode refid="122" relation="usage">
+          <edgelabel>Cam</edgelabel>
+        </childnode>
+        <childnode refid="123" relation="usage">
+          <edgelabel>Daq</edgelabel>
+        </childnode>
+        <childnode refid="128" relation="usage">
+          <edgelabel>Usb</edgelabel>
+        </childnode>
+        <childnode refid="129" relation="usage">
+          <edgelabel>Data</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/instrument/RunInstrument.h" line="26" column="1" bodyfile="src/instrument/RunInstrument.h" bodystart="26" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_run_instrument_1ae34eaca6e76ac399bf18ea932771d960" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>_cv_stop</name></member>
+      <member refid="class_run_instrument_1a04bc2d6751271de947a7265501fc401c" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>_m_stop</name></member>
+      <member refid="class_run_instrument_1aefaf4a1a4665be787c37945520e6463f" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>_stop</name></member>
+      <member refid="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69a5827f32ee9bddd4824748116e734ab9d" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>ACQ_UNDEF</name></member>
+      <member refid="class_run_instrument_1ab10ed954c65f953bbc8db01265d60478" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>Acquisition</name></member>
+      <member refid="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>AcquisitionMode</name></member>
+      <member refid="class_run_instrument_1ae6dd88633ba0a431dcc94b49bee3f929" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Cam</name></member>
+      <member refid="class_run_instrument_1adaf649a94c5aa9971739bc6be8432af7" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>CheckStatus</name></member>
+      <member refid="class_run_instrument_1a062e6dc763680c3d12cef67742d76c0d" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>CheckStop</name></member>
+      <member refid="class_run_instrument_1a0c0bee852c975d28045a88feac37fee3" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>CheckSystems</name></member>
+      <member refid="class_run_instrument_1a0861b94434c54888822254fc5826765e" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>CmdLine</name></member>
+      <member refid="class_run_instrument_1aa4f561e76a233c0e325f9fb2fc8739d5" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>ConfigOut</name></member>
+      <member refid="class_run_instrument_1af6acb65aa21abca4603c592cc2e4be5a" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>current_acq_mode</name></member>
+      <member refid="class_run_instrument_1a8dfdbe81fa8e65bc70e7f22e4dedb3e1" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>current_inst_mode</name></member>
+      <member refid="class_run_instrument_1aab08eb44b8a6c4a9d7bc4595f8b9039f" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Daq</name></member>
+      <member refid="class_run_instrument_1ac0038f40c81db9a3ed16494e5e235b78" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Data</name></member>
+      <member refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58abfae682baa0f084bdc86b5ac59909c2d" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>DAY</name></member>
+      <member refid="class_run_instrument_1ae14924cb8120cdb018f993a3853e0bd7" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>DayOperations</name></member>
+      <member refid="class_run_instrument_1ab6b4537ef88bfbb425ad30517ac378fb" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>DebugMode</name></member>
+      <member refid="class_run_instrument_1a24318f1fba2719afdeb5f28f25f37a4c" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>GetInstMode</name></member>
+      <member refid="class_run_instrument_1abeda3a070be4726c99fe342087733226" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>HvpsSwitch</name></member>
+      <member refid="class_run_instrument_1a97e1fc84200a68fe7812ca9251164be0" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>InitInstMode</name></member>
+      <member refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58a1f73b7c211c8da6c46149f426e10e5bf" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>INST_UNDEF</name></member>
+      <member refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>InstrumentMode</name></member>
+      <member refid="class_run_instrument_1a6a51e78ddef898448550ccdac3d64ae2" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>LaunchCam</name></member>
+      <member refid="class_run_instrument_1a60707667cfbaeb2e4c9d6cb645a4f11d" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Lvps</name></member>
+      <member refid="class_run_instrument_1a08342de52a1fadd3a0a85c35fa4fe4e7" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>LvpsSwitch</name></member>
+      <member refid="class_run_instrument_1ae5efe428957b1c5676c64dfd05ade775" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>m_inst_mode</name></member>
+      <member refid="class_run_instrument_1ad120d5edfc6031fe4dcd32d42b43c3fc" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>MonitorInstrument</name></member>
+      <member refid="class_run_instrument_1aaeaa752dfafb76abed003cb5c134ae58ac1162ad0374f6fa4fc4104dfef112463" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>NIGHT</name></member>
+      <member refid="class_run_instrument_1abc2aef41db12438823147d6c817aefdd" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>NightOperations</name></member>
+      <member refid="class_run_instrument_1af0eb2f34451c248c639ec7a03cb0f779" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>PollInstrument</name></member>
+      <member refid="class_run_instrument_1a996d51e4ada6831284872c8d0ddc2ab6" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>RunInstrument</name></member>
+      <member refid="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69ad379a4b995bea6eaec129f48207fcd5b" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>SCURVE</name></member>
+      <member refid="class_run_instrument_1ab7646df73d68ea2b5dc7f2d955f60d1f" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>SelectAcqOption</name></member>
+      <member refid="class_run_instrument_1ae7126724f4d87c8ada0da39eee5c599e" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>SetInstMode</name></member>
+      <member refid="class_run_instrument_1a510db84219722d7cb02f6090ce8c8512" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>SetStop</name></member>
+      <member refid="class_run_instrument_1aa9b25d3950828b0830350976adabc731" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>SignalHandler</name></member>
+      <member refid="class_run_instrument_1aa1cc433573a87358dc8e14279aeebd69af2c16966af0d04464ebad7806e53a7a8" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>STANDARD</name></member>
+      <member refid="class_run_instrument_1abedc1db2ceb04dbaf6743340b4c8ff6b" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Start</name></member>
+      <member refid="class_run_instrument_1ab4b99b82131a9c2e3a6b0af9f3dcabe9" prot="private" virt="non-virtual"><scope>RunInstrument</scope><name>StartUp</name></member>
+      <member refid="class_run_instrument_1a535a2dff87cccc0b69864a289215c5af" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Stop</name></member>
+      <member refid="class_run_instrument_1a710bf775ca4e28e6d1783b73f7ad045a" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Usb</name></member>
+      <member refid="class_run_instrument_1a477b6d179774caacf6ecaf37ba1059a8" prot="public" virt="non-virtual"><scope>RunInstrument</scope><name>Zynq</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

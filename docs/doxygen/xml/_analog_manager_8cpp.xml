@@ -1,0 +1,389 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_analog_manager_8cpp" kind="file" language="C++">
+    <compoundname>AnalogManager.cpp</compoundname>
+    <includes refid="_analog_manager_8h" local="yes">AnalogManager.h</includes>
+    <incdepgraph>
+      <node id="540">
+        <label>iomanip</label>
+      </node>
+      <node id="529">
+        <label>dm75xx_library.h</label>
+      </node>
+      <node id="544">
+        <label>stdint.h</label>
+      </node>
+      <node id="543">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="544" relation="include">
+        </childnode>
+        <childnode refid="543" relation="include">
+        </childnode>
+      </node>
+      <node id="537">
+        <label>fstream</label>
+      </node>
+      <node id="534">
+        <label>condition_variable</label>
+      </node>
+      <node id="527">
+        <label>src/subsystems/AnalogManager.cpp</label>
+        <link refid="_analog_manager_8cpp"/>
+        <childnode refid="528" relation="include">
+        </childnode>
+      </node>
+      <node id="533">
+        <label>unistd.h</label>
+      </node>
+      <node id="542">
+        <label>vector</label>
+      </node>
+      <node id="538">
+        <label>sstream</label>
+      </node>
+      <node id="541">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="542" relation="include">
+        </childnode>
+        <childnode refid="543" relation="include">
+        </childnode>
+      </node>
+      <node id="535">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="536" relation="include">
+        </childnode>
+        <childnode refid="537" relation="include">
+        </childnode>
+        <childnode refid="538" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="540" relation="include">
+        </childnode>
+      </node>
+      <node id="536">
+        <label>sys/time.h</label>
+      </node>
+      <node id="539">
+        <label>iostream</label>
+      </node>
+      <node id="530">
+        <label>mutex</label>
+      </node>
+      <node id="532">
+        <label>thread</label>
+      </node>
+      <node id="528">
+        <label>AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="529" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+        <childnode refid="531" relation="include">
+        </childnode>
+        <childnode refid="532" relation="include">
+        </childnode>
+        <childnode refid="533" relation="include">
+        </childnode>
+        <childnode refid="534" relation="include">
+        </childnode>
+        <childnode refid="535" relation="include">
+        </childnode>
+        <childnode refid="541" relation="include">
+        </childnode>
+      </node>
+      <node id="531">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_analog_manager_8h" kindref="compound">AnalogManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>default<sp/>constructor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><ref refid="class_analog_manager_1a48419200fb5037985a4457c8227eb74b" kindref="member">AnalogManager::AnalogManager</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/>this-&gt;light_level<sp/>=<sp/>std::make_shared&lt;LightLevel&gt;();</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/>this-&gt;analog_acq<sp/>=<sp/>std::make_shared&lt;AnalogAcq&gt;();</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0,<sp/>j<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" kindref="member">CHANNELS</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;analog_acq-&gt;val[i][j]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/>this-&gt;inst_mode_switch<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>analog<sp/>board<sp/>read<sp/>out<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>AnalogManager::AnalogDataCollect()<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>DM75xx_Board_Descriptor<sp/>*<sp/>brd;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>DM75xx_Error<sp/>dm75xx_status;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>dm75xx_cgt_entry_t<sp/>cgt[<ref refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" kindref="member">CHANNELS</ref>];</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i,<sp/>j;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>actR;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/>uint16_t<sp/>data<sp/>=<sp/>0x0000;<sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>minor_number<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;starting<sp/>analog<sp/>acquistion&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Device<sp/>initialisation<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_Board_Open(minor_number,<sp/>&amp;brd);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(brd<sp/>==<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;the<sp/>analog<sp/>board<sp/>is<sp/>not<sp/>connected&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_Board_Open&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_Board_Init(brd);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_Board_Init&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Clear<sp/>the<sp/>FIFO<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_ADC_Clear(brd);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_Clear_AD_FIFO&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_FIFO_Get_Status(brd,<sp/>&amp;data);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_FIFO_Get_Status&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>enable<sp/>the<sp/>channel<sp/>gain<sp/>table<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_CGT_Enable(brd,<sp/>0xFF);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_CGT_Enable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>set<sp/>the<sp/>channel<sp/>gain<sp/>table<sp/>for<sp/>all<sp/>channels<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" kindref="member">CHANNELS</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].channel<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].gain<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].nrse<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].range<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].ground<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].pause<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].dac1<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].dac2<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>cgt[i].skip<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_CGT_Write(brd,<sp/>cgt[i]);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_CGT_Write&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>set<sp/>up<sp/>clocks<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_BCLK_Setup(brd,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_BCLK_START_PACER,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_BCLK_FREQ_8_MHZ,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_analog_manager_8h_1a96a916a32b02c011ddbf59823752e333" kindref="member">BURST_RATE</ref>,<sp/>&amp;actR);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_PCLK_Setup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_PCLK_Setup(brd,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_PCLK_INTERNAL,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_PCLK_FREQ_8_MHZ,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_PCLK_NO_REPEAT,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_PCLK_START_SOFTWARE,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DM75xx_PCLK_STOP_SOFTWARE,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="_analog_manager_8h_1aa613c2101f983ffb94bcd9727ca39f94" kindref="member">PACER_RATE</ref>,<sp/>&amp;actR);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_PCLK_Setup&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Set<sp/>ADC<sp/>Conversion<sp/>Signal<sp/>Select<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>DM75xx_ADC_Conv_Signal(brd,<sp/>DM75xx_ADC_CONV_SIGNAL_BCLK);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_ADC_Conv_Signal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Start<sp/>the<sp/>pacer<sp/>clock<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_PCLK_Start(brd);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_PCLK_Start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Read<sp/>data<sp/>into<sp/>the<sp/>FIFO<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_FIFO_Get_Status(brd,<sp/>&amp;data);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_FIFO_Get_Status&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(data<sp/>&amp;<sp/>DM75xx_FIFO_ADC_NOT_FULL);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Stop<sp/>the<sp/>pacer<sp/>clock<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_PCLK_Stop(brd);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_PCLK_Stop&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Read<sp/>out<sp/>data<sp/>from<sp/>the<sp/>FIFO<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>{<sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Reading<sp/>the<sp/>FIFO<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1a19b7f1b22403d61234a92decaeb6953a" kindref="member">CHANNELS</ref>;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_ADC_FIFO_Read(brd,<sp/>&amp;data);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_ADC_FIFO_Read&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;analog_acq-&gt;val[i][j]<sp/>=<sp/>((DM75xx_ADC_ANALOG_DATA(data)<sp/>/<sp/>4096.)<sp/>*<sp/>10);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Check<sp/>the<sp/>FIFO<sp/>status<sp/>each<sp/>time<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_FIFO_Get_Status(brd,<sp/>&amp;data);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_FIFO_Get_Status&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(data<sp/>&amp;<sp/>DM75xx_FIFO_ADC_NOT_EMPTY);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Print<sp/>how<sp/>many<sp/>samples<sp/>were<sp/>received<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;received<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(unsigned)(i<sp/>*<sp/>j)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>analog<sp/>samples&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>Reset<sp/>the<sp/>board<sp/>and<sp/>close<sp/>the<sp/>device<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_Board_Reset(brd);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_Board_Reset&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>dm75xx_status<sp/>=<sp/>DM75xx_Board_Close(brd);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/>DM75xx_Exit_On_Error(brd,<sp/>dm75xx_status,<sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*)</highlight><highlight class="stringliteral">&quot;DM75xx_Board_Close&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>current<sp/>light<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" kindref="member">AnalogManager::GetLightLevel</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i,<sp/>k;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sum_ph[<ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>];</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>sum_sipm1<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>read<sp/>out<sp/>the<sp/>data<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/>AnalogDataCollect();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>interpret<sp/>the<sp/>analog<sp/>acquisition<sp/>struct<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>initialise<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/><ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>;<sp/>k++)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_ph[k]<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>read<sp/>out<sp/>multiplexed<sp/>sipm<sp/>64<sp/>values<sp/>and<sp/>averages<sp/>of<sp/>sipm<sp/>1<sp/>and<sp/>photodiodes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>sum<sp/>the<sp/>four<sp/>photodiode<sp/>channels<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_ph[0]<sp/>+=<sp/>this-&gt;analog_acq-&gt;val[i][0];</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_ph[1]<sp/>+=<sp/>this-&gt;analog_acq-&gt;val[i][1];</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_ph[2]<sp/>+=<sp/>this-&gt;analog_acq-&gt;val[i][2];</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_ph[3]<sp/>+=<sp/>this-&gt;analog_acq-&gt;val[i][3];</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>sum<sp/>the<sp/>one<sp/>channel<sp/>SiPM<sp/>values<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>sum_sipm1<sp/>+=<sp/>this-&gt;analog_acq-&gt;val[i][4];</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>read<sp/>out<sp/>the<sp/>multiplexed<sp/>64<sp/>channel<sp/>SiPM<sp/>values<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;light_level-&gt;sipm_data[i]<sp/>=<sp/>this-&gt;analog_acq-&gt;val[i][5];</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>average<sp/>the<sp/>photodiode<sp/>values<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(k<sp/>=<sp/>0;<sp/>k<sp/>&lt;<sp/><ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>;<sp/>k++)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;light_level-&gt;photodiode_data[k]<sp/>=<sp/>sum_ph[k]/<ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>average<sp/>the<sp/>one<sp/>channel<sp/>SiPM<sp/>values<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>this-&gt;light_level-&gt;sipm_single<sp/>=<sp/>sum_sipm1/<ref refid="_analog_manager_8h_1ab297050456738a4bc51658025f2521c6" kindref="member">FIFO_DEPTH</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>read<sp/>light<sp/>level<sp/>from<sp/>object,<sp/>making<sp/>an<sp/>acquisition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">std::shared_ptr&lt;LightLevel&gt;<sp/><ref refid="class_analog_manager_1af2606ea4f43b699304e12c509c661e89" kindref="member">AnalogManager::ReadLightLevel</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>light_level<sp/>=<sp/>this-&gt;light_level;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>light_level;<sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>compare<sp/>light<sp/>level<sp/>to<sp/>threshold<sp/>value<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1a7a31ea8b7364f39b27081c04c22e052f" kindref="member">AnalogManager::CompareLightLevel</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>above_light_threshold<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>ph_avg<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;comparing<sp/>light<sp/>level<sp/>to<sp/>threshold&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>light_level<sp/>=<sp/>this-&gt;light_level;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>read<sp/>the<sp/>light<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>average<sp/>the<sp/>4<sp/>photodiode<sp/>values<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_light_level);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>ph_avg<sp/>+=<sp/>light_level-&gt;photodiode_data[i];</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/>ph_avg<sp/>=<sp/>ph_avg/(float)<ref refid="data__format_8h_1ac21585feb5b0c4d0db27d27edffbdd3a" kindref="member">N_CHANNELS_PHOTODIODE</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;photodiode<sp/>average<sp/>=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ph_avg<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;average<sp/>photodiode<sp/>reading<sp/>is:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ph_avg<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>compare<sp/>the<sp/>result<sp/>to<sp/>threshold<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ph_avg<sp/>&gt;<sp/><ref refid="_analog_manager_8h_1ae1f2dcc3a66f675b0f26bb2cc41f0497" kindref="member">LIGHT_THRESHOLD</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>above_light_threshold<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;light<sp/>level<sp/>is<sp/>ABOVE<sp/>threshold&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{<sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;light<sp/>level<sp/>is<sp/>BELOW<sp/>threshold&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>above_light_threshold;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1abd34bb0d49b6f0ca396000a93b82fd8a" kindref="member">AnalogManager::ProcessAnalogData</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_mode_switch);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>enter<sp/>loop<sp/>while<sp/>instrument<sp/>mode<sp/>switching<sp/>not<sp/>requested<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(!this-&gt;cv_mode_switch.wait_for(lock,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(<ref refid="_data_reduction_8h_1ae7eeb45aceab0e4a2867080b5c9dc68f" kindref="member">WAIT_PERIOD</ref>),</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">]<sp/>{<sp/>return<sp/>this-&gt;inst_mode_switch;<sp/>}))<sp/>{<sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" kindref="member">GetLightLevel</ref>();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>sleep(<ref refid="_analog_manager_8h_1acfe246bbc24a6d872182448399399a7b" kindref="member">LIGHT_ACQ_TIME</ref>);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>reset<sp/>the<sp/>mode<sp/>switching<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1ac7a815e3c709a3881d4f447eb8c7e16c" kindref="member">AnalogManager::Reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_mode_switch);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;inst_mode_switch<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>update<sp/>measurement<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" kindref="member">GetLightLevel</ref>();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>notify<sp/>the<sp/>object<sp/>of<sp/>an<sp/>instrument<sp/>mode<sp/>switch<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_analog_manager_1ad34ef4992ed659e33b4a6118a6d337df" kindref="member">AnalogManager::Notify</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(this-&gt;m_mode_switch);<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;inst_mode_switch<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/>}<sp/></highlight><highlight class="comment">/*<sp/>release<sp/>mutex<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/AnalogManager.cpp"/>
+  </compounddef>
+</doxygen>

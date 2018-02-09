@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_therm_manager_8cpp" kind="file" language="C++">
+    <compoundname>ThermManager.cpp</compoundname>
+    <includes refid="_therm_manager_8h" local="yes">ThermManager.h</includes>
+    <incdepgraph>
+      <node id="708">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="710">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="690">
+        <label>iomanip</label>
+      </node>
+      <node id="703">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="702" relation="include">
+        </childnode>
+        <childnode refid="704" relation="include">
+        </childnode>
+        <childnode refid="705" relation="include">
+        </childnode>
+        <childnode refid="706" relation="include">
+        </childnode>
+        <childnode refid="686" relation="include">
+        </childnode>
+        <childnode refid="707" relation="include">
+        </childnode>
+        <childnode refid="708" relation="include">
+        </childnode>
+        <childnode refid="709" relation="include">
+        </childnode>
+        <childnode refid="710" relation="include">
+        </childnode>
+        <childnode refid="711" relation="include">
+        </childnode>
+        <childnode refid="687" relation="include">
+        </childnode>
+        <childnode refid="712" relation="include">
+        </childnode>
+        <childnode refid="685" relation="include">
+        </childnode>
+      </node>
+      <node id="694">
+        <label>stdint.h</label>
+      </node>
+      <node id="717">
+        <label>stdlib.h</label>
+      </node>
+      <node id="716">
+        <label>ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="717" relation="include">
+        </childnode>
+        <childnode refid="718" relation="include">
+        </childnode>
+        <childnode refid="702" relation="include">
+        </childnode>
+        <childnode refid="699" relation="include">
+        </childnode>
+        <childnode refid="687" relation="include">
+        </childnode>
+        <childnode refid="685" relation="include">
+        </childnode>
+      </node>
+      <node id="698">
+        <label>stdexcept</label>
+      </node>
+      <node id="711">
+        <label>fcntl.h</label>
+      </node>
+      <node id="693">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="694" relation="include">
+        </childnode>
+        <childnode refid="693" relation="include">
+        </childnode>
+      </node>
+      <node id="699">
+        <label>string</label>
+      </node>
+      <node id="683">
+        <label>regex</label>
+      </node>
+      <node id="687">
+        <label>fstream</label>
+      </node>
+      <node id="709">
+        <label>netdb.h</label>
+      </node>
+      <node id="695">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="696" relation="include">
+        </childnode>
+        <childnode refid="689" relation="include">
+        </childnode>
+        <childnode refid="688" relation="include">
+        </childnode>
+        <childnode refid="690" relation="include">
+        </childnode>
+        <childnode refid="697" relation="include">
+        </childnode>
+        <childnode refid="698" relation="include">
+        </childnode>
+        <childnode refid="699" relation="include">
+        </childnode>
+        <childnode refid="700" relation="include">
+        </childnode>
+        <childnode refid="701" relation="include">
+        </childnode>
+        <childnode refid="702" relation="include">
+        </childnode>
+        <childnode refid="703" relation="include">
+        </childnode>
+      </node>
+      <node id="681">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+        <childnode refid="682" relation="include">
+        </childnode>
+      </node>
+      <node id="684">
+        <label>condition_variable</label>
+      </node>
+      <node id="707">
+        <label>sys/types.h</label>
+      </node>
+      <node id="705">
+        <label>string.h</label>
+      </node>
+      <node id="696">
+        <label>cstdio</label>
+      </node>
+      <node id="714">
+        <label>boost/crc.hpp</label>
+      </node>
+      <node id="702">
+        <label>unistd.h</label>
+      </node>
+      <node id="692">
+        <label>vector</label>
+      </node>
+      <node id="700">
+        <label>array</label>
+      </node>
+      <node id="688">
+        <label>sstream</label>
+      </node>
+      <node id="691">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="692" relation="include">
+        </childnode>
+        <childnode refid="693" relation="include">
+        </childnode>
+      </node>
+      <node id="685">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="686" relation="include">
+        </childnode>
+        <childnode refid="687" relation="include">
+        </childnode>
+        <childnode refid="688" relation="include">
+        </childnode>
+        <childnode refid="689" relation="include">
+        </childnode>
+        <childnode refid="690" relation="include">
+        </childnode>
+      </node>
+      <node id="686">
+        <label>sys/time.h</label>
+      </node>
+      <node id="689">
+        <label>iostream</label>
+      </node>
+      <node id="704">
+        <label>strings.h</label>
+      </node>
+      <node id="715">
+        <label>mutex</label>
+      </node>
+      <node id="706">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="712">
+        <label>algorithm</label>
+      </node>
+      <node id="682">
+        <label>ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="683" relation="include">
+        </childnode>
+        <childnode refid="684" relation="include">
+        </childnode>
+        <childnode refid="685" relation="include">
+        </childnode>
+        <childnode refid="691" relation="include">
+        </childnode>
+        <childnode refid="695" relation="include">
+        </childnode>
+        <childnode refid="713" relation="include">
+        </childnode>
+      </node>
+      <node id="718">
+        <label>stdio.h</label>
+      </node>
+      <node id="713">
+        <label>SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="714" relation="include">
+        </childnode>
+        <childnode refid="715" relation="include">
+        </childnode>
+        <childnode refid="697" relation="include">
+        </childnode>
+        <childnode refid="685" relation="include">
+        </childnode>
+        <childnode refid="691" relation="include">
+        </childnode>
+        <childnode refid="716" relation="include">
+        </childnode>
+      </node>
+      <node id="697">
+        <label>memory</label>
+      </node>
+      <node id="701">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_therm_manager_8h" kindref="compound">ThermManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>default<sp/>constructor<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><ref refid="class_therm_manager_1ab231ca4ccd8f6034a293a13f8522579d" kindref="member">ThermManager::ThermManager</ref>()<sp/>{<sp/></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_therm_manager_1a397e05cdfa3fd1241c4b45735b368fb1" kindref="member">cpu_file_is_set</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>initialise<sp/>the<sp/>thermistors<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a3a4bf325f9e6474a741cba4ae10cd485" kindref="member">ThermManager::Init</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>cmd<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;digitemp<sp/>-s<sp/>/dev/ttyS0<sp/>-i&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/>std::string<sp/>output<sp/>=<sp/><ref refid="class_cpu_tools_1af7cde21dc0939ef2c2a0c6d8d347901f" kindref="member">CpuTools::CommandToStr</ref>(cmd);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>build<sp/>the<sp/>cpu<sp/>packet<sp/>header<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">uint32_t<sp/>ThermManager::BuildCpuPktHeader(uint32_t<sp/>type,<sp/>uint32_t<sp/>ver)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/>uint32_t<sp/>header;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>header<sp/>=<sp/><sp/>((</highlight><highlight class="charliteral">&apos;P&apos;</highlight><highlight class="normal">&lt;&lt;24)<sp/>|<sp/>(<ref refid="data__format_8h_1a9812203ec1b709701a9c37c6ec290164" kindref="member">INSTRUMENT_ME_PDM</ref>&lt;&lt;16)<sp/>|<sp/>((type)&lt;&lt;8)<sp/>|<sp/>(ver));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>header;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>build<sp/>the<sp/>cpu<sp/>timestamp<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">uint32_t<sp/>ThermManager::BuildCpuTimeStamp()<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/>uint32_t<sp/>timestamp<sp/>=<sp/>time(NULL);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timestamp;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>temperature<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/><ref refid="class_therm_manager_1a262e8ca53e0791daeb59064b169db6f0" kindref="member">ThermManager::GetTemperature</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>define<sp/>command<sp/>to<sp/>read<sp/>temperature<sp/>from<sp/>all<sp/>thermistors<sp/>on<sp/>COM<sp/>port<sp/>1<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>cmd<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;digitemp<sp/>-s<sp/>/dev/ttyS0<sp/>-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>run<sp/>the<sp/>digitemp<sp/>command<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/>std::string<sp/>output<sp/>=<sp/><ref refid="class_cpu_tools_1af7cde21dc0939ef2c2a0c6d8d347901f" kindref="member">CpuTools::CommandToStr</ref>(cmd);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>temperature_result;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>output.find(</highlight><highlight class="stringliteral">&quot;Error<sp/>10:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(found<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;cannot<sp/>connect<sp/>to<sp/>temprature<sp/>sensors&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>temperature_result<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>parse<sp/>the<sp/>output<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>temperature_result<sp/>=<sp/>ParseDigitempOutput(output);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temperature_result;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>temperature<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a4fa97967e3b392377049e1aebf4e333a" kindref="member">ThermManager::PrintTemperature</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><ref refid="class_therm_manager_1a3a4bf325f9e6474a741cba4ae10cd485" kindref="member">Init</ref>();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>define<sp/>command<sp/>to<sp/>read<sp/>temperature<sp/>from<sp/>all<sp/>thermistors<sp/>on<sp/>COM<sp/>port<sp/>1<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<sp/>cmd<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;digitemp<sp/>-s<sp/>/dev/ttyS0<sp/>-a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>run<sp/>the<sp/>digitemp<sp/>command<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>std::string<sp/>output<sp/>=<sp/><ref refid="class_cpu_tools_1af7cde21dc0939ef2c2a0c6d8d347901f" kindref="member">CpuTools::CommandToStr</ref>(cmd);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>output.find(</highlight><highlight class="stringliteral">&quot;Error<sp/>10:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(found<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;cannot<sp/>connect<sp/>to<sp/>temprature<sp/>sensors&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>print<sp/>the<sp/>output<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>output<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>parse<sp/>the<sp/>digitemp<sp/>output<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>ThermManager::ParseDigitempOutput(std::string<sp/>input_string)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/>std::regex<sp/>num_with_two_dp(</highlight><highlight class="stringliteral">&quot;([0-9]+\\.[0-9]{2})&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>std::smatch<sp/>match;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>temperature_result<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>search<sp/>for<sp/>numbers<sp/>with<sp/>2<sp/>decimal<sp/>places<sp/>*/</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>std::string::const_iterator<sp/>searchStart(input_string.cbegin());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::regex_search(searchStart,<sp/>input_string.cend(),<sp/>match,<sp/>num_with_two_dp))<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>fill<sp/>the<sp/>results<sp/>for<sp/>even<sp/>values<sp/>only<sp/>(ignore<sp/>Fahrenheit<sp/>results)<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>temperature_result-&gt;<ref refid="struct_temperature_acq_1a2f9946e0a425401819c9892d3f2969b8" kindref="member">val</ref>[j]<sp/>=<sp/>std::stof(match[0]);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>j++;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>i++;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>searchStart<sp/>+=<sp/>match.position()<sp/>+<sp/>match.length();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temperature_result;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>write<sp/>the<sp/>temperature<sp/>packet<sp/>to<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a9fa30101539e661ccd96fa486d06c350" kindref="member">ThermManager::WriteThermPkt</ref>(<ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>temperature_result)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><ref refid="struct_t_h_e_r_m___p_a_c_k_e_t" kindref="compound">THERM_PACKET</ref><sp/>*<sp/>therm_packet<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="struct_t_h_e_r_m___p_a_c_k_e_t" kindref="compound">THERM_PACKET</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>pkt_counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;writing<sp/>new<sp/>packet<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;<ref refid="class_therm_manager_1abc781a3c326f8f2ba4496ab7caf05d34" kindref="member">RunAccess</ref>-&gt;<ref refid="class_access_1a3e81a676c4d5ccb5e7776928f1cb836d" kindref="member">path</ref><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>create<sp/>the<sp/>therm<sp/>packet<sp/>header<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>therm_packet-&gt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t_1a9cb4e21af483c698acbd682bc4d3f5f6" kindref="member">therm_packet_header</ref>.<ref refid="struct_cpu_pkt_header_1a63b706a8d330d8f64474ab2bd9d7b2f3" kindref="member">header</ref><sp/>=<sp/>BuildCpuPktHeader(<ref refid="data__format_8h_1aff047c295cb014f37c3d47ce454eee3f" kindref="member">THERM_PACKET_TYPE</ref>,<sp/><ref refid="data__format_8h_1ad8ee45e0caf43873996bfcd71756f9e3" kindref="member">THERM_PACKET_VER</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>therm_packet-&gt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t_1a9cb4e21af483c698acbd682bc4d3f5f6" kindref="member">therm_packet_header</ref>.<ref refid="struct_cpu_pkt_header_1ae654e77a6daad283c09b48296db7d52a" kindref="member">pkt_size</ref><sp/>=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(*therm_packet);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>therm_packet-&gt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t_1a9cb4e21af483c698acbd682bc4d3f5f6" kindref="member">therm_packet_header</ref>.<ref refid="struct_cpu_pkt_header_1af6d7f540f11ef7693959452a241e1cb2" kindref="member">pkt_num</ref><sp/>=<sp/>pkt_counter;<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>therm_packet-&gt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t_1a8d882e02a1ae6109e42f05f0366b443d" kindref="member">therm_time</ref>.<ref refid="struct_cpu_time_stamp_1aa53397518aae3e159255455789abcb41" kindref="member">cpu_time_stamp</ref><sp/>=<sp/>BuildCpuTimeStamp();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(temperature_result<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>get<sp/>the<sp/>temperature<sp/>data<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/><ref refid="data__format_8h_1a8f489c987d5dca96d8bf20650a164a7e" kindref="member">N_CHANNELS_THERM</ref>;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>therm_packet-&gt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t_1a4c38035e8afea98dbd14fb60b256839b" kindref="member">therm_data</ref>[i]<sp/>=<sp/>temperature_result-&gt;<ref refid="struct_temperature_acq_1a2f9946e0a425401819c9892d3f2969b8" kindref="member">val</ref>[i];</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>temperature_result;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>write<sp/>the<sp/>therm<sp/>packet<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>this-&gt;<ref refid="class_therm_manager_1abc781a3c326f8f2ba4496ab7caf05d34" kindref="member">RunAccess</ref>-&gt;<ref refid="class_access_1aded6a66f29109e43c80cd0aaade56709" kindref="member">WriteToSynchFile</ref>&lt;<ref refid="struct_t_h_e_r_m___p_a_c_k_e_t" kindref="compound">THERM_PACKET</ref><sp/>*&gt;(therm_packet,<sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03aa81b273573bc52dfa0857a3727885ec3" kindref="member">SynchronisedFile::CONSTANT</ref>);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>therm_packet;<sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>pkt_counter++;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1aa83488faa792cdd86825764a357511b8" kindref="member">ThermManager::ProcessThermData</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>std::mutex<sp/>m;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>start<sp/>infinite<sp/>loop<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal">(1)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>collect<sp/>data<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_temperature_acq" kindref="compound">TemperatureAcq</ref><sp/>*<sp/>temperature_result<sp/>=<sp/><ref refid="class_therm_manager_1a262e8ca53e0791daeb59064b169db6f0" kindref="member">GetTemperature</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>wait<sp/>for<sp/>CPU<sp/>file<sp/>to<sp/>be<sp/>set<sp/>by<sp/>DataAcqManager::ProcessIncomingData()<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lock(m);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_therm_manager_1aae3e4ef31df368f130815733c924ffab" kindref="member">cond_var</ref>.wait(lock,<sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">]{</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager_1a397e05cdfa3fd1241c4b45735b368fb1" kindref="member">cpu_file_is_set</ref><sp/>==<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;});</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>write<sp/>to<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(temperature_result<sp/>!=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_therm_manager_1a9fa30101539e661ccd96fa486d06c350" kindref="member">WriteThermPkt</ref>(temperature_result);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>sleep<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>sleep(<ref refid="_therm_manager_8h_1aeaecc01a119276a24650a312edcd28e9" kindref="member">THERM_ACQ_SLEEP</ref>);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>never<sp/>reached<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/subsystems/ThermManager.cpp"/>
+  </compounddef>
+</doxygen>

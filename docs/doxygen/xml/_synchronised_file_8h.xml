@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_synchronised_file_8h" kind="file" language="C++">
+    <compoundname>SynchronisedFile.h</compoundname>
+    <includes local="no">boost/crc.hpp</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes refid="log_8h" local="yes">log.h</includes>
+    <includes refid="data__format_8h" local="yes">data_format.h</includes>
+    <includes refid="_config_manager_8h" local="yes">ConfigManager.h</includes>
+    <includedby refid="_therm_manager_8h" local="yes">src/subsystems/ThermManager.h</includedby>
+    <includedby refid="_synchronised_file_8cpp" local="yes">src/tools/SynchronisedFile.cpp</includedby>
+    <incdepgraph>
+      <node id="1125">
+        <label>iomanip</label>
+      </node>
+      <node id="1129">
+        <label>stdint.h</label>
+      </node>
+      <node id="1131">
+        <label>stdlib.h</label>
+      </node>
+      <node id="1130">
+        <label>ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1132" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1122" relation="include">
+        </childnode>
+        <childnode refid="1120" relation="include">
+        </childnode>
+      </node>
+      <node id="1128">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="1129" relation="include">
+        </childnode>
+        <childnode refid="1128" relation="include">
+        </childnode>
+      </node>
+      <node id="1134">
+        <label>string</label>
+      </node>
+      <node id="1122">
+        <label>fstream</label>
+      </node>
+      <node id="1117">
+        <label>boost/crc.hpp</label>
+      </node>
+      <node id="1133">
+        <label>unistd.h</label>
+      </node>
+      <node id="1127">
+        <label>vector</label>
+      </node>
+      <node id="1123">
+        <label>sstream</label>
+      </node>
+      <node id="1126">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="1127" relation="include">
+        </childnode>
+        <childnode refid="1128" relation="include">
+        </childnode>
+      </node>
+      <node id="1120">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="1121" relation="include">
+        </childnode>
+        <childnode refid="1122" relation="include">
+        </childnode>
+        <childnode refid="1123" relation="include">
+        </childnode>
+        <childnode refid="1124" relation="include">
+        </childnode>
+        <childnode refid="1125" relation="include">
+        </childnode>
+      </node>
+      <node id="1121">
+        <label>sys/time.h</label>
+      </node>
+      <node id="1124">
+        <label>iostream</label>
+      </node>
+      <node id="1118">
+        <label>mutex</label>
+      </node>
+      <node id="1132">
+        <label>stdio.h</label>
+      </node>
+      <node id="1116">
+        <label>src/tools/SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="1117" relation="include">
+        </childnode>
+        <childnode refid="1118" relation="include">
+        </childnode>
+        <childnode refid="1119" relation="include">
+        </childnode>
+        <childnode refid="1120" relation="include">
+        </childnode>
+        <childnode refid="1126" relation="include">
+        </childnode>
+        <childnode refid="1130" relation="include">
+        </childnode>
+      </node>
+      <node id="1119">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1140">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="1141" relation="include">
+        </childnode>
+      </node>
+      <node id="1142">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="1141">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="1137">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+      </node>
+      <node id="1145">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+      </node>
+      <node id="1146">
+        <label>src/tools/SynchronisedFile.cpp</label>
+        <link refid="_synchronised_file_8cpp"/>
+      </node>
+      <node id="1144">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="1138">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="1139" relation="include">
+        </childnode>
+        <childnode refid="1140" relation="include">
+        </childnode>
+      </node>
+      <node id="1143">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+      </node>
+      <node id="1136">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="1137" relation="include">
+        </childnode>
+        <childnode refid="1143" relation="include">
+        </childnode>
+        <childnode refid="1145" relation="include">
+        </childnode>
+      </node>
+      <node id="1135">
+        <label>src/tools/SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="1136" relation="include">
+        </childnode>
+        <childnode refid="1146" relation="include">
+        </childnode>
+      </node>
+      <node id="1139">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_synchronised_file" prot="public">SynchronisedFile</innerclass>
+    <innerclass refid="class_access" prot="public">Access</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_synchronised_file_8h_1a984bf2fb8e6cd1bed25aee1d0fb12082" prot="public" static="no">
+        <name>PRIVATE_BUFFER_SIZE</name>
+        <initializer>1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="15" column="9" bodyfile="src/tools/SynchronisedFile.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="_synchronised_file_8h_1ab646355ae763e54ef4c5698fb0a8897c" prot="public" static="no" mutable="no">
+        <type>std::streamsize const</type>
+        <definition>std::streamsize const buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <initializer>= <ref refid="_synchronised_file_8h_1a984bf2fb8e6cd1bed25aee1d0fb12082" kindref="member">PRIVATE_BUFFER_SIZE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/SynchronisedFile.h" line="18" column="1" bodyfile="src/tools/SynchronisedFile.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_SYNCHRONISED_FILE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_SYNCHRONISED_FILE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/crc.hpp&gt;</highlight><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="log_8h" kindref="compound">log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="data__format_8h" kindref="compound">data_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_config_manager_8h" kindref="compound">ConfigManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>for<sp/>use<sp/>with<sp/>CRC<sp/>checksum<sp/>calculation<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>redefine<sp/>this<sp/>to<sp/>change<sp/>to<sp/>processing<sp/>buffer<sp/>size<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>PRIVATE_BUFFER_SIZE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="_synchronised_file_8h_1a984bf2fb8e6cd1bed25aee1d0fb12082" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PRIVATE_BUFFER_SIZE<sp/><sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>global<sp/>objects<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="_synchronised_file_8h_1ab646355ae763e54ef4c5698fb0a8897c" refkind="member"><highlight class="normal">std::streamsize<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="_synchronised_file_8h_1ab646355ae763e54ef4c5698fb0a8897c" kindref="member">buffer_size</ref><sp/>=<sp/><ref refid="_synchronised_file_8h_1a984bf2fb8e6cd1bed25aee1d0fb12082" kindref="member">PRIVATE_BUFFER_SIZE</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>handles<sp/>asynchronous<sp/>writing<sp/>to<sp/>file<sp/>from<sp/>multiple<sp/>threads<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_synchronised_file" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_synchronised_file" kindref="compound">SynchronisedFile</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24" refid="class_synchronised_file_1a0718ef97250178f9aa6d6eff4e548857" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_synchronised_file_1a0718ef97250178f9aa6d6eff4e548857" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><ref refid="class_synchronised_file_1a3c49fe13c3549fe44e6c42376505a938" kindref="member">SynchronisedFile</ref>(std::string<sp/><ref refid="class_synchronised_file_1a0718ef97250178f9aa6d6eff4e548857" kindref="member">path</ref>);<sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><ref refid="class_synchronised_file_1ae41b9df08e57cb362f0d135bea04a788" kindref="member">~SynchronisedFile</ref>();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03" kindref="member">WriteType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03aa81b273573bc52dfa0857a3727885ec3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03aa81b273573bc52dfa0857a3727885ec3" kindref="member">CONSTANT</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="31" refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a286fb0e2705e0ec8262191f44ab601d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a286fb0e2705e0ec8262191f44ab601d1" kindref="member">VARIABLE_D1</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="32" refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a767f555e5b37bb847b7e4b896f53f0d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a767f555e5b37bb847b7e4b896f53f0d2" kindref="member">VARIABLE_D2</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="class_synchronised_file_1ae176939357018964938ae6eb8cc33b6f" kindref="member">Checksum</ref>();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1af5c1fbb9c4fea8f4f73de0b6ac1470de" kindref="member">Close</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>GenericType&gt;</highlight></codeline>
+<codeline lineno="38" refid="class_synchronised_file_1a22bf1d2c11a88b2b4f3e272a3089f137" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1a22bf1d2c11a88b2b4f3e272a3089f137" kindref="member">Write</ref>(GenericType<sp/>payload,<sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03" kindref="member">WriteType</ref><sp/>write_type,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut<sp/>=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>lock<sp/>to<sp/>one<sp/>thread<sp/>at<sp/>a<sp/>time<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(_accessMutex);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;info:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">logstream::info</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;writing<sp/>to<sp/>SynchronisedFile<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;path<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/><sp/>write<sp/>the<sp/>payload<sp/>to<sp/>the<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal">(write_type)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03aa81b273573bc52dfa0857a3727885ec3" kindref="member">CONSTANT</ref>:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>check<sp/>=<sp/>fwrite(payload,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(*payload),<sp/>1,<sp/>this-&gt;_ptr_to_file);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(check<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;fwrite<sp/>failed<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;path<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>check;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a286fb0e2705e0ec8262191f44ab601d1" kindref="member">VARIABLE_D1</ref>:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>check<sp/>=<sp/>fwrite(payload,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(*payload),<sp/>ConfigOut-&gt;N1,<sp/>this-&gt;_ptr_to_file);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(check<sp/>!=<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(ConfigOut-&gt;N1))<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;fwrite<sp/>failed<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;path<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>DEBUG<sp/>check<sp/>why<sp/>fwrite<sp/>fails<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FWRITE<sp/>FAIL&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;check<sp/>=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>check<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;feof:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>feof(this-&gt;_ptr_to_file)<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ferror:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ferror(this-&gt;_ptr_to_file)<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>check;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03a767f555e5b37bb847b7e4b896f53f0d2" kindref="member">VARIABLE_D2</ref>:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>check<sp/>=<sp/>fwrite(payload,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(*payload),<sp/>ConfigOut-&gt;N2,<sp/>this-&gt;_ptr_to_file);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(check<sp/>!=<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(ConfigOut-&gt;N2))<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="log_8cpp_1a5e097ce023c37c3fb46e50c8b9dc8081" kindref="member">clog</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">logstream::error</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;fwrite<sp/>failed<sp/>to<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;path<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>DEBUG<sp/>check<sp/>why<sp/>fwrite<sp/>fails<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;FWRITE<sp/>FAIL&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;check<sp/>=<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>check<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;feof:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>feof(this-&gt;_ptr_to_file)<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ferror:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ferror(this-&gt;_ptr_to_file)<sp/>&lt;&lt;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">std::endl</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>check;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>check;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>std::mutex<sp/>_accessMutex;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/>FILE<sp/>*<sp/>_ptr_to_file;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="class_access" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_access" kindref="compound">Access</ref><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><ref refid="class_access_1acf8924ccba0ed016abebc511a64f8522" kindref="member">Access</ref>(std::shared_ptr&lt;SynchronisedFile&gt;<sp/>sf);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_access_1a3e81a676c4d5ccb5e7776928f1cb836d" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_access_1a3e81a676c4d5ccb5e7776928f1cb836d" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="class_access_1a52e689eb4ba9cca3405ea698ed4d3a6c" kindref="member">GetChecksum</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_access_1ae37eec3b3f9ca44abf2d0ebbea87715b" kindref="member">CloseSynchFile</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>GenericType&gt;</highlight></codeline>
+<codeline lineno="110" refid="class_access_1aded6a66f29109e43c80cd0aaade56709" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_access_1aded6a66f29109e43c80cd0aaade56709" kindref="member">WriteToSynchFile</ref>(GenericType<sp/>payload,<sp/><ref refid="class_synchronised_file_1acd5d142d12a6797678dc5875628f6d03" kindref="member">SynchronisedFile::WriteType</ref><sp/>write_type,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut<sp/>=<sp/>NULL)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>call<sp/>write<sp/>to<sp/>file<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;_sf-&gt;Write(payload,<sp/>write_type,<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;SynchronisedFile&gt;<sp/>_sf;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_SYNCHRONISED_FILE_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/tools/SynchronisedFile.h"/>
+  </compounddef>
+</doxygen>

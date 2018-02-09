@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_h_v___f_i_l_e" kind="struct" language="C++" prot="public">
+    <compoundname>HV_FILE</compoundname>
+    <includes refid="data__format_8h" local="no">data_format.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_h_v___f_i_l_e_1a014605f8ad760f5bd4cc0c19d9b8b375" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_file_header" kindref="compound">CpuFileHeader</ref></type>
+        <definition>CpuFileHeader HV_FILE::cpu_file_header</definition>
+        <argsstring></argsstring>
+        <name>cpu_file_header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="176" column="1" bodyfile="src/data_format/data_format.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_v___f_i_l_e_1aa1101224588d9103ded72c31acf50be2" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_h_v___p_a_c_k_e_t" kindref="compound">HV_PACKET</ref></type>
+        <definition>HV_PACKET HV_FILE::hv_packet</definition>
+        <argsstring></argsstring>
+        <name>hv_packet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="177" column="1" bodyfile="src/data_format/data_format.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_h_v___f_i_l_e_1aa20b305063e78384febad64c8a7f7593" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_cpu_file_trailer" kindref="compound">CpuFileTrailer</ref></type>
+        <definition>CpuFileTrailer HV_FILE::cpu_file_trailer</definition>
+        <argsstring></argsstring>
+        <name>cpu_file_trailer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/data_format.h" line="178" column="1" bodyfile="src/data_format/data_format.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="87">
+        <label>ZynqBoardHeader</label>
+        <link refid="struct_zynq_board_header"/>
+      </node>
+      <node id="82">
+        <label>HV_FILE</label>
+        <link refid="struct_h_v___f_i_l_e"/>
+        <childnode refid="83" relation="usage">
+          <edgelabel>hv_packet</edgelabel>
+        </childnode>
+        <childnode refid="90" relation="usage">
+          <edgelabel>cpu_file_header</edgelabel>
+        </childnode>
+        <childnode refid="91" relation="usage">
+          <edgelabel>cpu_file_trailer</edgelabel>
+        </childnode>
+      </node>
+      <node id="86">
+        <label>TimeStamp_dual</label>
+        <link refid="struct_time_stamp__dual"/>
+      </node>
+      <node id="84">
+        <label>Z_DATA_TYPE_HVPS_LOG_V1</label>
+        <link refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1"/>
+        <childnode refid="85" relation="usage">
+          <edgelabel>payload</edgelabel>
+        </childnode>
+        <childnode refid="87" relation="usage">
+          <edgelabel>zbh</edgelabel>
+        </childnode>
+      </node>
+      <node id="88">
+        <label>CpuPktHeader</label>
+        <link refid="struct_cpu_pkt_header"/>
+      </node>
+      <node id="85">
+        <label>DATA_TYPE_HVPS_LOG_V1</label>
+        <link refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1"/>
+        <childnode refid="86" relation="usage">
+          <edgelabel>ts</edgelabel>
+        </childnode>
+      </node>
+      <node id="89">
+        <label>CpuTimeStamp</label>
+        <link refid="struct_cpu_time_stamp"/>
+      </node>
+      <node id="83">
+        <label>HV_PACKET</label>
+        <link refid="struct_h_v___p_a_c_k_e_t"/>
+        <childnode refid="84" relation="usage">
+          <edgelabel>hvps_log</edgelabel>
+        </childnode>
+        <childnode refid="88" relation="usage">
+          <edgelabel>hv_packet_header</edgelabel>
+        </childnode>
+        <childnode refid="89" relation="usage">
+          <edgelabel>hv_time</edgelabel>
+        </childnode>
+      </node>
+      <node id="91">
+        <label>CpuFileTrailer</label>
+        <link refid="struct_cpu_file_trailer"/>
+      </node>
+      <node id="90">
+        <label>CpuFileHeader</label>
+        <link refid="struct_cpu_file_header"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/data_format/data_format.h" line="175" column="1" bodyfile="src/data_format/data_format.h" bodystart="174" bodyend="179"/>
+    <listofallmembers>
+      <member refid="struct_h_v___f_i_l_e_1a014605f8ad760f5bd4cc0c19d9b8b375" prot="public" virt="non-virtual"><scope>HV_FILE</scope><name>cpu_file_header</name></member>
+      <member refid="struct_h_v___f_i_l_e_1aa20b305063e78384febad64c8a7f7593" prot="public" virt="non-virtual"><scope>HV_FILE</scope><name>cpu_file_trailer</name></member>
+      <member refid="struct_h_v___f_i_l_e_1aa1101224588d9103ded72c31acf50be2" prot="public" virt="non-virtual"><scope>HV_FILE</scope><name>hv_packet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

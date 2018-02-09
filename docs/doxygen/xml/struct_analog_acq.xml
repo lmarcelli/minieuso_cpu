@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="struct_analog_acq" kind="struct" language="C++" prot="public">
+    <compoundname>AnalogAcq</compoundname>
+    <includes refid="_analog_manager_8h" local="no">AnalogManager.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_analog_acq_1a8e6e794fcc6387578ce3943be8dcc9a9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float AnalogAcq::val[FIFO_DEPTH][CHANNELS]</definition>
+        <argsstring>[FIFO_DEPTH][CHANNELS]</argsstring>
+        <name>val</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="39" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/subsystems/AnalogManager.h" line="38" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="38" bodyend="40"/>
+    <listofallmembers>
+      <member refid="struct_analog_acq_1a8e6e794fcc6387578ce3943be8dcc9a9" prot="public" virt="non-virtual"><scope>AnalogAcq</scope><name>val</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="pdmdata_8h" kind="file" language="C++">
+    <compoundname>pdmdata.h</compoundname>
+    <includes local="no">stdint.h</includes>
+    <includes refid="pdmdata_8h" local="yes">pdmdata.h</includes>
+    <includedby refid="data__format_8h" local="yes">src/data_format/data_format.h</includedby>
+    <includedby refid="pdmdata_8h" local="yes">src/data_format/pdmdata.h</includedby>
+    <includedby refid="_data_acquisition_8h" local="yes">src/operations/DataAcquisition.h</includedby>
+    <incdepgraph>
+      <node id="22">
+        <label>stdint.h</label>
+      </node>
+      <node id="21">
+        <label>src/data_format/pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="30">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/data_format/pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/tools/SynchronisedFile.cpp</label>
+        <link refid="_synchronised_file_8cpp"/>
+      </node>
+      <node id="36">
+        <label>src/subsystems/AnalogManager.cpp</label>
+        <link refid="_analog_manager_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/operations/OperationMode.cpp</label>
+        <link refid="_operation_mode_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/data_format/data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/operations/OperationMode.h</label>
+        <link refid="_operation_mode_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>src/tools/SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/subsystems/AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="struct_zynq_board_header" prot="public">ZynqBoardHeader</innerclass>
+    <innerclass refid="struct_time_stamp__dual" prot="public">TimeStamp_dual</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2" prot="public">DATA_TYPE_SCI_L1_V2</innerclass>
+    <innerclass refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2" prot="public">Z_DATA_TYPE_SCI_L1_V2</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2" prot="public">DATA_TYPE_SCI_L2_V2</innerclass>
+    <innerclass refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2" prot="public">Z_DATA_TYPE_SCI_L2_V2</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2" prot="public">DATA_TYPE_SCI_L3_V2</innerclass>
+    <innerclass refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2" prot="public">Z_DATA_TYPE_SCI_L3_V2</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" prot="public">DATA_TYPE_SCURVE_V1</innerclass>
+    <innerclass refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" prot="public">Z_DATA_TYPE_SCURVE_V1</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b" prot="public">DATA_TYPE_SCURVE_4MATLAB</innerclass>
+    <innerclass refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" prot="public">DATA_TYPE_HVPS_LOG_V1</innerclass>
+    <innerclass refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" prot="public">Z_DATA_TYPE_HVPS_LOG_V1</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="pdmdata_8h_1a599397efab6b9092b9f193f51df403ba" prot="public" static="no">
+        <name>N_OF_PIXELS_PER_PMT</name>
+        <initializer>64 /* number of pixel on PMT */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="16" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a4309e7c3d1a009b5cb608919fc46d5d1" prot="public" static="no">
+        <name>N_OF_PMT_PER_ECASIC</name>
+        <initializer>6	/* number of PMT on EC ASIC board */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="17" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aac71b5acb1ecfd234fbefb44ee97b970" prot="public" static="no">
+        <name>N_OF_ECASIC_PER_PDM</name>
+        <initializer>6  /* number of EC ASIC boards in PDM */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="18" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" prot="public" static="no">
+        <name>N_OF_PIXEL_PER_PDM</name>
+        <initializer>(<ref refid="pdmdata_8h_1a599397efab6b9092b9f193f51df403ba" kindref="member">N_OF_PIXELS_PER_PMT</ref> * <ref refid="pdmdata_8h_1a4309e7c3d1a009b5cb608919fc46d5d1" kindref="member">N_OF_PMT_PER_ECASIC</ref> * <ref refid="pdmdata_8h_1aac71b5acb1ecfd234fbefb44ee97b970" kindref="member">N_OF_ECASIC_PER_PDM</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="20" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a7fbe37abfa588aaf314279ea0960aaf1" prot="public" static="no">
+        <name>N_OF_SCURVE_THRS</name>
+        <initializer>1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="22" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a9812203ec1b709701a9c37c6ec290164" prot="public" static="no">
+        <name>INSTRUMENT_ME_PDM</name>
+        <initializer>1 	/* Instrument Mini-EUSO PDM*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="37" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a24c3105414154c81b704b54f72452672" prot="public" static="no">
+        <name>BuildHeader</name>
+        <param><defname>data_type</defname></param>
+        <param><defname>packet_ver</defname></param>
+        <initializer>((&apos;Z&apos;&lt;&lt;24) | (<ref refid="pdmdata_8h_1a9812203ec1b709701a9c37c6ec290164" kindref="member">INSTRUMENT_ME_PDM</ref>&lt;&lt;16) | ((data_type)&lt;&lt;8) | (packet_ver))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="41" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1adcee9447b97e85ffe518fe59f43f95d0" prot="public" static="no">
+        <name>DATA_TYPE_SCI_RAW</name>
+        <initializer>1 	/* Scientific raw data */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="47" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a3457ba5e5ff2d70b0561655d2f465758" prot="public" static="no">
+        <name>DATA_TYPE_SCI_INT16</name>
+        <initializer>2 	/* Scientific integrated data with 16 bit pixels*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="48" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aca259679d608993c86baeeb943f6d9ca" prot="public" static="no">
+        <name>DATA_TYPE_SCI_INT32</name>
+        <initializer>3 	/* Scientific integrated data with 32 bit pixels */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="49" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a10aeaad92ded2414936b16c3cadf4a03" prot="public" static="no">
+        <name>DATA_TYPE_SCI_POLY</name>
+        <initializer>4   /* Scientific polytypic data*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="50" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a4d28d2ff48e58b35ea4ab638e3489663" prot="public" static="no">
+        <name>DATA_TYPE_SCI_L1</name>
+        <initializer>10	/* Scientific data attached with L1 event*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="51" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a59ca9b82c16151c122f7ffe574dd878d" prot="public" static="no">
+        <name>DATA_TYPE_SCI_L2</name>
+        <initializer>11	/* Scientific data attached with L2 event*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="52" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a396edd37087817e839a1b2e2a22c273d" prot="public" static="no">
+        <name>DATA_TYPE_SCI_L3</name>
+        <initializer>12	/* Scientific data attached with L3 event*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="53" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a73ab94d5c1aa5501c82a0f5f05cf3ba5" prot="public" static="no">
+        <name>DATA_TYPE_SCURVE</name>
+        <initializer>20  /* S-curve data */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="54" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a2e27656f9deb8244df82c50e16f2ecdd" prot="public" static="no">
+        <name>DATA_TYPE_SC_COMMON</name>
+        <initializer>40 	/* Slow control data (common loading) */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="55" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a91c648850bea227876d67c9a935bf566" prot="public" static="no">
+        <name>DATA_TYPE_SC_INDIV</name>
+        <initializer>41  /* Slow control data (individual loading)  */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="56" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ac41c5a84ad63fd58d9ab34a2d73dd07c" prot="public" static="no">
+        <name>DATA_TYPE_HV_DACS</name>
+        <initializer>60  /* HV DACs values*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="57" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a6a002fe2d3299e016bed93f721bc88ca" prot="public" static="no">
+        <name>DATA_TYPE_HV_STATUS</name>
+        <initializer>61  /* HV status */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="58" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a1a239c1baa64bd782d1ca2b7f56a511b" prot="public" static="no">
+        <name>N_OF_FRAMES_RAW_POLY_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="87" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aea0f10f14cb3614c7a486603cf8a4cd7" prot="public" static="no">
+        <name>N_OF_FRAMES_INT16_POLY_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="88" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ac9a4505a8b41e15f7c3d94f1f14e9490" prot="public" static="no">
+        <name>N_OF_FRAMES_INT32_POLY_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="89" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a3497cf2e97c7a633edb4b3a3251ff266" prot="public" static="no">
+        <name>N_OF_FRAMES_L1_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="126" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a0e5b82c482b19ab156b0c2cdff91fba8" prot="public" static="no">
+        <name>N_OF_FRAMES_L2_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="128" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a23f6d6a344269201242148e727da711e" prot="public" static="no">
+        <name>N_OF_FRAMES_L3_V0</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="130" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a0e1093ee3e8f3b9b37c1cc428ab8606d" prot="public" static="no">
+        <name>SCALE_GTU_SMALL_PER_BIG</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="134" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a3f13abbaea710fd6a6048d639a9277d7" prot="public" static="no">
+        <name>SCALE_GTU_BIG_PER_HUGE</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="136" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a3dadd0a310d69143acdbb5925aba826b" prot="public" static="no">
+        <name>SCALE_GTU_HUGE_PER_LIFECYCLE</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="138" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a20953032c61df547f0d3638cd8ae1e55" prot="public" static="no">
+        <name>N_FRAMES_PER_LIFECYCLE</name>
+        <initializer>(<ref refid="pdmdata_8h_1a0e1093ee3e8f3b9b37c1cc428ab8606d" kindref="member">SCALE_GTU_SMALL_PER_BIG</ref> * <ref refid="pdmdata_8h_1a3f13abbaea710fd6a6048d639a9277d7" kindref="member">SCALE_GTU_BIG_PER_HUGE</ref> * <ref refid="pdmdata_8h_1a3dadd0a310d69143acdbb5925aba826b" kindref="member">SCALE_GTU_HUGE_PER_LIFECYCLE</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="140" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a4926c607a81184317318f1513b0867e6" prot="public" static="no">
+        <name>TRIG_TYPE_PERIODIC</name>
+        <initializer>1 /* Occurred every 5.24 s */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="152" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a4abe407b23d80f52842c14fba448996e" prot="public" static="no">
+        <name>TRIG_TYPE_SELF</name>
+        <initializer>2 /* Issued by Trigger block*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="153" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ac29136986b04da7663d5d8eedc22d7b3" prot="public" static="no">
+        <name>TRIG_TYPE_AUTO</name>
+        <initializer>4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="154" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ae4d76a572eb11065323eb4dee5a1dfd1" prot="public" static="no">
+        <name>TRIG_AUTO</name>
+        <initializer>0 /* Auto triggered data (in absence of others triggers)*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="236" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ad7f07c777e1d78a7754d94a853e9e524" prot="public" static="no">
+        <name>TRIG_SELF</name>
+        <initializer>1 /* Data triggered on trigger algorithm*/</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="237" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a75b66f043b4636fbc598d43f14df5a5d" prot="public" static="no">
+        <name>TRIG_EXT</name>
+        <initializer>2 /* Data triggered on external signal */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="238" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ae9e0492fa1a30cd3c04c7cdbf2855389" prot="public" static="no">
+        <name>INSTRUMENT_MODE_NONE</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="241" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ab193172ee05a3ec2bce916211b33d600" prot="public" static="no">
+        <name>INSTRUMENT_MODE_OLD_PROTOCOL</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="242" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a88afd15d00cda62f07d061f835035e26" prot="public" static="no">
+        <name>INSTRUMENT_MODE_FREERUN</name>
+        <initializer>2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="243" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ac1ddb9d8a246c871ca8f45113ecf6876" prot="public" static="no">
+        <name>INSTRUMENT_MODE_TRIGGERS</name>
+        <initializer>3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="244" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a03df84f6de6330b75a7637c3c9e7673a" prot="public" static="no">
+        <name>INSTRUMENT_FTPFILES_CONCAT</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="246" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ab081bfe50a1e88961501b2211373c12c" prot="public" static="no">
+        <name>INSTRUMENT_FTPFILES_SEPARATED</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="247" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aafb7ebc987085e326060570e69b30667" prot="public" static="no">
+        <name>FILENAME_MODE_TRIGGER1</name>
+        <initializer>&quot;frm_tr1_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="249" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a073ca410532bf9f4943d4d98dae7aabf" prot="public" static="no">
+        <name>FILENAME_MODE_TRIGGER2</name>
+        <initializer>&quot;frm_tr2_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="250" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aad5fda10c13f04fe9f0191e9003671b2" prot="public" static="no">
+        <name>FILENAME_MODE_TRIGGER3</name>
+        <initializer>&quot;frm_tr3_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="251" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a76c698d4e4c3e959cf9a5526cd3cf9a9" prot="public" static="no">
+        <name>FILENAME_SCURVE</name>
+        <initializer>&quot;scurve_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="252" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a266e1e8e6e4a77aad6e1f9e0751d2348" prot="public" static="no">
+        <name>FILENAME_CONCATED</name>
+        <initializer>&quot;frm_cc_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="253" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a73fbcd9b88ad280cb9488db7b21fecf1" prot="public" static="no">
+        <name>FILENAME_HVLOG</name>
+        <initializer>&quot;hv_%08d.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="254" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a92a1d4b9dd37f21d24f4e4e01a1492d2" prot="public" static="no">
+        <name>NMAX_OF_THESHOLDS</name>
+        <initializer>1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="260" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a38615b5c857b88802a10583c6f0ad714" prot="public" static="no">
+        <name>NMAX_OF_THESHOLDS_4MATLAB</name>
+        <initializer>128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="278" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a87da1848f595cc960371e69d2cecb2ae" prot="public" static="no">
+        <name>HVPS_LOG_SIZE_NRECORDS</name>
+        <initializer>100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="293" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aee74c60c82e16aae8f7b70d44085aa0c" prot="public" static="no">
+        <name>HVPS_TURN_ON</name>
+        <initializer>0x00</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="296" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aa8967f56ec92a850fcc0993474492634" prot="public" static="no">
+        <name>HVPS_TURN_OFF</name>
+        <initializer>0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="297" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aa196735f58fb00925a35f0fcade8179a" prot="public" static="no">
+        <name>HVPS_DACS_LOADED</name>
+        <initializer>0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="298" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a9970b8d766ba539eeb39a5524e70e2db" prot="public" static="no">
+        <name>HVPS_SR_LOADED</name>
+        <initializer>0x03</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="299" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ab6e612ff41a2997558305c5dd4b8ff73" prot="public" static="no">
+        <name>HVPS_INTR</name>
+        <initializer>0x04</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="300" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a0a5bc7ce7d750423e88f3a825ef352ba" prot="public" static="no">
+        <name>HVPS_SANITY_RELEASE</name>
+        <initializer>0x08</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="301" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a4b71a446e6a4e6c23dd696bf951658c2" prot="public" static="no">
+        <name>HVPS_SANITY_INTR</name>
+        <initializer>0x09</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="302" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a0b42a04a23202a2e11ba073d4e033e4e" prot="public" static="no">
+        <name>HVPS_AGC_UP_3_to_1</name>
+        <initializer>0x0C</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="303" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a9af59520b291e22db1554d17074d52fd" prot="public" static="no">
+        <name>HVPS_AGC_UP_1_to_0</name>
+        <initializer>0x0D</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="304" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1af63b37055cc5d71a98aa3d9ba88bdb00" prot="public" static="no">
+        <name>HVPS_AGC_UP_0_to_1</name>
+        <initializer>0x0E</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="305" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aa3b2a87c28572e5f27b6256b5c87151f" prot="public" static="no">
+        <name>HVPS_AGC_UP_1_to_3</name>
+        <initializer>0x0F</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="306" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a32b19c40bc5baa65af416de37e4dec1c" prot="public" static="no">
+        <name>HVPS_TURN_ON_STR</name>
+        <initializer>&quot;TURN_ON&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="308" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1aed6ac5109675f44a7340c3ee03ccb80f" prot="public" static="no">
+        <name>HVPS_TURN_OFF_STR</name>
+        <initializer>&quot;TURN_OFF&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="309" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a063ab52b80c1b27526f6e94e8407171d" prot="public" static="no">
+        <name>HVPS_DACS_LOADED_STR</name>
+        <initializer>&quot;DACS_LOADED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="310" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a37731730b03bdb114fe35d6237270839" prot="public" static="no">
+        <name>HVPS_SR_LOADED_STR</name>
+        <initializer>&quot;SR_LOADED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="311" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a1d105a53172b1c63d598ecde73240794" prot="public" static="no">
+        <name>HVPS_INTR_STR</name>
+        <initializer>&quot;INTR&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="312" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1af5d35771a8a60e05336c80e6b3083d59" prot="public" static="no">
+        <name>HVPS_SANITY_RELEASE_STR</name>
+        <initializer>&quot;SANITY_RELEASE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="313" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a9e0aac095b635cab803dba52e7c09ec7" prot="public" static="no">
+        <name>HVPS_SANITY_INTR_STR</name>
+        <initializer>&quot;SANITY_INTR&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="314" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1af21be8c99f0cc61f6598809da2dbad7c" prot="public" static="no">
+        <name>HVPS_AGC_UP_3_to_1_STR</name>
+        <initializer>&quot;AGC_UP_3_to_1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="315" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1ad9831586fb173af0f05ca7c32ba5fc18" prot="public" static="no">
+        <name>HVPS_AGC_UP_1_to_0_STR</name>
+        <initializer>&quot;AGC_UP_1_to_0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="316" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1acd3ec36e6606fb6d8ccaee39a6d78ae0" prot="public" static="no">
+        <name>HVPS_AGC_UP_0_to_1_STR</name>
+        <initializer>&quot;AGC_UP_0_to_1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="317" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="pdmdata_8h_1a8e409388c49975992dc4ecae75e2cee4" prot="public" static="no">
+        <name>HVPS_AGC_UP_1_to_3_STR</name>
+        <initializer>&quot;AGC_UP_1_to_3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data_format/pdmdata.h" line="318" column="9" bodyfile="src/data_format/pdmdata.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>pdmdata.h</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/><sp/>Created<sp/>on:<sp/>Dec<sp/>3,<sp/>2016</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/>Author:<sp/>alexander</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SRC_PDMDATA_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SRC_PDMDATA_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdint.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pdmdata_8h" kindref="compound">pdmdata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="pdmdata_8h_1a599397efab6b9092b9f193f51df403ba" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_PIXELS_PER_PMT<sp/><sp/><sp/><sp/><sp/>64<sp/></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>pixel<sp/>on<sp/>PMT<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="pdmdata_8h_1a4309e7c3d1a009b5cb608919fc46d5d1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_PMT_PER_ECASIC<sp/><sp/><sp/><sp/><sp/>6<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>PMT<sp/>on<sp/>EC<sp/>ASIC<sp/>board<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="pdmdata_8h_1aac71b5acb1ecfd234fbefb44ee97b970" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_ECASIC_PER_PDM<sp/><sp/><sp/><sp/><sp/>6<sp/><sp/></highlight><highlight class="comment">/*<sp/>number<sp/>of<sp/>EC<sp/>ASIC<sp/>boards<sp/>in<sp/>PDM<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_PIXEL_PER_PDM<sp/><sp/><sp/><sp/><sp/><sp/>(N_OF_PIXELS_PER_PMT<sp/>*<sp/>N_OF_PMT_PER_ECASIC<sp/>*<sp/>N_OF_ECASIC_PER_PDM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="pdmdata_8h_1a7fbe37abfa588aaf314279ea0960aaf1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_SCURVE_THRS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>pack(push,<sp/>1)<sp/></highlight><highlight class="comment">/*<sp/>force<sp/>no<sp/>padding<sp/>in<sp/>structs<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Common<sp/>Zynq<sp/>board<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>for<sp/>all<sp/>packets<sp/>with<sp/>scientific<sp/>and<sp/>configuration<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="struct_zynq_board_header" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33" refid="struct_zynq_board_header_1ab803d6150ab537b637131da775d29bd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_zynq_board_header_1ab803d6150ab537b637131da775d29bd7" kindref="member">header</ref>;<sp/></highlight><highlight class="comment">//<sp/>&apos;Z&apos;(31:24)<sp/>|<sp/>instrument_id(23:16)<sp/>|<sp/>data_type(15:8)<sp/>|<sp/>packet_ver(7:0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="struct_zynq_board_header_1ad8dd659ca026ed589cb61a3e1ab469ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_zynq_board_header_1ad8dd659ca026ed589cb61a3e1ab469ca" kindref="member">payload_size</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref>;<sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="pdmdata_8h_1a9812203ec1b709701a9c37c6ec290164" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_ME_PDM<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Instrument<sp/>Mini-EUSO<sp/>PDM*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Macros<sp/>for<sp/>a<sp/>header<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="pdmdata_8h_1a24c3105414154c81b704b54f72452672" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>BuildHeader(data_type,<sp/>packet_ver)<sp/>\</highlight></codeline>
+<codeline lineno="42"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>((&apos;Z&apos;&lt;&lt;24)<sp/>|<sp/>(INSTRUMENT_ME_PDM&lt;&lt;16)<sp/>|<sp/>((data_type)&lt;&lt;8)<sp/>|<sp/>(packet_ver))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="pdmdata_8h_1adcee9447b97e85ffe518fe59f43f95d0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_RAW<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>raw<sp/>data<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="pdmdata_8h_1a3457ba5e5ff2d70b0561655d2f465758" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_INT16<sp/><sp/><sp/><sp/><sp/>2<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>integrated<sp/>data<sp/>with<sp/>16<sp/>bit<sp/>pixels*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="pdmdata_8h_1aca259679d608993c86baeeb943f6d9ca" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_INT32<sp/><sp/><sp/><sp/><sp/>3<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>integrated<sp/>data<sp/>with<sp/>32<sp/>bit<sp/>pixels<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="pdmdata_8h_1a10aeaad92ded2414936b16c3cadf4a03" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_POLY<sp/><sp/><sp/><sp/><sp/><sp/>4<sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>polytypic<sp/>data*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="pdmdata_8h_1a4d28d2ff48e58b35ea4ab638e3489663" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_L1<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>10<sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>data<sp/>attached<sp/>with<sp/>L1<sp/>event*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="pdmdata_8h_1a59ca9b82c16151c122f7ffe574dd878d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_L2<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>11<sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>data<sp/>attached<sp/>with<sp/>L2<sp/>event*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="pdmdata_8h_1a396edd37087817e839a1b2e2a22c273d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCI_L3<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>12<sp/><sp/></highlight><highlight class="comment">/*<sp/>Scientific<sp/>data<sp/>attached<sp/>with<sp/>L3<sp/>event*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="pdmdata_8h_1a73ab94d5c1aa5501c82a0f5f05cf3ba5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SCURVE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>20<sp/><sp/></highlight><highlight class="comment">/*<sp/>S-curve<sp/>data<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="pdmdata_8h_1a2e27656f9deb8244df82c50e16f2ecdd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SC_COMMON<sp/><sp/><sp/><sp/><sp/>40<sp/><sp/></highlight><highlight class="comment">/*<sp/>Slow<sp/>control<sp/>data<sp/>(common<sp/>loading)<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="pdmdata_8h_1a91c648850bea227876d67c9a935bf566" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_SC_INDIV<sp/><sp/><sp/><sp/><sp/><sp/>41<sp/><sp/></highlight><highlight class="comment">/*<sp/>Slow<sp/>control<sp/>data<sp/>(individual<sp/>loading)<sp/><sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="pdmdata_8h_1ac41c5a84ad63fd58d9ab34a2d73dd07c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_HV_DACS<sp/><sp/><sp/><sp/><sp/><sp/><sp/>60<sp/><sp/></highlight><highlight class="comment">/*<sp/>HV<sp/>DACs<sp/>values*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="pdmdata_8h_1a6a002fe2d3299e016bed93f721bc88ca" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_TYPE_HV_STATUS<sp/><sp/><sp/><sp/><sp/>61<sp/><sp/></highlight><highlight class="comment">/*<sp/>HV<sp/>status<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timestamp<sp/>structure<sp/>in<sp/>binary<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Year<sp/>0=2017,<sp/>1=2018,<sp/>2=2019,<sp/>3=...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//typedef<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint32_t<sp/>TS_dword;<sp/>//<sp/>year(31:26)<sp/>|<sp/>month(25:22)<sp/>|<sp/>date(21:17)<sp/>|<sp/>hour(16:12)<sp/>|<sp/>min(11:6)<sp/>|<sp/>sec(5:0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint32_t<sp/>gtu_cnt;<sp/>//<sp/>reserv(31:20)<sp/>|<sp/>gtu_cnt(19:0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//}<sp/>TimeStamp_natural;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Macros<sp/>for<sp/>a<sp/>timestamp<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//#define<sp/>BuildTimeStamp_TS_dword(year,<sp/>month,<sp/>date,<sp/>hour,<sp/>min,<sp/>sec)<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>(((year)&lt;&lt;26)<sp/>|<sp/>((month)&lt;&lt;22)<sp/>|<sp/>((date)&lt;&lt;17)<sp/>|<sp/>((hour)&lt;&lt;12)<sp/>|<sp/>((min)&lt;&lt;6)<sp/>|<sp/>(sec))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//typedef<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint64_t<sp/>n_gtu;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//}<sp/>TimeStamp_symplified;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="struct_time_stamp__dual" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81" refid="struct_time_stamp__dual_1a069c32ea1f21bac339a12800045deb6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_time_stamp__dual_1a069c32ea1f21bac339a12800045deb6b" kindref="member">n_gtu</ref>;</highlight></codeline>
+<codeline lineno="82" refid="struct_time_stamp__dual_1ab81f848946f9e3935460cc973a60ba0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_time_stamp__dual_1ab81f848946f9e3935460cc973a60ba0f" kindref="member">unix_time</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/><ref refid="struct_time_stamp__dual" kindref="compound">TimeStamp_dual</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//-----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Scientific<sp/>data<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="pdmdata_8h_1a1a239c1baa64bd782d1ca2b7f56a511b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_RAW_POLY_V0<sp/><sp/><sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="pdmdata_8h_1aea0f10f14cb3614c7a486603cf8a4cd7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_INT16_POLY_V0<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="pdmdata_8h_1ac9a4505a8b41e15f7c3d94f1f14e9490" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_INT32_POLY_V0<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//typedef<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>//<sp/>symplified<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>TimeStamp_dual<sp/>ts;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>//<sp/>HVPS<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint32_t<sp/>hv_status;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>//<sp/>raw<sp/>data<sp/>(2.5<sp/>us<sp/>GTU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint8_t<sp/>raw_data<sp/>[N_OF_FRAMES_RAW_POLY_V0][N_OF_PIXEL_PER_PDM];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>//<sp/>integrated<sp/>data<sp/>(320<sp/>us<sp/>GTU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint16_t<sp/>int16_data<sp/>[N_OF_FRAMES_INT16_POLY_V0][N_OF_PIXEL_PER_PDM];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>//<sp/>double<sp/>integrated<sp/>data<sp/>(~40<sp/>ms<sp/>GTU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>uint32_t<sp/>int32_data<sp/>[N_OF_FRAMES_INT32_POLY_V0][N_OF_PIXEL_PER_PDM];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//}<sp/>DATA_TYPE_SCI_POLY_V5;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//typedef<sp/>struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>ZynqBoardHeader<sp/>zbh;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>DATA_TYPE_SCI_POLY_V5<sp/>payload;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//}<sp/>Z_DATA_TYPE_SCI_POLY_V5;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Multievents<sp/>triggering<sp/>mode<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="comment">//#define<sp/>NMAX_OF_L1_EVENTS_PER_LIFECYCLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/>4</highlight></codeline>
+<codeline lineno="121"><highlight class="comment"></highlight><highlight class="comment">//#define<sp/>NMAX_OF_L2_EVENTS_PER_LIFECYCLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/>4</highlight></codeline>
+<codeline lineno="123"><highlight class="comment"></highlight><highlight class="comment">//#define<sp/>NMAX_OF_L3_EVENTS_PER_LIFECYCLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>small<sp/>GTU<sp/>frames<sp/>recorded<sp/>with<sp/>L1<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="pdmdata_8h_1a3497cf2e97c7a633edb4b3a3251ff266" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_L1_V0<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>big<sp/>GTU<sp/>frames<sp/>recorded<sp/>with<sp/>L2<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="pdmdata_8h_1a0e5b82c482b19ab156b0c2cdff91fba8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_L2_V0<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>huge<sp/>GTU<sp/>frames<sp/>recorded<sp/>with<sp/>L3<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="pdmdata_8h_1a23f6d6a344269201242148e727da711e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_OF_FRAMES_L3_V0<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Small/Big/Huge<sp/>GTU<sp/>scale<sp/>factors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Small<sp/>GTU<sp/>=<sp/>2.5<sp/>us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="pdmdata_8h_1a0e1093ee3e8f3b9b37c1cc428ab8606d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SCALE_GTU_SMALL_PER_BIG<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Big<sp/>GTU<sp/>=<sp/>Small<sp/>GTU<sp/>*<sp/>SCALE_GTU_SMALL_PER_BIG<sp/>=<sp/>320<sp/>us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="pdmdata_8h_1a3f13abbaea710fd6a6048d639a9277d7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SCALE_GTU_BIG_PER_HUGE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Huge<sp/>GTU<sp/>=<sp/>Big<sp/>GTU<sp/>*<sp/>SCALE_GTU_BIG_PER_HUGE<sp/>=<sp/>40.96<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="pdmdata_8h_1a3dadd0a310d69143acdbb5925aba826b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SCALE_GTU_HUGE_PER_LIFECYCLE<sp/><sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LifeCycle<sp/>=<sp/>Huge<sp/>GTU<sp/>*<sp/>SCALE_GTU_HUGE_PER_LIFECYCLE<sp/>=<sp/>5.24288<sp/>s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="pdmdata_8h_1a20953032c61df547f0d3638cd8ae1e55" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>N_FRAMES_PER_LIFECYCLE<sp/><sp/>(SCALE_GTU_SMALL_PER_BIG<sp/>*<sp/>SCALE_GTU_BIG_PER_HUGE<sp/>*<sp/>SCALE_GTU_HUGE_PER_LIFECYCLE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Zynq<sp/>board<sp/>sends<sp/>L1<sp/>frames,<sp/>L2<sp/>frames<sp/>and<sp/>L3<sp/>frames<sp/>separately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>L1<sp/>occurred,<sp/>Zynq<sp/>makes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1)<sp/>the<sp/>timestamp<sp/>for<sp/>this<sp/>event,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2)<sp/>gathers<sp/>the<sp/>HVPS<sp/>status,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3)<sp/>gathers<sp/>the<sp/>(N_OF_FRAMES_L1<sp/>/<sp/>2)<sp/>raw<sp/>data<sp/>frames<sp/>preserved<sp/>before<sp/>L1<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4)<sp/>records<sp/>the<sp/>(N_OF_FRAMES_L1<sp/>/<sp/>2)<sp/>raw<sp/>data<sp/>frames<sp/>preserved<sp/>after<sp/>L1<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>Zynq<sp/>collects<sp/>this<sp/>data<sp/>in<sp/>the<sp/>DATA_TYPE_SCI_L1<sp/>structure<sp/>and<sp/>holds<sp/>it<sp/>until<sp/>the<sp/>end<sp/>of<sp/>current<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Trigger<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="pdmdata_8h_1a4926c607a81184317318f1513b0867e6" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_TYPE_PERIODIC<sp/><sp/>1<sp/></highlight><highlight class="comment">/*<sp/>Occurred<sp/>every<sp/>5.24<sp/>s<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="pdmdata_8h_1a4abe407b23d80f52842c14fba448996e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_TYPE_SELF<sp/><sp/><sp/><sp/><sp/><sp/>2<sp/></highlight><highlight class="comment">/*<sp/>Issued<sp/>by<sp/>Trigger<sp/>block*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="pdmdata_8h_1ac29136986b04da7663d5d8eedc22d7b3" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_TYPE_AUTO<sp/><sp/><sp/><sp/><sp/><sp/>4<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>294936<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a23b893db29b917924ea4753b56ace940" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_time_stamp__dual" kindref="compound">TimeStamp_dual</ref><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a23b893db29b917924ea4753b56ace940" kindref="member">ts</ref>;<sp/></highlight><highlight class="comment">/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a7d13cbf77f0ac9961fea497928cd6726" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a7d13cbf77f0ac9961fea497928cd6726" kindref="member">trig_type</ref>;<sp/></highlight><highlight class="comment">/*<sp/>4<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cathode<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a98da2c7345fff3390bfee8ad77e09d41" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/>cathode_status[12];<sp/></highlight><highlight class="comment">/*<sp/>12<sp/>bytes<sp/>*/</highlight><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>raw<sp/>data<sp/>(2.5<sp/>us<sp/>GTU)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a50be9793b2098c22555f586de5143e9f" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/>raw_data<sp/>[<ref refid="pdmdata_8h_1a3497cf2e97c7a633edb4b3a3251ff266" kindref="member">N_OF_FRAMES_L1_V0</ref>][<ref refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" kindref="member">N_OF_PIXEL_PER_PDM</ref>];<sp/></highlight><highlight class="comment">/*<sp/>294912<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2" kindref="compound">DATA_TYPE_SCI_L1_V2</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>the<sp/>end<sp/>of<sp/>lifecycle<sp/>Zynq<sp/>packs<sp/>DATA_TYPE_SCI_L1<sp/>structures<sp/>in<sp/>the<sp/>structure<sp/>Z_DATA_TYPE_SCI_L1<sp/>(with<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>sends<sp/>it<sp/>to<sp/>DP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a3f744559c8e110768c03edeaf34f1c4e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a3f744559c8e110768c03edeaf34f1c4e" kindref="member">zbh</ref>;<sp/></highlight><highlight class="comment">/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a1d94b329b263c474e004225dd4fef641" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l1___v2" kindref="compound">DATA_TYPE_SCI_L1_V2</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2_1a1d94b329b263c474e004225dd4fef641" kindref="member">payload</ref>;<sp/></highlight><highlight class="comment">/*<sp/>294936<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l1___v2" kindref="compound">Z_DATA_TYPE_SCI_L1_V2</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>If<sp/>L2<sp/>occurred,<sp/>Zynq<sp/>makes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1)<sp/>the<sp/>timestamp<sp/>for<sp/>this<sp/>event,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2)<sp/>gathers<sp/>the<sp/>HVPS<sp/>status,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3)<sp/>gathers<sp/>the<sp/>(N_OF_FRAMES_L2<sp/>/<sp/>2)<sp/>int16<sp/>data<sp/>frames<sp/>preserved<sp/>before<sp/>L2<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4)<sp/>records<sp/>the<sp/>(N_OF_FRAMES_L2<sp/>/<sp/>2)<sp/>int16<sp/>data<sp/>frames<sp/>preserved<sp/>after<sp/>L2<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>Zynq<sp/>collects<sp/>this<sp/>data<sp/>in<sp/>the<sp/>DATA_TYPE_SCI_L2<sp/>structure<sp/>and<sp/>holds<sp/>it<sp/>until<sp/>the<sp/>end<sp/>of<sp/>current<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a19e89e242b6a8674cbd9db880998fd17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_time_stamp__dual" kindref="compound">TimeStamp_dual</ref><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a19e89e242b6a8674cbd9db880998fd17" kindref="member">ts</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a1ff614967ce671848ca236b6476b6caa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a1ff614967ce671848ca236b6476b6caa" kindref="member">trig_type</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cathode<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1ab7188e80a6ca0b7468f82f329019ef33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>cathode_status[12];</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>intergrated<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a46883082e7ac4c52902e32be53fae60c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/>int16_data[<ref refid="pdmdata_8h_1a0e5b82c482b19ab156b0c2cdff91fba8" kindref="member">N_OF_FRAMES_L2_V0</ref>][<ref refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" kindref="member">N_OF_PIXEL_PER_PDM</ref>];</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2" kindref="compound">DATA_TYPE_SCI_L2_V2</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>the<sp/>end<sp/>of<sp/>lifecycle<sp/>Zynq<sp/>packs<sp/>DATA_TYPE_SCI_L2<sp/>structures<sp/>in<sp/>the<sp/>structure<sp/>Z_DATA_TYPE_SCI_L2<sp/>(with<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>sends<sp/>it<sp/>to<sp/>DP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="203" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a4115482e890deb67336ff4db010a1daf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2_1a4115482e890deb67336ff4db010a1daf" kindref="member">zbh</ref>;</highlight></codeline>
+<codeline lineno="204" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2_1aed19a7c327e633ea2153af04953fc4e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l2___v2" kindref="compound">DATA_TYPE_SCI_L2_V2</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2_1aed19a7c327e633ea2153af04953fc4e0" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l2___v2" kindref="compound">Z_DATA_TYPE_SCI_L2_V2</ref>;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>L3<sp/>events<sp/>are<sp/>automatically<sp/>generated<sp/>at<sp/>the<sp/>end<sp/>of<sp/>lifecycle.<sp/><sp/>Zynq<sp/>makes:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1)<sp/>the<sp/>timestamp<sp/>for<sp/>this<sp/>event,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2)<sp/>gathers<sp/>the<sp/>HVPS<sp/>status,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3)<sp/>gathers<sp/>the<sp/>N_OF_FRAMES_L3<sp/>int32<sp/>data<sp/>frames<sp/>preserved<sp/>before<sp/>L2<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Then<sp/>Zynq<sp/>packs<sp/>DATA_TYPE_SCI_L3<sp/>structure<sp/>in<sp/>the<sp/>structure<sp/>Z_DATA_TYPE_SCI_L3<sp/>(with<sp/>header)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>sends<sp/>it<sp/>to<sp/>DP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1ab18192f4574a82d622ff0bd51599c45a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_time_stamp__dual" kindref="compound">TimeStamp_dual</ref><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1ab18192f4574a82d622ff0bd51599c45a" kindref="member">ts</ref>;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a0b5b3a518c7b54eb0d673e3909861181" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a0b5b3a518c7b54eb0d673e3909861181" kindref="member">trig_type</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cathode<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1ac5e38b576cb40555b937cb62ce5706db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/>cathode_status[12];</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HVPS<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a8f0d4401b4995ddddf4bf5b04281b94c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a8f0d4401b4995ddddf4bf5b04281b94c" kindref="member">hv_status</ref>;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>double<sp/>integrated<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226" refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a121a68bbb4435496e47b0851c88d8023" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>int32_data[<ref refid="pdmdata_8h_1a23f6d6a344269201242148e727da711e" kindref="member">N_OF_FRAMES_L3_V0</ref>][<ref refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" kindref="member">N_OF_PIXEL_PER_PDM</ref>];</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2" kindref="compound">DATA_TYPE_SCI_L3_V2</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a174242fbb9b925e020fe2094dd6e2d01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2_1a174242fbb9b925e020fe2094dd6e2d01" kindref="member">zbh</ref>;</highlight></codeline>
+<codeline lineno="232" refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2_1acf8699c1d9aaf28d0ca9f410d1ed2416" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_i___l3___v2" kindref="compound">DATA_TYPE_SCI_L3_V2</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2_1acf8699c1d9aaf28d0ca9f410d1ed2416" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}<sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_i___l3___v2" kindref="compound">Z_DATA_TYPE_SCI_L3_V2</ref>;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//Trigger<sp/>types:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="pdmdata_8h_1ae4d76a572eb11065323eb4dee5a1dfd1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_AUTO<sp/><sp/><sp/><sp/><sp/><sp/><sp/>0<sp/></highlight><highlight class="comment">/*<sp/>Auto<sp/>triggered<sp/>data<sp/>(in<sp/>absence<sp/>of<sp/>others<sp/>triggers)*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="pdmdata_8h_1ad7f07c777e1d78a7754d94a853e9e524" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_SELF<sp/><sp/><sp/><sp/><sp/><sp/><sp/>1<sp/></highlight><highlight class="comment">/*<sp/>Data<sp/>triggered<sp/>on<sp/>trigger<sp/>algorithm*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="pdmdata_8h_1a75b66f043b4636fbc598d43f14df5a5d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIG_EXT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2<sp/></highlight><highlight class="comment">/*<sp/>Data<sp/>triggered<sp/>on<sp/>external<sp/>signal<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="pdmdata_8h_1ae9e0492fa1a30cd3c04c7cdbf2855389" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_MODE_NONE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="pdmdata_8h_1ab193172ee05a3ec2bce916211b33d600" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_MODE_OLD_PROTOCOL<sp/><sp/><sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="pdmdata_8h_1a88afd15d00cda62f07d061f835035e26" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_MODE_FREERUN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="pdmdata_8h_1ac1ddb9d8a246c871ca8f45113ecf6876" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_MODE_TRIGGERS<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="pdmdata_8h_1a03df84f6de6330b75a7637c3c9e7673a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_FTPFILES_CONCAT<sp/><sp/><sp/><sp/><sp/><sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="pdmdata_8h_1ab081bfe50a1e88961501b2211373c12c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTRUMENT_FTPFILES_SEPARATED<sp/><sp/><sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249" refid="pdmdata_8h_1aafb7ebc987085e326060570e69b30667" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_MODE_TRIGGER1<sp/><sp/>&quot;frm_tr1_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="pdmdata_8h_1a073ca410532bf9f4943d4d98dae7aabf" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_MODE_TRIGGER2<sp/><sp/>&quot;frm_tr2_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="pdmdata_8h_1aad5fda10c13f04fe9f0191e9003671b2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_MODE_TRIGGER3<sp/><sp/>&quot;frm_tr3_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="pdmdata_8h_1a76c698d4e4c3e959cf9a5526cd3cf9a9" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_SCURVE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;scurve_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="pdmdata_8h_1a266e1e8e6e4a77aad6e1f9e0751d2348" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_CONCATED<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;frm_cc_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="pdmdata_8h_1a73fbcd9b88ad280cb9488db7b21fecf1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FILENAME_HVLOG<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;hv_%08d.dat&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>S-curve<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="pdmdata_8h_1a92a1d4b9dd37f21d24f4e4e01a1492d2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NMAX_OF_THESHOLDS<sp/><sp/><sp/>1024</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="264" refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1a397b8ef721e5f5248c135203e745566f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>int32_data[<ref refid="pdmdata_8h_1a92a1d4b9dd37f21d24f4e4e01a1492d2" kindref="member">NMAX_OF_THESHOLDS</ref>][<ref refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" kindref="member">N_OF_PIXEL_PER_PDM</ref>];</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" kindref="compound">DATA_TYPE_SCURVE_V1</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="269" refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1aa884de4adf7e1cbf5fc1b044f23aef86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1aa884de4adf7e1cbf5fc1b044f23aef86" kindref="member">zbh</ref>;</highlight></codeline>
+<codeline lineno="270" refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1abd36d82dd35b7924899071e6e9ace582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" kindref="compound">DATA_TYPE_SCURVE_V1</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1_1abd36d82dd35b7924899071e6e9ace582" kindref="member">payload</ref>;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}<sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___s_c_u_r_v_e___v1" kindref="compound">Z_DATA_TYPE_SCURVE_V1</ref>;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//If<sp/>not<sp/>all<sp/>1024<sp/>DACs<sp/>thresholds<sp/>was<sp/>requested,<sp/>but<sp/>only<sp/>200<sp/>(for<sp/>example),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>array<sp/>in<sp/>DATA_TYPE_SCURVE_V1<sp/>will<sp/>have<sp/>corresponding<sp/>number<sp/>of<sp/>thresholds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Symplified<sp/>S-curve<sp/>format<sp/>for<sp/>matlab</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="pdmdata_8h_1a38615b5c857b88802a10583c6f0ad714" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>NMAX_OF_THESHOLDS_4MATLAB<sp/><sp/><sp/>128</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="282" refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b_1af066a56acdb79e032406f6398f8504f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>int32_data[<ref refid="pdmdata_8h_1a38615b5c857b88802a10583c6f0ad714" kindref="member">NMAX_OF_THESHOLDS_4MATLAB</ref>][<ref refid="pdmdata_8h_1a6aedababccc5e4efa377fb5098202734" kindref="member">N_OF_PIXEL_PER_PDM</ref>];</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___s_c_u_r_v_e__4_m_a_t_l_a_b" kindref="compound">DATA_TYPE_SCURVE_4MATLAB</ref>;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>HVPS<sp/>log<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//========================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>structure<sp/>DATA_TYPE_HVPS_LOG<sp/>is<sp/>intended<sp/>for<sp/>logging<sp/>various<sp/>events<sp/>which<sp/>might<sp/>be<sp/>occurred<sp/>with<sp/>HVPS<sp/>subsystem.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Z_DATA_TYPE_HVPS_LOG_V0<sp/>is<sp/>to<sp/>written<sp/>to<sp/>the<sp/>FTP<sp/>server<sp/>within<sp/>certain<sp/>time<sp/>(eg.<sp/>5.24s,<sp/>TBD)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>maximum<sp/>number<sp/>of<sp/>records<sp/>in<sp/>the<sp/>log<sp/>array</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="pdmdata_8h_1a87da1848f595cc960371e69d2cecb2ae" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_LOG_SIZE_NRECORDS<sp/><sp/>100000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>list<sp/>of<sp/>possible<sp/>types<sp/>of<sp/>records</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296" refid="pdmdata_8h_1aee74c60c82e16aae8f7b70d44085aa0c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_TURN_ON<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00<sp/>//<sp/>turn<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="pdmdata_8h_1aa8967f56ec92a850fcc0993474492634" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_TURN_OFF<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x01<sp/>//<sp/>turn<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298" refid="pdmdata_8h_1aa196735f58fb00925a35f0fcade8179a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_DACS_LOADED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x02<sp/>//<sp/>DAC<sp/>loaded<sp/>by<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299" refid="pdmdata_8h_1a9970b8d766ba539eeb39a5524e70e2db" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SR_LOADED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x03<sp/>//<sp/>Shift<sp/>register<sp/>loaded<sp/>by<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300" refid="pdmdata_8h_1ab6e612ff41a2997558305c5dd4b8ff73" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_INTR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x04<sp/>//<sp/>Interrupt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="pdmdata_8h_1a0a5bc7ce7d750423e88f3a825ef352ba" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SANITY_RELEASE<sp/><sp/><sp/><sp/><sp/>0x08<sp/>//<sp/>HVPS<sp/>channel<sp/>has<sp/>been<sp/>turned<sp/>off<sp/>because<sp/>of<sp/>too<sp/>many<sp/>tries<sp/>to<sp/>turn<sp/>on<sp/>this<sp/>HV</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302" refid="pdmdata_8h_1a4b71a446e6a4e6c23dd696bf951658c2" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SANITY_INTR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x09<sp/>//<sp/>HVPS<sp/>channel<sp/>has<sp/>been<sp/>turned<sp/>off<sp/>because<sp/>of<sp/>too<sp/>many<sp/>interrupts<sp/>from<sp/>its<sp/>HVOK<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="pdmdata_8h_1a0b42a04a23202a2e11ba073d4e033e4e" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_3_to_1<sp/><sp/><sp/><sp/><sp/><sp/>0x0C<sp/>//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;3&quot;<sp/>to<sp/>&quot;1&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="pdmdata_8h_1a9af59520b291e22db1554d17074d52fd" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_1_to_0<sp/><sp/><sp/><sp/><sp/><sp/>0x0D<sp/>//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;1&quot;<sp/>to<sp/>&quot;0&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="pdmdata_8h_1af63b37055cc5d71a98aa3d9ba88bdb00" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_0_to_1<sp/><sp/><sp/><sp/><sp/><sp/>0x0E<sp/>//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;0&quot;<sp/>to<sp/>&quot;1&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="pdmdata_8h_1aa3b2a87c28572e5f27b6256b5c87151f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_1_to_3<sp/><sp/><sp/><sp/><sp/><sp/>0x0F<sp/>//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;1&quot;<sp/>to<sp/>&quot;3&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="pdmdata_8h_1a32b19c40bc5baa65af416de37e4dec1c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_TURN_ON_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;TURN_ON&quot;<sp/>//<sp/>turn<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="pdmdata_8h_1aed6ac5109675f44a7340c3ee03ccb80f" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_TURN_OFF_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;TURN_OFF&quot;//<sp/>turn<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310" refid="pdmdata_8h_1a063ab52b80c1b27526f6e94e8407171d" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_DACS_LOADED_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;DACS_LOADED&quot;//<sp/>DAC<sp/>loaded<sp/>by<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311" refid="pdmdata_8h_1a37731730b03bdb114fe35d6237270839" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SR_LOADED_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;SR_LOADED&quot;//<sp/>Shift<sp/>register<sp/>loaded<sp/>by<sp/>user</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312" refid="pdmdata_8h_1a1d105a53172b1c63d598ecde73240794" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_INTR_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;INTR&quot;//<sp/>Interrupt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313" refid="pdmdata_8h_1af5d35771a8a60e05336c80e6b3083d59" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SANITY_RELEASE_STR<sp/><sp/><sp/><sp/><sp/><sp/>&quot;SANITY_RELEASE&quot;//<sp/>HVPS<sp/>channel<sp/>has<sp/>been<sp/>turned<sp/>off<sp/>because<sp/>of<sp/>too<sp/>many<sp/>tries<sp/>to<sp/>turn<sp/>on<sp/>this<sp/>HV</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="pdmdata_8h_1a9e0aac095b635cab803dba52e7c09ec7" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_SANITY_INTR_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;SANITY_INTR&quot;//<sp/>HVPS<sp/>channel<sp/>has<sp/>been<sp/>turned<sp/>off<sp/>because<sp/>of<sp/>too<sp/>many<sp/>interrupts<sp/>from<sp/>its<sp/>HVOK<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="pdmdata_8h_1af21be8c99f0cc61f6598809da2dbad7c" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_3_to_1_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;AGC_UP_3_to_1&quot;//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;3&quot;<sp/>to<sp/>&quot;1&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316" refid="pdmdata_8h_1ad9831586fb173af0f05ca7c32ba5fc18" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_1_to_0_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;AGC_UP_1_to_0&quot;//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;1&quot;<sp/>to<sp/>&quot;0&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="pdmdata_8h_1acd3ec36e6606fb6d8ccaee39a6d78ae0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_0_to_1_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;AGC_UP_0_to_1&quot;//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;0&quot;<sp/>to<sp/>&quot;1&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="pdmdata_8h_1a8e409388c49975992dc4ecae75e2cee4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>HVPS_AGC_UP_1_to_3_STR<sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;AGC_UP_1_to_3&quot;//<sp/>Automatic<sp/>gain<sp/>control:<sp/>HVPS<sp/>automatically<sp/>switched<sp/>from<sp/>&quot;1&quot;<sp/>to<sp/>&quot;3&quot;.<sp/>Shift<sp/>register<sp/>reloaded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>16<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321" refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="323" refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1ac5681c987945856d190880aa41f252e0" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_time_stamp__dual" kindref="compound">TimeStamp_dual</ref><sp/><ref refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1ac5681c987945856d190880aa41f252e0" kindref="member">ts</ref>;<sp/></highlight><highlight class="comment">//<sp/>/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1a30ebb7f51ecf360764d89afec0f59bcf" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1a30ebb7f51ecf360764d89afec0f59bcf" kindref="member">record_type</ref>;<sp/></highlight><highlight class="comment">/*<sp/>4<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1adb0bb4ba3eba703a9a5dcc430a5942a0" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1adb0bb4ba3eba703a9a5dcc430a5942a0" kindref="member">channels</ref>;<sp/></highlight><highlight class="comment">//<sp/>bit0,1<sp/>-<sp/>ch0,<sp/>bit2,3<sp/>-<sp/>ch1,<sp/>...,<sp/>bit16,17<sp/>-<sp/>ch8<sp/>/*<sp/>4<sp/>bytes<sp/>*/<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}<sp/><ref refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" kindref="compound">DATA_TYPE_HVPS_LOG_V1</ref>;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>1600008<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="331" refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1a686e9128a2f815a1b1d066a5d20b6720" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_zynq_board_header" kindref="compound">ZynqBoardHeader</ref><sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1a686e9128a2f815a1b1d066a5d20b6720" kindref="member">zbh</ref>;<sp/></highlight><highlight class="comment">/*<sp/>8<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1_1ac11a2e30009669ecd6c13b1ca4487ae2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="struct_d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" kindref="compound">DATA_TYPE_HVPS_LOG_V1</ref><sp/>payload[<ref refid="pdmdata_8h_1a87da1848f595cc960371e69d2cecb2ae" kindref="member">HVPS_LOG_SIZE_NRECORDS</ref>];<sp/></highlight><highlight class="comment">/*<sp/>1600000<sp/>bytes<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/><ref refid="struct_z___d_a_t_a___t_y_p_e___h_v_p_s___l_o_g___v1" kindref="compound">Z_DATA_TYPE_HVPS_LOG_V1</ref>;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>pack(pop)<sp/></highlight><highlight class="comment">/*<sp/>return<sp/>to<sp/>normal<sp/>packing<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>SRC_PDMDATA_H_<sp/>*/</highlight><highlight class="preprocessor"></highlight></codeline>
+    </programlisting>
+    <location file="src/data_format/pdmdata.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="class_analog_manager" kind="class" language="C++" prot="public">
+    <compoundname>AnalogManager</compoundname>
+    <includes refid="_analog_manager_8h" local="no">AnalogManager.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_analog_manager_1a604942c0c0a681fe994dbd5ebf4a276e" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex AnalogManager::m_light_level</definition>
+        <argsstring></argsstring>
+        <name>m_light_level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="63" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_analog_manager_1afebc023527f92aa796070d47a91e2280" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_light_level" kindref="compound">LightLevel</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LightLevel&gt; AnalogManager::light_level</definition>
+        <argsstring></argsstring>
+        <name>light_level</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="64" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_analog_manager_1a161ce7e3b25da173a7e41d68cd79b9fa" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_analog_acq" kindref="compound">AnalogAcq</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AnalogAcq&gt; AnalogManager::analog_acq</definition>
+        <argsstring></argsstring>
+        <name>analog_acq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="65" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_analog_manager_1ae05bb2b9a4f8caef9021b873da77ea14" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AnalogManager::inst_mode_switch</definition>
+        <argsstring></argsstring>
+        <name>inst_mode_switch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="67" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_analog_manager_1a223502244e0229904d91d451694b50b3" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex AnalogManager::m_mode_switch</definition>
+        <argsstring></argsstring>
+        <name>m_mode_switch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="68" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_analog_manager_1a9a2a1ee7d664aeed6174354623406041" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable AnalogManager::cv_mode_switch</definition>
+        <argsstring></argsstring>
+        <name>cv_mode_switch</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="69" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_analog_manager_1a48419200fb5037985a4457c8227eb74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AnalogManager::AnalogManager</definition>
+        <argsstring>()</argsstring>
+        <name>AnalogManager</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="52" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="4" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1af2606ea4f43b699304e12c509c661e89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_light_level" kindref="compound">LightLevel</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LightLevel &gt; AnalogManager::ReadLightLevel</definition>
+        <argsstring>()</argsstring>
+        <name>ReadLightLevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="53" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="187" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1a7a31ea8b7364f39b27081c04c22e052f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AnalogManager::CompareLightLevel</definition>
+        <argsstring>()</argsstring>
+        <name>CompareLightLevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="54" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="199" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1abd34bb0d49b6f0ca396000a93b82fd8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AnalogManager::ProcessAnalogData</definition>
+        <argsstring>()</argsstring>
+        <name>ProcessAnalogData</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="55" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="238" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AnalogManager::GetLightLevel</definition>
+        <argsstring>()</argsstring>
+        <name>GetLightLevel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="56" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="136" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1ad34ef4992ed659e33b4a6118a6d337df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AnalogManager::Notify</definition>
+        <argsstring>()</argsstring>
+        <name>Notify</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="59" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="270" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="class_analog_manager_1ac7a815e3c709a3881d4f447eb8c7e16c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AnalogManager::Reset</definition>
+        <argsstring>()</argsstring>
+        <name>Reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="60" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="256" bodyend="267"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_analog_manager_1a27d98773f6b87bf75f05113c5fdaba3a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AnalogManager::AnalogDataCollect</definition>
+        <argsstring>()</argsstring>
+        <name>AnalogDataCollect</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/subsystems/AnalogManager.h" line="72" column="1" bodyfile="src/subsystems/AnalogManager.cpp" bodystart="18" bodyend="131"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/subsystems/AnalogManager.h" line="50" column="1" bodyfile="src/subsystems/AnalogManager.h" bodystart="50" bodyend="73"/>
+    <listofallmembers>
+      <member refid="class_analog_manager_1a161ce7e3b25da173a7e41d68cd79b9fa" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>analog_acq</name></member>
+      <member refid="class_analog_manager_1a27d98773f6b87bf75f05113c5fdaba3a" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>AnalogDataCollect</name></member>
+      <member refid="class_analog_manager_1a48419200fb5037985a4457c8227eb74b" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>AnalogManager</name></member>
+      <member refid="class_analog_manager_1a7a31ea8b7364f39b27081c04c22e052f" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>CompareLightLevel</name></member>
+      <member refid="class_analog_manager_1a9a2a1ee7d664aeed6174354623406041" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>cv_mode_switch</name></member>
+      <member refid="class_analog_manager_1a2601276811b57c53e68954d4e0c925e9" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>GetLightLevel</name></member>
+      <member refid="class_analog_manager_1ae05bb2b9a4f8caef9021b873da77ea14" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>inst_mode_switch</name></member>
+      <member refid="class_analog_manager_1afebc023527f92aa796070d47a91e2280" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>light_level</name></member>
+      <member refid="class_analog_manager_1a604942c0c0a681fe994dbd5ebf4a276e" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>m_light_level</name></member>
+      <member refid="class_analog_manager_1a223502244e0229904d91d451694b50b3" prot="private" virt="non-virtual"><scope>AnalogManager</scope><name>m_mode_switch</name></member>
+      <member refid="class_analog_manager_1ad34ef4992ed659e33b4a6118a6d337df" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>Notify</name></member>
+      <member refid="class_analog_manager_1abd34bb0d49b6f0ca396000a93b82fd8a" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>ProcessAnalogData</name></member>
+      <member refid="class_analog_manager_1af2606ea4f43b699304e12c509c661e89" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>ReadLightLevel</name></member>
+      <member refid="class_analog_manager_1ac7a815e3c709a3881d4f447eb8c7e16c" prot="public" virt="non-virtual"><scope>AnalogManager</scope><name>Reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

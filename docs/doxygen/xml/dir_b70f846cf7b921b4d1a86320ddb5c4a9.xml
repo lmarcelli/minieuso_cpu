@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="dir_b70f846cf7b921b4d1a86320ddb5c4a9" kind="dir">
+    <compoundname>src/instrument</compoundname>
+    <innerfile refid="_run_instrument_8cpp">RunInstrument.cpp</innerfile>
+    <innerfile refid="_run_instrument_8h">RunInstrument.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/instrument/"/>
+  </compounddef>
+</doxygen>

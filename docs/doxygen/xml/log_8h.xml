@@ -1,0 +1,507 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="log_8h" kind="file" language="C++">
+    <compoundname>log.h</compoundname>
+    <includes local="no">sys/time.h</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">iomanip</includes>
+    <includedby refid="_data_reduction_8h" local="yes">src/operations/DataReduction.h</includedby>
+    <includedby refid="_analog_manager_8h" local="yes">src/subsystems/AnalogManager.h</includedby>
+    <includedby refid="_cam_manager_8h" local="yes">src/subsystems/CamManager.h</includedby>
+    <includedby refid="_lvps_manager_8h" local="yes">src/subsystems/LvpsManager.h</includedby>
+    <includedby refid="_therm_manager_8h" local="yes">src/subsystems/ThermManager.h</includedby>
+    <includedby refid="_usb_manager_8h" local="yes">src/subsystems/UsbManager.h</includedby>
+    <includedby refid="_zynq_manager_8h" local="yes">src/subsystems/ZynqManager.h</includedby>
+    <includedby refid="_config_manager_8h" local="yes">src/tools/ConfigManager.h</includedby>
+    <includedby refid="log_8cpp" local="yes">src/tools/log.cpp</includedby>
+    <includedby refid="_synchronised_file_8h" local="yes">src/tools/SynchronisedFile.h</includedby>
+    <incdepgraph>
+      <node id="1062">
+        <label>iomanip</label>
+      </node>
+      <node id="1059">
+        <label>fstream</label>
+      </node>
+      <node id="1060">
+        <label>sstream</label>
+      </node>
+      <node id="1057">
+        <label>src/tools/log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="1058" relation="include">
+        </childnode>
+        <childnode refid="1059" relation="include">
+        </childnode>
+        <childnode refid="1060" relation="include">
+        </childnode>
+        <childnode refid="1061" relation="include">
+        </childnode>
+        <childnode refid="1062" relation="include">
+        </childnode>
+      </node>
+      <node id="1058">
+        <label>sys/time.h</label>
+      </node>
+      <node id="1061">
+        <label>iostream</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1076">
+        <label>src/subsystems/CamManager.h</label>
+        <link refid="_cam_manager_8h"/>
+        <childnode refid="1065" relation="include">
+        </childnode>
+        <childnode refid="1077" relation="include">
+        </childnode>
+      </node>
+      <node id="1079">
+        <label>src/subsystems/LvpsManager.cpp</label>
+        <link refid="_lvps_manager_8cpp"/>
+      </node>
+      <node id="1094">
+        <label>src/tools/log.cpp</label>
+        <link refid="log_8cpp"/>
+      </node>
+      <node id="1086">
+        <label>src/subsystems/ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="1087" relation="include">
+        </childnode>
+        <childnode refid="1088" relation="include">
+        </childnode>
+        <childnode refid="1080" relation="include">
+        </childnode>
+      </node>
+      <node id="1067">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="1068" relation="include">
+        </childnode>
+      </node>
+      <node id="1078">
+        <label>src/subsystems/LvpsManager.h</label>
+        <link refid="_lvps_manager_8h"/>
+        <childnode refid="1065" relation="include">
+        </childnode>
+        <childnode refid="1079" relation="include">
+        </childnode>
+        <childnode refid="1080" relation="include">
+        </childnode>
+      </node>
+      <node id="1090">
+        <label>src/tools/ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="1091" relation="include">
+        </childnode>
+        <childnode refid="1092" relation="include">
+        </childnode>
+      </node>
+      <node id="1073">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="1091">
+        <label>src/tools/ConfigManager.cpp</label>
+        <link refid="_config_manager_8cpp"/>
+      </node>
+      <node id="1068">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="1088">
+        <label>src/tools/CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="1076" relation="include">
+        </childnode>
+        <childnode refid="1082" relation="include">
+        </childnode>
+        <childnode refid="1084" relation="include">
+        </childnode>
+        <childnode refid="1089" relation="include">
+        </childnode>
+      </node>
+      <node id="1072">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="1065" relation="include">
+        </childnode>
+        <childnode refid="1073" relation="include">
+        </childnode>
+      </node>
+      <node id="1085">
+        <label>src/subsystems/UsbManager.cpp</label>
+        <link refid="_usb_manager_8cpp"/>
+      </node>
+      <node id="1083">
+        <label>src/subsystems/ThermManager.cpp</label>
+        <link refid="_therm_manager_8cpp"/>
+      </node>
+      <node id="1093">
+        <label>src/tools/SynchronisedFile.cpp</label>
+        <link refid="_synchronised_file_8cpp"/>
+      </node>
+      <node id="1075">
+        <label>src/subsystems/AnalogManager.cpp</label>
+        <link refid="_analog_manager_8cpp"/>
+      </node>
+      <node id="1077">
+        <label>src/subsystems/CamManager.cpp</label>
+        <link refid="_cam_manager_8cpp"/>
+      </node>
+      <node id="1087">
+        <label>src/subsystems/ZynqManager.cpp</label>
+        <link refid="_zynq_manager_8cpp"/>
+      </node>
+      <node id="1080">
+        <label>src/tools/InputParser.h</label>
+        <link refid="_input_parser_8h"/>
+        <childnode refid="1067" relation="include">
+        </childnode>
+        <childnode refid="1072" relation="include">
+        </childnode>
+        <childnode refid="1081" relation="include">
+        </childnode>
+      </node>
+      <node id="1074">
+        <label>src/operations/OperationMode.cpp</label>
+        <link refid="_operation_mode_8cpp"/>
+      </node>
+      <node id="1069">
+        <label>src/operations/DataReduction.cpp</label>
+        <link refid="_data_reduction_8cpp"/>
+      </node>
+      <node id="1063">
+        <label>src/tools/log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="1064" relation="include">
+        </childnode>
+        <childnode refid="1070" relation="include">
+        </childnode>
+        <childnode refid="1076" relation="include">
+        </childnode>
+        <childnode refid="1078" relation="include">
+        </childnode>
+        <childnode refid="1082" relation="include">
+        </childnode>
+        <childnode refid="1084" relation="include">
+        </childnode>
+        <childnode refid="1086" relation="include">
+        </childnode>
+        <childnode refid="1090" relation="include">
+        </childnode>
+        <childnode refid="1094" relation="include">
+        </childnode>
+        <childnode refid="1092" relation="include">
+        </childnode>
+      </node>
+      <node id="1084">
+        <label>src/subsystems/UsbManager.h</label>
+        <link refid="_usb_manager_8h"/>
+        <childnode refid="1065" relation="include">
+        </childnode>
+        <childnode refid="1085" relation="include">
+        </childnode>
+      </node>
+      <node id="1071">
+        <label>src/operations/OperationMode.h</label>
+        <link refid="_operation_mode_8h"/>
+        <childnode refid="1072" relation="include">
+        </childnode>
+        <childnode refid="1064" relation="include">
+        </childnode>
+        <childnode refid="1074" relation="include">
+        </childnode>
+      </node>
+      <node id="1089">
+        <label>src/tools/CpuTools.cpp</label>
+        <link refid="_cpu_tools_8cpp"/>
+      </node>
+      <node id="1065">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="1066" relation="include">
+        </childnode>
+        <childnode refid="1067" relation="include">
+        </childnode>
+      </node>
+      <node id="1064">
+        <label>src/operations/DataReduction.h</label>
+        <link refid="_data_reduction_8h"/>
+        <childnode refid="1065" relation="include">
+        </childnode>
+        <childnode refid="1069" relation="include">
+        </childnode>
+      </node>
+      <node id="1081">
+        <label>src/tools/InputParser.cpp</label>
+        <link refid="_input_parser_8cpp"/>
+      </node>
+      <node id="1082">
+        <label>src/subsystems/ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="1072" relation="include">
+        </childnode>
+        <childnode refid="1064" relation="include">
+        </childnode>
+        <childnode refid="1083" relation="include">
+        </childnode>
+      </node>
+      <node id="1092">
+        <label>src/tools/SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="1082" relation="include">
+        </childnode>
+        <childnode refid="1093" relation="include">
+        </childnode>
+      </node>
+      <node id="1066">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+      <node id="1070">
+        <label>src/subsystems/AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="1071" relation="include">
+        </childnode>
+        <childnode refid="1072" relation="include">
+        </childnode>
+        <childnode refid="1064" relation="include">
+        </childnode>
+        <childnode refid="1075" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classlogstream" prot="public">logstream</innerclass>
+    <innerclass refid="struct____logstream__level" prot="public">__logstream_level</innerclass>
+    <innernamespace refid="namespacestd">std</innernamespace>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="log_8h_1acd4d3023d24d5314b895981b17825666" prot="public" static="no">
+        <name>LOG_DIR</name>
+        <initializer>&quot;/home/software/CPU/CPUsoftware/log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="12" column="9" bodyfile="src/tools/log.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="log_8h_1a8779964f932c525ed6d4fc9d824838ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string log_name</definition>
+        <argsstring></argsstring>
+        <name>log_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="118" column="1" bodyfile="src/tools/log.cpp" bodystart="3" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="log_8h_1aab4ab28d6546fca2f6a0fa4d5e005ee4" prot="public" static="no" mutable="no">
+        <type><ref refid="classlogstream" kindref="compound">logstream</ref></type>
+        <definition>logstream clog</definition>
+        <argsstring></argsstring>
+        <name>clog</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="119" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="log_8h_1ad1473f4789f3b1e90fe9d5ab020f4b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string CreateLogname</definition>
+        <argsstring>(void)</argsstring>
+        <name>CreateLogname</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="18" column="1" bodyfile="src/tools/log.cpp" bodystart="10" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="log_8h_1a6414da87772d624c3e083e58f58510f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref></type>
+        <definition>__logstream_level setlevel</definition>
+        <argsstring>(logstream::log_level _level)</argsstring>
+        <name>setlevel</name>
+        <param>
+          <type><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">logstream::log_level</ref></type>
+          <declname>_level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="105" column="1" bodyfile="src/tools/log.h" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="log_8h_1a15ced09542f16e02eb2cbb20b322188e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classlogstream" kindref="compound">logstream</ref> &amp;</type>
+        <definition>logstream&amp; operator&lt;&lt;</definition>
+        <argsstring>(logstream &amp;out, const __logstream_level &amp;level)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type><ref refid="classlogstream" kindref="compound">logstream</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref> &amp;</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/log.h" line="110" column="1" bodyfile="src/tools/log.h" bodystart="110" bodyend="113"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__MODULE_LOG__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__MODULE_LOG__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="log_8h_1acd4d3023d24d5314b895981b17825666" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LOG_DIR<sp/>&quot;/home/software/CPU/CPUsoftware/log&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>LOG_DIR<sp/>&quot;../log&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>function<sp/>declarations<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">std::string<sp/><ref refid="log_8h_1ad1473f4789f3b1e90fe9d5ab020f4b7e" kindref="member">CreateLogname</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>logging<sp/>class<sp/>with<sp/>different<sp/>output<sp/>levels<sp/>and<sp/>timestamp<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classlogstream" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classlogstream" kindref="compound">logstream</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::ostringstream<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classlogstream_1af041782901906373bcfb446534757eb8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="classlogstream_1af041782901906373bcfb446534757eb8a46b3906961f80dad75595bc200c975ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a46b3906961f80dad75595bc200c975ef" kindref="member">quiet</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a38d8fceedc756e5506313988b71d5745" kindref="member">error</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="classlogstream_1af041782901906373bcfb446534757eb8ae41cc0244af5095debdc30278c83d588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8ae41cc0244af5095debdc30278c83d588" kindref="member">warning</ref>,<sp/></highlight></codeline>
+<codeline lineno="29" refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aecb5cb0684970950929a1558d0efc6b7" kindref="member">info</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="classlogstream_1af041782901906373bcfb446534757eb8aafe0d6be60348f155c1fca6c241abac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aafe0d6be60348f155c1fca6c241abac5" kindref="member">all</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="classlogstream_1af041782901906373bcfb446534757eb8a994ba7bed38f26185ca28db5c1051fc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a994ba7bed38f26185ca28db5c1051fc6" kindref="member">none</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/>}<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>_m_log_level;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>_m_current_level;<sp/></highlight><highlight class="comment">/*<sp/>only<sp/>until<sp/>the<sp/>next<sp/>flush/endl<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::ostream<sp/>&amp;<sp/>out;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41" refid="classlogstream_1a9e3b8bf78f6f8fc9c624bca2f40f1cef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1a9e3b8bf78f6f8fc9c624bca2f40f1cef" kindref="member">flush</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(_m_current_level<sp/>&lt;=<sp/>_m_log_level)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">timeval<sp/>tv;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>gettimeofday(&amp;tv,<sp/>0);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>time_t<sp/>now<sp/>=<sp/>tv.tv_sec;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">tm<sp/>*<sp/>now_tm<sp/>=<sp/>localtime(&amp;now);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>buffer[40];</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>strftime(buffer,<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(buffer),<sp/></highlight><highlight class="stringliteral">&quot;%Y/%m/%d<sp/>%H:%M:%S&quot;</highlight><highlight class="normal">,<sp/>now_tm);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>out<sp/>&lt;&lt;<sp/>buffer</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::setfill(</highlight><highlight class="charliteral">&apos;0&apos;</highlight><highlight class="normal">)<sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setw(6)<sp/>&lt;&lt;<sp/>(tv.tv_usec)<sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>std::setfill(</highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>str();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.flush();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>str(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_m_current_level<sp/>=<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8a994ba7bed38f26185ca28db5c1051fc6" kindref="member">none</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="62" refid="classlogstream_1a324eff870fc404f056a5b41fe734dfb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/><ref refid="classlogstream_1a324eff870fc404f056a5b41fe734dfb3" kindref="member">operator&lt;&lt;</ref>(<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T<sp/>&amp;<sp/>t<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(*(std::ostringstream*)</highlight><highlight class="keyword">this</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/>t;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="classlogstream_1a58edd23bf2426a80fd0373c34e05f93d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/><ref refid="classlogstream_1a58edd23bf2426a80fd0373c34e05f93d" kindref="member">operator&lt;&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>&amp;<sp/>level)<sp/>{<sp/>_m_current_level<sp/>=<sp/>level;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*<sp/></highlight><highlight class="keyword">this</highlight><highlight class="normal">;<sp/>}<sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>sets<sp/>the<sp/>acceptable<sp/>message<sp/>level<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>until<sp/>next<sp/>flush/endl<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classlogstream_1ae261acf9e668f83389fda0c426d6c2bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1ae261acf9e668f83389fda0c426d6c2bd" kindref="member">set_level</ref>(<ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>level)<sp/>{<sp/>_m_current_level<sp/>=<sp/>level;<sp/>}</highlight></codeline>
+<codeline lineno="72" refid="classlogstream_1a17b89350370ff3d212b51b777de6b79e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/><ref refid="classlogstream_1a17b89350370ff3d212b51b777de6b79e" kindref="member">get_level</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_m_current_level;<sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="classlogstream_1aa8b1099a6442ec0a69b98ee9a6e7b4fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1aa8b1099a6442ec0a69b98ee9a6e7b4fa" kindref="member">change_log_level</ref>(<ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>level)<sp/>{<sp/>_m_log_level<sp/>=<sp/>level;<sp/>}</highlight></codeline>
+<codeline lineno="75" refid="classlogstream_1a83ef2e66625687fcc64550ec874889c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/><ref refid="classlogstream_1a83ef2e66625687fcc64550ec874889c7" kindref="member">get_log_lvel</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_m_log_level;<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="78"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logstream(const<sp/>char<sp/>*<sp/>filename,<sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log_level<sp/>log_level=all,</highlight></codeline>
+<codeline lineno="80"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ios::openmode<sp/>mode=std::ios::app)</highlight></codeline>
+<codeline lineno="81"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>_m_log_level(log_level),</highlight></codeline>
+<codeline lineno="82"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_m_current_level(none),</highlight></codeline>
+<codeline lineno="83"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out(filename,mode)<sp/>{}</highlight></codeline>
+<codeline lineno="84"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classlogstream_1a7e98af8c1b2655a36fede380e68a91eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream_1a7e98af8c1b2655a36fede380e68a91eb" kindref="member">logstream</ref><sp/>(<sp/>std::ostream<sp/>&amp;<sp/>log_stream,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">log_level</ref><sp/>level<sp/>=<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8aafe0d6be60348f155c1fca6c241abac5" kindref="member">all</ref>)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>_m_log_level(level),</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_m_current_level(<ref refid="classlogstream_1af041782901906373bcfb446534757eb8a994ba7bed38f26185ca28db5c1051fc6" kindref="member">none</ref>),</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out(log_stream){}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="classlogstream_1a31e5589282f8be61c7a9c35e4344bb94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classlogstream_1a31e5589282f8be61c7a9c35e4344bb94" kindref="member">~logstream</ref>()<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream_1a9e3b8bf78f6f8fc9c624bca2f40f1cef" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>stubs<sp/>for<sp/>manipulators<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classlogstream_1a31e66b39e7eb0ded91ce06486f09f2aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/>(*logstream_manip)(<ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;);</highlight></codeline>
+<codeline lineno="100" refid="classlogstream_1a6d5ac16cf31035f95ab6840500632f04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/><ref refid="classlogstream_1a6d5ac16cf31035f95ab6840500632f04" kindref="member">operator&lt;&lt;</ref>(<ref refid="classlogstream_1a31e66b39e7eb0ded91ce06486f09f2aa" kindref="member">logstream_manip</ref><sp/>manip)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>manip(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="struct____logstream__level_1a4eb9a334fc3e636be9259e09e9fb48ab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref><sp/>{<sp/><ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">logstream::log_level</ref><sp/><ref refid="struct____logstream__level_1a4eb9a334fc3e636be9259e09e9fb48ab" kindref="member">_m_level</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="105" refid="log_8h_1a6414da87772d624c3e083e58f58510f9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref><sp/><ref refid="log_8h_1a6414da87772d624c3e083e58f58510f9" kindref="member">setlevel</ref>(<ref refid="classlogstream_1af041782901906373bcfb446534757eb8" kindref="member">logstream::log_level</ref><sp/>_level)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref><sp/>level<sp/>=<sp/>{<sp/>_level<sp/>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>level;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="log_8h_1a15ced09542f16e02eb2cbb20b322188e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/><ref refid="log_8h_1a15ced09542f16e02eb2cbb20b322188e" kindref="member">operator&lt;&lt;</ref>(<ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/>out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct____logstream__level" kindref="compound">__logstream_level</ref><sp/>&amp;<sp/>level<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>out.<ref refid="classlogstream_1ae261acf9e668f83389fda0c426d6c2bd" kindref="member">set_level</ref>(level.<ref refid="struct____logstream__level_1a4eb9a334fc3e636be9259e09e9fb48ab" kindref="member">_m_level</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/><ref refid="namespacestd_1a62c71844425959f42cb60f5fbbea9b0b" kindref="member">endl</ref>(<ref refid="classlogstream" kindref="compound">logstream</ref><sp/>&amp;<sp/>out)<sp/>{<sp/>out.put(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">);<sp/>out.<ref refid="classlogstream_1a9e3b8bf78f6f8fc9c624bca2f40f1cef" kindref="member">flush</ref>();<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;<sp/>}<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>external<sp/>variables<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="log_8h_1a8779964f932c525ed6d4fc9d824838ab" kindref="member">log_name</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="classlogstream" kindref="compound">logstream</ref><sp/><ref refid="log_8h_1aab4ab28d6546fca2f6a0fa4d5e005ee4" kindref="member">clog</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>__MODULE_LOG__<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/tools/log.h"/>
+  </compounddef>
+</doxygen>

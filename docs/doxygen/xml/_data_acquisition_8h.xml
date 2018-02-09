@@ -1,0 +1,534 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.14">
+  <compounddef id="_data_acquisition_8h" kind="file" language="C++">
+    <compoundname>DataAcquisition.h</compoundname>
+    <includes local="no">sys/inotify.h</includes>
+    <includes local="no">thread</includes>
+    <includes refid="_operation_mode_8h" local="yes">OperationMode.h</includes>
+    <includes refid="_therm_manager_8h" local="yes">ThermManager.h</includes>
+    <includes refid="_analog_manager_8h" local="yes">AnalogManager.h</includes>
+    <includes refid="pdmdata_8h" local="yes">pdmdata.h</includes>
+    <includes refid="_input_parser_8h" local="yes">InputParser.h</includes>
+    <includedby refid="_run_instrument_8h" local="yes">src/instrument/RunInstrument.h</includedby>
+    <includedby refid="_data_acquisition_8cpp" local="yes">src/operations/DataAcquisition.cpp</includedby>
+    <incdepgraph>
+      <node id="365">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="367">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="347">
+        <label>iomanip</label>
+      </node>
+      <node id="379">
+        <label>error.h</label>
+      </node>
+      <node id="339">
+        <label>dm75xx_library.h</label>
+      </node>
+      <node id="360">
+        <label>ZynqManager.h</label>
+        <link refid="_zynq_manager_8h"/>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="361" relation="include">
+        </childnode>
+        <childnode refid="362" relation="include">
+        </childnode>
+        <childnode refid="363" relation="include">
+        </childnode>
+        <childnode refid="343" relation="include">
+        </childnode>
+        <childnode refid="364" relation="include">
+        </childnode>
+        <childnode refid="365" relation="include">
+        </childnode>
+        <childnode refid="366" relation="include">
+        </childnode>
+        <childnode refid="367" relation="include">
+        </childnode>
+        <childnode refid="368" relation="include">
+        </childnode>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="369" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+      </node>
+      <node id="351">
+        <label>stdint.h</label>
+      </node>
+      <node id="373">
+        <label>stdlib.h</label>
+      </node>
+      <node id="376">
+        <label>LvpsManager.h</label>
+        <link refid="_lvps_manager_8h"/>
+        <childnode refid="377" relation="include">
+        </childnode>
+        <childnode refid="374" relation="include">
+        </childnode>
+        <childnode refid="378" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="379" relation="include">
+        </childnode>
+        <childnode refid="380" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+      </node>
+      <node id="372">
+        <label>ConfigManager.h</label>
+        <link refid="_config_manager_8h"/>
+        <childnode refid="373" relation="include">
+        </childnode>
+        <childnode refid="374" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="357" relation="include">
+        </childnode>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+      </node>
+      <node id="377">
+        <label>errno.h</label>
+      </node>
+      <node id="356">
+        <label>stdexcept</label>
+      </node>
+      <node id="368">
+        <label>fcntl.h</label>
+      </node>
+      <node id="350">
+        <label>pdmdata.h</label>
+        <link refid="pdmdata_8h"/>
+        <childnode refid="351" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+      </node>
+      <node id="357">
+        <label>string</label>
+      </node>
+      <node id="353">
+        <label>regex</label>
+      </node>
+      <node id="344">
+        <label>fstream</label>
+      </node>
+      <node id="366">
+        <label>netdb.h</label>
+      </node>
+      <node id="354">
+        <label>CpuTools.h</label>
+        <link refid="_cpu_tools_8h"/>
+        <childnode refid="355" relation="include">
+        </childnode>
+        <childnode refid="346" relation="include">
+        </childnode>
+        <childnode refid="345" relation="include">
+        </childnode>
+        <childnode refid="347" relation="include">
+        </childnode>
+        <childnode refid="340" relation="include">
+        </childnode>
+        <childnode refid="356" relation="include">
+        </childnode>
+        <childnode refid="357" relation="include">
+        </childnode>
+        <childnode refid="358" relation="include">
+        </childnode>
+        <childnode refid="359" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="360" relation="include">
+        </childnode>
+      </node>
+      <node id="332">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="333" relation="include">
+        </childnode>
+        <childnode refid="334" relation="include">
+        </childnode>
+        <childnode refid="335" relation="include">
+        </childnode>
+        <childnode refid="352" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+        <childnode refid="375" relation="include">
+        </childnode>
+      </node>
+      <node id="380">
+        <label>aDIO_library.h</label>
+      </node>
+      <node id="337">
+        <label>condition_variable</label>
+      </node>
+      <node id="364">
+        <label>sys/types.h</label>
+      </node>
+      <node id="362">
+        <label>string.h</label>
+      </node>
+      <node id="355">
+        <label>cstdio</label>
+      </node>
+      <node id="371">
+        <label>boost/crc.hpp</label>
+      </node>
+      <node id="341">
+        <label>unistd.h</label>
+      </node>
+      <node id="349">
+        <label>vector</label>
+      </node>
+      <node id="375">
+        <label>InputParser.h</label>
+        <link refid="_input_parser_8h"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="369" relation="include">
+        </childnode>
+        <childnode refid="376" relation="include">
+        </childnode>
+        <childnode refid="360" relation="include">
+        </childnode>
+      </node>
+      <node id="358">
+        <label>array</label>
+      </node>
+      <node id="345">
+        <label>sstream</label>
+      </node>
+      <node id="348">
+        <label>data_format.h</label>
+        <link refid="data__format_8h"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+      </node>
+      <node id="342">
+        <label>log.h</label>
+        <link refid="log_8h"/>
+        <childnode refid="343" relation="include">
+        </childnode>
+        <childnode refid="344" relation="include">
+        </childnode>
+        <childnode refid="345" relation="include">
+        </childnode>
+        <childnode refid="346" relation="include">
+        </childnode>
+        <childnode refid="347" relation="include">
+        </childnode>
+      </node>
+      <node id="343">
+        <label>sys/time.h</label>
+      </node>
+      <node id="346">
+        <label>iostream</label>
+      </node>
+      <node id="361">
+        <label>strings.h</label>
+      </node>
+      <node id="378">
+        <label>ctype.h</label>
+      </node>
+      <node id="335">
+        <label>OperationMode.h</label>
+        <link refid="_operation_mode_8h"/>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+      </node>
+      <node id="336">
+        <label>mutex</label>
+      </node>
+      <node id="363">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="334">
+        <label>thread</label>
+      </node>
+      <node id="333">
+        <label>sys/inotify.h</label>
+      </node>
+      <node id="369">
+        <label>algorithm</label>
+      </node>
+      <node id="352">
+        <label>ThermManager.h</label>
+        <link refid="_therm_manager_8h"/>
+        <childnode refid="353" relation="include">
+        </childnode>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="370" relation="include">
+        </childnode>
+      </node>
+      <node id="374">
+        <label>stdio.h</label>
+      </node>
+      <node id="370">
+        <label>SynchronisedFile.h</label>
+        <link refid="_synchronised_file_8h"/>
+        <childnode refid="371" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="340" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="372" relation="include">
+        </childnode>
+      </node>
+      <node id="338">
+        <label>AnalogManager.h</label>
+        <link refid="_analog_manager_8h"/>
+        <childnode refid="339" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="340" relation="include">
+        </childnode>
+        <childnode refid="334" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+      </node>
+      <node id="340">
+        <label>memory</label>
+      </node>
+      <node id="359">
+        <label>dirent.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="384">
+        <label>src/main/mecontrol.h</label>
+        <link refid="mecontrol_8h"/>
+        <childnode refid="385" relation="include">
+        </childnode>
+      </node>
+      <node id="386">
+        <label>src/operations/DataAcquisition.cpp</label>
+        <link refid="_data_acquisition_8cpp"/>
+      </node>
+      <node id="385">
+        <label>src/main/mecontrol.cpp</label>
+        <link refid="mecontrol_8cpp"/>
+      </node>
+      <node id="381">
+        <label>src/operations/DataAcquisition.h</label>
+        <link refid="_data_acquisition_8h"/>
+        <childnode refid="382" relation="include">
+        </childnode>
+        <childnode refid="386" relation="include">
+        </childnode>
+      </node>
+      <node id="382">
+        <label>src/instrument/RunInstrument.h</label>
+        <link refid="_run_instrument_8h"/>
+        <childnode refid="383" relation="include">
+        </childnode>
+        <childnode refid="384" relation="include">
+        </childnode>
+      </node>
+      <node id="383">
+        <label>src/instrument/RunInstrument.cpp</label>
+        <link refid="_run_instrument_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_data_acquisition" prot="public">DataAcquisition</innerclass>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="_data_acquisition_8h_1a48cc0a91e8f54c62f3341c21c8cc74e8" prot="public" static="no">
+        <name>DATA_DIR</name>
+        <initializer>&quot;/home/minieusouser/DATA&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="15" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1ac2bc8f847b897d9c7b3f866d5eb3b393" prot="public" static="no">
+        <name>DONE_DIR</name>
+        <initializer>&quot;/home/minieusouser/DONE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="16" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1a118e1e5950681c5a19ae6ccdd0315611" prot="public" static="no">
+        <name>USB_MOUNTPOINT_0</name>
+        <initializer>&quot;/media/usb0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="17" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1a38aaf5e8028c0029416a343a98b7ecb5" prot="public" static="no">
+        <name>USB_MOUNTPOINT_1</name>
+        <initializer>&quot;/media/usb1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="18" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1a228783873815e02b069a286af4512aba" prot="public" static="no">
+        <name>EVENT_SIZE</name>
+        <initializer>(sizeof(struct inotify_event))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="21" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1a8b5839f71a3b6e7d64b2d5e9967e3dd1" prot="public" static="no">
+        <name>BUF_LEN</name>
+        <initializer>(1024 * (<ref refid="_data_acquisition_8h_1a228783873815e02b069a286af4512aba" kindref="member">EVENT_SIZE</ref> + 16))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="22" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="_data_acquisition_8h_1a565365cdb3727cc89a747691b31f21cf" prot="public" static="no">
+        <name>FTP_TIMEOUT</name>
+        <initializer>10 /* seconds */</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/operations/DataAcquisition.h" line="23" column="9" bodyfile="src/operations/DataAcquisition.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>_DATA_ACQUISITION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>_DATA_ACQUISITION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/inotify.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">/*<sp/>__APPLE__<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_operation_mode_8h" kindref="compound">OperationMode.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_therm_manager_8h" kindref="compound">ThermManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_analog_manager_8h" kindref="compound">AnalogManager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pdmdata_8h" kindref="compound">pdmdata.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_input_parser_8h" kindref="compound">InputParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="_data_acquisition_8h_1a48cc0a91e8f54c62f3341c21c8cc74e8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DATA_DIR<sp/>&quot;/home/minieusouser/DATA&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="_data_acquisition_8h_1ac2bc8f847b897d9c7b3f866d5eb3b393" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DONE_DIR<sp/>&quot;/home/minieusouser/DONE&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="_data_acquisition_8h_1a118e1e5950681c5a19ae6ccdd0315611" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>USB_MOUNTPOINT_0<sp/>&quot;/media/usb0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="_data_acquisition_8h_1a38aaf5e8028c0029416a343a98b7ecb5" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>USB_MOUNTPOINT_1<sp/>&quot;/media/usb1&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>for<sp/>use<sp/>with<sp/>inotify<sp/>in<sp/>ProcessIncomingData()<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="_data_acquisition_8h_1a228783873815e02b069a286af4512aba" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>EVENT_SIZE<sp/>(sizeof(struct<sp/>inotify_event))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="_data_acquisition_8h_1a8b5839f71a3b6e7d64b2d5e9967e3dd1" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>BUF_LEN<sp/>(1024<sp/>*<sp/>(EVENT_SIZE<sp/>+<sp/>16))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="_data_acquisition_8h_1a565365cdb3727cc89a747691b31f21cf" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>FTP_TIMEOUT<sp/>10<sp/></highlight><highlight class="comment">/*<sp/>seconds<sp/>*/</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>NIGHT<sp/>operational<sp/>mode:<sp/>data<sp/>acquisition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>class<sp/>for<sp/>controlling<sp/>the<sp/>main<sp/>acquisition<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>(the<sp/>Zynq<sp/>board,<sp/>the<sp/>thermistors<sp/>and<sp/>the<sp/>Analog<sp/>board)<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_data_acquisition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_data_acquisition" kindref="compound">DataAcquisition</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_operation_mode" kindref="compound">OperationMode</ref><sp/>{<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:<sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="class_data_acquisition_1a4d03a22366d17e58d50c8e191b884235" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_data_acquisition_1a4d03a22366d17e58d50c8e191b884235" kindref="member">cpu_main_file_name</ref>;</highlight></codeline>
+<codeline lineno="31" refid="class_data_acquisition_1af29f7044d5d81a1d24055be285845a41" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_data_acquisition_1af29f7044d5d81a1d24055be285845a41" kindref="member">cpu_sc_file_name</ref>;</highlight></codeline>
+<codeline lineno="32" refid="class_data_acquisition_1affe81aa950d46b625c2479b0dd9bfb45" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="class_data_acquisition_1affe81aa950d46b625c2479b0dd9bfb45" kindref="member">cpu_hv_file_name</ref>;</highlight></codeline>
+<codeline lineno="33" refid="class_data_acquisition_1abb672ec183e304bca94c944de0857e60" refkind="member"><highlight class="normal"><sp/><sp/>uint8_t<sp/><ref refid="class_data_acquisition_1abb672ec183e304bca94c944de0857e60" kindref="member">usb_num_storage_dev</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>synchronised<sp/>file<sp/>access<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_data_acquisition_1a2cff57118c2529ee0ba537eeae3e1114" refkind="member"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;SynchronisedFile&gt;<sp/><ref refid="class_data_acquisition_1a2cff57118c2529ee0ba537eeae3e1114" kindref="member">CpuFile</ref>;</highlight></codeline>
+<codeline lineno="37" refid="class_data_acquisition_1aba26642e86289cae1600e151d7c36069" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="class_access" kindref="compound">Access</ref><sp/>*<sp/><ref refid="class_data_acquisition_1aba26642e86289cae1600e151d7c36069" kindref="member">RunAccess</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">/*<sp/>subsystems<sp/>controlled<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="class_data_acquisition_1aa55f142e7fb5dececc8568427408d09e" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="class_therm_manager" kindref="compound">ThermManager</ref><sp/>*<sp/><ref refid="class_data_acquisition_1aa55f142e7fb5dececc8568427408d09e" kindref="member">ThManager</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_therm_manager" kindref="compound">ThermManager</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="43" refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20daf978f95aced804ab98e3e4027f8b8e9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20daf978f95aced804ab98e3e4027f8b8e9f" kindref="member">CPU</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="44" refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da8171d535bc60ceeabc4f07a40b102b62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da8171d535bc60ceeabc4f07a40b102b62" kindref="member">SC</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="45" refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da5a3f69a5b5c269eba232211210be1a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20da5a3f69a5b5c269eba232211210be1a2b" kindref="member">HV</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><ref refid="class_data_acquisition_1a219a57019cb7f899040d2d852790b0cf" kindref="member">DataAcquisition</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1af6a5c877aa07e62c5a7d554969804805" kindref="member">CreateCpuRun</ref>(<ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref><sp/>run_type,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1a449b9464c65c139ecefbe7b7e4ee7753" kindref="member">CloseCpuRun</ref>(<ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref><sp/>run_type);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1a896eb8e27c5d4587e1c6bf9b4ba67600" kindref="member">CollectSc</ref>(<ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref><sp/>*<sp/>ZqManager,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut,<sp/><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref><sp/>*<sp/>CmdLine);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1a11e48bbcbc51b6c02486ccf48614f3e9" kindref="member">CollectData</ref>(<ref refid="class_zynq_manager" kindref="compound">ZynqManager</ref><sp/>*<sp/>ZqManager,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut,<sp/><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref><sp/>*<sp/>CmdLine);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1aec3390f5ba9721d620a3ae1e4e1388ec" kindref="member">WriteFakeZynqPkt</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_data_acquisition_1a56796ee38b685d91e61eee1bffe5297e" kindref="member">ReadFakeZynqPkt</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:<sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>std::string<sp/>CreateCpuRunName(<ref refid="class_data_acquisition_1a2b314f52d5a38181186df9be9c62d20d" kindref="member">RunType</ref><sp/>run_type,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>BuildCpuFileHeader(uint32_t<sp/>type,<sp/>uint32_t<sp/>ver);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>BuildCpuPktHeader(uint32_t<sp/>type,<sp/>uint32_t<sp/>ver);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint32_t<sp/>BuildCpuTimeStamp();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><ref refid="struct_s_c___p_a_c_k_e_t" kindref="compound">SC_PACKET</ref><sp/>*<sp/>ScPktReadOut(std::string<sp/>sc_file_name,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><ref refid="struct_h_v___p_a_c_k_e_t" kindref="compound">HV_PACKET</ref><sp/>*<sp/>HvPktReadOut(std::string<sp/>hv_file_name);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><ref refid="struct_z_y_n_q___p_a_c_k_e_t" kindref="compound">ZYNQ_PACKET</ref><sp/>*<sp/>ZynqPktReadOut(std::string<sp/>zynq_file_name,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><ref refid="struct_h_k___p_a_c_k_e_t" kindref="compound">HK_PACKET</ref><sp/>*<sp/>AnalogPktReadOut();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>WriteScPkt(<ref refid="struct_s_c___p_a_c_k_e_t" kindref="compound">SC_PACKET</ref><sp/>*<sp/>sc_packet);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>WriteHvPkt(<ref refid="struct_h_v___p_a_c_k_e_t" kindref="compound">HV_PACKET</ref><sp/>*<sp/>hv_packet);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>WriteCpuPkt(<ref refid="struct_z_y_n_q___p_a_c_k_e_t" kindref="compound">ZYNQ_PACKET</ref><sp/>*<sp/>zynq_packet,<sp/><ref refid="struct_h_k___p_a_c_k_e_t" kindref="compound">HK_PACKET</ref><sp/>*<sp/>hk_packet,<sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>GetHvInfo(<ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ProcessIncomingData(<ref refid="struct_config" kindref="compound">Config</ref><sp/>*<sp/>ConfigOut,<sp/><ref refid="struct_cmd_line_inputs" kindref="compound">CmdLineInputs</ref><sp/>*<sp/>CmdLine);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">/*<sp/>_DATA_ACQUISITION_H<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/operations/DataAcquisition.h"/>
+  </compounddef>
+</doxygen>

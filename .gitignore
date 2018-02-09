@@ -40,4 +40,7 @@ Thumbs.db
 # sphinx build folder
 .build
 
+# doxygen build folder
+doxygen
+
 CPU/CPUsoftware/bin/*

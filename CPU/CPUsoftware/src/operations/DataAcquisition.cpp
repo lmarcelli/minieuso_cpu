@@ -1,6 +1,8 @@
 #include "DataAcquisition.h"
 
-/* default constructor */
+/**
+ * constructor 
+ */
 DataAcquisition::DataAcquisition() { 
   /* filename initialisation */
   this->cpu_main_file_name = "";
@@ -10,7 +12,12 @@ DataAcquisition::DataAcquisition() {
   this->usb_num_storage_dev = 0;
 }
   
-/* create cpu run file name */
+/** 
+ * create cpu run file name
+ * checks if usb connected to define the data storage path
+ * @param run_type defines the file run type
+ * @param ConfigOut the output of configuration parsing with ConfigManager 
+ */
 std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigOut) {
   struct timeval tv;
   char cpu_file_name[80];
@@ -51,7 +58,11 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigO
   return cpu_file_name;
 }
 
-/* build the cpu file header */
+/**
+ * build the cpu file header
+ * @param type header tag of the file type
+ * @param ver header tag of the file type version
+ */
 uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
@@ -60,7 +71,11 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
   return header;
 }
 
-/* build the cpu packet header */
+/**
+ * build the cpu packet header 
+ * @param type header tag of the packet type
+ * @param ver header tag of the packet type version
+ */
 uint32_t DataAcquisition::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
@@ -69,7 +84,10 @@ uint32_t DataAcquisition::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
   return header;
 }
 
-/* build the cpu timestamp */
+/**
+ * build the cpu timestamp 
+ * simple UNIX timestamp
+ */
 uint32_t DataAcquisition::BuildCpuTimeStamp() {
 
   uint32_t timestamp = time(NULL);
@@ -77,7 +95,12 @@ uint32_t DataAcquisition::BuildCpuTimeStamp() {
   return timestamp;
 }
 
-/* make a cpu data file for a new run */
+/**
+ * make a cpu data file for a new run 
+ * @param run_type defines the file run type
+ * @param ConfigOut the output of configuration parsing with ConfigManager
+ * sets up the synchonised file access and notifies the ThermManager object
+ */
 int DataAcquisition::CreateCpuRun(RunType run_type, Config * ConfigOut) {
 
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
@@ -121,7 +144,11 @@ int DataAcquisition::CreateCpuRun(RunType run_type, Config * ConfigOut) {
   return 0;
 }
 
-/* close the CPU file run and append CRC */
+/**
+ * close the CPU file run and append CRC.
+ * this closes the run and runs a CRC calculation which is 
+ * the stored in the file trailer and appended
+ */
 int DataAcquisition::CloseCpuRun(RunType run_type) {
 
   CpuFileTrailer * cpu_file_trailer = new CpuFileTrailer();
@@ -142,7 +169,9 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
 }
 
 
-/* read out an scurve file into an scurve packet */
+/**
+ * read out an scurve file into an SC_PACKET. 
+ */
 SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
 
   FILE * ptr_scfile;
@@ -187,7 +216,9 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, Config * Con
 }
 
 
-/* read out a hv file into an hv packet */
+/**
+ * read out a hv file into an HV_PACKET 
+ */
 HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
 
   FILE * ptr_hvfile;
@@ -228,7 +259,9 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
 }
 
 
-/* read out a zynq data file into a zynq packet */
+/**
+ * read out a zynq data file into a ZYNQ_PACKET 
+ */
 ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
 
   FILE * ptr_zfile;
@@ -309,7 +342,9 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, Config
   return zynq_packet;
 }
 
-/* read out a hk packet */
+/**
+ * read out a HK_PACKET from the analog board 
+ */
 HK_PACKET * DataAcquisition::AnalogPktReadOut() {
 
   int i, j = 0;
@@ -337,7 +372,13 @@ HK_PACKET * DataAcquisition::AnalogPktReadOut() {
 
 
 
-/* write the cpu packet to the cpu file */
+/**
+ * write the CPU_PACKET to the current CPU file 
+ * @param zynq_packet the Zynq data acquired from the PDM
+ * @param hk_packet the HK data acquired from the analog board
+ * @param ConfigOut the configuration struct output of ConfigManager
+ * asynchronous writes to the CPU file are handled with the SynchronisedFile class
+ */
 int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
 
   CPU_PACKET * cpu_packet = new CPU_PACKET();
@@ -391,7 +432,11 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
 }
 
 
-/* write the sc packet to the cpu file */
+/**
+ * write the SC_PACKET to the CPU file
+ * @param sc_packet the Scurve data from the Zynq board
+ * asynchronous writes to the CPU file are handled with the SynchronisedFile class
+ */
 int DataAcquisition::WriteScPkt(SC_PACKET * sc_packet) {
 
   static unsigned int pkt_counter = 0;
@@ -407,7 +452,11 @@ int DataAcquisition::WriteScPkt(SC_PACKET * sc_packet) {
 }
 
 
-/* write the hv packet to the cpu file */
+/**
+ * write the HV_PACKET to the CPU file 
+ * @param hv_packet HV data from the Zynq board
+ * asynchronous writes to the CPU file are handled with the SynchronisedFile class
+ */
 int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
 
   static unsigned int pkt_counter = 0;

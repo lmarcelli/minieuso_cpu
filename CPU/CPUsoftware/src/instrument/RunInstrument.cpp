@@ -2,7 +2,11 @@
 
 std::atomic<bool> signal_shutdown{false};
 
-/* default constructor */
+/**
+ * the constructor
+ * @param CmdLine is a struct storing command line inputs 
+ * parsed with the InputParser class 
+ */
 RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
   this->CmdLine = CmdLine;
 
@@ -19,7 +23,9 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
 
 }
 
-/* handle signal */
+/**
+ * function to handle interrupt signals to the program
+ */
 void RunInstrument::SignalHandler(int signum) {
 
   std::cout << "interrupt signal (" << signum << ") received" << std::endl;  
@@ -30,7 +36,10 @@ void RunInstrument::SignalHandler(int signum) {
 }
 
 
-/* switching of LVPS then exit */
+/**
+ * function to switch a desired subsystem on/off 
+ * as specified by the object's CmdLine struct
+ */
 int RunInstrument::LvpsSwitch() {
 
   switch (this->CmdLine->lvps_status) {
@@ -74,7 +83,10 @@ int RunInstrument::LvpsSwitch() {
 }
 
 
-/* switching of HVPS then exit */
+/**
+ * function to switch on the HVPS
+ * if required by the object's CmdLine struct
+ */
 int RunInstrument::HvpsSwitch() {
 
   switch (this->CmdLine->hvps_status) {
@@ -95,7 +107,10 @@ int RunInstrument::HvpsSwitch() {
 return 0;
 }
 
-/* switching of HVPS then exit */
+/**
+ * function to check the current instrument and HV status
+ * uses the ZynqManager class member functions
+ */
 int RunInstrument::CheckStatus() {
 
   /* test the connection to the zynq board */
@@ -115,7 +130,9 @@ int RunInstrument::CheckStatus() {
 }
 
 
-/* enter the debug mode then exit */
+/**
+ * function to run quick debug tests of the subsystems
+ */
 int RunInstrument::DebugMode() {
 
   /* run through main subsystems for easy debugging */
@@ -212,7 +229,9 @@ int RunInstrument::DebugMode() {
 }
 
 
-/* set the instrument mode with mutex protection */
+/**
+ * set the instrument mode in a thread-safe way
+ */
 int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
 
   {
@@ -224,7 +243,9 @@ int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
 }
 
 
-/* read the instrument mode with mutex protection */
+/**
+ * read the instrument mode in a thread-safe way
+ */
 RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
   InstrumentMode current_inst_mode;
 
@@ -237,7 +258,11 @@ RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
 }
 
 
-/* initialise instrument mode using the current light level */
+/**
+ * initialise the instrument mode using the current light level
+ * light level is acquired using the AnalogManager to run an acquisition
+ * from the photodiodes
+ */
 int RunInstrument::InitInstMode() {
 
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
@@ -260,7 +285,11 @@ int RunInstrument::InitInstMode() {
 }
 
 
-/* define start-up procedure upon switch-on */
+/**
+ * run the start-up procedure
+ * sets up logging, parses the config file and checks for command line 
+ * override to configured values 
+ */
 int RunInstrument::StartUp() {
 
   std::cout << "-----------------------------------------------------" << std::endl;
@@ -300,7 +329,9 @@ int RunInstrument::StartUp() {
 }
 
 
-/* check the systems */
+/**
+ * checks the subsystems are operating as required 
+ */
 int RunInstrument::CheckSystems() {
 
   std::cout << "SUBSYSTEMS TO BE USED IN ACQUISITION" << std::endl;
@@ -347,7 +378,9 @@ int RunInstrument::CheckSystems() {
 }
 
 
-/* determine acquisition mode from program inputs */
+/**
+ * determines the AcquisitionMode from the program inputs
+ */
 int RunInstrument::SelectAcqOption() {
   
   /* select standard or scurve */
@@ -365,7 +398,12 @@ int RunInstrument::SelectAcqOption() {
   return 0;
 }
 
-/* launch the cameras and handle errors */
+/**
+ * launches the camera acquisition in a robust way
+ * makes use of the CamManager member functions to check 
+ * if the launch fails and reacts by trying to relaunch
+ * up to 3 times
+ */
 int RunInstrument::LaunchCam() {
   size_t check = 0;
 
@@ -416,7 +454,10 @@ int RunInstrument::LaunchCam() {
 }
 
 
-/* monitor the photodiode data to determine the instrument mode */
+/**
+ * launches a background thread to monitor the instrument
+ * runs RunInstrument::PollInstrument member function
+ */
 int RunInstrument::MonitorInstrument() {
 
   /* launch a thread to watch the photodiode measurements */
@@ -429,7 +470,9 @@ int RunInstrument::MonitorInstrument() {
 }
 
 
-/* set the stop signal in a thread-safe way */
+/**
+ * sends a stop signal to all processes in a thread-safe way
+ */
 int RunInstrument::SetStop() {
   
   {
@@ -441,7 +484,9 @@ int RunInstrument::SetStop() {
 }
 
 
-/* check if stop signal sent in a thread-safe way */
+/**
+ * checks if a stop signal has been sent
+ */
 bool RunInstrument::CheckStop() {
   bool stop_status;
 
@@ -453,7 +498,9 @@ bool RunInstrument::CheckStop() {
   return stop_status;
 }
 
-
+/**
+ * instrument monitoring by checking the light level and shutdown signal
+ */
 int RunInstrument::PollInstrument() {
 
   /* different procedure for day and night */
@@ -517,7 +564,10 @@ int RunInstrument::PollInstrument() {
   return 0;
 }
 
-/* interface to the whole data acquisition */
+/**
+ * interface to the data acquisition
+ * uses the DataAcquisition class member functions
+ */
 int RunInstrument::Acquisition() {
 
   std::cout << "starting acquisition run..." <<std::endl; 
@@ -560,7 +610,10 @@ int RunInstrument::Acquisition() {
 }
 
 
-/* night time operational procedure */
+/**
+ * night time operational procedure
+ * does not return until all night processes have joined
+ */
 int RunInstrument::NightOperations() {
 
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
@@ -588,7 +641,10 @@ int RunInstrument::NightOperations() {
 }
 
 
-/* day time operational procedure */
+/**
+ * day time operational procedure
+ * does not returnuntil all day processes have joined
+ */
 int RunInstrument::DayOperations() {
 
   clog << "info: " << logstream::info << "entering DAY mode" << std::endl;
@@ -604,7 +660,10 @@ int RunInstrument::DayOperations() {
 }
 
 
-/* shut down upon SIGINT */
+/**
+ * shut down procedure
+ * called when stop signal sent 
+ */
 void RunInstrument::Stop() {
 
   /* kill detached threads */
@@ -622,7 +681,11 @@ void RunInstrument::Stop() {
 }
 
 
-/* start running the instrument according to specifications */
+/**
+ * start running the instrument according to specifications
+ * checks for execute and exit functions,
+ * then moves on to automated loop over mode switching
+ */
 void RunInstrument::Start() {
 
   /* check for execute-and-exit commands */

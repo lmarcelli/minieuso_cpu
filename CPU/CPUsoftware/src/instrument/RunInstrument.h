@@ -20,10 +20,15 @@
 #define VERSION_DATE_STRING "06/02/2018"
 
 
-/* class to handle different instrument operational modes */
+/**
+ * class to handle different instrument operational modes 
+*/
 class RunInstrument {
 public:
   CmdLineInputs * CmdLine;
+  /**
+   * enum to specify the current operational mode of the instrument
+   */
   enum InstrumentMode : uint8_t {
     NIGHT = 0,
     DAY = 1,
@@ -32,6 +37,9 @@ public:
   InstrumentMode current_inst_mode;
   std::mutex m_inst_mode;
 
+  /**
+   * enum to specify the current acquisition mode of the instrument
+   */
   enum AcquisitionMode : uint8_t {
     STANDARD = 0,
     SCURVE = 1,
@@ -46,7 +54,7 @@ public:
   CamManager Cam;
   DataAcquisition Daq;
   DataReduction Data;
-  
+
   RunInstrument(CmdLineInputs * CmdLine);
   void Start();
   void Stop();

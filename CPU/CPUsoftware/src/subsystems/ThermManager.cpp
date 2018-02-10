@@ -1,13 +1,18 @@
 #include "ThermManager.h"
 
-/* default constructor */
+/**
+ * constructor. 
+ * initailses cpu_file_is_set to false
+ */
 ThermManager::ThermManager() { 
 
   this->cpu_file_is_set = false;
   
 }
 
-/* initialise the thermistors */
+/**
+ * initialise the thermistors and write addresses to init file
+ */
 void ThermManager::Init() {
 
   const char * cmd = "digitemp -s /dev/ttyS0 -i";
@@ -15,7 +20,9 @@ void ThermManager::Init() {
 
 }
 
-/* build the cpu packet header */
+/**
+ * build the cpu packet header 
+ */
 uint32_t ThermManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
@@ -24,7 +31,9 @@ uint32_t ThermManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
   return header;
 }
 
-/* build the cpu timestamp */
+/**
+ * build the cpu timestamp 
+ */
 uint32_t ThermManager::BuildCpuTimeStamp() {
 
   uint32_t timestamp = time(NULL);
@@ -33,7 +42,9 @@ uint32_t ThermManager::BuildCpuTimeStamp() {
 }
 
 
-/* get the temperature */
+/**
+ * get the temperature by running the digitemp command and parsing the output
+ */
 TemperatureAcq * ThermManager::GetTemperature() {
  
   /* define command to read temperature from all thermistors on COM port 1 */
@@ -56,7 +67,9 @@ TemperatureAcq * ThermManager::GetTemperature() {
   return temperature_result;
 }
 
-/* print the temperature */
+/**
+ * print the temperature for use with debugging
+ */
 void ThermManager::PrintTemperature() {
  
   Init();
@@ -79,7 +92,10 @@ void ThermManager::PrintTemperature() {
 }
 
 
-/* parse the digitemp output */
+/**
+ * parse the digitemp output 
+ * @param input_string the string containing the output of the digitemp command
+ */
 TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
 
   std::regex num_with_two_dp("([0-9]+\\.[0-9]{2})");
@@ -105,7 +121,10 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
   return temperature_result;
 }
 
-/* write the temperature packet to file */
+/*
+ * write the temperature packet to file 
+ * @param temperature_results contains the parsed temperature data
+ */
 int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
 
   THERM_PACKET * therm_packet = new THERM_PACKET();
@@ -134,7 +153,9 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
   return 0;
 }
 
-
+/* 
+ * process to collect temperature every THERM_ACQ_SLEEP seconds (defined in ThermManager.h)
+ */
 int ThermManager::ProcessThermData() {
 
   std::mutex m;

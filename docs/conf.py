@@ -83,13 +83,13 @@ todo_include_todos = True
 
 
 # -- Options for breathe ----------------------------------------------
-#import subprocess, os
+import subprocess, os
 
-#read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
-#if read_the_docs_build:
+if read_the_docs_build:
 
-#    subprocess.call('cd doxygen; doxygen', shell=True)
+    subprocess.call('cd ../CPU/CPUsoftware; doxygen', shell=True)
 
 breathe_projects = { "minieuso": "doxygen/xml/" }
 breathe_default_project = "minieuso"

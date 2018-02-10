@@ -5,7 +5,7 @@ Installation
 Requirements
 ------------
 
-The Mini-EUSO software is designed to run with specific hardware configuration making use of both COTs products and custom electronics boards developed by members of the EUSO collaboration.
+The Mini-EUSO software is designed to run with specific hardware configuration making use of both COTS products and custom electronics boards developed by members of the EUSO collaboration.
 
 The software is designed to run on PC/104 CMX34GS or CMX34BT single board CPU (https://www.rtd.com/PC104/CM/CMX34BT/CMX34BT.htm) but will compile on any linux-based operating system (tested on Ubuntu 16.04 and Debian 8). This board is used in conjunction with the DM35520HR 12 bit analog I/O module connected to the main CPU board via the standard PC1Ie/104 bus.    
 

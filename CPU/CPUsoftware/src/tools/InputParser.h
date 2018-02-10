@@ -8,7 +8,9 @@
 #include "ZynqManager.h"
 
 
-/* struct to handle the command line inputs */
+/**
+ * struct to store the command line inputs 
+ */
 struct CmdLineInputs {
 
   /* command line options */
@@ -39,17 +41,28 @@ struct CmdLineInputs {
 
 };
 
+/**
+ * empty string to be returned when nothing found by InputParser::getCmdOption()
+ */
 static const std::string empty_string("");
    
-/* class to parse command line input to program */
+/**
+ * class to parse command line input to program 
+ */
 class InputParser{
 public:
+  /**
+   * stores the command line inputs
+   */
   CmdLineInputs * CmdLine = new CmdLineInputs();
   
   InputParser(int & argc, char ** argv); 
   CmdLineInputs * ParseCmdLineInputs();
 
-  /* get the command line options */
+  /**
+   * get the command line options 
+   * @param option flag to get option for 
+   */
   const std::string getCmdOption(const std::string &option) const {
 
     std::vector<std::string>::const_iterator itr;
@@ -64,7 +77,10 @@ public:
     return empty_string;
   }
   
-  /* check if the command line options exists */
+  /**
+   * check if the command line option exists 
+   * @param option check if this flag exists
+   */
   bool cmdOptionExists(const std::string &option) const {
 
     return std::find(this->tokens.begin(), this->tokens.end(), option)
@@ -73,6 +89,9 @@ public:
   
 
 private:
+  /**
+   * vecotr containing all the passed command line options
+   */
   std::vector <std::string> tokens;
 
   int PrintHelpMsg();

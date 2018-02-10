@@ -15,8 +15,12 @@
 #define WAIT_PERIOD 1 /* milliseconds */
 
 
-/* DAY operational mode: data reduction */
-/* class to handle data reduction */
+/**
+ * DAY operational mode: data reduction 
+ * class to handle data reduction and preparation of diagnostic samples 
+ * to be sent to Earth and check the instrument is operating correctly
+ * @TODO add main functionality
+ */
 class DataReduction : public OperationMode {
 public:
   

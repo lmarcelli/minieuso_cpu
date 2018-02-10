@@ -17,3 +17,16 @@ OperationMode
    :members:
    :protected-members:
 
+DataAcquisition
+---------------
+
+.. doxygenclass:: DataAcquisition
+   :members:
+   :private-members:
+
+DataReduction
+-------------
+
+.. doxygenclass:: DataReduction
+   :members:
+   :private-members:

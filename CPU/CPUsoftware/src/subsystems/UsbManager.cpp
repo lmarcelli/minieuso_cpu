@@ -1,13 +1,18 @@
 #include "UsbManager.h"
 
-/* default constructor */
+/**
+ * constructor.
+ * initilaises num_storage_dev as N_USB_UNDEF 
+ */
 UsbManager::UsbManager() {
   this->num_storage_dev = N_USB_UNDEF;
   
   
 }
 
-/* check cpu model to select correct bus */
+/**
+ * check cpu model to select correct storage_bus 
+ */
 void UsbManager::CheckCpuModel() {
 
   /* check the system information */
@@ -26,7 +31,10 @@ void UsbManager::CheckCpuModel() {
   
 }
 
-/* print a description of usb devices connected */
+/**
+ * print a description of usb devices connected for debugging purposes
+ * @param dev the libusb device handle
+ */
 void UsbManager::PrintDev(libusb_device * dev) {
 
   /* get the device descriptor */
@@ -77,7 +85,9 @@ void UsbManager::PrintDev(libusb_device * dev) {
   libusb_free_config_descriptor(config);
 }
 
-/* check the number of devices connected and print their info */
+/**
+ * check the number of devices connected and print their info 
+ */
 int UsbManager::CheckUsb() {
   libusb_device ** devs;
   libusb_context * ctx = NULL;
@@ -116,7 +126,10 @@ int UsbManager::CheckUsb() {
   return 0;
 }
 
-/* lookup usb storage devices connected and identify them */
+/**
+ * lookup usb storage devices connected and identify them 
+ * designed to avoid detecting the cameras and other devices as storage
+ */
 uint8_t UsbManager::LookupUsbStorage() {
   libusb_device ** all_devs;
   libusb_device * dev;
@@ -190,7 +203,9 @@ uint8_t UsbManager::LookupUsbStorage() {
   return num_storage_dev;  
 }
 
-/* define data backup based on LookupUsbStorage() */
+/**
+ * define data backup based on num_storage_dev 
+ */
 int UsbManager::DataBackup() {
 
   std::string cmd;
@@ -242,7 +257,9 @@ int UsbManager::DataBackup() {
 }
 
 
-/* spawn thread to run data backup in the background */
+/**
+ * spawn thread to run data backup in the background 
+ */
 int UsbManager::RunDataBackup() {
 
   clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
@@ -259,7 +276,11 @@ int UsbManager::RunDataBackup() {
   return 0;
 }
 
-/* kill the data backup thread */
+/**
+ * kill the data backup thread,
+ * used when shutting down
+ * the data backup thread holds no locked resources
+ */
 int UsbManager::KillDataBackup() {
 
   clog << "info: " << logstream::info << "killing the data backup thread" << std::endl;

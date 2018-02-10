@@ -1,6 +1,8 @@
 #include "AnalogManager.h"
 
-/* default constructor */
+/**
+ * constructor 
+ */
 AnalogManager::AnalogManager() {
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
@@ -14,7 +16,11 @@ AnalogManager::AnalogManager() {
 }
 
 
-/* analog board read out */
+/**
+ * analog board read out
+ * uses the dm75xx library to collect data on the analog ports, 
+ * as defined in AnalogManager.h
+ */
 int AnalogManager::AnalogDataCollect() {
 #ifndef __APPLE__
   
@@ -132,7 +138,11 @@ int AnalogManager::AnalogDataCollect() {
 
 
 
-/* get the current light level */
+/**
+ * get the current light level. 
+ * preforms an analog acquisition using AnalogManager::AnalogDataCollect()
+ * and converts the output to the easily readable LightLevel format
+ */
 int AnalogManager::GetLightLevel() {
 
   int i, k;
@@ -183,7 +193,10 @@ int AnalogManager::GetLightLevel() {
    return 0;
 }
 
-/* read light level from object, making an acquisition */
+/* 
+ * read the light_level from object in a thread-safe way, 
+ * without making an acquisition 
+ */
 std::shared_ptr<LightLevel> AnalogManager::ReadLightLevel() {
   
   {
@@ -195,7 +208,11 @@ std::shared_ptr<LightLevel> AnalogManager::ReadLightLevel() {
   return light_level; 
 }
 
-/* compare light level to threshold value */
+/**
+ * compare light level to threshold value 
+ * LIGHT_THRESHOLD which is define in AnalogManager.h
+ * @TODO check if more sophisticated tests needed in lab
+ */
 bool AnalogManager::CompareLightLevel() {
 
   bool above_light_threshold = false;
@@ -252,7 +269,10 @@ int AnalogManager::ProcessAnalogData() {
 }
 
 
-/* reset the mode switching */
+/**
+ * reset the mode switching after an instrument mode change
+ * used by OperationMode::Reset() 
+ */
 int AnalogManager::Reset() {
 
   {
@@ -266,7 +286,10 @@ int AnalogManager::Reset() {
   return 0;
 }
 
-/* notify the object of an instrument mode switch */
+/**
+ * notify the object of an instrument mode switch 
+ * used by OperationMode::Notify
+ */
 int AnalogManager::Notify() {
 
   {

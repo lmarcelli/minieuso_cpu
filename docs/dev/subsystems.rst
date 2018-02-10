@@ -5,6 +5,10 @@ Each instrument sub-system is handled with a separate class. These are documente
 
 .. toctree::
 
-   dev/subsystems/AnalogManager
-   
+   /dev/subsystems/AnalogManager
+   /dev/subsystems/ZynqManager
+   /dev/subsystems/LvpsManager
+   /dev/subsystems/ThermManager
+   /dev/subsystems/CamManager
+   /dev/subsystems/UsbManager
 

@@ -1,7 +1,11 @@
 
 #include "ZynqManager.h"
 
-/* default constructor */
+/**
+ * constructor 
+ * initialises public members
+ * hvps_status, instrument_mode, test_mode and telnet_connected
+ */
 ZynqManager::ZynqManager () {   
   this->hvps_status = ZynqManager::UNDEF;
   this->instrument_mode = ZynqManager::MODE0;
@@ -9,8 +13,11 @@ ZynqManager::ZynqManager () {
   this->telnet_connected = false;
 }
 
-/* check telnet connection on a certain IP address */
-/* closes the telnet connection after */
+/**
+ * check telnet connection on ZYNQ_IP (defined in ZynqManager.h)
+ * and close the telnet connection after.
+ * has a timeout implemented of length CONNECT_TIMEOUT_SEC (defined in ZynqManager.h)
+ */
 int ZynqManager::CheckTelnet() {
 
   /* definitions */
@@ -89,8 +96,12 @@ int ZynqManager::CheckTelnet() {
   return 0;  
 }
 
-/* send and recieve commands over the telnet connection */
-/* to be used inside a function which opens the telnet connection */
+/**
+ * send and recieve commands over the telnet connection
+ * to be used inside a function which opens the telnet connection 
+ * @param send_msg the message to be sent
+ * @param sockfd the socket field descriptor
+ */
 std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
 
   const char * kSendMsg = send_msg.c_str();
@@ -123,8 +134,10 @@ std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
   return recv_msg;
  }
 
-/* connect to telnet */
-/* NB: leaves telnet open to be closed with a separate function */
+/**
+ * connect via telnet to ZYNQ_IP.
+ * NB: leaves telnet open to be closed with a separate function 
+ */
 int ZynqManager::ConnectTelnet() {
 
   /* definitions */
@@ -198,7 +211,9 @@ int ZynqManager::ConnectTelnet() {
   return sockfd;   
 }
 
-/* check the instrument status */
+/**
+ * check the instrument status 
+ */
 int ZynqManager::GetInstStatus() {
 
   /* definitions */
@@ -223,63 +238,9 @@ int ZynqManager::GetInstStatus() {
 }
 
 
-/* check the instrument status */
-/* quick test approach with all telnet setup in one function */
-int ZynqManager::InstStatusTest(std::string send_msg) {
-  
-  int sockfd, n;
-  struct sockaddr_in serv_addr;
-  struct hostent *server;
-  const char * ip = ZYNQ_IP;
-  const char * kSendMsg = send_msg.c_str();
-  char buffer[256];
-  
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) { 
-    printf("ERROR opening socket\n");
-    exit(0);
-  }
-  
-  server = gethostbyname(ip);
-  if (server == NULL) {
-    fprintf(stderr,"ERROR, no such host\n");
-    exit(0);
-  }
-
-  bzero((char *) &serv_addr, sizeof(serv_addr));
-  serv_addr.sin_family = AF_INET;
-  bcopy((char *)server->h_addr, 
-	(char *)&serv_addr.sin_addr.s_addr,
-	server->h_length);
-  serv_addr.sin_port = htons(TELNET_PORT);
-
-  if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-    printf("ERROR opening socket\n");
-    exit(0);
-  }
-
-  bzero(buffer, 256);
-  strncpy(buffer, kSendMsg, sizeof(buffer));
-  
-  n = write(sockfd, buffer, strlen(buffer));
-  if (n < 0) {
-    printf("ERROR opening socket\n");
-    exit(0);
-  }
-  bzero(buffer, 256);
-  n = read(sockfd, buffer, 255);
-  if (n < 0) { 
-    printf("ERROR opening socket\n");
-    exit(0);
-  }
-  printf("%s\n", buffer);
-  close(sockfd);
-  
-  return 0;
-}
-
-
-/* check the HV status */
+/**
+ * check the HV status 
+ */
 int ZynqManager::GetHvpsStatus() {
 
   /* definitions */
@@ -304,7 +265,13 @@ int ZynqManager::GetHvpsStatus() {
   return 0;
 }
 
-/* turn on the HV */
+/**
+ * turn on the HV.
+ * ramps up the dynode voltage in steps of 500 HV DAC <=> ~140 V 
+ * @param cv the cathode voltage (int from 1-3)
+ * @param dv the dynode voltage (HV DAC from 0 to 4096)
+ * to convert from HV DAC to voltage use (dv/4096 * 2.44 * 466)
+ */
 int ZynqManager::HvpsTurnOn(int cv, int dv) {
 
   /* definitions */
@@ -397,7 +364,9 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
 }
 
 
-/* turn off the HV */
+/**
+ * turn off the HV 
+ */
 int ZynqManager::HvpsTurnOff() {
 
   /* definitions */
@@ -428,7 +397,9 @@ int ZynqManager::HvpsTurnOff() {
 }
 
 
-/* take an scurve */
+/**
+ * take an scurve 
+ */
 int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 
   /* definitions */
@@ -458,7 +429,10 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   return 0;
 }
 
-/* set the DAC on the SPACIROCs */
+/**
+ * set the ASIC DAC on the SPACIROCs 
+ * @param dac_level (0 - 1000)
+ */
 int ZynqManager::SetDac(int dac_level) {
 
   /* definitions */
@@ -485,7 +459,9 @@ int ZynqManager::SetDac(int dac_level) {
 }
 
 
-/* Acquire one GTU frame from the SPACIROCs */
+/**
+ * acquire one GTU frame from the SPACIROCs 
+ */
 int ZynqManager::AcqShot() {
 
   /* definitions */
@@ -511,7 +487,11 @@ int ZynqManager::AcqShot() {
   return 0;
 }
 
-/* set the acquisition mode */
+/**
+ * set the acquisition mode 
+ * @param input_mode the desired mode to set
+ * @TODO add status check after mode setting
+ */
 ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::InstrumentMode input_mode) {
 
   /* definitions */
@@ -563,7 +543,11 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
 }
 
 
-/* set the test acquisition mode */
+/**
+ * set the test acquisition mode 
+ * @param input_mode the desired mode to be set
+ * @TODO add status check after mode setting
+ */
 ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode) {
 
   /* definitions */
@@ -616,7 +600,9 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
 }
 
 
-/* static function to turn off acquisition */
+/**
+ * static function to stop acquisition by setting the insrument to MODE0 
+ */
 int ZynqManager::StopAcquisition() {
 
   /* definitions */
@@ -628,13 +614,19 @@ int ZynqManager::StopAcquisition() {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-   
+
+  this->instrument_mode = MODE0;
+  
   close(sockfd);
   return 0;
 }
 
 
-/* set the number of packets for D1 and D2 */
+/**
+ * set the number of packets for D1 and D2 required every 5.24 s
+ * @param N1 the number of packets for data level 1 (1 - 4)
+ * @param N2 the number of packets for data level 2 (1 - 4)
+ */
 int ZynqManager::SetNPkts(int N1, int N2) {
 
   /* definitions */

@@ -25,6 +25,7 @@ Contents
    usage
    data_format
    data_visualisation
+   test_procedure
    hardware_interfaces
    development
    issues

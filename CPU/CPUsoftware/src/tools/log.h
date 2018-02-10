@@ -18,7 +18,7 @@
 std::string CreateLogname(void);
 
 /**
- *  simple logging class with different output levels and timestamp 
+ * simple logging class with different output levels and timestamp 
  */
 class logstream: public std::ostringstream {
  public:

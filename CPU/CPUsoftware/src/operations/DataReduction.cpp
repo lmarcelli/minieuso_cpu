@@ -1,11 +1,15 @@
 #include "DataReduction.h"
 
-/* default constructor */
+/** 
+ * constructor 
+ */
 DataReduction::DataReduction() {
   
 }
 
-/* launch thread to do data reduction */
+/**
+ * launch thread to do data reduction 
+ */
 void DataReduction::Start() {
 
   clog << "info: " << logstream::info << "starting data reduction" << std::endl;
@@ -24,7 +28,10 @@ void DataReduction::Start() {
   return;
 }
 
-/* data reduction procedure */
+/**
+ * data reduction procedure 
+ * @TODO currently just sleeps! add main procedure
+ */
 int DataReduction::RunDataReduction() {
 
   {

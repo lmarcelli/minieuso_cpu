@@ -321,8 +321,8 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->dv != -1) {
     this->ConfigOut->dynode_voltage = this->CmdLine->dv;
   }
-  if (this->CmdLine->hvdac != -1) {
-    this->ConfigOut->dac_level = this->CmdLine->hvdac;
+  if (this->CmdLine->asic_dac != -1) {
+    this->ConfigOut->dac_level = this->CmdLine->asic_dac;
   }
   
   return 0;

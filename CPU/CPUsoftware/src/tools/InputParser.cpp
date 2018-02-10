@@ -26,7 +26,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->check_status = false;
   
   this->CmdLine->dv = -1;
-  this->CmdLine->hvdac = -1;
+  this->CmdLine->asic_dac = -1;
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
@@ -201,11 +201,18 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   
   /* high voltage dac */
+  const std::string &asic_dac = getCmdOption("-asicdac");
+  if (!asic_dac.empty()){
+    this->CmdLine->asic_dac = std::stoi(asic_dac);
+  }  
+
+  /* high voltage dac (kept for compatibility) */
   const std::string &hv_dac = getCmdOption("-hvdac");
   if (!hv_dac.empty()){
-    this->CmdLine->hvdac = std::stoi(hv_dac);
+    this->CmdLine->asic_dac = std::stoi(hv_dac);
   }  
-   
+
+  
 
   return this->CmdLine;
 }

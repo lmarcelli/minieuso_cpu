@@ -31,7 +31,7 @@ struct CmdLineInputs {
   
   /* command line arguments */
   int dv;
-  int hvdac;
+  int asic_dac;
   LvpsManager::Status lvps_status;
   LvpsManager::SubSystem lvps_subsystem;
   ZynqManager::HvpsStatus hvps_status;

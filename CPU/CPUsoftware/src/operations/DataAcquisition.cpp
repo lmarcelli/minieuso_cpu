@@ -472,7 +472,13 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
 }
 
 
-/* Look for new files in the data directory and process them */
+/**
+ * Look for new files in the data directory and process them depending on file type
+ * @param ConfigOut output of the configuration file parsing with ConfigManager
+ * @param CmdLine output of command line options parsing with InputParser
+ * uses inotify to watch the FTP directory and stops when signalled by 
+ * DataAcquisition::Notify()
+ */
 int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
   int length, i = 0;
@@ -702,7 +708,12 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
   return 0;
 }
 
-/* read out the HV file */
+/**
+ * read out the hv file into a HV_PACKET and store
+ * @param ConfigOut output of the configuration file parsing with ConfigManager
+ * called after the Zynq acquisition is stopped in 
+ * DataAcquisition::CollectData()
+ */
 int DataAcquisition::GetHvInfo(Config * ConfigOut) {
 
   std::string data_str(DATA_DIR);
@@ -748,7 +759,12 @@ int DataAcquisition::GetHvInfo(Config * ConfigOut) {
 }
 
 
-/* spawn thread to collect an S-curve */
+/**
+ * spawn thread to collect an S-curve 
+ * @param ZqManager object to control the Zynq subsystem passed from RunInstrument
+ * @param ConfigOut output of the configuration file parsing with ConfigManager
+ * @param CmdLine output of command line options parsing with InputParser
+ */
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
@@ -759,7 +775,13 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdL
   return 0;
 }
 
-/* spawn threads to collect data */
+/**
+ * spawn threads to collect data 
+ * @param ZqManager object to control the Zynq subsystem passed from RunInstrument
+ * @param ConfigOut output of the configuration file parsing with ConfigManager
+ * @param CmdLine output of command line options parsing with InputParser
+ * launches the required acquisition of different subsystems in parallel
+ */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
@@ -807,8 +829,11 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, Cm
 }
 
 
-/* function to generate and write a fake Zynq packet */
-/* used for testing data format updates */
+/** 
+ * function to generate and write a fake Zynq packet 
+ * used for testing data format updates.
+ * now the Zynq test acquisition modes can be used instead
+ */
 int DataAcquisition::WriteFakeZynqPkt() {
 
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
@@ -892,8 +917,11 @@ int DataAcquisition::WriteFakeZynqPkt() {
   return 0;
 } 
 
-/* function to read the output of DataAcquisition::WriteFakeZynqPkt */
-/* used for testing the new data format */
+/** 
+ * function to read a fake Zynq packet 
+ * used for testing data format updates.
+ * now the Zynq test acquisition modes can be used instead
+ */
 int DataAcquisition::ReadFakeZynqPkt() {
 
   FILE * fake_zynq_pkt = fopen("test_zynq_packet.dat", "rb");

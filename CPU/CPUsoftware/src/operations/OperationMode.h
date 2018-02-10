@@ -12,7 +12,7 @@
 class OperationMode {
 public:
   /**
-   * controlled of the analog subsystem 
+   * control of the analog subsystem 
    */
   AnalogManager * Analog = new AnalogManager();
 

@@ -1,19 +1,27 @@
 #include "CamManager.h"
 
-/* default constructor */
+/**
+ * constructor.
+ * initialisation of usb_num_storage_dev, n_relaunch attempt and launch_running
+ */
 CamManager::CamManager() {
   this->usb_num_storage_dev = 0;
   this->n_relaunch_attempt = 0;
   this->launch_running = false;
 }
 
+/**
+ * set verbose output for debugging 
+ */
 int CamManager::SetVerbose() {
   this->verbose = true;
 
   return 0;
 }
 
-/* start acquisition */
+/**
+ * start camera acquisition and react to launch failure if necessary 
+ */
 int CamManager::StartAcquisition() {
 
   std::string output;
@@ -57,7 +65,10 @@ int CamManager::StartAcquisition() {
  return 0;
 }
 
-/* spawn thread to launch the camera software */
+/**
+ * spawn thread to launch the camera software 
+ * thread is joined if launch fails and detached if launch successful
+ */
 int CamManager::CollectData() {
 
  /* launch the camera software */
@@ -94,7 +105,11 @@ int CamManager::CollectData() {
   return 0;
 }
 
-/* kill the data collection thread */
+/**
+ * kill the camera thread. 
+ * used when switching mode or shutting down.
+ * the camera thread holds no locked resources.
+ */
 int CamManager::KillCamAcq() {
 
   clog << "info: " << logstream::info << "killing the camera acquisition, if possible" << std::endl;

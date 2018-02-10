@@ -10,6 +10,8 @@ The Mini-EUSO instrument is designed by the JEM-EUSO collaboration to pave the w
 
 The flight software is fully automated and takes advantage of the frequent day/night cycles of the ISS orbit and ancillary instruments with which Mini-EUSO is equipped in order to optimise the mission’s scientific output. The software is responsible for the control of all instrument subsystems and data acquisition. This is achieved with an object oriented design using C++11 and is documented here. For more information on the high-level functionality of the software, see F. Capel et al., *Mini-EUSO flight software and operations on ISS*, In: Proceedings of the 35th International Cosmic Ray Conference (2017). For a full description of the Mini-EUSO instrument and its scientific goals see F. Capel et al., *Mini-EUSO: A high resolution detector for the study of terrestrial and cosmic UV emission from the International Space Station*, Advances in Space Research (2017).
 
+The source code for this project can be found on GitHub: https://github.com/cescalara/minieuso_cpu
+
 Further information on the status of the Mini-EUSO integration and testing as well as technical documnments can be found on the Mini-EUSO wiki page: https://jemeuso.riken.jp/wiki/index.php?Mini-EUSO (members only).
 
 Contents
@@ -22,5 +24,8 @@ Contents
    ssh_connection
    usage
    data_format
+   data_visualisation
    hardware_interfaces
    development
+   issues
+   source_code

@@ -37,9 +37,9 @@ Installation instructions
    * the ethernet connection can be configured by copying the following lines into the ``/etc/network/interfaces`` file
    * the CPU has 2 ports (eth0 and eth1), so edit this file as necessary::
 
-     auto eth0
-     allow-hotplug eth0
-     iface eth0 inet dhcp
+       auto eth0
+       allow-hotplug eth0
+       iface eth0 inet dhcp
   
    * following this run ``service networking restart`` from the command line
 

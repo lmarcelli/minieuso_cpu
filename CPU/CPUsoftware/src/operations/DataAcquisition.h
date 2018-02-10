@@ -22,9 +22,10 @@
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 #define FTP_TIMEOUT 10 /* seconds */
 
-/* NIGHT operational mode: data acquisition */
-/* class for controlling the main acquisition */
-/* (the Zynq board, the thermistors and the Analog board) */
+/** NIGHT operational mode: data acquisition
+ * class for controlling the main acquisition 
+ * (the Zynq board, the thermistors and the Analog board)
+ */
 class DataAcquisition : public OperationMode {   
 public:  
   std::string cpu_main_file_name;
@@ -32,13 +33,23 @@ public:
   std::string cpu_hv_file_name;
   uint8_t usb_num_storage_dev;
   
-  /* synchronised file access */
+  /**
+   * synchronised file pointer
+   */
   std::shared_ptr<SynchronisedFile> CpuFile;
+  /**
+   * synchronised file access
+   */
   Access * RunAccess;
 
-  /* subsystems controlled */
+  /**
+   * control of the thermistors 
+   */
   ThermManager * ThManager = new ThermManager();
-  
+
+  /**
+   * enum to define the CPU file type
+   */
   enum RunType : uint8_t {
     CPU = 0,
     SC = 1,

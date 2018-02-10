@@ -1,6 +1,9 @@
 #include "SynchronisedFile.h"
 
-/* default constructor */
+/**
+ * constructor.
+ * @param path path to the SynchronisedFile to be created 
+ */
 SynchronisedFile::SynchronisedFile(std::string path) {
 
   this->path = path;
@@ -14,13 +17,19 @@ SynchronisedFile::SynchronisedFile(std::string path) {
 
 }
 
-/* destructor */
+/**
+ * destructor 
+ * closes the SynchronisedFile
+ */
 SynchronisedFile::~SynchronisedFile() {
 
   /* close the file */
   fclose(this->_ptr_to_file);
 }
 
+/**
+ * calculate the CRC checksum and append to file
+ */
 uint32_t SynchronisedFile::Checksum() {
 
   /* lock to one thread at a time */
@@ -57,24 +66,36 @@ uint32_t SynchronisedFile::Checksum() {
   return crc_result.checksum();
 }
 
+/**
+ * close the SynchronisedFile
+ */
 void SynchronisedFile::Close() {
 
   /* close the file */
   fclose(this->_ptr_to_file);
 }
 
-/* default constructor */
+/**
+ * constructor.
+ * @param sf pointer to the Synchronisedfile to be accessed  
+ */
 Access::Access(std::shared_ptr<SynchronisedFile> sf) {
   this->_sf = sf;
   this->path = sf->path;
 }
 
+/**
+ * get the checksum of the SynchronisedFile accessed
+ */
 uint32_t Access::GetChecksum() {
 
   uint32_t checksum =_sf->Checksum();
   return checksum;
 }
 
+/**
+ * close the SynchronisedFile accessed
+ */
 void Access::CloseSynchFile() {
 
   this->_sf->Close();

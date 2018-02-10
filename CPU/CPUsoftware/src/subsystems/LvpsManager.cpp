@@ -1,6 +1,9 @@
 #include "LvpsManager.h"
 
-/* default constructor */
+/**
+ * constructor.
+ * sets all statuses to UNDEF
+ */
 LvpsManager::LvpsManager() {
 
   /* status initialisation */
@@ -12,7 +15,9 @@ LvpsManager::LvpsManager() {
   
 }
 
-/* get the status of a subsystem */
+/**
+ * get the current status of a subsystem 
+ */
 LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
   
   switch (sub_system) {
@@ -29,7 +34,10 @@ LvpsManager::Status LvpsManager::GetStatus(SubSystem sub_system) {
   return UNDEF;
 }
 
-/* switch on a subsystem */
+/**
+ * switch on a subsystem and check its return line
+ * @param subsytem the subsytem to be switched on 
+ */
 int LvpsManager::SwitchOn(SubSystem sub_system) {
 
   clog << "info: " << logstream::info << "switching on " << sub_system << std::endl;
@@ -60,7 +68,10 @@ int LvpsManager::SwitchOn(SubSystem sub_system) {
   return 0;
 }
 
-/* switch off a subsystem */
+/**
+ * switch off a subsystem and check its return line
+ * @param subsystem the subsystem to be switched off
+ */
 int LvpsManager::SwitchOff(SubSystem sub_system) {
   
   clog << "info: " << logstream::info << "switching off " << sub_system << std::endl;
@@ -91,7 +102,10 @@ int LvpsManager::SwitchOff(SubSystem sub_system) {
   return 0;
 }
 
-/* check the return line */
+/**
+ * check the return line 
+ * @param subsystem the subsystem to check
+ */
 bool LvpsManager::Check(SubSystem sub_system) {
 
   bool return_status = false;
@@ -125,7 +139,9 @@ bool LvpsManager::Check(SubSystem sub_system) {
   return return_status;
 }
 
-/* initialise the aDIO ports */
+/**
+ * initialise the aDIO ports 
+ */
 int LvpsManager::InitPorts() {
 #ifndef __APPLE__
   int aDIO_ReturnVal;
@@ -144,7 +160,9 @@ int LvpsManager::InitPorts() {
   return 0;
 }
 
-/* write the direction of P1 */
+/**
+ * write the direction of Port1 
+ */
 int LvpsManager::SetDirP1(uint8_t port_config) {
 #ifndef __APPLE__
   int aDIO_ReturnVal;
@@ -170,7 +188,9 @@ int LvpsManager::SetDirP1(uint8_t port_config) {
 }
 
 
-/* read the values of P1 */
+/**
+ * read the values of Port1 
+ */
 int LvpsManager::ReadP1() {
 #ifndef __APPLE__ 
   int aDIO_ReturnVal;
@@ -211,7 +231,11 @@ int LvpsManager::ReadP1() {
 } 
 
 
-/* write the direction of P0 */
+/**
+ * write the direction of Port0 
+ * @param port_config hex value to allow bit-programmable direction setting, e.g. 0xFF = 1111 1111 (all Port0 set to output)
+ *
+ */
 int LvpsManager::SetDirP0(uint8_t port_config) {
 #ifndef __APPLE__
   int aDIO_ReturnVal;
@@ -247,7 +271,10 @@ int LvpsManager::SetDirP0(uint8_t port_config) {
 }
 
 
-/* set the value of P0 */
+/**
+ * set the value of Port0 
+ * @param port_value the value to set
+ */
 int LvpsManager::SetValP0(PortValue port_value) {
 #ifndef __APPLE__
   int aDIO_ReturnVal = 0;
@@ -278,6 +305,9 @@ int LvpsManager::SetValP0(PortValue port_value) {
   return 0;
 }
 
+/**
+ * close the aDIO device
+ */
 int LvpsManager::CloseDev() {
 #ifndef __APPLE__
   int aDIO_ReturnVal;
@@ -292,7 +322,10 @@ int LvpsManager::CloseDev() {
   return 0;
 }
 
-/* deliver a 5V, 10 ms pulse to a certain pin of P0 */
+/**
+ * deliver a 5V, 10 ms pulse to a certain pin or pins of Port0 
+ * @param port_config specifies which pins eg. 0xFF = 1111 1111 (all pins pulsed)
+ */
 int LvpsManager::SetPulseP0(uint8_t port_config) {
 
   /* initialise */

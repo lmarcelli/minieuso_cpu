@@ -32,23 +32,47 @@
 #define HIGH_VAL 0xFF
 #define LOW_VAL 0x00
 
+/**
+ * handles the switching on/off of instrument subsytems using the CPU's 
+ * aDIO ports and the aDIO library.
+ * all port definitions are given in LvpsManager.h
+ */
 class LvpsManager {
 public:
+
+  /**
+   * status options for a subsystem
+   */
   enum Status : uint8_t {
     OFF = 0,
     ON = 1,
     UNDEF = 2,
   };
+  /**
+   * subsystems that can be switched on/off
+   */
   enum SubSystem : uint8_t {
     ZYNQ = 0,
     CAMERAS = 1,
     HK = 2,
   };
 
+  /**
+   * stores the current Zynq status
+   */
   Status zynq_status;
+  /**
+   * stores the current cameras status
+   */
   Status cam_status;
+  /**
+   * stores the current HK status, currently not connected
+   */
   Status hk_status;
 
+  /**
+   * stores the last read bits from Port0
+   */
   uint8_t P1Bits[4];
   
   LvpsManager();
@@ -58,10 +82,19 @@ public:
   bool Check(SubSystem sub_system);
 
 private:
+  /**
+   * the aDIO minor number for use with the aDIO library functions
+   */
   static const uint32_t minor_number = 0;
 #ifndef __APPLE__
+  /**
+   * the aDIO device handle
+   */
   DeviceHandle aDIO_Device;
 #endif /* __APPLE__ */
+  /**
+   * options to write to the digital port
+   */
   enum PortValue : uint8_t {
     HIGH = 0xFF,
     LOW = 0x00,

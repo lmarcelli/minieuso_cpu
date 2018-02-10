@@ -14,7 +14,9 @@
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
 #define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
 
-/* struct for output of the configuration file */
+/**
+ * struct for output of the configuration file 
+ */
 struct Config {
   int cathode_voltage;
   int dynode_voltage;
@@ -27,10 +29,18 @@ struct Config {
   int N2;
 };
 
-/* class for configuring the instrument */
+/**
+ * class for configuring the instrument based on the configuration file provided 
+ */
 class ConfigManager {  
 public:
+  /**
+   * path to the local configuration file
+   */
   std::string config_file_local;
+  /**
+   * path to configuration file to be copied
+   */
   std::string config_file;
   
   ConfigManager();

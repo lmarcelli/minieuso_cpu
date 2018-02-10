@@ -1,19 +1,29 @@
 #include "ConfigManager.h"
 
-/* default constructor */
+/** constructor
+ * initialise the file paths 
+ */
 ConfigManager::ConfigManager () {
   this->config_file_local = CONFIG_FILE_LOCAL;
   this->config_file = CONFIG_FILE_USB;
     
 }
 
-/* constructor */
+/**
+ * constructor
+ * @param cfl path to the local configuration file
+ * @param cf path to the configuration file to be copied over 
+ */
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->config_file_local = cfl;
   this->config_file = cf;
 }
 
-/* copy a file */
+/**
+ * copy a file 
+ * @param SRC path to source
+ * @param DEST path to destination 
+ */
 bool ConfigManager::CopyFile(const char * SRC, const char * DEST) { 
 
   std::ifstream src(SRC, std::ios::binary);
@@ -35,7 +45,9 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
   return src && dest;
 }
 
-/* parse a configuration file */
+/**
+ * parse the configuration file 
+ */
 Config * ConfigManager::Parse() {
 
   std::string line;
@@ -108,7 +120,9 @@ Config * ConfigManager::Parse() {
 }
 
 
-/* reload and parse a configuration file */
+/**
+ * reload and parse the configuration file 
+ */
 Config * ConfigManager::Configure() {
 
   /* definitions */

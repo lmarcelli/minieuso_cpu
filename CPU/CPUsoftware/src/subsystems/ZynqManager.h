@@ -25,15 +25,32 @@
 /* pedestal for the ASIC DAC */
 #define PEDESTAL 750
 
+/**
+ * class to handle the Zynq interface. 
+ * commands and information are sent and received over telnet
+ * using socket programming.
+ * data from the Zynq board is placed on the FTP directory
+ */
 class ZynqManager {
 public:
+
+  /**
+   * the zynq acquisition mode options
+   */
   enum InstrumentMode : uint8_t {
     MODE0 = 0,
     MODE1 = 1,
     PERIODIC = 2,
     TRIGGER = 3,
   };
+  /**
+   * stores the current zynq acquisiton mode
+   */
   InstrumentMode instrument_mode;
+
+  /**
+   * the zynq test mode options
+   */
   enum TestMode : uint8_t {
     T_MODE0 = 0,
     T_MODE1 = 1,
@@ -43,14 +60,27 @@ public:
     T_MODE5 = 5,
     T_MODE6 = 6,
   };
+  /*
+   * stores the current zynq test mode
+   */
   TestMode test_mode;
+
+  /**
+   * the status options for the HV
+   */
   enum HvpsStatus : uint8_t {
     OFF = 0,
     ON = 1,
     UNDEF = 2,
   };
+  /**
+   * stores the current HV status
+   */
   HvpsStatus hvps_status;
 
+  /*
+   * set to true if the telnet connection is successful 
+   */
   bool telnet_connected;
     
   ZynqManager();

@@ -13,18 +13,31 @@
 /* number of seconds between temperature acquisitions */
 #define THERM_ACQ_SLEEP 60
 
-/* acquisition structure for temperature readout */
+/**
+ * acquisition structure for temperature readout 
+ */
 typedef struct
 {
   float val [N_CHANNELS_THERM];
 } TemperatureAcq;
 
 
-/* class to control the thermistor acquisition */
+/**
+ * controls the thermistor acquisition 
+ */
 class ThermManager {
 public:
+  /*
+   * SynchronisedFile access
+   */
   Access * RunAccess;
+  /*
+   * to wait for CPU file to be created by DataAcquisition::CreateCpuRun
+   */
   std::condition_variable cond_var;
+  /*
+  * to notify that the CPU file is set by DataAcquisition::CreateCpuRun
+  */
   bool cpu_file_is_set;
 
   ThermManager();

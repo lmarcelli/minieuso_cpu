@@ -614,8 +614,6 @@ int ZynqManager::StopAcquisition() {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   status_string = SendRecvTelnet("instrument mode 0\n", sockfd);
-
-  this->instrument_mode = MODE0;
   
   close(sockfd);
   return 0;

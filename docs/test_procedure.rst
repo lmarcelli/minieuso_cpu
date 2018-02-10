@@ -41,7 +41,9 @@ Tests with HV
 
   * There is no need to specify the asicdac for an S-curve, all thresholds will be scanned
 
-* Ensure the HV is switched off before exposing the instrument to high light levels by checking that the ``mecontrol -check_status`` returns ``HVPS status: 0 0 0 0 0 0 0 0 0``
+* Ensure the HV is switched off before exposing the instrument to high light levels by checking that the ``mecontrol -check_status`` returns::
+
+    HVPS status: 0 0 0 0 0 0 0 0 0
   
     
 

@@ -25,12 +25,14 @@ Installation instructions
 1. Set up the CPU hardware with a keyboard, screen and working ethernet connection
 
 2. Download and install the Debian amd64 Standard Desktop from a bootable USB. Follow the default options and install onto the 32 GB flash storage of the CPU.
+
    * user: minieusouser
    * password: on the EUSO wiki (members only)
    * connect to the network mirror to allow updates
    * install GRUB onto the 32 GB flash drive 
 
 3. Restart the system and boot into the OS, login as root
+
    * ensure the analog board is also connected (necessary to load the drivers)
    * the ethernet connection can be configured by copying the following lines into the ``/etc/network/interfaces`` file
    * the CPU has 2 ports (eth0 and eth1), so edit this file as necessary::

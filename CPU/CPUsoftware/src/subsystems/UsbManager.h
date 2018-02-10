@@ -25,9 +25,20 @@
 #define STORAGE_BUS_NEW 1
 #define CAMERA_BUS_NEW 2
 
+/**
+ * handles the interface to all USB devices, including 
+ * data storage and automated backup
+ */
 class UsbManager {
 public:
+  /**
+   * defines the bus upon which USB storage is present
+   * depends on the CPU module
+   */
   uint8_t storage_bus;
+  /**
+   * stores the number of storage devices connected
+   */
   uint8_t num_storage_dev;
   
   UsbManager();
@@ -37,6 +48,9 @@ public:
   int KillDataBackup();
   
 private:
+  /**
+   * stores the backup thread handle
+   */
   std::thread::native_handle_type backup_thread_handle;  
 
   void CheckCpuModel();

@@ -91,7 +91,7 @@ todo_include_todos = True
 
 # -- Options for breathe ----------------------------------------------
 
-breathe_projects = { "minieuso": "doxygen/xml/" }
+breathe_projects = { "minieuso": "../CPU/CPUsoftware/doxygen/xml/" }
 breathe_default_project = "minieuso"
 
 

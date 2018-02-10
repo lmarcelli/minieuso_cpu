@@ -18,14 +18,22 @@
 std::streamsize const buffer_size = PRIVATE_BUFFER_SIZE;
 
 
-/* handles asynchronous writing to file from multiple threads */
+/**
+ * handles asynchronous writing to file from multiple threads 
+ */
 class SynchronisedFile {
 public:
+  /**
+   * stores the path to the file
+   */
   std::string path;
 
   SynchronisedFile(std::string path); 
   ~SynchronisedFile();
 
+  /**
+   * file writing options
+   */
   enum WriteType : uint8_t {
     CONSTANT = 0,
     VARIABLE_D1 = 1,
@@ -34,7 +42,16 @@ public:
 
   uint32_t Checksum();
   void Close();
+  /**
+   * template to allow different objects to be passed for writing
+   */
   template <class GenericType>
+  /**
+   * write a payload to the SynchronisedFile
+   * @param payload payload to be written to file
+   * @param write_type the way in which to write to file 
+   * @param ConfigOut configuration output used to get number of packets for Zynq D1/D2 (optional)
+   */
   size_t Write(GenericType payload, WriteType write_type, Config * ConfigOut = NULL) {
 
     size_t check = 0;
@@ -93,26 +110,49 @@ public:
   }
 
 private:
+  /**
+   * protection for file access   
+   */
   std::mutex _accessMutex;
+  /**
+   * pointer to the SynchronisedFile
+   */
   FILE * _ptr_to_file;
 };
 
-
+/**
+ * handles access to the SynchronisedFile
+ */
 class Access {
 public:
   Access(std::shared_ptr<SynchronisedFile> sf);
 
+  /**
+   * path to the SynchronisedFile
+   */
   std::string path;
   uint32_t GetChecksum();
   void CloseSynchFile();
- 
+
+  /**
+   * template to allow different objects to be passed for writing
+   */
   template <class GenericType>
+ /**
+   * write a payload to the SynchronisedFile
+   * @param payload payload to be written to file
+   * @param write_type the way in which to write to file 
+   * @param ConfigOut configuration output used to get number of packets for Zynq D1/D2 (optional)
+   */
   void WriteToSynchFile(GenericType payload, SynchronisedFile::WriteType write_type, Config * ConfigOut = NULL) {
     /* call write to file */
     this->_sf->Write(payload, write_type, ConfigOut);
   }
   
 private:
+  /**
+   * pointer to the SynchronisedFile
+   */
   std::shared_ptr<SynchronisedFile> _sf;
 };
 

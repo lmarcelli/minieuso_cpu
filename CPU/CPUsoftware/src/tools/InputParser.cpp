@@ -1,6 +1,11 @@
 #include "InputParser.h"
 
-/* default constructor */
+/** 
+ * constructor.
+ * @param argc command line inputs
+ * @param argv command line inputs
+ * initalise the CmdLine struct
+ */
 InputParser::InputParser(int &argc, char **argv) {
   
   /* initialise the struct to handle input */
@@ -35,7 +40,10 @@ InputParser::InputParser(int &argc, char **argv) {
 }
 
 
-/* parse the command line options */
+/**
+ * parse the command line options
+ * and store the result in CmdLine 
+ */
 CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
   /* check for help option */
@@ -202,7 +210,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   return this->CmdLine;
 }
 
-/* print the help message */
+/**
+ * print the help message detailing all accepted command line options
+ * (for use with mecontrol -help) 
+ */
 int InputParser::PrintHelpMsg() {
   
   std::cout << "--------------------------------" << std::endl;

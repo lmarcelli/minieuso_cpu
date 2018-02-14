@@ -30,7 +30,15 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigO
     time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
     break;
   case SC:
-    time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__" + std::to_string(ConfigOut->dynode_voltage) + ".dat";
+
+    /* check if HV switched on */
+    if (ConfigOut->hv_on) {
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__" + std::to_string(ConfigOut->dynode_voltage) + ".dat";
+    }
+    else {
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV.dat";
+    }
+    
     break;
   case HV:
     time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S.dat";

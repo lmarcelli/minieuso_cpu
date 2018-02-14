@@ -55,6 +55,10 @@ Config * ConfigManager::Parse() {
 
   /* define the parameters to parse */ 
   Config * Output = new Config();
+
+  /* initialise HV switch to be set by InputParser */
+  /* stored here to be easily passed around the DataAcquisition */
+  Output->hv_on = false;
   
   std::ifstream cfg_file;
   std::stringstream cf;

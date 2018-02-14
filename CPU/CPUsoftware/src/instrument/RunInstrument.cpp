@@ -324,7 +324,7 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->asic_dac != -1) {
     this->ConfigOut->dac_level = this->CmdLine->asic_dac;
   }
-  
+
   return 0;
 }
 
@@ -624,6 +624,7 @@ int RunInstrument::NightOperations() {
     
   /* set the HV as required */
   if (this->CmdLine->hvps_on) {
+    this->ConfigOut->hv_on = true;
     HvpsSwitch();
   }
 

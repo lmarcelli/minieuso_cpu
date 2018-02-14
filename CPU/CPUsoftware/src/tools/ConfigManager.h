@@ -27,6 +27,7 @@ struct Config {
   int dac_level;
   int N1;
   int N2;
+  bool hv_on;
 };
 
 /**

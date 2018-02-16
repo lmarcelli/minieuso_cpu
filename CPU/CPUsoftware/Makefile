@@ -18,7 +18,7 @@ DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools -I./src/data_format
 platform=$(shell uname -s)
 ifeq ($(platform), Darwin)
-CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES)
+CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
 else
 CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG) 

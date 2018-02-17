@@ -99,8 +99,14 @@ Will start an acquisition using both ``periodic`` and ``self`` modes. This means
 
 **Test acquisition modes**
 
-To be added
+The Zynq also has built in test modes for debugging, where data is provided by the software instead of  collected from the ASICs. These modes are defined in ZynqManager::TestMode and are descibed here. 
 
+* ``none``: normal operation, data provider test generator is switched OFF.
+* ``ecasic``: all pixels are 0 in EC ESIC board #0, all pixels =  6  in EC ESIC board #1, all pixels =  12 in EC ESIC board #2, all pixels =  18 in EC ESIC board #3, all pixels =  24 in EC ESIC board #4, all pixels =  30 in EC ESIC board #5, all frames are the same
+* ``pmt``: all pixels = 0 in PMT #0, all pixels = 1 in PMT #1, ..., all pixels = 35 in PMT #35, all frames are the same
+* ``pdm``:  all pixels = 0 in 1st frame, all pixels = 1 in 2nd frame, ..., all pixels = 127 in 128th frame, after 128 frames counter resets to 0
+* ``l1``: all pixels = 0 in 1st 128 frames, all pixels = 1 in 2nd 128 frames, ..., after 128*128 frames counter resets to 0
+* ``l2``: all pixels = 0 in 1st 128*128 frames, all pixels = 1 in 2nd 128*128 frames, ..., after 128*128*128 frames counter resets to 0
+* ``l3``: all pixels = 0 in 1st 128*128*128 frames, all pixels = 1 in 2nd 128*128*128 frames, ..., after 128*128*128*128 frames counter resets to 0
 
-
-
+To set the desired mode, use the flag ``-test_zynq <MODE>`` with the ``mecontrol`` command. The test modes can only be used one at a time.

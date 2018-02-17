@@ -35,7 +35,8 @@ struct CmdLineInputs {
   LvpsManager::Status lvps_status;
   LvpsManager::SubSystem lvps_subsystem;
   ZynqManager::HvpsStatus hvps_status;
-  ZynqManager::InstrumentMode zynq_mode;
+  //ZynqManager::InstrumentMode zynq_mode;
+  uint8_t zynq_mode;
   ZynqManager::TestMode zynq_test_mode;
   bool cam_verbose;
 

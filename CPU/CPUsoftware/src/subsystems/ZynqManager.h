@@ -41,7 +41,7 @@ public:
     /**
      * basic modes 
      */
-    OFF = 0,
+    NONE = 0,
     PERIODIC = 2,
     SELF = 4,
     IMMEDIATE = 8,

@@ -8,7 +8,7 @@
  */
 ZynqManager::ZynqManager () {   
   this->hvps_status = ZynqManager::UNDEF;
-  this->instrument_mode = ZynqManager::MODE0;
+  this->instrument_mode = ZynqManager::NONE;
   this->test_mode = ZynqManager::T_MODE0;
   this->telnet_connected = false;
 }
@@ -578,7 +578,7 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
 
 
 /**
- * static function to stop acquisition by setting the insrument to MODE0 
+ * static function to stop acquisition by setting the insrument to NONE 
  */
 int ZynqManager::StopAcquisition() {
 

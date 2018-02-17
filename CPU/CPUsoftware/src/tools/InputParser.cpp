@@ -30,7 +30,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
-  this->CmdLine->zynq_mode = ZynqManager::OFF;
+  this->CmdLine->zynq_mode = ZynqManager::NONE;
   this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
   
   /* get command line input */
@@ -136,8 +136,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     if (!mode.empty()){
 
       /* basic modes */
-      if (mode == "off") {
-	this->CmdLine->zynq_mode = ZynqManager::OFF;
+      if (mode == "none") {
+	this->CmdLine->zynq_mode = ZynqManager::NONE;
       }
       else if (mode == "periodic") {
 	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
@@ -156,24 +156,26 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       }
 
       /* compound modes */
+      uint8_t mode_to_set = 0;
       size_t found = mode.find(",");
       if (found != std::string::npos) {
 	found = mode.find("periodic");
 	if (found != std::string::npos) {
-	  this->CmdLine->zynq_mode += ZynqManager::PERIODIC;
+	  mode_to_set += ZynqManager::PERIODIC;
 	}
 	found = mode.find("self");
 	if (found != std::string::npos) {
-	  this->CmdLine->zynq_mode += ZynqManager::SELF;
+	  mode_to_set += ZynqManager::SELF;
 	}
 	found = mode.find("immediate");
 	if (found != std::string::npos) {
-	  this->CmdLine->zynq_mode += ZynqManager::IMMEDIATE;
+	 mode_to_set += ZynqManager::IMMEDIATE;
 	}
 	found = mode.find("external");
 	if (found != std::string::npos) {
-	  this->CmdLine->zynq_mode += ZynqManager::EXTERNAL;
+	  mode_to_set += ZynqManager::EXTERNAL;
 	}
+	this->CmdLine->zynq_mode = mode_to_set;
       }
 	      
     }

@@ -81,7 +81,12 @@ The Zynq handles the collection of data from the PMTs via the SPACIROC3 ASICs. T
 
 **Main acquisiton modes**
 
-There are five basic acquisition modes, as defined in ZynqManager::InstrumentMode. In this section, the term "trigger" is used to describe an event which leads to a data collection of one packet from D1, D2 and D3 (ie. 128 GTU of the first level data, 128 GTU of the second level data and 128 GTU of the thrid level data). N1 and N2 are the number of packets of D1 and D2 data required, and are defined in the configuration file. One data cycle refers to every 5.24 s.
+There are five basic acquisition modes, as defined here:
+
+.. doxygenenum:: ZynqMode
+		 
+
+In this section, the term "trigger" is used to describe an event which leads to a data collection of one packet from D1, D2 and D3 (ie. 128 GTU of the first level data, 128 GTU of the second level data and 128 GTU of the thrid level data). N1 and N2 are the number of packets of D1 and D2 data required, and are defined in the configuration file. One data cycle refers to every 5.24 s.
 
 * ``none``: no acquistion, setting this mode can also used to stop and existing acquisition
 * ``periodic``: the Zynq uses an internal pulse generator to acquire N1 D1 packets and N2 D2 packets every data cycle, there is always only 1 D3 packet per cycle   
@@ -100,6 +105,8 @@ Will start an acquisition using both ``periodic`` and ``self`` modes. This means
 **Test acquisition modes**
 
 The Zynq also has built in test modes for debugging, where data is provided by the software instead of  collected from the ASICs. These modes are defined in ZynqManager::TestMode and are descibed here. 
+
+.. doxygenenum:: TestMode
 
 * ``none``: normal operation, data provider test generator is switched OFF.
 * ``ecasic``: all pixels are 0 in EC ESIC board #0, all pixels =  6  in EC ESIC board #1, all pixels =  12 in EC ESIC board #2, all pixels =  18 in EC ESIC board #3, all pixels =  24 in EC ESIC board #4, all pixels =  30 in EC ESIC board #5, all frames are the same

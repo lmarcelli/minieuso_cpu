@@ -47,7 +47,7 @@ public:
   };
   AcquisitionMode current_acq_mode;
 
-  Config * ConfigOut;
+  std::shared_ptr<Config> ConfigOut;
   ZynqManager Zynq;
   LvpsManager Lvps;
   UsbManager Usb;

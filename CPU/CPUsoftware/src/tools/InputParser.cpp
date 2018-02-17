@@ -31,7 +31,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->zynq_mode = ZynqManager::NONE;
-  this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+  this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
   
   /* get command line input */
   for (int i = 1; i < argc; i++) {
@@ -191,30 +191,31 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     /* zynq test mode */
     const std::string &test_mode = getCmdOption("-test_zynq");
     if (!test_mode.empty()){
-      if (test_mode == "0") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE0;
+      if (test_mode == "none") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
       }
-      else if (test_mode == "1") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE1;
+      else if (test_mode == "ecasic") {
+	this->CmdLine->zynq_test_mode = ZynqManager::ECASIC;
       }
-      else if (test_mode == "2") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE2;
+      else if (test_mode == "pmt") {
+	this->CmdLine->zynq_test_mode = ZynqManager::PMT;
       }
-      else if (test_mode == "3") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+      else if (test_mode == "pdm") {
+	this->CmdLine->zynq_test_mode = ZynqManager::PDM;
       }
-      else if (test_mode == "4") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE4;
+      else if (test_mode == "l1") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L1;
       }
-      else if (test_mode == "5") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE5;
+      else if (test_mode == "l2") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L2;
       }
-      else if (test_mode == "6") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
+      else if (test_mode == "L3") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L3;
       }
     }
     else {
-      std::cout << "WARNING: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+      this->CmdLine->zynq_test_mode = ZynqManager::PDM;
+      std::cout << "WARNING: cannot identify required zynq test mode, using default: pdm" << std::endl;
     }
    
   }

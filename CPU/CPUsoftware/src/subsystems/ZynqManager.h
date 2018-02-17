@@ -70,13 +70,13 @@ public:
    * the zynq test mode options
    */
   enum TestMode : uint8_t {
-    T_MODE0 = 0,
-    T_MODE1 = 1,
-    T_MODE2 = 2,
-    T_MODE3 = 3,
-    T_MODE4 = 4,
-    T_MODE5 = 5,
-    T_MODE6 = 6,
+    T_NONE = 0,
+    ECASIC = 1,
+    PMT = 2,
+    PDM = 3,
+    L1 = 4,
+    L2 = 5,
+    L3 = 6,
   };
   /*
    * stores the current zynq test mode

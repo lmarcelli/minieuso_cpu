@@ -52,7 +52,7 @@ public:
    * @param write_type the way in which to write to file 
    * @param ConfigOut configuration output used to get number of packets for Zynq D1/D2 (optional)
    */
-  size_t Write(GenericType payload, WriteType write_type, Config * ConfigOut = NULL) {
+  size_t Write(GenericType payload, WriteType write_type, std::shared_ptr<Config> ConfigOut = nullptr) {
 
     size_t check = 0;
     
@@ -144,7 +144,7 @@ public:
    * @param write_type the way in which to write to file 
    * @param ConfigOut configuration output used to get number of packets for Zynq D1/D2 (optional)
    */
-  void WriteToSynchFile(GenericType payload, SynchronisedFile::WriteType write_type, Config * ConfigOut = NULL) {
+  void WriteToSynchFile(GenericType payload, SynchronisedFile::WriteType write_type, std::shared_ptr<Config> ConfigOut = nullptr) {
     /* call write to file */
     this->_sf->Write(payload, write_type, ConfigOut);
   }

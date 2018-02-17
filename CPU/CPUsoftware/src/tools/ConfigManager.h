@@ -12,7 +12,11 @@
 
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
+#ifndef __APPLE__
 #define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+#else
+#define CONFIG_DIR "config"
+#endif /* __APPLE__ */
 
 /**
  * struct for output of the configuration file 
@@ -43,14 +47,19 @@ public:
    * path to configuration file to be copied
    */
   std::string config_file;
-  
+  /**
+   * output of the configuration parsing is stored here
+   */
+  std::shared_ptr<Config> ConfigOut;
+
   ConfigManager();
   ConfigManager(std::string, std::string);
-  Config * Configure();
+  void Configure();
+  bool IsParsed();
 
 private:
   bool CopyFile(const char * SRC, const char * DEST);
-  Config * Parse();
+  void Parse();
 
 };
 

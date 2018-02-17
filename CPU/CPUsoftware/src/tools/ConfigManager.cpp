@@ -1,12 +1,29 @@
 #include "ConfigManager.h"
 
 /** constructor
- * initialise the file paths 
+ * initialise the file paths and configuration output
  */
 ConfigManager::ConfigManager () {
   this->config_file_local = CONFIG_FILE_LOCAL;
   this->config_file = CONFIG_FILE_USB;
-    
+
+  this->ConfigOut = std::make_shared<Config>();
+  
+  /* initialise HV switch to be set by InputParser */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->hv_on = false;
+
+  /* initialise other members to 0 */
+  this->ConfigOut->cathode_voltage = -1;
+  this->ConfigOut->dynode_voltage = -1;
+  this->ConfigOut->scurve_start = -1;
+  this->ConfigOut->scurve_step = -1;
+  this->ConfigOut->scurve_stop = -1;
+  this->ConfigOut->scurve_acc = -1;
+  this->ConfigOut->dac_level = -1;
+  this->ConfigOut->N1 = -1;
+  this->ConfigOut->N2 = -1;
+
 }
 
 /**
@@ -17,6 +34,25 @@ ConfigManager::ConfigManager () {
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->config_file_local = cfl;
   this->config_file = cf;
+
+  this->ConfigOut = std::make_shared<Config>();
+  
+  /* initialise HV switch to be set by InputParser */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->hv_on = false;
+
+  /* initialise other members to 0 */
+  this->ConfigOut->cathode_voltage = -1;
+  this->ConfigOut->dynode_voltage = -1;
+  this->ConfigOut->scurve_start = -1;
+  this->ConfigOut->scurve_step = -1;
+  this->ConfigOut->scurve_stop = -1;
+  this->ConfigOut->scurve_acc = -1;
+  this->ConfigOut->dac_level = -1;
+  this->ConfigOut->N1 = -1;
+  this->ConfigOut->N2 = -1;
+
+
 }
 
 /**
@@ -37,9 +73,11 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
   else {
     if (!src.good()) {
       clog << "error: " << logstream::error << "cannot find file to copy" << std::endl; 
+      std::cout << "ERROR: cannot find config file to copy" << std::endl;
     }
     if (!src.good()) {
       clog << "error: " << logstream::error << "cannot find destination to copy to" << std::endl; 
+      std::cout << "ERROR: cannot find config file destination to copy to" << std::endl;
     }
   }
   return src && dest;
@@ -48,17 +86,10 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
 /**
  * parse the configuration file 
  */
-Config * ConfigManager::Parse() {
+void ConfigManager::Parse() {
 
   std::string line;
   std::string config_file_name;
-
-  /* define the parameters to parse */ 
-  Config * Output = new Config();
-
-  /* initialise HV switch to be set by InputParser */
-  /* stored here to be easily passed around the DataAcquisition */
-  Output->hv_on = false;
   
   std::ifstream cfg_file;
   std::stringstream cf;
@@ -67,7 +98,7 @@ Config * ConfigManager::Parse() {
 
   cfg_file.open(config_file_name.c_str());
 
-  printf("CONFIGURATION PARAMETERS\n");  
+  printf("CONFIGURATION PARAMETERS\n");
   if (cfg_file.is_open()) {
     clog << "info: " << logstream::info << "reading from the configuration file" << std::endl; 
     while (getline(cfg_file, line)) {
@@ -76,63 +107,66 @@ Config * ConfigManager::Parse() {
       in >> type;
 
       if (type == "CATHODE_VOLTAGE") {
-	in >> Output->cathode_voltage;
-	printf("CATHODE_VOLTAGE is %d\n", Output->cathode_voltage);
+	in >> this->ConfigOut->cathode_voltage;
       }
       else if (type == "DYNODE_VOLTAGE") {
-	in >> Output->dynode_voltage;
-	printf("DYNODE_VOLTAGE is %d\n", Output->dynode_voltage);
+	in >> this->ConfigOut->dynode_voltage;
       }
       else if (type == "SCURVE_START") {
-	in >> Output->scurve_start;
-	printf("SCURVE_START is %d\n", Output->scurve_start);
+	in >> this->ConfigOut->scurve_start;
       }
       else if (type == "SCURVE_STEP") {
-	in >> Output->scurve_step;
-	printf("SCURVE_STEP is %d\n", Output->scurve_step);
+	in >> this->ConfigOut->scurve_step;
       }
       else if (type == "SCURVE_STOP") {
-	in >> Output->scurve_stop;
-	printf("SCURVE_STOP is %d\n", Output->scurve_stop);
+	in >> this->ConfigOut->scurve_stop;
       }
       else if (type == "SCURVE_ACC") {
-	in >> Output->scurve_acc;
-	printf("SCURVE_ACC is %d\n", Output->scurve_acc);
+	in >> this->ConfigOut->scurve_acc;
       }
       else if (type == "DAC_LEVEL") {
-	in >> Output->dac_level;
-	printf("DAC_LEVEL is %d\n", Output->dac_level);
+	in >> this->ConfigOut->dac_level;
       } 
       else if (type == "N1") {
-	in >> Output->N1;
-	printf("N1 is %d\n", Output->N1);
+	in >> this->ConfigOut->N1;
       }
       else if (type == "N2") {
-	in >> Output->N2;
-	printf("N2 is %d\n", Output->N2);
+	in >> this->ConfigOut->N2;
       }
       
     }
     cfg_file.close();
+
+    /* display the configuration parameters */
+    printf("CATHODE_VOLTAGE is %d\n", this->ConfigOut->cathode_voltage);
+    printf("DYNODE_VOLTAGE is %d\n", this->ConfigOut->dynode_voltage);
+    printf("SCURVE_START is %d\n", this->ConfigOut->scurve_start);
+    printf("SCURVE_STEP is %d\n", this->ConfigOut->scurve_step);
+    printf("SCURVE_STOP is %d\n", this->ConfigOut->scurve_stop);
+    printf("SCURVE_ACC is %d\n", this->ConfigOut->scurve_acc);
+    printf("DAC_LEVEL is %d\n", this->ConfigOut->dac_level);
+    printf("N1 is %d\n", this->ConfigOut->N1);
+    printf("N2 is %d\n", this->ConfigOut->N2);
+    	
   }
   else {
     clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
-  }
+    std::cout << "ERROR: unable to open configuration file" << std::endl;
+    std::cout << "configuration is not set" << std::endl;
+ }
   printf("\n");
      
-  return Output;
 }
 
 
 /**
  * reload and parse the configuration file 
  */
-Config * ConfigManager::Configure() {
+void ConfigManager::Configure() {
 
   /* definitions */
   const char * kCfg = this->config_file.c_str();
   const char * kCfgLocal = this->config_file_local.c_str();
-  Config * ParseOutput = NULL;
 
   clog << "info: " << logstream::info << "running configuration" << std::endl;
   
@@ -147,15 +181,36 @@ Config * ConfigManager::Configure() {
     }
 
     /* parse the file */
-    ParseOutput = Parse();
+    this->Parse();
 
     fclose(file);    
   }
   else {
-    clog << "error: " << logstream::error << "configuration file does not exist" << std::endl;
-
+    clog << "error: " << logstream::error << "configuration file " << config_file << " does not exist" << std::endl;
+    std::cout << "ERROR: configuration file " << config_file << " does not exist" << std::endl;
   }
 
-  return ParseOutput;
+  return;
 }
 
+/**
+ * check a configuration file has indeed been parsed, by checking output != -1
+ * @param ConfigOut the output to be checked
+ */
+bool ConfigManager::IsParsed() {
+
+  if (this->ConfigOut->cathode_voltage != -1 &&
+      this->ConfigOut->dynode_voltage != -1 &&
+      this->ConfigOut->scurve_start != -1 &&
+      this->ConfigOut->scurve_step != -1 &&
+      this->ConfigOut->scurve_acc != -1 &&
+      this->ConfigOut->dac_level != -1 &&
+      this->ConfigOut->N1 != -1 &&
+      this->ConfigOut->N2 != -1) {
+    
+    return true;
+  }
+  else {
+    return false;
+  }
+}

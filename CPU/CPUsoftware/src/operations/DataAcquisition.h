@@ -57,27 +57,27 @@ public:
   };
 
   DataAcquisition();
-  int CreateCpuRun(RunType run_type, Config * ConfigOut);
+  int CreateCpuRun(RunType run_type, std::shared_ptr<Config> ConfigOut);
   int CloseCpuRun(RunType run_type);
-  int CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
-  int CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine);
+  int CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
+  int CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
   
 private:  
-  std::string CreateCpuRunName(RunType run_type, Config * ConfigOut);
+  std::string CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
-  SC_PACKET * ScPktReadOut(std::string sc_file_name, Config * ConfigOut);
+  SC_PACKET * ScPktReadOut(std::string sc_file_name, std::shared_ptr<Config> ConfigOut);
   HV_PACKET * HvPktReadOut(std::string hv_file_name);
-  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut);
+  ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, std::shared_ptr<Config> ConfigOut);
   HK_PACKET * AnalogPktReadOut();
   int WriteScPkt(SC_PACKET * sc_packet);
   int WriteHvPkt(HV_PACKET * hv_packet);
-  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut);
-  int GetHvInfo(Config * ConfigOut);
-  int ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine);
+  int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut);
+  int GetHvInfo(std::shared_ptr<Config> ConfigOut);
+  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   
 };
 

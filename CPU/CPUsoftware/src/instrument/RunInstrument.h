@@ -16,8 +16,8 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* software version and date */
-#define VERSION 4.7
-#define VERSION_DATE_STRING "06/02/2018"
+#define VERSION 4.8
+#define VERSION_DATE_STRING "17/02/2018"
 
 
 /**

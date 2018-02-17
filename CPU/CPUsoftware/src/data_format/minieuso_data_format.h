@@ -13,15 +13,22 @@
 
 #include "minieuso_pdmdata.h"
 
-/* instrument definitions */
+/**
+ * instrument definitions 
+ */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */
 #define ID_TAG 0xAA55AA55
 #define RUN_SIZE 25
 
-#pragma pack(push, 1) /* force no padding in structs */
+/**
+ * force no padding in structs
+ */
+#pragma pack(push, 1) 
 
-/* cpu file header */
-/* 12 bytes */
+/** 
+ * cpu file header 
+ * 12 bytes 
+ */
 typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
@@ -29,8 +36,10 @@ typedef struct
   uint32_t run_size; /* number of cpu packets in the run */
 } CpuFileHeader; 
 
-/* cpu file trailer */
-/* 12 bytes */
+/**
+ * cpu file trailer
+ * 12 bytes 
+ */
 typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
@@ -38,9 +47,11 @@ typedef struct
   uint32_t crc; /* checksum */
 } CpuFileTrailer; 
 
-/* generic packet header for all cpu packets and hk/scurve sub packets */
-/* the zynq packet has its own header defined in pdmdata.h */
-/* 16 bytes */
+/**
+ * generic packet header for all cpu packets and hk/scurve sub packets 
+ * the zynq packet has its own header defined in pdmdata.h 
+ * 16 bytes 
+ */
 typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
@@ -49,11 +60,15 @@ typedef struct
   uint32_t pkt_num; /* counter for each pkt_type, reset each run */
 } CpuPktHeader; 
 
-/* file types */
+/**
+ * file types 
+ */
 #define CPU_FILE_TYPE 'C'
 #define CPU_FILE_VER 1
 
-/* packet types */
+/**
+ * packet types 
+ */
 #define THERM_PACKET_TYPE 'T'
 #define HK_PACKET_TYPE 'H'
 #define HV_PACKET_TYPE 'V'
@@ -65,26 +80,35 @@ typedef struct
 #define SC_PACKET_VER 2
 #define CPU_PACKET_VER 2
 
-/* for the analog readout */
+/**
+ * for the analog readout 
+ */
 #define N_CHANNELS_PHOTODIODE 4
 #define N_CHANNELS_SIPM 64
 #define N_CHANNELS_THERM 10
 
-/* size of the zynq packets */
+/**
+ * size of the zynq packets 
+ */
 #define MAX_PACKETS_L1 4
 #define MAX_PACKETS_L2 4
 #define MAX_PACKETS_L3 1
 
-/* timestamp */
-/* 4 bytes */
+/**
+ * timestamp
+ * 4 bytes 
+ * unix time in s
+ */
 typedef struct
 {
-  uint32_t cpu_time_stamp; // unix time in s
+  uint32_t cpu_time_stamp; 
 } CpuTimeStamp;
 
 
-/* thermistor packet for temperature data */
-/* 60 bytes */
+/**
+ * thermistor packet for temperature data
+ * 60 bytes 
+ */
 typedef struct
 {
   CpuPktHeader therm_packet_header; /* 16 bytes */
@@ -92,8 +116,10 @@ typedef struct
   float therm_data[N_CHANNELS_THERM]; /* 40 bytes */
 } THERM_PACKET;
 
-/* housekeeping packet for other data */
-/* 296 bytes */
+/**
+ * housekeeping packet for sipm and photodiode data 
+ * 296 bytes 
+ */
 typedef struct
 {
   CpuPktHeader hk_packet_header; /* 16 bytes */
@@ -103,21 +129,27 @@ typedef struct
   float sipm_single; /* 4 bytes */
 } HK_PACKET;
 
-/* zynq packet passed to the CPU every 5.24 s */
-/* variable size, depending on configurable N1 and N2 */
+/**
+ * zynq packet passed to the CPU every 5.24 s 
+ * variable size, depending on configurable N1 and N2 
+ */
 typedef struct
 {
   uint8_t N1; /* 1 byte */
   uint8_t N2; /* 1 byte */
-  /* NB: vector itself is not written to file, 
-     just contents which are contiguous in memory */
+  /**
+   * NB: vector itself is not written to file, 
+   * just contents which are contiguous in memory 
+   */
   std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294944 * N1 bytes */
   std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589856 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179684 bytes */
 } ZYNQ_PACKET;
 
-/* CPU packet for incoming data every 5.24 s */
-/* variable size */
+/**
+ * CPU packet for incoming data every 5.24 s 
+ * variable size 
+ */
 typedef struct
 {
   CpuPktHeader cpu_packet_header; /* 16 bytes */
@@ -126,9 +158,11 @@ typedef struct
   ZYNQ_PACKET zynq_packet; /* variable size */
 } CPU_PACKET;
 
-/* CPU file to store one run */
-/* shown here as demonstration only */
-/* variable size */
+/**
+ * CPU file to store one run 
+ * shown here as demonstration only 
+ * variable size 
+ */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 12 bytes */
@@ -136,8 +170,10 @@ typedef struct
   CpuFileTrailer cpu_file_trailer; /* 12 bytes */
 } CPU_FILE;
 
-/* SC packet to store S-curve from Zynq  */
-/* 9437220 */
+/**
+ * SC packet to store S-curve from Zynq 
+ * 9437220 bytes
+ */
 typedef struct
 {
   CpuPktHeader sc_packet_header; /* 16 bytes */
@@ -149,9 +185,11 @@ typedef struct
   Z_DATA_TYPE_SCURVE_V1 sc_data; /* 9437192 bytes */
 } SC_PACKET;
 
-/* SC file to store a single S-curve */
-/* shown here as demonstration only */
-/* 9437244 bytes (~9 MB) */
+/**
+ * SC file to store a single S-curve
+ * shown here as demonstration only 
+ * 9437244 bytes (~9 MB) 
+ */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 12 bytes */
@@ -159,8 +197,10 @@ typedef struct
   CpuFileTrailer cpu_file_trailer; /* 12 bytes */
 } SC_FILE;
 
-/* HV packet for HV switching data */
-/* 1600028 bytes (~ 1.6 MB) */
+/**
+ * HV packet for HV switching data 
+ * 1600028 bytes (~ 1.6 MB) 
+ */
 typedef struct
 {
   CpuPktHeader hv_packet_header; /* 16 bytes */
@@ -168,9 +208,11 @@ typedef struct
   Z_DATA_TYPE_HVPS_LOG_V1 hvps_log; /* 1600008 bytes */
 } HV_PACKET;
 
-/* HV file to store a single HVPS log */
-/* shown here as demonstration only */
-/* 1600028 bytes (~1.6 MB) */
+/**
+ * HV file to store a single HVPS log 
+ * shown here as demonstration only 
+ * 1600028 bytes (~1.6 MB) 
+ */
 typedef struct
 {
   CpuFileHeader cpu_file_header; /* 12 bytes */
@@ -178,6 +220,9 @@ typedef struct
   CpuFileTrailer cpu_file_trailer; /* 12 bytes */
 } HV_FILE;
 
-#pragma pack(pop) /* return to normal packing */
+/**
+ * return to normal packing
+ */
+#pragma pack(pop) 
 
 #endif /* _DATA_FORMAT_H */

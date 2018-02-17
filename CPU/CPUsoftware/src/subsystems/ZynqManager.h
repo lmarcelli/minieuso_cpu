@@ -64,7 +64,7 @@ public:
   /**
    * stores the current zynq acquisiton mode
    */
-  InstrumentMode instrument_mode;
+  uint8_t instrument_mode;
 
   /**
    * the zynq test mode options
@@ -111,7 +111,7 @@ public:
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
-  InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
+  uint8_t SetInstrumentMode(uint8_t input_mode);
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);

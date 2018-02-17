@@ -492,7 +492,7 @@ int ZynqManager::AcqShot() {
  * @param input_mode the desired mode to set
  * @TODO add status check after mode setting
  */
-ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::InstrumentMode input_mode) {
+uint8_t ZynqManager::SetInstrumentMode(uint8_t input_mode) {
 
   /* definitions */
   std::string status_string;

@@ -5,7 +5,6 @@
 #include <condition_variable>
 
 #include "log.h"
-#include "data_format.h"
 #include "CpuTools.h"
 #include "SynchronisedFile.h"
 

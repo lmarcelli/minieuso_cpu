@@ -146,6 +146,13 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
+      else if (mode == "immediate") {
+	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE_TRIGGER;
+      }
+      else if (mode == "external") {
+	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL_TRIGGER;
+      }
+      
     }
     else {
       std::cout << "WARNING: could not identify required zynq mode, using default: periodic" << std::endl;

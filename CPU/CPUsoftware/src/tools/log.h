@@ -11,7 +11,7 @@
 #ifndef __APPLE__
 #define LOG_DIR "/home/software/CPU/CPUsoftware/log"
 #else
-#define LOG_DIR "../log"
+#define LOG_DIR "log"
 #endif
 
 /* function declarations */

@@ -49,7 +49,7 @@ $(BINDIR)/$(APP): buildrepo $(OBJS)
 
 
 # objects
-$(OBJDIR)/%.o: %.$(SRCEXT)
+$(OBJDIR)/%.o: %.$(SRCEXT) %.h
 	@echo "Generating dependencies for $<..."
 	@$(call make-depend,$<,$@,$(subst .o,.d,$@))
 	@echo "Compiling $<..."

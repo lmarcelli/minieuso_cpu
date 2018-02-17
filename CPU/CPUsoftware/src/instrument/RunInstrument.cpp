@@ -315,8 +315,16 @@ int RunInstrument::StartUp() {
   std::string config_file = config_dir + "/dummy.conf";
   std::string config_file_local = config_dir + "/dummy_local.conf";
   ConfigManager CfManager(config_file, config_file_local);
-  this->ConfigOut = CfManager.Configure();
+  CfManager.Configure();
 
+  /* check the configuration file has been parsed */
+  if (!CfManager.IsParsed()) {
+    /* exit with error */
+    return 1;
+  }
+
+  this->ConfigOut = CfManager.ConfigOut;
+  
   /* check for command line override to config */
   if (this->CmdLine->dv != -1) {
     this->ConfigOut->dynode_voltage = this->CmdLine->dv;
@@ -324,7 +332,7 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->asic_dac != -1) {
     this->ConfigOut->dac_level = this->CmdLine->asic_dac;
   }
-
+  
   return 0;
 }
 
@@ -700,8 +708,11 @@ void RunInstrument::Start() {
   }
   
   /* run start-up  */
-  this->StartUp();
-
+  int check = this->StartUp();
+  if (check !=0 ){
+    return;
+  }
+  
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();

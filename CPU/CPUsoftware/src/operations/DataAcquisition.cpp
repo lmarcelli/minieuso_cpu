@@ -18,7 +18,7 @@ DataAcquisition::DataAcquisition() {
  * @param run_type defines the file run type
  * @param ConfigOut the output of configuration parsing with ConfigManager 
  */
-std::string DataAcquisition::CreateCpuRunName(RunType run_type, Config * ConfigOut) {
+std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -109,7 +109,7 @@ uint32_t DataAcquisition::BuildCpuTimeStamp() {
  * @param ConfigOut the output of configuration parsing with ConfigManager
  * sets up the synchonised file access and notifies the ThermManager object
  */
-int DataAcquisition::CreateCpuRun(RunType run_type, Config * ConfigOut) {
+int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> ConfigOut) {
 
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   
@@ -180,7 +180,7 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
 /**
  * read out an scurve file into an SC_PACKET. 
  */
-SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, Config * ConfigOut) {
+SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_ptr<Config> ConfigOut) {
 
   FILE * ptr_scfile;
   SC_PACKET * sc_packet = new SC_PACKET();
@@ -270,7 +270,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
 /**
  * read out a zynq data file into a ZYNQ_PACKET 
  */
-ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, Config * ConfigOut) {
+ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::shared_ptr<Config> ConfigOut) {
 
   FILE * ptr_zfile;
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
@@ -387,7 +387,7 @@ HK_PACKET * DataAcquisition::AnalogPktReadOut() {
  * @param ConfigOut the configuration struct output of ConfigManager
  * asynchronous writes to the CPU file are handled with the SynchronisedFile class
  */
-int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, Config * ConfigOut) {
+int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut) {
 
   CPU_PACKET * cpu_packet = new CPU_PACKET();
   static unsigned int pkt_counter = 0;
@@ -487,7 +487,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -722,7 +722,7 @@ int DataAcquisition::ProcessIncomingData(Config * ConfigOut, CmdLineInputs * Cmd
  * called after the Zynq acquisition is stopped in 
  * DataAcquisition::CollectData()
  */
-int DataAcquisition::GetHvInfo(Config * ConfigOut) {
+int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut) {
 
   std::string data_str(DATA_DIR);
     
@@ -773,7 +773,7 @@ int DataAcquisition::GetHvInfo(Config * ConfigOut) {
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
  */
-int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
@@ -790,7 +790,7 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, Config * ConfigOut, CmdL
  * @param CmdLine output of command line options parsing with InputParser
  * launches the required acquisition of different subsystems in parallel
  */
-int DataAcquisition::CollectData(ZynqManager * ZqManager, Config * ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
   std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
@@ -847,7 +847,7 @@ int DataAcquisition::WriteFakeZynqPkt() {
   ZYNQ_PACKET * zynq_packet = new ZYNQ_PACKET();
   Z_DATA_TYPE_SCI_L1_V2 * zynq_d1_packet_holder = new Z_DATA_TYPE_SCI_L1_V2();
   Z_DATA_TYPE_SCI_L2_V2 * zynq_d2_packet_holder = new Z_DATA_TYPE_SCI_L2_V2();
-  Config * ConfigOut = new Config();
+  std::shared_ptr<Config> ConfigOut = std::make_shared<Config>();
   
   uint32_t i, j, k = 0;
 
@@ -921,7 +921,6 @@ int DataAcquisition::WriteFakeZynqPkt() {
 							SynchronisedFile::CONSTANT);
   TestAccess->CloseSynchFile();
   delete zynq_packet;  
-  delete ConfigOut;
   return 0;
 } 
 

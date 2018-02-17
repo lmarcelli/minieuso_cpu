@@ -42,6 +42,8 @@ public:
     MODE1 = 1,
     PERIODIC = 2,
     TRIGGER = 3,
+    IMMEDIATE_TRIGGER = 8,
+    EXTERNAL_TRIGGER = 16,
   };
   /**
    * stores the current zynq acquisiton mode

@@ -511,29 +511,32 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
   switch (input_mode) {
   case MODE0:
     this->instrument_mode = MODE0;
-    conv << "instrument mode 0 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
+    conv << "instrument mode " << MODE0 << " " << timestamp << std::endl;
     break;
   case MODE1:
     this->instrument_mode = MODE1; 
-    conv << "instrument mode 1 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
+    conv << "instrument mode " << MODE1 << " " << timestamp << std::endl;   
     break;
   case PERIODIC:
     this->instrument_mode = PERIODIC;
-    conv << "instrument mode 2 " << timestamp << std::endl;
-     cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
+    conv << "instrument mode " << PERIODIC << " " << timestamp << std::endl;
     break;
   case TRIGGER:
     this->instrument_mode = TRIGGER;
-    conv << "instrument mode 3 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
+    conv << "instrument mode " << TRIGGER << " " << timestamp << std::endl; 
+    break;
+  case IMMEDIATE_TRIGGER:
+    this->instrument_mode = IMMEDIATE_TRIGGER;
+    conv << "instrument mode " << IMMEDIATE_TRIGGER << " " << timestamp << std::endl; 
+    break;
+  case EXTERNAL_TRIGGER:
+    this->instrument_mode = EXTERNAL_TRIGGER;
+    conv << "instrument mode " << EXTERNAL_TRIGGER << " " << timestamp << std::endl; 
     break;
   }
+
+  cmd = conv.str();
+  status_string = SendRecvTelnet(cmd, sockfd);
   
   /* check the status */
   //ADD THIS

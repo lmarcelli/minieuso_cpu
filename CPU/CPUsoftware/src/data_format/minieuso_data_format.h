@@ -1,22 +1,25 @@
 #ifndef _DATA_FORMAT_H
 #define _DATA_FORMAT_H
 
-/* CPU data format definition */
-/*----------------------------*/
-/* NEW VARIABLE PACKET FORMAT FROM NOV 2017 */
-/* for storage of packets coming from the Zynq board and ancillary instruments */
-/* Francesca Capel: capel.francesca@gmail.com */
-/* NB:the Mini-EUSO CPU is little endian */
+/*
+ * CPU data format definition 
+ *----------------------------*
+ * NEW VARIABLE PACKET FORMAT FROM NOV 2017 
+ * for storage of packets coming from the Zynq board and ancillary instruments 
+ * Francesca Capel: capel.francesca@gmail.com 
+ * NB: the Mini-EUSO CPU is little endian
+ */
 
 /* new multi event data format */
 #include <vector>
 
 #include "minieuso_pdmdata.h"
 
-/**
+/*
  * instrument definitions 
  */
-#define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */
+
+#define INSTRUMENT_ME_PDM 1 
 #define ID_TAG 0xAA55AA55
 #define RUN_SIZE 25
 
@@ -49,7 +52,7 @@ typedef struct
 
 /**
  * generic packet header for all cpu packets and hk/scurve sub packets 
- * the zynq packet has its own header defined in pdmdata.h 
+ * the zynq packet has its own header defined in minieuso_pdmdata.h 
  * 16 bytes 
  */
 typedef struct
@@ -60,15 +63,17 @@ typedef struct
   uint32_t pkt_num; /* counter for each pkt_type, reset each run */
 } CpuPktHeader; 
 
-/**
+/*
  * file types 
  */
+
 #define CPU_FILE_TYPE 'C'
 #define CPU_FILE_VER 1
 
-/**
+/*
  * packet types 
  */
+
 #define THERM_PACKET_TYPE 'T'
 #define HK_PACKET_TYPE 'H'
 #define HV_PACKET_TYPE 'V'
@@ -80,16 +85,18 @@ typedef struct
 #define SC_PACKET_VER 2
 #define CPU_PACKET_VER 2
 
-/**
+/*
  * for the analog readout 
  */
+
 #define N_CHANNELS_PHOTODIODE 4
 #define N_CHANNELS_SIPM 64
 #define N_CHANNELS_THERM 10
 
-/**
+/*
  * size of the zynq packets 
  */
+
 #define MAX_PACKETS_L1 4
 #define MAX_PACKETS_L2 4
 #define MAX_PACKETS_L3 1
@@ -132,15 +139,13 @@ typedef struct
 /**
  * zynq packet passed to the CPU every 5.24 s 
  * variable size, depending on configurable N1 and N2 
+ * NB: vector itself is not written to file, 
+ * just contents which are contiguous in memory 
  */
 typedef struct
 {
   uint8_t N1; /* 1 byte */
   uint8_t N2; /* 1 byte */
-  /**
-   * NB: vector itself is not written to file, 
-   * just contents which are contiguous in memory 
-   */
   std::vector<Z_DATA_TYPE_SCI_L1_V2> level1_data; /* 294944 * N1 bytes */
   std::vector<Z_DATA_TYPE_SCI_L2_V2> level2_data; /* 589856 * N2 bytes */
   Z_DATA_TYPE_SCI_L3_V2 level3_data; /* 1179684 bytes */

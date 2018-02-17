@@ -400,7 +400,7 @@ int RunInstrument::SelectAcqOption() {
   }
 
   /* select Zynq acquisition mode */
-  this->Zynq.instrument_mode = this->CmdLine->zynq_mode;
+  this->Zynq.zynq_mode = this->CmdLine->zynq_mode;
   this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
 
   return 0;

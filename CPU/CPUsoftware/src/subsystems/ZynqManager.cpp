@@ -8,8 +8,8 @@
  */
 ZynqManager::ZynqManager () {   
   this->hvps_status = ZynqManager::UNDEF;
-  this->instrument_mode = ZynqManager::NONE;
-  this->test_mode = ZynqManager::T_MODE0;
+  this->zynq_mode = ZynqManager::NONE;
+  this->test_mode = ZynqManager::T_NONE;
   this->telnet_connected = false;
 }
 
@@ -492,7 +492,7 @@ int ZynqManager::AcqShot() {
  * @param input_mode the desired mode to set
  * @TODO add status check after mode setting
  */
-uint8_t ZynqManager::SetInstrumentMode(uint8_t input_mode) {
+uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
 
   /* definitions */
   std::string status_string;
@@ -505,10 +505,11 @@ uint8_t ZynqManager::SetInstrumentMode(uint8_t input_mode) {
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  this->instrument_mode = input_mode;
+  
+  this->zynq_mode = input_mode;
 
   /* define the command to send via telnet */
-  conv << "instrument mode " << this->instrument_mode << " " << timestamp << std::endl;
+  conv << "instrument mode " << this->zynq_mode << " " << timestamp << std::endl;
   cmd = conv.str();
   status_string = SendRecvTelnet(cmd, sockfd);
   
@@ -516,7 +517,7 @@ uint8_t ZynqManager::SetInstrumentMode(uint8_t input_mode) {
   //ADD THIS
   
   close(sockfd);
-  return this->instrument_mode;
+  return this->zynq_mode;
 }
 
 
@@ -530,44 +531,22 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
   /* definitions */
   std::string status_string;
   int sockfd;
+  std::string cmd;
+  std::stringstream conv;
+
 
   clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
-  /* check input mode and update accordingly */
-  switch (input_mode) {
-  case T_MODE0:
-    this->test_mode = T_MODE0; 
-    status_string = SendRecvTelnet("acq test 0\n", sockfd);
-    break;
-  case T_MODE1:
-    this->test_mode = T_MODE1; 
-    status_string = SendRecvTelnet("acq test 1\n", sockfd);
-    break;
-  case T_MODE2:
-    this->test_mode = T_MODE2; 
-    status_string = SendRecvTelnet("acq test 2\n", sockfd);
-    break;
-  case T_MODE3:
-     this->test_mode = T_MODE3; 
-    status_string = SendRecvTelnet("acq test 3\n", sockfd);
-    break;
-  case T_MODE4:
-     this->test_mode = T_MODE4; 
-    status_string = SendRecvTelnet("acq test 4\n", sockfd);
-    break;
-  case T_MODE5:
-     this->test_mode = T_MODE5; 
-     status_string = SendRecvTelnet("acq test 5\n", sockfd);
-    break;
-  case T_MODE6:
-     this->test_mode = T_MODE6; 
-    status_string = SendRecvTelnet("acq test 5\n", sockfd);
-    break;
 
-  }
+  this->test_mode = input_mode;
+  
+  /* define the command to send over telnet */
+  conv << "acq test " << (int)this->test_mode << std::endl;
+  cmd = conv.str();
+  
+  status_string = SendRecvTelnet(cmd, sockfd);
   
   /* check the status */
   //ADD THIS

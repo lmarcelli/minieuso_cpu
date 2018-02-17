@@ -806,7 +806,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   }
 
   /* set a mode to start data gathering */
-  ZqManager->SetInstrumentMode(ZqManager->instrument_mode);
+  ZqManager->SetZynqMode(ZqManager->zynq_mode);
 
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);

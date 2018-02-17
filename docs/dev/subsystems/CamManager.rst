@@ -13,5 +13,6 @@ CamManager
 ----------
 
 .. doxygenclass:: CamManager
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:

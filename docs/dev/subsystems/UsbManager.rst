@@ -12,5 +12,6 @@ UsbManager
 ----------
 
 .. doxygenclass:: UsbManager
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:

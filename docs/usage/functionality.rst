@@ -31,6 +31,7 @@ Control of the low voltage power supply (LVPS)
 ----------------------------------------------
 
 The CPU controls the powering of the other sub-systems via the LVPS.
+
 * The main data acquisition program will automatically turn on/off subsystems as they are needed
 * There are also commands to switch on and off subsystems, then exit the program
 
@@ -48,10 +49,10 @@ The CPU handles the data acquisition from all subsystems.
   * ``-scurve``: take a single S-curve and exit
   * ``-short``: take a single file (~ 2min) acquisition and exit
   * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
-  * ``-test_zynq <MODE>``: use the Zynq test mode (``<MODE>`` = ``0`` - ``6``, default = ``3``)
+  * ``-test_zynq <MODE>``: use the Zynq test mode (see section below for details, default = ``pdm``)
   * ``-keep_zynq_pkt``: keep the Zynq packets on FTP
 
-* An example use case: ``mecontrol -log -test_zynq 3 -keep_zynq_pkt`` would start and acquisition in Zynq test mode 3 and keep the Zynq packets on the FTP server to check them
+* An example use case: ``mecontrol -log -test_zynq pdm -keep_zynq_pkt`` would start and acquisition in Zynq pdm test mode and keep the Zynq packets on the FTP server to check them
 
 * Data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data (D1, D2 and D3) and information on timestamping and the HV status. 
 
@@ -102,6 +103,9 @@ Will start an acquisition using both ``periodic`` and ``self`` modes. This means
 
   mecontrol -zynq trigger
 
+The multi-level trigger is described in detail in A. Belov et al., *The integration and testing of the Mini-EUSO multi-level trigger system*. Advances in Space Reasearch (2017).
+
+  
 **Test acquisition modes**
 
 The Zynq also has built in test modes for debugging, where data is provided by the software instead of  collected from the ASICs. These modes are defined in ZynqManager::TestMode and are descibed here. 

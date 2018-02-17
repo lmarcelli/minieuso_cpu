@@ -11,6 +11,7 @@ ConfigManager
 -------------
 
 .. doxygenclass:: ConfigManager
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:
 
@@ -19,6 +20,7 @@ InputParser
 -----------
 
 .. doxygenclass:: InputParser
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:
 
@@ -27,10 +29,12 @@ SynchonisedFile
 ---------------
 
 .. doxygenclass:: SynchronisedFile
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:
 
 .. doxygenclass:: Access
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:
 
@@ -39,5 +43,6 @@ log
 ---
 
 .. doxygenclass:: logstream
+   :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:

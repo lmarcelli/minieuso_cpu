@@ -93,7 +93,7 @@ todo_include_todos = True
 
 breathe_projects = { "minieuso": "../CPU/CPUsoftware/doxygen/xml/" }
 breathe_default_project = "minieuso"
-
+breathe_show_define_initializer = True
 
 # -- Options for HTML output ----------------------------------------------
 

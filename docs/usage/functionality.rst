@@ -47,7 +47,7 @@ The CPU handles the data acquisition from all subsystems.
 
   * ``-scurve``: take a single S-curve and exit
   * ``-short``: take a single file (~ 2min) acquisition and exit
-  * ``-zynq <MODE>``: use the Zynq acquisition mode (``<MODE>`` = ``0``, ``1``, ``periodic``, ``trigger``, default = ``periodic``)
+  * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
   * ``-test_zynq <MODE>``: use the Zynq test mode (``<MODE>`` = ``0`` - ``6``, default = ``3``)
   * ``-keep_zynq_pkt``: keep the Zynq packets on FTP
 
@@ -74,3 +74,39 @@ The CPU handles the data acquisition from all subsystems.
 * if USB storage is detected on the system, the output files will be automatically written there instead, and backed up if there is more than one device.
 
    
+Zynq acquisition modes
+----------------------
+
+The Zynq handles the collection of data from the PMTs via the SPACIROC3 ASICs. There are many different ways to collect this data, which are described here.
+
+**Main acquisiton modes**
+
+There are five basic acquisition modes, as defined in ZynqManager::InstrumentMode. In this section, the term "trigger" is used to describe an event which leads to a data collection of one packet from D1, D2 and D3 (ie. 128 GTU of the first level data, 128 GTU of the second level data and 128 GTU of the thrid level data). N1 and N2 are the number of packets of D1 and D2 data required, and are defined in the configuration file. One data cycle refers to every 5.24 s.
+
+* ``none``: no acquistion, setting this mode can also used to stop and existing acquisition
+* ``periodic``: the Zynq uses an internal pulse generator to acquire N1 D1 packets and N2 D2 packets every data cycle, there is always only 1 D3 packet per cycle   
+* ``self``: the Zynq uses the built in L1 and L2 trigger algorithms, a *maximum* of N1 D1 packets and N2 D2 packets are stored every data cycle
+* ``immediate``: a single trigger is collected in a controlled way for debugging purposes via a COM-port keypress or by sending the telnet command ``trg``
+* ``external``: a single trigger is collected in a controlled way via an external electrical pulse
+
+To set the desired mode, use the flag ``-zynq <MODE>`` with the ``mecontrol`` command. Any combination of the above modes can be set simultaneously, simply separate them with a ``,``. For example, the following command::
+
+  mecontrol -zynq periodic,self
+
+Will start an acquisition using both ``periodic`` and ``self`` modes. This means data will be acquired using the built in L1 and L2 trigger algorithms, and if no trigger is detected, the Zynq will simply collect data using it's internal pulse generator. This is the standard operational mode of the instrument and thus can also be accessed with the following command, for simplicity::
+
+  mecontrol -zynq trigger
+
+**Test acquisition modes**
+
+The Zynq also has built in test modes for debugging, where data is provided by the software instead of  collected from the ASICs. These modes are defined in ZynqManager::TestMode and are descibed here. 
+
+* ``none``: normal operation, data provider test generator is switched OFF.
+* ``ecasic``: all pixels are 0 in EC ESIC board #0, all pixels =  6  in EC ESIC board #1, all pixels =  12 in EC ESIC board #2, all pixels =  18 in EC ESIC board #3, all pixels =  24 in EC ESIC board #4, all pixels =  30 in EC ESIC board #5, all frames are the same
+* ``pmt``: all pixels = 0 in PMT #0, all pixels = 1 in PMT #1, ..., all pixels = 35 in PMT #35, all frames are the same
+* ``pdm``:  all pixels = 0 in 1st frame, all pixels = 1 in 2nd frame, ..., all pixels = 127 in 128th frame, after 128 frames counter resets to 0
+* ``l1``: all pixels = 0 in 1st 128 frames, all pixels = 1 in 2nd 128 frames, ..., after 128*128 frames counter resets to 0
+* ``l2``: all pixels = 0 in 1st 128*128 frames, all pixels = 1 in 2nd 128*128 frames, ..., after 128*128*128 frames counter resets to 0
+* ``l3``: all pixels = 0 in 1st 128*128*128 frames, all pixels = 1 in 2nd 128*128*128 frames, ..., after 128*128*128*128 frames counter resets to 0
+
+To set the desired mode, use the flag ``-test_zynq <MODE>`` with the ``mecontrol`` command. The test modes can only be used one at a time.

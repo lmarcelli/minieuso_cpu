@@ -12,7 +12,7 @@
 #include <condition_variable>
 
 #include "log.h"
-#include "data_format.h"
+#include "minieuso_data_format.h"
 
 /* for use with analog readout functions */
 #define CHANNELS 16

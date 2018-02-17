@@ -30,7 +30,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
-  this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
+  this->CmdLine->zynq_mode = ZynqManager::OFF;
   this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
   
   /* get command line input */
@@ -134,27 +134,51 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     /* zynq instrument mode */
     const std::string &mode = getCmdOption("-zynq");
     if (!mode.empty()){
-      if (mode == "0") {
-	this->CmdLine->zynq_mode = ZynqManager::MODE0;
-      }
-      else if (mode == "1") {
-	this->CmdLine->zynq_mode = ZynqManager::MODE1;
+
+      /* basic modes */
+      if (mode == "off") {
+	this->CmdLine->zynq_mode = ZynqManager::OFF;
       }
       else if (mode == "periodic") {
 	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       }
+      else if (mode == "self") {
+	this->CmdLine->zynq_mode = ZynqManager::SELF;
+      }
+      else if (mode == "immediate") {
+	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE;
+      }
+      else if (mode == "external") {
+	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL;
+      }
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
-      else if (mode == "immediate") {
-	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE_TRIGGER;
+
+      /* compound modes */
+      size_t found = mode.find(",");
+      if (found != std::string::npos) {
+	found = mode.find("periodic");
+	if (found != std::string::npos) {
+	  this->CmdLine->zynq_mode += ZynqManager::PERIODIC;
+	}
+	found = mode.find("self");
+	if (found != std::string::npos) {
+	  this->CmdLine->zynq_mode += ZynqManager::SELF;
+	}
+	found = mode.find("immediate");
+	if (found != std::string::npos) {
+	  this->CmdLine->zynq_mode += ZynqManager::IMMEDIATE;
+	}
+	found = mode.find("external");
+	if (found != std::string::npos) {
+	  this->CmdLine->zynq_mode += ZynqManager::EXTERNAL;
+	}
       }
-      else if (mode == "external") {
-	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL_TRIGGER;
-      }
-      
+	      
     }
     else {
+      this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       std::cout << "WARNING: could not identify required zynq mode, using default: periodic" << std::endl;
     }
 

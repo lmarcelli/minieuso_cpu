@@ -505,28 +505,7 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-
-  /* check input mode and update accordingly */
-  switch (input_mode) {
-  case MODE0:
-    this->instrument_mode = MODE0;
-    break;
-  case MODE1:
-    this->instrument_mode = MODE1; 
-    break;
-  case PERIODIC:
-    this->instrument_mode = PERIODIC;
-    break;
-  case TRIGGER:
-    this->instrument_mode = TRIGGER;
-    break;
-  case IMMEDIATE_TRIGGER:
-    this->instrument_mode = IMMEDIATE_TRIGGER;
-    break;
-  case EXTERNAL_TRIGGER:
-    this->instrument_mode = EXTERNAL_TRIGGER;
-    break;
-  }
+  this->instrument_mode = input_mode;
 
   /* define the command to send via telnet */
   conv << "instrument mode " << this->instrument_mode << " " << timestamp << std::endl;

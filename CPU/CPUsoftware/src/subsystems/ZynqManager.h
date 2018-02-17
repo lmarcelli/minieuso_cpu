@@ -38,12 +38,28 @@ public:
    * the zynq acquisition mode options
    */
   enum InstrumentMode : uint8_t {
-    MODE0 = 0,
-    MODE1 = 1,
+    /**
+     * basic modes 
+     */
+    OFF = 0,
     PERIODIC = 2,
-    TRIGGER = 3,
-    IMMEDIATE_TRIGGER = 8,
-    EXTERNAL_TRIGGER = 16,
+    SELF = 4,
+    IMMEDIATE = 8,
+    EXTERNAL = 16,
+    /**
+     * compound modes 
+     */
+    TRIGGER = 6, /* usual data taking mode: PERIODIC + SELF */
+    PERIODIC_IMMEDIATE = 10, /* PERIODIC + IMMEDIATE */
+    SELF_IMMEDIATE = 12, /* SELF + IMMEDIATE */
+    PERIODIC_SELF_IMMEDIATE = 14, /* PERIODIC + SELF + IMMEDIATE  */
+    PERIODIC_EXTERNAL = 18, /* PERIODIC + EXTERNAL */
+    SELF_EXTERNAL = 20, /* SELF + EXTERNAL */
+    PERIODIC_SELF_EXTERNAL = 22, /* PERIODIC + SELF + EXTERNAL */
+    IMMEDIATE_EXTERNAL = 24, /* IMMEDIATE + EXTERNAL */ 
+    PERIODIC_IMMEDIATE_EXTERNAL = 26, /* PERIODIC + IMMEDIATE + EXTERNAL */
+    SELF_IMMEDIATE_EXTERNAL = 28, /* SELF + IMMEDIATE + EXTERNAL */
+    ALL_TRIGGER = 30, /* PERIODIC + SELF + IMMEDIATE + EXTERNAL */
   };
   /**
    * stores the current zynq acquisiton mode

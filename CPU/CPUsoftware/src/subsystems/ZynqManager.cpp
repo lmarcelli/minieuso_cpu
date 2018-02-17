@@ -8,7 +8,7 @@
  */
 ZynqManager::ZynqManager () {   
   this->hvps_status = ZynqManager::UNDEF;
-  this->instrument_mode = ZynqManager::MODE0;
+  this->instrument_mode = ZynqManager::NONE;
   this->test_mode = ZynqManager::T_MODE0;
   this->telnet_connected = false;
 }
@@ -492,7 +492,7 @@ int ZynqManager::AcqShot() {
  * @param input_mode the desired mode to set
  * @TODO add status check after mode setting
  */
-ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::InstrumentMode input_mode) {
+uint8_t ZynqManager::SetInstrumentMode(uint8_t input_mode) {
 
   /* definitions */
   std::string status_string;
@@ -505,35 +505,12 @@ ZynqManager::InstrumentMode ZynqManager::SetInstrumentMode(ZynqManager::Instrume
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
+  this->instrument_mode = input_mode;
 
-
-  /* check input mode and update accordingly */
-  switch (input_mode) {
-  case MODE0:
-    this->instrument_mode = MODE0;
-    conv << "instrument mode 0 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
-    break;
-  case MODE1:
-    this->instrument_mode = MODE1; 
-    conv << "instrument mode 1 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
-    break;
-  case PERIODIC:
-    this->instrument_mode = PERIODIC;
-    conv << "instrument mode 2 " << timestamp << std::endl;
-     cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
-    break;
-  case TRIGGER:
-    this->instrument_mode = TRIGGER;
-    conv << "instrument mode 3 " << timestamp << std::endl;
-    cmd = conv.str();
-    status_string = SendRecvTelnet(cmd, sockfd);
-    break;
-  }
+  /* define the command to send via telnet */
+  conv << "instrument mode " << this->instrument_mode << " " << timestamp << std::endl;
+  cmd = conv.str();
+  status_string = SendRecvTelnet(cmd, sockfd);
   
   /* check the status */
   //ADD THIS
@@ -601,7 +578,7 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
 
 
 /**
- * static function to stop acquisition by setting the insrument to MODE0 
+ * static function to stop acquisition by setting the insrument to NONE 
  */
 int ZynqManager::StopAcquisition() {
 

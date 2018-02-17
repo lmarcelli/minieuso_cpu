@@ -38,27 +38,45 @@ public:
    * the zynq acquisition mode options
    */
   enum InstrumentMode : uint8_t {
-    MODE0 = 0,
-    MODE1 = 1,
+    /**
+     * basic modes 
+     */
+    NONE = 0,
     PERIODIC = 2,
-    TRIGGER = 3,
+    SELF = 4,
+    IMMEDIATE = 8,
+    EXTERNAL = 16,
+    /**
+     * compound modes 
+     */
+    TRIGGER = 6, /* usual data taking mode: PERIODIC + SELF */
+    PERIODIC_IMMEDIATE = 10, /* PERIODIC + IMMEDIATE */
+    SELF_IMMEDIATE = 12, /* SELF + IMMEDIATE */
+    PERIODIC_SELF_IMMEDIATE = 14, /* PERIODIC + SELF + IMMEDIATE  */
+    PERIODIC_EXTERNAL = 18, /* PERIODIC + EXTERNAL */
+    SELF_EXTERNAL = 20, /* SELF + EXTERNAL */
+    PERIODIC_SELF_EXTERNAL = 22, /* PERIODIC + SELF + EXTERNAL */
+    IMMEDIATE_EXTERNAL = 24, /* IMMEDIATE + EXTERNAL */ 
+    PERIODIC_IMMEDIATE_EXTERNAL = 26, /* PERIODIC + IMMEDIATE + EXTERNAL */
+    SELF_IMMEDIATE_EXTERNAL = 28, /* SELF + IMMEDIATE + EXTERNAL */
+    ALL_TRIGGER = 30, /* PERIODIC + SELF + IMMEDIATE + EXTERNAL */
   };
   /**
    * stores the current zynq acquisiton mode
    */
-  InstrumentMode instrument_mode;
+  uint8_t instrument_mode;
 
   /**
    * the zynq test mode options
    */
   enum TestMode : uint8_t {
-    T_MODE0 = 0,
-    T_MODE1 = 1,
-    T_MODE2 = 2,
-    T_MODE3 = 3,
-    T_MODE4 = 4,
-    T_MODE5 = 5,
-    T_MODE6 = 6,
+    T_NONE = 0,
+    ECASIC = 1,
+    PMT = 2,
+    PDM = 3,
+    L1 = 4,
+    L2 = 5,
+    L3 = 6,
   };
   /*
    * stores the current zynq test mode
@@ -93,7 +111,7 @@ public:
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
-  InstrumentMode SetInstrumentMode(InstrumentMode input_mode);
+  uint8_t SetInstrumentMode(uint8_t input_mode);
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);

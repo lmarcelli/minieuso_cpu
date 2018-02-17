@@ -11,7 +11,7 @@
 /* new multi event data format */
 #include <vector>
 
-#include "pdmdata.h"
+#include "minieuso_pdmdata.h"
 
 /* instrument definitions */
 #define INSTRUMENT_ME_PDM 1 /* Instrument Mini-EUSO PDM */

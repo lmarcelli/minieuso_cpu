@@ -30,8 +30,8 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
-  this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
-  this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+  this->CmdLine->zynq_mode = ZynqManager::NONE;
+  this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
   
   /* get command line input */
   for (int i = 1; i < argc; i++) {
@@ -134,20 +134,53 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     /* zynq instrument mode */
     const std::string &mode = getCmdOption("-zynq");
     if (!mode.empty()){
-      if (mode == "0") {
-	this->CmdLine->zynq_mode = ZynqManager::MODE0;
-      }
-      else if (mode == "1") {
-	this->CmdLine->zynq_mode = ZynqManager::MODE1;
+
+      /* basic modes */
+      if (mode == "none") {
+	this->CmdLine->zynq_mode = ZynqManager::NONE;
       }
       else if (mode == "periodic") {
 	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       }
+      else if (mode == "self") {
+	this->CmdLine->zynq_mode = ZynqManager::SELF;
+      }
+      else if (mode == "immediate") {
+	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE;
+      }
+      else if (mode == "external") {
+	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL;
+      }
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
+
+      /* compound modes */
+      uint8_t mode_to_set = 0;
+      size_t found = mode.find(",");
+      if (found != std::string::npos) {
+	found = mode.find("periodic");
+	if (found != std::string::npos) {
+	  mode_to_set += ZynqManager::PERIODIC;
+	}
+	found = mode.find("self");
+	if (found != std::string::npos) {
+	  mode_to_set += ZynqManager::SELF;
+	}
+	found = mode.find("immediate");
+	if (found != std::string::npos) {
+	 mode_to_set += ZynqManager::IMMEDIATE;
+	}
+	found = mode.find("external");
+	if (found != std::string::npos) {
+	  mode_to_set += ZynqManager::EXTERNAL;
+	}
+	this->CmdLine->zynq_mode = mode_to_set;
+      }
+	      
     }
     else {
+      this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       std::cout << "WARNING: could not identify required zynq mode, using default: periodic" << std::endl;
     }
 
@@ -158,30 +191,31 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     /* zynq test mode */
     const std::string &test_mode = getCmdOption("-test_zynq");
     if (!test_mode.empty()){
-      if (test_mode == "0") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE0;
+      if (test_mode == "none") {
+	this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
       }
-      else if (test_mode == "1") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE1;
+      else if (test_mode == "ecasic") {
+	this->CmdLine->zynq_test_mode = ZynqManager::ECASIC;
       }
-      else if (test_mode == "2") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE2;
+      else if (test_mode == "pmt") {
+	this->CmdLine->zynq_test_mode = ZynqManager::PMT;
       }
-      else if (test_mode == "3") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE3;
+      else if (test_mode == "pdm") {
+	this->CmdLine->zynq_test_mode = ZynqManager::PDM;
       }
-      else if (test_mode == "4") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE4;
+      else if (test_mode == "l1") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L1;
       }
-      else if (test_mode == "5") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE5;
+      else if (test_mode == "l2") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L2;
       }
-      else if (test_mode == "6") {
-	this->CmdLine->zynq_test_mode = ZynqManager::T_MODE6;
+      else if (test_mode == "L3") {
+	this->CmdLine->zynq_test_mode = ZynqManager::L3;
       }
     }
     else {
-      std::cout << "WARNING: cannot identify required zynq test mode, using default: test mode 3" << std::endl;
+      this->CmdLine->zynq_test_mode = ZynqManager::PDM;
+      std::cout << "WARNING: cannot identify required zynq test mode, using default: pdm" << std::endl;
     }
    
   }

@@ -87,7 +87,6 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
 						      CmdLineInputs * CmdLine) {
   /* for info string */
-  const char * run_info_ptr;
   std::string run_info_string;
   std::stringstream conv;
 
@@ -107,6 +106,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   conv << "Instrument: " << INSTRUMENT << std::endl;
   conv << "Date/time (UTC): " << time << std::endl;
   conv << "Software version: " << VERSION << " date: " << VERSION_DATE_STRING << std::endl;
+  conv << "Zynq firmware version: " << ZYNQ_FW_VER << std::endl; 
   conv << "Zynq acquisition/trigger mode: " << CmdLine->zynq_mode_string << std::endl;
   conv << "Instrument and acquisition mode (defined in RunInstrument.h) : " << ConfigOut->instrument_mode << " " << ConfigOut->acquisition_mode << std::endl;
   conv << "Command line args: " << CmdLine->command_line_string << std::endl;
@@ -114,7 +114,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   run_info_string = conv.str();
   
   /* convert run_info_string into char array run_info */
-  run_info_ptr = run_info_string.c_str();
+  const char * run_info_ptr = run_info_string.c_str();
 
   return run_info_ptr;
 }
@@ -178,7 +178,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
-  cpu_file_header->run_info = * BuildCpuFileInfo(ConfigOut, CmdLine)
+  strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
   cpu_file_header->run_size = RUN_SIZE;
 
   /* write to file */

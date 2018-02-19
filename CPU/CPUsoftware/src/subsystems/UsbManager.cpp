@@ -185,8 +185,6 @@ uint8_t UsbManager::LookupUsbStorage() {
 	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC
 	  && desc.bDeviceClass != LIBUSB_CLASS_HID) {
 
-	/* debug */
-	std::cout << "USB device class: " << desc.bDeviceClass << std::endl;
 	num_storage_dev++;
       }
     }

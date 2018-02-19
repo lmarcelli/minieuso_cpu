@@ -30,7 +30,7 @@
 #define ID_TAG 0xAA55AA55
 #define RUN_SIZE 25
 
-/**
+/*
  * force no padding in structs
  */
 #pragma pack(push, 1) 
@@ -152,8 +152,8 @@ typedef struct
 /**
  * zynq packet passed to the CPU every 5.24 s 
  * variable size, depending on configurable N1 and N2 
- * NB: vector itself is not written to file, 
- * just contents which are contiguous in memory 
+ * **NB: vector itself is not written to file, 
+ * just contents which are contiguous in memory** 
  */
 typedef struct
 {

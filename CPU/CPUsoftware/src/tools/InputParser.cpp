@@ -38,7 +38,7 @@ InputParser::InputParser(int &argc, char **argv) {
 
   /* get command line input */
   std::string space = " ";
-  this->CmdLine->cmd_line_string = "mecontrol";
+  this->CmdLine->command_line_string = "mecontrol";
   
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));

@@ -26,7 +26,6 @@
 
 // Common Zynq board header
 // for all packets with scientific and configuration data
-/* 8 bytes */
 typedef struct
 {
 	uint32_t header; // 'Z'(31:24) | instrument_id(23:16) | data_type(15:8) | packet_ver(7:0)
@@ -66,7 +65,7 @@ typedef struct
 //} TimeStamp_natural;
 
 // Macros for a timestamp build
-//#define BuildTimeStamp_TS_dword(year, month, date, hour, min, sec) 
+//#define BuildTimeStamp_TS_dword(year, month, date, hour, min, sec) \
 //	(((year)<<26) | ((month)<<22) | ((date)<<17) | ((hour)<<12) | ((min)<<6) | (sec))
 
 //typedef struct
@@ -74,7 +73,7 @@ typedef struct
 //	uint64_t n_gtu;
 //} TimeStamp_symplified;
 
-/* 8 bytes */
+
 typedef struct
 {
 	uint32_t n_gtu;
@@ -152,17 +151,17 @@ typedef struct
 #define TRIG_TYPE_SELF		2 /* Issued by Trigger block*/
 #define TRIG_TYPE_AUTO		4 /**/
 
-/* 294936 bytes */
+
 typedef struct
 {
 	// Unix timestamp
-  TimeStamp_dual ts; /* 8 bytes */
+	TimeStamp_dual ts;
 	// Flags
-  uint32_t trig_type; /* 4 bytes */
+	uint32_t trig_type;
 	// Cathode status
-  uint8_t cathode_status[12]; /* 12 bytes */ 
+	uint8_t cathode_status[12];
 	// raw data (2.5 us GTU)
-  uint8_t raw_data [N_OF_FRAMES_L1_V0][N_OF_PIXEL_PER_PDM]; /* 294912 bytes */
+	uint8_t raw_data [N_OF_FRAMES_L1_V0][N_OF_PIXEL_PER_PDM];
 } DATA_TYPE_SCI_L1_V2;
 
 // At the end of lifecycle Zynq packs DATA_TYPE_SCI_L1 structures in the structure Z_DATA_TYPE_SCI_L1 (with header)
@@ -170,8 +169,8 @@ typedef struct
 
 typedef struct
 {
-  ZynqBoardHeader zbh; /* 8 bytes */
-  DATA_TYPE_SCI_L1_V2 payload; /* 294936 bytes */
+	ZynqBoardHeader zbh;
+	DATA_TYPE_SCI_L1_V2 payload;
 } Z_DATA_TYPE_SCI_L1_V2;
 
 
@@ -231,16 +230,41 @@ typedef struct
 	DATA_TYPE_SCI_L3_V2 payload;
 } Z_DATA_TYPE_SCI_L3_V2;
 
-//Trigger types:
-#define TRIG_AUTO		0 /* Auto triggered data (in absence of others triggers)*/
-#define TRIG_SELF		1 /* Data triggered on trigger algorithm*/
-#define TRIG_EXT		2 /* Data triggered on external signal */
+/* zynq packet passed to the CPU every 5.24 s */
+/* 4718772 bytes */
+#define MAX_PACKETS_L1 4
+#define MAX_PACKETS_L2 4
+#define MAX_PACKETS_L3 1
+typedef struct
+{
+  Z_DATA_TYPE_SCI_L1_V2 level1_data[MAX_PACKETS_L1]; /* 294932 * 4 bytes */
+  Z_DATA_TYPE_SCI_L2_V2 level2_data[MAX_PACKETS_L2]; /* 589844 * 4 bytes */
+  Z_DATA_TYPE_SCI_L3_V2 level3_data[MAX_PACKETS_L3]; /* 1179668 bytes */
+} ZYNQ_PACKET;
+
+
+
+//Trigger types in data out files :
+#define TRIG_NONE		0 /* No trigger occurred. No data preserved*/
+#define TRIG_PERIODIC	1 /* Auto (periodic) triggered data (in absence of others triggers)*/
+#define TRIG_SELF		2 /* Data triggered on trigger algorithm*/
+#define TRIG_IMMEDIATE	3 /* Data triggered on UART or TCP command*/
+#define TRIG_EXT		4 /* Data triggered on external signal */
+#define TRIG_OTHERS		8 /* Other trigger types (for future)*/
+
+//Enables trigger types in the FlowControl block
+#define BIT_FC_EN_PERIODIC_TRIG	(1<<TRIG_PERIODIC)
+#define BIT_FC_EN_SELF_TRIG		(1<<TRIG_SELF)
+#define BIT_FC_EN_IMM_TRIG		(1<<TRIG_IMMEDIATE)
+#define BIT_FC_EN_EXT_TRIG		(1<<TRIG_EXT)
+
 
 
 #define INSTRUMENT_MODE_NONE			0
-#define INSTRUMENT_MODE_OLD_PROTOCOL	1
+#define INSTRUMENT_MODE_IMMEDIATE		1
 #define INSTRUMENT_MODE_FREERUN			2
 #define INSTRUMENT_MODE_TRIGGERS		3
+#define INSTRUMENT_MODE_INTTRIG			4
 
 #define INSTRUMENT_FTPFILES_CONCAT		0
 #define INSTRUMENT_FTPFILES_SEPARATED	1
@@ -316,19 +340,18 @@ typedef struct
 #define HVPS_AGC_UP_0_to_1_STR		 "AGC_UP_0_to_1"// Automatic gain control: HVPS automatically switched from "0" to "1". Shift register reloaded.
 #define HVPS_AGC_UP_1_to_3_STR		 "AGC_UP_1_to_3"// Automatic gain control: HVPS automatically switched from "1" to "3". Shift register reloaded.
 
-/* 16 bytes */
+
 typedef struct
 {
-  TimeStamp_dual ts; // /* 8 bytes */
-  uint32_t record_type; /* 4 bytes */
-  uint32_t channels; // bit0,1 - ch0, bit2,3 - ch1, ..., bit16,17 - ch8 /* 4 bytes */ 
+	TimeStamp_dual ts; //
+	uint32_t record_type;
+	uint32_t channels; // bit0,1 - ch0, bit2,3 - ch1, ..., bit16,17 - ch8
 } DATA_TYPE_HVPS_LOG_V1;
 
-/* 1600008 bytes */
 typedef struct
 {
-  ZynqBoardHeader zbh; /* 8 bytes */
-  DATA_TYPE_HVPS_LOG_V1 payload[HVPS_LOG_SIZE_NRECORDS]; /* 1600000 bytes */
+	ZynqBoardHeader zbh;
+	DATA_TYPE_HVPS_LOG_V1 payload[HVPS_LOG_SIZE_NRECORDS];
 } Z_DATA_TYPE_HVPS_LOG_V1;
 
 #pragma pack(pop) /* return to normal packing */

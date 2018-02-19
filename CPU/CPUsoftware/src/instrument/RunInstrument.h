@@ -19,6 +19,8 @@
 #define VERSION 4.8
 #define VERSION_DATE_STRING "17/02/2018"
 
+/* instrument */
+#define INSTRUMENT "Mini-EUSO"
 
 /**
  * class to handle different instrument operational modes 

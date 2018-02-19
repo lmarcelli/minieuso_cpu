@@ -16,9 +16,16 @@
 #include "minieuso_pdmdata.h"
 
 /*
- * instrument definitions 
+ * software definitions
  */
 
+#define VERSION 4.8
+#define VERSION_DATE_STRING "17/02/2018"
+
+/*
+ * instrument definitions 
+ */
+#define INSTRUMENT "Mini-EUSO"
 #define INSTRUMENT_ME_PDM 1 
 #define ID_TAG 0xAA55AA55
 #define RUN_SIZE 25
@@ -28,6 +35,11 @@
  */
 #pragma pack(push, 1) 
 
+/*
+ * define the size of the run_info text field in CpuFileHeader
+ */
+#define RUN_INFO_SIZE 256
+
 /** 
  * cpu file header 
  * 12 bytes 
@@ -36,6 +48,7 @@ typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
   uint32_t header; /* 'C'(31:24) | instrument_id(23:16) | file_type(15:8) | file_ver(7:0) */
+  char run_info[RUN_INFO_SIZE]; /* text describing the run */
   uint32_t run_size; /* number of cpu packets in the run */
 } CpuFileHeader; 
 

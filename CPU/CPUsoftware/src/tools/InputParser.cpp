@@ -32,10 +32,14 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->zynq_mode = ZynqManager::NONE;
   this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
-  
+
+  this->CmdLine->zynq_mode_string = "";
+  this->CmdLine->command_line_string = "";
+    
   /* get command line input */
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));
+    this->CmdLine->command_line_string += std::string(argv[i]);
   }
 }
 
@@ -177,7 +181,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	}
 	this->CmdLine->zynq_mode = mode_to_set;
       }
-	      
+
+      /* set zynq_mode_string */
+      this->CmdLine->zynq_mode_string = mode;
+      
     }
     else {
       this->CmdLine->zynq_mode = ZynqManager::PERIODIC;

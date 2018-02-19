@@ -69,6 +69,7 @@ private:
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
+  const char * BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   SC_PACKET * ScPktReadOut(std::string sc_file_name, std::shared_ptr<Config> ConfigOut);
   HV_PACKET * HvPktReadOut(std::string hv_file_name);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, std::shared_ptr<Config> ConfigOut);

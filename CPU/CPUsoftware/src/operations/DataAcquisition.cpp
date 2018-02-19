@@ -80,6 +80,46 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 }
 
 /**
+ * build the cpu file info based on runtime settings
+ * @param ConfigOut the configuration file parameters and settings from RunInstrument
+ * @param CmdLine the command line parameters
+ */
+const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
+						      CmdLineInputs * CmdLine) {
+  /* for info string */
+  const char * run_info;
+  std::string run_info_string;
+  std::stringstream conv;
+
+  /* for current time */
+  struct timeval tv;
+  const char * time_fmt = " %Y %m %d  %H %M %S ";
+  char time[sizeof(* time_fmt)];
+  
+  gettimeofday(&tv ,0);
+  time_t now = tv.tv_sec;
+  struct tm * now_tm = localtime(&now);
+  
+  strftime(time, sizeof(time), time_fmt, now_tm);
+  
+  
+  /* parse the runtime settings into the run_info_string */
+  conv << "Instrument: " << INSTRUMENT << std::endl;
+  conv << "Date/time (UTC): " << time << std::endl;
+  conv << "Software version: " << VERSION << " date: " << VERSION_DATE_STRING << std::endl;
+  conv << "Zynq acquisition/trigger mode: " << CmdLine->zynq_mode_string << std::endl;
+  conv << "Instrument and acquisition mode (defined in RunInstrument.h) : " << ConfigOut->instrument_mode << " " << ConfigOut->acquisition_mode << std::endl;
+  conv << "Command line args: " << CmdLine->command_line_string << std::endl;
+
+  run_info_string = conv.str();
+  
+  /* convert run_info_string into char array run_info */
+  run_info = run_info_string.c_str();
+  
+  return run_info;
+}
+
+/**
  * build the cpu packet header 
  * @param type header tag of the packet type
  * @param ver header tag of the packet type version

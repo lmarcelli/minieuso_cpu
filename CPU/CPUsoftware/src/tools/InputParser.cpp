@@ -217,7 +217,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       this->CmdLine->zynq_test_mode = ZynqManager::PDM;
       std::cout << "WARNING: cannot identify required zynq test mode, using default: pdm" << std::endl;
     }
-   
+
+    /* also set Zynq mode to PERIODIC to enable data collecting */
+    this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
+    
   }
   if(cmdOptionExists("-keep_zynq_pkt")){
     this->CmdLine->keep_zynq_pkt = true;

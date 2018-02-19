@@ -501,7 +501,7 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   std::string cmd;
   std::stringstream conv;
 
-  clog << "info: " << logstream::info << "ZynqManager switching to zynq mode " << input_mode << std::endl;
+  clog << "info: " << logstream::info << "ZynqManager switching to zynq mode " << (int)input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();

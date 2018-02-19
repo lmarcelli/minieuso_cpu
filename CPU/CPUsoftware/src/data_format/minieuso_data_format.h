@@ -39,7 +39,7 @@
 /*
  * define the size of the run_info text field in CpuFileHeader
  */
-#define RUN_INFO_SIZE 256
+#define RUN_INFO_SIZE 384
 
 /** 
  * cpu file header 

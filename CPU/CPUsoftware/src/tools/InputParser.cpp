@@ -35,11 +35,15 @@ InputParser::InputParser(int &argc, char **argv) {
 
   this->CmdLine->zynq_mode_string = "";
   this->CmdLine->command_line_string = "";
-    
+
   /* get command line input */
+  std::string space = " ";
+  this->CmdLine->cmd_line_string = "mecontrol";
+  
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));
-    this->CmdLine->command_line_string += std::string(argv[i]);
+    
+    this->CmdLine->command_line_string += (space + std::string(argv[i]) + space);
   }
 }
 

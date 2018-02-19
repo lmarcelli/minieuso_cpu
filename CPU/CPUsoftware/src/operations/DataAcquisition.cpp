@@ -93,7 +93,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   /* for current time */
   struct timeval tv;
   const char * time_fmt = " %Y %m %d  %H %M %S ";
-  char time[20];
+  char time[21];
   
   gettimeofday(&tv ,0);
   time_t now = tv.tv_sec;

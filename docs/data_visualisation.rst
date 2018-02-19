@@ -12,7 +12,7 @@ The standard EUSO tools for quick analysis of the data are developed and maintai
 A quick guide for use on the Mini-EUSO data:
 
 * ``ETOT``: to convert from the binary data format output by the CPU software to ``.root`` format, run ``etot -Mff <filename>.dat`` to produce ``<filename>.root``
-* ``ETOS``: to open the file with ETOS, once it has been installed, run ``etos.py <filename>.root``
+* ``ETOS``: to open the file with ETOS, once it has been installed, run ``python etos.py <filename>.root``
 
 
 Simple python interface

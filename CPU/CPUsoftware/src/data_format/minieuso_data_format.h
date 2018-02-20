@@ -21,7 +21,6 @@
 
 #define VERSION 4.8
 #define VERSION_DATE_STRING "17/02/2018"
-#define ZYNQ_FW_VER "1.5.1"
 
 /*
  * instrument definitions 

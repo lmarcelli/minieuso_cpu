@@ -8,6 +8,12 @@ CamManager::CamManager() {
   this->usb_num_storage_dev = 0;
   this->n_relaunch_attempt = 0;
   this->launch_running = false;
+  this->nir_status = UNDEF;
+  this->vis_status = UNDEF;
+
+  /* get the camera serial numbers */
+  this->ParseSerialNumbers();
+  
 }
 
 /**
@@ -27,16 +33,13 @@ int CamManager::StartAcquisition() {
   std::string output;
   const char * cam_cmd;
 
-  /* check usb status */
-  if (this->usb_num_storage_dev == 1 ||
-      this-> usb_num_storage_dev == 2) {
-    cam_cmd = CAMERA_EXEC_USB;
-  }
-  else {
-    cam_cmd = CAMERA_EXEC;
-  }
+  /* start with both cameras set to ON */
+  this->SetCamStatus(ON, ON);
 
-  /* check verbosity */
+  /* define the launch command */
+  cam_cmd = this->DefineLaunchCmd();
+
+  /* launch and check verbosity */
   if (this->verbose) {
     output = CpuTools::CommandToStr(cam_cmd);
     std::cout << output << std::endl;
@@ -44,7 +47,8 @@ int CamManager::StartAcquisition() {
   else {
     output = CpuTools::CommandToStr(cam_cmd);   
   }
-  
+
+  /* check the launch output for "Error Trace:" */
   size_t found = output.find("Error Trace:");
   if (found != std::string::npos) {
     
@@ -56,12 +60,39 @@ int CamManager::StartAcquisition() {
 
       std::cout << "ERROR: cameras BUS RESET" << std::endl;
     }
+ 
+    /* look for a serial number */
+    found = output.find(std::to_string(nir_serial))
+    if (found != std::string::npos) {
+
+      /* turn off NIR camera if its serial number is in error msg */
+      this->nir_status = OFF;
+    }
+    found = output.find(std::to_string(vis_serial))
+    if (found != std::string::npos) {
+
+      /* turn off VIS camera if its serial number is in error msg */
+      this->vis_status = OFF;
+    }
     
     /* signal launch failure */
     this->launch_failed.set_value(true);
     return 1;	
   }
 
+  /* check the launch output for "No camera was detected" */
+  found = output.find("No camera was detected");
+  if (found != std::string::npos) {
+    
+    clog << "error: " << logstream::error << "no cameras detected" << std::endl;
+    std::cout << "ERROR: no cameras detected" << std::endl;
+
+    /* signal launch failure */
+    this->launch_failed.set_value(true);
+    return 1;	
+  }
+
+  
  return 0;
 }
 
@@ -122,4 +153,60 @@ int CamManager::KillCamAcq() {
   }
   
   return 0;
+}
+
+
+/**
+ * define the command to launch the cameras based on required situation (write_directory, NIR or VIS or both, etc)
+ */
+const char * CamManager::DefineLaunchCmd() {
+
+  std::stringstream conv;
+  std::string launch_cmd_str;
+  const char * launch_cmd = "";
+
+  /* check usb status */
+  if (this->usb_num_storage_dev == 1 ||
+      this->usb_num_storage_dev == 2) {
+
+    /* set up the comand to launch cameras */
+    conv << "(cd " << CAMERA_SOFTWARE_DIR << " && " << CAMERA_EXEC << " "
+	 << CAMERA_SOFTWARE_DIR << " " << USB_WRITE_DIR << this->nir_status << " " << this->vis_status << std::endl;
+    
+  }
+  else {
+
+    /* set up the comand to launch cameras */
+    conv << "(cd " << CAMERA_SOFTWARE_DIR << " && " << CAMERA_EXEC << " "
+	 << CAMERA_SOFTWARE_DIR << " " << OTHER_WRITE_DIR << this->nir_status << " " << this->vis_status << std::endl;
+    
+  }
+  
+  return launch_cmd;
+}
+
+
+/**
+ * set the camera status 
+ * @param nir_status status to set the NIR camera
+ * @param vis_status status to set the VIS camera
+ */
+void CamManager::SetCamStatus(CamStatus nir_status, CamStatus vis_status) {
+
+  this->nir_status = nir_status;
+  this->vis_status = vis_status;
+
+  return;
+}
+
+/**
+ * parses the multiplecam software cameras.ini file to get the NIR and VIS serial numbers
+ * called by the CamManager constructor
+ */
+void CamManager::ParseSerialNumbers() {
+
+  this->nir_serial = 0;
+  this->vis_serial = 0;
+  
+  return;
 }

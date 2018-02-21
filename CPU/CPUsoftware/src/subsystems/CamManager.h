@@ -12,11 +12,13 @@
 #include "log.h"
 #include "CpuTools.h"
 
-#define CAMERA_DIR "/home/software/CPU/cameras/multiplecam"
-#define CAMERA_EXEC "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh)"
-#define CAMERA_EXEC_USB "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh)"
-/* to be updated when ST updates multiplecam */
-//#define CAMERA_EXEC_USB "(cd /home/software/CPU/cameras/multiplecam && ./multiplecam.sh /home/software/CPU/cameras/multiplecam /media/usb0)"
+/*
+ * Define the commands needed to launch the cameras, used by CamManager::DefineLaunchCmd()
+ */
+#define CAMERA_SOFTWARE_DIR "/home/software/CPU/cameras/multiplecam"
+#define CAMERA_EXEC "./multiplecam.sh"
+#define USB_WRITE_DIR "/media/usb0"
+#define OTHER_WRITE_DIR "/home/software/CPU/cameras/multiplecam"
 #define N_TRY_RELAUNCH 2
 #define WAIT_TIME 120
 
@@ -26,6 +28,30 @@
  */
 class CamManager {
 public:
+  /**
+   * used to describe the desired camera status to use with CamManager::DefineLaunchcmd()
+   */
+  enum CamStatus : int {
+    OFF = 0,
+    ON = 1,
+    UNDEF = 2,
+  };
+  /**
+   * stores the status of the NIR camera
+   */
+  CamStatus nir_status;
+  /**
+   * stores the status of the VIS camera
+   */
+  CamStatus vis_status;
+  /**
+   * stores the NIR serial number
+   */
+  int nir_serial;
+  /**
+   * stores the VIS serial number
+   */
+  int vis_serial;
   /**
    * stores the camera thread handle
    */
@@ -56,7 +82,10 @@ public:
 private:
   bool verbose = false;
   int StartAcquisition();
-
+  const char * DefineLaunchCmd();
+  void SetCamStatus(CamStatus nir_status, CamStatus vis_status);
+  void ParseSerialNumbers();
+  
 };
 
 #endif

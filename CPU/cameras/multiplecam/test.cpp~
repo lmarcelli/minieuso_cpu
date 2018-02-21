@@ -31,6 +31,12 @@ int main(int argc, char *argv[])
     if (sigaction(SIGINT, &action, NULL) == -1) {
         perror("Error: cannot handle SIGINT"); // Should not happen
     }
+
+     if (sigaction(SIGHUP, &action, NULL) == -1) {
+        perror("Error: cannot handle SIGHUP"); // Should not happen
+    }
+
+
     
 
     int loop = 0;

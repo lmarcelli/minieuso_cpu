@@ -1,0 +1,12 @@
+A script install.sh is located in the src folder, please run it as:
+
+./install.sh SOFTWAREPATH
+
+e.g. ./install.sh home/software/cameras/multiplecam
+
+This command compiles all the source files and then launched the listserials
+executable to create the cameras.ini file under the parfiles folder
+CAVEAT: note that if no camera is connected the cameras.ini file 
+cannot be created and you will be warned about with a screen message.
+NOTE that cameras.ini file is needed by multiplecam.sh when 
+launching acquisition using only one camera.

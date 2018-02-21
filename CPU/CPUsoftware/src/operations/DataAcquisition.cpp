@@ -92,8 +92,8 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
 
   /* for current time */
   struct timeval tv;
-  const char * time_fmt = " %Y %m %d  %H %M %S ";
-  char time[21];
+  const char * time_fmt = "%d/%m/%Y %H:%M";
+  char time[20];
   
   gettimeofday(&tv ,0);
   time_t now = tv.tv_sec;
@@ -103,12 +103,12 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   
   
   /* parse the runtime settings into the run_info_string */
-  conv << "Instrument: " << INSTRUMENT << std::endl;
-  conv << "Date/time (UTC): " << time << std::endl;
-  conv << "Software version: " << VERSION << " date: " << VERSION_DATE_STRING << std::endl;
+  conv << "Experiment: " << INSTRUMENT << std::endl;
+  conv << "Date (UTC): " << time << std::endl;
+  conv << "Software version: " << VERSION << " " << VERSION_DATE_STRING << std::endl;
   conv << "Zynq firmware version: " << MINIEUSO_ZYNQ_VER_STRING << std::endl; 
   conv << "Zynq acquisition/trigger mode: " << CmdLine->zynq_mode_string.c_str() << std::endl;
-  conv << "Instrument and acquisition mode (defined in RunInstrument.h) : "
+  conv << "Instrument and acquisition mode (defined in RunInstrument.h): "
        << (int)ConfigOut->instrument_mode << " " << (int)ConfigOut->acquisition_mode << std::endl;
   conv << "Command line args: " << CmdLine->command_line_string.c_str() << std::endl;
 

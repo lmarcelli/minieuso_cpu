@@ -2,8 +2,8 @@
 
 
 DIR=$1
-PARDIR=$DIR"parfiles"
-PROGR=$DIR"bin" 
+PARDIR=$DIR"/parfiles"
+PROGR=$DIR"/bin" 
 
 if [[ $# -eq 0 ]] ; then
     echo 'No argument passed.'

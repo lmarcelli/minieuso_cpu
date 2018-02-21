@@ -13,6 +13,7 @@ SynchronisedFile::SynchronisedFile(std::string path) {
   this->_ptr_to_file = fopen(file_name, "ab");
   if (!this->_ptr_to_file) {
     clog << "error: " << logstream::error << "cannot open the file " << this->path << std::endl;
+    std::cout << "ERROR: cannot open the file " << this->path << std::endl;
   }
 
 }

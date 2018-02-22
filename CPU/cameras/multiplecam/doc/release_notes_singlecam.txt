@@ -1,0 +1,14 @@
+//============================================================================
+// Name        : singlecam.cpp
+// Author      : Sara Turriziani
+// Version     : 1.0 
+// Copyright   : Mini-EUSO copyright notice
+// Description : Single Camera Acquisition Module in C++, ANSI-style, for linux
+//============================================================================
+
+
+What is in 1.0 version:
+
+The new software can stream a single camera having as input from its serial number. 
+The code is built to match all the features and checks into multiplecam.cpp 4.3 version. 
+The code works with only one current parfile.  

@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : multiplecam.cpp
+// Name        : singlecam.cpp
 // Author      : Sara Turriziani
-// Version     : 4.2
+// Version     : 1.0 
 // Copyright   : Mini-EUSO copyright notice
-// Description : Cameras Acquisition Module in C++, ANSI-style, for linux
+// Description : Single Camera Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
 
 
@@ -142,7 +142,7 @@ void OnBusReset( void* pParam, unsigned int serialNumber )
 {
 	std::cout << GetCurrentTimeString() << " - *** BUS RESET ***" << std::endl;
 	
-//	delete[] pCameras;
+//	//delete[] cam;
 //	exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
 
@@ -152,7 +152,7 @@ void OnBusArrival( void* pParam, unsigned int serialNumber )
 {
 	std::cout << GetCurrentTimeString() << " - *** BUS ARRIVAL (" << serialNumber << ") ***" << std::endl;
 
-//	delete[] pCameras;
+//	//delete[] cam;
 //	exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
 
@@ -162,7 +162,7 @@ void OnBusRemoval( void* pParam, unsigned int serialNumber )
 {
 	std::cout << GetCurrentTimeString() << " - *** BUS REMOVAL (" << serialNumber << ") ***" << std::endl;
 
-//	delete[] pCameras;
+//	//delete[] cam;
 //	exit(EXIT_SUCCESS);
 	exit(EXIT_FAILURE);
 
@@ -230,25 +230,34 @@ int main(int argc, char* argv[])
 	// Check the number of parameters
 	    if (argc < 5) {
 	        // Tell the user how to run the program if the user enters the command incorrectly.
-	        std::cerr << "Usage: " << argv[0] << " PARFILESPATH" << " currentNIRstatus" << " currentVISstatus " << " IMAGEFILESPATH" << std::endl; // Usage message
+	        std::cerr << "Usage: " << argv[0] << " PARFILESPATH" << " currentparfilestatus" <<  " IMAGEFILESPATH" << "SERIAL NUMBER " << std::endl; // Usage message
 	        return 1;
 	    }
 
 	//    cout << "Input: " << argv[1] << endl; // uncomment for debugging
 
 	    std:string pardir = argv[1];
-	    const char* fstatNIR = argv[2];
-	    const char* fstatVIS = argv[3];
-            string imagedir = argv[4];
-            
+	    const char*  filestatus = argv[2];
+	    string imagedir = argv[3];
+            const char* camtype = argv[4];
+   
+            unsigned int serial;   
+            stringstream strValue;
+            strValue << camtype;
+
+            strValue >> serial;
+
+ //           cout << camtype << endl; // uncomment for debugging
+ //           cout << serial << endl;  // uncomment for debugging
+
             int lengthOfStringimagedir; //hold the number of characters in the string
             lengthOfStringimagedir = imagedir.length();; 
-	    const char*  filestatus;
+	    
 
            
 
-	//    cout << fstatNIR << endl; // uncomment for debugging
-	//    cout << fstatVIS << endl; // uncomment for debugging
+	//    cout << filestatus << endl; // uncomment for debugging
+	
 
     PrintBuildInfo();
     Error error;
@@ -303,38 +312,41 @@ int main(int argc, char* argv[])
     else 
         {
           printf( "Number of cameras detected: %u\n", numCameras );
-          if (numCameras == 1)
-            {
-            printf( "WARNING: Only one camera is available. Running anyhow. \n");
-            } 
         }
 
-    Camera *pCameras = new Camera[numCameras]; // initialize an array of cameras
+   
 
-    for (unsigned int i=0; i < numCameras; i++)
-          {
-            PGRGuid guid;
-            error = busMgr.GetCameraFromIndex(i, &guid);
+    Camera cam; // initialize a single camera
+    
+    
+            PGRGuid guid;           
+            error = busMgr.GetCameraFromSerialNumber(serial, &guid);
             if (error != PGRERROR_OK)
              {
                 PrintError( error );
-                delete[] pCameras;
+                cout << "The camera you requested is not available" << endl; 
+                //delete[] cam;
                 return -1;
-             }          
-            error = pCameras[i].Connect(&guid); // connect both cameras
-            if (error != PGRERROR_OK)
-              {
-                PrintError(error);
-                delete[] pCameras;
+             } 
+            
+
+              error = cam.Connect(&guid); // connect the desidered camera
+              if (error != PGRERROR_OK)
+             {
+                PrintError( error );
+                //delete[] cam;
                 return -1;
-               }
+             } 
+             
+           
 
 
-          error = pCameras[i].GetCameraInfo(&camInfo);
+
+          error = cam.GetCameraInfo(&camInfo);
           if (error != PGRERROR_OK)
            {
              PrintError(error);
-             delete[] pCameras;
+             //delete[] cam;
              return -1;
             }
 
@@ -344,11 +356,11 @@ int main(int argc, char* argv[])
 
           EmbeddedImageInfo imageInfo;
           imageInfo.timestamp.onOff = true;
-          error = pCameras[i].SetEmbeddedImageInfo(&imageInfo);
+          error = cam.SetEmbeddedImageInfo(&imageInfo);
           if (error != PGRERROR_OK)
            {
              PrintError(error);
-             delete[] pCameras;
+             //delete[] cam;
              return -1;
            }
 
@@ -356,21 +368,21 @@ int main(int argc, char* argv[])
 
           Property frmRate;
           frmRate.type = FRAME_RATE;
-          error = pCameras[i].GetProperty( &frmRate );
+          error = cam.GetProperty( &frmRate );
           if (error != PGRERROR_OK)
             {
               PrintError( error );
-              delete[] pCameras;
+              //delete[] cam;
               return -1;
             }
 
           PropertyInfo frRate;
           frRate.type = FRAME_RATE;
-          error = pCameras[i].GetPropertyInfo( &frRate );
+          error = cam.GetPropertyInfo( &frRate );
           if (error != PGRERROR_OK)
             {
               PrintError( error );
-              delete[] pCameras;
+              //delete[] cam;
               return -1;
             }
           float minfrmRate = frRate.absMin;
@@ -392,11 +404,11 @@ int main(int argc, char* argv[])
 
           if ( strcmp("Chameleon", name1) == 0) // read the temperature register only for NIR camera
             {
-              error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register
+              error = cam.ReadRegister(0x82C, &ulValue); // read the temperature register
               if (error != PGRERROR_OK)
                 {
                   PrintError( error );
-                  delete[] pCameras;
+                  //delete[] cam;
                   return -1;
                 }
 
@@ -408,7 +420,7 @@ int main(int argc, char* argv[])
 
     // Get the camera configuration
     FC2Config config;
-    error = pCameras[i].GetConfiguration(&config);
+    error = cam.GetConfiguration(&config);
     if (error != PGRERROR_OK)
       {
         PrintError(error);
@@ -519,7 +531,7 @@ int main(int argc, char* argv[])
               pf1 << pardir  << "/currentNIR.ini";
               parfilename1 = pf1.str();
               parfile1.open(parfilename1.c_str());
-              filestatus = fstatNIR;
+              
             }
           else
             {
@@ -527,7 +539,7 @@ int main(int argc, char* argv[])
               pf1 << pardir  << "/currentVIS.ini";
               parfilename1 = pf1.str();
               parfile1.open(parfilename1.c_str());
-              filestatus = fstatVIS;
+              
             }
 
           float frate1, shutt1, gain1, autoexpo1;
@@ -621,11 +633,11 @@ int main(int argc, char* argv[])
           // Turn off SHARPNESS if the camera supports this property
            PropertyInfo propInfo;
            propInfo.type = SHARPNESS;
-           error =  pCameras[i].GetPropertyInfo( &propInfo );
+           error =  cam.GetPropertyInfo( &propInfo );
            if (error != PGRERROR_OK)
              {
                 PrintError( error );
-                delete[] pCameras;
+                //delete[] cam;
                 return -1;
              }
 
@@ -637,11 +649,11 @@ int main(int argc, char* argv[])
                 prop.autoManualMode = false;
                 prop.onOff = false;
 
-                error = pCameras[i].SetProperty( &prop );
+                error = cam.SetProperty( &prop );
                 if (error != PGRERROR_OK)
                        {
                          PrintError( error );
-                         delete[] pCameras;
+                         //delete[] cam;
                          return -1;
                        }
                 cout << "Setting off SHARPNESS" << endl;
@@ -654,11 +666,11 @@ int main(int argc, char* argv[])
            // Turn off SATURATION if the camera supports this property
 
                       propInfo.type = SATURATION;
-                      error =  pCameras[i].GetPropertyInfo( &propInfo );
+                      error =  cam.GetPropertyInfo( &propInfo );
                       if (error != PGRERROR_OK)
                         {
                            PrintError( error );
-                           delete[] pCameras;
+                           //delete[] cam;
                            return -1;
                         }
 
@@ -670,11 +682,11 @@ int main(int argc, char* argv[])
                            prop.autoManualMode = false;
                            prop.onOff = false;
 
-                           error = pCameras[i].SetProperty( &prop );
+                           error = cam.SetProperty( &prop );
                            if (error != PGRERROR_OK)
                                   {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                                   }
                            cout << "Setting off SATURATION" << endl;
@@ -687,11 +699,11 @@ int main(int argc, char* argv[])
                       // Turn off IRIS if the camera supports this property
 
                                  propInfo.type = IRIS;
-                                 error =  pCameras[i].GetPropertyInfo( &propInfo );
+                                 error =  cam.GetPropertyInfo( &propInfo );
                                  if (error != PGRERROR_OK)
                                    {
                                       PrintError( error );
-                                      delete[] pCameras;
+                                      //delete[] cam;
                                       return -1;
                                    }
 
@@ -703,11 +715,11 @@ int main(int argc, char* argv[])
                                       prop.autoManualMode = false;
                                       prop.onOff = false;
 
-                                      error = pCameras[i].SetProperty( &prop );
+                                      error = cam.SetProperty( &prop );
                                       if (error != PGRERROR_OK)
                                              {
                                                PrintError( error );
-                                               delete[] pCameras;
+                                               //delete[] cam;
                                                return -1;
                                              }
                                       cout << "Setting off IRIS" << endl;
@@ -722,11 +734,11 @@ int main(int argc, char* argv[])
 
             propInfo.type = WHITE_BALANCE;
             
-             error =  pCameras[i].GetPropertyInfo( &propInfo );
+             error =  cam.GetPropertyInfo( &propInfo );
                     if (error != PGRERROR_OK)
                       {
                         PrintError( error );
-                        delete[] pCameras;
+                        //delete[] cam;
                         return -1;
                       }
 
@@ -738,11 +750,11 @@ int main(int argc, char* argv[])
                       prop.autoManualMode = false;
                       prop.onOff = false;
 
-                      error = pCameras[i].SetProperty( &prop );
+                      error = cam.SetProperty( &prop );
                       if (error != PGRERROR_OK)
                         {
                           PrintError( error );
-                          delete[] pCameras;
+                          //delete[] cam;
                           return -1;
                         }
                       cout << "Setting off WHITE_BALANCE" << endl;
@@ -755,11 +767,11 @@ int main(int argc, char* argv[])
                     // Turn off HUE if the camera supports this property
 
                      propInfo.type = HUE;
-                     error =  pCameras[i].GetPropertyInfo( &propInfo );
+                     error =  cam.GetPropertyInfo( &propInfo );
                      if (error != PGRERROR_OK)
                        {
                          PrintError( error );
-                         delete[] pCameras;
+                         //delete[] cam;
                          return -1;
                        }
 
@@ -771,11 +783,11 @@ int main(int argc, char* argv[])
                         prop.autoManualMode = false;
                         prop.onOff = false;
 
-                        error = pCameras[i].SetProperty( &prop );
+                        error = cam.SetProperty( &prop );
                         if (error != PGRERROR_OK)
                           {
                             PrintError( error );
-                            delete[] pCameras;
+                            //delete[] cam;
                             return -1;
                            }
                         cout << "Setting off HUE" << endl;
@@ -788,11 +800,11 @@ int main(int argc, char* argv[])
                      // Turn off GAMMA if the camera supports this property
 
                       propInfo.type = GAMMA;
-                      error =  pCameras[i].GetPropertyInfo( &propInfo );
+                      error =  cam.GetPropertyInfo( &propInfo );
                       if (error != PGRERROR_OK)
                         {
                           PrintError( error );
-                          delete[] pCameras;
+                          //delete[] cam;
                           return -1;
                         }
 
@@ -804,11 +816,11 @@ int main(int argc, char* argv[])
                              prop.autoManualMode = false;
                              prop.onOff = false;
 
-                             error = pCameras[i].SetProperty( &prop );
+                             error = cam.SetProperty( &prop );
                              if (error != PGRERROR_OK)
                                {
                                  PrintError( error );
-                                 delete[] pCameras;
+                                 //delete[] cam;
                                  return -1;
                                }
                                 cout << "Setting off GAMMA" << endl;
@@ -820,11 +832,11 @@ int main(int argc, char* argv[])
                        // Turn off PAN if the camera supports this property
 
                         propInfo.type = PAN;
-                        error =  pCameras[i].GetPropertyInfo( &propInfo );
+                        error =  cam.GetPropertyInfo( &propInfo );
                         if (error != PGRERROR_OK)
                           {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                           }
 
@@ -836,11 +848,11 @@ int main(int argc, char* argv[])
                           prop.autoManualMode = false;
                           prop.onOff = false;
 
-                          error = pCameras[i].SetProperty( &prop );
+                          error = cam.SetProperty( &prop );
                           if (error != PGRERROR_OK)
                             {
                                PrintError( error );
-                               delete[] pCameras;
+                               //delete[] cam;
                                return -1;
                             }
                            cout << "Setting off PAN" << endl;
@@ -853,11 +865,11 @@ int main(int argc, char* argv[])
                      // Turn off TILT if the camera supports this property
 
                       propInfo.type = TILT;
-                      error =  pCameras[i].GetPropertyInfo( &propInfo );
+                      error =  cam.GetPropertyInfo( &propInfo );
                       if (error != PGRERROR_OK)
                         {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                         }
 
@@ -869,11 +881,11 @@ int main(int argc, char* argv[])
                                 prop.autoManualMode = false;
                                 prop.onOff = false;
 
-                                error = pCameras[i].SetProperty( &prop );
+                                error = cam.SetProperty( &prop );
                                 if (error != PGRERROR_OK)
                                   {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                                   }
                                 cout << "Setting off TILT" << endl;
@@ -886,11 +898,11 @@ int main(int argc, char* argv[])
                       // Turn off ZOOM if the camera supports this property
 
                        propInfo.type = ZOOM;
-                               error =  pCameras[i].GetPropertyInfo( &propInfo );
+                               error =  cam.GetPropertyInfo( &propInfo );
                                if (error != PGRERROR_OK)
                                  {
                                    PrintError( error );
-                                   delete[] pCameras;
+                                   //delete[] cam;
                                    return -1;
                                  }
 
@@ -902,11 +914,11 @@ int main(int argc, char* argv[])
                                  prop.autoManualMode = false;
                                  prop.onOff = false;
 
-                                 error = pCameras[i].SetProperty( &prop );
+                                 error = cam.SetProperty( &prop );
                                  if (error != PGRERROR_OK)
                                    {
                                      PrintError( error );
-                                     delete[] pCameras;
+                                     //delete[] cam;
                                      return -1;
                                    }
                                  cout << "Setting off ZOOM" << endl;
@@ -919,11 +931,11 @@ int main(int argc, char* argv[])
                                // Turn off TRIGGER_MODE if the camera supports this property
 
                                 propInfo.type = TRIGGER_MODE;
-                                        error =  pCameras[i].GetPropertyInfo( &propInfo );
+                                        error =  cam.GetPropertyInfo( &propInfo );
                                         if (error != PGRERROR_OK)
                                           {
                                             PrintError( error );
-                                            delete[] pCameras;
+                                            //delete[] cam;
                                             return -1;
                                           }
 
@@ -935,11 +947,11 @@ int main(int argc, char* argv[])
                                           prop.autoManualMode = false;
                                           prop.onOff = false;
 
-                                          error = pCameras[i].SetProperty( &prop );
+                                          error = cam.SetProperty( &prop );
                                           if (error != PGRERROR_OK)
                                             {
                                               PrintError( error );
-                                              delete[] pCameras;
+                                              //delete[] cam;
                                               return -1;
                                             }
                                           cout << "Setting off TRIGGER_MODE" << endl;
@@ -952,11 +964,11 @@ int main(int argc, char* argv[])
                                         // Turn off TRIGGER_DELAY if the camera supports this property
 
                                          propInfo.type = TRIGGER_DELAY;
-                                                 error =  pCameras[i].GetPropertyInfo( &propInfo );
+                                                 error =  cam.GetPropertyInfo( &propInfo );
                                                  if (error != PGRERROR_OK)
                                                    {
                                                      PrintError( error );
-                                                     delete[] pCameras;
+                                                     //delete[] cam;
                                                      return -1;
                                                    }
 
@@ -968,11 +980,11 @@ int main(int argc, char* argv[])
                                                    prop.autoManualMode = false;
                                                    prop.onOff = false;
 
-                                                   error = pCameras[i].SetProperty( &prop );
+                                                   error = cam.SetProperty( &prop );
                                                    if (error != PGRERROR_OK)
                                                      {
                                                        PrintError( error );
-                                                       delete[] pCameras;
+                                                       //delete[] cam;
                                                        return -1;
                                                      }
                                                    cout << "Setting off TRIGGER_DELAY" << endl;
@@ -986,11 +998,11 @@ int main(int argc, char* argv[])
            //  check if the camera supports the FRAME_RATE property
 
                propInfo.type = FRAME_RATE;
-               error =  pCameras[i].GetPropertyInfo( &propInfo );
+               error =  cam.GetPropertyInfo( &propInfo );
                if (error != PGRERROR_OK)
                  {
                    PrintError( error );
-                   delete[] pCameras;
+                   //delete[] cam;
                    return -1;
                  }
 
@@ -1004,21 +1016,21 @@ int main(int argc, char* argv[])
                   // Then turn off frame rate
                   Property prop;
                   prop.type = FRAME_RATE;
-                  error =  pCameras[i].GetProperty( &prop );
+                  error =  cam.GetProperty( &prop );
                   if (error != PGRERROR_OK)
                     {
                       PrintError( error );
-                      delete[] pCameras;
+                      //delete[] cam;
                       return -1;
                     }
 
                  prop.autoManualMode = false;
                  prop.onOff = false;
-                 error =  pCameras[i].SetProperty( &prop );
+                 error =  cam.SetProperty( &prop );
                  if (error != PGRERROR_OK)
                    {
                      PrintError( error );
-                     delete[] pCameras;
+                     //delete[] cam;
                      return -1;
                    }
                  shutterType = GENERAL_EXTENDED_SHUTTER;
@@ -1027,11 +1039,11 @@ int main(int argc, char* argv[])
                      {
                        PropertyInfo frRate;
                        frRate.type = FRAME_RATE;
-                       error = pCameras[i].GetPropertyInfo( &frRate );
+                       error = cam.GetPropertyInfo( &frRate );
                        if (error != PGRERROR_OK)
                          {
                            PrintError( error );
-                           delete[] pCameras;
+                           //delete[] cam;
                            return -1;
                          }
                 float minfrmRate = frRate.absMin;
@@ -1057,21 +1069,21 @@ int main(int argc, char* argv[])
                          // Then turn off frame rate
                          Property prop;
                          prop.type = FRAME_RATE;
-                         error =  pCameras[i].GetProperty( &prop );
+                         error =  cam.GetProperty( &prop );
                          if (error != PGRERROR_OK)
                            {
                              PrintError( error );
-                             delete[] pCameras;
+                             //delete[] cam;
                              return -1;
                             }
 
                          prop.autoManualMode = false;
                          prop.onOff = false;
-                         error =  pCameras[i].SetProperty( &prop );
+                         error =  cam.SetProperty( &prop );
                          if (error != PGRERROR_OK)
                            {
                              PrintError( error );
-                             delete[] pCameras;
+                             //delete[] cam;
                              return -1;
                            }
                          shutterType = GENERAL_EXTENDED_SHUTTER;
@@ -1080,11 +1092,11 @@ int main(int argc, char* argv[])
                            {
                              PropertyInfo frRate;
                              frRate.type = FRAME_RATE;
-                             error = pCameras[i].GetPropertyInfo( &frRate );
+                             error = cam.GetPropertyInfo( &frRate );
                              if (error != PGRERROR_OK)
                                {
                                  PrintError( error );
-                                 delete[] pCameras;
+                                 //delete[] cam;
                                  return -1;
                                }
                              float minfrmRate = frRate.absMin;
@@ -1106,16 +1118,16 @@ int main(int argc, char* argv[])
 
                              else{
                                    printf( "Frame Rate outside allowed range.  \n" );
-                                   delete[] pCameras;
+                                   //delete[] cam;
                                    return -1;
                                  }
                          }
 
-                         error = pCameras[i].SetProperty( &frmRate );
+                         error = cam.SetProperty( &frmRate );
                          if (error != PGRERROR_OK)
                            {
                              PrintError( error );
-                             delete[] pCameras;
+                             //delete[] cam;
                              return -1;
                            }
                        }
@@ -1126,7 +1138,7 @@ int main(int argc, char* argv[])
                     	  if ( propInfo.present == false )
                     	  {
                            printf( "Frame rate and extended shutter are not supported... exiting\n" );
-                           delete[] pCameras;
+                           //delete[] cam;
                            return -1;
                     	  }
                     	  else
@@ -1138,21 +1150,21 @@ int main(int argc, char* argv[])
                     		       // Then turn off frame rate
                     		       Property prop;
                     		       prop.type = FRAME_RATE;
-                    		       error =  pCameras[i].GetProperty( &prop );
+                    		       error =  cam.GetProperty( &prop );
                     		       if (error != PGRERROR_OK)
                     		         {
                     		           PrintError( error );
-                    		           delete[] pCameras;
+                    		           //delete[] cam;
                     		           return -1;
                     		         }
 
                     		       prop.autoManualMode = false;
                     		       prop.onOff = false;
-                    		       error =  pCameras[i].SetProperty( &prop );
+                    		       error =  cam.SetProperty( &prop );
                     		       if (error != PGRERROR_OK)
                     		         {
                     		           PrintError( error );
-                    		           delete[] pCameras;
+                    		           //delete[] cam;
                     		           return -1;
                     		         }
                     		       shutterType = GENERAL_EXTENDED_SHUTTER;
@@ -1160,11 +1172,11 @@ int main(int argc, char* argv[])
                     		  else{
                     			    PropertyInfo frRate;
                     			    frRate.type = FRAME_RATE;
-                    			    error = pCameras[i].GetPropertyInfo( &frRate );
+                    			    error = cam.GetPropertyInfo( &frRate );
                     			    if (error != PGRERROR_OK)
                     			      {
                     			        PrintError( error );
-                    			        delete[] pCameras;
+                    			        //delete[] cam;
                     			        return -1;
                     			       }
                     			    float minfrmRate = frRate.absMin;
@@ -1184,15 +1196,15 @@ int main(int argc, char* argv[])
                     			      }
                     			   else{
                     			         printf( "Frame Rate outside allowed range.  \n" );
-                    			         delete[] pCameras;
+                    			         //delete[] cam;
                     			         return -1;
                            			  }
 
-                  		       error = pCameras[i].SetProperty( &frmRate );
+                  		       error = cam.SetProperty( &frmRate );
                     	    if (error != PGRERROR_OK)
                     		  {
                     			 PrintError( error );
-                    			 delete[] pCameras;
+                    			 //delete[] cam;
                     			 return -1;
                     	      }
                     	}
@@ -1203,11 +1215,11 @@ int main(int argc, char* argv[])
 
             PropertyInfo Shut;
             Shut.type = SHUTTER;
-            error = pCameras[i].GetPropertyInfo( &Shut );
+            error = cam.GetPropertyInfo( &Shut );
             if (error != PGRERROR_OK)
               {
                 PrintError( error );
-                delete[] pCameras;
+                //delete[] cam;
                 return -1;
               }
             float minShutter = Shut.absMin;
@@ -1254,20 +1266,20 @@ int main(int argc, char* argv[])
                  }
              }
 
-           error = pCameras[i].SetProperty( &shutter );
+           error = cam.SetProperty( &shutter );
            if (error != PGRERROR_OK)
              {
                PrintError( error );
-               delete[] pCameras;
+               //delete[] cam;
                return -1;
              }
 
         // Set the camera configuration
-	error = pCameras[i].SetConfiguration(&config);
+	error = cam.SetConfiguration(&config);
 	if (error != PGRERROR_OK)
 	  {
 		PrintError(error);
-                delete[] pCameras;
+                //delete[] cam;
 		return -1;
 	  }
 
@@ -1276,20 +1288,20 @@ int main(int argc, char* argv[])
            //  check if the camera supports the AUTO_EXPOSURE property
 
             propInfo.type = AUTO_EXPOSURE;
-            error =  pCameras[i].GetPropertyInfo( &propInfo );
+            error =  cam.GetPropertyInfo( &propInfo );
             if (error != PGRERROR_OK)
               {
                  PrintError( error );
-                 delete[] pCameras;
+                 //delete[] cam;
                  return -1;
               }
 
             propInfo.type = AUTO_EXPOSURE;
-              error =  pCameras[i].GetPropertyInfo( &propInfo );
+              error =  cam.GetPropertyInfo( &propInfo );
               if (error != PGRERROR_OK)
                 {
                    PrintError( error );
-                   delete[] pCameras;
+                   //delete[] cam;
                    return -1;
                 }
 
@@ -1301,21 +1313,21 @@ int main(int argc, char* argv[])
                     // Then turn off AUTO_EXPOSURE
                        Property prop;
                        prop.type = AUTO_EXPOSURE;
-                       error =  pCameras[i].GetProperty( &prop );
+                       error =  cam.GetProperty( &prop );
                        if (error != PGRERROR_OK)
                          {
                            PrintError( error );
-                           delete[] pCameras;
+                           //delete[] cam;
                            return -1;
                          }
 
                         prop.autoManualMode = false;
                         prop.onOff = false;
-                        error =  pCameras[i].SetProperty( &prop );
+                        error =  cam.SetProperty( &prop );
                         if (error != PGRERROR_OK)
                         {
                           PrintError( error );
-                          delete[] pCameras;
+                          //delete[] cam;
                           return -1;
                         }
 
@@ -1324,11 +1336,11 @@ int main(int argc, char* argv[])
                     {
                        PropertyInfo propinfo;
                        propinfo.type = AUTO_EXPOSURE;
-                       error = pCameras[i].GetPropertyInfo( &propinfo );
+                       error = cam.GetPropertyInfo( &propinfo );
                        if (error != PGRERROR_OK)
                         {
                          PrintError( error );
-                         delete[] pCameras;
+                         //delete[] cam;
                          return -1;
                          }
 
@@ -1342,11 +1354,11 @@ int main(int argc, char* argv[])
                         if (autoexpo1 >= propInfo.absMin && autoexpo1 <= propInfo.absMax)
                          {
                            prop.absValue = autoexpo1;
-                           error = pCameras[i].SetProperty( &prop );
+                           error = cam.SetProperty( &prop );
                            if (error != PGRERROR_OK)
                              {
                                PrintError( error );
-                               delete[] pCameras;
+                               //delete[] cam;
                                return -1;
                              }
                            printf( "AUTO_EXPOSURE set to %3.3f from current parfile \n", autoexpo1 );
@@ -1360,21 +1372,21 @@ int main(int argc, char* argv[])
                                 // Then turn off AUTO_EXPOSURE
                                 Property prop;
                                 prop.type = AUTO_EXPOSURE;
-                                error =  pCameras[i].GetProperty( &prop );
+                                error =  cam.GetProperty( &prop );
                                 if (error != PGRERROR_OK)
                                  {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                                  }
 
                                 prop.autoManualMode = false;
                                 prop.onOff = false;
-                                error =  pCameras[i].SetProperty( &prop );
+                                error =  cam.SetProperty( &prop );
                                 if (error != PGRERROR_OK)
                                   {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                                    }
 
@@ -1383,11 +1395,11 @@ int main(int argc, char* argv[])
                                {
                                  PropertyInfo propinfo;
                                  propinfo.type = AUTO_EXPOSURE;
-                                 error = pCameras[i].GetPropertyInfo( &propinfo );
+                                 error = cam.GetPropertyInfo( &propinfo );
                                  if (error != PGRERROR_OK)
                                    {
                                      PrintError( error );
-                                     delete[] pCameras;
+                                     //delete[] cam;
                                      return -1;
                                    }
 
@@ -1401,11 +1413,11 @@ int main(int argc, char* argv[])
                                  if (autoexpo >= propInfo.absMin && autoexpo <= propInfo.absMax)
                                    {
                                      prop.absValue = autoexpo;
-                                     error = pCameras[i].SetProperty( &prop );
+                                     error = cam.SetProperty( &prop );
                                      if (error != PGRERROR_OK)
                                        {
                                          PrintError( error );
-                                         delete[] pCameras;
+                                         //delete[] cam;
                                          return -1;
                                        }
                                       printf( "AUTO_EXPOSURE set to %3.3f  from default parfile \n", autoexpo );
@@ -1433,21 +1445,21 @@ int main(int argc, char* argv[])
                 	         // Then turn off AUTO_EXPOSURE
                 	         Property prop;
                 	         prop.type = AUTO_EXPOSURE;
-                	         error =  pCameras[i].GetProperty( &prop );
+                	         error =  cam.GetProperty( &prop );
                 	         if (error != PGRERROR_OK)
                 	           {
                 	             PrintError( error );
-                	             delete[] pCameras;
+                	             //delete[] cam;
                 	             return -1;
                 	           }
 
                 	           prop.autoManualMode = false;
                 	           prop.onOff = false;
-                	           error =  pCameras[i].SetProperty( &prop );
+                	           error =  cam.SetProperty( &prop );
                 	           if (error != PGRERROR_OK)
                 	             {
                 	               PrintError( error );
-                	               delete[] pCameras;
+                	               //delete[] cam;
                 	               return -1;
                 	             }
                 	       }
@@ -1455,11 +1467,11 @@ int main(int argc, char* argv[])
                 	           {
                 	        	PropertyInfo propinfo;
                 	        	propinfo.type = AUTO_EXPOSURE;
-                	        	error = pCameras[i].GetPropertyInfo( &propinfo );
+                	        	error = cam.GetPropertyInfo( &propinfo );
                 	        	if (error != PGRERROR_OK)
                 	        	  {
                 	        	    PrintError( error );
-                	        	    delete[] pCameras;
+                	        	    //delete[] cam;
                 	        	    return -1;
                 	        	  }
 
@@ -1473,11 +1485,11 @@ int main(int argc, char* argv[])
                 	        	 if (autoexpo >= propInfo.absMin && autoexpo <= propInfo.absMax)
                 	        	   {
                 	        	     prop.absValue = autoexpo;
-                	        	     error = pCameras[i].SetProperty( &prop );
+                	        	     error = cam.SetProperty( &prop );
                 	        	     if (error != PGRERROR_OK)
                 	        	       {
                 	        	         PrintError( error );
-                	        	         delete[] pCameras;
+                	        	         //delete[] cam;
                 	        	         return -1;
                 	        	       }
                 	            printf( "AUTO_EXPOSURE set to %3.3f  from default parfile \n", autoexpo );
@@ -1495,11 +1507,11 @@ int main(int argc, char* argv[])
            //Set gain checking if the property is supported
 
              propInfo.type = GAIN;
-             error =  pCameras[i].GetPropertyInfo( &propInfo );
+             error =  cam.GetPropertyInfo( &propInfo );
              if (error != PGRERROR_OK)
                {
                  PrintError( error );
-                 delete[] pCameras;
+                 //delete[] cam;
                  return -1;
                }
              if ( propInfo.present == true &&  (strcmp("Y", filestatus) == 0))
@@ -1515,11 +1527,11 @@ int main(int argc, char* argv[])
                   if (gain1 >= propInfo.absMin && gain1 <= propInfo.absMax)
                          {
                            	 prop.absValue = gain1;
-                             error = pCameras[i].SetProperty( &prop );
+                             error = cam.SetProperty( &prop );
                              if (error != PGRERROR_OK)
                                   {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                                   }
                              printf( "Gain set to %3.2f dB from current parfile \n", gain1 );
@@ -1529,11 +1541,11 @@ int main(int argc, char* argv[])
                 	  if (gain >= propInfo.absMin && gain <= propInfo.absMax)
                 	     {
                 	       prop.absValue = gain;
-                	       error = pCameras[i].SetProperty( &prop );
+                	       error = cam.SetProperty( &prop );
                 	       if (error != PGRERROR_OK)
                 	         {
                 	           PrintError( error );
-                	           delete[] pCameras;
+                	           //delete[] cam;
                 	           return -1;
                 	         }
                 	        printf( "Gain set to %3.2f dB from default parfile \n", gain );
@@ -1556,11 +1568,11 @@ int main(int argc, char* argv[])
             		  if (gain >= propInfo.absMin && gain <= propInfo.absMax)
             		    {
             		      prop.absValue = gain;
-            		      error = pCameras[i].SetProperty( &prop );
+            		      error = cam.SetProperty( &prop );
             		      if (error != PGRERROR_OK)
             		        {
             		          PrintError( error );
-            		          delete[] pCameras;
+            		          //delete[] cam;
             		          return -1;
             		        }
             		     printf( "Gain set to %3.2f dB from default parfile \n", gain );
@@ -1576,11 +1588,11 @@ int main(int argc, char* argv[])
              //  check if the camera supports the BRIGHTNESS property
 
                            propInfo.type = BRIGHTNESS;
-                           error =  pCameras[i].GetPropertyInfo( &propInfo );
+                           error =  cam.GetPropertyInfo( &propInfo );
                            if (error != PGRERROR_OK)
                              {
                                PrintError( error );
-                               delete[] pCameras;
+                               //delete[] cam;
                                return -1;
                               }
 
@@ -1594,21 +1606,21 @@ int main(int argc, char* argv[])
                               // Then turn off BRIGHTNESS
                               Property prop;
                               prop.type = BRIGHTNESS;
-                              error =  pCameras[i].GetProperty( &prop );
+                              error =  cam.GetProperty( &prop );
                               if (error != PGRERROR_OK)
                                 {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                                 }
 
                               prop.autoManualMode = false;
                               prop.onOff = false;
-                              error =  pCameras[i].SetProperty( &prop );
+                              error =  cam.SetProperty( &prop );
                               if (error != PGRERROR_OK)
                                 {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                                 }
 
@@ -1617,11 +1629,11 @@ int main(int argc, char* argv[])
                                 {
                                   PropertyInfo propinfo;
                                   propinfo.type = BRIGHTNESS;
-                                  error = pCameras[i].GetPropertyInfo( &propinfo );
+                                  error = cam.GetPropertyInfo( &propinfo );
                                   if (error != PGRERROR_OK)
                                     {
                                       PrintError( error );
-                                      delete[] pCameras;
+                                      //delete[] cam;
                                       return -1;
                                      }
 
@@ -1640,11 +1652,11 @@ int main(int argc, char* argv[])
                                        {
                                          prop.valueA = desiredBrightness1;
                                          printf( "BRIGHTNESS set to %4d  from current file\n", desiredBrightness1 );
-                                         error = pCameras[i].SetProperty( &prop );
+                                         error = cam.SetProperty( &prop );
                                          if (error != PGRERROR_OK)
                                            {
                                              PrintError( error );
-                                             delete[] pCameras;
+                                             //delete[] cam;
                                              return -1;
                                            }
                                        }
@@ -1657,21 +1669,21 @@ int main(int argc, char* argv[])
                               // Then turn off BRIGHTNESS
                               Property prop;
                               prop.type = BRIGHTNESS;
-                              error =  pCameras[i].GetProperty( &prop );
+                              error =  cam.GetProperty( &prop );
                               if (error != PGRERROR_OK)
                                 {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                                 }
 
                               prop.autoManualMode = false;
                               prop.onOff = false;
-                              error =  pCameras[i].SetProperty( &prop );
+                              error =  cam.SetProperty( &prop );
                               if (error != PGRERROR_OK)
                                 {
                                   PrintError( error );
-                                  delete[] pCameras;
+                                  //delete[] cam;
                                   return -1;
                                 }
 
@@ -1680,11 +1692,11 @@ int main(int argc, char* argv[])
                                 {
                                   PropertyInfo propinfo;
                                   propinfo.type = BRIGHTNESS;
-                                  error = pCameras[i].GetPropertyInfo( &propinfo );
+                                  error = cam.GetPropertyInfo( &propinfo );
                                   if (error != PGRERROR_OK)
                                     {
                                       PrintError( error );
-                                      delete[] pCameras;
+                                      //delete[] cam;
                                       return -1;
                                      }
 
@@ -1703,11 +1715,11 @@ int main(int argc, char* argv[])
                                        {
                                          prop.valueA = desiredBrightness;
                                          printf( "BRIGHTNESS set to %4d from default file  \n", desiredBrightness );
-                                         error = pCameras[i].SetProperty( &prop );
+                                         error = cam.SetProperty( &prop );
                                          if (error != PGRERROR_OK)
                                            {
                                              PrintError( error );
-                                             delete[] pCameras;
+                                             //delete[] cam;
                                              return -1;
                                            }
                                        }
@@ -1734,21 +1746,21 @@ int main(int argc, char* argv[])
                                  // Then turn off BRIGHTNESS
                                  Property prop;
                                  prop.type = BRIGHTNESS;
-                                 error =  pCameras[i].GetProperty( &prop );
+                                 error =  cam.GetProperty( &prop );
                                  if (error != PGRERROR_OK)
                                    {
                                     PrintError( error );
-                                    delete[] pCameras;
+                                    //delete[] cam;
                                     return -1;
                                    }
 
                                    prop.autoManualMode = false;
                                    prop.onOff = false;
-                                   error =  pCameras[i].SetProperty( &prop );
+                                   error =  cam.SetProperty( &prop );
                                    if (error != PGRERROR_OK)
                                      {
                                        PrintError( error );
-                                       delete[] pCameras;
+                                       //delete[] cam;
                                        return -1;
                                      }
                                  }
@@ -1757,11 +1769,11 @@ int main(int argc, char* argv[])
 
                             	  PropertyInfo propinfo;
                             	  propinfo.type = BRIGHTNESS;
-                            	  error = pCameras[i].GetPropertyInfo( &propinfo );
+                            	  error = cam.GetPropertyInfo( &propinfo );
                             	  if (error != PGRERROR_OK)
                             	    {
                             	      PrintError( error );
-                            	      delete[] pCameras;
+                            	      //delete[] cam;
                             	      return -1;
                             	    }
 
@@ -1779,11 +1791,11 @@ int main(int argc, char* argv[])
                             	     {
                             	       prop.valueA = desiredBrightness;
                             	       printf( "BRIGHTNESS set to %4d from default file  \n", desiredBrightness );
-                            	       error = pCameras[i].SetProperty( &prop );
+                            	       error = cam.SetProperty( &prop );
                             	       if (error != PGRERROR_OK)
                             	         {
                             	           PrintError( error );
-                            	           delete[] pCameras;
+                            	           //delete[] cam;
                             	           return -1;
                             	         }
                             	      }
@@ -1792,8 +1804,8 @@ int main(int argc, char* argv[])
                             	       }
                               }
                             }
-                            }
-            
+                           
+                           }
             // Start streaming on camera
             std::stringstream ss;
             ss << currentDateTime2();
@@ -1803,14 +1815,14 @@ int main(int argc, char* argv[])
             printf( "Start time %s \n", pippo );
 
 
-            error = pCameras[i].StartCapture();
+            error = cam.StartCapture();
             if (error != PGRERROR_OK)
               {
                 PrintError(error);
-                delete[] pCameras;
+                //delete[] cam;
                 return -1;
               }
-          }
+          
 
 
    
@@ -1820,20 +1832,14 @@ int main(int argc, char* argv[])
  ////   for ( ; ;  )    
  while (!done)
      {
-
-
-        
-          
-    	 for (unsigned int i = 0; i < numCameras; i++)
-    	    {
     	      Image image;
-    	      error = pCameras[i].RetrieveBuffer(&image);              
-             
-	      
+    	      error = cam.RetrieveBuffer(&image);
+              
+
     	      if (error != PGRERROR_OK)
     	        {
     	          PrintError(error);
-    	          delete[] pCameras;
+    	          //delete[] cam;
     	          return -1;
     	        }
 
@@ -1841,7 +1847,7 @@ int main(int argc, char* argv[])
 
     	      // Display the timestamps of the images grabbed for each camera
     	         TimeStamp timestamp = image.GetTimeStamp();
-    	         cout << "Camera " << i << " - Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
+    	         cout << "Camera " << " Frame " << imageCnt << " - TimeStamp [" << timestamp.cycleSeconds << " " << timestamp.cycleCount << "]"<< endl;
 
     	         // Save the file
 
@@ -1849,7 +1855,7 @@ int main(int argc, char* argv[])
 
     	      Property shutter;
     	      shutter.type = SHUTTER;
-    	      error = pCameras[i].GetProperty( &shutter );
+    	      error = cam.GetProperty( &shutter );
     	      if (error != PGRERROR_OK)
     	        {
     	          PrintError( error );
@@ -1857,11 +1863,11 @@ int main(int argc, char* argv[])
     	        }
 
 
-    	      error = pCameras[i].GetCameraInfo(&camInfo);
+    	      error = cam.GetCameraInfo(&camInfo);
     	      if (error != PGRERROR_OK)
     	        {
     	          PrintError(error);
-    	          delete[] pCameras;
+    	          //delete[] cam;
     	          return -1;
     	        }
 
@@ -1870,13 +1876,13 @@ int main(int argc, char* argv[])
 
     	       if ( strcmp("Chameleon", name1) == 0)
     	         {
-    	           error = pCameras[i].ReadRegister(0x82C, &ulValue); // read the temperature register for the NIR camera only
+    	           error = cam.ReadRegister(0x82C, &ulValue); // read the temperature register for the NIR camera only
     	           unsigned r  = createMask(20, 31); // extract the bits of interest
    	               res = r & ulValue;  // here you have already the Kelvin temperature * 10
     	           if (error != PGRERROR_OK)
     	              {
     	                PrintError( error );
-    	                delete[] pCameras;
+    	                //delete[] cam;
     	                return -1;
     	              }
    	              }
@@ -1925,14 +1931,13 @@ int main(int argc, char* argv[])
     	       if (error != PGRERROR_OK)
     	         {
     	           PrintError( error );
-    	           delete[] pCameras;
+    	           //delete[] cam;
     	           return -1;
     	         }
-
-
-      }
+      
    	 imageCnt++;
-     }
+     
+    }
 
     std::stringstream ss1;
     ss1 << currentDateTime2();
@@ -1943,15 +1948,11 @@ int main(int argc, char* argv[])
     printf( "End time time %s \n", pippo1 );
 
     // disconnect the camera
-
     
-    for (unsigned int  i= 0; i < numCameras; i++)
-        {
-          pCameras[i].StopCapture();
-          pCameras[i].Disconnect();
-        }
-
-        delete[] pCameras;
+          cam.StopCapture();
+          cam.Disconnect();
+    
+        //delete[] cam;
 
     return 0;
 }

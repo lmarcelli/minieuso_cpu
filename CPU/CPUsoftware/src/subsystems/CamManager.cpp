@@ -180,8 +180,11 @@ const char * CamManager::DefineLaunchCmd() {
     /* set up the comand to launch cameras */
     conv << "(cd " << CAMERA_SOFTWARE_DIR << " && " << CAMERA_EXEC << " "
 	 << CAMERA_SOFTWARE_DIR << " " << OTHER_WRITE_DIR << this->nir_status << " " << this->vis_status << std::endl;
-    
   }
+
+  /* convert stringstream to char * */
+  launch_cmd_str = conv.str();
+  launch_cmd = launch_cmd_str.c_str();
   
   return launch_cmd;
 }

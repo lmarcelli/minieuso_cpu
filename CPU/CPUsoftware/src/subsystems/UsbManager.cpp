@@ -260,7 +260,7 @@ int UsbManager::DataBackup() {
 /**
  * spawn thread to run data backup in the background 
  */
-int UsbManager::RunDataBackup) {
+int UsbManager::RunDataBackup() {
 
   clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
 

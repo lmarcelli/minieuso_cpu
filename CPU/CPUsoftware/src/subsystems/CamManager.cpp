@@ -32,14 +32,13 @@ int CamManager::StartAcquisition() {
 
   std::string output;
   const char * cam_cmd;
-
-  std::cout << "running start acquisition" << std::endl;
   
   /* start with both cameras set to ON */
   this->SetCamStatus(ON, ON);
 
   /* define the launch command */
   cam_cmd = this->DefineLaunchCmd();
+  std::cout << "cam_cmd: " << cam_cmd << std::endl;
 
   /* launch and check verbosity */
   if (this->verbose) {

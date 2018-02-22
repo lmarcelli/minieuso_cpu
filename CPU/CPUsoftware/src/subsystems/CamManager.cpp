@@ -33,6 +33,8 @@ int CamManager::StartAcquisition() {
   std::string output;
   const char * cam_cmd;
 
+  std::cout << "running start acquisition" << std::endl;
+  
   /* start with both cameras set to ON */
   this->SetCamStatus(ON, ON);
 
@@ -109,7 +111,7 @@ int CamManager::CollectData() {
   auto future = this->launch_failed.get_future();
   std::thread collect_cam_data (&CamManager::StartAcquisition, this);
 
-  /* wait for launch to be marked as failed by CamManager::StartAcquisition() */
+  /* wait for launch to be marked as success/fail by CamManager::StartAcquisition() */
   auto status = future.wait_for(std::chrono::seconds(5));   
 
   /* check if cameras failed to launch */

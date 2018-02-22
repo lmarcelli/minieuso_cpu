@@ -14,11 +14,12 @@
 
 /*
  * Define the commands needed to launch the cameras, used by CamManager::DefineLaunchCmd()
+ * NB: trailing "/" in directories is important for multiplecam software to work
  */
-#define CAMERA_SOFTWARE_DIR "/home/software/CPU/cameras/multiplecam"
+#define CAMERA_SOFTWARE_DIR "/home/software/CPU/cameras/multiplecam/"
 #define CAMERA_EXEC "./multiplecam.sh"
-#define USB_WRITE_DIR "/media/usb0"
-#define OTHER_WRITE_DIR "/home/software/CPU/cameras/multiplecam"
+#define USB_WRITE_DIR "/media/usb0/"
+#define OTHER_WRITE_DIR "/home/software/CPU/cameras/multiplecam/"
 #define N_TRY_RELAUNCH 2
 #define WAIT_TIME 120
 

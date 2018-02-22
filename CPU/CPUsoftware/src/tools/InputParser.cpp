@@ -251,11 +251,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
      if (!comment_str.empty()){
        this->CmdLine->comment = comment_str;
      }
-
-     /* debug */
-     std::cout << this->CmdLine->comment << std::endl; 
-     std::cout << this->CmdLine->comment.c_str() << std::endl; 
-
    }
  
   

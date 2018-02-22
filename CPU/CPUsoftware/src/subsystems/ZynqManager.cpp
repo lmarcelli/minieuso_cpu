@@ -303,7 +303,7 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   kStatStr = status_string.c_str();
   printf("Set HVPS dac to 0: %s\n", kStatStr);
   usleep(sleep_time);  
-
+git add 
   /* turn on */
   status_string = SendRecvTelnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
   kStatStr = status_string.c_str();

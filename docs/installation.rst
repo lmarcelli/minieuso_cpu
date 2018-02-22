@@ -31,7 +31,7 @@ Installation instructions
    * connect to the network mirror to allow updates
    * install GRUB onto the 32 GB flash drive 
 
-3. Restart the system and boot into the OS, login as root
+3. Restart the system and boot into the OS, **login as root** using the same password and ``su -l``
 
    * ensure the analog board is also connected (necessary to load the drivers)
    * the ethernet connection can be configured by copying the following lines into the ``/etc/network/interfaces`` file

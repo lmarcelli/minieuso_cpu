@@ -43,6 +43,7 @@ struct CmdLineInputs {
   /* strings to store what is sent by user before parsing */
   std::string command_line_string;
   std::string zynq_mode_string;
+  std::string comment;
   
 };
 

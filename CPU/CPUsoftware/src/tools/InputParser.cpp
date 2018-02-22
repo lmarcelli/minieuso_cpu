@@ -45,6 +45,9 @@ InputParser::InputParser(int &argc, char **argv) {
     
     this->CmdLine->command_line_string += (std::string(argv[i]) + space);
   }
+
+  /* initialise comment field */
+  this->comment = "none";
 }
 
 
@@ -236,7 +239,20 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-check_status")){
     this->CmdLine->check_status = true;
   }
-  
+
+  /* comment to go in file header */
+   if(cmdOptionExists("-comment")){
+
+     const std::string &comment_str = getCmdOption("-comment");
+     if (!comment_str.empty()){
+       this->CmdLine->comment = comment_str;
+     }
+     
+     /* debug */
+     std::cout << this->CmdLine->comment << std::endl;
+     
+   }
+ 
   
   /* get the arguments */
   /* dynode voltage */

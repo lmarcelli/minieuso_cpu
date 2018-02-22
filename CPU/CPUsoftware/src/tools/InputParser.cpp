@@ -42,13 +42,16 @@ InputParser::InputParser(int &argc, char **argv) {
   
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));
-    if (std::string(argv[i-1]) != "-comment") {
+    if (std::string(argv[i-1]) == "-comment") {
       this->CmdLine->command_line_string += ("\"...\"" + space);
     }
     else {
       this->CmdLine->command_line_string += (std::string(argv[i]) + space);
     }
   }
+
+  /* debug */
+  std::cout << "Command line string: " << this->CmdLine->command_line_string << std::endl;
 
   /* initialise comment field */
   this->CmdLine->comment = "none";

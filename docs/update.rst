@@ -29,4 +29,7 @@ If, for whatever reason, the ``/home/software`` git repository is deleted, it is
 
   git clone https://github.com/cescalara/minieuso_cpu /home/software
 
-Following this, the camera software must be compiled, the necessary libraries built and the log directories created. There is a script to do this in ``/home/software/CPU/CPUsetup`` called ``reinstall.sh``. 
+Following this, the camera software must be compiled, the necessary libraries built and the log directories created. There is a script to do this in ``/home/
+software/CPU/CPUsetup`` called ``reinstall.sh``.
+
+**NB: when running reinstall.sh, it is important that both cameras are connected and powered so that the cameras.ini file can be created for the multiplecam software**

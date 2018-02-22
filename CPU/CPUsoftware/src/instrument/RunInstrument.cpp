@@ -146,7 +146,9 @@ int RunInstrument::DebugMode() {
   std::cout << std::endl;
 
   std::cout << "USB" << std::endl;
-  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected" << std::endl;
+  int num_usb_storage = this->Usb.LookupUsbStorage();
+  std::cout << "there are " << num_usb_storage << " USB storage devices connected" << std::endl;
+  this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
 
   std::cout << "LVPS" << std::endl;

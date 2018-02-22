@@ -237,9 +237,5 @@ void CamManager::ParseSerialNumbers() {
     file_to_parse.close();
   } /* if file is open */
   
-  /* debug */
-  std::cout << "VIS serial: " << this->vis_serial << std::endl; 
-  std::cout << "NIR serial: " << this->nir_serial << std::endl; 
-  
   return;
 }

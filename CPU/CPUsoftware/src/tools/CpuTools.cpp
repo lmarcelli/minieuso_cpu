@@ -1,12 +1,19 @@
 #include "CpuTools.h"
 
-/* default constructor */
+/**
+ * default constructor 
+ */
 CpuTools::CpuTools() {
 
 }
 
 
-/* function to run command and pass stdout to a string */
+/**
+ * function to run command and pass stdout to a string 
+ * @param cmd the command to send using popen
+ * NB: maximum size of returned string is limited to MAX_STR_LENGTH
+ * defined in CpuTools.h
+ */
 std::string CpuTools::CommandToStr(const char * cmd) {
   const int buf_size = 512;
   std::array<char, buf_size> buffer;
@@ -26,7 +33,9 @@ std::string CpuTools::CommandToStr(const char * cmd) {
   return result;
 }
 
-/* function to convert int to a fixed length string */
+/**
+ * function to convert int to a fixed length string 
+ */
 std::string CpuTools::IntToFixedLenStr(const int input, const int length)
 {
     std::ostringstream ostr;
@@ -40,7 +49,9 @@ std::string CpuTools::IntToFixedLenStr(const int input, const int length)
 }
 
 
-/* function to clear a directory  */
+/**
+ * function to clear a directory  
+ */
 void CpuTools::ClearFolder(const char * data_dir) {
 
   DIR * theFolder = opendir(data_dir);

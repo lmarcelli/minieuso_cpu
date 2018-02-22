@@ -16,18 +16,17 @@ echo "Mini-EUSO CPU reinstall"
 echo "***********************"
 
 # Set up the Mini-EUSO software
+echo "Setting up the Mini-EUSO software..."
 mkdir $HOME_DIR/CPU/CPUsoftware/log > /dev/null 2>&1
-make -C $HOME_DIR/CPU/CPUsoftware/lib > /dev/null 2>&1
-make -C $HOME_DIR/CPU/CPUsoftware > /dev/null 2>&1
+(cd $HOME_DIR/CPU/CPUsoftware/lib && make)
+(cd $HOME_DIR/CPU/CPUsoftware && make)
 echo "Mini-EUSO software is set up"
 
 # Set up the cameras 
 echo "Setting up the camera software..."
-chmod +x $HOME_DIR/cameras/flycapture2-2.3.2.14-amd64/install_flycapture.sh
-(cd $HOME_DIR/cameras/flycapture2-2.3.2.14-amd64 && sh install_flycapture.sh)
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
 mkdir $HOME_DIR/cameras/multiplecam/bin > /dev/null 2>&1
 chmod +x $HOME_DIR/cameras/multiplecam/src/install.sh
-(cd $HOME_DIR/cameras/multiplecam/src && sh -c './install.sh $HOME_DIR/cameras/multiplecam')
+(cd $HOME_DIR/cameras/multiplecam/src && sh -c './install.sh /home/software/CPU/cameras/multiplecam')
 echo "Camera software is set up"
 

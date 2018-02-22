@@ -62,13 +62,13 @@ int CamManager::StartAcquisition() {
     }
  
     /* look for a serial number */
-    found = output.find(std::to_string(nir_serial))
+    found = output.find(std::to_string(nir_serial));
     if (found != std::string::npos) {
 
       /* turn off NIR camera if its serial number is in error msg */
       this->nir_status = OFF;
     }
-    found = output.find(std::to_string(vis_serial))
+    found = output.find(std::to_string(vis_serial));
     if (found != std::string::npos) {
 
       /* turn off VIS camera if its serial number is in error msg */
@@ -205,8 +205,40 @@ void CamManager::SetCamStatus(CamStatus nir_status, CamStatus vis_status) {
  */
 void CamManager::ParseSerialNumbers() {
 
-  this->nir_serial = 0;
-  this->vis_serial = 0;
+  std::string line;
+  std::ifstream file_to_parse;
+  
+  /* open the file defined in CamManager.h */
+  file_to_parse.open(SERIAL_NUM_FILE);
+
+  if (file_to_parse.is_open()) {
+
+    clog << "info: " << logstream::info << "CamManager reading from the file" << SERIAL_NUM_FILE << std::endl; 
+
+    /* read from the file one line at a time */
+    while (getline(file_to_parse, line)) {
+
+      std::istringstream in(line);
+      std::string type;
+      int serial_num;
+      in >> serial_num;
+      in >> type;
+
+      if (type == "VIS") {
+	this->vis_serial = serial_num;
+      }
+      if (type == "NIR") {
+	this->nir_serial = serial_num; 
+      }
+    } /* while getline() */
+    
+    /* close the file */
+    file_to_parse.close();
+  } /* if file is open */
+  
+  /* debug */
+  std::cout << "VIS serial: " << this->vis_serial << std::endl; 
+  std::cout << "NIR serial: " << this->nir_serial << std::endl; 
   
   return;
 }

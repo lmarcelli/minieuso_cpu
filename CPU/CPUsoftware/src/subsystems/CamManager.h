@@ -22,6 +22,11 @@
 #define N_TRY_RELAUNCH 2
 #define WAIT_TIME 120
 
+/*
+ * Define the name of the file containing the camera serial numbers
+ */
+#define SERIAL_NUM_FILE "/home/software/CPU/cameras/multiplecam/parfiles/cameras.ini"
+
 /**
  * interface to the multiplecam camera software to allow for parallel acquisition with the two 
  * cameras (VIS and NIR)

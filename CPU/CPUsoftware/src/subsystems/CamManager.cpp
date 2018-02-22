@@ -38,7 +38,6 @@ int CamManager::StartAcquisition() {
 
   /* define the launch command */
   cam_cmd = this->DefineLaunchCmd();
-  std::cout << "cam_cmd: " << cam_cmd << std::endl;
 
   /* launch and check verbosity */
   if (this->verbose) {

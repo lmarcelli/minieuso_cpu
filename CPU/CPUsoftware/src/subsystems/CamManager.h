@@ -75,7 +75,7 @@ public:
    */
   std::promise<bool> launch_failed;
   /*
-   * set to true when laucnh succeeds
+   * set to true when launch succeeds
    */
   bool launch_running;
   

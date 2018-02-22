@@ -47,7 +47,7 @@ InputParser::InputParser(int &argc, char **argv) {
   }
 
   /* initialise comment field */
-  this->comment = "none";
+  this->CmdLine->comment = "none";
 }
 
 

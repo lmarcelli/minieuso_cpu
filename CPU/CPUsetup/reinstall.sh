@@ -17,9 +17,9 @@ echo "***********************"
 
 # Set up the Mini-EUSO software
 echo "Setting up the Mini-EUSO software..."
-mkdir $HOME_DIR/CPU/CPUsoftware/log > /dev/null 2>&1
-(cd $HOME_DIR/CPU/CPUsoftware/lib && make)
-(cd $HOME_DIR/CPU/CPUsoftware && make)
+mkdir $HOME_DIR/CPUsoftware/log > /dev/null 2>&1
+(cd $HOME_DIR/CPUsoftware/lib && make)
+(cd $HOME_DIR/CPUsoftware && make)
 echo "Mini-EUSO software is set up"
 
 # Set up the cameras 

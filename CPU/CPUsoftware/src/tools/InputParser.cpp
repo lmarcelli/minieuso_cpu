@@ -254,6 +254,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
      /* debug */
      std::cout << this->CmdLine->comment << std::endl; 
+     std::cout << this->CmdLine->comment.c_str() << std::endl; 
+
    }
  
   

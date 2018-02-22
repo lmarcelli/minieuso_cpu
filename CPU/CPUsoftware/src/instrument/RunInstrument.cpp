@@ -93,7 +93,6 @@ int RunInstrument::HvpsSwitch() {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
     this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
-    this->Zynq.SetDac(this->ConfigOut->dac_level);
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;

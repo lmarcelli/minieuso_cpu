@@ -40,6 +40,10 @@ public:
    * stores the number of storage devices connected
    */
   uint8_t num_storage_dev;
+  /**
+   * stores true if a data backup is running
+   */
+  bool backup_launched;
   
   UsbManager();
   static int CheckUsb();
@@ -52,7 +56,7 @@ private:
    * stores the backup thread handle
    */
   std::thread::native_handle_type backup_thread_handle;  
-
+  
   void CheckCpuModel();
   static void PrintDev(libusb_device * dev);
   int DataBackup();

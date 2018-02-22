@@ -6,7 +6,7 @@
  */
 UsbManager::UsbManager() {
   this->num_storage_dev = N_USB_UNDEF;
-  
+  this->backup_launched = false;  
   
 }
 
@@ -218,6 +218,8 @@ int UsbManager::DataBackup() {
   /* require 2+ storage devices for backup */
   if (this->num_storage_dev >= 2 && this->num_storage_dev != N_USB_UNDEF) {
 
+    this->backup_launched = true;
+    
     /* run backup */
     std::cout << "running data backup in the background" << std::endl;
 
@@ -258,7 +260,7 @@ int UsbManager::DataBackup() {
 /**
  * spawn thread to run data backup in the background 
  */
-int UsbManager::RunDataBackup() {
+int UsbManager::RunDataBackup) {
 
   clog << "info: " << logstream::info << "running data backup in the background" << std::endl;
 
@@ -283,9 +285,11 @@ int UsbManager::KillDataBackup() {
 
   clog << "info: " << logstream::info << "killing the data backup thread" << std::endl;
   
-  /* kill the thread */
-  /* justifiable as no locked resources */
-  pthread_cancel(this->backup_thread_handle);
+  if (this->backup_launched) {
+    /* kill the thread */
+    /* justifiable as no locked resources */
+    pthread_cancel(this->backup_thread_handle);
+  }
   
   return 0;
 }

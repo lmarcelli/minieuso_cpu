@@ -146,7 +146,9 @@ int RunInstrument::DebugMode() {
   std::cout << std::endl;
 
   std::cout << "USB" << std::endl;
-  std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected" << std::endl;
+  int num_usb_storage = this->Usb.LookupUsbStorage();
+  std::cout << "there are " << num_usb_storage << " USB storage devices connected" << std::endl;
+  this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
 
   std::cout << "LVPS" << std::endl;
@@ -184,20 +186,18 @@ int RunInstrument::DebugMode() {
   this->Daq.ThManager->PrintTemperature();
   std::cout << std::endl;
 
-  /* uncomment when ST has given updates */
-  /*
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   std::cout << "CAMERAS" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->CmdLine->cam_on = true;
   this->CmdLine->cam_verbose = true;
   this->LaunchCam();
+  sleep(2);
   std::cout << "stopping acquisition... ";
   this->Cam.KillCamAcq();
   std::cout << "done!" << std::endl;
   std::cout << std::endl;
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
-  */
   
   std::cout << "ZYNQ" << std::endl;
   this->Zynq.CheckTelnet();

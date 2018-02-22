@@ -1,7 +1,7 @@
 //============================================================================
 // Name        : multiplecam.cpp
 // Author      : Sara Turriziani
-// Version     : 4.0
+// Version     : 4.3
 // Copyright   : Mini-EUSO copyright notice
 // Description : Cameras Acquisition Module in C++, ANSI-style, for linux
 //============================================================================
@@ -200,34 +200,6 @@ int BusResetLoop()
 		return -1;
 	}
 
-
-
-        // 
-
-/*
-	// Unregister bus events
-	error = busMgr.UnregisterCallback( m_resetHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.UnregisterCallback( m_arrivalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-
-	error = busMgr.UnregisterCallback( m_removalHandle );
-	if ( error != PGRERROR_OK )
-	{
-		PrintError( error );
-		return -1;
-	}
-*/
-
 	return 0;
 }
 
@@ -256,9 +228,9 @@ int main(int argc, char* argv[])
 	CameraInfo camInfo;
 
 	// Check the number of parameters
-	    if (argc < 4) {
+	    if (argc < 5) {
 	        // Tell the user how to run the program if the user enters the command incorrectly.
-	        std::cerr << "Usage: " << argv[0] << " PATH" << " currentNIRpresent" << " currentVISpresent" << std::endl; // Usage message
+	        std::cerr << "Usage: " << argv[0] << " PARFILESPATH" << " currentNIRstatus" << " currentVISstatus " << " IMAGEFILESPATH" << std::endl; // Usage message
 	        return 1;
 	    }
 
@@ -267,24 +239,41 @@ int main(int argc, char* argv[])
 	    std:string pardir = argv[1];
 	    const char* fstatNIR = argv[2];
 	    const char* fstatVIS = argv[3];
+            string imagedir = argv[4];
+            
+            int lengthOfStringimagedir; //hold the number of characters in the string
+            lengthOfStringimagedir = imagedir.length();; 
 	    const char*  filestatus;
+
+           
 
 	//    cout << fstatNIR << endl; // uncomment for debugging
 	//    cout << fstatVIS << endl; // uncomment for debugging
 
     PrintBuildInfo();
     Error error;
-    // Since this application saves images in the current folder
+    // Since this application saves images in the imagedir folder
     // we must ensure that we have permission to write to this folder.
     // If we do not have permission, fail right away.
-	FILE* tempFile = fopen("test.txt", "w+");
+
+        string testfilename;
+        ifstream testfile;                
+        stringstream tf;
+        tf << imagedir  << "test.txt";
+        testfilename = tf.str();
+  
+	FILE* tempFile = fopen(testfilename.c_str(), "w+");
 	if (tempFile == NULL)
 	{
-		printf("Failed to create file in current folder.  Please check permissions.\n");
+		printf("Failed to create file in %s folder.  Please check permissions.\n", imagedir.c_str());
 		return -1;
 	}
+        else
+        {
+          printf("Success: you have permission to write file in %s folder.\n", imagedir.c_str());
+        }
 	fclose(tempFile);
-	remove("test.txt");
+	remove(testfilename.c_str());
 
     BusManager busMgr;
     unsigned int numCameras;
@@ -305,8 +294,20 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-   
-    printf( "Number of cameras detected: %u\n", numCameras );
+
+    if (numCameras < 1)
+       {
+       printf( "No camera was detected\n"); 
+       return -1;
+       }
+    else 
+        {
+          printf( "Number of cameras detected: %u\n", numCameras );
+          if (numCameras == 1)
+            {
+            printf( "WARNING: Only one camera is available. Running anyhow. \n");
+            } 
+        }
 
     Camera *pCameras = new Camera[numCameras]; // initialize an array of cameras
 
@@ -319,7 +320,7 @@ int main(int argc, char* argv[])
                 PrintError( error );
                 delete[] pCameras;
                 return -1;
-             }
+             }          
             error = pCameras[i].Connect(&guid); // connect both cameras
             if (error != PGRERROR_OK)
               {
@@ -615,6 +616,7 @@ int main(int argc, char* argv[])
                                filestatus = "N";
                                printf( "The current parfile has not passed the screening check, continuing with default parfile \n" );
                               }
+
 
           // Turn off SHARPNESS if the camera supports this property
            PropertyInfo propInfo;
@@ -1226,7 +1228,7 @@ int main(int argc, char* argv[])
                  shutter.absValue = shutt1;
                  printf( "Shutter time set to %3.2f ms from current parfile \n", shutt1 );
                  // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt1;
+            	config.grabTimeout = 3*shutt1;
                }
              else
              {
@@ -1235,20 +1237,20 @@ int main(int argc, char* argv[])
             	 shutter.absValue = shutt;
                  printf( "WARNING! Shutter outside allowed range in current parfile: shutter time set to %3.2f ms using default parfile\n", shutt );
                 // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
+            	config.grabTimeout = 3*shutt;
                 }
               else if(shutt >= minShutter && shutt <= maxShutter && strcmp("Y", filestatus) != 0)
               {
             	 shutter.absValue = shutt;
               	printf( "Shutter time set to %3.2f ms from default parfile \n", shutt );
                 // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*shutt;
+            	config.grabTimeout = 3*shutt;
               }
              else{
                   printf( "WARNING! Shutter outside allowed range: setting it to the maximum allowed value %3.2f ms \n", maxShutter );
                   shutter.absValue = maxShutter;
                   // Set the grab timeout according to the shutter
-            	config.grabTimeout = 15*maxShutter;
+            	config.grabTimeout = 3*maxShutter;
                  }
              }
 
@@ -1820,30 +1822,14 @@ int main(int argc, char* argv[])
      {
 
 
-         int retValue = BusResetLoop();
-	 if ( retValue != 0 )
-	   {
-	     PrintError(error);
-	     delete[] pCameras;
-	     return -1;
-	   }
+        
           
     	 for (unsigned int i = 0; i < numCameras; i++)
     	    {
     	      Image image;
-    	      error = pCameras[i].RetrieveBuffer(&image);
-              
-              retValue = BusResetLoop();
-	      if ( retValue != 0 )
-		{
-		  PrintError(error);
-	          delete[] pCameras;
-		  return -1;
-		}
-
-
-
-
+    	      error = pCameras[i].RetrieveBuffer(&image);              
+             
+	      
     	      if (error != PGRERROR_OK)
     	        {
     	          PrintError(error);
@@ -1851,13 +1837,7 @@ int main(int argc, char* argv[])
     	          return -1;
     	        }
 
-               int retValue = BusResetLoop();
-	        if ( retValue != 0 )
-	         {
-                 PrintError(error);
-    	         delete[] pCameras;
-		 return -1;
-	         }
+               
 
     	      // Display the timestamps of the images grabbed for each camera
     	         TimeStamp timestamp = image.GetTimeStamp();
@@ -1923,10 +1903,10 @@ int main(int argc, char* argv[])
     	       str = sstm.str();
     	       lengthOfString1=str.length();
 
-    	       int lenghtsum = lengthOfString1 + 4  + 4 + 3;
+    	       int lenghtsum = lengthOfStringimagedir + lengthOfString1 + 4  + 4 + 3;
     	       char filename[lenghtsum];
-    	       sprintf(filename,"%s/%s-%s.raw", head.c_str(), head.c_str(), str.c_str() );
-    	       //     cout << filename << endl; // uncomment for testing purposes
+    	       sprintf(filename,"%s/%s/%s-%s.raw", imagedir.c_str(), head.c_str(), head.c_str(), str.c_str() );
+    	           cout << filename << endl; // uncomment for testing purposes
 
     	       unsigned int iImageSize = image.GetDataSize();
     	       printf( "Grabbed image %s \n", filename );

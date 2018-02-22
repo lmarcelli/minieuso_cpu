@@ -75,8 +75,8 @@ cp $HOME_DIR/CPUsetup/grub /etc/default/
 update-grub
 #sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
 mkdir $HOME_DIR/cameras/multiplecam/bin > /dev/null 2>\&1
-make -C $HOME_DIR/cameras/test/src 
-chmod +x $HOME_DIR/cameras/test/multiplecam_test.sh
+chmod +x $HOME_DIR/cameras/multiplecam/src/install.sh
+(cd $HOME_DIR/cameras/multiplecam/src && sh -c './install.sh $HOME_DIR/cameras/multiplecam')
 echo "Camera software is set up"
 
 # Set up the analog board

@@ -1,0 +1,54 @@
+
+In order to start acquiring images, 
+you must run the script multiplecam.sh
+
+USAGE: ./multiplecam.sh SOFTWAREPATH IMAGESAVINGPATH NIR_ON_OFF VIS_ON_OFF
+  
+NIR_ON_OFF and VIS_ON_OFF possible values are 0 and 1; 1 is ON and 0 is OFF.
+
+This means to start acquisition with both cameras and save e.g. to usb disk, 
+you have to run:
+ 
+./multiplecam.sh /home/software/cameras/multiplecam/ /media/usb0/ 1 1
+
+If you want to start acquisition with NIR camera only and save to usb disk, 
+you have to run instead: 
+
+./multiplecam.sh /home/software/cameras/multiplecam/ /media/usb0/ 1 0
+
+If you want to start acquisition with VIS camera only and save to usb disk, 
+you have to run instead: 
+
+./multiplecam.sh /home/software/cameras/multiplecam/ /media/usb0/ 0 1
+
+NOTE: multiplecam.sh contains several check on input parameters. 
+For example, it will abort and exit if you do not give all the input parameters or 
+if you try to put both cameras to OFF or if you use a value different from 0 or 1 for the 
+NIR_ON_OFF and VIS_ON_OFF parameters.
+However, keep in mind that no check is performed on the input paths, so you should know
+a priori if they can be accessed and if you have read/write permissions to them. 
+
+
+
+*** SPECIAL CASE *** 
+
+In case you need to launch from prompt only one of the available executables,
+proceed as follows.
+
+1) HOW TO USE listserials:
+ 
+./listserials PARFILEDIRECTORY
+
+e.g. ./listserials  /home/software/cameras/multiplecam/parfiles/
+
+2) HOW TO USE multiplecam:
+
+./multiplecam  PARFILEDIRECTORY CURRENT_NIR_PARFILE_STATUS CURRENT_VIS_PARFILE_STATUS IMAGESAVINGPATH
+
+e.g. ./multiplecam /home/software/cameras/multiplecam/parfiles/ N Y /media/usb0/ 
+
+3) HOW TO USE singlecam:
+
+./singlecam  PARFILEDIRECTORY CURRENT_PARFILE_STATUS IMAGESAVINGPATH CAMERASERIALNUMBER
+
+e.g. ./singlecam /home/software/cameras/multiplecam/parfiles/ N Y /media/usb0/ 15568736

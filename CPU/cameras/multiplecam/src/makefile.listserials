@@ -3,9 +3,9 @@ CFLAGS+=-g
 INCLUDE = -I../../include -I/usr/include/flycapture
 LIBS =   -lflycapture 
 
-OUTDIR = /home/lanfos/workspace/multiplecam/bin/
+OUTDIR = /home/software/CPU/cameras/multiplecam/bin/
 
-PROG=multiplecam
+PROG=listserials
 OBJS=$(PROG).o
 
 .PHONY: all clean

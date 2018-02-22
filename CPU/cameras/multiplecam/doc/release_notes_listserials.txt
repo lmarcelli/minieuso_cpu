@@ -1,0 +1,12 @@
+//============================================================================
+// Name        : listserials.cpp
+// Author      : Sara Turriziani
+// Version     : 1.0
+// Copyright   : Mini-EUSO copyright notice
+// Description : Cameras Module in C++, ANSI-style, for linux
+//============================================================================
+
+What is in 1.0 version:
+
+This code creates and save into the input folder the cameras.ini file, 
+which contains the serial numbers for the cameras connected to the system. 

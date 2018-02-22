@@ -14,9 +14,14 @@
 
 #include "ZynqManager.h"
 
-#define MAX_STR_LENGTH 1000
+/*
+ * define maximum output length for use with CpuTools::CommandToStr()
+ */
+#define MAX_STR_LENGTH 2000
 
-/* class to provide useful funcions to other parts of the software */
+/**
+ * class to provide useful funcions to other parts of the software 
+ */
 class CpuTools {
 
 public:

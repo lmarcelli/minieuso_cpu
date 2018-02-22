@@ -15,6 +15,7 @@ To update the software following installation:
 
 If there are any conflicts when running ``git pull``, resolve these conflicts as desired by editing the files and then use ``git commit`` to store the changes before trying again.
 
+Note: The full software takes some time to compile on the CPU, but the makefile contains dependency checks and will only recompile what is needed
 
 Problems?
 ---------

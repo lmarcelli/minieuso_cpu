@@ -46,7 +46,7 @@ Installation instructions
 4. Download the software from the repository::
      
      apt-get install git-core
-     git clone https://github.com/cescalara/minieuso_cpu /home/software`
+     git clone https://github.com/cescalara/minieuso_cpu /home/software
 
 5. Run the setup script::
      
@@ -60,7 +60,9 @@ Installation instructions
 * configures the network for use with the Zynq board
 * sets up autologin to the root user on boot
 * restarts the shell 
- 
+
+**NB: this script should only be run once, when first setting up the CPU, if you need to clone the git repository again, see the Update section of these docs**
+  
 6. Check the time on the CPU is sensible (it resets if the battery is disconnected) using ``date``
 
 * if the time is incorrect, use, for example::

@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # CPU SETUP SCRIPT for Mini-EUSO
-# Francesca Capel November 2017
+# Francesca Capel February 2018
 # capel.francesca@gmail.com
 # Mini-EUSO software repository: https://github.com/cescalara/minieuso_cpu
-# Please see README for correct setup procedure
+# Please see documentation for correct setup procedure
 
 HOME_DIR="/home/software/CPU"
 ZYNQ_IP=192.168.7.10
@@ -52,7 +52,7 @@ echo "FTP server is set up"
 # Set up the telnet scripts
 chmod +x $HOME_DIR/zynq/telnet/*
 
-# Set up the EM software
+# Set up the Mini-EUSO software
 make -C $HOME_DIR/CPU/CPUsoftware/lib > /dev/null 2>&1
 make -C $HOME_DIR/CPU/CPUsoftware > /dev/null 2>&1
 

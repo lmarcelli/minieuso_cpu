@@ -10,7 +10,7 @@ The Zynq data acquisition modes are documented `here <http://minieuso-software.r
 
 In addition to the standard data acquisition, the Zynq can also provide S-curves. An S-curve is made by sweeping the ASIC thresholds whilst collecting data and can be used to fully characterise the PMTs, making it a powerful diagnostic tool. The :cpp:func:`ZynqManager::Scurve()` takes an S-curve with the desired parameters which are passed from the configuration file by RunInstrument and DataAcquisition. S-curves can be requested from the main program by using the ``mecontrol -scurve`` command line argument.
 
-As well as data acquisition the Zynq also handles the interface to the high voltage (HV) which is needed by the PMTs of Mini-EUSO. :cpp:func:`ZynqManager::HvTurnOn()` is used to ramp-up the high voltage in safe steps to the desired operational level. Whenever the program is interrupted with ``CTRL-C`` (SIGINT), the :cpp:func:`ZynqManager::HvTurnOff()` is called to ensure the HV is switched off before the program exits.
+As well as data acquisition the Zynq also handles the interface to the high voltage (HV) which is needed by the PMTs of Mini-EUSO. :cpp:func:`ZynqManager::HvpsTurnOn()` is used to ramp-up the high voltage in safe steps to the desired operational level. Whenever the program is interrupted with ``CTRL-C`` (SIGINT), the :cpp:func:`ZynqManager::HvpsTurnOff()` is called to ensure the HV is switched off before the program exits.
 
 ZynqManager
 -----------

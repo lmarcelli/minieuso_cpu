@@ -50,9 +50,6 @@ InputParser::InputParser(int &argc, char **argv) {
     }
   }
 
-  /* debug */
-  std::cout << "Command line string: " << this->CmdLine->command_line_string << std::endl;
-
   /* initialise comment field */
   this->CmdLine->comment = "none";
 }

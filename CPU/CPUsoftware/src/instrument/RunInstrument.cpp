@@ -587,6 +587,10 @@ int RunInstrument::Acquisition() {
   /* add acquisition with cameras if required */
   this->LaunchCam();
 
+
+  /* set the ASIC DAC */
+  this->Zynq.SetDac(this->ConfigOut->dac_level);
+  
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
     SelectAcqOption();

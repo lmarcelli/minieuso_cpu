@@ -172,14 +172,16 @@ const char * CamManager::DefineLaunchCmd() {
 
     /* set up the comand to launch cameras */
     conv << "(cd " << CAMERA_SOFTWARE_DIR << " && " << CAMERA_EXEC << " "
-	 << CAMERA_SOFTWARE_DIR << " " << USB_WRITE_DIR << this->nir_status << " " << this->vis_status << std::endl;
+	 << CAMERA_SOFTWARE_DIR << " " << USB_WRITE_DIR << " " << this->nir_status << " " << this->vis_status
+	 << ")" << std::endl;
     
   }
   else {
 
     /* set up the comand to launch cameras */
     conv << "(cd " << CAMERA_SOFTWARE_DIR << " && " << CAMERA_EXEC << " "
-	 << CAMERA_SOFTWARE_DIR << " " << OTHER_WRITE_DIR << this->nir_status << " " << this->vis_status << std::endl;
+	 << CAMERA_SOFTWARE_DIR << " " << OTHER_WRITE_DIR << " " << this->nir_status << " " << this->vis_status
+      	 << ")" << std::endl;  
   }
 
   /* convert stringstream to char * */

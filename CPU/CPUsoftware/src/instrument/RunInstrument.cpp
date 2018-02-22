@@ -97,7 +97,7 @@ int RunInstrument::HvpsSwitch() {
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
     this->Zynq.HvpsTurnOff();   
-    this->Zynq.SetDac(PEDESTAL); 
+    this->Zynq.SetDac(0); 
     break;
   case ZynqManager::UNDEF:
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;

@@ -53,8 +53,11 @@ echo "FTP server is set up"
 chmod +x $HOME_DIR/zynq/telnet/*
 
 # Set up the Mini-EUSO software
-make -C $HOME_DIR/CPU/CPUsoftware/lib > /dev/null 2>&1
-make -C $HOME_DIR/CPU/CPUsoftware > /dev/null 2>&1
+echo "Setting up the Mini-EUSO software..."
+mkdir $HOME_DIR/CPUsoftware/log > /dev/null 2>&1
+(cd $HOME_DIR/CPUsoftware/lib && make)
+(cd $HOME_DIR/CPUsoftware && make)
+echo "Mini-EUSO software is set up"
 
 # Setup symlinks for commands
 echo "Creating symlinks"

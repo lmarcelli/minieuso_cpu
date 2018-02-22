@@ -250,7 +250,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
      const std::string &comment_str = getCmdOption("-comment");
      if (!comment_str.empty()){
        this->CmdLine->comment = comment_str;
-     }    
+     }
+
+     /* debug */
+     std::cout << this->CmdLine->comment << std::endl; 
    }
  
   

@@ -111,7 +111,8 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   conv << "Instrument and acquisition mode (defined in RunInstrument.h): "
        << (int)ConfigOut->instrument_mode << " " << (int)ConfigOut->acquisition_mode << std::endl;
   conv << "Command line args: " << CmdLine->command_line_string.c_str() << std::endl;
-
+  conv << "Comment: " << CmdLine->comment.c_str() << std::endl;
+  
   run_info_string = conv.str();
   
   /* convert run_info_string into char array run_info */

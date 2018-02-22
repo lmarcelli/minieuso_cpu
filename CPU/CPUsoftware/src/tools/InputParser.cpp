@@ -301,6 +301,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "GENERAL" << std::endl;
   std::cout << "-db: enter software test/debug mode" << std::endl;
   std::cout << "-log: turn on logging (off by default)" << std::endl;
+  std::cout << "-comment: add a comment to the saved CPU file header (e.g. -comment \"your comment here\")" << std::endl;
   std::cout << std::endl;
   std::cout << "EXECUTE-AND-EXIT" << std::endl;
   std::cout << "These commands execute and exit without running an automated acquisition" << std::endl;

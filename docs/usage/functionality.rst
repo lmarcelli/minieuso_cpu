@@ -51,7 +51,8 @@ The CPU handles the data acquisition from all subsystems.
   * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
   * ``-test_zynq <MODE>``: use the Zynq test mode (see section below for details, default = ``pdm``)
   * ``-keep_zynq_pkt``: keep the Zynq packets on FTP
-
+  * ``-comment`` : add a string comment which is put in the :cpp:class:`CpuFileHeader` (e.g. ``-comment "your comment here"``).
+    
 * An example use case: ``mecontrol -log -test_zynq pdm -keep_zynq_pkt`` would start and acquisition in Zynq pdm test mode and keep the Zynq packets on the FTP server to check them
 
 * Data from the PDM is collected as specified by the command line options, packets are sent from the Zynq every 5.24s with 3 levels of data (D1, D2 and D3) and information on timestamping and the HV status. 

@@ -28,7 +28,7 @@ RunInstrument::RunInstrument(CmdLineInputs * CmdLine) {
  */
 void RunInstrument::SignalHandler(int signum) {
 
-  std::cout << "interrupt signal (" << signum << ") received" << std::endl;  
+  std::cout << "STOPPING INSTRUMENT" << std::endl;  
 
   /* signal to main program */
   signal_shutdown.store(true);

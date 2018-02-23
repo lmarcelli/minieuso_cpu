@@ -16,12 +16,12 @@ OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
 # flags
 DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools -I./src/data_format
+CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
+
 platform=$(shell uname -s)
 ifeq ($(platform), Darwin)
-CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
 else
-CFLAGS   = -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG) 
 LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 endif
 
@@ -30,9 +30,6 @@ CXX = g++
 
 ifeq ($(SRCEXT), cpp)
 CC       = $(CXX)
-CFLAGS  += -std=c++11
-else
-CFLAGS  += -std=gnu99
 endif
 
 .PHONY: all clean distclean

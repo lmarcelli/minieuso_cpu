@@ -186,8 +186,14 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
-  cpu_file_header->run_size = RUN_SIZE;
 
+  if (CmdLine->single_run) {
+    cpu_file_header->run_size = CmdLine->acq_len;
+  }
+  else {
+    cpu_file_header->run_size = RUN_SIZE;
+  }
+ 
   /* write to file */
   this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;
@@ -535,7 +541,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -583,7 +589,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	&& (time_left > 0 || !first_loop) ) { /* no timeout */
 
     /* timeout if no activity after FTP_TIMEOUT reached */
-    // while (time_left > 0 || !first_loop ) {
     time_t end = time(0);
     time_t time_taken = end - start;
     time_left = FTP_TIMEOUT - time_taken;
@@ -670,7 +675,10 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      frm_num++;
 	      
 		/* leave loop for a single run file */
-	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
+	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
+		/* send shutdown signal to RunInstrument */
+		/* interrupt signal to main thread */
+		pthread_kill((pthread_t)main_thread, SIGINT);
 		break;
 	      }
 	    }
@@ -822,12 +830,16 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
  * @param CmdLine output of command line options parsing with InputParser
  */
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+#ifndef __APPLE__
+
+  long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
-
+  
+#endif /* __APPLE__ */
   return 0;
 }
 
@@ -839,9 +851,12 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
  * launches the required acquisition of different subsystems in parallel
  */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+#ifndef __APPLE__
+
+  long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */
@@ -881,6 +896,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 
+#endif /* __APPLE__ */
   return 0;
 }
 

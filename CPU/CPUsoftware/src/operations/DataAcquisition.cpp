@@ -824,6 +824,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
  * @param CmdLine output of command line options parsing with InputParser
  */
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+#ifndef __APPLE__
 
   long unsigned int main_thread = pthread_self();
 
@@ -831,7 +832,8 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
-
+  
+#endif /* __APPLE__ */
   return 0;
 }
 
@@ -843,6 +845,7 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
  * launches the required acquisition of different subsystems in parallel
  */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+#ifndef __APPLE__
 
   long unsigned int main_thread = pthread_self();
 
@@ -887,6 +890,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 
+#endif /* __APPLE__ */
   return 0;
 }
 

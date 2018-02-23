@@ -345,6 +345,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-cam:                make an independent or simultaneous acquisition with the cameras" << std::endl;
   std::cout << "-cam -v:             make an independent or simultaneous acquisition with the cameras with verbose output" << std::endl;
   std::cout << "-therm:              make a simultaneous acquisition with the thermistors" << std::endl;
+  std::cout << std::endl;
   std::cout << "Example use case: mecontrol -log -cam -therm" << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;

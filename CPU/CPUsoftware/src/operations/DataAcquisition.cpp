@@ -1,5 +1,7 @@
 #include "DataAcquisition.h"
 
+std::atomic<bool> signal_shutdown{false};
+
 /**
  * constructor 
  */

@@ -65,7 +65,7 @@ public:
   static int ReadFakeZynqPkt();
   
 private:  
-  std::string CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut);
+  std::string CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();

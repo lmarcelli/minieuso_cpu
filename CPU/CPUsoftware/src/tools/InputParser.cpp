@@ -52,6 +52,7 @@ InputParser::InputParser(int &argc, char **argv) {
 
   /* initialise comment field */
   this->CmdLine->comment = "none";
+  this->CmdLine->comment_fn = ""; 
 }
 
 
@@ -247,13 +248,20 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->check_status = true;
   }
 
-  /* comment to go in file header */
+  /* comment to go in file header and filename */
    if(cmdOptionExists("-comment")){
 
      const std::string &comment_str = getCmdOption("-comment");
      if (!comment_str.empty()){
        this->CmdLine->comment = comment_str;
+
+       /* parse string to be suitable for filename */
+       /* replace spaces with underscores */
+       std::string comment_fn_str = CpuTools::SpaceToUnderscore(comment_str);
+       /* limit size */
+       this->CmdLine->comment_fn = comment_fn_str.substr(FILENAME_COMMENT_LEN);
      }
+
    }
  
   
@@ -275,9 +283,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if (!hv_dac.empty()){
     this->CmdLine->asic_dac = std::stoi(hv_dac);
   }  
-
   
-
   return this->CmdLine;
 }
 

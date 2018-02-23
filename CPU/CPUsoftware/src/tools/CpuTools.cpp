@@ -64,3 +64,17 @@ void CpuTools::ClearFolder(const char * data_dir) {
   closedir(theFolder);    
 }
 
+
+/**
+ * replaces spaces in a std::string with underscores
+ */
+std::string CpuTools::SpaceToUnderscore(std::string text) {
+
+  for(int i = 0; i < text.length(); i++) {
+    if(text[i] == ' ') {
+	text[i] = '_';
+    }
+  }
+  
+  return text;
+}

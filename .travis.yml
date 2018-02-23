@@ -1,11 +1,13 @@
 language: cpp
+sudo: required
+dist: trusty
 
-before install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y libusb-1.0 inotify-tools
-
-install: true
-
+addons:
+  apt:
+    packages:
+      - libusb-1.0-0
+      - inotify_tools
+      
 script:
   - (cd CPU/CPUsoftware/lib && make)
   - (cd CPU/CPUsoftware && make)

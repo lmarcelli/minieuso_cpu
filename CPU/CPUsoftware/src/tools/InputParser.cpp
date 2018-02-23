@@ -371,7 +371,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "ACQUISITION" << std::endl;
   std::cout << std::endl;
   std::cout << "-scurve:             take a single S-curve and exit" << std::endl;
-  std::cout << "-short:              take a single file (~ 2min) acquisition and exit "<< std::endl;
+  std::cout << "-short <N>:          run a short acquisition of N CPU_PACKETs"<< std::endl;
   std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = none)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;
   std::cout << "-keep_zynq_pkt:      keep the Zynq packets on FTP" << std::endl;

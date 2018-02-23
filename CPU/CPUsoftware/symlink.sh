@@ -10,7 +10,7 @@ else
 
     if [ "$LinuxOS" != "Ubuntu" ]
     then
-	ln -sf bin/mecontrol /usr/local/bin/mecontrol
+	ln -sf /home/software/CPU/CPUsoftware/bin/mecontrol /usr/local/bin/mecontrol
     fi
 fi
 

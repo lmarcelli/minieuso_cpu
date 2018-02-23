@@ -29,7 +29,7 @@ public:
   static std::string CommandToStr(const char * cmd);
   static std::string IntToFixedLenStr(const int input, const int length);
   static void ClearFolder(const char * data_dir);
-
+  static std::string SpaceToUnderscore(std::string);
 };
 
 #endif

@@ -6,7 +6,9 @@
 
 #include "LvpsManager.h"
 #include "ZynqManager.h"
+#include "CpuTools.h"
 
+#define FILENAME_COMMENT_LEN 100
 
 /**
  * struct to store the command line inputs 
@@ -44,7 +46,8 @@ struct CmdLineInputs {
   std::string command_line_string;
   std::string zynq_mode_string;
   std::string comment;
-  
+  std::string comment_fn;
+ 
 };
 
 /**

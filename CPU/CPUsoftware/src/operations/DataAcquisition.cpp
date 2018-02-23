@@ -18,7 +18,7 @@ DataAcquisition::DataAcquisition() {
  * @param run_type defines the file run type
  * @param ConfigOut the output of configuration parsing with ConfigManager 
  */
-std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut) {
+std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
   struct timeval tv;
   char cpu_file_name[80];
   std::string done_str(DONE_DIR);
@@ -27,21 +27,26 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
   
   switch (run_type) {
   case CPU:
-    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S.dat";
+    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S__"
+      + CmdLine->comment_fn + ".dat";
     break;
   case SC:
 
     /* check if HV switched on */
     if (ConfigOut->hv_on) {
-      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__" + std::to_string(ConfigOut->dynode_voltage) + ".dat";
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__"
+	+ std::to_string(ConfigOut->dynode_voltage) + "__"
+	+ CmdLine->comment_fn + ".dat";
     }
     else {
-      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV.dat";
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV__"
+	+ CmdLine->comment_fn + ".dat";
     }
     
     break;
   case HV:
-    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S.dat";
+    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S__"
+      + CmdLine->comment_fn + ".dat";
     break;
   }
 
@@ -158,17 +163,17 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   /* set the cpu file name */
   switch (run_type) {
   case CPU: 
-    this->cpu_main_file_name = CreateCpuRunName(CPU, ConfigOut);
+    this->cpu_main_file_name = CreateCpuRunName(CPU, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_main_file_name);
     break;
   case SC: 
-    this->cpu_sc_file_name = CreateCpuRunName(SC, ConfigOut);
+    this->cpu_sc_file_name = CreateCpuRunName(SC, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_sc_file_name to: " << cpu_sc_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_sc_file_name);
     break;
   case HV:
-    this->cpu_hv_file_name = CreateCpuRunName(HV, ConfigOut);
+    this->cpu_hv_file_name = CreateCpuRunName(HV, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_hv_file_name to: " << cpu_hv_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_hv_file_name);
     break;

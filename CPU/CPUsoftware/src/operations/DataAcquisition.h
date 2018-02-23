@@ -5,6 +5,7 @@
 #include <sys/inotify.h>
 #endif /* __APPLE__ */
 #include <thread>
+#include <atomic>
 
 #include "OperationMode.h"
 #include "ThermManager.h"

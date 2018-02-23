@@ -7,6 +7,7 @@ addons:
     packages:
       - libusb-1.0-0
       - inotify-tools
+      - libboost-all-dev
       
 script:
   - (cd CPU/CPUsoftware/lib && make)

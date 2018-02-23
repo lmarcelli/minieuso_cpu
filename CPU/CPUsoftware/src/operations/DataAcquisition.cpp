@@ -535,7 +535,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, void * main_thread) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -825,8 +825,10 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
  */
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
+  long unsigned int main_thread = pthread_self();
+
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, pthread_self());
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -842,9 +844,10 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
  */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
-  
+  long unsigned int main_thread = pthread_self();
+
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, pthread_self());
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */

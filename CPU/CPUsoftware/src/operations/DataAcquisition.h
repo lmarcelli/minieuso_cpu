@@ -4,7 +4,6 @@
 #ifndef __APPLE__
 #include <sys/inotify.h>
 #endif /* __APPLE__ */
-#include <pthread.h>
 #include <thread>
 
 #include "OperationMode.h"
@@ -79,7 +78,7 @@ private:
   int WriteHvPkt(HV_PACKET * hv_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut);
   int GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
-  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, void * main_thread);
+  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread);
   
 };
 

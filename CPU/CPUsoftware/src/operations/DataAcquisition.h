@@ -5,7 +5,6 @@
 #include <sys/inotify.h>
 #endif /* __APPLE__ */
 #include <thread>
-#include <atomic>
 
 #include "OperationMode.h"
 #include "ThermManager.h"
@@ -79,7 +78,7 @@ private:
   int WriteHvPkt(HV_PACKET * hv_packet);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut);
   int GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
-  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
+  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, int main_thread);
   
 };
 

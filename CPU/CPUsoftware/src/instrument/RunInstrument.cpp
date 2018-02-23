@@ -1,5 +1,7 @@
 #include "RunInstrument.h"
 
+std::atomic<bool> signal_shutdown{false};
+
 /**
  * the constructor
  * @param CmdLine is a struct storing command line inputs 

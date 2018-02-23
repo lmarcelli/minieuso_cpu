@@ -19,11 +19,11 @@ INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./
 CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 
 platform = $(shell uname -s)
-OS = $(shell lsb_release -si)
 
 ifeq ($(platform), Darwin)
 LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
 else
+OS = $(shell lsb_release -si)
 LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
 endif
 
@@ -44,9 +44,7 @@ $(BINDIR)/$(APP): buildrepo $(OBJS)
 	@mkdir -p `dirname $@`
 	@echo "Linking $@..."
 	@$(CC) $(OBJS) $(LDFLAGS) -o $@
-	ifeq ($(OS), Debian)
-	ln -sf $(DIR)/$(BINDIR)/$(APP) /usr/local/bin/$(APP)
-	endif
+	./symlink.sh
 
 # objects
 $(OBJDIR)/%.o: %.$(SRCEXT) %.h
@@ -81,3 +79,4 @@ define make-depend
         $(CFLAGS) \
         $1
 endef
+

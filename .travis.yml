@@ -6,7 +6,7 @@ addons:
   apt:
     packages:
       - libusb-1.0-0
-      - inotify_tools
+      - inotify-tools
       
 script:
   - (cd CPU/CPUsoftware/lib && make)

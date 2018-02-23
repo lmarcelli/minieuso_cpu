@@ -670,6 +670,8 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      
 		/* leave loop for a single run file */
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
+		/* send shutdown signal to RunInstrument */
+		signal_shutdown.store(true);  
 		break;
 	      }
 	    }

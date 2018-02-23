@@ -4,6 +4,7 @@
 #ifndef __APPLE__
 #include <sys/inotify.h>
 #endif /* __APPLE__ */
+#include <pthread.h>
 #include <thread>
 
 #include "OperationMode.h"

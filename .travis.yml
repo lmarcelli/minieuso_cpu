@@ -5,7 +5,7 @@ dist: trusty
 addons:
   apt:
     packages:
-      - libusb-1.0-0
+      - libusb-1.0
       - inotify-tools
       - libboost-all-dev
       

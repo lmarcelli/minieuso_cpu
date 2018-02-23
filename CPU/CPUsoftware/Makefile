@@ -18,7 +18,9 @@ DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools -I./src/data_format
 CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 
-platform=$(shell uname -s)
+platform = $(shell uname -s)
+OS = $(shell lsb_release -si)
+
 ifeq ($(platform), Darwin)
 LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
 else
@@ -42,8 +44,9 @@ $(BINDIR)/$(APP): buildrepo $(OBJS)
 	@mkdir -p `dirname $@`
 	@echo "Linking $@..."
 	@$(CC) $(OBJS) $(LDFLAGS) -o $@
+	ifeq ($(OS), Debian)
 	ln -sf $(DIR)/$(BINDIR)/$(APP) /usr/local/bin/$(APP)
-
+	endif
 
 # objects
 $(OBJDIR)/%.o: %.$(SRCEXT) %.h

@@ -40,6 +40,11 @@ struct CmdLineInputs {
   ZynqManager::TestMode zynq_test_mode;
   bool cam_verbose;
 
+  /* strings to store what is sent by user before parsing */
+  std::string command_line_string;
+  std::string zynq_mode_string;
+  std::string comment;
+  
 };
 
 /**

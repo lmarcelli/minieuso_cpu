@@ -36,6 +36,8 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->zynq_mode_string = "";
   this->CmdLine->command_line_string = "";
 
+  this->CmdLine->acq_len = 0;
+
   /* get command line input */
   std::string space = " ";
   this->CmdLine->command_line_string = "mecontrol ";
@@ -91,6 +93,13 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-short")){
     this->CmdLine->single_run = true;
+
+    /* get the desired acquisition length (in no. of CPU_PACKETs) */
+    const std::string & acq_len_str = getCmdOption("-short");
+    if (!acq_len_str.empty()) {
+      this->CmdLine->acq_len = std::stoi(acq_len_str);
+    }
+    
   }
   if(cmdOptionExists("-db")){
     this->CmdLine->debug_mode = true;

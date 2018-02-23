@@ -70,7 +70,7 @@ void CpuTools::ClearFolder(const char * data_dir) {
  */
 std::string CpuTools::SpaceToUnderscore(std::string text) {
 
-  for(int i = 0; i < text.length(); i++) {
+  for(size_t i = 0; i < text.length(); i++) {
     if(text[i] == ' ') {
 	text[i] = '_';
     }

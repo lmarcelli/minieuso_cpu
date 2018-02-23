@@ -1,5 +1,6 @@
 Mini-EUSO Software
 ===================
+[![Documentation Status](https://readthedocs.org/projects/minieuso-software/badge/?version=latest)](http://minieuso-software.readthedocs.io/en/latest/?badge=latest)
 
 This is the repository for the Mini-EUSO instrument software. 
 

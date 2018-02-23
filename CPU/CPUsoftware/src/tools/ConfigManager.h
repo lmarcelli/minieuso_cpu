@@ -23,6 +23,8 @@
  * struct for output of the configuration file 
  */
 struct Config {
+
+  /* set in configuration file */
   int cathode_voltage;
   int dynode_voltage;
   int scurve_start;
@@ -32,7 +34,11 @@ struct Config {
   int dac_level;
   int N1;
   int N2;
+
+  /* set by RunInstrument and InputParser at runtime */
   bool hv_on;
+  uint8_t instrument_mode;
+  uint8_t acquisition_mode;
 };
 
 /**

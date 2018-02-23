@@ -236,7 +236,12 @@ int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
   {
     std::unique_lock<std::mutex> lock(this->m_inst_mode);
     this->current_inst_mode = mode_to_set;
+
+    /* set the config to allow info to be passed around */
+    this->ConfigOut->instrument_mode = mode_to_set;
+
   } /* release mutex */
+
 
   return 0;
 }
@@ -393,9 +398,11 @@ int RunInstrument::SelectAcqOption() {
   /* select standard or scurve */
   if (this->CmdLine->sc_on) {
     this->current_acq_mode = SCURVE;
+    this->ConfigOut->acquisition_mode = SCURVE;
   }
   else {
     this->current_acq_mode = STANDARD;
+    this->ConfigOut->acquisition_mode = STANDARD;    
   }
 
   /* select Zynq acquisition mode */

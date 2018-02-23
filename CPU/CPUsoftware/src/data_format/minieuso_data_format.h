@@ -16,17 +16,29 @@
 #include "minieuso_pdmdata.h"
 
 /*
- * instrument definitions 
+ * software definitions
  */
 
+#define VERSION 4.9
+#define VERSION_DATE_STRING "22/02/2018"
+
+/*
+ * instrument definitions 
+ */
+#define INSTRUMENT "Mini-EUSO"
 #define INSTRUMENT_ME_PDM 1 
 #define ID_TAG 0xAA55AA55
 #define RUN_SIZE 25
 
-/**
+/*
  * force no padding in structs
  */
 #pragma pack(push, 1) 
+
+/*
+ * define the size of the run_info text field in CpuFileHeader
+ */
+#define RUN_INFO_SIZE 512
 
 /** 
  * cpu file header 
@@ -36,6 +48,7 @@ typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
   uint32_t header; /* 'C'(31:24) | instrument_id(23:16) | file_type(15:8) | file_ver(7:0) */
+  char run_info[RUN_INFO_SIZE]; /* text describing the run */
   uint32_t run_size; /* number of cpu packets in the run */
 } CpuFileHeader; 
 
@@ -139,8 +152,8 @@ typedef struct
 /**
  * zynq packet passed to the CPU every 5.24 s 
  * variable size, depending on configurable N1 and N2 
- * NB: vector itself is not written to file, 
- * just contents which are contiguous in memory 
+ * **NB: vector itself is not written to file, 
+ * just contents which are contiguous in memory** 
  */
 typedef struct
 {

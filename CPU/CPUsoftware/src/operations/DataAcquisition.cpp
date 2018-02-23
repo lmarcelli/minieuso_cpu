@@ -80,6 +80,48 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 }
 
 /**
+ * build the cpu file info based on runtime settings
+ * @param ConfigOut the configuration file parameters and settings from RunInstrument
+ * @param CmdLine the command line parameters
+ */
+const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
+						      CmdLineInputs * CmdLine) {
+  /* for info string */
+  std::string run_info_string;
+  std::stringstream conv;
+
+  /* for current time */
+  struct timeval tv;
+  const char * time_fmt = "%d/%m/%Y %H:%M";
+  char time[20];
+  
+  gettimeofday(&tv ,0);
+  time_t now = tv.tv_sec;
+  struct tm * now_tm = localtime(&now);
+  
+  strftime(time, sizeof(time), time_fmt, now_tm);
+  
+  
+  /* parse the runtime settings into the run_info_string */
+  conv << "Experiment: " << INSTRUMENT << std::endl;
+  conv << "Date (UTC): " << time << std::endl;
+  conv << "Software version: " << VERSION << " " << VERSION_DATE_STRING << std::endl;
+  conv << "Zynq firmware version: " << MINIEUSO_ZYNQ_VER_STRING << std::endl; 
+  conv << "Zynq acquisition/trigger mode: " << CmdLine->zynq_mode_string.c_str() << std::endl;
+  conv << "Instrument and acquisition mode (defined in RunInstrument.h): "
+       << (int)ConfigOut->instrument_mode << " " << (int)ConfigOut->acquisition_mode << std::endl;
+  conv << "Command line args: " << CmdLine->command_line_string.c_str() << std::endl;
+  conv << "Comment: " << CmdLine->comment.c_str() << std::endl;
+  
+  run_info_string = conv.str();
+  
+  /* convert run_info_string into char array run_info */
+  const char * run_info_ptr = run_info_string.c_str();
+
+  return run_info_ptr;
+}
+
+/**
  * build the cpu packet header 
  * @param type header tag of the packet type
  * @param ver header tag of the packet type version
@@ -109,7 +151,7 @@ uint32_t DataAcquisition::BuildCpuTimeStamp() {
  * @param ConfigOut the output of configuration parsing with ConfigManager
  * sets up the synchonised file access and notifies the ThermManager object
  */
-int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> ConfigOut) {
+int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   CpuFileHeader * cpu_file_header = new CpuFileHeader();
   
@@ -138,6 +180,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
   cpu_file_header->run_size = RUN_SIZE;
 
   /* write to file */
@@ -582,7 +625,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    if (packet_counter == 0) {
 	      
 	      /* create a new run */
-	      CreateCpuRun(CPU, ConfigOut);
+	      CreateCpuRun(CPU, ConfigOut, CmdLine);
 	      
 	      if (first_loop) {
 		/* get number of frm */
@@ -649,7 +692,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    sc_file_name = data_str + "/" + event->name;
 	    sleep(27);
 	    
-	    CreateCpuRun(SC, ConfigOut);
+	    CreateCpuRun(SC, ConfigOut, CmdLine);
 	    
 	    /* generate sc packet and append to file */
 	    SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
@@ -677,7 +720,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    hv_file_name = data_str + "/" + event->name;
 	    sleep(1);
 	    
-	    CreateCpuRun(HV, ConfigOut);
+	    CreateCpuRun(HV, ConfigOut, CmdLine);
 	    
 	    /* generate hv packet to append to the file */
 	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
@@ -722,7 +765,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
  * called after the Zynq acquisition is stopped in 
  * DataAcquisition::CollectData()
  */
-int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut) {
+int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   std::string data_str(DATA_DIR);
     
@@ -740,7 +783,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut) {
 	std::string hv_file_name = data_str + "/" + fname;
 
 	
-	CreateCpuRun(HV, ConfigOut);
+	CreateCpuRun(HV, ConfigOut, CmdLine);
 	
 	/* generate hv packet to append to the file */
 	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
@@ -831,7 +874,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   /* stop Zynq acquisition */
   ZqManager->StopAcquisition();
   /* read out HV file */
-  GetHvInfo(ConfigOut);
+  GetHvInfo(ConfigOut, CmdLine);
 
   return 0;
 }

@@ -9,10 +9,6 @@ ConfigManager::ConfigManager () {
 
   this->ConfigOut = std::make_shared<Config>();
   
-  /* initialise HV switch to be set by InputParser */
-  /* stored here to be easily passed around the DataAcquisition */
-  this->ConfigOut->hv_on = false;
-
   /* initialise other members to 0 */
   this->ConfigOut->cathode_voltage = -1;
   this->ConfigOut->dynode_voltage = -1;
@@ -23,6 +19,15 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->dac_level = -1;
   this->ConfigOut->N1 = -1;
   this->ConfigOut->N2 = -1;
+
+  /* initialise HV switch to be set by InputParser */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->hv_on = false;
+
+  /* initialise instrument and acquisition modes to be set by RunInstrument */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->instrument_mode = 0;
+  this->ConfigOut->acquisition_mode = 0;
 
 }
 

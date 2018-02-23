@@ -32,11 +32,26 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->zynq_mode = ZynqManager::NONE;
   this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
-  
+
+  this->CmdLine->zynq_mode_string = "";
+  this->CmdLine->command_line_string = "";
+
   /* get command line input */
+  std::string space = " ";
+  this->CmdLine->command_line_string = "mecontrol ";
+  
   for (int i = 1; i < argc; i++) {
     this->tokens.push_back(std::string(argv[i]));
+    if (std::string(argv[i-1]) == "-comment") {
+      this->CmdLine->command_line_string += ("\"...\"" + space);
+    }
+    else {
+      this->CmdLine->command_line_string += (std::string(argv[i]) + space);
+    }
   }
+
+  /* initialise comment field */
+  this->CmdLine->comment = "none";
 }
 
 
@@ -177,7 +192,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	}
 	this->CmdLine->zynq_mode = mode_to_set;
       }
-	      
+
+      /* set zynq_mode_string */
+      this->CmdLine->zynq_mode_string = mode;
+      
     }
     else {
       this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
@@ -228,7 +246,16 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-check_status")){
     this->CmdLine->check_status = true;
   }
-  
+
+  /* comment to go in file header */
+   if(cmdOptionExists("-comment")){
+
+     const std::string &comment_str = getCmdOption("-comment");
+     if (!comment_str.empty()){
+       this->CmdLine->comment = comment_str;
+     }
+   }
+ 
   
   /* get the arguments */
   /* dynode voltage */
@@ -277,6 +304,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "GENERAL" << std::endl;
   std::cout << "-db: enter software test/debug mode" << std::endl;
   std::cout << "-log: turn on logging (off by default)" << std::endl;
+  std::cout << "-comment: add a comment to the saved CPU file header (e.g. -comment \"your comment here\")" << std::endl;
   std::cout << std::endl;
   std::cout << "EXECUTE-AND-EXIT" << std::endl;
   std::cout << "These commands execute and exit without running an automated acquisition" << std::endl;

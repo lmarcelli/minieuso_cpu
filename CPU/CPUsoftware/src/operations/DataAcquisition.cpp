@@ -535,7 +535,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, int main_thread) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, void * main_thread) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -672,7 +672,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		/* send shutdown signal to RunInstrument */
 		/* interrupt signal to main thread */
-		//pthread_kill((pthread_t)main_thread, SIGINT);
+		pthread_kill((pthread_t)main_thread, SIGINT);
 		break;
 	      }
 	    }
@@ -826,7 +826,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, pthread_self());
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
 
@@ -842,10 +842,8 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
  */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
-  //int main_thread = pthread_self();
-  int test = 5;
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, test);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, pthread_self());
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */

@@ -36,6 +36,8 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->zynq_mode_string = "";
   this->CmdLine->command_line_string = "";
 
+  this->CmdLine->acq_len = 0;
+
   /* get command line input */
   std::string space = " ";
   this->CmdLine->command_line_string = "mecontrol ";
@@ -91,6 +93,13 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-short")){
     this->CmdLine->single_run = true;
+
+    /* get the desired acquisition length (in no. of CPU_PACKETs) */
+    const std::string & acq_len_str = getCmdOption("-short");
+    if (!acq_len_str.empty()) {
+      this->CmdLine->acq_len = std::stoi(acq_len_str);
+    }
+    
   }
   if(cmdOptionExists("-db")){
     this->CmdLine->debug_mode = true;
@@ -362,7 +371,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "ACQUISITION" << std::endl;
   std::cout << std::endl;
   std::cout << "-scurve:             take a single S-curve and exit" << std::endl;
-  std::cout << "-short:              take a single file (~ 2min) acquisition and exit "<< std::endl;
+  std::cout << "-short <N>:          run a short acquisition of N CPU_PACKETs"<< std::endl;
   std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = none)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;
   std::cout << "-keep_zynq_pkt:      keep the Zynq packets on FTP" << std::endl;

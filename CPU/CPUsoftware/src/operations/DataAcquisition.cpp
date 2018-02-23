@@ -583,7 +583,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	&& (time_left > 0 || !first_loop) ) { /* no timeout */
 
     /* timeout if no activity after FTP_TIMEOUT reached */
-    // while (time_left > 0 || !first_loop ) {
     time_t end = time(0);
     time_t time_taken = end - start;
     time_left = FTP_TIMEOUT - time_taken;
@@ -670,7 +669,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      frm_num++;
 	      
 		/* leave loop for a single run file */
-	      if (packet_counter == RUN_SIZE && CmdLine->single_run) {
+	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		break;
 	      }
 	    }

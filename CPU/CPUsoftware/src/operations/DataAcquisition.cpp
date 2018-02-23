@@ -672,7 +672,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		/* send shutdown signal to RunInstrument */
 		/* interrupt signal to main thread */
-		pthread_kill((pthread_t)main_thread, SIGINT);
+		//pthread_kill((pthread_t)main_thread, SIGINT);
 		break;
 	      }
 	    }
@@ -842,6 +842,7 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
  */
 int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
+  
   /* collect the data */
   std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, pthread_self());
   

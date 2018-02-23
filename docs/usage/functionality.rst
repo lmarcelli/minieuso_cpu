@@ -47,7 +47,7 @@ The CPU handles the data acquisition from all subsystems.
 * Summary of main command options
 
   * ``-scurve``: take a single S-curve and exit
-  * ``-short <N>``: run a short acquisition of ``<N>`` CPU_PACKETs
+  * ``-short <N>``: run a short acquisition of ``<N>`` CPU_PACKETs (NB: ``<N>`` must be less than ``RUN_SIZE`` defined in minieuso_data_format.h)
   * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
   * ``-test_zynq <MODE>``: use the Zynq test mode (see section below for details, default = ``pdm``)
   * ``-keep_zynq_pkt``: keep the Zynq packets on FTP

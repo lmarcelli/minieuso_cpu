@@ -28,12 +28,9 @@ endif
 # compiler
 CXX = g++
 
-#ifeq ($(SRCEXT), cpp)
-#CC       = $(CXX)
-#CFLAGS  += -std=c++11
-#else
-#CFLAGS  += -std=gnu99
-#endif
+ifeq ($(SRCEXT), cpp)
+CC       = $(CXX)
+endif
 
 .PHONY: all clean distclean
 

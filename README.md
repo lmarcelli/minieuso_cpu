@@ -1,6 +1,6 @@
 Mini-EUSO Software
 ===================
-[![Documentation Status](https://readthedocs.org/projects/minieuso-software/badge/?version=latest)](http://minieuso-software.readthedocs.io/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/cescalara/minieuso_cpu.svg?branch=master)](https://travis-ci.org/cescalara/minieuso_cpu) [![Documentation Status](https://readthedocs.org/projects/minieuso-software/badge/?version=latest)](http://minieuso-software.readthedocs.io/en/latest/?badge=latest)
 
 This is the repository for the Mini-EUSO instrument software. 
 

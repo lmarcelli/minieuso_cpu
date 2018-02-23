@@ -186,8 +186,14 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
-  cpu_file_header->run_size = RUN_SIZE;
 
+  if (CmdLine->single_run) {
+    cpu_file_header->run_size = CmdLine->acq_len;
+  }
+  else {
+    cpu_file_header->run_size = RUN_SIZE;
+  }
+ 
   /* write to file */
   this->RunAccess->WriteToSynchFile<CpuFileHeader *>(cpu_file_header, SynchronisedFile::CONSTANT, ConfigOut);
   delete cpu_file_header;

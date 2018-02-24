@@ -368,6 +368,12 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   printf("Set HVPS dac to %i: %s\n", dv, kStatStr);
   usleep(sleep_time);
 
+  /* check the status */
+  status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
+  kStatStr = status_string.c_str();
+  printf("HVPS status: %s\n", kStatStr);
+  usleep(sleep_time);  
+  
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::ON;
   

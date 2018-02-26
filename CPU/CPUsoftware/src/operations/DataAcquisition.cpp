@@ -27,7 +27,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
 
   switch (run_type) {
   case CPU:
-    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S__"
+    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S"
       + CmdLine->comment_fn + ".dat";
     break;
   case SC:
@@ -35,11 +35,11 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
     /* check if HV switched on */
     if (ConfigOut->hv_on) {
       time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__"
-	+ std::to_string(ConfigOut->dynode_voltage) + "__"
+	+ std::to_string(ConfigOut->dynode_voltage) 
 	+ CmdLine->comment_fn + ".dat";
     }
     else {
-      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV__"
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV"
 	+ CmdLine->comment_fn + ".dat";
     }
     

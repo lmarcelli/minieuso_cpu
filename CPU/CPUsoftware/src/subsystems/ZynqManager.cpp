@@ -471,7 +471,7 @@ bool ZynqManager::CheckScurve(int sockfd) {
     } 
   }
   else {
-    clog << "error: " << logstream::error << "bad socket passed to ZynqManager::CheckScurve" << std::endl;
+    clog << "error: " << logstream::error << "bad socket passed to ZynqManager::CheckScurve()" << std::endl;
 
   }
 

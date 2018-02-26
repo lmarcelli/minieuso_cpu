@@ -440,11 +440,42 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   
   status_string = SendRecvTelnet(cmd, sockfd);
 
-  /* wait for scurve to be taken */
-  sleep(15);
-  
+  /* poll to check scurve completion */
+  while (!CheckScurve()) {
+    sleep(1);
+  }
+    
   close(sockfd);
   return 0;
+}
+/**
+ * check the S-curve acquisition status and return true on completion
+ * @param sockfd the socket field descriptor of the open telnet socket
+ * used by ZynqManager::Scurve() which handles the opening 
+ * and closing of the telnet connection 
+ */
+bool ZynqManager::CheckScurve(int sockfd) {
+
+  bool scurve_status = false;
+  std::string status_string;
+  const char * kStatStr;
+  
+  if (sockfd > 0) {
+    
+    status_string = SendRecvTelnet("acq scurve status\n", sockfd);
+    kStatStr = status_string.c_str();
+    printf("acq scurve status: %s\n", kStatStr);
+
+    if (status_string.compare("add string here")) {
+      scurve_status = true;
+    } 
+  }
+  else {
+    clog << "error: " << logstream::error << "bad socket passed to ZynqManager::CheckScurve" << std::endl;
+
+  }
+
+  return scurve_status;
 }
 
 /**

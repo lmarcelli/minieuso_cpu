@@ -8,7 +8,6 @@
 # for the chipsets that RTD utilizes and otherwise echos 
 # WARNING_UNKNOWN_RTD_CHIPSET
 #
-Baytrail=$( awk '/80860f1c/ {print $2}' < /proc/bus/pci/devices )
 Montevina=$( awk '/80862917/ {print $2}' < /proc/bus/pci/devices )
 Pentium_M=$( awk '/808624c0/ {print $2}' < /proc/bus/pci/devices )
 VIA=$( awk '/11060686/ {print $2}' < /proc/bus/pci/devices )
@@ -24,9 +23,7 @@ ChiefRiver=$( awk '/80860154/ {print $2}' < /proc/bus/pci/devices )
 #echo -n $AMD_GSeries
 #echo -n " : "
 
-if  [ "$Baytrail" = 80860f1c ] ; then
-	echo "__INTEL_BAYTRAIL_CHIPSET"
-elif  [ "$Montevina" = 80862917 ] ; then
+if  [ "$Montevina" = 80862917 ] ; then
 	echo "__INTEL_MONTEVINA_CHIPSET"
 elif [ "$Pentium_M" = 808624C0 ] ; then
 	echo "__INTEL_855GME_CHIPSET"

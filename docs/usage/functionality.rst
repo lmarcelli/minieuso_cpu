@@ -122,3 +122,21 @@ The Zynq also has built in test modes for debugging, where data is provided by t
 * ``l3``: all pixels = 0 in 1st 128*128*128 frames, all pixels = 1 in 2nd 128*128*128 frames, ..., after 128*128*128*128 frames counter resets to 0
 
 To set the desired mode, use the flag ``-test_zynq <MODE>`` with the ``mecontrol`` command. The test modes can only be used one at a time.
+
+
+The configuration file
+----------------------
+
+The configuration file stores the following parameters:
+
+* ``CATHODE_VOLTAGE``: the cathode voltage to set the HV to via the Zynq command ``hvps cathode`` (can be 0,1,2 or 3 and the default is 3 (fully switched on)) 
+* ``DYNODE_VOLTAGE``: the dynode voltage to set the HV to via the Zynq command ``hvps setdac`` (can be 0 to 4096), it is be overidden by the command line option ``-dv``
+* ``SCURVE_START``: the ASIC DAC at which to start scanning the thresholds for an S-curve (default is 0)
+* ``SCURVE_STEP``: the ASIC DAC steps to take between consecutive S-curve acquisitions (default is 8)
+* ``SCURVE_STOP``: the maximum ASIC DAC to scan to when taking an S-curve (default and maximum is 1023)
+* ``SCURVE_ACC``: the number of acquisitions to take at a certain ASIC DAC during an S-curve (default is 16384)
+* ``DAC_LEVEL``: the ASIC DAC level at which to perform standard acquisitions (non S-curve) (default is 500)
+* ``N1``: maximum number of packets to be stored for D1, the level 1 data (can be 1 to 4, default is 4)
+* ``N2``: maximum number of packets to be stored for D1, the level 1 data (can be 1 to 4, default is 4)
+
+The default values are stored in the file ``config/dummy.conf``. To override these values without recompiling the software edit ``config/dummy_local.conf``.

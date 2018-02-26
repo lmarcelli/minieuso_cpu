@@ -17,6 +17,9 @@
 #define USB_MOUNTPOINT_0 "/media/usb0"
 #define USB_MOUNTPOINT_1 "/media/usb1"
 
+/* maximum filename size (CPU is Ext4 but USB is FAT32) */
+#define MAX_FILENAME_LENGTH 255
+
 /* for use with inotify in ProcessIncomingData() */
 #define EVENT_SIZE (sizeof(struct inotify_event))
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))

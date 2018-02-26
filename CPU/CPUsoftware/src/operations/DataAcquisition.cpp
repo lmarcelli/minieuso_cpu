@@ -20,7 +20,7 @@ DataAcquisition::DataAcquisition() {
  */
 std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
   struct timeval tv;
-  char cpu_file_name[80];
+  char cpu_file_name[MAX_FILENAME_LENGTH];
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str;

@@ -272,7 +272,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
        this->CmdLine->comment_fn = comment_fn_str.substr(FILENAME_COMMENT_LEN);
        }
        else {
-	 this->CmdLine->comment_fn = comment_fn_str;
+	 this->CmdLine->comment_fn = "__" + comment_fn_str;
        }
      }
    }

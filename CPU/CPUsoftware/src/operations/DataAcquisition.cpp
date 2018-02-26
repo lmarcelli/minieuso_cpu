@@ -20,14 +20,14 @@ DataAcquisition::DataAcquisition() {
  */
 std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
   struct timeval tv;
-  char cpu_file_name[80];
+  char cpu_file_name[MAX_FILENAME_LENGTH];
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str;
-  
+
   switch (run_type) {
   case CPU:
-    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S__"
+    time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S"
       + CmdLine->comment_fn + ".dat";
     break;
   case SC:
@@ -35,11 +35,11 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
     /* check if HV switched on */
     if (ConfigOut->hv_on) {
       time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__"
-	+ std::to_string(ConfigOut->dynode_voltage) + "__"
+	+ std::to_string(ConfigOut->dynode_voltage) 
 	+ CmdLine->comment_fn + ".dat";
     }
     else {
-      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV__"
+      time_str = "/CPU_RUN_SC__%Y_%m_%d__%H_%M_%S__noHV"
 	+ CmdLine->comment_fn + ".dat";
     }
     
@@ -49,7 +49,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
       + CmdLine->comment_fn + ".dat";
     break;
   }
-
+  
   std::string cpu_str;
 
   /* write on USB directly if possible */
@@ -67,7 +67,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
   struct tm * now_tm = localtime(&now);
   
   strftime(cpu_file_name, sizeof(cpu_file_name), kCpuCh, now_tm);
-  
+ 
   return cpu_file_name;
 }
 

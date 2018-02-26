@@ -19,8 +19,8 @@
 #define HK_PORT_OFF 0x02 /* P0.1  - 0000 0010 */
 #define ZYNQ_PORT_ON 0x04 /* P0.2  - 0000 0100 */
 #define ZYNQ_PORT_OFF 0x08 /* P0.3  - 0000 1000 */
-#define CAMERA_PORT_OFF 0x10 /* P0.4  - 0001 0000 */
-#define CAMERA_PORT_ON 0x20 /* P0.5  - 0010 0000 */
+#define CAMERA_PORT_ON 0x10 /* P0.4  - 0001 0000 */
+#define CAMERA_PORT_OFF 0x20 /* P0.5  - 0010 0000 */
 
 /* CHECK signal bit addresses */
 #define HK_PORT_CHECK 0x0B /* P1.0  - 0000 1011 */

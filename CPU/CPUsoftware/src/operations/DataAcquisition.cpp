@@ -49,7 +49,6 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
       + CmdLine->comment_fn + ".dat";
     break;
   }
-
   
   std::string cpu_str;
 
@@ -68,12 +67,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
   struct tm * now_tm = localtime(&now);
   
   strftime(cpu_file_name, sizeof(cpu_file_name), kCpuCh, now_tm);
-
-  /* debug */
-  std::cout << "comment: " << CmdLine->comment_fn << std::endl;
-  std::cout << "filename: " << time_str << std::endl;
-  std::cout << "whole path: " << cpu_file_name << std::endl;
-  
+ 
   return cpu_file_name;
 }
 

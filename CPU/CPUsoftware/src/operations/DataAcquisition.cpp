@@ -24,7 +24,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
   std::string done_str(DONE_DIR);
   std::string usb_str(USB_MOUNTPOINT_0);
   std::string time_str;
-  
+
   switch (run_type) {
   case CPU:
     time_str = "/CPU_RUN_MAIN__%Y_%m_%d__%H_%M_%S__"
@@ -50,6 +50,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
     break;
   }
 
+  
   std::string cpu_str;
 
   /* write on USB directly if possible */
@@ -67,6 +68,11 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
   struct tm * now_tm = localtime(&now);
   
   strftime(cpu_file_name, sizeof(cpu_file_name), kCpuCh, now_tm);
+
+  /* debug */
+  std::cout << "comment: " << CmdLine->comment_fn << std::endl;
+  std::cout << "filename: " << time_str << std::endl;
+  std::cout << "whole path: " << cpu_file_name << std::endl;
   
   return cpu_file_name;
 }

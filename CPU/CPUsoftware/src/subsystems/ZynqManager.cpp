@@ -441,7 +441,7 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   status_string = SendRecvTelnet(cmd, sockfd);
 
   /* poll to check scurve completion */
-  while (!CheckScurve()) {
+  while (!CheckScurve(sockfd)) {
     sleep(1);
   }
     

@@ -119,7 +119,7 @@ public:
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
-
+  bool CheckScurve(int sockfd);
 };
 
 #endif /* _ZYNQ_INTERFACE_H */

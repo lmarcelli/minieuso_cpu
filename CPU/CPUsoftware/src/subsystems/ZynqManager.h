@@ -116,18 +116,9 @@ public:
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
-  bool CheckScurve(int stop);
-  bool IsScurveDone();
+  bool CheckScurve(int sockfd);
   
 private:
-  /**
-   * mutex for access to scurve done
-   */
-  std::mutex _m_scurve;
-  /**
-   *set to true if scurve acquisition is complete
-   */
-  bool scurve_done;
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);

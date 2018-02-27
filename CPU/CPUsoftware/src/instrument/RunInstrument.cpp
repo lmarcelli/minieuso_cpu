@@ -661,7 +661,7 @@ int RunInstrument::Acquisition() {
 int RunInstrument::NightOperations() {
 
   /* check scurve not already completed */
-  if (this->Zynq.IsScurveDone()) {
+  if (this->Daq.IsScurveDone()) {
     return 0;
   }
   

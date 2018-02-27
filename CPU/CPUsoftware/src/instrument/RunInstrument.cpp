@@ -361,7 +361,8 @@ int RunInstrument::StartUp() {
   printf("DAC_LEVEL is %d\n", this->ConfigOut->dac_level);
   printf("N1 is %d\n", this->ConfigOut->N1);
   printf("N2 is %d\n", this->ConfigOut->N2);
-
+  std::cout << std::endl;
+  
   return 0;
 }
 
@@ -659,6 +660,8 @@ int RunInstrument::Acquisition() {
  */
 int RunInstrument::NightOperations() {
 
+  /* debug */
+  std::cout << this->Zynq.IsScurveDone();
   /* check scurve not already completed */
   if (this->Zynq.IsScurveDone()) {
     return 0;

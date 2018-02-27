@@ -212,7 +212,7 @@ uint8_t UsbManager::LookupUsbStorage() {
 int UsbManager::GetDeviceInterface(libusb_device * dev) {
   libusb_config_descriptor * config;
   const libusb_interface * inter;
-  const libusb_interface_descriptor * interdesc;
+  const libusb_interface_descriptor * interdesc = NULL;
 
   libusb_get_config_descriptor(dev, 0, &config);
 
@@ -224,8 +224,10 @@ int UsbManager::GetDeviceInterface(libusb_device * dev) {
       interdesc = &inter->altsetting[j];
     }
   }
-
-  return (int)interdesc->bInterfaceClass;
+  if (interdesc != NULL){
+    int interface = interdesc->bInterfaceClass;
+  }
+  return interface;
 }
 
 

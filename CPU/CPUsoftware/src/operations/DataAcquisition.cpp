@@ -711,7 +711,7 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    sc_file_name = data_str + "/" + event->name;
 
 	      /* poll to check scurve completion */
-	    while (!ZqManager->CheckScurve()) {
+	    while (!Zynq->CheckScurve()) {
 	      sleep(1);
 	    }
 	    std::cout << "S-curve acquisition complete" << std::endl;

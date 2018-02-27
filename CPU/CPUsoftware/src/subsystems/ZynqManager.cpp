@@ -436,7 +436,7 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   
   /* send and receive commands */
   /* take an s-curve */
-  printf("S-Curve acquisition starting");
+  printf("S-Curve acquisition starting\n");
   conv << "acq scurve " << start << " " << step << " " << stop << " " << acc << std::endl;
   cmd = conv.str();
   std::cout << cmd;

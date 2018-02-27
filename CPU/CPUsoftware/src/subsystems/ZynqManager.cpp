@@ -471,6 +471,10 @@ bool ZynqManager::CheckScurve(int stop) {
 
       /* scurve gathering is done */
       scurve_status = true;
+      {
+	std::unique_lock<std::mutex> lock(this->_m_scurve);   
+	this->scurve_done = true;
+      } /* release the mutex */
     }
     
   }
@@ -482,6 +486,23 @@ bool ZynqManager::CheckScurve(int stop) {
   close(sockfd);
   return scurve_status;
 }
+
+
+/**
+ * read the scurve_done from the ZynqManager object in a threadsafe way
+ */
+bool ZynqManager::IsScurveDone() {
+
+  bool scurve_status;
+  
+  {
+    std::unique_lock<std::mutex> lock(this->_m_scurve);   
+    scurve_status = this->scurve_done;
+  } /* release the mutex */
+
+  return scurve_status;
+}
+
 
 /**
  * set the ASIC DAC on the SPACIROCs 

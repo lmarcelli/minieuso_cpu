@@ -11,6 +11,7 @@ ZynqManager::ZynqManager () {
   this->zynq_mode = ZynqManager::NONE;
   this->test_mode = ZynqManager::T_NONE;
   this->telnet_connected = false;
+  this->scurve_done = false;
 }
 
 /**

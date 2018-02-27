@@ -19,7 +19,7 @@
 //  license terms listed above.
 //----------------------------------------------------------------------------
 
-    $Id: rtd-aDIO.c 98012 2016-03-17 19:59:03Z rgroner $
+    $Id: rtd-aDIO.c 81667 2014-08-25 18:17:19Z rgroner $
 */
 
 #include <linux/version.h>
@@ -122,33 +122,6 @@ static struct class *dev_class = NULL;
 static const char name[] = DRIVER_NAME;
 static int aDIO_major = 0;
 static int force = 1;
-
-#define	NUM_IRQ_ELEM	8
-
-static const int irq_decode[NUM_IRQ_ELEM] = { 0, 5, 7, 10, 11, 12,
-#if defined(__INTEL_MONTEVINA_CHIPSET) || defined (__AMD_GSERIES_CHIPSET) || \
-	defined(__INTEL_CHIEF_RIVER_CHIPSET) || \
-	defined(__INTEL_BAYTRAIL_CHIPSET) || \
-	defined(__INTEL_855GME_CHIPSET)	|| \
-	defined(__GEODELX_CHIPSET)
-	3, 6
-#else
-	0, 0
-#endif
-};
-
-#define NUM_ADDR_ELEM	8
-
-static const unsigned int addr_decode[NUM_ADDR_ELEM] = {
-#if defined(__INTEL_MONTEVINA_CHIPSET)
-	0x9C0,
-#elif defined(__AMD_GSERIES_CHIPSET) || defined (__INTEL_CHIEF_RIVER_CHIPSET) || defined (__INTEL_BAYTRAIL_CHIPSET)
-	0xEC0,
-#else
-	0x450,
-#endif
-	0x440, 0x410, 0x400, 0x350, 0x340, 0x310, 0x300
-};
 
 module_param_array(io, ulong, NULL, 0444);
 module_param_array(irq, ulong, NULL, 0444);
@@ -696,20 +669,20 @@ static ssize_t adio_read(struct file *file_p,
 			 * & control
 			 */
 			int_status.interrupt_status.int_count =
-			    device_p->int_status_queue[device_p->queue_out].
-			    int_count;
+			    device_p->int_status_queue[device_p->
+						       queue_out].int_count;
 			int_status.interrupt_status.port0 =
-			    device_p->int_status_queue[device_p->queue_out].
-			    port0;
+			    device_p->int_status_queue[device_p->
+						       queue_out].port0;
 			int_status.interrupt_status.port1 =
-			    device_p->int_status_queue[device_p->queue_out].
-			    port1;
+			    device_p->int_status_queue[device_p->
+						       queue_out].port1;
 			int_status.interrupt_status.compare =
-			    device_p->int_status_queue[device_p->queue_out].
-			    compare;
+			    device_p->int_status_queue[device_p->
+						       queue_out].compare;
 			int_status.interrupt_status.control =
-			    device_p->int_status_queue[device_p->queue_out].
-			    control;
+			    device_p->int_status_queue[device_p->
+						       queue_out].control;
 
 			/*
 			 * Make copy of the calculated number of interrupts in the queue and
@@ -1096,17 +1069,16 @@ static irqreturn_t adio_interrupt(int irq, board_t * dev)
 				    ADIO_INT_QUEUE_SIZE - 1) {
 					/* collect interrupt data and store in device structure */
 					boards[minor].int_status_queue[boards
-								       [minor].
-								       queue_in].control
-					    = contReg;
-					boards[minor].
-					    int_status_queue[boards[minor].
-							     queue_in].port0 =
+								       [minor].queue_in].
+					    control = contReg;
+					boards[minor].int_status_queue[boards
+								       [minor].queue_in].
+					    port0 =
 					    r_inb_p(boards[minor].io +
 						    rPORT0DATA);
-					boards[minor].
-					    int_status_queue[boards[minor].
-							     queue_in].port1 =
+					boards[minor].int_status_queue[boards
+								       [minor].queue_in].
+					    port1 =
 					    r_inb_p(boards[minor].io +
 						    rPORT1DATA);
 					contReg =
@@ -1115,15 +1087,13 @@ static irqreturn_t adio_interrupt(int irq, board_t * dev)
 					contReg |= 0x3;	// set to read compare register
 					r_outb_p(boards[minor].io + rCONTROL, contReg);	//load new value
 					boards[minor].int_status_queue[boards
-								       [minor].
-								       queue_in].compare
-					    =
+								       [minor].queue_in].
+					    compare =
 					    r_inb_p(boards[minor].io +
 						    rMULTIFUNCTION);
-					boards[minor].
-					    int_status_queue[boards[minor].
-							     queue_in].
-					    int_count = boards[minor].int_count;
+					boards[minor].int_status_queue[boards
+								       [minor].queue_in].int_count
+					    = boards[minor].int_count;
 
 					/* increment queue in ptr */
 					dev->queue_in++;
@@ -1293,9 +1263,6 @@ int aDIO_init_module(void)
 		printk(KERN_INFO "init_module()\n");
 
 #endif
-#if defined(__INTEL_BAYTRAIL_CHIPSET)
-	printk(KERN_INFO "INTEL BAYTRAIL CHIPSET was detected\n");
-#endif
 #if defined(__INTEL_MONTEVINA_CHIPSET)
 	printk(KERN_INFO "INTEL MONTEVINA CHIPSET was detected\n");
 #endif
@@ -1371,10 +1338,53 @@ int aDIO_init_module(void)
 			/*
 			 * Decode the DIO_IRQ[2:0] bits to determine which IRQ to use, if any
 			 */
-			boards[minor_num_to_auto_detect].irq = 0;
-			if (adio_irq < NUM_IRQ_ELEM) {
-				boards[minor_num_to_auto_detect].irq =
-				    irq_decode[adio_irq];
+
+			switch (adio_irq) {
+			case 0:
+				boards[minor_num_to_auto_detect].irq = 0;
+				break;
+			case 6:
+#if defined(__INTEL_MONTEVINA_CHIPSET) || defined (__AMD_GSERIES_CHIPSET) || defined (__INTEL_CHIEF_RIVER_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 3;
+#elif defined(__INTEL_855GME_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 3;
+#elif defined(__GEODELX_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 3;
+#else
+				boards[minor_num_to_auto_detect].irq = 0;
+#endif
+				break;
+			case 7:
+#if defined(__INTEL_MONTEVINA_CHIPSET) || defined (__AMD_GSERIES_CHIPSET) || defined (__INTEL_CHIEF_RIVER_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 6;
+#elif defined(__INTEL_855GME_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 6;
+#elif defined(__GEODELX_CHIPSET)
+				boards[minor_num_to_auto_detect].irq = 6;
+#else
+				boards[minor_num_to_auto_detect].irq = 0;
+#endif
+				break;
+
+			case 1:
+				boards[minor_num_to_auto_detect].irq = 5;
+				break;
+
+			case 2:
+				boards[minor_num_to_auto_detect].irq = 7;
+				break;
+
+			case 3:
+				boards[minor_num_to_auto_detect].irq = 10;
+				break;
+
+			case 4:
+				boards[minor_num_to_auto_detect].irq = 11;
+				break;
+
+			case 5:
+				boards[minor_num_to_auto_detect].irq = 12;
+				break;
 			}
 
 			/*
@@ -1389,11 +1399,46 @@ int aDIO_init_module(void)
 			/*
 			 * Decode the DIO_ADDR[2:0] bits to determine base I/O address
 			 */
-			if (adio_addr >= NUM_ADDR_ELEM) {
-				return -EFAULT;
+
+			switch (adio_addr) {
+			case 0:
+#if defined(__INTEL_MONTEVINA_CHIPSET)
+				boards[minor_num_to_auto_detect].io = 0x9C0;
+#elif defined(__AMD_GSERIES_CHIPSET) || defined (__INTEL_CHIEF_RIVER_CHIPSET)
+				boards[minor_num_to_auto_detect].io = 0xEC0;
+#else
+				boards[minor_num_to_auto_detect].io = 0x450;
+#endif
+				break;
+
+			case 1:
+				boards[minor_num_to_auto_detect].io = 0x440;
+				break;
+
+			case 2:
+				boards[minor_num_to_auto_detect].io = 0x410;
+				break;
+
+			case 3:
+				boards[minor_num_to_auto_detect].io = 0x400;
+				break;
+
+			case 4:
+				boards[minor_num_to_auto_detect].io = 0x350;
+				break;
+
+			case 5:
+				boards[minor_num_to_auto_detect].io = 0x340;
+				break;
+
+			case 6:
+				boards[minor_num_to_auto_detect].io = 0x310;
+				break;
+
+			case 7:
+				boards[minor_num_to_auto_detect].io = 0x300;
+				break;
 			}
-			boards[minor_num_to_auto_detect].io =
-			    addr_decode[adio_addr];
 
 			/* save minor number in each device */
 			boards[minor_num_to_auto_detect].minor =
@@ -1458,6 +1503,31 @@ int aDIO_init_module(void)
 			}
 		}
 	}
+
+/*
+ * Register the character device, requesting dynamic major number
+ * allocation
+ */
+/*
+	status = alloc_chrdev_region(&device,
+					0,
+					ADIO_MAX_BOARDS,
+					DRIVER_NAME);
+
+	if (status < 0) {
+		return status;
+	}
+
+	aDIO_major = register_chrdev(0, name, &driver_fops);
+	if (aDIO_major < 0) {
+		printk(KERN_ERR
+		       "Dynamic character device registration failed with errno %d\n",
+		       -aDIO_major);
+
+		return aDIO_major;
+	}
+
+	*/
 
 	status = alloc_chrdev_region(&device, 0, ADIO_MAX_BOARDS, DRIVER_NAME);
 

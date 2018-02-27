@@ -38,6 +38,12 @@ InputParser::InputParser(int &argc, char **argv) {
 
   this->CmdLine->acq_len = 0;
 
+  this->CmdLine->sc_start = -1;
+  this->CmdLine->sc_step = -1;
+  this->CmdLine->sc_stop = -1;
+  this->CmdLine->sc_acc = -1;
+  
+
   /* get command line input */
   std::string space = " ";
   this->CmdLine->command_line_string = "mecontrol ";
@@ -154,11 +160,21 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-scurve")){
     this->CmdLine->sc_on = true;
 
-    const std::string & scurve_str = getCmdOption("-scurve");
-    if (!scurve_str.empty()) {
-      this->CmdLine->sc_start = std::stoi(scurve_str); 
-      /* debug */
-      std::cout << "scurve options: " << scurve_str << std::endl;
+    const std::string & start_str = getCmdOption("-start");
+    if (!start_str.empty()) {
+      this->CmdLine->sc_start = std::stoi(start_str); 
+    }
+    const std::string & step_str = getCmdOption("-step");
+    if (!step_str.empty()) {
+      this->CmdLine->sc_step = std::stoi(step_str); 
+    }
+    const std::string & stop_str = getCmdOption("-stop");
+    if (!stop_str.empty()) {
+      this->CmdLine->sc_stop = std::stoi(stop_str); 
+    }
+    const std::string & acc_str = getCmdOption("-acc");
+    if (!acc_str.empty()) {
+      this->CmdLine->sc_acc = std::stoi(acc_str); 
     }
     
   }

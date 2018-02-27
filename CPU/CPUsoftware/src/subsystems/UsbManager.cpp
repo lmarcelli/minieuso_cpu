@@ -126,6 +126,7 @@ int UsbManager::CheckUsb() {
   return 0;
 }
 
+
 /**
  * lookup usb storage devices connected and identify them 
  * designed to avoid detecting the cameras and other devices as storage
@@ -174,6 +175,8 @@ uint8_t UsbManager::LookupUsbStorage() {
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
       r = libusb_get_device_descriptor(dev, &desc);
+      int interface = GetDeviceInterface(dev);
+      
       if (r < 0) {
 	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
       }
@@ -181,9 +184,9 @@ uint8_t UsbManager::LookupUsbStorage() {
       /* require bDeviceClass as not a hub, vendor specified (cameras)
 	 or human interface (keyboard) and presence on STORAGE_BUS */
       if (libusb_get_bus_number(dev) == this->storage_bus
-	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
-	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC
-	  && desc.bDeviceClass != LIBUSB_CLASS_HID) {
+	  && interface != LIBUSB_CLASS_HUB
+	  && interface != LIBUSB_CLASS_VENDOR_SPEC
+	  && interface != LIBUSB_CLASS_HID) {
 
 	num_storage_dev++;
       }
@@ -200,6 +203,34 @@ uint8_t UsbManager::LookupUsbStorage() {
   this->num_storage_dev = num_storage_dev;
   return num_storage_dev;  
 }
+
+/**
+ * returns an int which represents the usb device interface (see libusb_class_code)
+ * @param the libusb device descriptor
+ *
+ */
+int UsbManager::GetDeviceInterface(libusb_device * dev) {
+  libusb_config_descriptor * config;
+  const libusb_interface * inter;
+  const libusb_interface_descriptor * interdesc = NULL;
+  int interface = -1;
+  
+  libusb_get_config_descriptor(dev, 0, &config);
+
+  for(int i = 0; i < (int)config->bNumInterfaces; i++) {
+
+    inter = &config->interface[i];    
+    for(int j = 0; j < inter->num_altsetting; j++) {
+
+      interdesc = &inter->altsetting[j];
+    }
+  }
+  if (interdesc != NULL){
+    interface = interdesc->bInterfaceClass;
+  }
+  return interface;
+}
+
 
 /**
  * define data backup based on num_storage_dev 

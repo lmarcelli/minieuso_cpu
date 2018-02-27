@@ -60,6 +60,7 @@ private:
   void CheckCpuModel();
   static void PrintDev(libusb_device * dev);
   int DataBackup();
+  int GetDeviceInterface(libusb_device * dev);
 };
 #endif
 /* _USB_INTERFACE_H */

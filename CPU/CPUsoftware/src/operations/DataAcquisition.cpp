@@ -646,7 +646,7 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	      
 	    }
 	    
-	      /* read out the previous packet */
+	    /* read out the previous packet */
 	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
 	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
 	    sleep(2);
@@ -704,7 +704,7 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    
 	    sc_file_name = data_str + "/" + event->name;
 
-	      /* poll to check scurve completion */
+	    /* poll to check scurve completion */
 	    while (!Zynq->CheckScurve()) {
 	      sleep(1);
 	    }
@@ -714,7 +714,10 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    
 	    /* generate sc packet and append to file */
 	    SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-	    WriteScPkt(sc_packet);
+
+	    if (sc_packet != NULL) {
+	      WriteScPkt(sc_packet);
+	    }
 	    
 	    CloseCpuRun(SC);
 	    

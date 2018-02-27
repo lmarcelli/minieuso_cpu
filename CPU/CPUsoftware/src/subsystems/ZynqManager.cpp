@@ -449,7 +449,7 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
 /**
  * check the S-curve acquisition status and return true on completion
  */
-bool ZynqManager::CheckScurve() {
+bool ZynqManager::CheckScurve(int stop) {
 
   bool scurve_status = false;
   std::string status_string;
@@ -465,8 +465,9 @@ bool ZynqManager::CheckScurve() {
     kStatStr = status_string.c_str();
     printf("acq scurve status: %s\n", kStatStr);
 
-    size_t found = status_string.find("GatheringInProgress=0");
-    if (found != std::string::npos) {
+    size_t stop_found = status_string.find(std::to_string(stop+1));
+    size_t noacq_found = status_string.find("GatheringInProgress=0");
+    if (stop_found != std::string::npos && noacq_found != std::string::npos) {
 
       /* scurve gathering is done */
       scurve_status = true;

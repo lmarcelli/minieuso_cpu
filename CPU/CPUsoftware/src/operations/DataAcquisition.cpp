@@ -725,7 +725,10 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    std::remove(sc_file_name.c_str());
 	      
 	    /* exit without waiting for more files */
-	    return 0;
+	    /* send shutdown signal to RunInstrument */
+	    /* interrupt signal to main thread */
+	    pthread_kill((pthread_t)main_thread, SIGINT);   
+	    break;
 	    
 	  } /* end of SC packets */ 
 	  

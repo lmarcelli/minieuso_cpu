@@ -692,7 +692,8 @@ void RunInstrument::Stop() {
   this->Usb.KillDataBackup();
 
   /* turn off all subsystems */
-  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+  /* leave zynq on all the time, for now */
+  //this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   this->Lvps.SwitchOff(LvpsManager::HK);    
 

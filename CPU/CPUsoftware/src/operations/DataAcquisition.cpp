@@ -4,12 +4,17 @@
  * constructor 
  */
 DataAcquisition::DataAcquisition() { 
+
   /* filename initialisation */
   this->cpu_main_file_name = "";
   this->cpu_sc_file_name = "";    
   this->cpu_hv_file_name = "";
-  
+
+  /* usb storage devices */
   this->usb_num_storage_dev = 0;
+
+  /* scurve acquisition */
+  this->_scurve = false;
 }
   
 /** 
@@ -263,14 +268,21 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
     clog << "error: " << logstream::error << "cannot open the file " << sc_file_name << std::endl;
     return NULL;
   }
-  
+
   /* read out the scurve data from the file */
   check = fread(&sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
+
+    /* debug */
+    std::cout << "sizeof sc_packet->sc_data: " << (int)sizeof(sc_packet->sc_data) << std::endl;
+    std::cout << "check: " << check << std::endl;
+    std::cout << "feof: " << feof(ptr_scfile) << std::endl;
+    std::cout << "ferror: " << ferror(ptr_scfile) << std::endl;
+ 
     return NULL;   
   }
-  
+ 
   /* close the scurve file */
   fclose(ptr_scfile);
   
@@ -541,7 +553,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -704,10 +716,15 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    
 	    sc_file_name = data_str + "/" + event->name;
 
-	    /* poll to check scurve completion */
-	    while (!Zynq->CheckScurve(ConfigOut->scurve_stop)) {
-	      sleep(1);
-	    }
+	    /* wait for scurve completion */
+	    std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
+	    while(!this->_cv_scurve.wait_for(sc_lock,
+					   std::chrono::milliseconds(WAIT_PERIOD),
+					   [this] { return this->_scurve; })) {}
+
+	    /* wait a bit more */
+	    sleep(1);
+	    
 	    std::cout << "S-curve acquisition complete" << std::endl;
 
 	    CreateCpuRun(SC, ConfigOut, CmdLine);
@@ -833,6 +850,33 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   return 0;
 }
 
+/**
+ * signal that the scurve is done to data gathering thread
+ */
+void DataAcquisition::SignalScurveDone() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_scurve);   
+    this->_scurve = true;
+  } /* release mutex */
+  this->_cv_scurve.notify_all();
+
+  return;
+}
+
+/**
+ * check the scurve status in a thread-safe way
+ */
+bool DataAcquisition::IsScurveDone() {
+
+  bool scurve_status;
+  {
+   std::unique_lock<std::mutex> lock(this->_m_scurve);   
+   scurve_status = this->_scurve;
+  }
+  
+  return scurve_status;
+}
 
 /**
  * spawn thread to collect an S-curve 
@@ -846,8 +890,11 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
   long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ZqManager, ConfigOut, CmdLine, main_thread);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  
+  /* signal that scurve is done */
+  this->SignalScurveDone();
   collect_data.join();
   
 #endif /* __APPLE__ */
@@ -867,7 +914,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ZqManager, ConfigOut, CmdLine, main_thread);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */

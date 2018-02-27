@@ -14,6 +14,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <mutex>
 
 #include "log.h"
 
@@ -100,10 +101,6 @@ public:
    * set to true if the telnet connection is successful 
    */
   bool telnet_connected;
-  /**
-   *set to true if scurve acquisition is complete
-   */
-  bool scurve_done;
   
   ZynqManager();
   int CheckTelnet();
@@ -119,11 +116,14 @@ public:
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
-  bool CheckScurve(int stop);
-
+  bool CheckScurve(int sockfd);
+  
 private:
+  
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
+  
+
 };
 
 #endif /* _ZYNQ_INTERFACE_H */

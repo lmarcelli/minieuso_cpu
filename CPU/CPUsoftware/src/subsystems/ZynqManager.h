@@ -119,7 +119,7 @@ public:
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
-  bool CheckScurve();
+  bool CheckScurve(int stop);
 
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);

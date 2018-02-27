@@ -728,7 +728,7 @@ int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Con
 	    /* send shutdown signal to RunInstrument */
 	    /* interrupt signal to main thread */
 	    pthread_kill((pthread_t)main_thread, SIGINT);   
-	    break;
+	    return 0;
 	    
 	  } /* end of SC packets */ 
 	  

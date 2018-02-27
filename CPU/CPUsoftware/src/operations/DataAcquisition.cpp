@@ -721,6 +721,9 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    while(!this->_cv_scurve.wait_for(sc_lock,
 					   std::chrono::milliseconds(WAIT_PERIOD),
 					   [this] { return this->_scurve; })) {}
+
+	    /* wait a bit more */
+	    sleep(2);
 	    
 	    std::cout << "S-curve acquisition complete" << std::endl;
 

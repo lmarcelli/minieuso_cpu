@@ -547,7 +547,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
+int DataAcquisition::ProcessIncomingData(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 #ifndef __APPLE__
   int length, i = 0;
   int fd, wd;
@@ -709,8 +709,13 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    }
 	    
 	    sc_file_name = data_str + "/" + event->name;
-	    sleep(27);
-	    
+
+	      /* poll to check scurve completion */
+	    while (!ZqManager->CheckScurve()) {
+	      sleep(1);
+	    }
+	    std::cout << "S-curve acquisition complete" << std::endl;
+
 	    CreateCpuRun(SC, ConfigOut, CmdLine);
 	    
 	    /* generate sc packet and append to file */
@@ -841,7 +846,7 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
   long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ZqManager, ConfigOut, CmdLine, main_thread);
   ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
   collect_data.join();
   
@@ -862,7 +867,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   long unsigned int main_thread = pthread_self();
 
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ZqManager, ConfigOut, CmdLine, main_thread);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */

@@ -96,11 +96,15 @@ public:
    */
   HvpsStatus hvps_status;
 
-  /*
+  /**
    * set to true if the telnet connection is successful 
    */
   bool telnet_connected;
-    
+  /**
+   *set to true if scurve acquisition is complete
+   */
+  bool scurve_done;
+  
   ZynqManager();
   int CheckTelnet();
   static int ConnectTelnet();
@@ -115,11 +119,11 @@ public:
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
+  bool CheckScurve();
 
 private:
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
-  bool CheckScurve(int sockfd);
 };
 
 #endif /* _ZYNQ_INTERFACE_H */

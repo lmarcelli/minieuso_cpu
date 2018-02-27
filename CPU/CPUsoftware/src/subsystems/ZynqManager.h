@@ -14,6 +14,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <mutex>
 
 #include "log.h"
 

@@ -710,7 +710,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    sc_file_name = data_str + "/" + event->name;
 
 	    /* wait for scurve completion */
-	    std::unique_lock<std::mutex> lock(this->_m_scurve);
+	    std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
 	    while(!this->_cv_scurve.wait_for(sc_lock,
 					   std::chrono::milliseconds(WAIT_PERIOD),
 					   [this] { return this->_scurve; })) {}

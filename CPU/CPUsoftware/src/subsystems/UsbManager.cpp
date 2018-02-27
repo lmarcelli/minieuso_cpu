@@ -175,7 +175,7 @@ uint8_t UsbManager::LookupUsbStorage() {
     for (i = 0; i < cnt; i++) {
       dev = all_devs[i];
       r = libusb_get_device_descriptor(dev, &desc);
-      GetDeviceInterface(dev);
+      int interface = GetDeviceInterface(dev);
       
       if (r < 0) {
 	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
@@ -184,9 +184,9 @@ uint8_t UsbManager::LookupUsbStorage() {
       /* require bDeviceClass as not a hub, vendor specified (cameras)
 	 or human interface (keyboard) and presence on STORAGE_BUS */
       if (libusb_get_bus_number(dev) == this->storage_bus
-	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
-	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC
-	  && desc.bDeviceClass != LIBUSB_CLASS_HID) {
+	  && interface != LIBUSB_CLASS_HUB
+	  && interface != LIBUSB_CLASS_VENDOR_SPEC
+	  && interface != LIBUSB_CLASS_HID) {
 
 	num_storage_dev++;
       }

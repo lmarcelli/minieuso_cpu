@@ -1,4 +1,4 @@
-#include "UsbManager.h"
+include "UsbManager.h"
 
 /**
  * constructor.
@@ -181,9 +181,9 @@ uint8_t UsbManager::LookupUsbStorage() {
       /* require bDeviceClass as not a hub, vendor specified (cameras)
 	 or human interface (keyboard) and presence on STORAGE_BUS */
       if (libusb_get_bus_number(dev) == this->storage_bus
-	  && desc.bDeviceClass != LIBUSB_CLASS_HUB
-	  && desc.bDeviceClass != LIBUSB_CLASS_VENDOR_SPEC
-	  && desc.bDeviceClass != LIBUSB_CLASS_HID) {
+	  && desc.bInterfaceClass != LIBUSB_CLASS_HUB
+	  && desc.bInterfaceClass != LIBUSB_CLASS_VENDOR_SPEC
+	  && desc.bInterfaceClass != LIBUSB_CLASS_HID) {
 
 	num_storage_dev++;
       }

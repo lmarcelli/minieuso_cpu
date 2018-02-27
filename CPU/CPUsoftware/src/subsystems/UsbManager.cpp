@@ -218,13 +218,10 @@ int UsbManager::GetDeviceInterface(libusb_device * dev) {
 
   for(int i = 0; i < (int)config->bNumInterfaces; i++) {
 
-    inter = &config->interface[i];
-    std::cout << "Number of alternate settings: " << inter->num_altsetting << std::endl;
-
+    inter = &config->interface[i];    
     for(int j = 0; j < inter->num_altsetting; j++) {
 
       interdesc = &inter->altsetting[j];
-      std::cout << "Interface: " << (int)interdesc->bInterfaceClass << std::endl;
     }
   }
 

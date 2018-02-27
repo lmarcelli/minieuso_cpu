@@ -427,24 +427,59 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   std::stringstream conv;
 
   clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
+  
+  /* initialise */
+  this->scurve_done = false;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   
   /* send and receive commands */
   /* take an s-curve */
-  printf("S-Curve acquisition starting");
+  printf("S-Curve acquisition starting\n");
   conv << "acq scurve " << start << " " << step << " " << stop << " " << acc << std::endl;
   cmd = conv.str();
   std::cout << cmd;
   
   status_string = SendRecvTelnet(cmd, sockfd);
 
-  /* wait for scurve to be taken */
-  sleep(15);
-  
   close(sockfd);
   return 0;
+}
+/**
+ * check the S-curve acquisition status and return true on completion
+ */
+bool ZynqManager::CheckScurve() {
+
+  bool scurve_status = false;
+  std::string status_string;
+  const char * kStatStr;
+  int sockfd;
+  
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  
+  if (sockfd > 0) {
+    
+    status_string = SendRecvTelnet("acq scurve status\n", sockfd);
+    kStatStr = status_string.c_str();
+    printf("acq scurve status: %s\n", kStatStr);
+
+    size_t found = status_string.find("GatheringInProgress=0");
+    if (found != std::string::npos) {
+
+      /* scurve gathering is done */
+      scurve_status = true;
+    }
+    
+  }
+  else {
+    clog << "error: " << logstream::error << "bad socket in ZynqManager::CheckScurve()" << std::endl;
+
+  }
+  
+  close(sockfd);
+  return scurve_status;
 }
 
 /**

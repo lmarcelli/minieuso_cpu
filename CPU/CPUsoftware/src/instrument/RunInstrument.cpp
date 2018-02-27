@@ -336,7 +336,31 @@ int RunInstrument::StartUp() {
   if (this->CmdLine->asic_dac != -1) {
     this->ConfigOut->dac_level = this->CmdLine->asic_dac;
   }
-  
+  if (this->CmdLine->sc_start != -1) {
+    this->ConfigOut->scurve_start = this->CmdLine->sc_start;
+  }
+  if (this->CmdLine->sc_step != -1) {
+    this->ConfigOut->scurve_step = this->CmdLine->sc_step;
+  }
+  if (this->CmdLine->sc_stop != -1) {
+    this->ConfigOut->scurve_stop = this->CmdLine->sc_stop;
+  }
+  if (this->CmdLine->sc_acc != -1) {
+    this->ConfigOut->scurve_acc = this->CmdLine->sc_acc;
+  }
+
+  /* print configuration parameters */
+  printf("CONFIGURATION PARAMETERS\n"); 
+  printf("CATHODE_VOLTAGE is %d\n", this->ConfigOut->cathode_voltage);
+  printf("DYNODE_VOLTAGE is %d\n", this->ConfigOut->dynode_voltage);
+  printf("SCURVE_START is %d\n", this->ConfigOut->scurve_start);
+  printf("SCURVE_STEP is %d\n", this->ConfigOut->scurve_step);
+  printf("SCURVE_STOP is %d\n", this->ConfigOut->scurve_stop);
+  printf("SCURVE_ACC is %d\n", this->ConfigOut->scurve_acc);
+  printf("DAC_LEVEL is %d\n", this->ConfigOut->dac_level);
+  printf("N1 is %d\n", this->ConfigOut->N1);
+  printf("N2 is %d\n", this->ConfigOut->N2);
+
   return 0;
 }
 

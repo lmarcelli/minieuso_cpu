@@ -103,7 +103,6 @@ void ConfigManager::Parse() {
 
   cfg_file.open(config_file_name.c_str());
 
-  printf("CONFIGURATION PARAMETERS\n");
   if (cfg_file.is_open()) {
     clog << "info: " << logstream::info << "reading from the configuration file" << std::endl; 
     while (getline(cfg_file, line)) {
@@ -141,17 +140,6 @@ void ConfigManager::Parse() {
       
     }
     cfg_file.close();
-
-    /* display the configuration parameters */
-    printf("CATHODE_VOLTAGE is %d\n", this->ConfigOut->cathode_voltage);
-    printf("DYNODE_VOLTAGE is %d\n", this->ConfigOut->dynode_voltage);
-    printf("SCURVE_START is %d\n", this->ConfigOut->scurve_start);
-    printf("SCURVE_STEP is %d\n", this->ConfigOut->scurve_step);
-    printf("SCURVE_STOP is %d\n", this->ConfigOut->scurve_stop);
-    printf("SCURVE_ACC is %d\n", this->ConfigOut->scurve_acc);
-    printf("DAC_LEVEL is %d\n", this->ConfigOut->dac_level);
-    printf("N1 is %d\n", this->ConfigOut->N1);
-    printf("N2 is %d\n", this->ConfigOut->N2);
     	
   }
   else {

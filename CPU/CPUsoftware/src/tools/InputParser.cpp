@@ -153,6 +153,14 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   if(cmdOptionExists("-scurve")){
     this->CmdLine->sc_on = true;
+
+    const std::string & scurve_str = getCmdOption("-scurve");
+    if (!scurve_str.empty()) {
+      this->CmdLine->sc_start = std::stoi(scurve_str); 
+      /* debug */
+      std::cout << "scurve options: " << scurve_str << std::endl;
+    }
+    
   }
   if(cmdOptionExists("-zynq")){
 

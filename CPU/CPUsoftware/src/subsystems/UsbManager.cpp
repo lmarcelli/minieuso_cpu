@@ -213,7 +213,8 @@ int UsbManager::GetDeviceInterface(libusb_device * dev) {
   libusb_config_descriptor * config;
   const libusb_interface * inter;
   const libusb_interface_descriptor * interdesc = NULL;
-
+  int interface = -1;
+  
   libusb_get_config_descriptor(dev, 0, &config);
 
   for(int i = 0; i < (int)config->bNumInterfaces; i++) {
@@ -225,7 +226,7 @@ int UsbManager::GetDeviceInterface(libusb_device * dev) {
     }
   }
   if (interdesc != NULL){
-    int interface = interdesc->bInterfaceClass;
+    interface = interdesc->bInterfaceClass;
   }
   return interface;
 }

@@ -27,7 +27,6 @@ int main(int argc, char ** argv) {
   RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
 
-
   return 0; 
 }
 

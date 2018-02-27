@@ -46,7 +46,13 @@ The CPU handles the data acquisition from all subsystems.
 
 * Summary of main command options
 
-  * ``-scurve``: take a single S-curve and exit
+  * ``-scurve``: take a single S-curve and exit, to overwrite the configuration file options use:
+
+    * ``-start``: start ASIC DAC for threshold scan (min = 0)
+    * ``-step``: step between consecutive ASIC DAC acquisitions
+    * ``-stop``: stop ASIC DAC for threshold scan (max = 1023)
+    * ``-acc``: number of GTU taken at each ASIC DAC step
+      
   * ``-short <N>``: run a short acquisition of ``<N>`` CPU_PACKETs (NB: ``<N>`` must be less than ``RUN_SIZE`` defined in minieuso_data_format.h)
   * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
   * ``-test_zynq <MODE>``: use the Zynq test mode (see section below for details, default = ``pdm``)
@@ -139,4 +145,7 @@ The configuration file stores the following parameters:
 * ``N1``: maximum number of packets to be stored for D1, the level 1 data (can be 1 to 4, default is 4)
 * ``N2``: maximum number of packets to be stored for D1, the level 1 data (can be 1 to 4, default is 4)
 
-The default values are stored in the file ``config/dummy.conf``. To override these values without recompiling the software edit ``config/dummy_local.conf``.
+The default values are stored in the file ``config/dummy.conf``. To override these values without recompiling the software edit ``config/dummy_local.conf``, or for certain fields (HV and S-curve parameters) use the command line options described above. Both methods work, so whatever is most convenient.
+
+When the software is launched into an acquisition mode, the final configuration used in the program is printed to the screen with the title "Configuration Parameters".
+

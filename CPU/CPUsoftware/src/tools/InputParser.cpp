@@ -392,9 +392,18 @@ int InputParser::PrintHelpMsg() {
   std::cout << "Note: high voltage should switch off automatically if the program is interrupted with CTRL-C" << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
+  std::cout << "SCURVE" << std::endl;
+  std::cout << std::endl;
+  std::cout << "-scurve:             take a single S-curve and exit" << std::endl; 
+  std::cout << "-start:              start ASIC DAC for threshold scan (min = 0)" << std::endl; 
+  std::cout << "-step:               step between consecutive ASIC DAC acquisitions" << std::endl; 
+  std::cout << "-stop:               stop ASIC DAC for threshold scan (max = 1023)" << std::endl; 
+  std::cout << "-acc:                number of GTU taken at each ASIC DAC step" << std::endl; 
+ 
+  std::cout << std::endl;
+  std::cout << std::endl;
   std::cout << "ACQUISITION" << std::endl;
   std::cout << std::endl;
-  std::cout << "-scurve:             take a single S-curve and exit" << std::endl;
   std::cout << "-short <N>:          run a short acquisition of N CPU_PACKETs"<< std::endl;
   std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = none)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;

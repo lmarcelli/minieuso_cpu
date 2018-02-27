@@ -427,9 +427,6 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   std::stringstream conv;
 
   clog << "info: " << logstream::info << "taking an s-curve" << std::endl;
-  
-  /* initialise */
-  this->scurve_done = false;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
@@ -443,21 +440,21 @@ int ZynqManager::Scurve(int start, int step, int stop, int acc) {
   
   status_string = SendRecvTelnet(cmd, sockfd);
 
+  while(!this->CheckScurve(sockfd)) {
+    sleep(1);
+  }
+  
   close(sockfd);
   return 0;
 }
 /**
  * check the S-curve acquisition status and return true on completion
  */
-bool ZynqManager::CheckScurve(int stop) {
+bool ZynqManager::CheckScurve(int sockfd) {
 
   bool scurve_status = false;
   std::string status_string;
   const char * kStatStr;
-  int sockfd;
-  
-  /* setup the telnet connection */
-  sockfd = ConnectTelnet();
   
   if (sockfd > 0) {
     
@@ -465,9 +462,9 @@ bool ZynqManager::CheckScurve(int stop) {
     kStatStr = status_string.c_str();
     printf("acq scurve status: %s\n", kStatStr);
 
-    size_t stop_found = status_string.find(std::to_string(stop+1));
+    //size_t stop_found = status_string.find(std::to_string(stop+1));
     size_t noacq_found = status_string.find("GatheringInProgress=0");
-    if (stop_found != std::string::npos && noacq_found != std::string::npos) {
+    if (noacq_found != std::string::npos) {
 
       /* scurve gathering is done */
       scurve_status = true;
@@ -479,7 +476,6 @@ bool ZynqManager::CheckScurve(int stop) {
 
   }
   
-  close(sockfd);
   return scurve_status;
 }
 

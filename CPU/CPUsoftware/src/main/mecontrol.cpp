@@ -27,7 +27,7 @@ int main(int argc, char ** argv) {
   RunInstrument  MiniEuso(CmdLine);
   MiniEuso.Start();
 
-
+  std::cout << "exiting main" << std::endl;
   return 0; 
 }
 

@@ -660,8 +660,6 @@ int RunInstrument::Acquisition() {
  */
 int RunInstrument::NightOperations() {
 
-  /* debug */
-  std::cout << (int)this->Zynq.IsScurveDone() << std::endl;
   /* check scurve not already completed */
   if (this->Zynq.IsScurveDone()) {
     return 0;

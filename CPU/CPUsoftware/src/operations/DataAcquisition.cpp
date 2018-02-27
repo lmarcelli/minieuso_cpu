@@ -269,16 +269,19 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
     return NULL;
   }
 
-  /* debug */
-  std::cout << "sizeof sc_packet->sc_data" << (int)sizeof(sc_packet->sc_data) << std::endl;
-
   /* read out the scurve data from the file */
   check = fread(&sc_packet->sc_data, sizeof(sc_packet->sc_data), 1, ptr_scfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << sc_file_name << " failed" << std::endl;
     return NULL;   
   }
-  
+
+  /* debug */
+  std::cout << "sizeof sc_packet->sc_data: " << (int)sizeof(sc_packet->sc_data) << std::endl;
+  std::cout << "check: " << check << std::endl;
+  std::cout << "feof: " << feof(ptr_scfile) << std::endl;
+  std::cout << "ferror: " << ferror(ptr_scfile) << std::endl;
+ 
   /* close the scurve file */
   fclose(ptr_scfile);
   

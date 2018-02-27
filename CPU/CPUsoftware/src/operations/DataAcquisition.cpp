@@ -723,7 +723,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 					   [this] { return this->_scurve; })) {}
 
 	    /* wait a bit more */
-	    sleep(2);
+	    sleep(1);
 	    
 	    std::cout << "S-curve acquisition complete" << std::endl;
 

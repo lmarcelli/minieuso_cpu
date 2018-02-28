@@ -42,7 +42,8 @@ int ZynqManager::CheckTelnet() {
     clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
     return 1;
   }
-  
+
+  /* make the server address struct */
   bzero((char *) &serv_addr, sizeof(serv_addr));
   serv_addr.sin_family = AF_INET;
   bcopy((char *)server->h_addr, 
@@ -52,7 +53,11 @@ int ZynqManager::CheckTelnet() {
 
   /* set non-blocking */
   int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
-  connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+
+  /* connect telnet */
+  int ret = 0;
+  ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+  std::cout << "ret: " << ret << std::endl; 
 
   FD_ZERO(&fdset);
   FD_SET(sockfd, &fdset);
@@ -67,7 +72,7 @@ int ZynqManager::CheckTelnet() {
   fds->revents = 0;
   
   //  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
-  if (poll(fds, 1, CONNECT_TIMEOUT_SEC*1000)) {
+  if (poll(fds, 1, CONNECT_TIMEOUT_SEC * 1000)) {
     int so_error;
     socklen_t len = sizeof so_error;
       

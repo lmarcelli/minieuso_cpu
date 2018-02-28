@@ -113,7 +113,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   
   std::string zynq_ver = ZynqManager::GetZynqVer();
   /* debug */
-  std::cout << "Zynq ver: " << zynq_ver << std::sendl;
+  std::cout << "Zynq ver: " << zynq_ver << std::endl;
   
   /* parse the runtime settings into the run_info_string */
   conv << "Experiment: " << INSTRUMENT << std::endl;

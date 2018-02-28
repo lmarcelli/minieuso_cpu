@@ -77,7 +77,9 @@ int ZynqManager::CheckTelnet() {
       }
       else {
 
-	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+	std::cout << "ERROR: Connection error to the Zynq board" << std::endl;
+   clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+	
 	this->telnet_connected = false;
 	return 1;
       }

@@ -78,3 +78,24 @@ std::string CpuTools::SpaceToUnderscore(std::string text) {
   
   return text;
 }
+
+/**
+ * check if you can ping an IP address
+ * @param ip_adress the IP address as a string
+ */
+bool CpuTools::PingConnect(std::string ip_address) {
+
+  bool is_connected = false;
+
+  /* define ping for single packet with 1 sec timeout */
+  std::string cmd = "ping " + ip_address + " -c 1 -w 1";
+  std::string output = CommandToStr(cmd.c_str());
+
+  /* look for successful output */
+  size_t found = output.find("1 packets transmitted, 1 received, 0% packet loss");
+  if (found != std::string::npos) {
+    is_connected = true;
+  }
+  
+  return is_connected;
+}

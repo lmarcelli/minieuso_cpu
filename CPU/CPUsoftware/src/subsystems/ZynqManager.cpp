@@ -54,11 +54,9 @@ int ZynqManager::CheckTelnet() {
   time_t start = time(0);
   int time_left = CONNECT_TIMEOUT_SEC;
   
-  /* try to connect telnet */
-  int ret = -1;
-  while (ret != 0 && time_left > 0) {
+  /* wait for ping */
+  while (!CpuTools::PingConnect() && time_left > 0) {
     
-    ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
     sleep(1);
 
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
@@ -68,11 +66,10 @@ int ZynqManager::CheckTelnet() {
   
   }
 
-  /* check the status of the socket follwoing timeout */
-
-  int so_error;
-  socklen_t len = sizeof so_error;
-  getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
+  /* connect the socket */
+  int ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+    
+  /* check the status of the socket following timeout/connect */
 
   /* connection OK */
   if (ret == 0) {
@@ -84,7 +81,6 @@ int ZynqManager::CheckTelnet() {
   /* connection failed */
   else {
     
-    std::cout << "so_error: " <<  so_error << std::endl;
     std::cout << "ERROR: Connection error to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
     

@@ -18,6 +18,7 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
 * Explanation of the command flags
 
   * the flag ``-dv <X>`` sets the dynode voltage to X, where X is the DAC between 0 and 4096 
+  * the flag ``-dvr <X>`` sets the dynode voltage to X, where X is the voltage in VOLTS between 0 and 1100
   * the conversion between this number ``<X>`` and a voltage is ``<X>/4096 * 2.44 * 466``, ie. ``DAC/maxDAC * maxDAC_voltage * 466``
   * the flag ``-asicdac <Y>`` sets the ASIC dac level, or the point in an S-curve that we want to use to acquire data (should be in the S-curve plateau)
   * the ``-asicdac`` flag was previously ``-hvdac`` but this was changed to avoid confusion, however, for the sake of compatibility, ``-hvdac`` can still be used with identical functionality

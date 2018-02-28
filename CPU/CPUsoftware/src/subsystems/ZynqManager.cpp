@@ -62,7 +62,7 @@ int ZynqManager::CheckTelnet() {
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
     time_t end = time(0);
     time_t time_taken = end - start;
-    time_left = time_left - time_taken;
+    time_left = CONNECT_TIMEOUT_SEC - time_taken;
   
   }
 

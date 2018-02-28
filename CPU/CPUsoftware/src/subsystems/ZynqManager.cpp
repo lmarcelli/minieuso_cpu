@@ -66,6 +66,8 @@ int ZynqManager::CheckTelnet() {
   
   }
 
+  sleep(1);
+  
   /* catch ping timeout */
   if (!CpuTools::PingConnect(ZYNQ_IP)) {
 

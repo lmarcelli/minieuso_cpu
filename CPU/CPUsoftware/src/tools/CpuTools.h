@@ -30,7 +30,7 @@ public:
   static std::string IntToFixedLenStr(const int input, const int length);
   static void ClearFolder(const char * data_dir);
   static std::string SpaceToUnderscore(std::string);
-  static bool PingConnect()
+  static bool PingConnect(std::string ip_address);
 };
 
 #endif

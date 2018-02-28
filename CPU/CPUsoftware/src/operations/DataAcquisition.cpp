@@ -112,8 +112,6 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   strftime(time, sizeof(time), time_fmt, now_tm);
   
   std::string zynq_ver = ZynqManager::GetZynqVer();
-  /* debug */
-  std::cout << "Zynq ver: " << zynq_ver << std::endl;
   
   /* parse the runtime settings into the run_info_string */
   conv << "Experiment: " << INSTRUMENT << std::endl;

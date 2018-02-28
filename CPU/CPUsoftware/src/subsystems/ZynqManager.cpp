@@ -675,7 +675,7 @@ std::string ZynqManager::GetZynqVer() {
 
   /* ask for the version */
   zynq_ver = SendRecvTelnet(cmd, sockfd);
-
+  
   close(sockfd);
   
   return zynq_ver;

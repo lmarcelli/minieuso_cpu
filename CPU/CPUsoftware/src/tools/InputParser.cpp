@@ -62,8 +62,6 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->comment = "none";
   this->CmdLine->comment_fn = "";
 
-  /* debug */
-  std::cout << "HV conversion factor: " <<  (int)HV_CONV_FAC << std::endl;
 }
 
 
@@ -312,7 +310,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   }
   const std::string &dynode_voltage_real = getCmdOption("-dvr");
   if (!dynode_voltage_real.empty()){
-    this->CmdLine->dv = HV_CONV_FAC * std::stoi(dynode_voltage_real);
+    int converted_dv = (int)((float)HV_CONV_FAC * std::stoi(dynode_voltage_real));
+    this->CmdLine->dv = converted_dv;
   }
   
   /* high voltage dac */

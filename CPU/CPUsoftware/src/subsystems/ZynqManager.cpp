@@ -69,12 +69,13 @@ int ZynqManager::CheckTelnet() {
   }
 
   /* check the status of the socket follwoing timeout */
+
   int so_error;
   socklen_t len = sizeof so_error;
   getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
 
   /* connection OK */
-  if (so_error == 0) {
+  if (ret == 0) {
 
     std::cout << "connected to telnet on " << ZYNQ_IP << std::endl;
     clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;

@@ -660,3 +660,23 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   return 0;
 
 }
+
+/**
+ * get the Zynq version info
+ */
+std::string ZynqManager::GetZynqVer() {
+
+  std::string zynq_ver = "";
+  std::string cmd = "instrument ver";
+  int sockfd;
+  
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+
+  /* ask for the version */
+  zynq_ver = SendRecvTelnet(cmd, sockfd);
+  
+  close(sockfd);
+  
+  return zynq_ver;
+} 

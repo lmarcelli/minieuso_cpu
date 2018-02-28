@@ -82,7 +82,6 @@ int ZynqManager::CheckTelnet() {
   /* connection OK */
   if (ret == 0) {
 
-    std::cout << "connected to telnet on " << ZYNQ_IP << std::endl;
     clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
     
   }

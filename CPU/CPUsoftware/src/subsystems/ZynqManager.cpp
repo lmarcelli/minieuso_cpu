@@ -62,28 +62,19 @@ int ZynqManager::CheckTelnet() {
   tv.tv_usec = 0;
   
   if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
-      int so_error;
+      int so_error = -1;
       socklen_t len = sizeof so_error;
       
-      getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
       
-      if (so_error == 0) {
-	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-
-	/* clear non-blocking */
-	opts = opts & (~O_NONBLOCK);
-	fcntl(sockfd, F_SETFL, opts);   
-       
+      while (so_error != 0) {
+	getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
       }
-      else {
-
-	std::cout << "so_error: " <<  so_error << std::endl;
-	std::cout << "ERROR: Connection error to the Zynq board" << std::endl;
-	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-	
-	this->telnet_connected = false;
-	return 1;
-      }
+      
+      clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+      
+      /* clear non-blocking */
+      opts = opts & (~O_NONBLOCK);
+      fcntl(sockfd, F_SETFL, opts);   
       
   }
   else {

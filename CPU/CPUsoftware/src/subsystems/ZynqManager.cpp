@@ -67,7 +67,7 @@ int ZynqManager::CheckTelnet() {
   fds->revents = 0;
   
   //  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
-  if (poll(fds, 1, CONNECT_TIMEOUT_SEC)) {
+  if (poll(fds, 1, CONNECT_TIMEOUT_SEC*1000)) {
     int so_error;
     socklen_t len = sizeof so_error;
       

@@ -61,7 +61,7 @@ int ZynqManager::CheckTelnet() {
   tv.tv_sec = CONNECT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
   
-  if (select(sockfd + 1, &fdset, NULL, NULL, &tv) == 1) {
+  if (select(sockfd + 1, &fdset, &fdset, NULL, &tv) == 1) {
       int so_error;
       socklen_t len = sizeof so_error;
       

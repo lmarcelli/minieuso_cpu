@@ -60,31 +60,37 @@ int ZynqManager::CheckTelnet() {
   /* add timeout */
   tv.tv_sec = CONNECT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
+
+  pollfd * fds;
+  fds->fd = sockfd;
+  fds->events = POLLOUT;
+  fds->revents = 0;
   
-  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
-      int so_error;
-      socklen_t len = sizeof so_error;
+  //  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
+  if (poll(fds, 1, CONNECT_TIMEOUT_SEC)) {
+    int so_error;
+    socklen_t len = sizeof so_error;
       
-      getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
+    getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
       
-      if (so_error == 0) {
-	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-
-	/* clear non-blocking */
-	opts = opts & (~O_NONBLOCK);
-	fcntl(sockfd, F_SETFL, opts);   
-       
-      }
-      else {
-
-	std::cout << "so_error: " <<  so_error << std::endl;
-	std::cout << "ERROR: Connection error to the Zynq board" << std::endl;
-	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-	
-	this->telnet_connected = false;
-	return 1;
-      }
+    if (so_error == 0) {
+      clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
       
+      /* clear non-blocking */
+      opts = opts & (~O_NONBLOCK);
+      fcntl(sockfd, F_SETFL, opts);   
+      
+    }
+    else {
+      
+      std::cout << "so_error: " <<  so_error << std::endl;
+      std::cout << "ERROR: Connection error to the Zynq board" << std::endl;
+      clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+      
+      this->telnet_connected = false;
+      return 1;
+    }
+    
   }
   else {
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;

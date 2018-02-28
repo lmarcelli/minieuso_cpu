@@ -57,7 +57,7 @@ int ZynqManager::CheckTelnet() {
   /* wait for ping */
   while (!CpuTools::PingConnect(ZYNQ_IP) && time_left > 0) {
     
-    sleep(1);
+    sleep(2);
 
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
     time_t end = time(0);

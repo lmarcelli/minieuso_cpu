@@ -60,7 +60,10 @@ InputParser::InputParser(int &argc, char **argv) {
 
   /* initialise comment field */
   this->CmdLine->comment = "none";
-  this->CmdLine->comment_fn = ""; 
+  this->CmdLine->comment_fn = "";
+
+  /* debug */
+  std::cout << "HV conversion factor: " <<  (int)HV_CONV_FAC << std::endl;
 }
 
 
@@ -362,7 +365,8 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-lvps <MODE>:        switch a subsystem using the LVPS (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-subsystem <SUBSYS>: select subsystem to switch (<SUBSYS> = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
   std::cout << "-hvps <MODE>:        switch the high voltage (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
-  std::cout << "-dv <X>:             provide the dynode voltage (<X> = 0 - 4096)" << std::endl;
+  std::cout << "-dv <X>:             provide the dynode voltage in DAC (<X> = 0 - 4096)" << std::endl;
+  std::cout << "-dvr <X>:             provide the dynode voltage in VOLTS (<X> = 0 - 1100)" << std::endl;
   std::cout << "-asicdac <X>:        provide the HV DAC (<X> = 0 - 1000)" << std::endl;
   std::cout << "-check_status:       check the Zynq telnet connection, instrument status and HV status" << std::endl;
   std::cout << std::endl;

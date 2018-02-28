@@ -61,7 +61,7 @@ int ZynqManager::CheckTelnet() {
   tv.tv_sec = CONNECT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
 
-  pollfd * fds;
+  pollfd * fds = nullptr;
   fds->fd = sockfd;
   fds->events = POLLOUT;
   fds->revents = 0;

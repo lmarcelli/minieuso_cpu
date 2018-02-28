@@ -7,9 +7,6 @@
 #include "DataAcquisition.h"
 #include "DataReduction.h"
 
-/* number of seconds CPU waits for other systems to boot */
-#define BOOT_TIME 4
-
 /* location of data files */
 #define HOME_DIR "/home/software/CPU"
 #define DONE_DIR "/home/minieusouser/DONE"

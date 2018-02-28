@@ -111,12 +111,13 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   
   strftime(time, sizeof(time), time_fmt, now_tm);
   
+  std::string zynq_ver = ZynqManager::GetZynqVer();
   
   /* parse the runtime settings into the run_info_string */
   conv << "Experiment: " << INSTRUMENT << std::endl;
   conv << "Date (UTC): " << time << std::endl;
   conv << "Software version: " << VERSION << " " << VERSION_DATE_STRING << std::endl;
-  conv << "Zynq firmware version: " << MINIEUSO_ZYNQ_VER_STRING << std::endl; 
+  conv << "Zynq firmware version: " << zynq_ver.c_str() << std::endl; 
   conv << "Zynq acquisition/trigger mode: " << CmdLine->zynq_mode_string.c_str() << std::endl;
   conv << "Instrument and acquisition mode (defined in RunInstrument.h): "
        << (int)ConfigOut->instrument_mode << " " << (int)ConfigOut->acquisition_mode << std::endl;

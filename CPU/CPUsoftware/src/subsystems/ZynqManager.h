@@ -117,6 +117,7 @@ public:
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
   bool CheckScurve(int sockfd);
+  static std::string GetZynqVer();
   
 private:
   

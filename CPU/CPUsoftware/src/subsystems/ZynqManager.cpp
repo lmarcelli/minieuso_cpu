@@ -112,9 +112,6 @@ int ZynqManager::CheckTelnet() {
 //    std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
 //    clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
 //    this->telnet_connected = false;
-    return 1;
-  }
-
   
   close(sockfd);
   this->telnet_connected = true;

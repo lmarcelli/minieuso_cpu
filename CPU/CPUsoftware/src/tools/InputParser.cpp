@@ -307,6 +307,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if (!dynode_voltage.empty()){
     this->CmdLine->dv = std::stoi(dynode_voltage);
   }
+  const std::string &dynode_voltage_real = getCmdOption("-dvr");
+  if (!dynode_voltage_real.empty()){
+    this->CmdLine->dv = HV_CONV_FAC * std::stoi(dynode_voltage_real);
+  }
   
   /* high voltage dac */
   const std::string &asic_dac = getCmdOption("-asicdac");

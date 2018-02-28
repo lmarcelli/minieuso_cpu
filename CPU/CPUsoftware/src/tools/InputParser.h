@@ -8,7 +8,14 @@
 #include "ZynqManager.h"
 #include "CpuTools.h"
 
+/*
+ * maximum length of filename comments
+ */
 #define FILENAME_COMMENT_LEN 100
+/*
+ * HV conversion factor from actual voltage to dynode voltage dac
+ */
+#define HV_CONV_FAC (4096 / (2.44 * 466))
 
 /**
  * struct to store the command line inputs 

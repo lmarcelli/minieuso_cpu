@@ -26,7 +26,6 @@ bool ZynqManager::CheckTelnet() {
   sockfd = ConnectTelnet();
 
   std::cout << "..." << std::endl;
-  
   if (sockfd > 0) {
     status_string = SendRecvTelnet("instrument status\n", sockfd);
     close(sockfd);

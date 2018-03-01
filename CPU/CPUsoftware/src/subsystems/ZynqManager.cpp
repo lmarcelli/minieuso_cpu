@@ -207,12 +207,7 @@ int ZynqManager::ConnectTelnet() {
       }
       
     }
-    else {
-      std::cout << "telnet connection timeout!" << std::endl;
-      clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-      return 1;
-    }
-
+  
   return sockfd;   
 }
 

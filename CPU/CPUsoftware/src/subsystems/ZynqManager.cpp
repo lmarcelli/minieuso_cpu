@@ -176,43 +176,36 @@ int ZynqManager::ConnectTelnet() {
   serv_addr.sin_port = htons(TELNET_PORT);
 
   /* set non-blocking */
-  int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
+  //int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
   connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
   /* set non-blocking */
-  FD_ZERO(&fdset);
-  FD_SET(sockfd, &fdset);
+  //FD_ZERO(&fdset);
+  //FD_SET(sockfd, &fdset);
 
   /* add timeout */
-  tv.tv_sec = CONNECT_TIMEOUT_SEC; 
-  tv.tv_usec = 0;
+  //tv.tv_sec = CONNECT_TIMEOUT_SEC; 
+  //tv.tv_usec = 0;
   
-  if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
-      int so_error;
-      socklen_t len = sizeof so_error;
+  //if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
+  int so_error;
+  socklen_t len = sizeof so_error;
       
-      getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
+  getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
       
-      if (so_error == 0) {
-	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
+    if (so_error == 0) {
+      clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
 
 	/* clear non-blocking */
-	opts = opts & (~O_NONBLOCK);
-	fcntl(sockfd, F_SETFL, opts);   
-      }
-      else {
-
-	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-	return -1;
-      }
-      
+  //	opts = opts & (~O_NONBLOCK);
+  //	fcntl(sockfd, F_SETFL, opts);   
     }
     else {
-      std::cout << "telnet connection timeout!" << std::endl;
-      clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-      return 1;
-    }
 
+      clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+      return -1;
+    }
+      
   return sockfd;   
 }
 

@@ -27,7 +27,34 @@ int ZynqManager::CheckTelnet() {
   const char * ip = ZYNQ_IP;
   
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
- 
+
+  /* initilaise timeout timer */
+  time_t start = time(0);
+  int time_left = CONNECT_TIMEOUT_SEC;
+  
+  /* wait for ping */
+  while (!CpuTools::PingConnect(ZYNQ_IP) && time_left > 0) {
+    
+    sleep(2);
+
+    /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
+    time_t end = time(0);
+    time_t time_taken = end - start;
+    time_left = CONNECT_TIMEOUT_SEC - time_taken;
+  
+  }
+  sleep(1);
+  
+  /* catch ping timeout */
+  if (!CpuTools::PingConnect(ZYNQ_IP)) {
+
+    std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
+    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
+    
+    this->telnet_connected = false;
+    return 1;
+  }
+
   /* set up the telnet connection socket */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) { 
@@ -49,34 +76,6 @@ int ZynqManager::CheckTelnet() {
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
-
-  /* initilaise timeout timer */
-  time_t start = time(0);
-  int time_left = CONNECT_TIMEOUT_SEC;
-  
-  /* wait for ping */
-  while (!CpuTools::PingConnect(ZYNQ_IP) && time_left > 0) {
-    
-    sleep(2);
-
-    /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
-    time_t end = time(0);
-    time_t time_taken = end - start;
-    time_left = CONNECT_TIMEOUT_SEC - time_taken;
-  
-  }
-
-  sleep(1);
-  
-  /* catch ping timeout */
-  if (!CpuTools::PingConnect(ZYNQ_IP)) {
-
-    std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
-    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    
-    this->telnet_connected = false;
-    return 1;
-  }
 
   /* connect the socket */
   int ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));

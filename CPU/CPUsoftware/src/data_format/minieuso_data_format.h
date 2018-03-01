@@ -59,6 +59,7 @@ typedef struct
 typedef struct
 {
   uint32_t spacer = ID_TAG; /* AA55AA55 HEX */
+  uint32_t header; /* 'Q'(31:24) | instrument_id(23:16) | pkt_type(15:8) | pkt_ver(7:0) */
   uint32_t run_size; /* number of cpu packets in the run */
   uint32_t crc; /* checksum */
 } CpuFileTrailer; 
@@ -92,6 +93,7 @@ typedef struct
 #define HV_PACKET_TYPE 'V'
 #define SC_PACKET_TYPE 'S'
 #define CPU_PACKET_TYPE 'P'
+#define TRAILER_PACKET_TYPE 'Q'
 #define THERM_PACKET_VER 1
 #define HK_PACKET_VER 1
 #define HV_PACKET_VER 1

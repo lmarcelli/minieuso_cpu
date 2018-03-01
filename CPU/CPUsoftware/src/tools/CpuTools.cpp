@@ -115,4 +115,6 @@ bool CpuTools::CheckFtp() {
   if (found != std::string::npos) {
     ftp =true;
   }
+
+  return ftp;
 }

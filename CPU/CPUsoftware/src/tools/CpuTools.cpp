@@ -91,6 +91,9 @@ bool CpuTools::PingConnect(std::string ip_address) {
   std::string cmd = "ping " + ip_address + " -c 10 -i 0.001 -w 1";
   std::string output = CommandToStr(cmd.c_str());
 
+  /* debug */
+  std::cout << output << std::endl;
+  
   /* look for successful output */
   size_t found = output.find("10 packets transmitted, 10 received, 0% packet loss");
   if (found != std::string::npos) {

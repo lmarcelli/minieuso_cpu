@@ -102,3 +102,17 @@ bool CpuTools::PingConnect(std::string ip_address) {
   
   return is_connected;
 }
+
+/**
+ * check if FTP server is up
+ */
+bool CpuTools::CheckFTP() {
+
+  bool ftp = false;
+  std::string cmd = "netstat -a | grep ftp";
+  std::string output = CommandToStr(cmd.c_str());
+  size_t found = output.find("tcp        0        0        *:ftp         *:*        LISTEN");
+  if (found != std::string::npos) {
+    ftp =true;
+  }
+}

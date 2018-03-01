@@ -13,7 +13,10 @@ ZynqManager::ZynqManager () {
   this->telnet_connected = false;
 }
 
-bool ZynqManager::CheckTelnetTest() {
+/**
+ * check if the telnet socekt is responding as expected
+ */
+bool ZynqManager::CheckTelnet() {
 
   bool connected = false;
   int sockfd;
@@ -35,9 +38,6 @@ bool ZynqManager::CheckTelnetTest() {
     connected = true;
   }
   
-  /*  debug */
-  std::cout << status_string << std::endl;
-  
   return connected;  
 }
 
@@ -46,9 +46,8 @@ bool ZynqManager::CheckTelnetTest() {
  * and close the telnet connection after.
  * has a timeout implemented of length CONNECT_TIMEOUT_SEC (defined in ZynqManager.h)
  */
-int ZynqManager::CheckTelnet() {
+int ZynqManager::CheckConnect() {
 
-  /* definitions */
   int sockfd;
   struct sockaddr_in serv_addr;
   struct hostent * server;
@@ -60,20 +59,40 @@ int ZynqManager::CheckTelnet() {
   time_t start = time(0);
   int time_left = CONNECT_TIMEOUT_SEC;
   
-  /* wait for ping */
-  while (!CheckTelnetTest() && time_left > 0) {
-    
-    sleep(2);
+  /* wait for FTP to be up */
+  while (!CpuTools::CheckFtp()) {
 
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
     time_t end = time(0);
     time_t time_taken = end - start;
     time_left = CONNECT_TIMEOUT_SEC - time_taken;
+    
+  }
+  /* catch FTP timeout */
+  if (!CpuTools::CheckFtp()) {
+
+    std::cout << "ERROR: FTP server timeout" << std::endl;
+    std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
+    clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
   
   }
-  sleep(1);
   
-  /* catch ping timeout */
+  /* reinitialise timout timer */
+  start = time(0);
+  time_left = CONNECT_TIMEOUT_SEC;
+  
+  /* wait for answer on telnet */
+  while (!CheckTelnetTest() && time_left > 0) {
+    
+    sleep(2);
+
+    /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
+    end = time(0);
+    time_taken = end - start;
+    time_left = CONNECT_TIMEOUT_SEC - time_taken;
+  
+  }
+  /* catch connection timeout */
   if (!CheckTelnetTest()) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;

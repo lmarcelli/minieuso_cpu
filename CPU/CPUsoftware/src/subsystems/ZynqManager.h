@@ -104,7 +104,7 @@ public:
   bool telnet_connected;
   
   ZynqManager();
-  int CheckTelnet();
+  int CheckConnect();
   static int ConnectTelnet();
   int GetInstStatus();
   int GetHvpsStatus();
@@ -124,7 +124,7 @@ private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
-  bool CheckTelnetTest();  
+  bool CheckTelnet();  
 
 };
 

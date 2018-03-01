@@ -17,7 +17,8 @@ bool ZynqManager::CheckTelnetTest() {
 
   bool connected = false;
   int sockfd;
-  std::string status_string;
+  std::string status_string = "";
+  
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
 
@@ -27,10 +28,12 @@ bool ZynqManager::CheckTelnetTest() {
     close(sockfd);
   }
 
-  size_t found = status_string.find("instrument status: 40 0");
+  size_t found = status_string.find("instrument status: 40");
   if (found != std::string::npos) {
     connected = true;
   }
+  /*  debug */
+  std::cout << status_string << std::endl;
   
   return connected;  
 }
@@ -68,7 +71,7 @@ int ZynqManager::CheckTelnet() {
   sleep(1);
   
   /* catch ping timeout */
-  if (!CpuTools::PingConnect(ZYNQ_IP)) {
+  if (!CheckTelnetTest()) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;

@@ -31,6 +31,7 @@ public:
   static void ClearFolder(const char * data_dir);
   static std::string SpaceToUnderscore(std::string);
   static bool PingConnect(std::string ip_address);
+  static bool CheckFtp();
 };
 
 #endif

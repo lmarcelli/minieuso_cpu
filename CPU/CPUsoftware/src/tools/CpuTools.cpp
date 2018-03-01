@@ -106,7 +106,7 @@ bool CpuTools::PingConnect(std::string ip_address) {
 /**
  * check if FTP server is up
  */
-bool CpuTools::CheckFTP() {
+bool CpuTools::CheckFtp() {
 
   bool ftp = false;
   std::string cmd = "netstat -a | grep ftp";

@@ -74,7 +74,9 @@ int ZynqManager::CheckConnect() {
     std::cout << "ERROR: FTP server timeout" << std::endl;
     std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
     clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
-  
+    this->telnet_connected = false;
+    
+    return -1;
   }
   
   /* reinitialise timout timer */
@@ -102,48 +104,6 @@ int ZynqManager::CheckConnect() {
     return 1;
   }
 
-  /* set up the telnet connection socket */
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) { 
-    clog << "error: " << logstream::error << "error opening socket" << std::endl;
-    return 1;
-  }
-
-  /* define server */
-  server = gethostbyname(ip);
-  if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
-    return 1;
-  }
-
-  /* make the server address struct */
-  bzero((char *) &serv_addr, sizeof(serv_addr));
-  serv_addr.sin_family = AF_INET;
-  bcopy((char *)server->h_addr, 
-	(char *)&serv_addr.sin_addr.s_addr,
-	server->h_length);
-  serv_addr.sin_port = htons(TELNET_PORT);
-
-  /* connect the socket */
-  int ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-    
-  /* connection OK */
-  if (ret == 0) {
-
-    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-    
-  }
-  /* catch failed socket connection */
-  else {
-
-    std::cout << "ERROR: Connection failure to the Zynq board" << std::endl;
-    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    
-    this->telnet_connected = false;
-    return 1;
-  }
-   
-  close(sockfd);
   this->telnet_connected = true;
   return 0;  
 }

@@ -28,7 +28,7 @@ bool ZynqManager::CheckTelnetTest() {
     close(sockfd);
   }
 
-  size_t found = status_string.find("instrument status: 40");
+  size_t found = status_string.find("40");
   if (found != std::string::npos) {
     connected = true;
   }

@@ -12,7 +12,7 @@ Initial set-up
 * Before starting tests run ``mecontrol -help``, this calls :cpp:func:`InputParser::PrintHelpMsg()` function to see all available commands
 * Read the `usage documentation <http://minieuso-software.readthedocs.io/en/latest/usage.html>`_ pages to understand the operation of the instrument and what these commands do
 * Start by running ``mecontrol -db`` to run a debug program of the main subsystems and check everything is working as expected, this calls the :cpp:func:`RunInstrument::DebugMode()` function
-
+* Make sure to use the ``mecontrol -comment "..."`` command to add a comment to both the filename and the :cpp:class:`CpuFileHeader`
 
   
 Tests with HV

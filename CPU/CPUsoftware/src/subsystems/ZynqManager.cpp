@@ -62,7 +62,7 @@ int ZynqManager::CheckTelnet() {
   
   /* wait for ping */
   // while (!CheckTelnetTest() && time_left > 0) {
-  while (!CpuTools::PingConnect() && time_left > 0) {
+  while (!CpuTools::PingConnect(ZYNQ_IP) && time_left > 0) {
  
     sleep(2);
 
@@ -75,7 +75,7 @@ int ZynqManager::CheckTelnet() {
   sleep(1);
   
   /* catch ping timeout */
-  if (!PingConnect()) {
+  if (!PingConnect(ZYNQ_IP)) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;

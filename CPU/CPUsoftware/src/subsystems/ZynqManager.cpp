@@ -13,6 +13,28 @@ ZynqManager::ZynqManager () {
   this->telnet_connected = false;
 }
 
+bool ZynqManager::CheckTelnetTest() {
+
+  bool connected = false;
+  int sockfd;
+  std::string status_string;
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+
+  if (sockfd > 0) {
+    /* send and receive commands in another */
+    status_string = SendRecvTelnet("instrument status\n", sockfd);
+    close(sockfd);
+  }
+
+  size_t found = status_string.find("instrument status: 40 0");
+  if (found != std::string::npos) {
+    connected = true;
+  }
+  
+  return connected;  
+}
+
 /**
  * check telnet connection on ZYNQ_IP (defined in ZynqManager.h)
  * and close the telnet connection after.
@@ -33,7 +55,7 @@ int ZynqManager::CheckTelnet() {
   int time_left = CONNECT_TIMEOUT_SEC;
   
   /* wait for ping */
-  while (!CpuTools::PingConnect(ZYNQ_IP) && time_left > 0) {
+  while (!CheckTelnetTest() && time_left > 0) {
     
     sleep(2);
 

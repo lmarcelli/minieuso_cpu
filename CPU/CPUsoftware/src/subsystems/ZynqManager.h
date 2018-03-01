@@ -22,7 +22,8 @@
 /* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
 #define TELNET_PORT 23
-#define CONNECT_TIMEOUT_SEC 60
+#define CONNECT_TIMEOUT_SEC 100
+#define SHORT_TIMEOUT_SEC 2
 
 /* pedestal for the ASIC DAC */
 #define PEDESTAL 750
@@ -104,7 +105,7 @@ public:
   bool telnet_connected;
   
   ZynqManager();
-  int CheckTelnet();
+  int CheckConnect();
   static int ConnectTelnet();
   int GetInstStatus();
   int GetHvpsStatus();
@@ -124,7 +125,7 @@ private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
-  bool CheckTelnetTest();  
+  bool CheckTelnet();  
 
 };
 

@@ -15,6 +15,12 @@ Initial set-up
 * Make sure to use the ``mecontrol -comment "..."`` command to add a comment to both the filename and the :cpp:class:`CpuFileHeader`
 
   
+Connecting to Zynq
+------------------
+* The ``mecontrol`` software automatically switches on the Zynq and waits for it to boot when performing an acquisition. However, in the past there have been some issues which require a Zynq reboot, for which the commands ``mecontrol -lvps off -subsystem zynq`` and ``mecontrol -lvps on -subsystem zynq`` can be used
+* If there are problems with the automatic connection of the Zynq by the ``mecontrol`` software, try rebooting the Zynq and checking for ``ping 192.168.7.10`` to return with 0% packet loss before trying the ``mecontrol`` software again.
+  
+  
 Tests with HV
 -------------
 

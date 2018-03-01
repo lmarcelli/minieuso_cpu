@@ -13,17 +13,20 @@ ZynqManager::ZynqManager () {
   this->telnet_connected = false;
 }
 
-bool ZynqManager::CheckTelnetTest() {
+/**
+ * check if the telnet socekt is responding as expected
+ */
+bool ZynqManager::CheckTelnet() {
 
   bool connected = false;
   int sockfd;
   std::string status_string = "";
   
-  /* setup the telnet connection */
+  /* set up the telnet connection */
   sockfd = ConnectTelnet();
 
+  std::cout << "..." << std::endl;
   if (sockfd > 0) {
-    /* send and receive commands in another */
     status_string = SendRecvTelnet("instrument status\n", sockfd);
     close(sockfd);
   }
@@ -32,8 +35,6 @@ bool ZynqManager::CheckTelnetTest() {
   if (found != std::string::npos) {
     connected = true;
   }
-  /*  debug */
-  std::cout << status_string << std::endl;
   
   return connected;  
 }
@@ -43,22 +44,40 @@ bool ZynqManager::CheckTelnetTest() {
  * and close the telnet connection after.
  * has a timeout implemented of length CONNECT_TIMEOUT_SEC (defined in ZynqManager.h)
  */
-int ZynqManager::CheckTelnet() {
-
-  /* definitions */
-  int sockfd;
-  struct sockaddr_in serv_addr;
-  struct hostent * server;
-  const char * ip = ZYNQ_IP;
-  
+int ZynqManager::CheckConnect() {
+ 
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
 
   /* initilaise timeout timer */
   time_t start = time(0);
   int time_left = CONNECT_TIMEOUT_SEC;
   
-  /* wait for ping */
-  while (!CheckTelnetTest() && time_left > 0) {
+  /* wait for FTP to be up */
+  while (!CpuTools::CheckFtp()) {
+
+    /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
+    time_t end = time(0);
+    time_t time_taken = end - start;
+    time_left = CONNECT_TIMEOUT_SEC - time_taken;
+    
+  }
+  /* catch FTP timeout */
+  if (!CpuTools::CheckFtp()) {
+
+    std::cout << "ERROR: FTP server timeout" << std::endl;
+    std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
+    clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
+    this->telnet_connected = false;
+    
+    return -1;
+  }
+  
+  /* reinitialise timout timer */
+  start = time(0);
+  time_left = CONNECT_TIMEOUT_SEC;
+  
+  /* wait for answer on telnet */
+  while (!CheckTelnet() && time_left > 0) {
     
     sleep(2);
 
@@ -68,10 +87,8 @@ int ZynqManager::CheckTelnet() {
     time_left = CONNECT_TIMEOUT_SEC - time_taken;
   
   }
-  sleep(1);
-  
-  /* catch ping timeout */
-  if (!CheckTelnetTest()) {
+  /* catch connection timeout */
+  if (!CheckTelnet()) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
@@ -80,48 +97,6 @@ int ZynqManager::CheckTelnet() {
     return 1;
   }
 
-  /* set up the telnet connection socket */
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) { 
-    clog << "error: " << logstream::error << "error opening socket" << std::endl;
-    return 1;
-  }
-
-  /* define server */
-  server = gethostbyname(ip);
-  if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
-    return 1;
-  }
-
-  /* make the server address struct */
-  bzero((char *) &serv_addr, sizeof(serv_addr));
-  serv_addr.sin_family = AF_INET;
-  bcopy((char *)server->h_addr, 
-	(char *)&serv_addr.sin_addr.s_addr,
-	server->h_length);
-  serv_addr.sin_port = htons(TELNET_PORT);
-
-  /* connect the socket */
-  int ret = connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-    
-  /* connection OK */
-  if (ret == 0) {
-
-    clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
-    
-  }
-  /* catch failed socket connection */
-  else {
-
-    std::cout << "ERROR: Connection failure to the Zynq board" << std::endl;
-    clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    
-    this->telnet_connected = false;
-    return 1;
-  }
-   
-  close(sockfd);
   this->telnet_connected = true;
   return 0;  
 }
@@ -209,7 +184,7 @@ int ZynqManager::ConnectTelnet() {
   FD_SET(sockfd, &fdset);
 
   /* add timeout */
-  tv.tv_sec = CONNECT_TIMEOUT_SEC; 
+  tv.tv_sec = SHORT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
   
   if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
@@ -232,12 +207,7 @@ int ZynqManager::ConnectTelnet() {
       }
       
     }
-    else {
-      std::cout << "telnet connection timeout!" << std::endl;
-      clog << "error: " << logstream::error << "connection timeout to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-      return 1;
-    }
-
+  
   return sockfd;   
 }
 

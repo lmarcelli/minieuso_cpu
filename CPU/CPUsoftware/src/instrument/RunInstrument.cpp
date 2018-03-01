@@ -114,7 +114,7 @@ return 0;
 int RunInstrument::CheckStatus() {
 
   /* test the connection to the zynq board */
-  this->Zynq.CheckTelnet();
+  this->Zynq.CheckConnect();
 
   if (this->Zynq.telnet_connected) {
     /* check the instrument and HV status */
@@ -200,7 +200,7 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   
   std::cout << "ZYNQ" << std::endl;
-  this->Zynq.CheckTelnet();
+  this->Zynq.CheckConnect();
   if (this->Zynq.telnet_connected) {
     this->Zynq.GetInstStatus();
     this->Zynq.GetHvpsStatus();

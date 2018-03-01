@@ -124,7 +124,7 @@ private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
-  
+  bool CheckTelnetTest();  
 
 };
 

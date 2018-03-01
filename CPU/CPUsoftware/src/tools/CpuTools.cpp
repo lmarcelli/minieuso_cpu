@@ -111,6 +111,10 @@ bool CpuTools::CheckFtp() {
   bool ftp = false;
   std::string cmd = "netstat -a | grep ftp";
   std::string output = CommandToStr(cmd.c_str());
+
+  /* debug */
+  std::cout << output << std:endl;
+  
   size_t found = output.find("tcp        0        0        *:ftp         *:*        LISTEN");
   if (found != std::string::npos) {
     ftp =true;

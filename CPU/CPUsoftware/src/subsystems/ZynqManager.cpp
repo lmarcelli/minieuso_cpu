@@ -62,7 +62,7 @@ int ZynqManager::CheckTelnet() {
   
   /* wait for ping */
   // while (!CheckTelnetTest() && time_left > 0) {
-  while (!CpuTools::PingConnect()() && time_left > 0) {
+  while (!CpuTools::PingConnect() && time_left > 0) {
  
     sleep(2);
 

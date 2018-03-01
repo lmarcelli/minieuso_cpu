@@ -115,7 +115,7 @@ bool CpuTools::CheckFtp() {
   /* debug */
   std::cout << output << std::endl;
   
-  size_t found = output.find("tcp        0        0        *:ftp         *:*        LISTEN");
+  size_t found = output.find("*:ftp");
   if (found != std::string::npos) {
     ftp =true;
   }

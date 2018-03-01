@@ -19,19 +19,22 @@ bool ZynqManager::CheckTelnetTest() {
   int sockfd;
   std::string status_string = "";
   
-  /* setup the telnet connection */
+  /* set up the telnet connection */
   sockfd = ConnectTelnet();
 
   if (sockfd > 0) {
-    /* send and receive commands in another */
     status_string = SendRecvTelnet("instrument status\n", sockfd);
     close(sockfd);
+  }
+  else {
+    std::cout << "cannot open socket" << std::endl;
   }
 
   size_t found = status_string.find("40");
   if (found != std::string::npos) {
     connected = true;
   }
+  
   /*  debug */
   std::cout << status_string << std::endl;
   

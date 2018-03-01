@@ -47,12 +47,7 @@ bool ZynqManager::CheckTelnet() {
  * has a timeout implemented of length CONNECT_TIMEOUT_SEC (defined in ZynqManager.h)
  */
 int ZynqManager::CheckConnect() {
-
-  int sockfd;
-  struct sockaddr_in serv_addr;
-  struct hostent * server;
-  const char * ip = ZYNQ_IP;
-  
+ 
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
 
   /* initilaise timeout timer */
@@ -84,18 +79,18 @@ int ZynqManager::CheckConnect() {
   time_left = CONNECT_TIMEOUT_SEC;
   
   /* wait for answer on telnet */
-  while (!CheckTelnetTest() && time_left > 0) {
+  while (!CheckTelnet() && time_left > 0) {
     
     sleep(2);
 
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
-    end = time(0);
-    time_taken = end - start;
+    time_t end = time(0);
+    time_t time_taken = end - start;
     time_left = CONNECT_TIMEOUT_SEC - time_taken;
   
   }
   /* catch connection timeout */
-  if (!CheckTelnetTest()) {
+  if (!CheckTelnet()) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;

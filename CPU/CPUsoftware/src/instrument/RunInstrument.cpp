@@ -400,7 +400,6 @@ int RunInstrument::CheckSystems() {
 
   /* wait for boot */
   std::cout << "waiting for boot..." << std::endl;
-  sleep(BOOT_TIME);
   
   this->CheckStatus();
   

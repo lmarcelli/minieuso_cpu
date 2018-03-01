@@ -17,6 +17,7 @@
 #include <mutex>
 
 #include "log.h"
+#include "CpuTools.h"
 
 /* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"

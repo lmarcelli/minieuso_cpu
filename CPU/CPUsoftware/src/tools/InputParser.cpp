@@ -87,7 +87,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     const std::string & hv_ec_str = getCmdOption("-hv");
     if (!hv_ec_str.empty()) {
       if (hv_ec_str == "all") {
-	this->CmdLine->hvps_ec_string = CpuTools::BuildStr("", ",", 1 , N_EC); 
+	this->CmdLine->hvps_ec_string = "1,1,1,1,1,1,1,1,1"; 
       }
       else {
 	this->CmdLine->hvps_ec_string = hv_ec_str;

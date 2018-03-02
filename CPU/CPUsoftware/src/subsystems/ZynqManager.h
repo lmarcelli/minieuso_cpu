@@ -109,6 +109,10 @@ public:
    * set to true if the telnet connection is successful 
    */
   bool telnet_connected;
+  /**
+   *
+   */
+  std::vector<int> ec_values;
   
   ZynqManager();
   int CheckConnect();
@@ -130,7 +134,7 @@ public:
 private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
-  void Telnet(std::string send_msg, int sockfd, bool print);
+  static std::string Telnet(std::string send_msg, int sockfd, bool print);
   int InstStatusTest(std::string send_msg);
   bool CheckTelnet();  
 

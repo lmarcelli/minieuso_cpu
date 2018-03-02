@@ -539,7 +539,6 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   /* definitions */
   std::string status_string;
   int sockfd;
-  uint32_t timestamp = time(NULL);
   std::string cmd;
   std::stringstream conv;
 
@@ -551,6 +550,7 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   this->zynq_mode = input_mode;
 
   /* define the command to send via telnet */
+  uint32_t timestamp = time(NULL);
   conv << "instrument mode " << (int)this->zynq_mode << " " << timestamp << std::endl;
   cmd = conv.str();
   Telnet(cmd, sockfd, false);  

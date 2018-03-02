@@ -401,7 +401,7 @@ int ZynqManager::HvpsTurnOff() {
 
   /* check the status */
   std::cout << "HVPS status: ";
-  Telnet("instrument status\n", sockfd, true);
+  Telnet("hvps status gpio\n", sockfd, true);
   close(sockfd); 
 
   /* update the HvpsStatus */

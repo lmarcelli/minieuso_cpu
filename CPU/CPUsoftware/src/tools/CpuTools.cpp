@@ -190,7 +190,7 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
 
   std::string output_string;
   std::stringstream ss;
-  int i = 0;
+  uint8_t i = 0;
   
   ss << stem;
   for (i = 0; i < values.size(); i++) {

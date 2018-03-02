@@ -399,8 +399,11 @@ int ZynqManager::HvpsTurnOff() {
   cmd = CpuTools::BuildStr("hvps turnoff", " ", 1, N_EC);
   Telnet(cmd, sockfd, true);
 
-  close(sockfd);
-  
+  /* check the status */
+  std::cout << "HVPS status: ";
+  Telnet("instrument status\n", sockfd, true);
+  close(sockfd); 
+
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::OFF;
 
@@ -671,8 +674,6 @@ std::string ZynqManager::GetZynqVer() {
   zynq_ver = SendRecvTelnet(cmd, sockfd);
   
   close(sockfd);
-  /* debug */
-  std::cout << "zynq_ver: " << zynq_ver << std::endl;
   return zynq_ver;
 } 
 

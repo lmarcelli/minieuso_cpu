@@ -555,8 +555,6 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   cmd = conv.str();
   Telnet(cmd, sockfd, false);  
 
-  close(sockfd);
- 
   /* check the status */
   std::string status = Telnet("instrument status\n", sockfd, false);
 
@@ -578,7 +576,8 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   catch (std::invalid_argument) {
     std::cout << "ERROR: problem reading instrument status" << std::endl;
   }
-  
+
+  close(sockfd); 
   return this->zynq_mode;
 }
 

@@ -83,15 +83,15 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->hvps_on = true;
     this->CmdLine->hvps_status = ZynqManager::ON;
 
-    /* HVPS on/off */
+ 
     const std::string & hv_ec_str = getCmdOption("-hv");
     if (!hv_ec_str.empty()) {
-      this->CmdLine->hvps_ec_string = hv_ec_str;
-    }
-    else {
-      /* all on by default */
-      this->CmdLine->hvps_ec_string = CpuTools::BuildStr("", ",", 1 , N_EC);
-    }
+      if (hv_ec_str == "all") {
+	this->CmdLine->hvps_ec_string = CpuTools::BuildStr("", ",", 1 , N_EC); 
+      }
+      else {
+	this->CmdLine->hvps_ec_string = hv_ec_str;
+      }
     
   }
   if(cmdOptionExists("-hvps")){

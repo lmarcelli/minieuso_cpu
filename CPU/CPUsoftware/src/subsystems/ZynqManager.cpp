@@ -381,7 +381,7 @@ int ZynqManager::HvpsTurnOff() {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
 
-  /* turn off */  
+  /* turn off */
   status_string = SendRecvTelnet("hvps turnoff 1 1 1 1 1 1 1 1 1\n", sockfd);
   kStatStr = status_string.c_str();
   printf("HVPS status: %s\n", kStatStr);

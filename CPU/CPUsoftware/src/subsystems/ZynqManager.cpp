@@ -554,7 +554,10 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
  
   /* check the status */
   std::string status = Telnet("instrument status\n", sockfd, false);
-  int reported_zynq_mode = std::stoi(status.substr(2, std::string::npos));
+  /* debug */
+  std::cout << status.substr(2) << std::endl;
+  
+  int reported_zynq_mode = std::stoi(status.substr(2));
   if (reported_zynq_mode != this->zynq_mode) {
 
     std::cout << "ERROR: zynq mode set incorrectly" << std::endl; 

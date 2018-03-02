@@ -44,6 +44,7 @@ struct CmdLineInputs {
   LvpsManager::Status lvps_status;
   LvpsManager::SubSystem lvps_subsystem;
   ZynqManager::HvpsStatus hvps_status;
+  std::string hvps_ec_string;
   //ZynqManager::InstrumentMode zynq_mode;
   uint8_t zynq_mode;
   ZynqManager::TestMode zynq_test_mode;

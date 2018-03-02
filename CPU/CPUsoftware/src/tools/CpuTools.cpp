@@ -132,6 +132,7 @@ std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, u
   std::vector<int> vect;
   std::stringstream ss(input_string);
   int val;
+  std::cout << "input string: " << input_string << std::endl;
   std::cout << "vector: ";
   /* read until end of string or vector has reached size */
   while (ss >> val && vect.size() < size) {
@@ -192,13 +193,15 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
   std::string output_string;
   std::stringstream ss;
   uint8_t i = 0;
-  
+
+  std::cout << "vector: ";
   ss << stem;
   for (i = 0; i < values.size(); i++) {
     ss << sep;
     ss << values[i];
     std::cout << values[i];
   }
+  std::cout << std::endl;
   ss << "\n";
   output_string = ss.str();
 

@@ -334,6 +334,7 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
   
   /* turn on */
   /* make the command string from hvps_ec_string */
+  this->ec_values = CpuTools::DelimStrToVec(hvps_ec_string, ',', N_EC, true);
   cmd = CpuTools::BuildStrFromVec("hvps turnon", " ", this->ec_values); 
   std::cout << "Turn on HVPS: ";
   Telnet(cmd, sockfd, true);

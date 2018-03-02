@@ -264,6 +264,11 @@ int ZynqManager::GetInstStatus() {
   }
 
   int reported_zynq_mode = stoi(status.substr(3, std::string::npos));
+
+  /* debug */
+  std::cout << "zynq mode: " << status.substr(3, 5) << std::endl;
+  std::cout << "zynq_mode: " << status.substr(3, std::string::npos) << std::endl;
+
   if (reported_zynq_mode != this->zynq_mode) {
     clog << "error: " << logstream::error << "zynq_mode is: " << reported_zynq_mode << std::endl;
   }

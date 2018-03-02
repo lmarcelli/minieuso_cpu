@@ -11,7 +11,13 @@ ZynqManager::ZynqManager () {
   this->zynq_mode = ZynqManager::NONE;
   this->test_mode = ZynqManager::T_NONE;
   this->telnet_connected = false;
+
+  /* initialise vector of EC values to 0 */
+  for (int i = 0; i < N_EC; i++) {
+    this->ec_values.push_back(0);
+  }
 }
+
 
 /**
  * check if the telnet socekt is responding as expected

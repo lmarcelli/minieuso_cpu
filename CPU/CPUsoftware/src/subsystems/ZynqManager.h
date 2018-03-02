@@ -28,6 +28,9 @@
 /* pedestal for the ASIC DAC */
 #define PEDESTAL 750
 
+/* for use with HV interface functions */
+#define N_EC 9
+
 /**
  * class to handle the Zynq interface. 
  * commands and information are sent and received over telnet
@@ -109,7 +112,7 @@ public:
   static int ConnectTelnet();
   int GetInstStatus();
   int GetHvpsStatus();
-  int HvpsTurnOn(int cv, int dv);
+  int HvpsTurnOn(int cv, int dv, std::string hvps_ec_string);
   int HvpsTurnOff();
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
@@ -124,6 +127,7 @@ public:
 private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
+  void Telnet(std::string send_msg, int sockfd);
   int InstStatusTest(std::string send_msg);
   bool CheckTelnet();  
 

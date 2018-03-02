@@ -129,7 +129,7 @@ std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
   bzero(buffer, 256);
   n = read(sockfd, buffer, 255);
   if (n < 0) {
-    clog << "error: " << logstream::error << "error reading to socket" << std::endl;
+    clog << "error: " << logstream::error << "error reading from socket" << std::endl;
     return err_msg;
   }
   recv_msg = buffer;
@@ -138,6 +138,27 @@ std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
   clog << "info: " << logstream::info << "receiving via telnet: " << recv_msg << std::endl;
   return recv_msg;
  }
+
+/**
+ * wrapper for use of SendRecvTelnet() in more readable way
+ * @param send_msg message to send
+ * @param sockfd the socket file descriptor
+ * @param print if true, received message is printed
+ */
+void ZynqManager::Telnet(std::string send_msg, int sockfd, bool print) {
+
+  if (sockfd > 0) {
+    std::string status_string = SendRecvTelnet(send_msg, sockfd);
+    if (print) {
+      std::cout << status_string << std::endl;
+    }
+    usleep(sleep_time);
+  }
+  else {
+    clog << "error: " << logstream::error << "bad socket passed to ZynqManager::Telnet()" << std::endl;
+  }
+  return;
+}
 
 /**
  * connect via telnet to ZYNQ_IP.
@@ -227,7 +248,6 @@ int ZynqManager::GetInstStatus() {
   sockfd = ConnectTelnet();
 
   if (sockfd > 0) {
-    /* send and receive commands in another */
     status_string = SendRecvTelnet("instrument status\n", sockfd);
     kStatStr = status_string.c_str();
     printf("instrument status: %s\n", kStatStr);
@@ -269,17 +289,17 @@ int ZynqManager::GetHvpsStatus() {
  * turn on the HV.
  * ramps up the dynode voltage in steps of 500 HV DAC <=> ~140 V 
  * @param cv the cathode voltage (int from 1-3)
- * @param dv the dynode voltage (HV DAC from 0 to 4096)
+ * @param dv the dynode voltage (HV DAC from 0 to 4096).
+ * @param hvps_ec_string string of 9 (each EC unit) comma-separated values, 1 <=> on, 0 <=> off
  * to convert from HV DAC to voltage use (dv/4096 * 2.44 * 466)
  */
-int ZynqManager::HvpsTurnOn(int cv, int dv) {
+int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
 
   /* definitions */
   std::string status_string;
   const char * kStatStr;
   int sockfd;
-  std::string cmd0, cmd1;
-  std::stringstream conv0, conv1;
+  std::string cmd;
 
   int sleep_time = 500000;
   
@@ -290,89 +310,55 @@ int ZynqManager::HvpsTurnOn(int cv, int dv) {
   
   /* set the cathode voltage */
   /* make the command string from config file values */
-  conv0 << "hvps cathode " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << " " << cv << std::endl;
-  cmd0 = conv0.str();
-  
-  status_string = SendRecvTelnet(cmd0, sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS cathode to %i: %s\n", cv, kStatStr);
-  usleep(sleep_time);
+
+  cmd = CpuTools::BuildStr("hvps cathode", " ", 3, N_EC);
+  std::cout << "Set HVPS cathode to " << cv << ": "; 
+  Telnet(cmd, sockfd, true);
   
   /* set the dynode voltage to 0 */
-  status_string = SendRecvTelnet("hvps setdac 0 0 0 0 0 0 0 0 0\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to 0: %s\n", kStatStr);
-  usleep(sleep_time);  
-
+  cmd = CpuTools::BuildStr("hvps setdac", " ", 0, N_EC);
+  std::cout << "Set HVPS DAC to " << 0 << ": "; 
+  Telnet(cmd, sockfd, true);
+  
   /* turn on */
-  status_string = SendRecvTelnet("hvps turnon 1 1 1 1 1 1 1 1 1\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("Turn on HVPS: %s\n", kStatStr);
+  /* make the command string from hvps_ec_string */
+  std::vector<int> ec_values = CpuTools::CommaStrToVec(hvps_ec_string, N_EC, true);
+  cmd = CpuTools::BuildStrFromVec("hvps turnon", " ", ec_values);  
+  std::cout << "Turn on HVPS: ";
+  Telnet(cmd, sockfd, true);
+  
+  /* ramp up in steps of 500 DAC */
+  int ramp_dac[8];
+  int ramp_step = 500;
+  int dac = 0; 
+  for (int i = 0; i < 8; i++) {
+    dac += ramp_step;
+    ramp_dac[i] = dac;
+  }
+  
+  i = 0;
+  bool ramp_done = false;
+  while (!ramp_done) {  
+    if (dv > ramp_dac[i]) {
+      cmd = CpuTools::BuildStr("hvps setdac", " ", ramp_dac[i], N_EC);
+      std::cout << "Set HVPS DAC to " << ramp_dac[] << ": ";
+      Telnet(cmd, sockfd, true);
 
-  /* ramp up in steps of 500 */
-  if (dv > 500) {
-      status_string = SendRecvTelnet("hvps setdac 500 500 500 500 500 500 500 500 500\n", sockfd);
-      kStatStr = status_string.c_str();
-      printf("Set HVPS dac to 500: %s\n", kStatStr);
-      usleep(sleep_time);
-
-    if (dv > 1000) {
-      status_string = SendRecvTelnet("hvps setdac 1000 1000 1000 1000 1000 1000 1000 1000 1000\n", sockfd);
-      kStatStr = status_string.c_str();
-      printf("Set HVPS dac to 1000: %s\n", kStatStr);
-      usleep(sleep_time);
-
-      if (dv > 1500) {
-	status_string = SendRecvTelnet("hvps setdac 1500 1500 1500 1500 1500 1500 1500 1500 1500\n", sockfd);
-	kStatStr = status_string.c_str();
-	printf("Set HVPS dac to 1500: %s\n", kStatStr);
-	usleep(sleep_time);
-
-	if (dv > 2000) {
-	  status_string = SendRecvTelnet("hvps setdac 2000 2000 2000 2000 2000 2000 2000 2000 2000\n", sockfd);
-	  kStatStr = status_string.c_str();
-	  printf("Set HVPS dac to 2000: %s\n", kStatStr);
-	  usleep(sleep_time);
-
-	  if (dv > 2500) {
-	    status_string = SendRecvTelnet("hvps setdac 2500 2500 2500 2500 2500 2500 2500 2500 2500\n", sockfd);
-	    kStatStr = status_string.c_str();
-	    printf("Set HVPS dac to 2500: %s\n", kStatStr);
-	    usleep(sleep_time);
-
-	    if (dv > 3000) {
-	      status_string = SendRecvTelnet("hvps setdac 3000 3000 3000 3000 3000 3000 3000 3000 3000\n", sockfd);
-	      kStatStr = status_string.c_str();
-	      printf("Set HVPS dac to 3000: %s\n", kStatStr);
-	      usleep(sleep_time);
-
-	      if (dv > 3500) {
-		status_string = SendRecvTelnet("hvps setdac 3500 3500 3500 3500 3500 3500 3500 3500 3500\n", sockfd);
-		kStatStr = status_string.c_str();
-		printf("Set HVPS dac to 3500: %s\n", kStatStr);
-		usleep(sleep_time);  
-	      }
-	    }
-	  }
-	}
-      }
+      i += 1;
+    }
+    else {
+      ramp_done = true;
     }
   }
-
+      
   /* set the final DAC */
-  conv1 << "hvps setdac " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << " " << dv << std::endl;
-  cmd1 = conv1.str();
+  cmd = CpuTools::BuildStr("hvps setdac", " ", dv, N_EC);
+  std::cout << "Set HVPS DAC to " << dv << ": ";
+  Telnet(cmd, sockfd, true);
   
-  status_string = SendRecvTelnet(cmd1, sockfd);
-  kStatStr = status_string.c_str();
-  printf("Set HVPS dac to %i: %s\n", dv, kStatStr);
-  usleep(sleep_time);
-
   /* check the status */
-  status_string = SendRecvTelnet("hvps status gpio\n", sockfd);
-  kStatStr = status_string.c_str();
-  printf("HVPS status: %s\n", kStatStr);
-  usleep(sleep_time);  
+  std::cout << "HVPS status: ";
+  Telnet("hvps status gpio", sockfd, true);
   
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::ON;

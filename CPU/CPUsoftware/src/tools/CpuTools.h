@@ -35,7 +35,7 @@ public:
   static std::string SpaceToUnderscore(std::string);
   static bool PingConnect(std::string ip_address);
   static bool CheckFtp();
-  static std::vector<int> CommaStrToVec(std::string input_string, int size, bool check_01);
+  static std::vector<int> DelimStrToVec(std::string input_string, char delim, int size, bool check_01);
   static std::string BuildStr(std::string stem, std::string sep, int val, int rep);
   static std::string BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
 

@@ -127,7 +127,7 @@ bool CpuTools::CheckFtp() {
  * @param size the number of ints expected
  * @param check_01 set to 0 if input int is not 0 or 1
  */
-std::vector<int> CpuTools::CommaStrToVec(std::string input_string, int size, bool check_01) {
+std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, int size, bool check_01) {
 
   std::vector<int> vect;
   std::stringstream ss(input_string);
@@ -146,7 +146,7 @@ std::vector<int> CpuTools::CommaStrToVec(std::string input_string, int size, boo
     vect.push_back(val);
 
     /* ignore commas */
-    if (ss.peek() == ',') {
+    if (ss.peek() == delim) {
       ss.ignore();
     }
   }

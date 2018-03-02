@@ -265,10 +265,6 @@ int ZynqManager::GetInstStatus() {
 
   int reported_zynq_mode = stoi(status.substr(3, std::string::npos));
 
-  /* debug */
-  std::cout << "zynq mode: " << status.substr(3, 5) << std::endl;
-  std::cout << "zynq_mode: " << status.substr(3, std::string::npos) << std::endl;
-
   if (reported_zynq_mode != this->zynq_mode) {
     clog << "error: " << logstream::error << "zynq_mode is: " << reported_zynq_mode << std::endl;
   }
@@ -338,9 +334,6 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
   
   /* turn on */
   /* make the command string from hvps_ec_string */
-  /* debug */
-  std::cout << "ec  string" << hvps_ec_string << std::endl;
-  this->ec_values = CpuTools::DelimStrToVec(hvps_ec_string, ',', N_EC, true);
   cmd = CpuTools::BuildStrFromVec("hvps turnon", " ", this->ec_values); 
   std::cout << "Turn on HVPS: ";
   Telnet(cmd, sockfd, true);
@@ -560,10 +553,6 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   /* check the status */
   std::string status = Telnet("instrument status\n", sockfd, false);
 
-  /* debug */
-  std::cout << "instrument status: " << status << std::endl;
-  std::cout << "substring: "<< status.substr(3, 5) << std::endl;
-
   try {
     int reported_zynq_mode = std::stoi(status.substr(2,5));
     if (reported_zynq_mode != (int)this->zynq_mode) {
@@ -682,7 +671,7 @@ std::string ZynqManager::GetZynqVer() {
   
   close(sockfd);
   /* debug */
-  std::cout << "zynq_ver" << zynq_ver << std::endl;
+  std::cout << "zynq_ver: " << zynq_ver << std::endl;
   return zynq_ver;
 } 
 

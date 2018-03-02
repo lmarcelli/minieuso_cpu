@@ -90,7 +90,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     }
     else {
       /* all on by default */
-      this->CmdLine->hvps_ec_string = "1,1,1,1,1,1,1,1,1";
+      this->CmdLine->hvps_ec_string = CpuTools::BuildStr("", ",", 1 , N_EC);
     }
     
   }

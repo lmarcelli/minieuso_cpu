@@ -92,6 +92,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else {
 	this->CmdLine->hvps_ec_string = hv_ec_str;
       }
+    }
     
   }
   if(cmdOptionExists("-hvps")){

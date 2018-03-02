@@ -136,6 +136,8 @@ std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, u
   /* read until end of string or vector has reached size */
   while (ss >> val && vect.size() < size) {
 
+    std::cout << "val: " << val << std::endl;
+  
     /* block non 0/1 values if required */
     if (check_01){
       if (val != 0 && val != 1) {
@@ -143,6 +145,8 @@ std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, u
       }
     }
     /* add value to vector */
+    std::cout << "val: " << val << std::endl;
+  
     vect.push_back(val);
 
     /* ignore commas */
@@ -150,6 +154,11 @@ std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, u
       ss.ignore();
     }
   }
+
+  /* debug */
+  std::cout << "input: " << input_string << std::endl;
+  std::cout << "input: " << input_string << std::endl;
+  
   
   return vect;
 }

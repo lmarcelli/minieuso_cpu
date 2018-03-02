@@ -679,7 +679,8 @@ std::string ZynqManager::GetZynqVer() {
   zynq_ver = SendRecvTelnet(cmd, sockfd);
   
   close(sockfd);
-  
+  /* debug */
+  std::cout << "zynq_ver" << zynq_ver << std::endl;
   return zynq_ver;
 } 
 

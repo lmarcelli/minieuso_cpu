@@ -285,7 +285,7 @@ int ZynqManager::GetHvpsStatus() {
 
   /* perform checks */
   std::vector<int> ec_status = CpuTools::DelimStrToVec(status, ' ', N_EC, false);
-  for (int i = 0; i < ec_status.size(); i++) {
+  for (uint8_t i = 0; i < ec_status.size(); i++) {
     if (this->ec_values[i] != ec_status[i]) {
       
       std::cout << "ERROR: unexpected EC status" << std::endl; 
@@ -398,7 +398,7 @@ int ZynqManager::HvpsTurnOff() {
   this->hvps_status = ZynqManager::OFF;
 
   /* update the ec_values */
-  for (int i = 0; i < ec_values.size(); i++) {
+  for (uint8_t i = 0; i < ec_values.size(); i++) {
     this->ec_values[i] = 0;
   }
   

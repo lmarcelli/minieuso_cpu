@@ -107,6 +107,7 @@ int RunInstrument::HvpsSwitch() {
 return 0;
 }
 
+
 /**
  * function to check the current instrument and HV status
  * uses the ZynqManager class member functions

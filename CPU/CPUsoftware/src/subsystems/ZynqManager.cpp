@@ -522,7 +522,6 @@ int ZynqManager::AcqShot() {
 /**
  * set the acquisition mode 
  * @param input_mode the desired mode to set
- * @TODO add status check after mode setting
  */
 uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
 
@@ -548,7 +547,16 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   close(sockfd);
  
   /* check the status */
-  //ADD THIS
+  std::string status = Telnet("instrument status\n", sockfd, false);
+  reported_zynq_mode = status.substr(2, std::string::npos);
+  if (reported_zynq_mode != this->zynq_mode) {
+
+    std::cout << "ERROR: zynq mode set incorrectly" << std::endl; 
+    clog << "error: " << logstream::error
+	 << "reported zynq mode is: " << reported_zynq_mode
+	 << "ZynqManager zynq mode is: " << (int)this->zynq_mode
+	 << std::endl;
+  }
   
   return this->zynq_mode;
 }
@@ -557,7 +565,6 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
 /**
  * set the test acquisition mode 
  * @param input_mode the desired mode to be set
- * @TODO add status check after mode setting
  */
 ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode) {
 
@@ -568,7 +575,7 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
   std::stringstream conv;
 
 
-  clog << "info: " << logstream::info << "switching to instrument mode " << input_mode << std::endl;
+  clog << "info: " << logstream::info << "switching to zynq test mode " << input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
@@ -580,9 +587,6 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
   cmd = conv.str();
   
   Telnet(cmd, sockfd, false);
-  
-  /* check the status */
-  //ADD THIS
   
   close(sockfd);
   return this->test_mode;

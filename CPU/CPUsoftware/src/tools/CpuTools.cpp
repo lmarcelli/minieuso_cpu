@@ -127,7 +127,7 @@ bool CpuTools::CheckFtp() {
  * @param size the number of ints expected
  * @param check_01 set to 0 if input int is not 0 or 1
  */
-std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, int size, bool check_01) {
+std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, uint8_t size, bool check_01) {
 
   std::vector<int> vect;
   std::stringstream ss(input_string);

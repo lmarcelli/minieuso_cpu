@@ -193,7 +193,7 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
   int i = 0;
   
   ss << stem;
-  while (i = 0; i < values.size(); i++) {
+  for (i = 0; i < values.size(); i++) {
     ss << sep;
     ss << values.at(i);
   }

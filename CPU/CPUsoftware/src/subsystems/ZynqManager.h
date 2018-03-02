@@ -31,6 +31,9 @@
 /* for use with HV interface functions */
 #define N_EC 9
 
+/* time between consecutive telnet commands in mus */
+#define SLEEP_TIME 500000
+
 /**
  * class to handle the Zynq interface. 
  * commands and information are sent and received over telnet
@@ -127,7 +130,7 @@ public:
 private:
   
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
-  void Telnet(std::string send_msg, int sockfd);
+  void Telnet(std::string send_msg, int sockfd, bool print);
   int InstStatusTest(std::string send_msg);
   bool CheckTelnet();  
 

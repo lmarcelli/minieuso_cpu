@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <vector>
+
 #include <dirent.h>
 #include <unistd.h>
 
@@ -33,9 +35,9 @@ public:
   static std::string SpaceToUnderscore(std::string);
   static bool PingConnect(std::string ip_address);
   static bool CheckFtp();
-  static bool CommaStrToVec(std::string input_string, int size, bool check_01);
-  static bool BuildStr(std::string stem, std::string sep, int val, int rep);
-  static bool BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
+  static std::vector<int> CommaStrToVec(std::string input_string, int size, bool check_01);
+  static std::string BuildStr(std::string stem, std::string sep, int val, int rep);
+  static std::string BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
 
 };
 

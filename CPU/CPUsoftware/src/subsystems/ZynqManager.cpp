@@ -152,7 +152,7 @@ void ZynqManager::Telnet(std::string send_msg, int sockfd, bool print) {
     if (print) {
       std::cout << status_string << std::endl;
     }
-    usleep(sleep_time);
+    usleep(SLEEP_TIME);
   }
   else {
     clog << "error: " << logstream::error << "bad socket passed to ZynqManager::Telnet()" << std::endl;
@@ -295,13 +295,9 @@ int ZynqManager::GetHvpsStatus() {
  */
 int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
 
-  /* definitions */
-  std::string status_string;
-  const char * kStatStr;
   int sockfd;
   std::string cmd;
 
-  int sleep_time = 500000;
   
   clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
 
@@ -330,18 +326,19 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
   /* ramp up in steps of 500 DAC */
   int ramp_dac[8];
   int ramp_step = 500;
-  int dac = 0; 
-  for (int i = 0; i < 8; i++) {
+  int dac = 0;
+  int i = 0;
+  for (i = 0; i < 8; i++) {
     dac += ramp_step;
     ramp_dac[i] = dac;
   }
   
   i = 0;
   bool ramp_done = false;
-  while (!ramp_done) {  
+  while (!ramp_done && i < 8) {  
     if (dv > ramp_dac[i]) {
       cmd = CpuTools::BuildStr("hvps setdac", " ", ramp_dac[i], N_EC);
-      std::cout << "Set HVPS DAC to " << ramp_dac[] << ": ";
+      std::cout << "Set HVPS DAC to " << ramp_dac[i] << ": ";
       Telnet(cmd, sockfd, true);
 
       i += 1;
@@ -380,8 +377,6 @@ int ZynqManager::HvpsTurnOff() {
   std::string cmd;
   std::stringstream conv;
 
-  int sleep_time = 500000;
-  
   clog << "info: " << logstream::info << "turning off the HVPS" << std::endl;
 
   /* setup the telnet connection */
@@ -391,7 +386,7 @@ int ZynqManager::HvpsTurnOff() {
   status_string = SendRecvTelnet("hvps turnoff 1 1 1 1 1 1 1 1 1\n", sockfd);
   kStatStr = status_string.c_str();
   printf("HVPS status: %s\n", kStatStr);
-  usleep(sleep_time);
+  usleep(SLEEP_TIME);
 
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::OFF;
@@ -625,8 +620,6 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   std::string cmd1, cmd2;
   std::stringstream conv1, conv2;
 
-  int sleep_time = 500000;
-  
   clog << "info: " << logstream::info << "setting N1 to " << N1 << " and N2 to " << N2 << std::endl;
 
   /* create the command */
@@ -638,9 +631,9 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   status_string = SendRecvTelnet(cmd1, sockfd);
-  usleep(sleep_time);  
+  usleep(SLEEP_TIME);  
   status_string = SendRecvTelnet(cmd2, sockfd);
-  usleep(sleep_time);  
+  usleep(SLEEP_TIME);  
    
   close(sockfd);
   return 0;

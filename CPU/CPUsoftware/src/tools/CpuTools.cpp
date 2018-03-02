@@ -195,7 +195,7 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
   ss << stem;
   for (i = 0; i < values.size(); i++) {
     ss << sep;
-    ss << values.at(i);
+    ss << values[i];
   }
   ss << "\n";
   output_string = ss.str();

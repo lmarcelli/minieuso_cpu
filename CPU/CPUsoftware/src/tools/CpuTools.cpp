@@ -150,7 +150,7 @@ std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, u
       ss.ignore();
     }
   }  
-  std::endl;
+  std::cout << std::endl;
   
   return vect;
 }

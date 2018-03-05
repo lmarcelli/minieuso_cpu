@@ -75,6 +75,7 @@ Inside the ``src/`` directory, the main source code is organised by functionalit
   * ``log.h``
 
 * ``data_format/`` : the header files describing the data format from Zynq and the CPU
+
   * ``data_format.h`` - CPU data files
   * ``pdmdata.h`` - structures defined in the Zynq board software
 

@@ -46,3 +46,12 @@ log
    :path: ../CPU/CPUsoftware/doxygen/xml
    :members:
    :private-members:
+
+
+CpuTools
+--------
+
+.. doxygenclass:: CpuTools
+   :path: ../CPU/CPUsoftware/doxygen/xml
+   :members:
+   :private-members:

@@ -9,7 +9,7 @@ To update the software following installation:
 
 3. Run ``git pull`` from the command line within the ``/home/software`` directory
 
-4. Run ``make`` inside ``/home/software/CPU/CPUsoftware``
+4. Run ``make clean`` and then ``make`` inside ``/home/software/CPU/CPUsoftware``
 
 5. The executable ``mecontrol`` will now be available for use
 

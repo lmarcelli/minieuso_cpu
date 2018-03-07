@@ -378,6 +378,11 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   for (int i = 0; i < ConfigOut->N1; i++) {
     check = fread(zynq_d1_packet_holder, sizeof(*zynq_d1_packet_holder), 1, ptr_zfile);
     if (check != 1) {
+      std::cout << "ERROR: fread from " << zynq_file_name << " failed" std::endl;
+      std::cout << "Check: " << check << std::endl;
+      std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+      std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
       return NULL;
     }
@@ -388,7 +393,13 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   for (int i = 0; i < ConfigOut->N2; i++) {
     check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
     if (check != 1) {
+      std::cout << "ERROR: fread from " << zynq_file_name << " failed" std::endl;
+      std::cout << "Check: " << check << std::endl;
+      std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+      std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+
       return NULL;
     }
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
@@ -397,15 +408,16 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   /* data level D3 */
   check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);
   if (check != 1) {
+    std::cout << "ERROR: fread from " << zynq_file_name << " failed" std::endl;
+    std::cout << "Check: " << check << std::endl;
+    std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+    std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return NULL;
   }
   
   /* DEBUG */
   /*
-  std::cout << "Check: " << check << std::endl;
-  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
-  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
   std::cout << "header D1 P0 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size D1 P0 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu D1 P0 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
@@ -468,15 +480,25 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
 
-  /* add the zynq and hk packets */
+  /* add the zynq and hk packets, checking for NULL */
   if (zynq_packet != NULL) {
     cpu_packet->zynq_packet = * zynq_packet;
   }
+  else {
+    std::cout << "ERROR: Zynq packet is NULL, writing empty packet" << std::endl;
+    clog << "error: " << logstream::error << "Zynq packet is NULL, writing empty packet" << std::endl;
+  }
   delete zynq_packet;
+ 
   if (hk_packet != NULL) {
     cpu_packet->hk_packet = * hk_packet;
   }
+  else {
+    std::cout << "ERROR: HK packet is NULL, writing empty packet" << std::endl;
+    clog << "error: " << logstream::error << "HK packet is NULL, writing empty packet" << std::endl;  
+  }
   delete hk_packet;
+ 
 
   /* write the CPU packet */
   //this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
@@ -551,6 +573,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * Look for new files in the data directory and process them depending on file type
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
+ * @param main_thread p_thread ID of the main thread which calls the function, used to send signals
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */

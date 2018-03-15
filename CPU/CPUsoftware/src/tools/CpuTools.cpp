@@ -109,12 +109,12 @@ bool CpuTools::PingConnect(std::string ip_address) {
 bool CpuTools::CheckFtp() {
 
   bool ftp = false;
-  std::string cmd = "netstat -a | grep ftp";
+  std::string cmd = "netstat -a --numeric-hosts | grep ftp";
   std::string output = CommandToStr(cmd.c_str());
 
-  size_t found = output.find("*:ftp");
+  size_t found = output.find(":ftp");
   if (found != std::string::npos) {
-    ftp =true;
+    ftp = true;
   }
 
   return ftp;

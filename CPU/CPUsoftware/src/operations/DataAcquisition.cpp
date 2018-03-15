@@ -292,12 +292,15 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
 /**
  * read out a hv file into an HV_PACKET 
  */
-HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
+HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_ptr<Config> ConfigOut) {
 
   FILE * ptr_hvfile;
   HV_PACKET * hv_packet = new HV_PACKET();
   const char * kHvFileName = hv_file_name.c_str();
   size_t check;
+
+  DATA_TYPE_HVPS_LOG_V1 * hv_log_holder = new DATA_TYPE_HVPS_LOG_V1();
+  
 
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
   
@@ -317,13 +320,27 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
     clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
     return NULL;
   }
+
+  /* check file size to find size of vector */
+  fseek(ptr_hvfile, 0L, SEEK_END);
+  size_t fsize = ftell(ptr_hvfile);
+  rewind(ptr_hvfile);
+  uint32_t n_entries = fsize/sizeof(DATA_TYPE_HVPS_LOG_V1);
+  hv_packet->N = n_entries;
+  ConfigOut->hvps_log_len = n_entries;
   
-  /* read out the hv data from the file */
-  check = fread(&hv_packet->hvps_log, sizeof(hv_packet->hvps_log), 1, ptr_hvfile);
-  if (check != 1) {
-    clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
-    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
-    return NULL;   
+  /* read out all the entries */
+  for (uint32_t i = 0; i < n_entries; i++) {
+
+    /* read out the hv data from the file */
+    check = fread(hv_log_holder, sizeof(*hv_log_holder), 1, ptr_hvfile);
+    if (check != 1) {
+      clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
+      std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
+      return NULL;   
+    }
+    hv_packet->hvps_log.push_back(*hv_log_holder);
+    hv_packet->hvps_log.shrink_to_fit();
   }
   
   /* close the hv file */
@@ -424,6 +441,10 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   
   /* close the zynq file */
   fclose(ptr_zfile);
+
+  /* clean up */
+  delete zynq_d1_packet_holder;
+  delete zynq_d2_packet_holder;
   
   return zynq_packet;
 }
@@ -553,14 +574,22 @@ int DataAcquisition::WriteScPkt(SC_PACKET * sc_packet) {
  * @param hv_packet HV data from the Zynq board
  * asynchronous writes to the CPU file are handled with the SynchronisedFile class
  */
-int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
+int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> ConfigOut) {
 
   static unsigned int pkt_counter = 0;
 
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_hv_file_name << std::endl;
 
   /* write the HV packet */
-  this->RunAccess->WriteToSynchFile<HV_PACKET *>(hv_packet, SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<CpuPktHeader *>(&hv_packet->hv_packet_header,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<CpuTimeStamp *>(&hv_packet->hv_time,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<uint32_t *>(&hv_packet->N,
+					       SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<DATA_TYPE_HVPS_LOG_V1 *>(&hv_packet->hvps_log[0],
+							     SynchronisedFile::VARIABLE_HV, ConfigOut);
+
   delete hv_packet;
   pkt_counter++;
   
@@ -787,8 +816,8 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    CreateCpuRun(HV, ConfigOut, CmdLine);
 	    
 	    /* generate hv packet to append to the file */
-	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
-	    WriteHvPkt(hv_packet);
+	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name, ConfigOut);
+	    WriteHvPkt(hv_packet, ConfigOut);
 	    
 	    CloseCpuRun(HV);
 	    
@@ -853,9 +882,9 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 	CreateCpuRun(HV, ConfigOut, CmdLine);
 	
 	/* generate hv packet to append to the file */
-	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
+	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name, ConfigOut);
 	if (hv_packet != NULL) {
-	  WriteHvPkt(hv_packet);
+	  WriteHvPkt(hv_packet, ConfigOut);
 	}
 	
 	CloseCpuRun(HV);

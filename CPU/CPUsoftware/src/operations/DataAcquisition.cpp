@@ -841,10 +841,12 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
     while ((ent = readdir (dir)) != NULL) {
 
       std::string fname(ent->d_name);
+      /* debug */
+      std::cout << fname << std::endl;
+      
       if (fname.compare(0, 2, "hv") == 0) {
 	/* read out the HV file, if it exists */
 	std::string hv_file_name = data_str + "/" + fname;
-
 	
 	CreateCpuRun(HV, ConfigOut, CmdLine);
 	
@@ -861,6 +863,9 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 	clog << "info: " << logstream::info << "read out the HV file" << std::endl;
 	std::cout << "read out the HV file" << std::endl;
 	
+      }
+      else {
+	clog << "info: " << logstream::info << "no HV file found" << std::endl;
       }
     }
     closedir (dir);
@@ -973,6 +978,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
 
   /* stop Zynq acquisition */
   ZqManager->StopAcquisition();
+  
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 

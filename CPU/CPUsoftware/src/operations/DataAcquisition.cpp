@@ -833,7 +833,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   std::string data_str(DATA_DIR);
 
   std::cout << "waiting for HV file..." << std::endl;
-  sleep(5);
+  sleep(10);
   
   /* get the filename */
   DIR * dir;

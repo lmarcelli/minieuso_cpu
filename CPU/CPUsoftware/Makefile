@@ -16,15 +16,15 @@ OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
 # flags
 DEBUG    = -g
 INCLUDES = -I./inc -I./src/instrument -I./src/subsystems -I./src/operations -I./src/tools -I./src/data_format
-CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
 
 platform = $(shell uname -s)
 
 ifeq ($(platform), Darwin)
-LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0
+CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 $(INCLUDES) $(DEBUG)
+LDFLAGS  = -L./lib -lm -lpthread -lusb-1.0 
 else
-OS = $(shell lsb_release -si)
-LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0
+CFLAGS   = -std=c++11 -Wall -pedantic -c -O3 -fsanitize=address $(INCLUDES) $(DEBUG)
+LDFLAGS  = -L./lib -lrtd-dm75xx -lrtd-aDIO -lm -lpthread -lusb-1.0 -lasan
 endif
 
 # compiler

@@ -9,8 +9,11 @@
 #include <stdexcept>
 #include <string>
 #include <array>
+#include <vector>
+
 #include <dirent.h>
 #include <unistd.h>
+#include <stdint.h>
 
 #include "ZynqManager.h"
 
@@ -25,6 +28,7 @@
 class CpuTools {
 
 public:
+  
   CpuTools();
   static std::string CommandToStr(const char * cmd);
   static std::string IntToFixedLenStr(const int input, const int length);
@@ -32,6 +36,10 @@ public:
   static std::string SpaceToUnderscore(std::string);
   static bool PingConnect(std::string ip_address);
   static bool CheckFtp();
+  static std::vector<int> DelimStrToVec(std::string input_string, char delim, uint8_t size, bool check_01);
+  static std::string BuildStr(std::string stem, std::string sep, int val, int rep);
+  static std::string BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
+
 };
 
 #endif

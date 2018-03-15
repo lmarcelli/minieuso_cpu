@@ -50,7 +50,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
     
     break;
   case HV:
-    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S__"
+    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S"
       + CmdLine->comment_fn + ".dat";
     break;
   }

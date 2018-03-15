@@ -831,11 +831,14 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   std::string data_str(DATA_DIR);
-    
+
+  /* debug */
+  std::cout << data_str << std::endl;
+  
   /* get the filename */
   DIR * dir;
   struct dirent * ent;
-  if ((dir = opendir (data_str.c_str())) != NULL) {
+  if ((dir = opendir(data_str.c_str())) != NULL) {
 
     /* check all files within directory */
     while ((ent = readdir (dir)) != NULL) {

@@ -21,7 +21,11 @@
 #define USB_WRITE_DIR "/media/usb0/"
 #define OTHER_WRITE_DIR "/home/software/CPU/cameras/multiplecam/"
 #define N_TRY_RELAUNCH 2
-#define WAIT_TIME 120
+
+/*
+ * the number of seconds waited for to decide if cameras have be lauched correctly 
+ */
+#define LAUNCH_TIMEOUT 7
 
 /*
  * Define the name of the file containing the camera serial numbers

@@ -110,7 +110,7 @@ int CamManager::CollectData() {
   std::thread collect_cam_data (&CamManager::StartAcquisition, this);
 
   /* wait for launch to be marked as success/fail by CamManager::StartAcquisition() */
-  auto status = future.wait_for(std::chrono::seconds(5));   
+  auto status = future.wait_for(std::chrono::seconds(LAUNCH_TIMEOUT));   
 
   /* check if cameras failed to launch */
   if (status == std::future_status::ready) {

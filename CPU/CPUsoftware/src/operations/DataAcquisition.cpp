@@ -330,7 +330,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   ConfigOut->hvps_log_len = n_entries;
   
   /* read out all the entries */
-  for (int i = 0; i < n_entries; i++) {
+  for (uint32_t i = 0; i < n_entries; i++) {
 
     /* read out the hv data from the file */
     check = fread(hv_log_holder, sizeof(*hv_log_holder), 1, ptr_hvfile);

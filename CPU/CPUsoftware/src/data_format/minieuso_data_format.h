@@ -217,19 +217,20 @@ typedef struct
 
 /**
  * HV packet for HV switching data 
- * 1600028 bytes (~ 1.6 MB) 
+ * variable file size 
  */
 typedef struct
 {
   CpuPktHeader hv_packet_header; /* 16 bytes */
   CpuTimeStamp hv_time; /* 4 bytes */
-  Z_DATA_TYPE_HVPS_LOG_V1 hvps_log; /* 1600008 bytes */
+  uint32_t N; /* 4 bytes */
+  std::vector<DATA_TYPE_HVPS_LOG_V1> hvps_log; /* N * 16 bytes */
 } HV_PACKET;
 
 /**
  * HV file to store a single HVPS log 
  * shown here as demonstration only 
- * 1600028 bytes (~1.6 MB) 
+ * variable file size 
  */
 typedef struct
 {

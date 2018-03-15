@@ -28,7 +28,7 @@ ConfigManager::ConfigManager () {
   /* stored here to be easily passed around the DataAcquisition */
   this->ConfigOut->instrument_mode = 0;
   this->ConfigOut->acquisition_mode = 0;
-
+  this->ConfigOut->hvps_log_len = 0;
 }
 
 /**
@@ -56,7 +56,8 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->dac_level = -1;
   this->ConfigOut->N1 = -1;
   this->ConfigOut->N2 = -1;
-
+  
+  this->ConfigOut->hvps_log_len = 0;
 
 }
 

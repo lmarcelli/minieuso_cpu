@@ -307,7 +307,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
     return NULL;
   }
   
-  /* prepare the scurve packet */
+  /* prepare the hv packet */
   hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
   hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
@@ -318,10 +318,11 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
     return NULL;
   }
   
-  /* read out the scurve data from the file */
+  /* read out the hv data from the file */
   check = fread(&hv_packet->hvps_log, sizeof(hv_packet->hvps_log), 1, ptr_hvfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
+    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
     return NULL;   
   }
   
@@ -853,7 +854,9 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 	
 	/* generate hv packet to append to the file */
 	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
-	WriteHvPkt(hv_packet);
+	if (hv_packet != NULL) {
+	  WriteHvPkt(hv_packet);
+	}
 	
 	CloseCpuRun(HV);
 	

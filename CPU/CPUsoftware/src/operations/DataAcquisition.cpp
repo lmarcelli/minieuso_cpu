@@ -50,7 +50,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
     
     break;
   case HV:
-    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S__"
+    time_str = "/CPU_RUN_HV__%Y_%m_%d__%H_%M_%S"
       + CmdLine->comment_fn + ".dat";
     break;
   }
@@ -94,7 +94,7 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
  * @param ConfigOut the configuration file parameters and settings from RunInstrument
  * @param CmdLine the command line parameters
  */
-const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
+std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
 						      CmdLineInputs * CmdLine) {
   /* for info string */
   std::string run_info_string;
@@ -126,10 +126,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   
   run_info_string = conv.str();
   
-  /* convert run_info_string into char array run_info */
-  const char * run_info_ptr = run_info_string.c_str();
-
-  return run_info_ptr;
+  return run_info_string;
 }
 
 /**
@@ -191,7 +188,8 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
-  strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
+  std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
+  strncpy(cpu_file_header->run_info, run_info_string.c_str(), sizeof(*run_info_string.c_str()));
 
   if (CmdLine->single_run) {
     cpu_file_header->run_size = CmdLine->acq_len;
@@ -309,7 +307,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
     return NULL;
   }
   
-  /* prepare the scurve packet */
+  /* prepare the hv packet */
   hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
   hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
@@ -320,10 +318,11 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name) {
     return NULL;
   }
   
-  /* read out the scurve data from the file */
+  /* read out the hv data from the file */
   check = fread(&hv_packet->hvps_log, sizeof(hv_packet->hvps_log), 1, ptr_hvfile);
   if (check != 1) {
     clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
+    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
     return NULL;   
   }
   
@@ -378,6 +377,11 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   for (int i = 0; i < ConfigOut->N1; i++) {
     check = fread(zynq_d1_packet_holder, sizeof(*zynq_d1_packet_holder), 1, ptr_zfile);
     if (check != 1) {
+      std::cout << "ERROR: fread from " << zynq_file_name << " failed" << std::endl;
+      std::cout << "Check: " << check << std::endl;
+      std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+      std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
       return NULL;
     }
@@ -388,7 +392,13 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   for (int i = 0; i < ConfigOut->N2; i++) {
     check = fread(zynq_d2_packet_holder, sizeof(*zynq_d2_packet_holder), 1, ptr_zfile);
     if (check != 1) {
+      std::cout << "ERROR: fread from " << zynq_file_name << " failed" << std::endl;
+      std::cout << "Check: " << check << std::endl;
+      std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+      std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
+  
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
+
       return NULL;
     }
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
@@ -397,15 +407,16 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   /* data level D3 */
   check = fread(&zynq_packet->level3_data, sizeof(zynq_packet->level3_data), 1, ptr_zfile);
   if (check != 1) {
+    std::cout << "ERROR: fread from " << zynq_file_name << " failed" << std::endl;
+    std::cout << "Check: " << check << std::endl;
+    std::cout << "feof: " << feof(ptr_zfile) << std::endl;
+    std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
     return NULL;
   }
   
   /* DEBUG */
   /*
-  std::cout << "Check: " << check << std::endl;
-  std::cout << "feof: " << feof(ptr_zfile) << std::endl;
-  std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
   std::cout << "header D1 P0 = " << zynq_packet->level1_data[0].zbh.header << std::endl;
   std::cout << "payload_size D1 P0 = " << zynq_packet->level1_data[0].zbh.payload_size << std::endl;
   std::cout << "n_gtu D1 P0 = " << zynq_packet->level1_data[0].payload.ts.n_gtu << std::endl; 
@@ -468,15 +479,25 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
 
-  /* add the zynq and hk packets */
+  /* add the zynq and hk packets, checking for NULL */
   if (zynq_packet != NULL) {
     cpu_packet->zynq_packet = * zynq_packet;
   }
+  else {
+    std::cout << "ERROR: Zynq packet is NULL, writing empty packet" << std::endl;
+    clog << "error: " << logstream::error << "Zynq packet is NULL, writing empty packet" << std::endl;
+  }
   delete zynq_packet;
+ 
   if (hk_packet != NULL) {
     cpu_packet->hk_packet = * hk_packet;
   }
+  else {
+    std::cout << "ERROR: HK packet is NULL, writing empty packet" << std::endl;
+    clog << "error: " << logstream::error << "HK packet is NULL, writing empty packet" << std::endl;  
+  }
   delete hk_packet;
+ 
 
   /* write the CPU packet */
   //this->RunAccess->WriteToSynchFile<CPU_PACKET *>(cpu_packet, SynchronisedFile::VARIABLE, ConfigOut);
@@ -551,6 +572,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet) {
  * Look for new files in the data directory and process them depending on file type
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
+ * @param main_thread p_thread ID of the main thread which calls the function, used to send signals
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
@@ -810,26 +832,31 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   std::string data_str(DATA_DIR);
-    
+
+  std::cout << "waiting for HV file..." << std::endl;
+  sleep(HV_FILE_TIMEOUT);
+  
   /* get the filename */
   DIR * dir;
   struct dirent * ent;
-  if ((dir = opendir (data_str.c_str())) != NULL) {
+  if ((dir = opendir(data_str.c_str())) != NULL) {
 
     /* check all files within directory */
-    while ((ent = readdir (dir)) != NULL) {
+    while ((ent = readdir(dir)) != NULL) {
 
       std::string fname(ent->d_name);
+     
       if (fname.compare(0, 2, "hv") == 0) {
 	/* read out the HV file, if it exists */
 	std::string hv_file_name = data_str + "/" + fname;
-
 	
 	CreateCpuRun(HV, ConfigOut, CmdLine);
 	
 	/* generate hv packet to append to the file */
 	HV_PACKET * hv_packet = HvPktReadOut(hv_file_name);
-	WriteHvPkt(hv_packet);
+	if (hv_packet != NULL) {
+	  WriteHvPkt(hv_packet);
+	}
 	
 	CloseCpuRun(HV);
 	
@@ -840,6 +867,9 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 	clog << "info: " << logstream::info << "read out the HV file" << std::endl;
 	std::cout << "read out the HV file" << std::endl;
 	
+      }
+      else {
+	clog << "info: " << logstream::info << "no HV file found" << std::endl;
       }
     }
     closedir (dir);
@@ -952,6 +982,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
 
   /* stop Zynq acquisition */
   ZqManager->StopAcquisition();
+  
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 

@@ -25,6 +25,10 @@
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 #define FTP_TIMEOUT 10 /* seconds */
 
+/* number of seconds to wait for HV file transfer on FTP */
+#define HV_FILE_TIMEOUT 7
+
+
 /** NIGHT operational mode: data acquisition
  * class for controlling the main acquisition 
  * (the Zynq board, the thermistors and the Analog board)
@@ -86,7 +90,7 @@ private:
   static uint32_t BuildCpuFileHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   static uint32_t BuildCpuTimeStamp();
-  const char * BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
+  std::string BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   SC_PACKET * ScPktReadOut(std::string sc_file_name, std::shared_ptr<Config> ConfigOut);
   HV_PACKET * HvPktReadOut(std::string hv_file_name);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, std::shared_ptr<Config> ConfigOut);

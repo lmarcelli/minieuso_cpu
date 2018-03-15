@@ -19,7 +19,7 @@
  * software definitions
  */
 
-#define VERSION 5.4.0
+#define VERSION 5.4
 #define VERSION_DATE_STRING "15/03/2018"
 
 /*

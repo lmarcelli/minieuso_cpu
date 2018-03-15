@@ -833,7 +833,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   std::string data_str(DATA_DIR);
 
   std::cout << "waiting for HV file..." << std::endl;
-  sleep(10);
+  sleep(HV_FILE_TIMEOUT);
   
   /* get the filename */
   DIR * dir;
@@ -844,9 +844,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
     while ((ent = readdir(dir)) != NULL) {
 
       std::string fname(ent->d_name);
-      /* debug */
-      std::cout << fname << std::endl;
-      
+     
       if (fname.compare(0, 2, "hv") == 0) {
 	/* read out the HV file, if it exists */
 	std::string hv_file_name = data_str + "/" + fname;

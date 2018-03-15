@@ -25,6 +25,10 @@
 #define BUF_LEN (1024 * (EVENT_SIZE + 16))
 #define FTP_TIMEOUT 10 /* seconds */
 
+/* number of seconds to wait for HV file transfer on FTP */
+#define HV_FILE_TIMEOUT 7
+
+
 /** NIGHT operational mode: data acquisition
  * class for controlling the main acquisition 
  * (the Zynq board, the thermistors and the Analog board)

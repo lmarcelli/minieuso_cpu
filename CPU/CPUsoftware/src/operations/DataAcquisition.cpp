@@ -817,7 +817,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    
 	    /* generate hv packet to append to the file */
 	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name, ConfigOut);
-	    WriteHvPkt(hv_packet);
+	    WriteHvPkt(hv_packet, ConfigOut);
 	    
 	    CloseCpuRun(HV);
 	    

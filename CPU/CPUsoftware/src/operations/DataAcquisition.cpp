@@ -832,8 +832,8 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 
   std::string data_str(DATA_DIR);
 
-  /* debug */
-  std::cout << data_str << std::endl;
+  std::cout << "waiting for HV file..." << std::endl;
+  sleep(5);
   
   /* get the filename */
   DIR * dir;
@@ -841,7 +841,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   if ((dir = opendir(data_str.c_str())) != NULL) {
 
     /* check all files within directory */
-    while ((ent = readdir (dir)) != NULL) {
+    while ((ent = readdir(dir)) != NULL) {
 
       std::string fname(ent->d_name);
       /* debug */

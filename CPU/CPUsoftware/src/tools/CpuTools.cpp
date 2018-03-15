@@ -119,3 +119,85 @@ bool CpuTools::CheckFtp() {
 
   return ftp;
 }
+
+
+/**
+ * convert comma delimited string of ints to vector of ints
+ * @param input_string string to convert
+ * @param size the number of ints expected
+ * @param check_01 set to 0 if input int is not 0 or 1
+ */
+std::vector<int> CpuTools::DelimStrToVec(std::string input_string, char delim, uint8_t size, bool check_01) {
+
+  std::vector<int> vect;
+  std::stringstream ss(input_string);
+  int val;
+
+  /* read until end of string or vector has reached size */
+  while (ss >> val && vect.size() < size) {
+
+    /* block non 0/1 values if required */
+    if (check_01){
+      if (val != 0 && val != 1) {
+	val = 0;
+      }
+    }
+    /* add value to vector */
+    vect.push_back(val);
+    /* ignore commas */
+    if (ss.peek() == delim) {
+      ss.ignore();
+    }
+  }  
+  
+  return vect;
+}
+
+/**
+ * build strings with repetetive ints following a stem
+ * useful for ZynqManager telnet interface
+ * @param stem the start of the string
+ * @param sep the delimiter
+ * @param val the int value to be repeated
+ * @param number of times to repeat val
+ */
+std::string CpuTools::BuildStr(std::string stem, std::string sep, int val, int rep) {
+
+  std::string output_string;
+  std::stringstream ss;
+  int i = 0;
+  
+  ss << stem;
+  for (i = 0; i < rep; i++) {
+    ss << sep;
+    ss << val;
+  }
+  ss << "\n";
+  output_string = ss.str();
+  
+  return output_string; 
+}
+
+/**
+ * like BuildStr() but for a vector argument
+ * useful for ZynqManager telnet interface
+ * @param stem the start of the string
+ * @param sep the delimiter
+ * @param values vector of int values
+ */
+std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values) {
+
+  std::string output_string;
+  std::stringstream ss;
+  uint8_t i = 0;
+
+  ss << stem;
+  for (i = 0; i < values.size(); i++) {
+    ss << sep;
+    ss << values[i];
+  }
+  ss << "\n";
+  output_string = ss.str();
+
+  return output_string; 
+}

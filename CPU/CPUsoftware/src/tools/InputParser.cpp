@@ -30,6 +30,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_status = LvpsManager::UNDEF;
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
+  this->CmdLine->hvps_ec_string = "";
   this->CmdLine->zynq_mode = ZynqManager::NONE;
   this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
 
@@ -82,6 +83,17 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->hvps_on = true;
     this->CmdLine->hvps_status = ZynqManager::ON;
 
+ 
+    const std::string & hv_ec_str = getCmdOption("-hv");
+    if (!hv_ec_str.empty()) {
+      if (hv_ec_str == "all") {
+	this->CmdLine->hvps_ec_string = "1,1,1,1,1,1,1,1,1"; 
+      }
+      else {
+	this->CmdLine->hvps_ec_string = hv_ec_str;
+      }
+    }
+    
   }
   if(cmdOptionExists("-hvps")){
     this->CmdLine->hvps_switch = true;

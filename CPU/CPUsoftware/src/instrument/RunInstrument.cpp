@@ -93,7 +93,9 @@ int RunInstrument::HvpsSwitch() {
   switch (this->CmdLine->hvps_status) {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
-    this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage, this->ConfigOut->dynode_voltage);
+    this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage,
+			  this->ConfigOut->dynode_voltage,
+			  this->CmdLine->hvps_ec_string);
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
@@ -106,6 +108,7 @@ int RunInstrument::HvpsSwitch() {
   }
 return 0;
 }
+
 
 /**
  * function to check the current instrument and HV status

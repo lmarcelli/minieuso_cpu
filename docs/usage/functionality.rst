@@ -12,9 +12,10 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
 * The voltage is automatically ramped up in steps of ~ 140 V from 0 V to the desired operating voltage
 * The HV can be turned on in 2 different ways
   
-  * ``mecontrol -hvps on -dv <X> -asicdac <Y>`` switches on the HV then exits the program, to allow for other tests
-  * ``mecontrol -hv -dv <X> -asicdac <Y>`` starts an acquisition, turning the HV on and off automatically
-     
+  * ``mecontrol -hvps on -dv <X>`` switches on the HV then exits the program, to allow for other tests
+  * ``mecontrol -hv all -dv <X>`` starts an acquisition, turning the HV on and off automatically for all EC units 
+  * ``mecontrol -hv 0,0,0,0,0,0,0,0,1 -dv <X>`` starts an acquisition, turning the HV on and off automatically for only one EC unit
+        
 * Explanation of the command flags
 
   * the flag ``-dv <X>`` sets the dynode voltage to X, where X is the DAC between 0 and 4096 

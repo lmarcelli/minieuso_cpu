@@ -94,7 +94,7 @@ uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
  * @param ConfigOut the configuration file parameters and settings from RunInstrument
  * @param CmdLine the command line parameters
  */
-const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
+std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
 						      CmdLineInputs * CmdLine) {
   /* for info string */
   std::string run_info_string;
@@ -126,10 +126,7 @@ const char * DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut
   
   run_info_string = conv.str();
   
-  /* convert run_info_string into char array run_info */
-  const char * run_info_ptr = run_info_string.c_str();
-
-  return run_info_ptr;
+  return run_info_string;
 }
 
 /**
@@ -191,7 +188,8 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
-  strncpy(cpu_file_header->run_info, BuildCpuFileInfo(ConfigOut, CmdLine), sizeof(cpu_file_header->run_info));
+  std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
+  strncpy(cpu_file_header->run_info, run_info_string.c_str(), sizeof(*run_info_string.c_str()));
 
   if (CmdLine->single_run) {
     cpu_file_header->run_size = CmdLine->acq_len;

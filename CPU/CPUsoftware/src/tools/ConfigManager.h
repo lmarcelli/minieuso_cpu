@@ -39,6 +39,7 @@ struct Config {
   bool hv_on;
   uint8_t instrument_mode;
   uint8_t acquisition_mode;
+  uint32_t hvps_log_len;
 };
 
 /**

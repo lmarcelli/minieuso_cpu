@@ -38,6 +38,7 @@ public:
     CONSTANT = 0,
     VARIABLE_D1 = 1,
     VARIABLE_D2 = 2,
+    VARIABLE_HV = 3,
   };
 
   uint32_t Checksum();
@@ -89,11 +90,11 @@ public:
 
       break;
     case VARIABLE_D2:
-
+      
       check = fwrite(payload, sizeof(*payload), ConfigOut->N2, this->_ptr_to_file);
       if (check != size_t(ConfigOut->N2)) {
 	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
-
+	
 	/* DEBUG check why fwrite fails */
 	std::cout << "FWRITE FAIL" << std::endl;
 	std::cout << "check = " << check << std::endl;
@@ -102,6 +103,22 @@ public:
   
 	return check;
       }
+      break;
+    case VARIABLE_HV:
+
+      check = fwrite(payload, sizeof(*payload), ConfigOut->hvps_log_len, this->_ptr_to_file);
+      if (check != size_t(ConfigOut->hvps_log_len)) {
+	clog << "error: " << logstream::error << "fwrite failed to " << this->path << std::endl;
+	
+	/* DEBUG check why fwrite fails */
+	std::cout << "FWRITE FAIL" << std::endl;
+	std::cout << "check = " << check << std::endl;
+	std::cout << "feof: " << feof(this->_ptr_to_file) << std::endl;
+	std::cout << "ferror: " << ferror(this->_ptr_to_file) << std::endl;
+  
+	return check;
+      }
+      
       break;
    
     }

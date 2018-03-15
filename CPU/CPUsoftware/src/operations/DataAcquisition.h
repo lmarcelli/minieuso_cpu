@@ -92,11 +92,11 @@ private:
   static uint32_t BuildCpuTimeStamp();
   std::string BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   SC_PACKET * ScPktReadOut(std::string sc_file_name, std::shared_ptr<Config> ConfigOut);
-  HV_PACKET * HvPktReadOut(std::string hv_file_name);
+  HV_PACKET * HvPktReadOut(std::string hv_file_name, std::shared_ptr<Config> ConfigOut);
   ZYNQ_PACKET * ZynqPktReadOut(std::string zynq_file_name, std::shared_ptr<Config> ConfigOut);
   HK_PACKET * AnalogPktReadOut();
   int WriteScPkt(SC_PACKET * sc_packet);
-  int WriteHvPkt(HV_PACKET * hv_packet);
+  int WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> ConfigOut);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut);
   int GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread);

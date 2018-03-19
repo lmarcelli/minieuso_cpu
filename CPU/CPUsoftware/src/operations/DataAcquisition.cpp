@@ -328,6 +328,11 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   std::cout << "n_entries: " << n_entries << std::endl;
   std::cout << sizeof(DATA_TYPE_HVPS_LOG_V1) << std::endl;
   
+  /* check for unusually large file size */
+  if (n_entries > HVPS_LOG_SIZE_NRECORDS) {
+    n_entries =  HVPS_LOG_SIZE_NRECORDS;
+  }
+
   /* read out all the entries */
   for (uint32_t i = 0; i < n_entries; i++) {
 

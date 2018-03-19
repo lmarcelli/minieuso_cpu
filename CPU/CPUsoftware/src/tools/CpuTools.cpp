@@ -201,3 +201,20 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
 
   return output_string; 
 }
+
+/**
+ * get the file size of an ifstream
+ * @param file_path path to the file
+ */
+std::streampos CpuTools::FileSize(std::string file_path){
+
+    std::streampos fsize = 0;
+    std::ifstream file(file_path, std::ios::binary );
+
+    fsize = file.tellg();
+    file.seekg(0, std::ios::end);
+    fsize = file.tellg() - fsize;
+    file.close();
+
+    return fsize;
+}

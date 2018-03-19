@@ -306,8 +306,8 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   /* check file size and set n_entries */
   uint32_t file_size = CpuTools::FileSize(hv_file_name);
   uint32_t n_entries =  file_size / sizeof(DATA_TYPE_HVPS_LOG_V1);
-  if (n_entries > 10) {
-    n_entries = 10;
+  if (n_entries > HVPS_LOG_SIZE_NRECORDS) {
+    n_entries = HVPS_LOG_SIZE_NRECORDS;
   }
   hv_packet->N = n_entries;
   ConfigOut->hvps_log_len = n_entries;

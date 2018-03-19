@@ -330,9 +330,10 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   
   /* check for unusually large file size */
   if (n_entries > HVPS_LOG_SIZE_NRECORDS) {
-    n_entries =  HVPS_LOG_SIZE_NRECORDS;
+    n_entries = 100;
   }
-
+  hv_packet->hvps_log.resize(n_entries);
+  
   /* read out all the entries */
   for (uint32_t i = 0; i < n_entries; i++) {
 
@@ -347,7 +348,6 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
       return NULL;   
     }
     hv_packet->hvps_log.push_back(*hv_log_holder);
-    hv_packet->hvps_log.shrink_to_fit();
   }
 
   std::cout << "done!" << std::endl;

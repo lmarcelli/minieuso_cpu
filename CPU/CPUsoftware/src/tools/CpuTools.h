@@ -39,7 +39,8 @@ public:
   static std::vector<int> DelimStrToVec(std::string input_string, char delim, uint8_t size, bool check_01);
   static std::string BuildStr(std::string stem, std::string sep, int val, int rep);
   static std::string BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
-
+  static std::streampos FileSize(std::string file_path);
+  
 };
 
 #endif

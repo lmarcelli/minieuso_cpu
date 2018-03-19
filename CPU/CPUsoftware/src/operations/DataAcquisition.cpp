@@ -299,8 +299,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   const char * kHvFileName = hv_file_name.c_str();
   size_t check;
 
-  DATA_TYPE_HVPS_LOG_V1 * hv_log_holder = new DATA_TYPE_HVPS_LOG_V1();
-  
+  //DATA_TYPE_HVPS_LOG_V1 * hv_log_holder = new DATA_TYPE_HVPS_LOG_V1();
 
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
     
@@ -320,8 +319,6 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   uint32_t fsize = ftell(ptr_hvfile);
   rewind(ptr_hvfile);
   uint32_t n_entries = fsize/(uint32_t)sizeof(DATA_TYPE_HVPS_LOG_V1);
-  hv_packet->N = n_entries;
-  ConfigOut->hvps_log_len = n_entries;
 
   /* debug */
   std::cout << "fsize: " << fsize << std::endl;
@@ -332,25 +329,19 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   if (n_entries > 10) {
     n_entries = 10;
   }
+  hv_packet->N = n_entries;
+  ConfigOut->hvps_log_len = n_entries;
   hv_packet->hvps_log.resize(n_entries);
   
-  /* read out all the entries */
-  for (uint32_t i = 0; i < n_entries; i++) {
 
-    /* debug */
-    std::cout << "i: " << i << std::endl;
-
-    /* read out the hv data from the file */
-    check = fread(hv_log_holder, sizeof(*hv_log_holder), 1, ptr_hvfile);
-    if (check != 1) {
-      clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
-      std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
-      return NULL;   
-    }
-    hv_packet->hvps_log.push_back(*hv_log_holder);
+  /* read out the hv data from the file */
+  check = fread(&hv_packet->hvps_log[0], sizeof(DATA_TYPE_HVPS_LOG_V1), n_entries, ptr_hvfile);
+  if (check != 1) {
+    clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
+    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
+    return NULL;   
   }
 
-  std::cout << "done!" << std::endl;
   /* close the hv file */
   fclose(ptr_hvfile);
   

@@ -303,13 +303,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   
 
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
-  
-  ptr_hvfile = fopen(kHvFileName, "rb");
-  if (!ptr_hvfile) {
-    clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
-    return NULL;
-  }
-  
+    
   /* prepare the hv packet */
   hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);

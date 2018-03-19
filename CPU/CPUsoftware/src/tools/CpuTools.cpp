@@ -206,7 +206,7 @@ std::string CpuTools::BuildStrFromVec(std::string stem, std::string sep, std::ve
  * get the file size of an ifstream
  * @param file_path path to the file
  */
-std::streampos FileSize(std::string file_path){
+std::streampos CpuTools::FileSize(std::string file_path){
 
     std::streampos fsize = 0;
     std::ifstream file(file_path, std::ios::binary );

@@ -294,12 +294,7 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
  */
 HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_ptr<Config> ConfigOut) {
 
-  FILE * ptr_hvfile;
   HV_PACKET * hv_packet = new HV_PACKET();
-  const char * kHvFileName = hv_file_name.c_str();
-  size_t check;
-
-  //DATA_TYPE_HVPS_LOG_V1 * hv_log_holder = new DATA_TYPE_HVPS_LOG_V1();
 
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
     
@@ -307,43 +302,33 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
   hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
- 
-  ptr_hvfile = fopen(kHvFileName, "rb");
-  if (!ptr_hvfile) {
-    clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
-    return NULL;
-  }
 
-  /* check file size to find size of vector */
-  fseek(ptr_hvfile, 0L, SEEK_END);
-  uint32_t fsize = ftell(ptr_hvfile);
-  rewind(ptr_hvfile);
-  uint32_t n_entries = fsize/(uint32_t)sizeof(DATA_TYPE_HVPS_LOG_V1);
-
-  /* debug */
-  std::cout << "fsize: " << fsize << std::endl;
-  std::cout << "n_entries: " << n_entries << std::endl;
-  std::cout << sizeof(DATA_TYPE_HVPS_LOG_V1) << std::endl;
-  
-  /* check for unusually large file size */
+  /* check file size and set n_entries */
+  uint32_t file_size = CpuTools::FileSize(hv_file_name);
+  uint32_t n_entries =  file_size / sizeof(DATA_TYPE_HVPS_LOG_V1);
   if (n_entries > 10) {
     n_entries = 10;
   }
   hv_packet->N = n_entries;
   ConfigOut->hvps_log_len = n_entries;
   hv_packet->hvps_log.resize(n_entries);
-  
 
-  /* read out the hv data from the file */
-  check = fread(&hv_packet->hvps_log[0], sizeof(DATA_TYPE_HVPS_LOG_V1), n_entries, ptr_hvfile);
-  if (check != 1) {
-    clog << "error: " << logstream::error << "fread from " << hv_file_name << " failed" << std::endl;
-    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
-    return NULL;   
+  std::ifstream hv_file(hv_file_name, std::ios::binary);
+  if (!hv_file) {
+   clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
+    return NULL;
   }
-
+  
+  /* read out the hv data from the file */
+  hv_file.read(reinterpret_cast<char*>(&hv_packet->hvps_log[0]), hv_packet->hvps_log.size() * sizeof(DATA_TYPE_HVPS_LOG_V1));
+  if (!hv_file) {
+    std::cout << "ERROR: fread from " << hv_file_name << " failed" << std::endl;
+    clog << "error: " << logstream::error << "read from " << hv_file_name << " failed" << std::endl;
+    return NULL;
+  }
+  
   /* close the hv file */
-  fclose(ptr_hvfile);
+  hv_file.close();
   
   return hv_packet;
 }

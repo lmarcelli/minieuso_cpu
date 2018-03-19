@@ -317,9 +317,9 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
 
   /* check file size to find size of vector */
   fseek(ptr_hvfile, 0L, SEEK_END);
-  size_t fsize = ftell(ptr_hvfile);
+  uint32_t fsize = ftell(ptr_hvfile);
   rewind(ptr_hvfile);
-  uint32_t n_entries = fsize/sizeof(DATA_TYPE_HVPS_LOG_V1);
+  uint32_t n_entries = fsize/(uint32_t)sizeof(DATA_TYPE_HVPS_LOG_V1);
   hv_packet->N = n_entries;
   ConfigOut->hvps_log_len = n_entries;
 
@@ -329,8 +329,8 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   std::cout << sizeof(DATA_TYPE_HVPS_LOG_V1) << std::endl;
   
   /* check for unusually large file size */
-  if (n_entries > HVPS_LOG_SIZE_NRECORDS) {
-    n_entries = 100;
+  if (n_entries > 10) {
+    n_entries = 10;
   }
   hv_packet->hvps_log.resize(n_entries);
   

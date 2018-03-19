@@ -322,10 +322,18 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   uint32_t n_entries = fsize/sizeof(DATA_TYPE_HVPS_LOG_V1);
   hv_packet->N = n_entries;
   ConfigOut->hvps_log_len = n_entries;
+
+  /* debug */
+  std::cout << "fsize: " << fsize << std::endl;
+  std::cout << "n_entries: " << n_entries << std::endl;
+  std::cout << sizeof(DATA_TYPE_HVPS_LOG_V1) << std::endl;
   
   /* read out all the entries */
   for (uint32_t i = 0; i < n_entries; i++) {
 
+    /* debug */
+    std::cout << "reading..." << std::endl;
+    
     /* read out the hv data from the file */
     check = fread(hv_log_holder, sizeof(*hv_log_holder), 1, ptr_hvfile);
     if (check != 1) {
@@ -336,7 +344,8 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
     hv_packet->hvps_log.push_back(*hv_log_holder);
     hv_packet->hvps_log.shrink_to_fit();
   }
-  
+
+  std::cout << "done!" << std::endl;
   /* close the hv file */
   fclose(ptr_hvfile);
   

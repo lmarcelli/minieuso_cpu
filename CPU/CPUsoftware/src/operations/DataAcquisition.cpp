@@ -191,6 +191,10 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
   strncpy(cpu_file_header->run_info, run_info_string.c_str(), sizeof(*run_info_string.c_str()));
 
+  /* debug */
+  std::cout << "string: " << run_info_string << std::endl;
+  std::cout << "sizeof: " << sizeof(*run_info_string.c_str()) << std::endl;
+  
   if (CmdLine->single_run) {
     cpu_file_header->run_size = CmdLine->acq_len;
   }

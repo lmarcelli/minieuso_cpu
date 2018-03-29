@@ -189,7 +189,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
-  strncpy(cpu_file_header->run_info, run_info_string.c_str(), sizeof(*run_info_string.c_str()));
+  strncpy(cpu_file_header->run_info, run_info_string.c_str(), (size_t)run_info_string.length());
 
   /* debug */
   std::cout << "string: " << run_info_string << std::endl;

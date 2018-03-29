@@ -19,8 +19,8 @@
  * software definitions
  */
 
-#define VERSION 5.4
-#define VERSION_DATE_STRING "15/03/2018"
+#define VERSION 5.5
+#define VERSION_DATE_STRING "29/03/2018"
 
 /*
  * instrument definitions 

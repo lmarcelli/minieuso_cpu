@@ -235,6 +235,7 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
   
   /* set up the cpu file trailer */
+  cpu_file_trailer->header = BuildCpuTrailerHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   cpu_file_trailer->run_size = RUN_SIZE;
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 

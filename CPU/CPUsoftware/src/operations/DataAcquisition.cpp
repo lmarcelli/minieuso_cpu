@@ -977,7 +977,7 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */
   ZqManager->SetNPkts(ConfigOut->N1, ConfigOut->N2);
-  ZqManager->SetL2TrigParams(ConfigOut->L2_N_BG, CongOut->LOW_THRESH);
+  ZqManager->SetL2TrigParams(ConfigOut->L2_N_BG, ConfigOut->LOW_THRESH);
     
   if (CmdLine->test_zynq_on) {
     

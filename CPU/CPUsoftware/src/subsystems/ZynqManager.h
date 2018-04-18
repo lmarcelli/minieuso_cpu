@@ -128,6 +128,7 @@ public:
   TestMode SetTestMode(TestMode input_mode);
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
+  int SetL2TrigParams(int n_bg, int low_thresh); 
   bool CheckScurve(int sockfd);
   static std::string GetZynqVer();
   

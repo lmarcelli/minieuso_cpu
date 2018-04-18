@@ -623,7 +623,7 @@ int RunInstrument::Acquisition() {
 
 
   /* set the ASIC DAC */
-  this->Zynq.Dac(this->ConfigOut->dac_level);
+  this->Zynq.SetDac(this->ConfigOut->dac_level);
   
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {

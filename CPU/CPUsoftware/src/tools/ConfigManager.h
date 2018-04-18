@@ -34,6 +34,8 @@ struct Config {
   int dac_level;
   int N1;
   int N2;
+  int L2_N_BG;
+  int L2_LOW_THRESH;
 
   /* set by RunInstrument and InputParser at runtime */
   bool hv_on;

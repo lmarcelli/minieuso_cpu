@@ -140,7 +140,7 @@ fi
 echo "Launching camera acquisition streaming program $PROGR/singlecam" 
 echo "Screen output is saved to log file $IMAGESAVEDIR/log-$DATE.log"
 # launch camera acquisition streaming program singlecam and save screen output to log file 
-$PROGR/singlecam $PARDIR $file_status $IMAGESAVEDIR $SERIAL | tee -a $IMAGESAVEDIR/log-$DATE.log
+$PROGR/singlecam $PARDIR $file_status $IMAGESAVEDIR $SERIAL |& tee -a $IMAGESAVEDIR/log-$DATE.log
 ;;
 2*)
 echo 'You are asking to connect both cameras'
@@ -148,7 +148,7 @@ echo "FILE STATUS NIR $file_status_nir VIS $file_status_vis"
 echo "Launching main camera acquisition streaming program $PROGR/multiplecam" 
 echo "Screen output is saved to log file $IMAGESAVEDIR/log-$DATE.log"
 # launch main camera acquisition streaming program multiplecam and save screen output to log file 
-$PROGR/multiplecam $PARDIR $file_status_nir $file_status_vis $IMAGESAVEDIR | tee -a $IMAGESAVEDIR/log-$DATE.log
+$PROGR/multiplecam $PARDIR $file_status_nir $file_status_vis $IMAGESAVEDIR |& tee -a $IMAGESAVEDIR/log-$DATE.log
 ;;
 *)
 echo 'Something is not quite right here... Check your input variables. Forced Exit. '

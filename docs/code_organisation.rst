@@ -19,6 +19,15 @@ Configuration and logs:
 * ``log/`` :  log files written here
 * ``config/`` : configuration files sotred here
 
+**NB: The data format headers are sotred outside the main code as they need to be accessed by other software** 
+The data format headers are stored in the highlest level directory of the GitHub repository
+
+* ``data_format/`` : the header files describing the data format from Zynq and the CPU
+
+  * ``data_format.h`` - CPU data files
+  * ``pdmdata.h`` - structures defined in the Zynq board software
+
+
 The code can be compiled using the Makefile by running ``make`` in ``CPUsoftware/``. First, the libraries must be compiled by running ``make`` in ``CPUsoftware/lib``.
 
 When compiled, the software produces the mecontrol executable which is symlinked to ``/usr/local/bin`` by the Makefile. This command runs the ``mecontrol.cpp`` program and accepts a wide range of command line arguments, which are detailed in the usage documentation, and can also be checked by running ``mecontrol -help``.
@@ -74,9 +83,5 @@ Inside the ``src/`` directory, the main source code is organised by functionalit
   * ``log.cpp`` - logging
   * ``log.h``
 
-* ``data_format/`` : the header files describing the data format from Zynq and the CPU
 
-  * ``data_format.h`` - CPU data files
-  * ``pdmdata.h`` - structures defined in the Zynq board software
-
-This is just intended to give an overview and further details will be provided in the class documentation. 
+This is just intended to give an overview and further details are be provided in the class documentation under development. 

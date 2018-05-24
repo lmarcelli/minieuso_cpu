@@ -1,4 +1,3 @@
-
 #include "RunInstrument.h"
 
 std::atomic<bool> signal_shutdown{false};
@@ -186,7 +185,7 @@ int RunInstrument::DebugMode() {
 
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
-  this->Daq.ThManager->PrintTemperature();
+  this->Daq.Thermistors->PrintTemperature();
   std::cout << std::endl;
 
   this->Lvps.SwitchOn(LvpsManager::CAMERAS);

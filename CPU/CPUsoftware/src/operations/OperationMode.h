@@ -5,6 +5,7 @@
 #include <condition_variable>
 
 #include "AnalogManager.h"
+#include "ThermManager.h"
 
 /** 
  * base class for an operational mode 
@@ -15,6 +16,10 @@ public:
    * control of the analog subsystem 
    */
   AnalogManager * Analog = new AnalogManager();
+  /**
+   * control of the thermal subsystem
+   */
+  ThermManager * Thermistors = new ThermManager();
 
   OperationMode();
 

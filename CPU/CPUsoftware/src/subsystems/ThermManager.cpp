@@ -7,7 +7,8 @@
 ThermManager::ThermManager() { 
 
   this->cpu_file_is_set = false;
-  
+  this->inst_mode_switch = false;
+
 }
 
 /**
@@ -56,8 +57,8 @@ TemperatureAcq * ThermManager::GetTemperature() {
   TemperatureAcq * temperature_result;
   size_t found = output.find("Error 10:");
   if (found != std::string::npos) {
-    clog << "error: " << logstream::error << "cannot connect to temprature sensors" << std::endl;
-    temperature_result = NULL;
+    clog << "error: " << logstream::error << "cannot connect to temprature sensors, writing 0 to output." << std::endl;
+    temperature_result = ParseDigitempOutput("output_error");
   }
   else {
     /* parse the output */
@@ -102,22 +103,32 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
   std::smatch match;
   TemperatureAcq * temperature_result = new TemperatureAcq();
 
-  /* search for numbers with 2 decimal places */ 
-  std::string::const_iterator searchStart(input_string.cbegin());
-  int i = 0;
-  int j = 0;
-  while (std::regex_search(searchStart, input_string.cend(), match, num_with_two_dp)) {
-
-    /* fill the results for even values only (ignore Fahrenheit results) */
-    if (i % 2 == 0) {
-      temperature_result->val[j] = std::stof(match[0]);
-      j++;
-    }
-    
-    i++;
-    searchStart += match.position() + match.length();
+  /* check for null output */
+  int k = 0;
+  if (input_string == "output_error") {
+    for (k = 0; k < N_CHANNELS_THERM; k++) {
+      temperature_result->val[k] = 0;
+    }    
   }
-    
+  else {
+  
+    /* search for numbers with 2 decimal places */ 
+    std::string::const_iterator searchStart(input_string.cbegin());
+    int i = 0;
+    int j = 0;
+    while (std::regex_search(searchStart, input_string.cend(), match, num_with_two_dp)) {
+      
+      /* fill the results for even values only (ignore Fahrenheit results) */
+      if (i % 2 == 0) {
+	temperature_result->val[j] = std::stof(match[0]);
+	j++;
+      }
+      
+      i++;
+      searchStart += match.position() + match.length();
+    }
+  }
+  
   return temperature_result;
 }
 
@@ -159,29 +170,69 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
 int ThermManager::ProcessThermData() {
 
   std::mutex m;
-  
-  /* start infinite loop */
-  while(1) {
-    
-    /* collect data */
-    TemperatureAcq * temperature_result = GetTemperature();
+  time_t start_time = time(0);
+  time_t time_diff = 0;
+  bool first_run = true;
 
+  
+  std::unique_lock<std::mutex> lock(this->m_mode_switch);
+  /* enter loop while instrument mode switching not requested */
+  while(!this->cv_mode_switch.wait_for(lock,
+				       std::chrono::milliseconds(WAIT_PERIOD),
+				       [this] { return this->inst_mode_switch; })) { 
+  
+    if ((time_diff > THERM_ACQ_SLEEP) || first_run) {
+      /* collect data */
+      TemperatureAcq * temperature_result = GetTemperature();
+      
+      /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
+      std::unique_lock<std::mutex> lock(m);
+      this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
+      
     
-    /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
-    std::unique_lock<std::mutex> lock(m);
-    this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
-    
-    
-    /* write to file */
-    if (temperature_result != NULL) {
-      WriteThermPkt(temperature_result);
+      /* write to file */
+      if (temperature_result != NULL) {
+	WriteThermPkt(temperature_result);
+      }
+      
+      first_run = false;
+      start_time = time(0);
     }
     
     /* sleep */
-    sleep(THERM_ACQ_SLEEP);
-    
+    sleep(THERM_ACQ_CHECK);
+    time_diff = time(0) - start_time;
+
   }
+ 
+  return 0;
+}
+
+
+/**
+ * reset the mode switching after an instrument mode change
+ * used by OperationMode::Reset() 
+ */
+int ThermManager::Reset() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+
+  return 0;
+}
+
+/**
+ * notify the object of an instrument mode switch 
+ * used by OperationMode::Notify
+ */
+int ThermManager::Notify() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release mutex */
   
-  /* never reached */
   return 0;
 }

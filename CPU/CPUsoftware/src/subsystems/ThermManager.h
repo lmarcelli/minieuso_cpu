@@ -13,6 +13,9 @@
 /* number of seconds between temperature acquisitions */
 #define THERM_ACQ_SLEEP 60
 
+/* number of seconds between checking for switching */
+#define THERM_ACQ_CHECK 2
+
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
 

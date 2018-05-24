@@ -169,30 +169,39 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
 int ThermManager::ProcessThermData() {
 
   std::mutex m;
-  
+  time_t start_time = time(0);
+  time_t time_diff = 0;
+  bool first_run = true;
+
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; })) { 
 
-    /* collect data */
-    TemperatureAcq * temperature_result = GetTemperature();
-
     
-    /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
-    std::unique_lock<std::mutex> lock(m);
-    this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
+    if ((time_diff > THERM_ACQ_SLEEP) || first_run) {
+      /* collect data */
+      TemperatureAcq * temperature_result = GetTemperature();
+      
     
+      /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
+      std::unique_lock<std::mutex> lock(m);
+      this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
+      
     
-    /* write to file */
-    if (temperature_result != NULL) {
-      WriteThermPkt(temperature_result);
+      /* write to file */
+      if (temperature_result != NULL) {
+	WriteThermPkt(temperature_result);
+      }
+      
+      first_run = false;
+      start_time = time(0);
     }
     
     /* sleep */
-    sleep(THERM_ACQ_SLEEP);
-
+    sleep(THERM_ACQ_CHECK);
+    time_diff = time(0) - start_time;
     
   }
   

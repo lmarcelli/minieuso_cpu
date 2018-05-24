@@ -197,7 +197,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   this->RunAccess = new Access(this->CpuFile);
 
   /* access for ThermManager */
-  this->ThManager->RunAccess = new Access(this->CpuFile);
+  this->Thermistors->RunAccess = new Access(this->CpuFile);
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
@@ -217,8 +217,8 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   
   /* notify the ThermManager */
   /* will this only work the first time? */
-  this->ThManager->cpu_file_is_set = true;
-  this->ThManager->cond_var.notify_all();
+  this->Thermistors->cpu_file_is_set = true;
+  this->Thermistors->cond_var.notify_all();
   
   return 0;
 }
@@ -732,11 +732,11 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      printf("PACKET COUNTER = %i\n", packet_counter);
 	      printf("The packet %s was read out\n", zynq_file_name.c_str());
 	      
-		/* increment the packet counter */
+	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;
 	      
-		/* leave loop for a single run file */
+	      /* leave loop for a single run file */
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		/* send shutdown signal to RunInstrument */
 		/* interrupt signal to main thread */
@@ -989,16 +989,16 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
 
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
-  analog.join();
  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
-    this->ThManager->Init();
-    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+    this->Thermistors->Init();
+    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->Thermistors);
     collect_therm_data.join();
   }
-  
-  /* wait for main data acquisition thread to join */
+
+  /* wait for other acquisition threads to join */
+  analog.join();
   collect_main_data.join();
 
   

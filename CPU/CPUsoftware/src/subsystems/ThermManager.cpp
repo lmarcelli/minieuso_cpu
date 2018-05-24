@@ -202,8 +202,13 @@ int ThermManager::ProcessThermData() {
     /* sleep */
     sleep(THERM_ACQ_CHECK);
     time_diff = time(0) - start_time;
-    
+
+    /* debug */
+    std::cout << "time diff therm: " << time_diff << std::endl;
   }
+
+  /* debug */
+  std::cout << "exiting thermistors"  << std::endl; 
   
   return 0;
 }

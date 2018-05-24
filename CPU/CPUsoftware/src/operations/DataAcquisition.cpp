@@ -736,7 +736,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      packet_counter++;
 	      frm_num++;
 	      
-		/* leave loop for a single run file */
+	      /* leave loop for a single run file */
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		/* send shutdown signal to RunInstrument */
 		/* interrupt signal to main thread */
@@ -989,7 +989,6 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
 
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
-  analog.join();
  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
@@ -997,8 +996,9 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
     std::thread collect_therm_data (&ThermManager::ProcessThermData, this->Thermistors);
     collect_therm_data.join();
   }
-  
-  /* wait for main data acquisition thread to join */
+
+  /* wait for other acquisition threads to join */
+  analog.join();
   collect_main_data.join();
 
   

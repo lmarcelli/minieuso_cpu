@@ -197,7 +197,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   this->RunAccess = new Access(this->CpuFile);
 
   /* access for ThermManager */
-  this->ThManager->RunAccess = new Access(this->CpuFile);
+  this->Thermistors->RunAccess = new Access(this->CpuFile);
     
   /* set up the cpu file structure */
   cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
@@ -217,8 +217,8 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   
   /* notify the ThermManager */
   /* will this only work the first time? */
-  this->ThManager->cpu_file_is_set = true;
-  this->ThManager->cond_var.notify_all();
+  this->Thermistors->cpu_file_is_set = true;
+  this->Thermistors->cond_var.notify_all();
   
   return 0;
 }
@@ -993,8 +993,8 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
-    this->ThManager->Init();
-    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->ThManager);
+    this->Thermistors->Init();
+    std::thread collect_therm_data (&ThermManager::ProcessThermData, this->Thermistors);
     collect_therm_data.join();
   }
   

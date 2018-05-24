@@ -7,7 +7,8 @@
 ThermManager::ThermManager() { 
 
   this->cpu_file_is_set = false;
-  
+  this->inst_mode_switch = false;
+
 }
 
 /**

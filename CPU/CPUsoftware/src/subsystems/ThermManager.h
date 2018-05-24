@@ -2,6 +2,7 @@
 #define _THERM_MANAGER_H
 
 #include <regex>
+#include <mutex>
 #include <condition_variable>
 
 #include "log.h"
@@ -11,6 +12,10 @@
 
 /* number of seconds between temperature acquisitions */
 #define THERM_ACQ_SLEEP 60
+
+/* for use with conditional variable */
+#define WAIT_PERIOD 1 /* milliseconds */
+
 
 /**
  * acquisition structure for temperature readout 
@@ -47,6 +52,19 @@ public:
   void PrintTemperature();
   
 private:
+  /*
+   * to notify the object of a mode switch
+   */
+  bool inst_mode_switch;
+  /*
+   * to handle mode switching in a thread-safe way
+   */
+  std::mutex m_mode_switch;
+  /*
+   * to wait for a mode switch
+   */
+  std::condition_variable cv_mode_switch;
+
   TemperatureAcq * ParseDigitempOutput(std::string input_string);
   uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();

@@ -5,6 +5,7 @@
 #include <condition_variable>
 
 #include "AnalogManager.h"
+#include "ThermManager.h"
 
 /** 
  * base class for an operational mode 

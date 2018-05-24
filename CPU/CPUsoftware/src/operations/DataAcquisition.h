@@ -50,11 +50,6 @@ public:
   Access * RunAccess;
 
   /**
-   * control of the thermistors 
-   */
-  ThermManager * ThManager = new ThermManager();
-
-  /**
    * enum to define the CPU file type
    */
   enum RunType : uint8_t {

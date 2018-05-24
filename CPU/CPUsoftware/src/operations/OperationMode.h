@@ -15,6 +15,10 @@ public:
    * control of the analog subsystem 
    */
   AnalogManager * Analog = new AnalogManager();
+  /**
+   * control of the thermal subsystem
+   */
+  ThermManager * Thermistors = new ThermManager();
 
   OperationMode();
 

@@ -20,8 +20,9 @@ void OperationMode::Notify() {
   } /* release mutex */
   this->_cv_switch.notify_all();
 
-  /* also notify the analog acquisition */
+  /* also notify the analog and thermal acquisition */
   this->Analog->Notify();
+  this->Thermistors->Notify();
 
 }
 
@@ -37,6 +38,7 @@ void OperationMode::Reset() {
 
   /* also reset the analog switch */
   this->Analog->Reset();
+  this->Thermistors->Notify();
 
   
 }

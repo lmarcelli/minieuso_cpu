@@ -176,6 +176,7 @@ int ThermManager::ProcessThermData() {
 
   std::cout << "starting run thermistors"  << std::endl; 
   std::cout << "start time: " << start_time  << std::endl; 
+  std::cout << "this->m_inst_mode_switch: " << this->inst_mode_switch << std::endl; 
   
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */

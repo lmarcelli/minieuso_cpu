@@ -732,7 +732,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      printf("PACKET COUNTER = %i\n", packet_counter);
 	      printf("The packet %s was read out\n", zynq_file_name.c_str());
 	      
-		/* increment the packet counter */
+	      /* increment the packet counter */
 	      packet_counter++;
 	      frm_num++;
 	      

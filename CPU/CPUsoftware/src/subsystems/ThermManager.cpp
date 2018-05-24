@@ -56,8 +56,8 @@ TemperatureAcq * ThermManager::GetTemperature() {
   TemperatureAcq * temperature_result;
   size_t found = output.find("Error 10:");
   if (found != std::string::npos) {
-    clog << "error: " << logstream::error << "cannot connect to temprature sensors" << std::endl;
-    temperature_result = NULL;
+    clog << "error: " << logstream::error << "cannot connect to temprature sensors, writing 0 to output." << std::endl;
+    temperature_result = ParseDigitempOutput("output_error");
   }
   else {
     /* parse the output */
@@ -102,22 +102,32 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
   std::smatch match;
   TemperatureAcq * temperature_result = new TemperatureAcq();
 
-  /* search for numbers with 2 decimal places */ 
-  std::string::const_iterator searchStart(input_string.cbegin());
-  int i = 0;
-  int j = 0;
-  while (std::regex_search(searchStart, input_string.cend(), match, num_with_two_dp)) {
-
-    /* fill the results for even values only (ignore Fahrenheit results) */
-    if (i % 2 == 0) {
-      temperature_result->val[j] = std::stof(match[0]);
-      j++;
-    }
-    
-    i++;
-    searchStart += match.position() + match.length();
+  /* check for null output */
+  int k = 0;
+  if (input_string == "output_error") {
+    for (k = 0; k < N_CHANNELS_THERM; k++) {
+      temperature_result->val[k] = 0;
+    }    
   }
-    
+  else {
+  
+    /* search for numbers with 2 decimal places */ 
+    std::string::const_iterator searchStart(input_string.cbegin());
+    int i = 0;
+    int j = 0;
+    while (std::regex_search(searchStart, input_string.cend(), match, num_with_two_dp)) {
+      
+      /* fill the results for even values only (ignore Fahrenheit results) */
+      if (i % 2 == 0) {
+	temperature_result->val[j] = std::stof(match[0]);
+	j++;
+      }
+      
+      i++;
+      searchStart += match.position() + match.length();
+    }
+  }
+  
   return temperature_result;
 }
 

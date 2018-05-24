@@ -50,7 +50,11 @@ public:
   TemperatureAcq * GetTemperature();
   int WriteThermPkt(TemperatureAcq * temperature_results);
   void PrintTemperature();
-  
+
+  /* handle instrument mode switching */
+  int Notify();
+  int Reset();
+
 private:
   /*
    * to notify the object of a mode switch

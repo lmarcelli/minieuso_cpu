@@ -188,3 +188,32 @@ int ThermManager::ProcessThermData() {
   
   return 0;
 }
+
+
+/**
+ * reset the mode switching after an instrument mode change
+ * used by OperationMode::Reset() 
+ */
+int ThermManager::Reset() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = false;
+  } /* release mutex */
+
+  return 0;
+}
+
+/**
+ * notify the object of an instrument mode switch 
+ * used by OperationMode::Notify
+ */
+int ThermManager::Notify() {
+
+  {
+    std::unique_lock<std::mutex> lock(this->m_mode_switch);   
+    this->inst_mode_switch = true;
+  } /* release mutex */
+  
+  return 0;
+}

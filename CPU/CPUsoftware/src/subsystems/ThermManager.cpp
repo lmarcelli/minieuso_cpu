@@ -185,8 +185,6 @@ int ThermManager::ProcessThermData() {
       /* collect data */
       TemperatureAcq * temperature_result = GetTemperature();
       
-      std::cout << "first acquisition: " << start_time  << std::endl; 
-      
       /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
       std::unique_lock<std::mutex> lock(m);
       this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});
@@ -205,13 +203,8 @@ int ThermManager::ProcessThermData() {
     sleep(THERM_ACQ_CHECK);
     time_diff = time(0) - start_time;
 
-    /* debug */
-    std::cout << "time diff therm: " << time_diff << std::endl;
   }
-
-  /* debug */
-  std::cout << "exiting thermistors"  << std::endl; 
-  
+ 
   return 0;
 }
 

@@ -36,9 +36,9 @@ void OperationMode::Reset() {
     this->_switch = false;
   } /* release mutex */
 
-  /* also reset the analog switch */
+  /* also reset the analog and thermal switch */
   this->Analog->Reset();
-  this->Thermistors->Notify();
+  this->Thermistors->Reset();
 
   
 }

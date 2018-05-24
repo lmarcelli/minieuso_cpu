@@ -174,23 +174,19 @@ int ThermManager::ProcessThermData() {
   time_t time_diff = 0;
   bool first_run = true;
 
-  std::cout << "starting run thermistors"  << std::endl; 
-  std::cout << "start time: " << start_time  << std::endl; 
-  std::cout << "this->m_inst_mode_switch: " << this->inst_mode_switch << std::endl; 
   
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; })) { 
-
-    std::cout << "inside loop: " << start_time  << std::endl; 
-    
+  
     if ((time_diff > THERM_ACQ_SLEEP) || first_run) {
       /* collect data */
       TemperatureAcq * temperature_result = GetTemperature();
       
-    
+      std::cout << "first acquisition: " << start_time  << std::endl; 
+      
       /* wait for CPU file to be set by DataAcqManager::ProcessIncomingData() */
       std::unique_lock<std::mutex> lock(m);
       this->cond_var.wait(lock, [this]{return cpu_file_is_set == true;});

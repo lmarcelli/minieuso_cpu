@@ -39,7 +39,7 @@ Tests with HV
 * When the HV is behaving as expected with simple status checks, it is suitable to proceed with raising the HV dynode voltage to the desired level
 * To take an acquisition with the HV on use, for example::
 
-    mecontrol -log -hv all -dv 3000 -asicdac 500
+    mecontrol -log -hv all -dv 3000 -asicdac 500 -zynq periodic
 
   * The asic dac must be set when taking an acquisition, otherwise, the value in the configuration file will be used by default
   * This is the ASIC threshold setting, and should correspond to the single photoelectron plateau of the S-curve
@@ -54,5 +54,5 @@ Tests with HV
 
     HVPS status: 0 0 0 0 0 0 0 0 0
   
-    
+NB: If EC units are not connected, their status will be undefined and can return non-zero values. In this case use the EC by EC commands described `here<http://minieuso-software.readthedocs.io/en/latest/usage/functionality.html#control-of-the-high-voltage-hv>`_.
 

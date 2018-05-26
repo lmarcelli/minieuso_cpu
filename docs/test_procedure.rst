@@ -54,5 +54,5 @@ Tests with HV
 
     HVPS status: 0 0 0 0 0 0 0 0 0
   
-NB: If EC units are not connected, their status will be undefined and can return non-zero values. In this case use the EC by EC commands described `here<http://minieuso-software.readthedocs.io/en/latest/usage/functionality.html#control-of-the-high-voltage-hv>`_.
+NB: If EC units are not connected, their status will be undefined and can return non-zero values. In this case use the EC by EC commands described `here <http://minieuso-software.readthedocs.io/en/latest/usage/functionality.html#control-of-the-high-voltage-hv>`_.
 

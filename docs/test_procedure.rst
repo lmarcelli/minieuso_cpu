@@ -39,14 +39,14 @@ Tests with HV
 * When the HV is behaving as expected with simple status checks, it is suitable to proceed with raising the HV dynode voltage to the desired level
 * To take an acquisition with the HV on use, for example::
 
-    mecontrol -log -hv -dv 3000 -asicdac 500
+    mecontrol -log -hv all -dv 3000 -asicdac 500
 
   * The asic dac must be set when taking an acquisition, otherwise, the value in the configuration file will be used by default
   * This is the ASIC threshold setting, and should correspond to the single photoelectron plateau of the S-curve
 
 * To take an S-curve with the HV on run::
 
-    mecontrol -log -hv -dv 3000 -scurve
+    mecontrol -log -hv all -dv 3000 -scurve
 
   * There is no need to specify the asicdac for an S-curve, all thresholds will be scanned
 

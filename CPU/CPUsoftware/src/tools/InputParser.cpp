@@ -31,7 +31,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->hvps_ec_string = "";
-  this->CmdLine->zynq_mode = ZynqManager::NONE;
+  this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
   this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
 
   this->CmdLine->zynq_mode_string = "";

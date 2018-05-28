@@ -95,14 +95,15 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     }
     
   }
-  if(cmdOptionExists("-hvps")){
+  if(cmdOptionExists("-hvswitch")){
     this->CmdLine->hvps_switch = true;
 
     /* HVPS on/off */
-    const std::string & hv_status_str = getCmdOption("-hvps");
+    const std::string & hv_status_str = getCmdOption("-hvswitch");
     if (!hv_status_str.empty()) {
       if (hv_status_str == "on") {
 	this->CmdLine->hvps_status = ZynqManager::ON;
+	this->CmdLine->hvps_ec_string = "1,1,1,1,1,1,1,1,1"; 
       }
       else if (hv_status_str == "off") {
 	this->CmdLine->hvps_status = ZynqManager::OFF;   

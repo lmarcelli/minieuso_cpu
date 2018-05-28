@@ -103,7 +103,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     if (!hv_status_str.empty()) {
       if (hv_status_str == "on") {
 	this->CmdLine->hvps_status = ZynqManager::ON;
-	this->CmdLine->hvps_ec_string = "1,1,1,1,1,1,1,1,1"; 
       }
       else if (hv_status_str == "off") {
 	this->CmdLine->hvps_status = ZynqManager::OFF;   

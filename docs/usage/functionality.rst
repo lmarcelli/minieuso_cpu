@@ -12,7 +12,8 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
 * The voltage is automatically ramped up in steps of ~ 140 V from 0 V to the desired operating voltage
 * The HV can be turned on in 2 different ways
   
-  * ``mecontrol -hvps on -dv <X>`` switches on the HV then exits the program, to allow for other tests
+  * ``mecontrol -hvswitch on -hv all -dv <X>`` switches on the HV for all ECs then exits the program, to allow for other tests
+  * ``mecontrol -hvswitch on -hv 0,0,0,0,0,0,0,0,1 -dv <X>`` switches on the HV for onlt one EC unit then exits the program, to allow for other tests
   * ``mecontrol -hv all -dv <X>`` starts an acquisition, turning the HV on and off automatically for all EC units 
   * ``mecontrol -hv 0,0,0,0,0,0,0,0,1 -dv <X>`` starts an acquisition, turning the HV on and off automatically for only one EC unit
         

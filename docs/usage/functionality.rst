@@ -1,6 +1,13 @@
 Functionality
 =============
 
+General
+-------
+
+* ``mecontrol -help`` show a list of all the command line options
+* ``mecontrol -ver`` show the version info
+* ``mecontrol -db`` run a debug program for diagnostic tests of all subsystems
+  
 
 Control of the high voltage (HV)
 --------------------------------

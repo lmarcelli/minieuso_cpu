@@ -749,7 +749,7 @@ void RunInstrument::Start() {
     CheckStatus();
     return;
   }
-  
+
   /* run start-up  */
   int check = this->StartUp();
   if (check !=0 ){

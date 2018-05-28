@@ -22,6 +22,10 @@ int main(int argc, char ** argv) {
     /* exit when help message called */
     return 0;
   }
+  if (CmdLine->ver) {
+    /* exit when version info called */
+    return 0;
+  }
 
   /* run instrument according to specifications */
   RunInstrument  MiniEuso(CmdLine);

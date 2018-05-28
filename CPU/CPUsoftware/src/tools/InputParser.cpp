@@ -380,6 +380,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "EXECUTE-AND-EXIT" << std::endl;
   std::cout << "These commands execute and exit without running an automated acquisition" << std::endl;
   std::cout << std::endl;
+  std::cout << "-ver:                print the version info then exit" << std::endl;
   std::cout << "-lvps <MODE>:        switch a subsystem using the LVPS (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-subsystem <SUBSYS>: select subsystem to switch (<SUBSYS> = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
   std::cout << "-hvps <MODE>:        switch the high voltage (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;

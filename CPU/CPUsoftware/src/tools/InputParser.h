@@ -7,6 +7,7 @@
 #include "LvpsManager.h"
 #include "ZynqManager.h"
 #include "CpuTools.h"
+#include "minieuso_data_format.h"
 
 /*
  * maximum length of filename comments
@@ -24,6 +25,7 @@ struct CmdLineInputs {
 
   /* command line options */
   bool help;
+  bool ver;
   bool hvps_on;
   bool hvps_switch;
   bool debug_mode;
@@ -82,6 +84,7 @@ public:
   
   InputParser(int & argc, char ** argv); 
   CmdLineInputs * ParseCmdLineInputs();
+  int PrintVersionInfo();
 
   /**
    * get the command line options 
@@ -119,6 +122,7 @@ private:
   std::vector <std::string> tokens;
 
   int PrintHelpMsg();
+
 };
 
 

@@ -10,6 +10,7 @@ InputParser::InputParser(int &argc, char **argv) {
   
   /* initialise the struct to handle input */
   this->CmdLine->help = false;
+  this->CmdLine->ver = false;
   this->CmdLine->hvps_on = false;
   this->CmdLine->hvps_switch = false;
   this->CmdLine->debug_mode = false;
@@ -31,7 +32,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->lvps_subsystem = LvpsManager::ZYNQ;
   this->CmdLine->hvps_status = ZynqManager::UNDEF;
   this->CmdLine->hvps_ec_string = "";
-  this->CmdLine->zynq_mode = ZynqManager::NONE;
+  this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
   this->CmdLine->zynq_test_mode = ZynqManager::T_NONE;
 
   this->CmdLine->zynq_mode_string = "";
@@ -77,6 +78,12 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->help = true;
     PrintHelpMsg();
   }
+
+  /* check for version info option */
+  if(cmdOptionExists("-ver")){
+    this->CmdLine->ver = true;
+    PrintVersionInfo();
+  }
   
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){
@@ -95,11 +102,11 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     }
     
   }
-  if(cmdOptionExists("-hvps")){
+  if(cmdOptionExists("-hvswitch")){
     this->CmdLine->hvps_switch = true;
 
     /* HVPS on/off */
-    const std::string & hv_status_str = getCmdOption("-hvps");
+    const std::string & hv_status_str = getCmdOption("-hvswitch");
     if (!hv_status_str.empty()) {
       if (hv_status_str == "on") {
 	this->CmdLine->hvps_status = ZynqManager::ON;
@@ -373,6 +380,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "EXECUTE-AND-EXIT" << std::endl;
   std::cout << "These commands execute and exit without running an automated acquisition" << std::endl;
   std::cout << std::endl;
+  std::cout << "-ver:                print the version info then exit" << std::endl;
   std::cout << "-lvps <MODE>:        switch a subsystem using the LVPS (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-subsystem <SUBSYS>: select subsystem to switch (<SUBSYS> = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
   std::cout << "-hvps <MODE>:        switch the high voltage (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
@@ -424,7 +432,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "ACQUISITION" << std::endl;
   std::cout << std::endl;
   std::cout << "-short <N>:          run a short acquisition of N CPU_PACKETs"<< std::endl;
-  std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = none)" << std::endl;
+  std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = periodic)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;
   std::cout << "-keep_zynq_pkt:      keep the Zynq packets on FTP" << std::endl;
   std::cout << std::endl;
@@ -439,5 +447,21 @@ int InputParser::PrintHelpMsg() {
   std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
   std::cout << "to safely stop the program's exectution use CTRL-C" << std::endl;
  
+  return 0;
+}
+
+
+/**
+ * print the version of the instrument
+ * (for use with mecontrol -ver) 
+ */
+int InputParser::PrintVersionInfo() {
+
+  std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << "Mini-EUSO CPU SOFTWARE Version: " << VERSION << " Date: " << VERSION_DATE_STRING << std::endl;
+  std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
+  std::cout << std::endl;
+
   return 0;
 }

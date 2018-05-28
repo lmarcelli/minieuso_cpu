@@ -10,6 +10,7 @@ InputParser::InputParser(int &argc, char **argv) {
   
   /* initialise the struct to handle input */
   this->CmdLine->help = false;
+  this->CmdLine->ver = false;
   this->CmdLine->hvps_on = false;
   this->CmdLine->hvps_switch = false;
   this->CmdLine->debug_mode = false;
@@ -76,6 +77,12 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if(cmdOptionExists("-help")){
     this->CmdLine->help = true;
     PrintHelpMsg();
+  }
+
+  /* check for version info option */
+  if(cmdOptionExists("-ver")){
+    this->CmdLine->ver = true;
+    PrintVersionInfo();
   }
   
   /* check what comand line options exist */
@@ -439,5 +446,21 @@ int InputParser::PrintHelpMsg() {
   std::cout << "*ALWAYS CONFIRM THE HV IS SWITCHED OFF BEFORE ALLOWING LIGHT ON THE PDM*" << std::endl;
   std::cout << "to safely stop the program's exectution use CTRL-C" << std::endl;
  
+  return 0;
+}
+
+
+/**
+ * print the version of the instrument
+ * (for use with mecontrol -ver) 
+ */
+int InputParser::PrintVersionInfo() {
+
+  std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << "Mini-EUSO CPU SOFTWARE Version: " << VERSION << " Date: " << VERSION_DATE_STRING << std::endl;
+  std::cout << "-----------------------------------------------------" << std::endl;
+  std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
+  std::cout << std::endl;
+
   return 0;
 }

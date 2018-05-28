@@ -1,6 +1,13 @@
 Functionality
 =============
 
+General
+-------
+
+* ``mecontrol -help`` show a list of all the command line options
+* ``mecontrol -ver`` show the version info
+* ``mecontrol -db`` run a debug program for diagnostic tests of all subsystems
+  
 
 Control of the high voltage (HV)
 --------------------------------
@@ -10,12 +17,17 @@ The CPU controls the HV sent to the PMTs via the Zynq board.
 **Important: always ensure that the instrument is in a dark, light-tight environment and that all LEDs on the instrument itself are covered or disabled before switching on the HV. Similarly, ensure the HV is switched off before allowing light on the instrument.**
 
 * The voltage is automatically ramped up in steps of ~ 140 V from 0 V to the desired operating voltage
-* The HV can be turned on in 2 different ways
+* The HV can be turned on in 2 different ways, with or without an automated acquisition
   
-  * ``mecontrol -hvps on -dv <X>`` switches on the HV then exits the program, to allow for other tests
+  * ``mecontrol -hvswitch on -hv all -dv <X>`` switches on the HV for all ECs then exits the program, to allow for other tests
+  * ``mecontrol -hvswitch on -hv 0,0,0,0,0,0,0,0,1 -dv <X>`` switches on the HV for onlt one EC unit then exits the program, to allow for other tests
   * ``mecontrol -hv all -dv <X>`` starts an acquisition, turning the HV on and off automatically for all EC units 
   * ``mecontrol -hv 0,0,0,0,0,0,0,0,1 -dv <X>`` starts an acquisition, turning the HV on and off automatically for only one EC unit
-        
+
+* To switch off the HV, simply use
+
+  * ``mecontrol -hvswitch off`` switches off the HV for all EC units
+    
 * Explanation of the command flags
 
   * the flag ``-dv <X>`` sets the dynode voltage to X, where X is the DAC between 0 and 4096 
@@ -56,7 +68,7 @@ The CPU handles the data acquisition from all subsystems.
     * ``-acc``: number of GTU taken at each ASIC DAC step
       
   * ``-short <N>``: run a short acquisition of ``<N>`` CPU_PACKETs (NB: ``<N>`` must be less than ``RUN_SIZE`` defined in minieuso_data_format.h)
-  * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``none``)
+  * ``-zynq <MODE>``: use the Zynq acquisition mode (see section below for details, default = ``periodic``)
   * ``-test_zynq <MODE>``: use the Zynq test mode (see section below for details, default = ``pdm``)
   * ``-keep_zynq_pkt``: keep the Zynq packets on FTP
   * ``-comment`` : add a string comment which is put in the :cpp:class:`CpuFileHeader` and the CPU file name (e.g. ``-comment "your comment here"``).

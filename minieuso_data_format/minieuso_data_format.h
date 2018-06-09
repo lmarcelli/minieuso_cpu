@@ -19,7 +19,7 @@
  * software definitions
  */
 
-#define VERSION 5.9
+#define VERSION 6.0
 #define VERSION_DATE_STRING "09/06/2018"
 
 /*

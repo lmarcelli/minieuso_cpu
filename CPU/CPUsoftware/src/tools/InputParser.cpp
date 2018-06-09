@@ -478,6 +478,24 @@ int InputParser::PrintVersionInfo() {
  */
 int InputParser::CheckInputs() {
 
-  return 0;
+  int error_count = 0;
+  
+  /* loop over inputs and check validity */
+  for(auto &t : this->tokens) {
+
+    /* only check -options */
+    if (t.find('-') != std::string::npos) {
+      bool allowed = std::find(this->allowed_tokens.begin(), this->allowed_tokens.end(), t)
+	!= this->tokens.end();
+
+      if (!allowed) {
+	std::cout << "Error: command line option " << t << " is not recognised";
+	error_count++;
+      }
+    }
+    
+  }
+ 
+  return error_count;
 
 }

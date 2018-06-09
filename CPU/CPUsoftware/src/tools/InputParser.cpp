@@ -478,6 +478,6 @@ int InputParser::PrintVersionInfo() {
  */
 int InputParser::CheckInputs() {
 
-
+  return 0;
 
 }

@@ -111,7 +111,7 @@ public:
   bool cmdOptionExists(const std::string &option) const {
 
     bool found = std::find(this->tokens.begin(), this->tokens.end(), option)
-      != this->tokens.end()
+      != this->tokens.end();
 
     return found;
     
@@ -129,7 +129,7 @@ private:
   std::vector <std::string> allowed_tokens;
   
   int PrintHelpMsg();
-
+  int CheckInputs();
 };
 
 

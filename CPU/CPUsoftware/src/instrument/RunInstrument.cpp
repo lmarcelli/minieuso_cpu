@@ -659,11 +659,7 @@ int RunInstrument::RunningStatusCheck() {
     std::string zynq_status, hk_status, cam_status;
     std::string zynq_telnet_status, hv_status;
     int n_files_written = 0;
-
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << "STATUS UPDATE" << std::endl;
-    
+ 
     /* LVPS powered systems */
     /*
     if (this->Lvps.Check(LvpsManager::ZYNQ)) {
@@ -694,6 +690,10 @@ int RunInstrument::RunningStatusCheck() {
     std::cout << std::endl;
     */
     
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "STATUS UPDATE" << std::endl;
+   
     /* telnet connection and HV */
     {
       std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     

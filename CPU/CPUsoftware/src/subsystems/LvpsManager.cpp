@@ -103,7 +103,8 @@ int LvpsManager::SwitchOff(SubSystem sub_system) {
 }
 
 /**
- * check the return line 
+ * check the return line.
+ * returns true if on and false if off 
  * @param subsystem the subsystem to check
  */
 bool LvpsManager::Check(SubSystem sub_system) {

@@ -656,23 +656,57 @@ int RunInstrument::RunningStatusCheck() {
     std::string zynq_status, hk_status, cam_status;
     std::string zynq_telnet_status, hv_status;
     int n_files_written = 0;
-    
-    
-    /* print to screen */
+
     std::cout << std::endl;
     std::cout << std::endl;
-    
     std::cout << "STATUS UPDATE" << std::endl;
+    
+    /* LVPS powered systems */
+    if (this->Lvps.Check(LvpsManager::ZYNQ)) {
+      zynq_status = "ON";
+    }
+    else {
+      zynq_status = "OFF";
+    }
+    if (this->Lvps.Check(LvpsManager::HK)) {
+      hk_status = "ON";
+    }
+    else {
+      hk_status = "OFF";
+    }
+    if (this->Lvps.Check(LvpsManager::CAMERAS)) {
+      cam_status = "ON";
+    }
+    else {
+      cam_status = "OFF";
+    }
+
     std::cout << "Subsystems power status" << std::endl;
     std::cout << "Zynq: " << zynq_status << std::endl;
     std::cout << "HK: " << hk_status << std::endl;
     std::cout << "Cameras" << cam_status << std::endl;
     std::cout << std::endl;
 
-    std::cout << "Connection and high voltage status" << std::endl;
-    std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
-    std::cout << "HV: " << hv_status << std::endl;
+    /* telnet connection and HV */
+    {
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
+      this->Zynq.CheckConnect();
+      
+      if (this->Zynq.telnet_connected) {
+	zynq_telnet_status = "CONNECTED";
+	std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
+	/* check the instrument and HV status */
+	this->Zynq.GetInstStatus();
+	this->Zynq.GetHvpsStatus();
+      }
+      else {
+	zynq_telnet_status = "DISCONNECTED";
+	std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
+	std::cout << "Cannot display HV info from Zynq" << std::endl;
+      }
+    }
 
+    /* data acquisition */
     std::cout << "Data acquisition status" << std::endl;
     std::cout << "No. of files written: " << n_files_written << std::endl;
     std::cout << std::endl;

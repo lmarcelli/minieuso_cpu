@@ -23,7 +23,7 @@ Contents
    update
    ssh_connection
    usage
-   automated_acquistion
+   automated_acquisition
    data_format
    data_visualisation
    test_procedure

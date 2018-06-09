@@ -21,5 +21,5 @@ An example ``~/.profile``::
   #mecontorl -log -zynq self
 
 
-See the :doc:`usage <usage.rst>` section for all the different ``mecontrol`` options
+See the :doc:`usage <usage.rst>` section for all the different ``mecontrol`` options.
 

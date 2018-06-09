@@ -107,7 +107,7 @@ TemperatureAcq * ThermManager::ParseDigitempOutput(std::string input_string) {
   int k = 0;
   if (input_string == "output_error") {
     for (k = 0; k < N_CHANNELS_THERM; k++) {
-      temperature_result->val[k] = 0;
+      temperature_result->val[k] = 99;
     }    
   }
   else {

@@ -28,6 +28,7 @@
 #define INSTRUMENT "Mini-EUSO"
 #define INSTRUMENT_ME_PDM 1 
 #define ID_TAG 0xAA55AA55
+#define ID_TAG_SUB 0xBB66BB66 
 #define RUN_SIZE 25
 
 /*
@@ -76,6 +77,20 @@ typedef struct
   uint32_t pkt_size; /* size of packet */
   uint32_t pkt_num; /* counter for each pkt_type, reset each run */
 } CpuPktHeader; 
+
+/**
+ * generic packet header for all cpu packets and hk/scurve sub packets 
+ * the zynq packet has its own header defined in minieuso_pdmdata.h 
+ * 16 bytes 
+ */
+typedef struct
+{
+  uint32_t spacer = ID_TAG_SUB; /* BB66BB66 HEX */
+  uint32_t header; /* 'P'(31:24) | instrument_id(23:16) | pkt_type(15:8) | pkt_ver(7:0) */
+  uint32_t pkt_size; /* size of packet */
+  uint32_t pkt_num; /* counter for each pkt_type, reset each run */
+} SubPktHeader; 
+
 
 /*
  * file types 

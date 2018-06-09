@@ -267,6 +267,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
+      else {
+	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	return NULL;
+      }
 
       /* compound modes */
       uint8_t mode_to_set = 0;
@@ -289,6 +293,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	  mode_to_set += ZynqManager::EXTERNAL;
 	}
 	this->CmdLine->zynq_mode = mode_to_set;
+      }
+      else {
+	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	return NULL;
       }
 
       /* set zynq_mode_string */
@@ -327,6 +335,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       }
       else if (test_mode == "L3") {
 	this->CmdLine->zynq_test_mode = ZynqManager::L3;
+      }
+      else {
+	std::cout << "Error: for -test_zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	return NULL;
       }
     }
     else {

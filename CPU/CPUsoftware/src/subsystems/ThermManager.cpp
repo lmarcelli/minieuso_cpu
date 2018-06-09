@@ -141,7 +141,7 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
   THERM_PACKET * therm_packet = new THERM_PACKET();
   static unsigned int pkt_counter = 0;
   
-  clog << "info: " << logstream::info << "writing new packet to " << this->RunAccess->path << std::endl;
+  clog << "info: " << logstream::info << "writing new therm packet to " << this->RunAccess->path << std::endl;
   /* create the therm packet header */
   therm_packet->therm_packet_header.header = BuildCpuPktHeader(THERM_PACKET_TYPE, THERM_PACKET_VER);
   therm_packet->therm_packet_header.pkt_size = sizeof(*therm_packet);

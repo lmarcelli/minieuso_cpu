@@ -19,7 +19,7 @@
 #
 
 EXTRA_CFLAGS = \
-	-I$(src)/../../CPUsoftware/include \
+	-I$(src)/../../CPUsoftware/inc \
 	-D$(shell $(src)/CHIPSET/CHIPSET) \
 
 #

@@ -18,7 +18,7 @@
 #
 
 
-MY_CFLAGS := -I$(shell pwd)/../../CPUsoftware/lib
+MY_CFLAGS := -I$(shell pwd)/../../CPUsoftware/include
 
 #
 # Kernel build environment directory.  Supposedly it is safer to use this

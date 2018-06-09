@@ -650,6 +650,9 @@ int RunInstrument::StatusChecker() {
  */
 int RunInstrument::RunningStatusCheck() {
 
+  /* wait for first update */
+  sleep(10);
+  
   while(!signal_shutdown.load()) {
 
     /* get the status */
@@ -682,18 +685,21 @@ int RunInstrument::RunningStatusCheck() {
       cam_status = "OFF";
     }
     */
-    
+
+    /*
     std::cout << "Subsystems power status" << std::endl;
     std::cout << "Zynq: " << zynq_status << std::endl;
     std::cout << "HK: " << hk_status << std::endl;
     std::cout << "Cameras" << cam_status << std::endl;
     std::cout << std::endl;
-
+    */
+    
     /* telnet connection and HV */
     {
       std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
       this->Zynq.CheckConnect();
-      
+
+      std::cout << "Checking telnet connection..." << std::endl;
       if (this->Zynq.telnet_connected) {
 	zynq_telnet_status = "CONNECTED";
 	std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
@@ -713,7 +719,6 @@ int RunInstrument::RunningStatusCheck() {
       std::unique_lock<std::mutex> lock(this->Daq.m_nfiles);     
       n_files_written = this->Daq.n_files_written;
     }
-    std::cout << "Data acquisition status" << std::endl;
     std::cout << "No. of files written: " << n_files_written << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;

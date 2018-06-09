@@ -51,9 +51,6 @@ InputParser::InputParser(int &argc, char **argv) {
 			  "-hv", "-scurve", "-start", "-stop", "-step", "-acc", "-short",
 			  "-test_zynq", "-keep_zynq_pkt", "-zynq"};
 
-  /* debug */
-  std::cout << "allowed_tokens: " << allowed_tokens[7] << std::endl;
-  
   /* get command line input */
   std::string space = " ";
   this->CmdLine->command_line_string = "mecontrol ";
@@ -87,9 +84,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     return NULL;
   } 
 
-  /* debug */
-  std::cout << "check: " << check << std::endl;
-  
   /* check for help option */
   if(cmdOptionExists("-help")){
     this->CmdLine->help = true;

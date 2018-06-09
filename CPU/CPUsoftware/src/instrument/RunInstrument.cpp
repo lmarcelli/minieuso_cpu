@@ -327,6 +327,7 @@ int RunInstrument::StartUp() {
   /* check the configuration file has been parsed */
   if (!CfManager.IsParsed()) {
     /* exit with error */
+    std::cout << "Error: configuration parsing failed" << std::endl;
     return 1;
   }
 

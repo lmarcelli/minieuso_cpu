@@ -215,7 +215,9 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->scurve_acc != -1 &&
       this->ConfigOut->dac_level != -1 &&
       this->ConfigOut->N1 != -1 &&
-      this->ConfigOut->N2 != -1) {
+      this->ConfigOut->N2 != -1 &&
+      this->ConfigOut->L2_N_BG != -1 &&
+      this->ConfigOut->L2_LOW_THRESH != 0) {
     
     return true;
   }

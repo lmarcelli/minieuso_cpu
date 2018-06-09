@@ -52,7 +52,7 @@ InputParser::InputParser(int &argc, char **argv) {
 			  "-test_zynq", "-keep_zynq_pkt", "-zynq"};
 
   /* debug */
-  std::cout << "allowed_tokens: " << allowed_tokens[0] << std::endl;
+  std::cout << "allowed_tokens: " << allowed_tokens[7] << std::endl;
   
   /* get command line input */
   std::string space = " ";

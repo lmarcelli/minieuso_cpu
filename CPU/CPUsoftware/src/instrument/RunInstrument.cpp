@@ -391,7 +391,12 @@ int RunInstrument::CheckSystems() {
   
 
   std::cout << "STARTING INSTRUMENT" << std::endl;
-  
+
+  /* first power off all systems, for a clean start */
+  this->Lvps.SwitchOff(LvpsManager::CAMERAS);
+  this->Lvps.SwitchOff(LvpsManager::HK);
+  this->Lvps.SwitchOff(LvpsManager::ZYNQ);
+ 
   /* turn on all systems */
   std::cout << "switching on all systems..." << std::endl;
   if (this->CmdLine->cam_on ==true) {

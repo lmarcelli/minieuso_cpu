@@ -18,7 +18,7 @@
 #
 
 
-MY_CFLAGS := -I$(shell pwd)/../include
+MY_CFLAGS := -I$(shell pwd)/../../CPUsoftware/lib
 
 #
 # Kernel build environment directory.  Supposedly it is safer to use this
@@ -72,4 +72,3 @@ unload:
 	@echo "Removing old device files ..."; \
 	rm -f /dev/rtd-dm75xx-* \
 	echo ""; \
-	

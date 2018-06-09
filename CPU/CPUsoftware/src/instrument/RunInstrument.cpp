@@ -707,6 +707,10 @@ int RunInstrument::RunningStatusCheck() {
     }
 
     /* data acquisition */
+    {
+      std::unique_lock<std::mutex> lock(this->Daq.m_nfiles);     
+      n_files_written = this->Daq.n_files_written;
+    }
     std::cout << "Data acquisition status" << std::endl;
     std::cout << "No. of files written: " << n_files_written << std::endl;
     std::cout << std::endl;

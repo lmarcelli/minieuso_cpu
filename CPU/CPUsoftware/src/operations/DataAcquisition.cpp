@@ -13,6 +13,12 @@ DataAcquisition::DataAcquisition() {
   /* usb storage devices */
   this->usb_num_storage_dev = 0;
 
+  /* number of files written */
+  {
+    std::unique_lock<std::mutex> lock(this->m_nfiles);     
+    this->n_files_written = 0;
+  }
+  
   /* scurve acquisition */
   this->_scurve = false;
 }
@@ -245,6 +251,13 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
 
   /* close the current SynchronisedFile */
   this->RunAccess->CloseSynchFile();
+
+  /* update number of packets written */
+  {
+    std::unique_lock<std::mutex> lock(this->m_nfiles);     
+    this->n_files_written++;
+  }
+  
   return 0;
 }
 

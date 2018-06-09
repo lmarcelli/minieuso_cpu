@@ -740,7 +740,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
 		/* send shutdown signal to RunInstrument */
 		/* interrupt signal to main thread */
-		printf("Sending kill signal...")
+		printf("Sending kill signal...");
 		pthread_kill((pthread_t)main_thread, SIGINT);
 		break;
 	      }

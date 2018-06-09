@@ -110,17 +110,24 @@ public:
    */
   bool cmdOptionExists(const std::string &option) const {
 
-    return std::find(this->tokens.begin(), this->tokens.end(), option)
-      != this->tokens.end();
+    bool found = std::find(this->tokens.begin(), this->tokens.end(), option)
+      != this->tokens.end()
+
+    return found;
+    
   }
   
 
 private:
   /**
-   * vecotr containing all the passed command line options
+   * vector containing all the passed command line options
    */
   std::vector <std::string> tokens;
-
+  /**
+   * vector containting all allowed command line options
+   */
+  std::vector <std::string> allowed_tokens;
+  
   int PrintHelpMsg();
 
 };

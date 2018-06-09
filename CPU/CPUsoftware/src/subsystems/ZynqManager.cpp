@@ -658,6 +658,38 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   return 0;
 }
 
+
+/**
+ * set the configurable parameters of the L2 trigger
+ * @param n_bg the number of times above background level the threshold is set
+ * @param low_thresh the lowest possible value of the threshold
+ */
+int ZynqManager::SetL2TrigParams(int n_bg, int low_thresh) {
+
+  /* definitions */
+  std::string status_string;
+  int sockfd;
+  std::string cmd1, cmd2;
+  std::stringstream conv1, conv2;
+
+  clog << "info: " << logstream::info << "setting L2 parameters to N_BG: " << n_bg << " and LOW_THRESH: " << low_thresh << std::endl;
+
+  /* create the command */
+  conv1 << "trig n_bg " << n_bg << std::endl;
+  cmd1 = conv1.str();
+  conv2 << "trig low_thresh " << low_thresh << std::endl;
+  cmd2 = conv2.str();
+
+  /* setup the telnet connection */
+  sockfd = ConnectTelnet();
+  Telnet(cmd1, sockfd, false);
+  Telnet(cmd2, sockfd, false);
+ 
+  close(sockfd);
+  return 0;
+}
+
+
 /**
  * get the Zynq version info
  */
@@ -676,4 +708,5 @@ std::string ZynqManager::GetZynqVer() {
   close(sockfd);
   return zynq_ver;
 } 
+
 

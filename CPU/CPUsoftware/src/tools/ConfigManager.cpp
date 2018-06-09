@@ -9,7 +9,7 @@ ConfigManager::ConfigManager () {
 
   this->ConfigOut = std::make_shared<Config>();
   
-  /* initialise other members to 0 */
+  /* initialise struct members to -1 */
   this->ConfigOut->cathode_voltage = -1;
   this->ConfigOut->dynode_voltage = -1;
   this->ConfigOut->scurve_start = -1;
@@ -19,6 +19,8 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->dac_level = -1;
   this->ConfigOut->N1 = -1;
   this->ConfigOut->N2 = -1;
+  this->ConfigOut->L2_N_BG = -1;
+  this->ConfigOut->L2_LOW_THRESH = -1;
 
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -42,11 +44,7 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
 
   this->ConfigOut = std::make_shared<Config>();
   
-  /* initialise HV switch to be set by InputParser */
-  /* stored here to be easily passed around the DataAcquisition */
-  this->ConfigOut->hv_on = false;
-
-  /* initialise other members to 0 */
+  /* initialise struct members to -1 */
   this->ConfigOut->cathode_voltage = -1;
   this->ConfigOut->dynode_voltage = -1;
   this->ConfigOut->scurve_start = -1;
@@ -56,7 +54,18 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->dac_level = -1;
   this->ConfigOut->N1 = -1;
   this->ConfigOut->N2 = -1;
+  this->ConfigOut->L2_N_BG = -1;
+  this->ConfigOut->L2_LOW_THRESH = -1;
   
+
+  /* initialise HV switch to be set by InputParser */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->hv_on = false;
+
+  /* initialise instrument and acquisition modes to be set by RunInstrument */
+  /* stored here to be easily passed around the DataAcquisition */
+  this->ConfigOut->instrument_mode = 0;
+  this->ConfigOut->acquisition_mode = 0;
   this->ConfigOut->hvps_log_len = 0;
 
 }
@@ -137,6 +146,12 @@ void ConfigManager::Parse() {
       }
       else if (type == "N2") {
 	in >> this->ConfigOut->N2;
+      }
+      else if (type == "L2_N_BG") {
+	in >> this->ConfigOut->L2_N_BG;
+      }
+      else if (type == "L2_LOW_THRESH") {
+	in >> this->ConfigOut->L2_LOW_THRESH;
       }
       
     }

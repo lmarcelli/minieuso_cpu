@@ -84,4 +84,4 @@ Inside the ``src/`` directory, the main source code is organised by functionalit
   * ``log.h``
 
 
-This is just intended to give an overview and further details are be provided in the class documentation under development. 
+This is just intended to give an overview and further details are provided in the class documentation in the :doc:`development <development.rst>` section. 

@@ -538,6 +538,10 @@ int InputParser::CheckInputs() {
 
     /* only check -options */
     if (t.find('-') != std::string::npos) {
+
+      /* debug */
+      std::cout << "token: " << t << std::endl;
+      
       bool allowed = std::find(this->allowed_tokens.begin(), this->allowed_tokens.end(), t)
 	!= this->tokens.end();
 

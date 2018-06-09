@@ -83,6 +83,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   if (check != 0) {
     return NULL;
   } 
+
+  /* debug */
+  std::cout << "check: " << check << std::endl;
   
   /* check for help option */
   if(cmdOptionExists("-help")){

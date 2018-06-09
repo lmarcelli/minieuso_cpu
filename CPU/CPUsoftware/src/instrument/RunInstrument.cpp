@@ -803,12 +803,9 @@ int RunInstrument::NightOperations() {
   Acquisition();
   
   /* turn off HV */
-  {
-    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
-    if (this->Zynq.telnet_connected) {
-      this->CmdLine->hvps_status = ZynqManager::OFF;
-      HvpsSwitch();
-    }
+  if (this->Zynq.telnet_connected) {
+    this->CmdLine->hvps_status = ZynqManager::OFF;
+    HvpsSwitch();
   }
   
   return 0;

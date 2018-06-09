@@ -33,7 +33,7 @@ Installation instructions
 
 3. Restart the system and boot into the OS, **login as root** using the same password and ``su -l``
 
-   * ensure the analog board is also connected (necessary to load the drivers)
+   * ensure the **analog board** and **cameras** are also connected (necessary to load the drivers)
    * the ethernet connection can be configured by copying the following lines into the ``/etc/network/interfaces`` file
    * the CPU has 2 ports (eth0 and eth1), so edit this file as necessary::
 

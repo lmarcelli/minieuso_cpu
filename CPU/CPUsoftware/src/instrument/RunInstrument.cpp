@@ -93,7 +93,7 @@ int RunInstrument::HvpsSwitch() {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
     {
-      std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);   
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
       this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage,
 			    this->ConfigOut->dynode_voltage,
 			    this->CmdLine->hvps_ec_string);
@@ -102,7 +102,7 @@ int RunInstrument::HvpsSwitch() {
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
     {
-      std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);   
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
       this->Zynq.HvpsTurnOff();   
       this->Zynq.SetDac(0); 
       break;
@@ -123,7 +123,7 @@ int RunInstrument::CheckStatus() {
 
   /* test the connection to the zynq board */
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);   
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
     this->Zynq.CheckConnect();
 
     if (this->Zynq.telnet_connected) {
@@ -213,7 +213,7 @@ int RunInstrument::DebugMode() {
   
   std::cout << "ZYNQ" << std::endl;
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);   
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
     this->Zynq.CheckConnect();
     if (this->Zynq.telnet_connected) {
       this->Zynq.GetInstStatus();
@@ -455,7 +455,7 @@ int RunInstrument::SelectAcqOption() {
 
   /* select Zynq acquisition mode */
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);    
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);    
     this->Zynq.zynq_mode = this->CmdLine->zynq_mode;
     this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
   }
@@ -630,6 +630,63 @@ int RunInstrument::PollInstrument() {
 }
 
 /**
+ * launches a background thread to check and 
+ * print the instrument status
+ */
+int RunInstrument::StatusChecker() {
+
+  /* launch a thread to watch the photodiode measurements */
+  std::thread status_checker (&RunInstrument::RunningStatusCheck, this);
+
+  /* detach */
+  status_checker.detach();
+  
+  return 0;
+}
+
+/**
+ * print the status to the screen every STATUS_PERIOD
+ * seconds
+ */
+int RunInstrument::RunningStatusCheck() {
+
+  while(!signal_shutdown.load()) {
+
+    /* get the status */
+    std::string zynq_status, hk_status, cam_status;
+    std::string zynq_telnet_status, hv_status;
+    int n_files_written = 0;
+    
+    
+    /* print to screen */
+    std::cout << std::endl;
+    std::cout << std::endl;
+    
+    std::cout << "STATUS UPDATE" << std::endl;
+    std::cout << "Subsystems power status" << std::endl;
+    std::cout << "Zynq: " << zynq_status << std::endl;
+    std::cout << "HK: " << hk_status << std::endl;
+    std::cout << "Cameras" << cam_status << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Connection and high voltage status" << std::endl;
+    std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
+    std::cout << "HV: " << hv_status << std::endl;
+
+    std::cout << "Data acquisition status" << std::endl;
+    std::cout << "No. of files written: " << n_files_written << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    /* wait until next status check */
+    sleep(STATUS_PERIOD);
+    
+  }
+  
+  return 0;
+}
+
+/**
  * interface to the data acquisition
  * uses the DataAcquisition class member functions
  */
@@ -647,8 +704,7 @@ int RunInstrument::Acquisition() {
 
   /* set the ASIC DAC */
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);   
-     
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
     this->Zynq.SetDac(this->ConfigOut->dac_level);
   }
   /* select SCURVE or STANDARD acquisition */
@@ -710,7 +766,7 @@ int RunInstrument::NightOperations() {
   
   /* turn off HV */
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);     
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
     if (this->Zynq.telnet_connected) {
       this->CmdLine->hvps_status = ZynqManager::OFF;
       HvpsSwitch();
@@ -799,7 +855,7 @@ void RunInstrument::Start() {
   this->CheckSystems();
 
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);     
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
     if (!this->Zynq.telnet_connected) {
       std::cout << "no Zynq connection, exiting the program" << std::endl;
       return;

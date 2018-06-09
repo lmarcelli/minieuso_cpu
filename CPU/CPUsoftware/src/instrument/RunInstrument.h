@@ -12,6 +12,9 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 
+/* wait time between status checks in seconds */
+#define STATUS_PERIOD 30
+
 /**
  * class to handle different instrument operational modes 
  */
@@ -90,6 +93,8 @@ private:
   int Acquisition();
   int MonitorInstrument();
   int PollInstrument();
+  int StatusChecker();
+  int RunningStatusCheck();
   int SetStop();
   bool CheckStop();
   

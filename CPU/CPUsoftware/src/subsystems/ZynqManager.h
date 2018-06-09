@@ -110,9 +110,14 @@ public:
    */
   bool telnet_connected;
   /**
-   *
+   * vector of EC values (0 <=> off, 1 <=> on)
    */
   std::vector<int> ec_values;
+
+  /*
+   * to handle Zynq access in a thread safe way
+   */
+  std::mutex m_zynq;
   
   ZynqManager();
   int CheckConnect();

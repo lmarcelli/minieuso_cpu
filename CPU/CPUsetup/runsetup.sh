@@ -32,6 +32,8 @@ then
    libusb-1.0 stress bridge-utils git-core emacs usbmount gdb ntp libboost-all-dev \
    inotify-tools digitemp
    echo "Packages downloaded"
+   echo "*******************"
+   echo "*******************"
 else
        echo "Could not connect to internet. Exiting..."
        exit 1
@@ -48,6 +50,8 @@ cp $HOME_DIR/CPUsetup/vsftpd.conf /etc/ > /dev/null 2>&1
 mkdir /media/usb > /dev/null 2>&1
 mkdir /home/minieusouser/log  > /dev/null 2>&1
 echo "FTP server is set up"
+echo "*******************"
+echo "*******************"
 
 # Set up the telnet scripts
 chmod +x $HOME_DIR/zynq/telnet/*
@@ -58,6 +62,8 @@ mkdir $HOME_DIR/CPUsoftware/log > /dev/null 2>&1
 (cd $HOME_DIR/CPUsoftware/lib && make)
 (cd $HOME_DIR/CPUsoftware && make)
 echo "Mini-EUSO software is set up"
+echo "****************************"
+echo "****************************"
 
 # Setup symlinks for commands
 echo "Creating symlinks"
@@ -68,6 +74,8 @@ ln -s /usr/bin/digitemp_DS9097U /usr/local/bin/digitemp
 echo "Setting up the network configuration..."
 cp $HOME_DIR/CPUsetup/interfaces /etc/network/ > /dev/null 2>&1
 echo "Network configuration is set up"
+echo "*******************************"
+echo "*******************************"
 
 # Set up the cameras 
 echo "Setting up the camera software..."
@@ -81,6 +89,8 @@ mkdir $HOME_DIR/cameras/multiplecam/bin > /dev/null 2>\&1
 chmod +x $HOME_DIR/cameras/multiplecam/src/install.sh
 (cd $HOME_DIR/cameras/multiplecam/src && sh -c './install.sh $HOME_DIR/cameras/multiplecam')
 echo "Camera software is set up"
+echo "*************************"
+echo "*************************"
 
 # Set up the analog board
 echo "Setting up the analog board software..."
@@ -108,6 +118,8 @@ cp $HOME_DIR/aDIO/driver/rtd-aDIO.ko /lib/modules/$(uname -r)/kernel/rtd/
 echo "lsmod | grep rtd:"
 lsmod | grep rtd
 echo "aDIO software is set up"
+echo "***********************"
+echo "***********************"
 
 # Set the local time to UTC
 timedatectl set-timezone UTC
@@ -122,7 +134,9 @@ echo "[Service]" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "ExecStart=-/sbin/agetty -a root --noclear %I $TERM" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 echo "OK"
-
+echo "********************"
+echo "CPU setup completed!"
+echo "********************"
 
 # Press enter to continue
 read -p "Press enter to continue, the system will reboot to make changes."

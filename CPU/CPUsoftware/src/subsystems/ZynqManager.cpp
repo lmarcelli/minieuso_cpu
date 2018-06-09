@@ -541,12 +541,12 @@ uint8_t ZynqManager::SetZynqMode() {
   std::string cmd;
   std::stringstream conv;
 
+  uint8_t input_mode = this->zynq_mode;
+
   clog << "info: " << logstream::info << "ZynqManager switching to zynq mode " << (int)input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
-  uint8_t input mode = this->zynq_mode;
 
   /* define the command to send via telnet */
   uint32_t timestamp = time(NULL);
@@ -589,14 +589,13 @@ ZynqManager::TestMode ZynqManager::SetTestMode() {
   std::string cmd;
   std::stringstream conv;
 
-
+  ZynqManager::TestMode input_mode = this->test_mode;
+  
   clog << "info: " << logstream::info << "switching to zynq test mode " << input_mode << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
 
-  ZynqManager::TestMode input_mode = this->test_mode;
-  
   /* define the command to send over telnet */
   conv << "acq test " << (int)this->test_mode << std::endl;
   cmd = conv.str();

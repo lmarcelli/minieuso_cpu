@@ -1002,14 +1002,14 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
     /* set a mode to produce test data */
     {
       std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
-      Zynq->SetTestMode(Zynq->test_mode);   
+      Zynq->SetTestMode();   
     }
   }
 
   /* set a mode to start data gathering */
   {
     std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
-    Zynq->SetZynqMode(Zynq->zynq_mode);
+    Zynq->SetZynqMode();
   }
   
   /* add acquisition with the analog board */

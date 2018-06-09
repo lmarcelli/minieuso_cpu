@@ -364,6 +364,8 @@ int RunInstrument::StartUp() {
   printf("DAC_LEVEL is %d\n", this->ConfigOut->dac_level);
   printf("N1 is %d\n", this->ConfigOut->N1);
   printf("N2 is %d\n", this->ConfigOut->N2);
+  printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
+  printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
   std::cout << std::endl;
   
   return 0;

@@ -217,7 +217,7 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->N1 != -1 &&
       this->ConfigOut->N2 != -1 &&
       this->ConfigOut->L2_N_BG != -1 &&
-      this->ConfigOut->L2_LOW_THRESH != 0) {
+      this->ConfigOut->L2_LOW_THRESH != -1) {
     
     return true;
   }

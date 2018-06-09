@@ -78,6 +78,12 @@ InputParser::InputParser(int &argc, char **argv) {
  */
 CmdLineInputs * InputParser::ParseCmdLineInputs() {
 
+  /* check for options not being recognised */
+  int check = CheckInputs();
+  if (check != 0) {
+    return NULL;
+  } 
+  
   /* check for help option */
   if(cmdOptionExists("-help")){
     this->CmdLine->help = true;
@@ -497,5 +503,4 @@ int InputParser::CheckInputs() {
   }
  
   return error_count;
-
 }

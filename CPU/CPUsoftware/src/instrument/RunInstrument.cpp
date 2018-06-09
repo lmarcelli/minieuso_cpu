@@ -906,6 +906,9 @@ void RunInstrument::Start() {
   /* launch background process to monitor the instrument */
   this->MonitorInstrument();
 
+  /* launch background process to run status checker */
+  this->StatusChecker();
+
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  
   

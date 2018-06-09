@@ -13,6 +13,12 @@ DataAcquisition::DataAcquisition() {
   /* usb storage devices */
   this->usb_num_storage_dev = 0;
 
+  /* number of files written */
+  {
+    std::unique_lock<std::mutex> lock(this->m_nfiles);     
+    this->n_files_written = 0;
+  }
+  
   /* scurve acquisition */
   this->_scurve = false;
 }
@@ -245,6 +251,13 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
 
   /* close the current SynchronisedFile */
   this->RunAccess->CloseSynchFile();
+
+  /* update number of packets written */
+  {
+    std::unique_lock<std::mutex> lock(this->m_nfiles);     
+    this->n_files_written++;
+  }
+  
   return 0;
 }
 
@@ -938,18 +951,21 @@ bool DataAcquisition::IsScurveDone() {
 
 /**
  * spawn thread to collect an S-curve 
- * @param ZqManager object to control the Zynq subsystem passed from RunInstrument
+ * @param Zynq object to control the Zynq subsystem passed from RunInstrument
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
  */
-int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
 
   long unsigned int main_thread = pthread_self();
 
   /* collect the data */
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
-  ZqManager->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+    Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  }
   
   /* signal that scurve is done */
   this->SignalScurveDone();
@@ -961,12 +977,12 @@ int DataAcquisition::CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> 
 
 /**
  * spawn threads to collect data 
- * @param ZqManager object to control the Zynq subsystem passed from RunInstrument
+ * @param Zynq object to control the Zynq subsystem passed from RunInstrument
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
  * launches the required acquisition of different subsystems in parallel
  */
-int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
 
   long unsigned int main_thread = pthread_self();
@@ -976,18 +992,26 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */
-  ZqManager->SetNPkts(ConfigOut->N1, ConfigOut->N2);
-  ZqManager->SetL2TrigParams(ConfigOut->L2_N_BG, ConfigOut->L2_LOW_THRESH);
-    
+  {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+    Zynq->SetNPkts(ConfigOut->N1, ConfigOut->N2);
+    Zynq->SetL2TrigParams(ConfigOut->L2_N_BG, ConfigOut->L2_LOW_THRESH);
+  }
+  
   if (CmdLine->test_zynq_on) {
-    
     /* set a mode to produce test data */
-    ZqManager->SetTestMode(ZqManager->test_mode);   
+    {
+      std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+      Zynq->SetTestMode();   
+    }
   }
 
   /* set a mode to start data gathering */
-  ZqManager->SetZynqMode(ZqManager->zynq_mode);
-
+  {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+    Zynq->SetZynqMode();
+  }
+  
   /* add acquisition with the analog board */
   std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
  
@@ -1009,7 +1033,9 @@ int DataAcquisition::CollectData(ZynqManager * ZqManager, std::shared_ptr<Config
   CloseCpuRun(CPU);
 
   /* stop Zynq acquisition */
-  ZqManager->StopAcquisition();
+  {
+    Zynq->StopAcquisition();
+  }
   
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);

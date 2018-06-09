@@ -92,15 +92,21 @@ int RunInstrument::HvpsSwitch() {
   switch (this->CmdLine->hvps_status) {
   case ZynqManager::ON:
     std::cout << "Switching ON the HVPS" << std::endl;
-    this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage,
-			  this->ConfigOut->dynode_voltage,
-			  this->CmdLine->hvps_ec_string);
+    {
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
+      this->Zynq.HvpsTurnOn(this->ConfigOut->cathode_voltage,
+			    this->ConfigOut->dynode_voltage,
+			    this->CmdLine->hvps_ec_string);
+    }
     break;
   case ZynqManager::OFF:
     std::cout << "Switching OFF the HVPS" << std::endl;
-    this->Zynq.HvpsTurnOff();   
-    this->Zynq.SetDac(0); 
-    break;
+    {
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
+      this->Zynq.HvpsTurnOff();   
+      this->Zynq.SetDac(0); 
+      break;
+    }
   case ZynqManager::UNDEF:
     std::cout << "Error: Cannot switch subsystem, on/off undefined" << std::endl;
     break;
@@ -116,16 +122,20 @@ return 0;
 int RunInstrument::CheckStatus() {
 
   /* test the connection to the zynq board */
-  this->Zynq.CheckConnect();
+  {
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
+    this->Zynq.CheckConnect();
 
-  if (this->Zynq.telnet_connected) {
-    /* check the instrument and HV status */
-    this->Zynq.GetInstStatus();
-    this->Zynq.GetHvpsStatus();
-  }
-  else {
-    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
-    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+    if (this->Zynq.telnet_connected) {
+      /* check the instrument and HV status */
+      this->Zynq.GetInstStatus();
+      this->Zynq.GetHvpsStatus();
+    }
+    
+    else {
+      std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+      std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+    }
   }
  
   return 0;
@@ -202,14 +212,17 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   
   std::cout << "ZYNQ" << std::endl;
-  this->Zynq.CheckConnect();
-  if (this->Zynq.telnet_connected) {
-    this->Zynq.GetInstStatus();
-    this->Zynq.GetHvpsStatus();
-  }
-  else {
-    std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
-    std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+  {
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);   
+    this->Zynq.CheckConnect();
+    if (this->Zynq.telnet_connected) {
+      this->Zynq.GetInstStatus();
+      this->Zynq.GetHvpsStatus();
+    }
+    else {
+      std::cout << "ERROR: Zynq cannot reach Mini-EUSO over telnet" << std::endl;
+      std::cout << "first try to ping 192.168.7.10 then try again" << std::endl;
+    }
   }
   std::cout << std::endl;
 
@@ -441,9 +454,12 @@ int RunInstrument::SelectAcqOption() {
   }
 
   /* select Zynq acquisition mode */
-  this->Zynq.zynq_mode = this->CmdLine->zynq_mode;
-  this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
-
+  {
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);    
+    this->Zynq.zynq_mode = this->CmdLine->zynq_mode;
+    this->Zynq.test_mode = this->CmdLine->zynq_test_mode;    
+  }
+  
   return 0;
 }
 
@@ -614,6 +630,108 @@ int RunInstrument::PollInstrument() {
 }
 
 /**
+ * launches a background thread to check and 
+ * print the instrument status
+ */
+int RunInstrument::StatusChecker() {
+
+  /* launch a thread to check the status periodically */
+  std::thread status_checker (&RunInstrument::RunningStatusCheck, this);
+
+  /* detach */
+  status_checker.detach();
+  
+  return 0;
+}
+
+/**
+ * print the status to the screen every STATUS_PERIOD
+ * seconds
+ */
+int RunInstrument::RunningStatusCheck() {
+
+  /* wait for first update */
+  sleep(10);
+  
+  while(!signal_shutdown.load()) {
+
+    /* get the status */
+    std::string zynq_status, hk_status, cam_status;
+    std::string zynq_telnet_status, hv_status;
+    int n_files_written = 0;
+ 
+    /* LVPS powered systems */
+    /*
+    if (this->Lvps.Check(LvpsManager::ZYNQ)) {
+      zynq_status = "ON";
+    }
+    else {
+      zynq_status = "OFF";
+    }
+    if (this->Lvps.Check(LvpsManager::HK)) {
+      hk_status = "ON";
+    }
+    else {
+      hk_status = "OFF";
+    }
+    if (this->Lvps.Check(LvpsManager::CAMERAS)) {
+      cam_status = "ON";
+    }
+    else {
+      cam_status = "OFF";
+    }
+    */
+
+    /*
+    std::cout << "Subsystems power status" << std::endl;
+    std::cout << "Zynq: " << zynq_status << std::endl;
+    std::cout << "HK: " << hk_status << std::endl;
+    std::cout << "Cameras" << cam_status << std::endl;
+    std::cout << std::endl;
+    */
+    
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "STATUS UPDATE" << std::endl;
+   
+    /* telnet connection and HV */
+    {
+      std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
+      this->Zynq.CheckConnect();
+
+      std::cout << "Checking telnet connection..." << std::endl;
+      if (this->Zynq.telnet_connected) {
+	zynq_telnet_status = "CONNECTED";
+	std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
+	/* check the instrument and HV status */
+	this->Zynq.GetInstStatus();
+	this->Zynq.GetHvpsStatus();
+      }
+      else {
+	zynq_telnet_status = "DISCONNECTED";
+	std::cout << "Telnet connection: " << zynq_telnet_status << std::endl;
+	std::cout << "Cannot display HV info from Zynq" << std::endl;
+      }
+    }
+
+    /* data acquisition */
+    {
+      std::unique_lock<std::mutex> lock(this->Daq.m_nfiles);     
+      n_files_written = this->Daq.n_files_written;
+    }
+    std::cout << "No. of files written: " << n_files_written << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    /* wait until next status check */
+    sleep(STATUS_PERIOD);
+    
+  }
+  
+  return 0;
+}
+
+/**
  * interface to the data acquisition
  * uses the DataAcquisition class member functions
  */
@@ -630,30 +748,31 @@ int RunInstrument::Acquisition() {
 
 
   /* set the ASIC DAC */
-  this->Zynq.SetDac(this->ConfigOut->dac_level);
-  
+  {
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
+    this->Zynq.SetDac(this->ConfigOut->dac_level);
+  }
   /* select SCURVE or STANDARD acquisition */
   if (this->Zynq.telnet_connected) {
     SelectAcqOption();
     switch (this->current_acq_mode) {
     case SCURVE:
-    
+      
       /* take an scurve */
       Daq.CollectSc(&this->Zynq, this->ConfigOut, this->CmdLine);
-    
+      
       break;
     case STANDARD:
       
       /* start data acquisition */
       this->Daq.CollectData(&this->Zynq, this->ConfigOut, this->CmdLine);
-    
+      
       break;
     case ACQ_UNDEF:
       clog << "error: " << logstream::error << "RunInstrument AcquisitionMode is undefined" << std::endl;
       std::cout << "Error: RunInstrument AcquisitionMode is undefined" << std::endl;
     }
   }
-
   
   /* reached for SCURVE acq and instrument mode switch or stop */
   if (this->CmdLine->cam_on) {
@@ -777,9 +896,12 @@ void RunInstrument::Start() {
   /* check systems and operational mode */
   this->CheckSystems();
 
-  if (!this->Zynq.telnet_connected) {
-    std::cout << "no Zynq connection, exiting the program" << std::endl;
-    return;
+  {
+    std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
+    if (!this->Zynq.telnet_connected) {
+      std::cout << "no Zynq connection, exiting the program" << std::endl;
+      return;
+    }
   }
 
   /* launch data backup in background */
@@ -787,6 +909,9 @@ void RunInstrument::Start() {
   
   /* launch background process to monitor the instrument */
   this->MonitorInstrument();
+
+  /* launch background process to run status checker */
+  this->StatusChecker();
 
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  

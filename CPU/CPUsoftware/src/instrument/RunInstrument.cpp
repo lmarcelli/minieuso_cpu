@@ -662,6 +662,7 @@ int RunInstrument::RunningStatusCheck() {
     std::cout << "STATUS UPDATE" << std::endl;
     
     /* LVPS powered systems */
+    /*
     if (this->Lvps.Check(LvpsManager::ZYNQ)) {
       zynq_status = "ON";
     }
@@ -680,7 +681,8 @@ int RunInstrument::RunningStatusCheck() {
     else {
       cam_status = "OFF";
     }
-
+    */
+    
     std::cout << "Subsystems power status" << std::endl;
     std::cout << "Zynq: " << zynq_status << std::endl;
     std::cout << "HK: " << hk_status << std::endl;

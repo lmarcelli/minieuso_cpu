@@ -635,7 +635,7 @@ int RunInstrument::PollInstrument() {
  */
 int RunInstrument::StatusChecker() {
 
-  /* launch a thread to watch the photodiode measurements */
+  /* launch a thread to check the status periodically */
   std::thread status_checker (&RunInstrument::RunningStatusCheck, this);
 
   /* detach */

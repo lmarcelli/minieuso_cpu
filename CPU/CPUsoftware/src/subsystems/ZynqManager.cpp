@@ -533,7 +533,7 @@ int ZynqManager::AcqShot() {
  * set the acquisition mode 
  * @param input_mode the desired mode to set
  */
-uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
+uint8_t ZynqManager::SetZynqMode() {
 
   /* definitions */
   std::string status_string;
@@ -546,7 +546,7 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   
-  this->zynq_mode = input_mode;
+  uint8_t input mode = this->zynq_mode;
 
   /* define the command to send via telnet */
   uint32_t timestamp = time(NULL);
@@ -581,7 +581,7 @@ uint8_t ZynqManager::SetZynqMode(uint8_t input_mode) {
  * set the test acquisition mode 
  * @param input_mode the desired mode to be set
  */
-ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode) {
+ZynqManager::TestMode ZynqManager::SetTestMode() {
 
   /* definitions */
   std::string status_string;
@@ -595,7 +595,7 @@ ZynqManager::TestMode ZynqManager::SetTestMode(ZynqManager::TestMode input_mode)
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
 
-  this->test_mode = input_mode;
+  ZynqManager::TestMode input_mode = this->test_mode;
   
   /* define the command to send over telnet */
   conv << "acq test " << (int)this->test_mode << std::endl;

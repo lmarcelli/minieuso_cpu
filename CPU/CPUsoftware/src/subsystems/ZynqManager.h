@@ -129,8 +129,8 @@ public:
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
-  uint8_t SetZynqMode(uint8_t input_mode);
-  TestMode SetTestMode(TestMode input_mode);
+  uint8_t SetZynqMode();
+  TestMode SetTestMode();
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
   int SetL2TrigParams(int n_bg, int low_thresh); 

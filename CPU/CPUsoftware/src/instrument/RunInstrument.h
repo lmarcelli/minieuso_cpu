@@ -12,9 +12,12 @@
 #define DONE_DIR "/home/minieusouser/DONE"
 #define DATA_DIR "/home/minieusouser/DATA"
 
+/* wait time between status checks in seconds */
+#define STATUS_PERIOD 30
+
 /**
  * class to handle different instrument operational modes 
-*/
+ */
 class RunInstrument {
 public:
   CmdLineInputs * CmdLine;
@@ -55,35 +58,49 @@ public:
   InstrumentMode GetInstMode();
   
 private:
-  /* to handle stopping */
+  /**
+   * to handle stopping 
+   */
   std::mutex _m_stop;
   std::condition_variable _cv_stop;
   bool _stop;
 
-  /* start-up procedure */
+  /**
+   * start-up procedure 
+   */
   int StartUp();
 
-  /* execute-and-exit commands */
+  /**
+   * execute-and-exit commands
+   */
   int LvpsSwitch();
   int HvpsSwitch();
   int DebugMode();
   int CheckStatus();
   
-  /* initialisation */
+  /**
+   * initialisation
+   */
   int InitInstMode();
   int CheckSystems();
   int SelectAcqOption();
 
-  /* used in operations */
+  /**
+   * used in operations 
+   */
   static void SignalHandler(int signum);
   int LaunchCam();
   int Acquisition();
   int MonitorInstrument();
   int PollInstrument();
+  int StatusChecker();
+  int RunningStatusCheck();
   int SetStop();
   bool CheckStop();
   
-  /* define main operational procedures */
+  /**
+   * define main operational procedures 
+   */
   int NightOperations();
   int DayOperations();
 };

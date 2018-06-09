@@ -39,6 +39,8 @@ public:
   std::string cpu_sc_file_name;
   std::string cpu_hv_file_name;
   uint8_t usb_num_storage_dev;
+  int n_files_written;
+  std::mutex m_nfiles;
   
   /**
    * synchronised file pointer

@@ -995,7 +995,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   /* set a mode to start data gathering */
   {
-    std::unique_lock<std::mutex> lock(this->Zynq->m_zynq);  
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
     Zynq->SetZynqMode(Zynq->zynq_mode);
   }
   

@@ -159,7 +159,7 @@ typedef struct
  */
 typedef struct
 {
-  CpuPktHeader hk_packet_header; /* 16 bytes */
+  SubPktHeader hk_packet_header; /* 16 bytes */
   CpuTimeStamp hk_time; /* 4 bytes */
   float photodiode_data[N_CHANNELS_PHOTODIODE]; /* 16 bytes */ 
   float sipm_data[N_CHANNELS_SIPM]; /* 256 bytes */

@@ -536,15 +536,20 @@ int InputParser::CheckInputs() {
   /* loop over inputs and check validity */
   for(auto &t : this->tokens) {
 
+    /* debug */
+    std::cout << "token: " << t << std::endl;
+      
     /* only check -options */
     if (t.find('-') != std::string::npos) {
 
       /* debug */
-      std::cout << "token: " << t << std::endl;
+      std::cout << "option: " << t << std::endl;
       
       bool allowed = std::find(this->allowed_tokens.begin(), this->allowed_tokens.end(), t)
 	!= this->tokens.end();
 
+      std::cout << "allowed: " << allowed << std::endl;
+      
       if (!allowed) {
 	std::cout << "Error: command line option " << t << " is not recognised" << std::endl;
 	error_count++;

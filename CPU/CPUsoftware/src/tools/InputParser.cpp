@@ -111,6 +111,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	this->CmdLine->hvps_ec_string = hv_ec_str;
       }
     }
+    else {
+      std::cout << "Error: for -hv option HV EC info (e.g. 1,1,1,1,1,1,1,1,1 or all) must be provided" << std::endl;
+      return NULL;
+    }
     
   }
   if(cmdOptionExists("-hvswitch")){
@@ -125,7 +129,15 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (hv_status_str == "off") {
 	this->CmdLine->hvps_status = ZynqManager::OFF;   
       }
-    }   
+      else {
+	std::cout << "Error: for -hvswitch option status is not recognised -  can be on or off" << std::endl;
+	return NULL;
+      }
+    }
+    else {
+	std::cout << "Error: for -hvswitch option status (on/off) must be provided" << std::endl;
+	return NULL;
+    }
 
   }
   if(cmdOptionExists("-short")){
@@ -135,6 +147,14 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     const std::string & acq_len_str = getCmdOption("-short");
     if (!acq_len_str.empty()) {
       this->CmdLine->acq_len = std::stoi(acq_len_str);
+      if (this->CmdLine->acq_len >= RUN_SIZE) {
+	std::cout << "Error: for -short option length (int < RUN_SIZE) must be provided" << std::endl;
+	return NULL;      
+      }
+    }
+    else {
+      std::cout << "Error: for -short option length (int < RUN_SIZE) must be provided" << std::endl;
+      return NULL;      
     }
     
   }
@@ -168,6 +188,14 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (lvps_status_str == "off") {
 	this->CmdLine->lvps_status = LvpsManager::OFF;   
       }
+      else {
+	std::cout << "Error: for -lvps option status is not recognised - can be on or off" << std::endl;
+	return NULL;      
+      }
+    }
+    else {
+      std::cout << "Error: for -lvps option status (on/off) must be provided" << std::endl;
+      return NULL;      
     }
     
     /* LVPS subsystem */    
@@ -182,9 +210,14 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (subsystem_str == "hk") {
 	this->CmdLine->lvps_subsystem = LvpsManager::HK;
       }
+      else {
+	std::cout << "Error: for -subsystem option a subsystem (zynq, cam or hk) must be provided" << std::endl;
+	return NULL;
+      }
     }
     else {
-      std::cout << "WARNING: no subsystem specified, using default: zynq" << std::endl;
+      std::cout << "Error: for -subsystem option a subsystem must be provided - can be zynq, cam or hk" << std::endl;
+      return NULL;
     }
     
   }
@@ -263,8 +296,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       
     }
     else {
-      this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
-      std::cout << "WARNING: could not identify required zynq mode, using default: periodic" << std::endl;
+      std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+      return NULL;
     }
 
   }
@@ -297,8 +330,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       }
     }
     else {
-      this->CmdLine->zynq_test_mode = ZynqManager::PDM;
-      std::cout << "WARNING: cannot identify required zynq test mode, using default: pdm" << std::endl;
+      std::cout << "Error: for -test_zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+      return NULL;
     }
 
     /* also set Zynq mode to PERIODIC to enable data collecting */
@@ -330,6 +363,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	 this->CmdLine->comment_fn = "__" + comment_fn_str;
        }
      }
+     else {
+       std::cout << "Error: for -comment option a comment string must be provided" << std::endl;
+       return NULL;
+     }
    }
   
   /* get the arguments */
@@ -337,10 +374,20 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
   const std::string &dynode_voltage = getCmdOption("-dv");
   if (!dynode_voltage.empty()){
     this->CmdLine->dv = std::stoi(dynode_voltage);
+    if (this->CmdLine->dv < 0 || this->CmdLine->dv > 4096) {
+      std::cout << "Error: for -dv option must provide a dynode voltage between 0 and 4096" << std::endl;
+      return NULL;
+    }
   }
   const std::string &dynode_voltage_real = getCmdOption("-dvr");
   if (!dynode_voltage_real.empty()){
-    int converted_dv = (int)((float)HV_CONV_FAC * std::stoi(dynode_voltage_real));
+    int dvr = std::stoi(dynode_voltage_real);
+    if (dvr < 0 || dvr > 1100) {
+      std::cout << "Error: for -dvr option must provide a dynode voltage between 0 and 1100 V" << std::endl;
+      return NULL;
+    }
+ 
+    int converted_dv = (int)((float)HV_CONV_FAC * dvr);
     this->CmdLine->dv = converted_dv;
   }
   
@@ -495,7 +542,7 @@ int InputParser::CheckInputs() {
 	!= this->tokens.end();
 
       if (!allowed) {
-	std::cout << "Error: command line option " << t << " is not recognised";
+	std::cout << "Error: command line option " << t << " is not recognised" << std::endl;
 	error_count++;
       }
     }

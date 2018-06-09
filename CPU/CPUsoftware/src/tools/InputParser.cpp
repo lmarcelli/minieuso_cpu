@@ -546,7 +546,7 @@ int InputParser::CheckInputs() {
       std::cout << "option: " << t << std::endl;
       
       bool allowed = std::find(this->allowed_tokens.begin(), this->allowed_tokens.end(), t)
-	!= this->tokens.end();
+	!= this->allowed_tokens.end();
 
       std::cout << "allowed: " << allowed << std::endl;
       
@@ -557,6 +557,7 @@ int InputParser::CheckInputs() {
     }
     
   }
- 
+
+  
   return error_count;
 }

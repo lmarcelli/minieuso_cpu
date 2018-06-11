@@ -83,19 +83,6 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
 }
 
 /**
- * build the cpu file header
- * @param type header tag of the file type
- * @param ver header tag of the file type version
- */
-uint32_t DataAcquisition::BuildCpuHeader(uint32_t type, uint32_t ver) {
-
-  uint32_t header;
-  header =  ( ((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver) );
- 
-  return header;
-}
-
-/**
  * build the cpu file info based on runtime settings
  * @param ConfigOut the configuration file parameters and settings from RunInstrument
  * @param CmdLine the command line parameters
@@ -133,17 +120,6 @@ std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
   run_info_string = conv.str();
   
   return run_info_string;
-}
-
-/**
- * build the cpu timestamp 
- * simple UNIX timestamp
- */
-uint32_t DataAcquisition::BuildCpuTimeStamp() {
-
-  uint32_t timestamp = time(NULL);
-
-  return timestamp;
 }
 
 /**

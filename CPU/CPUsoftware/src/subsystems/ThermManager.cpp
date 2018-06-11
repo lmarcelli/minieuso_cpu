@@ -22,28 +22,6 @@ void ThermManager::Init() {
 }
 
 /**
- * build the cpu packet header 
- */
-uint32_t ThermManager::BuildCpuHeader(uint32_t type, uint32_t ver) {
-
-  uint32_t header;
-  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
- 
-  return header;
-}
-
-/**
- * build the cpu timestamp 
- */
-uint32_t ThermManager::BuildCpuTimeStamp() {
-
-  uint32_t timestamp = time(NULL);
-
-  return timestamp;
-}
-
-
-/**
  * get the temperature by running the digitemp command and parsing the output
  */
 TemperatureAcq * ThermManager::GetTemperature() {

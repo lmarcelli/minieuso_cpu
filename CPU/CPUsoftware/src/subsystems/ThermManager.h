@@ -73,7 +73,7 @@ private:
   std::condition_variable cv_mode_switch;
 
   TemperatureAcq * ParseDigitempOutput(std::string input_string);
-  uint32_t BuildCpuPktHeader(uint32_t type, uint32_t ver);
+  uint32_t BuildCpuHeader(uint32_t type, uint32_t ver);
   uint32_t BuildCpuTimeStamp();
   
 };

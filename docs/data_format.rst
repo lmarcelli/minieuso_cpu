@@ -9,7 +9,7 @@ The CPU_RUN file
 Files named ``CPU_RUN_....dat`` are the output files of the Mini-EUSO software. Information is what this file contains is stored in the :cpp:class:`CpuFileHeader` which is put together at runtime. This structure has the following fields:
 
 * ``spacer``: a HEX ID tag 0xAA55AA55 for easy checking of the files in a hex viewer
-* ``header``: a set of bytes defining the instrument, file type and file version (they types and versions are defined in ``minieuso_data_format.h`` and the header is put together in :cpp:func:`DataAcquisition::BuildCpuFileHeader`)
+* ``header``: a set of bytes defining the instrument, file type and file version (they types and versions are defined in ``minieuso_data_format.h`` and the header is put together in :cpp:func:`DataAcquisition::BuildCpuHeader`)
 * ``run_info``: a text field containing the information on the command line options and configuration at runtime (put together in :cpp:func:`DataAcquisition::BuildCpuFileInfo`)
 * ``run_size``: the number of :cpp:class:`CPU_PACKET` in the standard acquisition run 
 

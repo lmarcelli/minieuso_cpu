@@ -87,7 +87,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
  * @param type header tag of the file type
  * @param ver header tag of the file type version
  */
-uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
+uint32_t DataAcquisition::BuildCpuHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
   header =  ( ((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver) );
@@ -136,32 +136,6 @@ std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
 }
 
 /**
- * build the cpu packet header 
- * @param type header tag of the packet type
- * @param ver header tag of the packet type version
- */
-uint32_t DataAcquisition::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
-
-  uint32_t header;
-  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
- 
-  return header;
-}
-
-/**
- * build the cpu packet trailer header
- * @param type header tag of the file type
- * @param ver header tag of the file type version
- */
-uint32_t DataAcquisition::BuildCpuTrailerHeader(uint32_t type, uint32_t ver) {
-
-  uint32_t header;
-  header =  (('Q'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
- 
-  return header;
-}
-
-/**
  * build the cpu timestamp 
  * simple UNIX timestamp
  */
@@ -206,7 +180,7 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   this->Thermistors->RunAccess = new Access(this->CpuFile);
     
   /* set up the cpu file structure */
-  cpu_file_header->header = BuildCpuFileHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  cpu_file_header->header = BuildCpuHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
   strncpy(cpu_file_header->run_info, run_info_string.c_str(), (size_t)run_info_string.length());
 
@@ -241,7 +215,7 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
   
   /* set up the cpu file trailer */
-  cpu_file_trailer->header = BuildCpuTrailerHeader(TRAILER_PACKET_TYPE, CPU_FILE_VER);
+  cpu_file_trailer->header = BuildCpuHeader(TRAILER_PACKET_TYPE, CPU_FILE_VER);
   cpu_file_trailer->run_size = RUN_SIZE;
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 
@@ -281,7 +255,7 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
   }
   
   /* prepare the scurve packet */
-  sc_packet->sc_packet_header.header = BuildCpuPktHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet->sc_packet_header.header = BuildCpuHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   sc_packet->sc_packet_header.pkt_size = sizeof(SC_PACKET);
   sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
   sc_packet->sc_start = ConfigOut->scurve_start;
@@ -326,7 +300,7 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
     
   /* prepare the hv packet */
-  hv_packet->hv_packet_header.header = BuildCpuPktHeader(HV_PACKET_TYPE, HV_PACKET_VER);
+  hv_packet->hv_packet_header.header = BuildCpuHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
   hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
 
@@ -472,7 +446,7 @@ HK_PACKET * DataAcquisition::AnalogPktReadOut() {
   auto light_level = this->Analog->ReadLightLevel();
   
   /* make the header of the hk packet and timestamp */
-  hk_packet->hk_packet_header.header = BuildCpuPktHeader(HK_PACKET_TYPE, HK_PACKET_VER);
+  hk_packet->hk_packet_header.header = BuildCpuHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
   hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
 
@@ -505,7 +479,7 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
   
   /* create the cpu packet header */
-  cpu_packet->cpu_packet_header.header = BuildCpuPktHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
+  cpu_packet->cpu_packet_header.header = BuildCpuHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
   cpu_packet->cpu_packet_header.pkt_num = pkt_counter; 
   cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();

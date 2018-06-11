@@ -21,5 +21,5 @@ An example ``~/.profile``::
   #mecontorl -log -zynq self
 
 
-See the :doc:`Usage <usage.rst>` section of this documentation for all the different ``mecontrol`` options.
+See the `usage <http://minieuso-software.readthedocs.io/en/latest/usage.html>`_ section of this documentation for all the different ``mecontrol`` options.
 

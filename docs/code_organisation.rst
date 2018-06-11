@@ -85,4 +85,4 @@ Inside the ``src/`` directory, the main source code is organised by functionalit
   * ``log.h``
 
 
-This is just intended to give an overview and further details are provided in the class documentation in the :doc:`development <development.rst>` section. 
+This is just intended to give an overview and further details are provided in the class documentation in the `development <http://minieuso-software.readthedocs.io/en/latest/development.html>`_ section. 

@@ -36,6 +36,7 @@ In more detail
 --------------
 
 Inside the ``src/`` directory, the main source code is organised by functionality as follows:
+
 * ``main/`` : the main program
 
   * ``mecontrol.cpp``

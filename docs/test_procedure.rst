@@ -26,7 +26,7 @@ Tests with HV
 
 **Always take care when using the HV that the instrument is in proper darkness (black box) and that all LEDs are disabled or removed**
 
-* Once satisfied that the grounding is correct and the instrument is in proper darkness, start by switching the HV on to < 300 V using, for example, ``mecontrol -hvps on -hv all -dv 1000`` to ramp up the HV dynode voltage. The cathode voltage is always set to the 900 V mode (other modes are 0 V and 750 V). This is done with :cpp:func:`ZynqManager::HvpsTurnOn()`.
+* Once satisfied that the grounding is correct and the instrument is in proper darkness, start by switching the HV on to < 300 V using, for example, ``mecontrol -hvswitch on -hv all -dv 1000`` to ramp up the HV dynode voltage. The cathode voltage is always set to the 900 V mode (other modes are 0 V and 750 V). This is done with :cpp:func:`ZynqManager::HvpsTurnOn()`.
 * The status can be further checked using the ``mecontrol -check_status`` command (:cpp:func:`RunInstrument::CheckStatus()`)
 * The HVPS status returns 9 numbers, corresponding to each EC unit:
 

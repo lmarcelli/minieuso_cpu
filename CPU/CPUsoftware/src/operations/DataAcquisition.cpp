@@ -90,7 +90,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
 uint32_t DataAcquisition::BuildCpuFileHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
-  header =  (('C'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
+  header =  ( ((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver) );
  
   return header;
 }
@@ -143,7 +143,7 @@ std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
 uint32_t DataAcquisition::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
-  header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
+  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
  
   return header;
 }
@@ -241,7 +241,7 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
   
   /* set up the cpu file trailer */
-  cpu_file_trailer->header = BuildCpuTrailerHeader(CPU_FILE_TYPE, CPU_FILE_VER);
+  cpu_file_trailer->header = BuildCpuTrailerHeader(TRAILER_PACKET_TYPE, CPU_FILE_VER);
   cpu_file_trailer->run_size = RUN_SIZE;
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 

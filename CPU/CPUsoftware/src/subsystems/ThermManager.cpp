@@ -27,7 +27,7 @@ void ThermManager::Init() {
 uint32_t ThermManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
 
   uint32_t header;
-  header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
+  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
  
   return header;
 }

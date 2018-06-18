@@ -46,7 +46,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->sc_acc = -1;
 
   /* allowed command line options */
-  this->allowed_tokens = {"-db", "-log", "comment", "-ver", "-lvps", "-hvswitch", "-help",
+  this->allowed_tokens = {"-db", "-log", "-comment", "-ver", "-lvps", "-hvswitch", "-help",
 			  "-dv", "-dvr", "-asicdac", "-check_status", "-cam", "-v", "-therm",
 			  "-hv", "-scurve", "-start", "-stop", "-step", "-acc", "-short",
 			  "-test_zynq", "-keep_zynq_pkt", "-zynq"};

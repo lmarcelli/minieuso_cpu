@@ -49,7 +49,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->allowed_tokens = {"-db", "-log", "-comment", "-ver", "-lvps", "-hvswitch", "-help",
 			  "-dv", "-dvr", "-asicdac", "-check_status", "-cam", "-v", "-therm",
 			  "-hv", "-scurve", "-start", "-stop", "-step", "-acc", "-short",
-			  "-test_zynq", "-keep_zynq_pkt", "-zynq"};
+			  "-test_zynq", "-keep_zynq_pkt", "-zynq", "-subsystem"};
 
   /* get command line input */
   std::string space = " ";

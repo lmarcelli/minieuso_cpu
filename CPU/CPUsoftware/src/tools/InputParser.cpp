@@ -286,17 +286,17 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	}
 	found = mode.find("immediate");
 	if (found != std::string::npos) {
-	 mode_to_set += ZynqManager::IMMEDIATE;
+	  mode_to_set += ZynqManager::IMMEDIATE;
 	}
 	found = mode.find("external");
 	if (found != std::string::npos) {
 	  mode_to_set += ZynqManager::EXTERNAL;
 	}
+	else {
+	  std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	  return NULL;
+	}
 	this->CmdLine->zynq_mode = mode_to_set;
-      }
-      else {
-	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
-	return NULL;
       }
 
       /* set zynq_mode_string */

@@ -261,4 +261,31 @@ typedef struct
  */
 #pragma pack(pop) 
 
+static uint32_t BuildCpuHeader(uint32_t type, uint32_t ver);
+static uint32_t BuildCpuTimeStamp();
+  
+/**
+ * build the cpu file header
+ * @param type header tag of the file type
+ * @param ver header tag of the file type version
+ */
+uint32_t BuildCpuHeader(uint32_t type, uint32_t ver) {
+
+  uint32_t header;
+  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
+ 
+  return header;
+}
+
+/**
+ * build the cpu timestamp 
+ * simple UNIX timestamp
+ */
+uint32_t BuildCpuTimeStamp() {
+
+  uint32_t timestamp = time(NULL);
+
+  return timestamp;
+}
+
 #endif /* _DATA_FORMAT_H */

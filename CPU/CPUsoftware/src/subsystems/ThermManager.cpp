@@ -22,28 +22,6 @@ void ThermManager::Init() {
 }
 
 /**
- * build the cpu packet header 
- */
-uint32_t ThermManager::BuildCpuPktHeader(uint32_t type, uint32_t ver) {
-
-  uint32_t header;
-  header =  (('P'<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
- 
-  return header;
-}
-
-/**
- * build the cpu timestamp 
- */
-uint32_t ThermManager::BuildCpuTimeStamp() {
-
-  uint32_t timestamp = time(NULL);
-
-  return timestamp;
-}
-
-
-/**
  * get the temperature by running the digitemp command and parsing the output
  */
 TemperatureAcq * ThermManager::GetTemperature() {
@@ -143,7 +121,7 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
   
   clog << "info: " << logstream::info << "writing new therm packet to " << this->RunAccess->path << std::endl;
   /* create the therm packet header */
-  therm_packet->therm_packet_header.header = BuildCpuPktHeader(THERM_PACKET_TYPE, THERM_PACKET_VER);
+  therm_packet->therm_packet_header.header = BuildCpuHeader(THERM_PACKET_TYPE, THERM_PACKET_VER);
   therm_packet->therm_packet_header.pkt_size = sizeof(*therm_packet);
   therm_packet->therm_packet_header.pkt_num = pkt_counter; 
   therm_packet->therm_time.cpu_time_stamp = BuildCpuTimeStamp();

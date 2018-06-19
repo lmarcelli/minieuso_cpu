@@ -9,7 +9,6 @@
 #include "OperationMode.h"
 #include "ThermManager.h"
 #include "AnalogManager.h"
-#include "minieuso_pdmdata.h"
 #include "InputParser.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"

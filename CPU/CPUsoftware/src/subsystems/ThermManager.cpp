@@ -121,10 +121,10 @@ int ThermManager::WriteThermPkt(TemperatureAcq * temperature_result) {
   
   clog << "info: " << logstream::info << "writing new therm packet to " << this->RunAccess->path << std::endl;
   /* create the therm packet header */
-  therm_packet->therm_packet_header.header = BuildCpuHeader(THERM_PACKET_TYPE, THERM_PACKET_VER);
+  therm_packet->therm_packet_header.header = CpuTools::BuildCpuHeader(THERM_PACKET_TYPE, THERM_PACKET_VER);
   therm_packet->therm_packet_header.pkt_size = sizeof(*therm_packet);
   therm_packet->therm_packet_header.pkt_num = pkt_counter; 
-  therm_packet->therm_time.cpu_time_stamp = BuildCpuTimeStamp();
+  therm_packet->therm_time.cpu_time_stamp = CpuTools::BuildCpuTimeStamp();
 
   if (temperature_result != NULL) {
     /* get the temperature data */

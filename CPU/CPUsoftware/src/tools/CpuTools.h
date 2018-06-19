@@ -16,7 +16,7 @@
 #include <stdint.h>
 
 #include "ZynqManager.h"
-
+#include "minieuso_data_format.h"
 /*
  * define maximum output length for use with CpuTools::CommandToStr()
  */
@@ -40,6 +40,9 @@ public:
   static std::string BuildStr(std::string stem, std::string sep, int val, int rep);
   static std::string BuildStrFromVec(std::string stem, std::string sep, std::vector<int> values);
   static std::streampos FileSize(std::string file_path);
+  static uint32_t BuildCpuHeader(uint32_t type, uint32_t ver);
+  static uint32_t BuildCpuTimeStamp();
+  
   
 };
 

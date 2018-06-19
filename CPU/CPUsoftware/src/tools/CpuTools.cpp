@@ -218,3 +218,27 @@ std::streampos CpuTools::FileSize(std::string file_path){
 
     return fsize;
 }
+
+/**
+ * build the cpu file header
+ * @param type header tag of the file type
+ * @param ver header tag of the file type version
+ */
+uint32_t CpuTools::BuildCpuHeader(uint32_t type, uint32_t ver) {
+
+  uint32_t header;
+  header =  (((type)<<24) | (INSTRUMENT_ME_PDM<<16) | ((type)<<8) | (ver));
+ 
+  return header;
+}
+
+/**
+ * build the cpu timestamp 
+ * simple UNIX timestamp
+ */
+uint32_t CpuTools::BuildCpuTimeStamp() {
+
+  uint32_t timestamp = time(NULL);
+
+  return timestamp;
+}

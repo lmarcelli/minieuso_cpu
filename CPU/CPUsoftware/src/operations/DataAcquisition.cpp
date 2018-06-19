@@ -138,16 +138,19 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
     this->cpu_main_file_name = CreateCpuRunName(CPU, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_main_file_name to: " << cpu_main_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_main_file_name);
+    cpu_file_header->header = CpuTools::BuildCpuHeader(CPU_FILE_TYPE, CPU_FILE_VER);
     break;
   case SC: 
     this->cpu_sc_file_name = CreateCpuRunName(SC, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_sc_file_name to: " << cpu_sc_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_sc_file_name);
+    cpu_file_header->header = CpuTools::BuildCpuHeader(SC_FILE_TYPE, SC_FILE_VER);
     break;
   case HV:
     this->cpu_hv_file_name = CreateCpuRunName(HV, ConfigOut, CmdLine);
     clog << "info: " << logstream::info << "Set cpu_hv_file_name to: " << cpu_hv_file_name << std::endl;
     this->CpuFile = std::make_shared<SynchronisedFile>(this->cpu_hv_file_name);
+    cpu_file_header->header = CpuTools::BuildCpuHeader(HV_FILE_TYPE, HV_FILE_VER);
     break;
   }
   this->RunAccess = new Access(this->CpuFile);
@@ -156,7 +159,6 @@ int DataAcquisition::CreateCpuRun(RunType run_type, std::shared_ptr<Config> Conf
   this->Thermistors->RunAccess = new Access(this->CpuFile);
     
   /* set up the cpu file structure */
-  cpu_file_header->header = BuildCpuHeader(CPU_FILE_TYPE, CPU_FILE_VER);
   std::string run_info_string = BuildCpuFileInfo(ConfigOut, CmdLine);
   strncpy(cpu_file_header->run_info, run_info_string.c_str(), (size_t)run_info_string.length());
 
@@ -191,7 +193,7 @@ int DataAcquisition::CloseCpuRun(RunType run_type) {
   clog << "info: " << logstream::info << "closing the cpu run file called " << this->CpuFile->path << std::endl;
   
   /* set up the cpu file trailer */
-  cpu_file_trailer->header = BuildCpuHeader(TRAILER_PACKET_TYPE, CPU_FILE_VER);
+  cpu_file_trailer->header = CpuTools::BuildCpuHeader(TRAILER_PACKET_TYPE, CPU_FILE_VER);
   cpu_file_trailer->run_size = RUN_SIZE;
   cpu_file_trailer->crc = this->RunAccess->GetChecksum(); 
 
@@ -231,9 +233,9 @@ SC_PACKET * DataAcquisition::ScPktReadOut(std::string sc_file_name, std::shared_
   }
   
   /* prepare the scurve packet */
-  sc_packet->sc_packet_header.header = BuildCpuHeader(SC_PACKET_TYPE, SC_PACKET_VER);
+  sc_packet->sc_packet_header.header = CpuTools::BuildCpuHeader(SC_PACKET_TYPE, SC_PACKET_VER);
   sc_packet->sc_packet_header.pkt_size = sizeof(SC_PACKET);
-  sc_packet->sc_time.cpu_time_stamp = BuildCpuTimeStamp();
+  sc_packet->sc_time.cpu_time_stamp = CpuTools::BuildCpuTimeStamp();
   sc_packet->sc_start = ConfigOut->scurve_start;
   sc_packet->sc_step = ConfigOut->scurve_step;
   sc_packet->sc_stop = ConfigOut->scurve_stop;
@@ -276,9 +278,9 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
   clog << "info: " << logstream::info << "reading out the file " << hv_file_name << std::endl;
     
   /* prepare the hv packet */
-  hv_packet->hv_packet_header.header = BuildCpuHeader(HV_PACKET_TYPE, HV_PACKET_VER);
+  hv_packet->hv_packet_header.header = CpuTools::BuildCpuHeader(HV_PACKET_TYPE, HV_PACKET_VER);
   hv_packet->hv_packet_header.pkt_size = sizeof(HV_PACKET);
-  hv_packet->hv_time.cpu_time_stamp = BuildCpuTimeStamp();
+  hv_packet->hv_time.cpu_time_stamp = CpuTools::BuildCpuTimeStamp();
 
   /* check file size and set n_entries */
   uint32_t file_size = CpuTools::FileSize(hv_file_name);
@@ -422,9 +424,9 @@ HK_PACKET * DataAcquisition::AnalogPktReadOut() {
   auto light_level = this->Analog->ReadLightLevel();
   
   /* make the header of the hk packet and timestamp */
-  hk_packet->hk_packet_header.header = BuildCpuHeader(HK_PACKET_TYPE, HK_PACKET_VER);
+  hk_packet->hk_packet_header.header = CpuTools::BuildCpuHeader(HK_PACKET_TYPE, HK_PACKET_VER);
   hk_packet->hk_packet_header.pkt_size = sizeof(hk_packet);
-  hk_packet->hk_time.cpu_time_stamp = BuildCpuTimeStamp();
+  hk_packet->hk_time.cpu_time_stamp = CpuTools::BuildCpuTimeStamp();
 
   /* read out the values */
   for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
@@ -455,10 +457,10 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   clog << "info: " << logstream::info << "writing new packet to " << this->cpu_main_file_name << std::endl;
   
   /* create the cpu packet header */
-  cpu_packet->cpu_packet_header.header = BuildCpuHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
+  cpu_packet->cpu_packet_header.header = CpuTools::BuildCpuHeader(CPU_PACKET_TYPE, CPU_PACKET_VER);
   cpu_packet->cpu_packet_header.pkt_size = sizeof(*cpu_packet);
   cpu_packet->cpu_packet_header.pkt_num = pkt_counter; 
-  cpu_packet->cpu_time.cpu_time_stamp = BuildCpuTimeStamp();
+  cpu_packet->cpu_time.cpu_time_stamp = CpuTools::BuildCpuTimeStamp();
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
 
   /* add the zynq and hk packets, checking for NULL */

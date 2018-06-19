@@ -25,6 +25,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->test_zynq_on = false;
   this->CmdLine->keep_zynq_pkt = false;
   this->CmdLine->check_status = false;
+  this->CmdLine->zynq_reboot = false;
   
   this->CmdLine->dv = -1;
   this->CmdLine->asic_dac = -1;
@@ -49,7 +50,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->allowed_tokens = {"-db", "-log", "-comment", "-ver", "-lvps", "-hvswitch", "-help",
 			  "-dv", "-dvr", "-asicdac", "-check_status", "-cam", "-v", "-therm",
 			  "-hv", "-scurve", "-start", "-stop", "-step", "-acc", "-short",
-			  "-test_zynq", "-keep_zynq_pkt", "-zynq", "-subsystem"};
+			  "-test_zynq", "-keep_zynq_pkt", "-zynq", "-subsystem", "-zynq_reboot"};
 
   /* get command line input */
   std::string space = " ";
@@ -95,6 +96,13 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->ver = true;
     PrintVersionInfo();
   }
+
+  /* check for version info option */
+  if(cmdOptionExists("-zynq_reboot")){
+    this->CmdLine->zynq_reboot = true;
+    PrintVersionInfo();
+  }
+  
   
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){

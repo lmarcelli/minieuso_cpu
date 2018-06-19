@@ -39,6 +39,7 @@ struct CmdLineInputs {
   bool test_zynq_on;
   bool keep_zynq_pkt;
   bool check_status;
+  bool zynq_reboot;
   
   /* command line arguments */
   int dv;

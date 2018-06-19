@@ -515,6 +515,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = periodic)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;
   std::cout << "-keep_zynq_pkt:      keep the Zynq packets on FTP" << std::endl;
+  std::cout << "-zynq_reboot:      reboot the Zynq for this acquisition" << std::endl;
   std::cout << std::endl;
   std::cout << "Example use case: mecontrol -log -test_zynq pdm -keep_zynq_pkt" << std::endl;
   std::cout << "Example use case: mecontrol -log -hv on -zynq trigger" << std::endl;

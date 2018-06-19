@@ -52,6 +52,11 @@ The CPU controls the powering of the other sub-systems via the LVPS.
   * ``mecontrol -lvps on -subsystem <S>`` will switch on ``<S>`` which can be ``zynq``, ``cam`` or ``hk``
   * ``mecontrol -lvps off -subsystem <S>`` will switch off the specified sub-system
 
+The Zynq power is left on by default when running subsequent ``mecontrol`` commands. If you want to reboot the zynq upon starting a new acquisition, use the following:
+
+* ``mecontrol -zynq_reboot`` 
+
+
     
 Data acquisition
 ----------------

@@ -421,6 +421,7 @@ int RunInstrument::CheckSystems() {
     this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   }
   this->Lvps.SwitchOn(LvpsManager::HK);
+  sleep(PWR_ON_DELAY);
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
 
   /* wait for boot */

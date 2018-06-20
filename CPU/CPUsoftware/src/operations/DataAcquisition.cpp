@@ -548,11 +548,13 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
 
   /* write the HV packet */
   this->RunAccess->WriteToSynchFile<CpuPktHeader *>(&hv_packet->hv_packet_header,
-					       SynchronisedFile::CONSTANT);
+						    SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<CpuTimeStamp *>(&hv_packet->hv_time,
-					       SynchronisedFile::CONSTANT);
+						    SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<uint32_t *>(&hv_packet->N,
-					       SynchronisedFile::CONSTANT);
+						SynchronisedFile::CONSTANT);
+  this->RunAccess->WriteToSynchFile<ZynqBoardHeader *>(&hv_packet->zbh,
+						       SynchronisedFile::CONSTANT);
   this->RunAccess->WriteToSynchFile<DATA_TYPE_HVPS_LOG_V1 *>(&hv_packet->hvps_log[0],
 							     SynchronisedFile::VARIABLE_HV, ConfigOut);
 

@@ -294,9 +294,12 @@ HV_PACKET * DataAcquisition::HvPktReadOut(std::string hv_file_name, std::shared_
 
   std::ifstream hv_file(hv_file_name, std::ios::binary);
   if (!hv_file) {
-   clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
+    clog << "error: " << logstream::error << "cannot open the file " << hv_file_name << std::endl;
     return NULL;
   }
+
+  /* read out the zbh */
+  hv_file.read(reinterpret_cast<char*>(&hv_packet->zbh), sizeof(ZynqBoardHeader));
   
   /* read out the hv data from the file */
   hv_file.read(reinterpret_cast<char*>(&hv_packet->hvps_log[0]), hv_packet->hvps_log.size() * sizeof(DATA_TYPE_HVPS_LOG_V1));

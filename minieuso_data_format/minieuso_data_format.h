@@ -246,6 +246,7 @@ typedef struct
   CpuPktHeader hv_packet_header; /* 16 bytes */
   CpuTimeStamp hv_time; /* 4 bytes */
   uint32_t N; /* 4 bytes */
+  ZynqBoardHeader zbh; /* 8 bytes */
   std::vector<DATA_TYPE_HVPS_LOG_V1> hvps_log; /* N * 16 bytes */
 } HV_PACKET;
 

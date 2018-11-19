@@ -63,6 +63,7 @@ public:
   bool CompareLightLevel();
   int ProcessAnalogData();  
   int GetLightLevel();
+  int AnalogDataCollect();
 
   /* handle instrument mode switching */
   int Notify();
@@ -97,7 +98,6 @@ private:
   std::condition_variable cv_mode_switch;
 
   
-  int AnalogDataCollect();
   int SetInterfaceAttribs(int fd, int speed);
   void SerialReadOut(int fd);
   

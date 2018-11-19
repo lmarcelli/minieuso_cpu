@@ -154,9 +154,11 @@ int RunInstrument::DebugMode() {
   std::cout << "-----------------------------" << std::endl; 
   std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
+
+  /*
   std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
-
+  
   std::cout << "USB" << std::endl;
   int num_usb_storage = this->Usb.LookupUsbStorage();
   std::cout << "there are " << num_usb_storage << " USB storage devices connected" << std::endl;
@@ -175,9 +177,14 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
-  
+  */
+
+  std::cout << "Testing out the new Analog acquisition using Arduino..." << std::endl;
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
+  this->Daq.Analog->AnalogDataCollect();
+  
+  /*
   this->Daq.Analog->GetLightLevel();
   auto light_level = this->Daq.Analog->ReadLightLevel();
   int i = 0;
@@ -192,7 +199,9 @@ int RunInstrument::DebugMode() {
   std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
   std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
   std::cout << std::endl;
+  */
 
+  /*
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.Thermistors->PrintTemperature();
@@ -236,7 +245,7 @@ int RunInstrument::DebugMode() {
   std::cout << "Zynq OFF " << std::endl;  
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
- 
+  */
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
       

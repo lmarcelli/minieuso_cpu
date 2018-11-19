@@ -30,7 +30,7 @@ int ArduinoManager::AnalogDataCollect() {
   
   fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {
-    printf("Error opening %s: %s\n", DUINO, strerror(errno));
+    printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
     return -1;
   }
   else {
@@ -73,7 +73,7 @@ void ArduinoManager::SerialReadOut(int fd) {
 
     /* catch error */
     else if (rdlen < 0) {
-      printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+      printf("Error from read: %d: %s\n", rdlen, std::strerror(errno));
     }
 
     /* stop reading */
@@ -256,7 +256,7 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
   struct termios tty;
 
   if (tcgetattr(fd, &tty) < 0) {
-    printf("Error from tcgetattr: %s\n", strerror(errno));
+    printf("Error from tcgetattr: %s\n", std::strerror(errno));
     return -1;
   }
 
@@ -280,7 +280,7 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
   tty.c_cc[VTIME] = 5;
   
   if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-    printf("Error from tcsetattr: %s\n", strerror(errno));
+    printf("Error from tcsetattr: %s\n", std::strerror(errno));
     return -1;
   }
 

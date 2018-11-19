@@ -14,8 +14,6 @@
 #include "minieuso_data_format.h"
 
 /* for use with arduino readout functions */
-#define TRUE 1
-#define FALSE 1
 #define DUINO "/dev/ttyACM0"
 #define BAUDRATE B9600
 #define FIFO_DEPTH 64

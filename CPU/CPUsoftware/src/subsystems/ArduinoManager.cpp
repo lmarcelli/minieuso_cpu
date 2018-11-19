@@ -38,12 +38,12 @@ int ArduinoManager::AnalogDataCollect() {
   }
 
   /*baudrate 9600, 8 bits, no parity, 1 stop bit */
-  set_interface_attribs(fd, BAUDRATE);
+  SetInterfaceAttribs(fd, BAUDRATE);
 
-  printf("Will now run ArduinoManager::SerialReadOut() 10 times...\n")
+  printf("Will now run ArduinoManager::SerialReadOut() 10 times...\n");
   for (i = 0; i < 10; i++) {
 
-    print("%i: \n", i);
+    printf("%i: \n", i);
     SerialReadOut(fd);
     
   }
@@ -58,10 +58,10 @@ void ArduinoManager::SerialReadOut(int fd) {
 
   unsigned char buf[14] = "";
   int rdlen;
-  bool continue = true;
+  bool flag = true;
 
   /* repeat read to get full message */
-  while(continue) {
+  while(flag) {
    
     rdlen = read(fd, buf, sizeof(buf) - 1);
 
@@ -78,7 +78,7 @@ void ArduinoManager::SerialReadOut(int fd) {
 
     /* stop reading */
     else {
-      continue = false;
+      flag = false;
     }
     
   }

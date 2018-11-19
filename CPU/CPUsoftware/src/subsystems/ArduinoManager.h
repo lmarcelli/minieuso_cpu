@@ -1,15 +1,13 @@
 #ifndef _ARDUINO_MANAGER_H
 #define _ARDUINO_MANAGER_H
 
-#ifndef __APPLE__
-#endif /* __APPLE__ */
-
 #include <mutex>
 #include <memory>
 #include <thread>
 #include <unistd.h>
 #include <condition_variable>
 #include <termios.h>
+#include <fcntl.h> 
 
 #include "log.h"
 #include "minieuso_data_format.h"
@@ -19,6 +17,8 @@
 #define FALSE 1
 #define DUINO "/dev/ttyACM0"
 #define BAUDRATE B9600
+#define FIFO_DEPTH 64
+#define CHANNELS 16
 
 /* light threshold for photodiodes */
 /* used to determine instrument mode via CompareLightLevel */
@@ -52,12 +52,13 @@ typedef struct {
 
 /**
  * class to handle the analog data acquisition (photodiodes and SiPMs) 
- * uses the dm75xx library
+ * uses a simple Arduino to replace the AnalogManager module due to 
+ * issues with power comsumption.
  */
-class AnalogManager {
+class ArduinoManager {
 public:
 
-  AnalogManager();
+  ArduinoManager();
   std::shared_ptr<LightLevel> ReadLightLevel();
   bool CompareLightLevel();
   int ProcessAnalogData();  
@@ -98,7 +99,8 @@ private:
   
   int AnalogDataCollect();
   int SetInterfaceAttribs(int fd, int speed);
-
+  void SerialReadOut(int fd);
+  
 };
 
 #endif

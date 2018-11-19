@@ -4,6 +4,7 @@
 #include <mutex>
 #include <memory>
 #include <thread>
+#include <cstring>
 #include <unistd.h>
 #include <condition_variable>
 #include <termios.h>

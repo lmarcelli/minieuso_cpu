@@ -339,7 +339,8 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
 
   
   /* DEBUG */
-  
+
+  long fsize;
   fseek(ptr_zfile, 0L, SEEK_END);
   fsize = ftell(ptr_zfile);
   rewind(ptr_zfile);

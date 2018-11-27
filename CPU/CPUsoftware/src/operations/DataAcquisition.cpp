@@ -339,7 +339,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
 
   
   /* DEBUG */
-  /*
+  
   fseek(ptr_zfile, 0L, SEEK_END);
   fsize = ftell(ptr_zfile);
   rewind(ptr_zfile);
@@ -349,7 +349,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   std::cout << "zynq file name: " << zynq_file_name << std::endl;
   std::cout << "ptr_zfile: " << ptr_zfile << std::endl;
   std::cout << "zynq_packet: " << zynq_packet << std::endl;
-  */
+  
   
   /* write the number of N1 and N2 */
   zynq_packet->N1 = ConfigOut->N1;

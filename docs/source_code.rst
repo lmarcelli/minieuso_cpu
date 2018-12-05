@@ -1,12 +1,12 @@
-Source code/compilation
-=======================
+Source code
+===========
 
 The source code for this project can be found on GitHub: https://github.com/cescalara/minieuso_cpu
 
 The source code should compile on any unix-based system and has been tested on linux (Debian 8, Ubuntu 16) and macOS (High Sierra). Obviously, for full functionality of the software, the relevant hardware is required (Zynq board, ancillary detectors etc.), but for certain testing and development these could be replaced with simple hardware simulators.
 
-Compilation
------------
+Compiling the source code
+-------------------------
 
 1. To compile the CPU software, first install git tools on your system and clone the repository as follows::
 

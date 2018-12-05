@@ -15,7 +15,7 @@ In Debian 8, the required packages are::
   libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev \
   libusb-1.0-0 libusb-1.0 stress bridge-utils \
   git-core emacs usbmount gdb ntp libboost-all-dev \
-  inotify-tools digitemp
+  inotify-tools digitemp libasan lsb_release linux-headers-3.16.0-6-amd64 
 
 The setup script, ``CPU/CPUsetup/run_setup.sh`` takes care of the installation of these packages, as detailed below.  
 

@@ -291,6 +291,8 @@ int ZynqManager::GetHvpsStatus() {
   close(sockfd);
 
   /* perform checks */
+  /* ! disabled this for now as causing problems ! */
+  /*
   std::vector<int> ec_status = CpuTools::DelimStrToVec(status, ' ', N_EC, false);
   for (uint8_t i = 0; i < ec_status.size(); i++) {
     if (this->ec_values[i] != ec_status[i]) {
@@ -299,7 +301,8 @@ int ZynqManager::GetHvpsStatus() {
       clog << "error: " << logstream::error << "unexpected EC HVPS status" << std::endl;
     }
   }
-   
+  */
+
   return 0;
 }
 

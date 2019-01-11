@@ -576,7 +576,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
  */
 int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 #ifndef __APPLE__
-  int length, i = 0;
+  int N_events, event_number = 0;
   int fd, wd;
   char buffer[BUF_LEN];
 
@@ -587,13 +587,14 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
   std::string event_name;
 
   clog << "info: " << logstream::info << "starting background process of processing incoming data" << std::endl;
-  
-  /* watch the data directory for incoming files */
+
+  /* initialise the inotify service */
   fd = inotify_init();
   if (fd < 0) {
     clog << "error: " << logstream::error << "unable to start inotify service" << std::endl;
   }
-  
+
+  /* watch the data directory for incoming files */
   clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
   wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
 
@@ -601,21 +602,12 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
   int packet_counter = 0;
   int bad_packet_counter = 0;
 
-  /* to read out previous packet but not skip any */
-  int frm_num = 0;
-  bool first_loop = true;
-  
-  /* handling the zynq file names */
-  std::string zynq_filename_stem = "frm_cc_";
-  std::string zynq_filename_end = ".dat";
-
-
   /* initilaise timeout timer */
   time_t start = time(0);
   int time_left = FTP_TIMEOUT;
   
   std::unique_lock<std::mutex> lock(this->_m_switch);
-  /* enter loop while instrument mode switching not requested */
+  /* enter data processing loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				   [this] { return this->_switch; }) /* no signal */
@@ -626,181 +618,187 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     time_t time_taken = end - start;
     time_left = FTP_TIMEOUT - time_taken;
     
-    
+    /* read out a set of inotify events into a buffer */
     struct inotify_event * event;
-    
-    length = read(fd, buffer, BUF_LEN); 
+    N_events = read(fd, buffer, BUF_LEN); 
     if (length < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
     }
 
-    /* add a for loop over buffer of files? */
+    /* Loop through the events and read out the corresponding files */
+    while (event_number < N_events) {
+      
+      event = (struct inotify_event *) &buffer[event_number];
     
-    event = (struct inotify_event *) &buffer[i];
-    
-    if (event->len) {
-      if (event->mask & IN_CREATE) {
-	if (event->mask & IN_ISDIR) {
+      if (event->len) {
+	if (event->mask & IN_CREATE) {
+	  if (event->mask & IN_ISDIR) {
 	  
-	  /* process new directory creation */
-	  printf("The directory %s was created\n", event->name);
-	  clog << "info: " << logstream::info << "new directory created" << std::endl;
+	    /* process new directory creation */
+	    printf("The directory %s was created\n", event->name);
+	    clog << "info: " << logstream::info << "new directory created" << std::endl;
 	  
-	}
-	else {
-	  
-	  /* process new file */
-	  clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
-	  event_name = event->name;
-	  
-	  /* for files from Zynq (frm_cc_XXXXXXXX.dat) */
-	  if (event_name.compare(0, event_name.length() - 3, "dat") == 0) {
-
-	    zynq_file_name = event_name;
-	    
-	    /* new run file every RUN_SIZE packets */
-	    if (packet_counter == RUN_SIZE) {
-	      CloseCpuRun(CPU);
-	      
-	      /* reset the packet counter */
-	      packet_counter = 0;
-	      std::cout << "PACKET COUNTER is reset to 0" << std::endl;
-	      
-	      }
-	    
-	    /* first packet */
-	    if (packet_counter == 0) {
-	      
-	      /* create a new run */
-	      CreateCpuRun(CPU, ConfigOut, CmdLine);
-   
-	    }
-	    	    
-	    /* generate sub packets */
-	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
-	    HK_PACKET * hk_packet = AnalogPktReadOut();
-	    
-	    /* check for NULL packets */
-	    if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
-	      
-	      /* generate cpu packet and append to file */
-	      WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
-	      
-	      /* delete upon completion */
-	      if (!CmdLine->keep_zynq_pkt) {
-		std::remove(zynq_file_name.c_str());
-	      }
-	      
-	      /* print update to screen */
-	      printf("PACKET COUNTER = %i\n", packet_counter);
-	      printf("The packet %s was read out\n", zynq_file_name.c_str());
-	      
-	      /* increment the packet counter */
-	      packet_counter++;
-	      
-	      /* leave loop for a single run file */
-	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
-		/* send shutdown signal to RunInstrument */
-		/* interrupt signal to main thread */
-	        pthread_kill((pthread_t)main_thread, SIGINT);
-		break;
-	      }
-	    }
-	    
-	    /* if NULL packets */
-	    else {
-		/* skip this packet */
-	      bad_packet_counter++;
-            }
-	    
-	  } /* end of FRM packets */
-	  
-	  
-	  
-	  /* S-curve packets */
-	  else if (event_name.compare(0, 2, "sc") == 0) {
-	    
-	    /* avoid timeout */
-	    if (first_loop) {
-	      first_loop = false;
-	    }
-	    
-	    sc_file_name = data_str + "/" + event->name;
-
-	    /* wait for scurve completion */
-	    std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
-	    while(!this->_cv_scurve.wait_for(sc_lock,
-					   std::chrono::milliseconds(WAIT_PERIOD),
-					   [this] { return this->_scurve; })) {}
-
-	    /* wait a bit more */
-	    sleep(1);
-	    
-	    std::cout << "S-curve acquisition complete" << std::endl;
-
-	    CreateCpuRun(SC, ConfigOut, CmdLine);
-	    
-	    /* generate sc packet and append to file */
-	    SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-
-	    if (sc_packet != NULL) {
-	      WriteScPkt(sc_packet);
-	    }
-	    
-	    CloseCpuRun(SC);
-	    
-	    /* delete upon completion */
-	    std::remove(sc_file_name.c_str());
-	      
-	    /* exit without waiting for more files */
-	    /* send shutdown signal to RunInstrument */
-	    /* interrupt signal to main thread */
-	    pthread_kill((pthread_t)main_thread, SIGINT);   
-	    return 0;
-	    
-	  } /* end of SC packets */ 
-	  
-	  
-	  /* for HV files from Zynq (hv_XXXXXXXX.dat) */
-	  else if (event_name.compare(0, 2, "hv") == 0) {
-	    
-	    /* avoid timeout */
-	    if (first_loop) {
-	      first_loop = false;
-	    }
-	    
-	    hv_file_name = data_str + "/" + event->name;
-	    sleep(1);
-	    
-	    CreateCpuRun(HV, ConfigOut, CmdLine);
-	    
-	    /* generate hv packet to append to the file */
-	    HV_PACKET * hv_packet = HvPktReadOut(hv_file_name, ConfigOut);
-	    WriteHvPkt(hv_packet, ConfigOut);
-	    
-	    CloseCpuRun(HV);
-	    
-	    /* delete upon completion */
-	    std::remove(hv_file_name.c_str());
-	    
-	    /* print update */
-	    std::cout << "Wrote HV file" << std::endl;
-	    
-	    /* exit without waiting for more files */
-	    return 0;
-	  } /* end of HV packets */
-	  
-	  /* packet doesn't match any description */
+	  }
 	  else {
-	    
-	    /* do nothing and exit */
-	    return 0;
-	    
-	  } /* end no matching packets */
 	  
-	} /* if a file */
-      } /* if event mode is CREATE */ 
-    } /* if event->len */
+	    /* process new file */
+	    clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
+	    event_name = event->name;
+	  
+	    /* for files from Zynq (frm_cc_XXXXXXXX.dat) */
+	    if (event_name.compare(0, event_name.length() - 3, "dat") == 0) {
+	      
+	      zynq_file_name = event_name;
+	    
+	      /* new run file every RUN_SIZE packets */
+	      if (packet_counter == RUN_SIZE) {
+		CloseCpuRun(CPU);
+	      
+		/* reset the packet counter */
+		packet_counter = 0;
+		std::cout << "PACKET COUNTER is reset to 0" << std::endl;
+	      
+	      }
+	    
+	      /* first packet */
+	      if (packet_counter == 0) {
+	      
+		/* create a new run */
+		CreateCpuRun(CPU, ConfigOut, CmdLine);
+   
+	      }
+	    	    
+	      /* generate sub packets */
+	      ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
+	      HK_PACKET * hk_packet = AnalogPktReadOut();
+	    
+	      /* check for NULL packets */
+	      if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
+	      
+		/* generate cpu packet and append to file */
+		WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
+	      
+		/* delete upon completion */
+		if (!CmdLine->keep_zynq_pkt) {
+		  std::remove(zynq_file_name.c_str());
+		}
+	      
+		/* print update to screen */
+		printf("PACKET COUNTER = %i\n", packet_counter);
+		printf("The packet %s was read out\n", zynq_file_name.c_str());
+	      
+		/* increment the packet counter */
+		packet_counter++;
+	      
+		/* leave loop for a single run file */
+		if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
+		  /* send shutdown signal to RunInstrument */
+		  /* interrupt signal to main thread */
+		  pthread_kill((pthread_t)main_thread, SIGINT);
+		  break;
+		}
+	      }
+	    
+	      /* if NULL packets */
+	      else {
+		/* skip this packet */
+		bad_packet_counter++;
+	      }
+	    
+	    } /* end of FRM packets */
+	  
+	  
+	  
+	    /* S-curve packets */
+	    else if (event_name.compare(0, 2, "sc") == 0) {
+	    
+	      /* avoid timeout */
+	      if (first_loop) {
+		first_loop = false;
+	      }
+	    
+	      sc_file_name = data_str + "/" + event->name;
+
+	      /* wait for scurve completion */
+	      std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
+	      while(!this->_cv_scurve.wait_for(sc_lock,
+					       std::chrono::milliseconds(WAIT_PERIOD),
+					       [this] { return this->_scurve; })) {}
+
+	      /* wait a bit more */
+	      sleep(1);
+	    
+	      std::cout << "S-curve acquisition complete" << std::endl;
+	      
+	      CreateCpuRun(SC, ConfigOut, CmdLine);
+	      
+	      /* generate sc packet and append to file */
+	      SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+
+	      if (sc_packet != NULL) {
+		WriteScPkt(sc_packet);
+	      }
+	    
+	      CloseCpuRun(SC);
+	    
+	      /* delete upon completion */
+	      std::remove(sc_file_name.c_str());
+	      
+	      /* exit without waiting for more files */
+	      /* send shutdown signal to RunInstrument */
+	      /* interrupt signal to main thread */
+	      pthread_kill((pthread_t)main_thread, SIGINT);   
+	      return 0;
+	    
+	    } /* end of SC packets */ 
+	  
+	  
+	    /* for HV files from Zynq (hv_XXXXXXXX.dat) */
+	    else if (event_name.compare(0, 2, "hv") == 0) {
+	      
+	      /* avoid timeout */
+	      if (first_loop) {
+		first_loop = false;
+	      }
+	    
+	      hv_file_name = data_str + "/" + event->name;
+	      sleep(1);
+	    
+	      CreateCpuRun(HV, ConfigOut, CmdLine);
+	    
+	      /* generate hv packet to append to the file */
+	      HV_PACKET * hv_packet = HvPktReadOut(hv_file_name, ConfigOut);
+	      WriteHvPkt(hv_packet, ConfigOut);
+	    
+	      CloseCpuRun(HV);
+	    
+	      /* delete upon completion */
+	      std::remove(hv_file_name.c_str());
+	    
+	      /* print update */
+	      std::cout << "Wrote HV file" << std::endl;
+	    
+	      /* exit without waiting for more files */
+	      return 0;
+	    } /* end of HV packets */
+
+	    
+	    /* packet doesn't match any description */
+	    else {
+	    
+	      /* do nothing and exit */
+	      return 0;
+	    
+	    } /* end no matching packets */
+	  
+	  } /* if a file */
+	} /* if event mode is CREATE */ 
+      } /* if event->len */
+
+      /* move to the next event in buffer */
+      event_number += EVENT_SIZE + event->len;
+      
+    } /* loop of events in buffer */
       
   } /* end of while loop */
 

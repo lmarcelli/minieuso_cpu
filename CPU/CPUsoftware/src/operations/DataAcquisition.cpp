@@ -605,6 +605,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
   /* initilaise timeout timer */
   time_t start = time(0);
   int time_left = FTP_TIMEOUT;
+  bool first_loop = true;
   
   std::unique_lock<std::mutex> lock(this->_m_switch);
   /* enter data processing loop while instrument mode switching not requested */
@@ -621,7 +622,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     /* read out a set of inotify events into a buffer */
     struct inotify_event * event;
     N_events = read(fd, buffer, BUF_LEN); 
-    if (length < 0) {
+    if (N_events < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
     }
 
@@ -646,7 +647,8 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    event_name = event->name;
 	  
 	    /* for files from Zynq (frm_cc_XXXXXXXX.dat) */
-	    if (event_name.compare(0, event_name.length() - 3, "dat") == 0) {
+	    if ( (event_name.compare(0, 3, "frm") == 0)
+		 && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
 	      zynq_file_name = event_name;
 	    
@@ -665,7 +667,12 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      
 		/* create a new run */
 		CreateCpuRun(CPU, ConfigOut, CmdLine);
-   
+
+		/* reset first_loop status */
+		if (first_loop) {
+		  first_loop = false;
+		}
+		
 	      }
 	    	    
 	      /* generate sub packets */
@@ -710,7 +717,8 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	  
 	    /* S-curve packets */
-	    else if (event_name.compare(0, 2, "sc") == 0) {
+	    else if ( (event_name.compare(0, 2, "sc") == 0) &&
+		      (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	    
 	      /* avoid timeout */
 	      if (first_loop) {
@@ -754,7 +762,8 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	  
 	    /* for HV files from Zynq (hv_XXXXXXXX.dat) */
-	    else if (event_name.compare(0, 2, "hv") == 0) {
+	    else if ( (event_name.compare(0, 2, "hv") == 0)
+		      && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
 	      /* avoid timeout */
 	      if (first_loop) {

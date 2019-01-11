@@ -632,7 +632,9 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     length = read(fd, buffer, BUF_LEN); 
     if (length < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
-    } 
+    }
+
+    /* add a for loop over buffer of files? */
     
     event = (struct inotify_event *) &buffer[i];
     
@@ -652,7 +654,9 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  event_name = event->name;
 	  
 	  /* for files from Zynq (frm_cc_XXXXXXXX.dat) */
-	  if (event_name.compare(0, 3, "frm") == 0) {
+	  if (event_name.compare(0, event_name.length() - 3, "dat") == 0) {
+
+	    zynq_file_name = event_name;
 	    
 	    /* new run file every RUN_SIZE packets */
 	    if (packet_counter == RUN_SIZE) {
@@ -669,21 +673,9 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      
 	      /* create a new run */
 	      CreateCpuRun(CPU, ConfigOut, CmdLine);
-	      
-	      if (first_loop) {
-		/* get number of frm */
-		frm_num = std::stoi(event_name.substr(7, 14));
-		  frm_num++; 
-		  first_loop = false;
-	      }
-	      
+   
 	    }
-	    
-	    /* read out the previous packet */
-	    std::string frm_num_str = CpuTools::IntToFixedLenStr(frm_num - 1, 8);
-	    zynq_file_name = data_str + "/" + zynq_filename_stem + frm_num_str + zynq_filename_end;
-	    sleep(2);
-	    
+	    	    
 	    /* generate sub packets */
 	    ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
 	    HK_PACKET * hk_packet = AnalogPktReadOut();
@@ -705,7 +697,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      
 	      /* increment the packet counter */
 	      packet_counter++;
-	      frm_num++;
 	      
 	      /* leave loop for a single run file */
 	      if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
@@ -720,8 +711,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    else {
 		/* skip this packet */
 	      bad_packet_counter++;
-	      frm_num++;
-	    }
+            }
 	    
 	  } /* end of FRM packets */
 	  

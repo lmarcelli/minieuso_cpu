@@ -650,7 +650,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    if ( (event_name.compare(0, 3, "frm") == 0)
 		 && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
-	      zynq_file_name = event_name;
+	      zynq_file_name = data_str + "/" + event->name;
 	    
 	      /* new run file every RUN_SIZE packets */
 	      if (packet_counter == RUN_SIZE) {

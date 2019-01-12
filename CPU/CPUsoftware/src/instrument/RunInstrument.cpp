@@ -918,6 +918,8 @@ void RunInstrument::Start() {
 
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  
+
+  std::cout << "Entering instrument mode" << std::endl;
   
   /* enter instrument mode */
   while (!CheckStop()) {

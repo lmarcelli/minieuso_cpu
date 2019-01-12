@@ -988,6 +988,9 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   long unsigned int main_thread = pthread_self();
 
+  /* debug */
+  std::cout << "launching data collection threads" << std::endl;
+  
   /* FTP polling */
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this);
   

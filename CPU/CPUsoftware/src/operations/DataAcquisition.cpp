@@ -596,7 +596,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 
   /* watch the data directory for incoming files */
   clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
-  wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE);
+  wd = inotify_add_watch(fd, DATA_DIR, IN_CLOSE_WRITE);
 
   /* to keep track of good and bad packets */
   int packet_counter = 0;
@@ -648,7 +648,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	    /* for files from Zynq (frm_cc_XXXXXXXX.data) */
 	    if ( (event_name.compare(0, 3, "frm") == 0)
-		 && (event_name.compare(event_name.length() - 4, event_name.length(), "data") == 0) ) {
+		 && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
 	      zynq_file_name = data_str + "/" + event->name;
 	    
@@ -718,7 +718,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	    /* S-curve packets */
 	    else if ( (event_name.compare(0, 2, "sc") == 0) &&
-		      (event_name.compare(event_name.length() - 4, event_name.length(), "data") == 0) ) {
+		      (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	    
 	      /* avoid timeout */
 	      if (first_loop) {
@@ -763,7 +763,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	    /* for HV files from Zynq (hv_XXXXXXXX.dat) */
 	    else if ( (event_name.compare(0, 2, "hv") == 0)
-		      && (event_name.compare(event_name.length() - 4, event_name.length(), "data") == 0) ) {
+		      && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
 	      /* avoid timeout */
 	      if (first_loop) {

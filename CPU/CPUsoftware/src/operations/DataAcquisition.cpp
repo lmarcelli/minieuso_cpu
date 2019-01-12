@@ -990,8 +990,6 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   /* FTP polling */
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this);
-  std::thread::native_handle_type ftp_poll_handle = ftp_poll.native_handle();
-  ftp_poll.detach();
   
   /* collect the data */
   std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
@@ -1031,7 +1029,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   /* wait for other acquisition threads to join */
   analog.join();
   collect_main_data.join();
-  pthread_cancel(ftp_poll_handle);
+  ftp_poll.join();
   
   /* only reached for instrument mode change */
 

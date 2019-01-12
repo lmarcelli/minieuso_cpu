@@ -1029,7 +1029,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   /* wait for other acquisition threads to join */
   analog.join();
   collect_main_data.join();
-
+  ftp_poll.join();
   
   /* only reached for instrument mode change */
 
@@ -1045,9 +1045,6 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 
-  /* stop FTP polling */
-  ftp_poll.join();
-  
 #endif /* __APPLE__ */
   return 0;
 }

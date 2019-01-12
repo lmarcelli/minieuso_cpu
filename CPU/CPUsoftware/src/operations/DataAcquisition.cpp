@@ -575,6 +575,8 @@ void DataAcquisition::FtpPoll() {
   const char * ftp_cmd = "";
   std::string ftp_cmd_str;
   std::stringstream conv;
+
+  clog << "info: " << logstream::info << "starting FTP server polling" << std::endl;
   
   /* build the command */
   conv << "lftp -u minieusouser,minieusopass -e "
@@ -585,6 +587,9 @@ void DataAcquisition::FtpPoll() {
   ftp_cmd_str = conv.str();
   ftp_cmd = ftp_cmd_str.c_str();
 
+  /* debug */
+  std::cout << "ftp command string: " << ftp_cmd_str << std::endl;
+  
   std::unique_lock<std::mutex> lock(this->_m_switch);
   
   /* send polling command in loop while instrument mode switching not required */
@@ -593,6 +598,9 @@ void DataAcquisition::FtpPoll() {
                                    [this] { return this->_switch; }) ) {
 
     output = CpuTools::CommandToStr(ftp_cmd);
+
+    /* debug */
+    std::cout << "FTP command output: " << output << std::endl;
     
     sleep(2);
 

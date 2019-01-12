@@ -621,18 +621,27 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     
     /* read out a set of inotify events into a buffer */
     struct inotify_event * event;
-    N_events = read(fd, buffer, BUF_LEN); 
+    N_events = read(fd, buffer, BUF_LEN);
+    
+    /* debug */
+    std::cout << "N_events in bufffer: " << N_events << std::endl;
+    
     if (N_events < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
     }
 
     /* Loop through the events and read out the corresponding files */
     while (event_number < N_events) {
+
+      /* debug */
+      std::cout << "event_number: " << event_number << std::endl;
       
       event = (struct inotify_event *) &buffer[event_number];
     
       if (event->len) {
 	if (event->mask & IN_CLOSE_WRITE) {
+
+	  
 	  if (event->mask & IN_ISDIR) {
 	  
 	    /* process new directory creation */
@@ -640,6 +649,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    clog << "info: " << logstream::info << "new directory created" << std::endl;
 	  
 	  }
+	
 	  else {
 	  
 	    /* process new file */

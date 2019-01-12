@@ -640,11 +640,10 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
   int time_left = FTP_TIMEOUT;
   bool first_loop = true;
   
-  std::unique_lock<std::mutex> lock(this->_m_switch);
   /* enter data processing loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
-				   [this] { return this->_switch; }) /* no signal */
+				   [this] { std::unique_lock<std::mutex> lock(this->_m_switch); return this->_switch; }) /* no signal */
 	&& (time_left > 0 || !first_loop) ) { /* no timeout */
 
     /* timeout if no activity after FTP_TIMEOUT reached */

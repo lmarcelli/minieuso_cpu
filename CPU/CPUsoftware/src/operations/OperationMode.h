@@ -2,7 +2,6 @@
 #define _OPERATION_MODE_H
 
 #include <mutex>
-#include <shared_mutex>
 #include <condition_variable>
 
 #include "AnalogManager.h"

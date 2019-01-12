@@ -632,6 +632,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     }
 
     /* Loop through the events and read out the corresponding files */
+    event_number = 0;
     while (event_number < N_events) {
 
       /* debug */

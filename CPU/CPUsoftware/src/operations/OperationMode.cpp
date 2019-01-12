@@ -15,7 +15,7 @@ OperationMode::OperationMode() {
 void OperationMode::Notify() {
 
   {
-    std::unique_lock<std::shared_mutex> lock(this->_m_switch);   
+    std::unique_lock<std::mutex> lock(this->_m_switch);   
     this->_switch = true;
   } /* release mutex */
   this->_cv_switch.notify_all();
@@ -32,7 +32,7 @@ void OperationMode::Notify() {
 void OperationMode::Reset() {
 
   {
-    std::unique_lock<std::shared_mutex> lock(this->_m_switch);   
+    std::unique_lock<std::mutex> lock(this->_m_switch);   
     this->_switch = false;
   } /* release mutex */
 

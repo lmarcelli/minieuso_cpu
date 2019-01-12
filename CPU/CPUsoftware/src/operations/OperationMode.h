@@ -35,11 +35,11 @@ protected:
   /**
    * to handle mode switching in a thread-safe way 
    */
-  std::shared_mutex _m_switch;
+  std::mutex _m_switch;
   /**
    * to wait for a mode switch 
    */
-  std::condition_variable_any _cv_switch;
+  std::condition_variable _cv_switch;
   /**
    * to notify of a mode switch 
    */

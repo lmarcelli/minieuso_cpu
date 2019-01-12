@@ -581,7 +581,7 @@ void DataAcquisition::FtpPoll() {
   /* build the command */
   conv << "lftp -u minieusouser,minieusopass -e "
        << "\"set ftp:passive-mode off;mirror --parallel=1 --verbose --Remove-source-files --ignore-time . DATA;quit\""
-       << " 192.168.7.10" << std::endl;
+       << " 192.168.7.10 " <<  "> /dev/null 2>&1" << std::endl;
 
   /* convert stringstream to char * */
   ftp_cmd_str = conv.str();

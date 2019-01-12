@@ -588,7 +588,7 @@ void DataAcquisition::FtpPoll() {
   ftp_cmd = ftp_cmd_str.c_str();
 
   /* send polling command in loop while instrument mode switching not required */
-  std::unique_lock<std::mutex> lock(this->_m_switch);
+  std::shared_lock<std::shared_mutex> lock(this->_m_switch);
   /* enter data processing loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
@@ -644,7 +644,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
   int time_left = FTP_TIMEOUT;
   bool first_loop = true;
   
-  std::unique_lock<std::mutex> lock(this->_m_switch);
+  std::shared_lock<std::shared_mutex> lock(this->_m_switch);
   /* enter data processing loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
@@ -1032,7 +1032,6 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   analog.join();
   collect_main_data.join();
   ftp_poll.join();
-  
   /* only reached for instrument mode change */
 
   /* close the CPU file */

@@ -2,6 +2,7 @@
 #define _OPERATION_MODE_H
 
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 
 #include "AnalogManager.h"
@@ -34,11 +35,11 @@ protected:
   /**
    * to handle mode switching in a thread-safe way 
    */
-  std::mutex _m_switch;
+  std::shared_mutex _m_switch;
   /**
    * to wait for a mode switch 
    */
-  std::condition_variable _cv_switch;
+  std::condition_variable_any _cv_switch;
   /**
    * to notify of a mode switch 
    */

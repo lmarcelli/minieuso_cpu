@@ -589,9 +589,9 @@ void DataAcquisition::FtpPoll() {
 
   std::unique_lock<std::mutex> lock(this->_m_ftp);
   /* enter data processing loop while instrument mode switching not requested */
-  while(!this->_cv_switch.wait_for(lock,
+  while(!this->_cv_ftp.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
-				   [this] { return this->_switch; }) ) { 
+				   [this] { return this->_ftp; }) ) { 
 
     output = CpuTools::CommandToStr(ftp_cmd);
     sleep(2);

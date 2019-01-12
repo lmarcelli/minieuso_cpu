@@ -567,6 +567,41 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
 
 
 /**
+ * Poll the lftp server on the Zynq to check for new files. 
+ */
+void DataAcquisition::FtpPoll() {
+
+  std::string output;
+  const char * ftp_cmd = "";
+  std::string ftp_cmd_str;
+  std::stringstream conv;
+  
+  /* build the command */
+  conv << "lftp -u minieusouser,minieusopass -e "
+       << "\"set ftp:passive-mode off;mirror --parallel=1 --verbose --Remove-source-files --ignore-time . DATA;quit\""
+       << " 192.168.7.10" << std::endl;
+
+  /* convert stringstream to char * */
+  ftp_cmd_str = conv.str();
+  ftp_cmd = ftp_cmd_str.c_str();
+
+  std::unique_lock<std::mutex> lock(this->_m_switch);
+  
+  /* send polling command in loop while instrument mode switching not required */
+  while(!this->_cv_switch.wait_for(lock,
+                                       std::chrono::milliseconds(WAIT_PERIOD),
+                                   [this] { return this->_switch; }) ) {
+
+    output = CpuTools::CommandToStr(ftp_cmd);
+    
+    sleep(2);
+
+  }
+
+}
+
+
+/**
  * Look for new files in the data directory and process them depending on file type
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
@@ -642,7 +677,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     
       if (event->len) {
 	if (event->mask & IN_CLOSE_WRITE) {
-
 	  
 	  if (event->mask & IN_ISDIR) {
 	  
@@ -954,6 +988,9 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   long unsigned int main_thread = pthread_self();
 
+  /* FTP polling */
+  std::thread ftp_poll (&DataAcquisition::FtpPoll, this);
+  
   /* collect the data */
   std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   
@@ -1001,12 +1038,16 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   /* stop Zynq acquisition */
   {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
     Zynq->StopAcquisition();
   }
   
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 
+  /* stop FTP polling */
+  ftp_poll.join();
+  
 #endif /* __APPLE__ */
   return 0;
 }

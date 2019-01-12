@@ -590,8 +590,6 @@ void DataAcquisition::FtpPoll() {
   /* debug */
   std::cout << "ftp command string: " << ftp_cmd_str << std::endl;
   
-  std::unique_lock<std::mutex> lock(this->_m_switch);
-  
   /* send polling command in loop while instrument mode switching not required */
   while(1) {
     

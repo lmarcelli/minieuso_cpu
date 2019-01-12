@@ -43,7 +43,20 @@ protected:
    * to notify of a mode switch 
    */
   bool _switch;
-  
+
+  /**
+   * to handle swicthing in a thread safe way 
+   */
+  std::mutex _m_ftp;
+  /**
+   * to wait for an ftp switch 
+   */
+  std::condition_variable _cv_ftp;
+  /**
+   * to notify of a mode switch 
+   */
+  bool _ftp;
+
 };
 
 

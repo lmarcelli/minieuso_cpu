@@ -579,19 +579,25 @@ void DataAcquisition::FtpPoll() {
   clog << "info: " << logstream::info << "starting FTP server polling" << std::endl;
   
   /* build the command */
-  /*
   conv << "lftp -u minieusouser,minieusopass -e "
        << "\"set ftp:passive-mode off;mirror --parallel=1 --verbose --Remove-source-files --ignore-time . /home/minieusouser/DATA;quit\""
        << " 192.168.7.10 " <<  "> /dev/null 2>&1" << std::endl;
-  */
-  conv << "cd /home/minieusouser && ./zynq_retr.sh" << std::endl;
-    
+      
   /* convert stringstream to char * */
   ftp_cmd_str = conv.str();
   ftp_cmd = ftp_cmd_str.c_str();
 
-  output = CpuTools::CommandToStr(ftp_cmd);
-    
+  std::unique_lock<std::mutex> lock(this->_m_ftp);
+  /* enter data processing loop while instrument mode switching not requested */
+  while(!this->_cv_switch.wait_for(lock,
+				       std::chrono::milliseconds(WAIT_PERIOD),
+				   [this] { return this->_switch; }) ) { 
+
+    output = CpuTools::CommandToStr(ftp_cmd);
+    sleep(2);
+
+  }
+  
 }
 
 

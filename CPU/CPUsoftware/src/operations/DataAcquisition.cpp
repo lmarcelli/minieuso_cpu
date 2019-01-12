@@ -632,7 +632,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
       event = (struct inotify_event *) &buffer[event_number];
     
       if (event->len) {
-	if (event->mask & IN_MOVE_SELF) {
+	if (event->mask & IN_CLOSE_WRITE) {
 	  if (event->mask & IN_ISDIR) {
 	  
 	    /* process new directory creation */

@@ -597,6 +597,8 @@ void DataAcquisition::FtpPoll() {
                                        std::chrono::milliseconds(WAIT_PERIOD),
                                    [this] { return this->_switch; }) ) {
 
+    /* debug */
+    std::cout << "Sending FTP command..." << std::endl;
     output = CpuTools::CommandToStr(ftp_cmd);
 
     /* debug */

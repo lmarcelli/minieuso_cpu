@@ -334,7 +334,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   ptr_zfile = fopen(kZynqFileName, "rb");
   if (!ptr_zfile) {
     clog << "error: " << logstream::error << "cannot open the file " << zynq_file_name << std::endl;
-    return NULL;
+    return nullptr;
   }
 
   
@@ -368,7 +368,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
       std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
   
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
-      return NULL;
+      return nullptr;
     }
     zynq_packet->level1_data.push_back(*zynq_d1_packet_holder);
     zynq_packet->level1_data.shrink_to_fit();
@@ -384,7 +384,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
   
       clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
 
-      return NULL;
+      return nullptr;
     }
     zynq_packet->level2_data.push_back(*zynq_d2_packet_holder);
     zynq_packet->level2_data.shrink_to_fit();
@@ -397,7 +397,7 @@ ZYNQ_PACKET * DataAcquisition::ZynqPktReadOut(std::string zynq_file_name, std::s
     std::cout << "feof: " << feof(ptr_zfile) << std::endl;
     std::cout << "ferror: " << ferror(ptr_zfile) << std::endl;
     clog << "error: " << logstream::error << "fread from " << zynq_file_name << " failed" << std::endl;
-    return NULL;
+    return nullptr;
   }
   
   /* DEBUG */
@@ -469,7 +469,7 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   hk_packet->hk_packet_header.pkt_num = pkt_counter;
 
   /* add the zynq and hk packets, checking for NULL */
-  if (zynq_packet != NULL) {
+  if (zynq_packet != nullptr) {
     cpu_packet->zynq_packet = * zynq_packet;
   }
   else {
@@ -478,7 +478,7 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   }
   delete zynq_packet;
  
-  if (hk_packet != NULL) {
+  if (hk_packet != nullptr) {
     cpu_packet->hk_packet = * hk_packet;
   }
   else {
@@ -726,7 +726,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      HK_PACKET * hk_packet = AnalogPktReadOut();
 	    
 	      /* check for NULL packets */
-	      if (zynq_packet && hk_packet) {
+	      if ((zynq_packet != nullptr) && (hk_packet != nullptr)) {
 	      
 		/* generate cpu packet and append to file */
 		WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);

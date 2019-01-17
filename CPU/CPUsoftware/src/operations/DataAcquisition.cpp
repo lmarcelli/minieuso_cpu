@@ -483,7 +483,7 @@ int DataAcquisition::WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packe
   }
   else {
     std::cout << "ERROR: HK packet is NULL, writing empty packet" << std::endl;
-    clog << "error: " << logstream::error << "HK packet is NULL, writing empty packet" << std::endl;  
+    clog << "error: " << logstream::error << "HK packet is NULL, writing empty packet" << std::endl;    
   }
   delete hk_packet;
  
@@ -566,14 +566,6 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
   return 0;
 }
 
-/**
- * SignalHandler for to catch signals during file transfer.
- */
-void FtpSignalHandler(int signum) {
-
-  std::cout << "Catching interrupt during file transfer! -> Doing nothing" << std::endl;
-
-}
 
 /**
  * Poll the lftp server on the Zynq to check for new files. 
@@ -584,9 +576,6 @@ void DataAcquisition::FtpPoll() {
   const char * ftp_cmd = "";
   std::string ftp_cmd_str;
   std::stringstream conv;
-
-  /* catch interrupt to avoid interrupt of file transfer */
-  signal(SIGINT, FtpSignalHandler);
   
   clog << "info: " << logstream::info << "starting FTP server polling" << std::endl;
   
@@ -684,9 +673,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     event_number = 0;
     while (event_number < N_events) {
 
-      /* debug */
-      std::cout << "event_number: " << event_number << std::endl;
-      
       event = (struct inotify_event *) &buffer[event_number];
     
       if (event->len) {
@@ -740,7 +726,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      HK_PACKET * hk_packet = AnalogPktReadOut();
 	    
 	      /* check for NULL packets */
-	      if ((zynq_packet != NULL && hk_packet != NULL) || packet_counter != 0) {
+	      if (zynq_packet && hk_packet) {
 	      
 		/* generate cpu packet and append to file */
 		WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);

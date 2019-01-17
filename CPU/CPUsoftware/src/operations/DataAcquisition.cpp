@@ -632,7 +632,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 
   /* watch the data directory for incoming files */
   clog << "info: " << logstream::info << "start watching " << DONE_DIR << std::endl;
-  wd = inotify_add_watch(fd, DATA_DIR, IN_CREATE | IN_CLOSE_WRITE);
+  wd = inotify_add_watch(fd, DATA_DIR, IN_CLOSE_WRITE);
 
   /* to keep track of good and bad packets */
   int packet_counter = 0;
@@ -676,7 +676,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
       event = (struct inotify_event *) &buffer[event_number];
     
       if (event->len) {
-	if ((event->mask & IN_CLOSE_WRITE) | (event->mask & IN_CREATE)) {
+	if (event->mask & IN_CLOSE_WRITE) {
 	  
 	  if (event->mask & IN_ISDIR) {
 	  

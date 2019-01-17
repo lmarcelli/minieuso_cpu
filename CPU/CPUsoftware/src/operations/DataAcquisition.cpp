@@ -566,6 +566,16 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
   return 0;
 }
 
+/**
+ * SignalHandler for to catch signals during file transfer.
+ */
+void FtpSignalHandler(int signum) {
+
+  std::cout << "Catching interrupt during file transfer! -> Doing nothing" << std::endl;
+
+  exit(signum);
+
+}
 
 /**
  * Poll the lftp server on the Zynq to check for new files. 
@@ -577,6 +587,9 @@ void DataAcquisition::FtpPoll() {
   std::string ftp_cmd_str;
   std::stringstream conv;
 
+  /* catch interrupt to avoid interrupt of file transfer */
+  signal(SIGINT, FtpSignalHandler);
+  
   clog << "info: " << logstream::info << "starting FTP server polling" << std::endl;
   
   /* build the command */

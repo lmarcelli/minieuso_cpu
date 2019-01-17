@@ -573,8 +573,6 @@ void FtpSignalHandler(int signum) {
 
   std::cout << "Catching interrupt during file transfer! -> Doing nothing" << std::endl;
 
-  exit(signum);
-
 }
 
 /**

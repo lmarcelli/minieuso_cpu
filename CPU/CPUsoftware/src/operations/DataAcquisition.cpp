@@ -619,7 +619,7 @@ void DataAcquisition::FtpPoll(bool monitor) {
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */
-int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
+int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread, bool scurve) {
 #ifndef __APPLE__
   int N_events, event_number = 0;
   int fd, wd;
@@ -700,75 +700,89 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    /* process new file */
 	    clog << "info: " << logstream::info << "new file created with name " << event->name << std::endl;
 	    event_name = event->name;
-	  
+
+	    
 	    /* for files from Zynq (frm_cc_XXXXXXXX.data) */
 	    if ( (event_name.compare(0, 3, "frm") == 0)
 		 && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
-	      
-	      zynq_file_name = data_str + "/" + event->name;
-	    
-	      /* new run file every RUN_SIZE packets */
-	      if (packet_counter == RUN_SIZE) {
-		CloseCpuRun(CPU);
-	      
-		/* reset the packet counter */
-		packet_counter = 0;
-		std::cout << "PACKET COUNTER is reset to 0" << std::endl;
-	      
-	      }
-	    
-	      /* first packet */
-	      if (packet_counter == 0) {
-	      
-		/* create a new run */
-		CreateCpuRun(CPU, ConfigOut, CmdLine);
 
-		/* reset first_loop status */
-		if (first_loop) {
-		  first_loop = false;
-		}
+	      if(!scurve) {
 		
-	      }
-	    	    
-	      /* generate sub packets */
-	      ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
-	      HK_PACKET * hk_packet = AnalogPktReadOut();
+		zynq_file_name = data_str + "/" + event->name;
 	    
-	      /* check for NULL packets */
-	      if ((zynq_packet != nullptr) && (hk_packet != nullptr)) {
+		/* new run file every RUN_SIZE packets */
+		if (packet_counter == RUN_SIZE) {
+		  CloseCpuRun(CPU);
 	      
-		/* generate cpu packet and append to file */
-		WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
-	      
-		/* delete upon completion */
-		if (!CmdLine->keep_zynq_pkt) {
-		  std::remove(zynq_file_name.c_str());
+		  /* reset the packet counter */
+		  packet_counter = 0;
+		  std::cout << "PACKET COUNTER is reset to 0" << std::endl;
+		  
 		}
+	    
+		/* first packet */
+		if (packet_counter == 0) {
 	      
-		/* print update to screen */
-		printf("PACKET COUNTER = %i\n", packet_counter);
-		printf("The packet %s was read out\n", zynq_file_name.c_str());
+		  /* create a new run */
+		  CreateCpuRun(CPU, ConfigOut, CmdLine);
+
+		  /* reset first_loop status */
+		  if (first_loop) {
+		    first_loop = false;
+		  }
+		  
+		}
+	    	    
+		/* generate sub packets */
+		ZYNQ_PACKET * zynq_packet = ZynqPktReadOut(zynq_file_name, ConfigOut);
+		HK_PACKET * hk_packet = AnalogPktReadOut();
+		
+		/* check for NULL packets */
+		if ((zynq_packet != nullptr) && (hk_packet != nullptr)) {
 	      
-		/* increment the packet counter */
-		packet_counter++;
+		  /* generate cpu packet and append to file */
+		  WriteCpuPkt(zynq_packet, hk_packet, ConfigOut);
+	      
+		  /* delete upon completion */
+		  if (!CmdLine->keep_zynq_pkt) {
+		    std::remove(zynq_file_name.c_str());
+		  }
+	      
+		  /* print update to screen */
+		  printf("PACKET COUNTER = %i\n", packet_counter);
+		  printf("The packet %s was read out\n", zynq_file_name.c_str());
+	      
+		  /* increment the packet counter */
+		  packet_counter++;
 	      
 		/* leave loop for a single run file */
 		if (packet_counter == CmdLine->acq_len && CmdLine->single_run) {
+
 		  /* send shutdown signal to RunInstrument */
 		  /* interrupt signal to main thread */
 		  pthread_kill((pthread_t)main_thread, SIGINT);
 		  break;
+
 		}
 	      }
 	    
-	      /* if NULL packets */
-	      else {
-		/* skip this packet */
-		bad_packet_counter++;
+		/* if NULL packets */
+		else {
+
+		  /* skip this packet */
+		  bad_packet_counter++;
+
+		}
+
+	      }
+	      else{
+		
+		/* do nothing if scurve = true */  
+
 	      }
 	    
 	    } /* end of FRM packets */
-	  
+	    
 	  
 	  
 	    /* S-curve packets */
@@ -975,7 +989,7 @@ int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> Confi
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
   
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
   {
     std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
     Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
@@ -1006,7 +1020,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
   
   /* collect the data */
-  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
+  std::thread collect_main_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, false);
   
   /* set Zynq operational mode */
   /* select number of N1 and N2 packets */

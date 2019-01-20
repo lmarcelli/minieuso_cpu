@@ -18,9 +18,7 @@ DataAcquisition::DataAcquisition() {
     std::unique_lock<std::mutex> lock(this->m_nfiles);     
     this->n_files_written = 0;
   }
-  
-  /* scurve acquisition */
-  this->_scurve = false;
+
 }
   
 /** 
@@ -669,12 +667,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     struct inotify_event * event;
     N_events = read(fd, buffer, BUF_LEN);
     
-    /* debug */
-    /*
-    std::cout << "event_number: " << event_number << std::endl;
-    std::cout << "N_events in bufffer: " << N_events << std::endl;
-    */
-    
     if (N_events < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;
     }
@@ -707,6 +699,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    if ( (event_name.compare(0, 3, "frm") == 0)
 		 && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 
+	      /* ignore frm files if waiting for an Scurve */
 	      if(!scurve) {
 		
 		zynq_file_name = data_str + "/" + event->name;
@@ -796,18 +789,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      }
 	    
 	      sc_file_name = data_str + "/" + event->name;
-	      
-	      /* wait for scurve completion */
-	      /*
-	      std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
-	      while(!this->_cv_scurve.wait_for(sc_lock,
-					       std::chrono::milliseconds(WAIT_PERIOD),
-					       [this] { return this->_scurve; })) {}
-
-	      sleep(1);
-	      
-	      std::cout << "S-curve acquisition complete" << std::endl;
-	      */
 	      
 	      CreateCpuRun(SC, ConfigOut, CmdLine);
 	      
@@ -951,111 +932,6 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   return 0;
 }
 
-
-/**
- * read out the sc file into a SC_PACKET and store
- * @param ConfigOut output of the configuration file parsing with ConfigManager
- * @param CmdLine comnnad line inputs
- * Used for single scurve acquisition with mecontrol -scurve.
- * For automated acquisition ProcessIncomingData() will catch scurves.
- */
-int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
-
-  long unsigned int main_thread = pthread_self();
-  std::string data_str(DATA_DIR);
-  
-  /* tell the Zynq to acquire an Scurve */
-  {
-    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
-    Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-  }
-
-  /* poll the FTP server */
-  FtpPoll(false);
-
-  sleep(2);
-  
-  /* get the filename */
-  DIR * dir;
-  struct dirent * ent;
-  if ((dir = opendir(data_str.c_str())) != NULL) {
-
-    /* check all files within directory */
-    while ((ent = readdir(dir)) != NULL) {
-
-      std::string fname(ent->d_name);
-     
-      if (fname.compare(0, 2, "sc") == 0) {
-	/* read out the Scurve file, if it exists */
-	std::string sc_file_name = data_str + "/" + fname;
-	
-	CreateCpuRun(SC, ConfigOut, CmdLine);
-	      
-	/* generate sc packet and append to file */
-	SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
-
-	if (sc_packet != NULL) {
-	  WriteScPkt(sc_packet);
-	}
-
-	/* print update to screen */
-	printf("The scurve %s was read out\n", sc_file_name.c_str());
-	clog << "info: " << logstream::info << "read out the SC file" << std::endl;
-	    
-	CloseCpuRun(SC);
-	    
-	/* delete upon completion */
-	std::remove(sc_file_name.c_str());
-
-	/* exit without waiting for more files */
-	/* send shutdown signal to RunInstrument */
-	/* interrupt signal to main thread */
-	pthread_kill((pthread_t)main_thread, SIGINT);   
-	return 0;   
-	
-      }
-      else {
-	clog << "info: " << logstream::info << "no SC file found" << std::endl;
-      }
-    }
-    closedir (dir);
-  }
-  else {
-    clog << "error: " << logstream::error << "cannot open the data directory" << std::endl;
-  }
-  
-  return 0;
-}
-
-
-/**
- * signal that the scurve is done to data gathering thread
- */
-void DataAcquisition::SignalScurveDone() {
-
-  {
-    std::unique_lock<std::mutex> lock(this->_m_scurve);   
-    this->_scurve = true;
-  } /* release mutex */
-  this->_cv_scurve.notify_all();
-
-  return;
-}
-
-/**
- * check the scurve status in a thread-safe way
- */
-bool DataAcquisition::IsScurveDone() {
-
-  bool scurve_status;
-  {
-   std::unique_lock<std::mutex> lock(this->_m_scurve);   
-   scurve_status = this->_scurve;
-  }
-  
-  return scurve_status;
-}
-
 /**
  * spawn thread to collect an S-curve 
  * @param Zynq object to control the Zynq subsystem passed from RunInstrument
@@ -1064,9 +940,6 @@ bool DataAcquisition::IsScurveDone() {
  */
 int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
-
-  /* alternative function being tested */
-  /* GetScurve(Zynq, ConfigOut, CmdLine); */
 
   long unsigned int main_thread = pthread_self();
 
@@ -1081,9 +954,8 @@ int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> Confi
   
   /* collect the data */
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
-  
-  /* signal that scurve is done */
-  //this->SignalScurveDone();
+
+  /* join threads */
   collect_data.join();
   ftp_poll.join();
   

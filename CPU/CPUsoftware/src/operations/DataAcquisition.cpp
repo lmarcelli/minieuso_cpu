@@ -817,7 +817,7 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	  
 	  
 	    /* for HV files from Zynq (hv_XXXXXXXX.dat) */
-	    else if ( (event_name.compare(0, 2, "hv") == 0)
+	    else if ( (event_name.compare(0, 2, "HV") == 0)
 		      && (event_name.compare(event_name.length() - 3, event_name.length(), "dat") == 0) ) {
 	      
 	      /* avoid timeout */
@@ -842,8 +842,6 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      /* print update */
 	      std::cout << "Wrote HV file" << std::endl;
 	    
-	      /* exit without waiting for more files */
-	      return 0;
 	    } /* end of HV packets */
 
 	    
@@ -899,7 +897,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 
       std::string fname(ent->d_name);
      
-      if (fname.compare(0, 2, "hv") == 0) {
+      if (fname.compare(0, 2, "HV") == 0) {
 	/* read out the HV file, if it exists */
 	std::string hv_file_name = data_str + "/" + fname;
 	

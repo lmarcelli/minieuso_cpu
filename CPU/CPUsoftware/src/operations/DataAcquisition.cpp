@@ -1154,7 +1154,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   }
   
   /* read out HV file */
-  HvInfo(ConfigOut, CmdLine);
+  GetHvInfo(ConfigOut, CmdLine);
 
 #endif /* __APPLE__ */
   return 0;

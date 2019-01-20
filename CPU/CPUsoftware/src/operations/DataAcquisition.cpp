@@ -817,14 +817,14 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      if (sc_packet != NULL) {
 		WriteScPkt(sc_packet);
 	      }
+
+	      /* print update to screen */
+	      printf("The scurve %s was read out\n", sc_file_name.c_str());
 	    
 	      CloseCpuRun(SC);
 	    
 	      /* delete upon completion */
 	      std::remove(sc_file_name.c_str());
-
-	      /* print update to screen */
-	      printf("The scurve %s was read out\n", sc_file_name.c_str());
 	      
 	      /* exit without waiting for more files */
 	      /* send shutdown signal to RunInstrument */

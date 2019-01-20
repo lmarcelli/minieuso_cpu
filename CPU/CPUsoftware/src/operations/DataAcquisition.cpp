@@ -796,17 +796,18 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      }
 	    
 	      sc_file_name = data_str + "/" + event->name;
-
+	      
 	      /* wait for scurve completion */
+	      /*
 	      std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
 	      while(!this->_cv_scurve.wait_for(sc_lock,
 					       std::chrono::milliseconds(WAIT_PERIOD),
 					       [this] { return this->_scurve; })) {}
 
-	      /* wait a bit more */
 	      sleep(1);
-	    
+	      
 	      std::cout << "S-curve acquisition complete" << std::endl;
+	      */
 	      
 	      CreateCpuRun(SC, ConfigOut, CmdLine);
 	      

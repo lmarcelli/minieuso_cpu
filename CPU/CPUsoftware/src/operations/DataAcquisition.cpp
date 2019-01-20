@@ -822,6 +822,9 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	    
 	      /* delete upon completion */
 	      std::remove(sc_file_name.c_str());
+
+	      /* print update to screen */
+	      printf("The scurve %s was read out\n", sc_file_name.c_str());
 	      
 	      /* exit without waiting for more files */
 	      /* send shutdown signal to RunInstrument */

@@ -959,7 +959,7 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
  * Used for single scurve acquisition with mecontrol -scurve.
  * For automated acquisition ProcessIncomingData() will catch scurves.
  */
-int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
+int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 
   long unsigned int main_thread = pthread_self();
   std::string data_str(DATA_DIR);

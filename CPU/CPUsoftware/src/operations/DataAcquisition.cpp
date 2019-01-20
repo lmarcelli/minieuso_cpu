@@ -616,6 +616,7 @@ void DataAcquisition::FtpPoll(bool monitor) {
  * @param ConfigOut output of the configuration file parsing with ConfigManager
  * @param CmdLine output of command line options parsing with InputParser
  * @param main_thread p_thread ID of the main thread which calls the function, used to send signals
+ * @param scurve if true, blocks frm readout and only watches for Scurve and HV files 
  * uses inotify to watch the FTP directory and stops when signalled by 
  * DataAcquisition::Notify()
  */

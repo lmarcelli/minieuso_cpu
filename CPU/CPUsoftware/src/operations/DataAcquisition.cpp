@@ -951,6 +951,76 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
   return 0;
 }
 
+
+/**
+ * read out the sc file into a SC_PACKET and store
+ * @param ConfigOut output of the configuration file parsing with ConfigManager
+ * @param CmdLine comnnad line inputs
+ * Used for single scurve acquisition with mecontrol -scurve.
+ * For automated acquisition ProcessIncomingData() will catch scurves.
+ */
+int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+
+  std::string data_str(DATA_DIR);
+
+  /* tell the Zynq to acquire an Scurve */
+  {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+    Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  }
+
+  /* poll the FTP server */
+  FtpPoll(false);
+
+  sleep(2);
+  
+  /* get the filename */
+  DIR * dir;
+  struct dirent * ent;
+  if ((dir = opendir(data_str.c_str())) != NULL) {
+
+    /* check all files within directory */
+    while ((ent = readdir(dir)) != NULL) {
+
+      std::string fname(ent->d_name);
+     
+      if (fname.compare(0, 2, "sc") == 0) {
+	/* read out the Scurve file, if it exists */
+	std::string sc_file_name = data_str + "/" + fname;
+	
+	CreateCpuRun(SC, ConfigOut, CmdLine);
+	      
+	/* generate sc packet and append to file */
+	SC_PACKET * sc_packet = ScPktReadOut(sc_file_name, ConfigOut);
+
+	if (sc_packet != NULL) {
+	  WriteScPkt(sc_packet);
+	}
+
+	/* print update to screen */
+	printf("The scurve %s was read out\n", sc_file_name.c_str());
+	clog << "info: " << logstream::info << "read out the SC file" << std::endl;
+	    
+	CloseCpuRun(SC);
+	    
+	/* delete upon completion */
+	std::remove(sc_file_name.c_str());
+        
+      }
+      else {
+	clog << "info: " << logstream::info << "no SC file found" << std::endl;
+      }
+    }
+    closedir (dir);
+  }
+  else {
+    clog << "error: " << logstream::error << "cannot open the data directory" << std::endl;
+  }
+  
+  return 0;
+}
+
+
 /**
  * signal that the scurve is done to data gathering thread
  */
@@ -988,22 +1058,23 @@ bool DataAcquisition::IsScurveDone() {
 int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
 
-  long unsigned int main_thread = pthread_self();
+  GetScurve(Zynq, ConfigOut, CmdLine);
+  //long unsigned int main_thread = pthread_self();
 
   /* FTP polling */
-  std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
+  //std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
   
   /* collect the data */
-  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
-  {
-    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
-    Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-  }
+  //std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
+  //{
+  //  std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+  //  Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  //}
   
   /* signal that scurve is done */
-  this->SignalScurveDone();
-  collect_data.join();
-  ftp_poll.join();
+  //this->SignalScurveDone();
+  //collect_data.join();
+  //ftp_poll.join();
   
 #endif /* __APPLE__ */
   return 0;

@@ -959,10 +959,11 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
  * Used for single scurve acquisition with mecontrol -scurve.
  * For automated acquisition ProcessIncomingData() will catch scurves.
  */
-int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
+int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread) {
 
+  long unsigned int main_thread = pthread_self();
   std::string data_str(DATA_DIR);
-
+  
   /* tell the Zynq to acquire an Scurve */
   {
     std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
@@ -1005,7 +1006,13 @@ int DataAcquisition::GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> Confi
 	    
 	/* delete upon completion */
 	std::remove(sc_file_name.c_str());
-        
+
+	/* exit without waiting for more files */
+	/* send shutdown signal to RunInstrument */
+	/* interrupt signal to main thread */
+	pthread_kill((pthread_t)main_thread, SIGINT);   
+	return 0;   
+	
       }
       else {
 	clog << "info: " << logstream::info << "no SC file found" << std::endl;
@@ -1147,7 +1154,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   }
   
   /* read out HV file */
-  GetHvInfo(ConfigOut, CmdLine);
+  HvInfo(ConfigOut, CmdLine);
 
 #endif /* __APPLE__ */
   return 0;

@@ -1065,23 +1065,27 @@ bool DataAcquisition::IsScurveDone() {
 int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
 #ifndef __APPLE__
 
-  GetScurve(Zynq, ConfigOut, CmdLine);
-  //long unsigned int main_thread = pthread_self();
+  /* alternative function being tested */
+  /* GetScurve(Zynq, ConfigOut, CmdLine); */
 
+  long unsigned int main_thread = pthread_self();
+
+  /* tell zynq to gather Scurve */
+  {
+    std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
+    Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
+  }
+  
   /* FTP polling */
-  //std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
+  std::thread ftp_poll (&DataAcquisition::FtpPoll, this, false);
   
   /* collect the data */
-  //std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
-  //{
-  //  std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
-  //  Zynq->Scurve(ConfigOut->scurve_start, ConfigOut->scurve_step, ConfigOut->scurve_stop, ConfigOut->scurve_acc);
-  //}
+  std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
   
   /* signal that scurve is done */
   //this->SignalScurveDone();
-  //collect_data.join();
-  //ftp_poll.join();
+  collect_data.join();
+  ftp_poll.join();
   
 #endif /* __APPLE__ */
   return 0;

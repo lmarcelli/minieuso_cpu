@@ -791,13 +791,6 @@ int RunInstrument::Acquisition() {
  */
 int RunInstrument::NightOperations() {
 
-  /* check scurve not already completed */
-  /*
-  if (this->Daq.IsScurveDone()) {
-    return 0;
-  }
-  */
-  
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;
 

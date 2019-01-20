@@ -569,8 +569,10 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
 
 /**
  * Poll the lftp server on the Zynq to check for new files. 
+ * @param monitor If true, wait until the instrument mode switch is sent to 
+ * stop polling the FTP server.
  */
-void DataAcquisition::FtpPoll(bool monitor = true) {
+void DataAcquisition::FtpPoll(bool monitor) {
 
   std::string output;
   const char * ftp_cmd = "";

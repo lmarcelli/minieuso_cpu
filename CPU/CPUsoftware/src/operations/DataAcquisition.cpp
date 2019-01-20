@@ -570,7 +570,7 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
 /**
  * Poll the lftp server on the Zynq to check for new files. 
  */
-void DataAcquisition::FtpPoll() {
+void DataAcquisition::FtpPoll(bool monitor = true) {
 
   std::string output;
   const char * ftp_cmd = "";
@@ -588,15 +588,22 @@ void DataAcquisition::FtpPoll() {
   ftp_cmd_str = conv.str();
   ftp_cmd = ftp_cmd_str.c_str();
 
-  std::unique_lock<std::mutex> lock(this->_m_ftp);
-  /* enter data processing loop while instrument mode switching not requested */
-  while(!this->_cv_ftp.wait_for(lock,
-				std::chrono::milliseconds(WAIT_PERIOD),
-				   [this] { return this->_ftp; }) ) { 
+  if (monitor) {
+    std::unique_lock<std::mutex> lock(this->_m_ftp);
+    /* enter data processing loop while instrument mode switching not requested */
+    while(!this->_cv_ftp.wait_for(lock,
+				  std::chrono::milliseconds(WAIT_PERIOD),
+				  [this] { return this->_ftp; }) ) { 
+      
+      output = CpuTools::CommandToStr(ftp_cmd);
+      sleep(2);
+
+    }
+  }
+  else {
 
     output = CpuTools::CommandToStr(ftp_cmd);
-    sleep(2);
-
+    
   }
   
 }
@@ -876,6 +883,9 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 
   std::cout << "waiting for HV file..." << std::endl;
   sleep(HV_FILE_TIMEOUT);
+
+  /* Poll the FTP server */
+  FtpPoll(false);
   
   /* get the filename */
   DIR * dir;
@@ -988,9 +998,6 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   long unsigned int main_thread = pthread_self();
 
-  /* debug */
-  std::cout << "launching data collection threads" << std::endl;
-  
   /* FTP polling */
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this);
   

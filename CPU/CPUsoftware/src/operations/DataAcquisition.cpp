@@ -660,10 +660,10 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
     N_events = read(fd, buffer, BUF_LEN);
     
     /* debug */
-    /*
+    
     std::cout << "event_number: " << event_number << std::endl;
     std::cout << "N_events in bufffer: " << N_events << std::endl;
-    */
+    
     
     if (N_events < 0) {
       clog << "error: " << logstream::error << "unable to read from inotify file descriptor" << std::endl;

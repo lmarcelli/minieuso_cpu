@@ -971,6 +971,9 @@ int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> Confi
 
   long unsigned int main_thread = pthread_self();
 
+  /* FTP polling */
+  std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
+  
   /* collect the data */
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread);
   {
@@ -981,6 +984,7 @@ int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> Confi
   /* signal that scurve is done */
   this->SignalScurveDone();
   collect_data.join();
+  ftp_poll.join();
   
 #endif /* __APPLE__ */
   return 0;

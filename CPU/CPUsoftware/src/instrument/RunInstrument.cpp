@@ -175,7 +175,8 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
-  
+
+  /*
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->Daq.Analog->GetLightLevel();
@@ -192,7 +193,8 @@ int RunInstrument::DebugMode() {
   std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
   std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
   std::cout << std::endl;
-
+  */
+  
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.Thermistors->PrintTemperature();

@@ -64,23 +64,10 @@ public:
   int CloseCpuRun(RunType run_type);
   int CollectSc(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   int CollectData(ZynqManager * ZqManager, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
-  bool IsScurveDone();
   static int WriteFakeZynqPkt();
   static int ReadFakeZynqPkt();
   
-private:  
-  /**
-   * to handle scurve acquisition in a thread-safe way
-   */
-  std::mutex _m_scurve;
-  /**
-   * to wait for scurve acquisition to complete
-   */
-  std::condition_variable _cv_scurve;
-  /**
-   * to notify a completed scurve
-   */
-  bool _scurve;  
+private: 
 
   std::string CreateCpuRunName(RunType run_type, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
   std::string BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
@@ -92,8 +79,9 @@ private:
   int WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> ConfigOut);
   int WriteCpuPkt(ZYNQ_PACKET * zynq_packet, HK_PACKET * hk_packet, std::shared_ptr<Config> ConfigOut);
   int GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
-  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread);
-  void SignalScurveDone();
+  int GetScurve(ZynqManager * Zynq, std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine);
+  void FtpPoll(bool monitor);
+  int ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine, long unsigned int main_thread, bool scurve);
   
 };
 

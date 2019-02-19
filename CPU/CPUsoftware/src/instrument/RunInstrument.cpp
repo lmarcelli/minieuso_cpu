@@ -848,7 +848,9 @@ void RunInstrument::Stop() {
   clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
   std::cout << "stopping detached threads..." << std::endl;
   this->Cam.KillCamAcq();
-  this->Usb.KillDataBackup();
+
+  /* USB backup disabled for now, plan to work with 1 USB */
+  //this->Usb.KillDataBackup();
 
   /* turn off all subsystems */
   /* leave zynq on all the time, for now */
@@ -905,7 +907,8 @@ void RunInstrument::Start() {
   }
 
   /* launch data backup in background */
-  this->Usb.RunDataBackup();
+  /* disable for now, planning to work with a single USB system */
+  //this->Usb.RunDataBackup();
   
   /* launch background process to monitor the instrument */
   this->MonitorInstrument();

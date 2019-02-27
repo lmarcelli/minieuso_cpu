@@ -4,15 +4,18 @@
  * constructor 
  */
 ArduinoManager::ArduinoManager() {
+
   this->light_level = std::make_shared<LightLevel>();
   this->analog_acq = std::make_shared<AnalogAcq>();
   int i = 0, j = 0;
+
   for (i = 0; i < FIFO_DEPTH; i++) {
     for (j = 0; j < CHANNELS; j++) {
       this->analog_acq->val[i][j] = 0;
     }
   }
   this->inst_mode_switch = false;
+
 }
 
 
@@ -56,19 +59,48 @@ int ArduinoManager::AnalogDataCollect() {
  */
 void ArduinoManager::SerialReadOut(int fd) {
 
-  unsigned char buf[14] = "";
+  char buf[14] = "";
   int rdlen;
   bool flag = true;
+  char * p;
+  char * err;
+
+  double val;
 
   /* repeat read to get full message */
   while(flag) {
-   
+
+    /* get number of bytes read */
     rdlen = read(fd, buf, sizeof(buf) - 1);
 
-    /* print output */
+    /* some bytes read */
     if (rdlen > 0) {
+
+      /* always make last byte 0 */
       buf[rdlen] = 0;
-      printf("%s", buf);
+
+      /* print chars in buf */
+      //printf("%s", buf);
+
+      /* parse this char array (not flexible) */
+      p = buf;
+      while (*p) {
+	
+	val = strtod(p, &err);
+	if (p == err) {
+	  p++;
+	}
+	else if ((err == NULL) || (*err == 0)) {
+	  printf("Parsed value: %f\n", val);
+	  break;
+	}
+	else {
+	  printf("Parsed value: %f\n", val);
+	  p = err + 1;
+	}
+	
+      }
+      
     }
 
     /* catch error */

@@ -9,6 +9,7 @@
 #include <condition_variable>
 #include <termios.h>
 #include <fcntl.h> 
+#include <stdlib.h>
 
 #include "log.h"
 #include "minieuso_data_format.h"

@@ -43,13 +43,9 @@ int ArduinoManager::AnalogDataCollect() {
   /*baudrate 9600, 8 bits, no parity, 1 stop bit */
   SetInterfaceAttribs(fd, BAUDRATE);
 
-  printf("Will now run ArduinoManager::SerialReadOut() 10 times...\n");
-  for (i = 0; i < 10; i++) {
+  printf("Will now run ArduinoManager::SerialReadOut() once...\n");
 
-    printf("%i: \n", i);
-    SerialReadOut(fd);
-    
-  }
+  SerialReadOut(fd);
   
   return 0;
 }
@@ -61,58 +57,53 @@ void ArduinoManager::SerialReadOut(int fd) {
 
   char buf[14] = "";
   int rdlen;
-  bool flag = true;
   char * p;
   char * err;
-
+  int i;
   double val;
 
   /* repeat read to get full message */
-  while(flag) {
-
+  for (i = 0; i < FIFO_DEPTH + 1; i++) {
+ 
     /* get number of bytes read */
     rdlen = read(fd, buf, sizeof(buf) - 1);
 
-    /* some bytes read */
-    if (rdlen > 0) {
+    /* ignore first read as problematic */
+    if (i != 0) {
+    
+      /* some bytes read */
+      if (rdlen > 0) {
 
-      /* always make last byte 0 */
-      buf[rdlen] = 0;
+	/* always make last byte 0 */
+	buf[rdlen] = 0;
 
-      /* print chars in buf */
-      //printf("%s", buf);
-
-      /* parse this char array (not flexible) */
-      p = buf;
-      while (*p) {
+	/* parse this char array (not flexible) */
+	p = buf;
+	while (*p) {
 	
-	val = strtod(p, &err);
-	if (p == err) {
-	  p++;
-	}
-	else if ((err == NULL) || (*err == 0)) {
-	  printf("Parsed value: %f\n", val);
-	  break;
-	}
-	else {
-	  printf("Parsed value: %f\n", val);
-	  p = err + 1;
-	}
+	  val = strtod(p, &err);
+	  if (p == err) {
+	    p++;
+	  }
+	  else if ((err == NULL) || (*err == 0)) {
+	    printf("Parsed value: %f\n", val);
+	    break;
+	  }
+	  else {
+	    printf("Parsed value: %f\n", val);
+	    p = err + 1;
+	  }
 	
+	}
+      }
+
+      /* catch error */
+      else if (rdlen < 0) {
+	printf("Error from read: %d: %s\n", rdlen, std::strerror(errno));
       }
       
     }
 
-    /* catch error */
-    else if (rdlen < 0) {
-      printf("Error from read: %d: %s\n", rdlen, std::strerror(errno));
-    }
-
-    /* stop reading */
-    else {
-      flag = false;
-    }
-    
   }
   
 }

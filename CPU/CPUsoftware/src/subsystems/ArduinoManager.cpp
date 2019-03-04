@@ -52,8 +52,8 @@ int ArduinoManager::AnalogDataCollect() {
  */
 void ArduinoManager::SerialReadOut(int fd) {
 
-  char * buf;
-  int rdlen;
+  char buf[BUF_SIZE];
+  int len;
   char * p;
   char * err;
   int i;
@@ -63,20 +63,19 @@ void ArduinoManager::SerialReadOut(int fd) {
   for (i = 0; i < FIFO_DEPTH + 1; i++) {
 
     /* get number of bytes read */
-    rdlen = read(fd, buf, BUF_SIZE);
+    len = read(fd, &buf, sizeof(buf)-1);
 
     /* ignore first read as problematic */
     if (i != 0) {
     
       /* some bytes read */
-      if (rdlen > 0) {
+      if (len > 0) {
 
-	
 	/* print the serial output (debug) */
 	printf("Serial output: %s", buf);
 
 	/* parse this char array (not flexible) */
-	p = buf;
+	p = &buf[0];
 	printf("Parsed values: \n");
 	while (*p) {
 	
@@ -98,8 +97,8 @@ void ArduinoManager::SerialReadOut(int fd) {
       }
 
       /* catch error */
-      else if (rdlen < 0) {
-	printf("Error from read: %d: %s\n", rdlen, std::strerror(errno));
+      else if (len < 0) {
+	printf("Error from read: %d: %s\n", len, std::strerror(errno));
       }
       
     }

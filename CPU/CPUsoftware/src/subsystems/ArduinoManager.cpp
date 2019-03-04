@@ -85,10 +85,11 @@ void ArduinoManager::SerialReadOut(int fd) {
 
 	
 	/* print the serial output (debug) */
-	printf("Serial output: %s\n", buf);
+	printf("Serial output: %s", buf);
 
 	/* parse this char array (not flexible) */
 	p = buf;
+	printf("Parsed values: \n");
 	while (*p) {
 	
 	  val = strtod(p, &err);
@@ -96,13 +97,14 @@ void ArduinoManager::SerialReadOut(int fd) {
 	    p++;
 	  }
 	  else if ((err == NULL) || (*err == 0)) {
-	    printf("Parsed value: %f\n", val);
+	    printf("%f ", val);
 	    break;
 	  }
 	  else {
-	    printf("Parsed value: %f\n", val);
+	    printf("%f ", val);
 	    p = err + 1;
 	  }
+	  printf("\n");
 	
 	}
       }

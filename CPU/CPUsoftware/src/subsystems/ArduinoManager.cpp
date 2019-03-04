@@ -65,9 +65,14 @@ void ArduinoManager::SerialReadOut(int fd) {
 
   /* repeat read to get full message */
   for (i = 0; i < FIFO_DEPTH + 1; i++) {
- 
+
+
+    /* dummy data to debug */
+    rdlen = 17;
+    buf = "0.15, 0.73, 0.00\n";
+
     /* get number of bytes read */
-    rdlen = read(fd, buf, sizeof(buf) - 1);
+    //rdlen = read(fd, buf, sizeof(buf) - 1);
 
     /* ignore first read as problematic */
     if (i != 0) {
@@ -76,10 +81,8 @@ void ArduinoManager::SerialReadOut(int fd) {
       if (rdlen > 0) {
 
 	/* always make last byte 0 */
-	buf[rdlen] = 0;
+	//buf[rdlen] = 0;
 
-	/* dummy data to debug */
-	buf = "0.15, 0.73, 0.00\n";
 	
 	/* print the serial output (debug) */
 	printf("Serial output: %s\n", buf);

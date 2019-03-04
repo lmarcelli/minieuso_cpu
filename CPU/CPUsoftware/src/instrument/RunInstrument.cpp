@@ -163,6 +163,7 @@ int RunInstrument::DebugMode() {
   this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
 
+  /*
   std::cout << "LVPS" << std::endl;
   std::cout << "switching on all subsystems... " << std::endl;  
   std::cout << "cameras ON " << std::endl;  
@@ -175,7 +176,8 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
-
+  */
+  
   /*
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
@@ -194,7 +196,8 @@ int RunInstrument::DebugMode() {
   std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
   std::cout << std::endl;
   */
-  
+
+  /*
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.Thermistors->PrintTemperature();
@@ -238,7 +241,7 @@ int RunInstrument::DebugMode() {
   std::cout << "Zynq OFF " << std::endl;  
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
- 
+  */
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
       

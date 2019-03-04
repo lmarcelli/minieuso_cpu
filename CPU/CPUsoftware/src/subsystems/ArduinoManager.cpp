@@ -29,7 +29,6 @@ int ArduinoManager::AnalogDataCollect() {
   /* test implementation for now, just prints output to screen */
 
   int fd;
-  int i;
   
   fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {
@@ -55,7 +54,7 @@ int ArduinoManager::AnalogDataCollect() {
  */
 void ArduinoManager::SerialReadOut(int fd) {
 
-  char buf[14] = "";
+  char * buf;
   int rdlen;
   char * p;
   char * err;
@@ -76,6 +75,12 @@ void ArduinoManager::SerialReadOut(int fd) {
 
 	/* always make last byte 0 */
 	buf[rdlen] = 0;
+
+	/* dummy data to debug */
+	buf = "0.15, 0.73, 0.00\n";
+	
+	/* print the serial output (debug) */
+	printf("Serial output: %s\n", buf);
 
 	/* parse this char array (not flexible) */
 	p = buf;

@@ -18,7 +18,9 @@ DataAcquisition::DataAcquisition() {
     std::unique_lock<std::mutex> lock(this->m_nfiles);     
     this->n_files_written = 0;
   }
-
+  
+  /* scurve acquisition */
+  this->_scurve = false;
 }
   
 /** 
@@ -789,6 +791,14 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      }
 	    
 	      sc_file_name = data_str + "/" + event->name;
+
+	      /* wait for scurve completion */
+	      std::unique_lock<std::mutex> sc_lock(this->_m_scurve);
+	      while(!this->_cv_scurve.wait_for(sc_lock,
+					       std::chrono::milliseconds(WAIT_PERIOD),
+					       [this] { return this->_scurve; })) {}	
+	      sleep(1);
+	      std::cout << "S-curve acquisition complete" << std::endl;
 	      
 	      CreateCpuRun(SC, ConfigOut, CmdLine);
 	      
@@ -935,6 +945,34 @@ int DataAcquisition::GetHvInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs 
 }
 
 /**
+ * signal that the scurve is done to data gathering thread
+ */
+void DataAcquisition::SignalScurveDone() {
+	
+  {
+    std::unique_lock<std::mutex> lock(this->_m_scurve);   
+    this->_scurve = true;
+  } /* release mutex */
+  this->_cv_scurve.notify_all();
+	
+  return;
+}
+	
+/**
+ * check the scurve status in a thread-safe way
+ */
+bool DataAcquisition::IsScurveDone() {
+  
+  bool scurve_status;
+  {
+    std::unique_lock<std::mutex> lock(this->_m_scurve);   
+    scurve_status = this->_scurve;
+  }
+	
+  return scurve_status;
+}
+
+/**
  * spawn thread to collect an S-curve 
  * @param Zynq object to control the Zynq subsystem passed from RunInstrument
  * @param ConfigOut output of the configuration file parsing with ConfigManager
@@ -957,6 +995,9 @@ int DataAcquisition::CollectSc(ZynqManager * Zynq, std::shared_ptr<Config> Confi
   /* collect the data */
   std::thread collect_data (&DataAcquisition::ProcessIncomingData, this, ConfigOut, CmdLine, main_thread, true);
 
+  /* signal that scurve is done */
+  this->SignalScurveDone();
+  
   /* join threads */
   collect_data.join();
   ftp_poll.join();

@@ -803,10 +803,12 @@ int DataAcquisition::ProcessIncomingData(std::shared_ptr<Config> ConfigOut, CmdL
 	      printf("The scurve %s was read out\n", sc_file_name.c_str());
 	    
 	      CloseCpuRun(SC);
-	    
+
 	      /* delete upon completion */
-	      std::remove(sc_file_name.c_str());
-	      
+	      if (!CmdLine->keep_zynq_pkt) {
+		std::remove(sc_file_name.c_str());
+	      }
+              
 	      /* exit without waiting for more files */
 	      /* send shutdown signal to RunInstrument */
 	      /* interrupt signal to main thread */

@@ -157,9 +157,10 @@ int RunInstrument::DebugMode() {
   //std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
 
-  std::cout << "USB" << std::endl;
-  std::cout << "Running UsbManager::CheckUsb() to print debug info..." << std::endl;
+  //std::cout << "USB" << std::endl;
+  std::cout << "Running UsbManager::CheckUsb() to print debug info..." << std::endl << std::endl;
   this->Usb.CheckUsb();
+  std::cout << std::endl;
   
   std::cout << "Now checking for number of storage devices..." << std::endl;
   int num_usb_storage = this->Usb.LookupUsbStorage();

@@ -79,7 +79,7 @@ void UsbManager::PrintDev(libusb_device * dev) {
     }    
   }
   
-  std::cout << std::endl << std::endl << std::endl;
+  std::cout << std::endl << std::endl;
 
   /* free the descriptor */
   libusb_free_config_descriptor(config);
@@ -114,9 +114,14 @@ int UsbManager::CheckUsb() {
   std::cout << cnt << " USB devices connected" << std::endl;
 
   for (i = 0; i < cnt; i++) {
+
     /* print the specs of each device */
+    std::cout << "Device info for " << i << ":" << std::endl;
     PrintDev(devs[i]);
-    std::cout << (int)libusb_get_port_number(devs[i]) << std::endl;
+    
+    std::cout << "Bus Number: " << (int)libusb_get_bus_number(devs[i]) << std::endl;  
+    std::cout << "Port Number: " << (int)libusb_get_port_number(devs[i]) << std::endl;
+
   }
 
   /* clean up */

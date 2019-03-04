@@ -27,9 +27,9 @@ ArduinoManager::ArduinoManager() {
 int ArduinoManager::AnalogDataCollect() {
 
   /* test implementation for now, just prints output to screen */
-
   int fd;
   
+  /*
   fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {
     printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
@@ -38,10 +38,12 @@ int ArduinoManager::AnalogDataCollect() {
   else {
     printf("Device has been opened and ready for operation! \n");
   }
+  */
 
   /*baudrate 9600, 8 bits, no parity, 1 stop bit */
+  /*
   SetInterfaceAttribs(fd, BAUDRATE);
-
+  */
   printf("Will now run ArduinoManager::SerialReadOut() once...\n");
 
   SerialReadOut(fd);

@@ -29,7 +29,6 @@ int ArduinoManager::AnalogDataCollect() {
   /* test implementation for now, just prints output to screen */
   int fd;
   
-  /*
   fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
   if (fd < 0) {
     printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
@@ -38,12 +37,9 @@ int ArduinoManager::AnalogDataCollect() {
   else {
     printf("Device has been opened and ready for operation! \n");
   }
-  */
 
   /*baudrate 9600, 8 bits, no parity, 1 stop bit */
-  /*
   SetInterfaceAttribs(fd, BAUDRATE);
-  */
   printf("Will now run ArduinoManager::SerialReadOut() once...\n");
 
   SerialReadOut(fd);
@@ -66,22 +62,14 @@ void ArduinoManager::SerialReadOut(int fd) {
   /* repeat read to get full message */
   for (i = 0; i < FIFO_DEPTH + 1; i++) {
 
-
-    /* dummy data to debug */
-    rdlen = 17;
-    buf = "0.15, 0.73, 0.00\n";
-
     /* get number of bytes read */
-    //rdlen = read(fd, buf, sizeof(buf) - 1);
+    rdlen = read(fd, buf, BUF_SIZE);
 
     /* ignore first read as problematic */
     if (i != 0) {
     
       /* some bytes read */
       if (rdlen > 0) {
-
-	/* always make last byte 0 */
-	//buf[rdlen] = 0;
 
 	
 	/* print the serial output (debug) */
@@ -104,7 +92,7 @@ void ArduinoManager::SerialReadOut(int fd) {
 	    printf("%f ", val);
 	    p = err + 1;
 	  }
-	  printf("\n");
+	  printf("\n\n");
 	
 	}
       }

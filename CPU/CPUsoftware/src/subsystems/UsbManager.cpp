@@ -186,12 +186,9 @@ uint8_t UsbManager::LookupUsbStorage() {
 	clog << "error: " << logstream::error << "get device descriptor error for libusb" << std::endl;
       }
 
-      /* require bDeviceClass as not a hub, vendor specified (cameras)
-	 or human interface (keyboard) and presence on STORAGE_BUS */
-      if (libusb_get_bus_number(dev) == this->storage_bus
-	  && interface != LIBUSB_CLASS_HUB
-	  && interface != LIBUSB_CLASS_VENDOR_SPEC
-	  && interface != LIBUSB_CLASS_HID) {
+      /* require bDeviceClass as either "class per interface" or "mass storage" and presence on STORAGE_BUS */
+      if ( libusb_get_bus_number(dev) == this->storage_bus
+	  && (interface == LIBUSB_CLASS_PER_INTERFACE || interface == LIBUSB_CLASS_MASS_STORAGE) ) {
 
 	num_storage_dev++;
       }

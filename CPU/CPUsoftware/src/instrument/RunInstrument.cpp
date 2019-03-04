@@ -154,18 +154,19 @@ int RunInstrument::DebugMode() {
   std::cout << "-----------------------------" << std::endl; 
   std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
-  std::cout << "running checks of all subsystems..." <<std::endl; 
+  //std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
 
   std::cout << "USB" << std::endl;
+  std::cout << "Running UsbManager::CheckUsb() to print debug info..." << std::endl;
   this->Usb.CheckUsb();
   
-  /*
+  std::cout << "Now checking for number of storage devices..." << std::endl;
   int num_usb_storage = this->Usb.LookupUsbStorage();
   std::cout << "there are " << num_usb_storage << " USB storage devices connected" << std::endl;
   this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
-  */
+  
   
   /*
   std::cout << "LVPS" << std::endl;

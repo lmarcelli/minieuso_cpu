@@ -568,26 +568,48 @@ int DataAcquisition::WriteHvPkt(HV_PACKET * hv_packet, std::shared_ptr<Config> C
 
 
 /**
- * Poll the lftp server on the Zynq to check for new files. 
+ * Poll the lftp server on the Zynq to check for new files.
+ * Also clears old files from lftp server before starting.
  * @param monitor If true, wait until the instrument mode switch is sent to 
  * stop polling the FTP server.
  */
 void DataAcquisition::FtpPoll(bool monitor) {
 
   std::string output;
+
+  const char * ftp_clear = "";
+  std::string ftp_clear_str;
+
   const char * ftp_cmd = "";
   std::string ftp_cmd_str;
-  std::stringstream conv;
-  
+
+  std::stringstream conv1;
+  std::stringstream conv2;
+
+  /* clear the server */
+  clog << "info: " << logstream::info << "clearing old files from FTP server" << std::endl;
+
+  /* build the command */
+  conv1 << "lftp -u minieusouser,minieusopass -e "
+       << "\"set ftp:passive-mode off;mrm *;quit\""
+       << " 192.168.7.10" << "> /dev/null 2>&1" << std::endl;
+      
+  /* convert stringstream to char * */
+  ftp_clear_str = conv1.str();
+  ftp_clear = ftp_cmd_str.c_str();
+
+  output = CpuTools::CommandToStr(ftp_clear);
+ 
+  /* start FTP polling */
   clog << "info: " << logstream::info << "starting FTP server polling" << std::endl;
   
   /* build the command */
-  conv << "lftp -u minieusouser,minieusopass -e "
+  conv2 << "lftp -u minieusouser,minieusopass -e "
        << "\"set ftp:passive-mode off;mirror --parallel=1 --verbose --Remove-source-files --ignore-time . /home/minieusouser/DATA;quit\""
        << " 192.168.7.10" << "> /dev/null 2>&1" << std::endl;
       
   /* convert stringstream to char * */
-  ftp_cmd_str = conv.str();
+  ftp_cmd_str = conv2.str();
   ftp_cmd = ftp_cmd_str.c_str();
 
   if (monitor) {

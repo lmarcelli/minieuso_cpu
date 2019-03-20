@@ -30,6 +30,7 @@ int ArduinoManager::AnalogDataCollect() {
   int fd;
   
   fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
+
   if (fd < 0) {
     printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
     return -1;
@@ -64,7 +65,8 @@ void ArduinoManager::SerialReadOut(int fd) {
 
     /* get number of bytes read */
     len = read(fd, &buf, sizeof(buf)-1);
-
+    buf[BUF_SIZE-1] = '\0';
+    
     /* ignore first read as problematic */
     if (i != 0) {
     
@@ -72,7 +74,7 @@ void ArduinoManager::SerialReadOut(int fd) {
       if (len > 0) {
 
 	/* print the serial output (debug) */
-	printf("Serial output: %s", buf);
+	printf("\nSerial output: %s \n", buf);
 
 	/* parse this char array (not flexible) */
 	p = &buf[0];
@@ -91,7 +93,7 @@ void ArduinoManager::SerialReadOut(int fd) {
 	    printf("%f ", val);
 	    p = err + 1;
 	  }
-	  printf("\n\n");
+	  //printf("\n\n");
 	
 	}
       }

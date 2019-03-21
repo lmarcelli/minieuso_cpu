@@ -17,7 +17,7 @@
 /* for use with arduino readout functions */
 #define DUINO "/dev/ttyACM0"
 #define BAUDRATE B9600
-#define BUF_SIZE 18
+#define BUF_SIZE 14
 #define FIFO_DEPTH 64
 #define CHANNELS 16
 

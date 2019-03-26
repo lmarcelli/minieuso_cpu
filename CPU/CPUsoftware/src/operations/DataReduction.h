@@ -10,6 +10,8 @@
 #include "OperationMode.h"
 #include "AnalogManager.h"
 #include "ThermManager.h"
+#include "ConfigManager.h"
+
 
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */

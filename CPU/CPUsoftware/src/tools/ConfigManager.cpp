@@ -21,6 +21,11 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->LIGHT_THRESHOLD = -1;
+  this->ConfigOut->LIGHT_POLL_TIME = -1;
+  this->ConfigOut->LIGHT_ACQ_TIME = -1;
+  
+  
 
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -56,8 +61,10 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->LIGHT_THRESHOLD = -1;
+  this->ConfigOut->LIGHT_POLL_TIME = -1;
+  this->ConfigOut->LIGHT_ACQ_TIME = -1;
   
-
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
   this->ConfigOut->hv_on = false;
@@ -153,7 +160,16 @@ void ConfigManager::Parse() {
       else if (type == "L2_LOW_THRESH") {
 	in >> this->ConfigOut->L2_LOW_THRESH;
       }
-      
+      else if (type == "LIGHT_THRESHOLD") {
+	in >> this->ConfigOut->LIGHT_THRESHOLD;
+      }
+      else if (type == "LIGHT_POLL_TIME") {
+	in >> this->ConfigOut->LIGHT_POLL_TIME;
+      }
+      else if (type == "LIGHT_ACQ_TIME") {
+	in >> this->ConfigOut->LIGHT_ACQ_TIME;
+      }
+  
     }
     cfg_file.close();
     	
@@ -217,7 +233,10 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->N1 != -1 &&
       this->ConfigOut->N2 != -1 &&
       this->ConfigOut->L2_N_BG != -1 &&
-      this->ConfigOut->L2_LOW_THRESH != -1) {
+      this->ConfigOut->L2_LOW_THRESH != -1 &&
+      this->ConfigOut->LIGHT_THRESHOLD != -1 &&
+      this->ConfigOut->LIGHT_POLL_TIME != -1 &&
+      this->ConfigOut->LIGHT_ACQ_TIME != -1) {
     
     return true;
   }

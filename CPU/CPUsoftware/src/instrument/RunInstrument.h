@@ -6,6 +6,8 @@
 #include "CamManager.h"
 #include "DataAcquisition.h"
 #include "DataReduction.h"
+#include "AnalogManager.h"
+#include "ConfigManager.h"
 
 /* location of data files */
 #define HOME_DIR "/home/software/CPU"
@@ -52,6 +54,8 @@ public:
   CamManager Cam;
   DataAcquisition Daq;
   DataReduction Data;
+  AnalogManager Analog;
+
 
   RunInstrument(CmdLineInputs * CmdLine);
   void Start();

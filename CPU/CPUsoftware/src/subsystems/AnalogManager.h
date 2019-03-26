@@ -13,6 +13,7 @@
 
 #include "log.h"
 #include "minieuso_data_format.h"
+#include "ConfigManager.h"
 
 /* for use with analog readout functions */
 #define CHANNELS 16
@@ -20,15 +21,15 @@
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
 
-/* light threshold for photodiodes */
-/* used to determine instrument mode via CompareLightLevel */
-#define LIGHT_THRESHOLD 100
+///////////* light threshold for photodiodes */
+///////////* used to determine instrument mode via CompareLightLevel */
+///////////#define LIGHT_THRESHOLD 100
 
-/* number of seconds between light level polling */
-#define LIGHT_POLL_TIME 2
+////////////* number of seconds between light level polling */
+////////////#define LIGHT_POLL_TIME 2
 
-/* seconds between data collection */
-#define LIGHT_ACQ_TIME 2
+////////////* seconds between data collection */
+/////////////#define LIGHT_ACQ_TIME 2
 
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
@@ -59,9 +60,10 @@ public:
 
   AnalogManager();
   std::shared_ptr<LightLevel> ReadLightLevel();
-  bool CompareLightLevel();
-  int ProcessAnalogData();  
+  bool CompareLightLevel(std::shared_ptr<Config> ConfigOut);
+  int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
   int GetLightLevel();
+
 
   /* handle instrument mode switching */
   int Notify();

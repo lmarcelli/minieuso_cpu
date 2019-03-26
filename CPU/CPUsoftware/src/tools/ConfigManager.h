@@ -36,6 +36,10 @@ struct Config {
   int N2;
   int L2_N_BG;
   int L2_LOW_THRESH;
+  int LIGHT_THRESHOLD;
+  int LIGHT_POLL_TIME;
+  int LIGHT_ACQ_TIME;
+  
 
   /* set by RunInstrument and InputParser at runtime */
   bool hv_on;

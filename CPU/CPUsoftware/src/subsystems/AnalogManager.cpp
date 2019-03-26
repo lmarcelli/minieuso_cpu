@@ -210,10 +210,10 @@ std::shared_ptr<LightLevel> AnalogManager::ReadLightLevel() {
 
 /**
  * compare light level to threshold value 
- * LIGHT_THRESHOLD which is define in AnalogManager.h
+ * LIGHT_THRESHOLD from configuration file config/dummy.conf or config/dummy_local.conf
  * @TODO check if more sophisticated tests needed in lab
  */
-bool AnalogManager::CompareLightLevel() {
+bool AnalogManager::CompareLightLevel(std::shared_ptr<Config> ConfigOut) {
 
   bool above_light_threshold = false;
   float ph_avg = 0;
@@ -242,7 +242,7 @@ bool AnalogManager::CompareLightLevel() {
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
      
   /* compare the result to threshold */
-  if (ph_avg > LIGHT_THRESHOLD) {
+  if (ph_avg > ConfigOut->LIGHT_THRESHOLD) {
     above_light_threshold = true;
     clog << "info: " << logstream::info << "light level is ABOVE threshold" << std::endl;
   }
@@ -253,8 +253,7 @@ bool AnalogManager::CompareLightLevel() {
   return above_light_threshold;
 }
 
-int AnalogManager::ProcessAnalogData() {
-
+int AnalogManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
 
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
@@ -264,7 +263,7 @@ int AnalogManager::ProcessAnalogData() {
 
     this->GetLightLevel();
 
-    sleep(LIGHT_ACQ_TIME);
+    sleep(ConfigOut->LIGHT_ACQ_TIME);
   }
   return 0;
 }

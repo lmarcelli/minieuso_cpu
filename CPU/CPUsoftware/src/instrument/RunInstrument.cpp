@@ -291,7 +291,7 @@ int RunInstrument::InitInstMode() {
 
   /* get the current light level */
   this->Daq.Analog->GetLightLevel();
-  bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
+  bool above_light_threshold = this->Daq.Analog->CompareLightLevel(ConfigOut);
 
   /* make a decision */
   if (above_light_threshold) {
@@ -579,8 +579,8 @@ int RunInstrument::PollInstrument() {
     switch(GetInstMode()) {
     case NIGHT:
       /* check the output of the analog acquisition is below threshold */
-      sleep(LIGHT_POLL_TIME);
-      if (this->Daq.Analog->CompareLightLevel()) {
+      sleep(ConfigOut->LIGHT_POLL_TIME);
+      if (this->Daq.Analog->CompareLightLevel(ConfigOut)) {
 	/* switch mode to DAY */
 	this->Daq.Notify();
 	this->SetInstMode(DAY);
@@ -589,8 +589,8 @@ int RunInstrument::PollInstrument() {
       
     case DAY:
       /* check the output of analog acquisition is above threshold */
-      sleep(LIGHT_POLL_TIME);
-      if (!this->Data.Analog->CompareLightLevel()) {
+      sleep(ConfigOut->LIGHT_POLL_TIME);
+      if (!this->Data.Analog->CompareLightLevel(ConfigOut)) {
 	/* switch mode to NIGHT */
 	this->Data.Notify();
 	this->SetInstMode(NIGHT);

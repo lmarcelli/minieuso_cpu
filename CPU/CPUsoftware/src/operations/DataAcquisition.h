@@ -51,6 +51,12 @@ public:
   Access * RunAccess;
 
   /**
+  * output of the configuration parsing is stored here
+  */
+  //std::shared_ptr<Config> ConfigOut;
+
+
+  /**
    * enum to define the CPU file type
    */
   enum RunType : uint8_t {

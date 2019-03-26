@@ -14,12 +14,14 @@ void DataReduction::Start() {
 
   clog << "info: " << logstream::info << "starting data reduction" << std::endl;
   std::cout << "starting data reduction" << std::endl;
+
+  this->ConfigOut = std::make_shared<Config>();
   
   /* launch thread */
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
 
   /* launch the analog acquisition */
-  std::thread analog(&AnalogManager::ProcessAnalogData, this->Analog,ConfigOut); 
+  std::thread analog(&AnalogManager::ProcessAnalogData, this->Analog, ConfigOut); 
   analog.join();
 
   

@@ -87,8 +87,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
  * @param ConfigOut the configuration file parameters and settings from RunInstrument
  * @param CmdLine the command line parameters
  */
-std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
-						      CmdLineInputs * CmdLine) {
+std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
   /* for info string */
   std::string run_info_string;
   std::stringstream conv;

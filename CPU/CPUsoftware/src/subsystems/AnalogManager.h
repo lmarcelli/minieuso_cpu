@@ -21,16 +21,6 @@
 #define BURST_RATE 1000000
 #define PACER_RATE 100000
 
-///////////* light threshold for photodiodes */
-///////////* used to determine instrument mode via CompareLightLevel */
-///////////#define LIGHT_THRESHOLD 100
-
-////////////* number of seconds between light level polling */
-////////////#define LIGHT_POLL_TIME 2
-
-////////////* seconds between data collection */
-/////////////#define LIGHT_ACQ_TIME 2
-
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
 

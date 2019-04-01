@@ -381,6 +381,10 @@ int RunInstrument::StartUp() {
   printf("N2 is %d\n", this->ConfigOut->N2);
   printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
   printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
+  printf("LIGHT_THRESHOLD is %d\n", this->ConfigOut->LIGHT_THRESHOLD);
+  printf("LIGHT_POLL_TIME is %d\n", this->ConfigOut->LIGHT_POLL_TIME); 
+  printf("LIGHT_ACQ_TIME is %d\n", this->ConfigOut->LIGHT_ACQ_TIME);
+
   std::cout << std::endl;
   
   return 0;

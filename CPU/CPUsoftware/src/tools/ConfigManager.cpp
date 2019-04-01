@@ -6,7 +6,6 @@
 ConfigManager::ConfigManager () {
   this->config_file_local = CONFIG_FILE_LOCAL;
   this->config_file = CONFIG_FILE_USB;
-
   this->ConfigOut = std::make_shared<Config>();
   
   /* initialise struct members to -1 */
@@ -46,7 +45,6 @@ ConfigManager::ConfigManager () {
 ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->config_file_local = cfl;
   this->config_file = cf;
-
   this->ConfigOut = std::make_shared<Config>();
   
   /* initialise struct members to -1 */

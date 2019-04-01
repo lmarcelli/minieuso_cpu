@@ -12,9 +12,9 @@
 #include "log.h"
 
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
-#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
+#define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/main_cpu.conf"
 #ifndef __APPLE__
-#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
 #else
 #define CONFIG_DIR "config"
 #endif /* __APPLE__ */
@@ -79,3 +79,4 @@ private:
 
 #endif
 /* _CONFIGURATION_H */
+

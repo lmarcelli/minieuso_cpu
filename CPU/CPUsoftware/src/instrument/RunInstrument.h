@@ -6,7 +6,7 @@
 #include "CamManager.h"
 #include "DataAcquisition.h"
 #include "DataReduction.h"
-#include "AnalogManager.h"
+#include "ArduinoManager.h"
 #include "ConfigManager.h"
 
 /* location of data files */
@@ -46,7 +46,7 @@ public:
     ACQ_UNDEF = 2,
   };
   AcquisitionMode current_acq_mode;
-
+  
   std::shared_ptr<Config> ConfigOut;
   ZynqManager Zynq;
   LvpsManager Lvps;
@@ -54,9 +54,10 @@ public:
   CamManager Cam;
   DataAcquisition Daq;
   DataReduction Data;
-  AnalogManager Analog;
+  ArduinoManager Analog;
 
-
+  ArduinoManager::LightLevelStatus current_lightlevel_status;
+  
   RunInstrument(CmdLineInputs * CmdLine);
   void Start();
   void Stop();

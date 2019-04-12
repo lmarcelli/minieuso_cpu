@@ -20,9 +20,10 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
-  this->ConfigOut->LIGHT_THRESHOLD = -1;
-  this->ConfigOut->LIGHT_POLL_TIME = -1;
-  this->ConfigOut->LIGHT_ACQ_TIME = -1;
+  this->ConfigOut->day_light_threshold = -1;
+  this->ConfigOut->night_light_threshold = -1;
+  this->ConfigOut->light_poll_time = -1;
+  this->ConfigOut->light_acq_time = -1;
   
   
 
@@ -35,6 +36,9 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->instrument_mode = 0;
   this->ConfigOut->acquisition_mode = 0;
   this->ConfigOut->hvps_log_len = 0;
+
+  //this->ConfigOut->lightlevel_status = 0;
+    
 }
 
 /**
@@ -59,9 +63,10 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
-  this->ConfigOut->LIGHT_THRESHOLD = -1;
-  this->ConfigOut->LIGHT_POLL_TIME = -1;
-  this->ConfigOut->LIGHT_ACQ_TIME = -1;
+  this->ConfigOut->day_light_threshold = -1;
+  this->ConfigOut->night_light_threshold = -1;
+  this->ConfigOut->light_poll_time = -1;
+  this->ConfigOut->light_acq_time = -1;
   
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -72,6 +77,8 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->instrument_mode = 0;
   this->ConfigOut->acquisition_mode = 0;
   this->ConfigOut->hvps_log_len = 0;
+
+  //  this->ConfigOut->lightlevel_status =0;
 
 }
 
@@ -158,14 +165,17 @@ void ConfigManager::Parse() {
       else if (type == "L2_LOW_THRESH") {
 	in >> this->ConfigOut->L2_LOW_THRESH;
       }
-      else if (type == "LIGHT_THRESHOLD") {
-	in >> this->ConfigOut->LIGHT_THRESHOLD;
+      else if (type == "DAY_LIGHT_THRESHOLD") {
+	in >> this->ConfigOut->day_light_threshold;
+      }
+      else if (type == "NIGHT_LIGHT_THRESHOLD") {
+	in >> this->ConfigOut->night_light_threshold;
       }
       else if (type == "LIGHT_POLL_TIME") {
-	in >> this->ConfigOut->LIGHT_POLL_TIME;
+	in >> this->ConfigOut->light_poll_time;
       }
       else if (type == "LIGHT_ACQ_TIME") {
-	in >> this->ConfigOut->LIGHT_ACQ_TIME;
+	in >> this->ConfigOut->light_acq_time;
       }
   
     }
@@ -232,9 +242,10 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->N2 != -1 &&
       this->ConfigOut->L2_N_BG != -1 &&
       this->ConfigOut->L2_LOW_THRESH != -1 &&
-      this->ConfigOut->LIGHT_THRESHOLD != -1 &&
-      this->ConfigOut->LIGHT_POLL_TIME != -1 &&
-      this->ConfigOut->LIGHT_ACQ_TIME != -1) {
+      this->ConfigOut->day_light_threshold != -1 &&
+      this->ConfigOut->night_light_threshold != -1 &&
+      this->ConfigOut->light_poll_time != -1 &&
+      this->ConfigOut->light_acq_time != -1) {
     
     return true;
   }

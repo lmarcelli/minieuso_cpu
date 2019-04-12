@@ -21,7 +21,7 @@ void DataReduction::Start() {
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
 
   /* launch the analog acquisition */
-  std::thread analog(&AnalogManager::ProcessAnalogData, this->Analog, ConfigOut); 
+  std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut); 
   analog.join();
 
   
@@ -42,20 +42,18 @@ int DataReduction::RunDataReduction() {
   }
   
   std::unique_lock<std::mutex> lock(this->_m_switch); 
+
   /* enter loop while instrument mode switching not requested */
   while(!this->_cv_switch.wait_for(lock,
-				       std::chrono::milliseconds(WAIT_PERIOD),
-				       [this] { return this->_switch; } )) { 
-
-
+				   std::chrono::milliseconds(WAIT_PERIOD),
+				   [this] { return this->_switch; } )) {   
+    
     /* add data reduction procedure here */
     std::cout << "daytime work..." << std::endl; 
-
     
     /* for now just sleep */
     sleep(5);
   }
-  
   
   return 0;
 }

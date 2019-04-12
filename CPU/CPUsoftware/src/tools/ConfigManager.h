@@ -12,9 +12,9 @@
 #include "log.h"
 
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
-#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
+#define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/main_cpu.conf"
 #ifndef __APPLE__
-#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
 #else
 #define CONFIG_DIR "config"
 #endif /* __APPLE__ */
@@ -36,9 +36,10 @@ struct Config {
   int N2;
   int L2_N_BG;
   int L2_LOW_THRESH;
-  int LIGHT_THRESHOLD;
-  int LIGHT_POLL_TIME;
-  int LIGHT_ACQ_TIME;
+  int day_light_threshold;
+  int night_light_threshold;
+  int light_poll_time;
+  int light_acq_time;
   
 
   /* set by RunInstrument and InputParser at runtime */
@@ -46,6 +47,9 @@ struct Config {
   uint8_t instrument_mode;
   uint8_t acquisition_mode;
   uint32_t hvps_log_len;
+
+  //uint8_t lightlevel_status;
+  
 };
 
 /**

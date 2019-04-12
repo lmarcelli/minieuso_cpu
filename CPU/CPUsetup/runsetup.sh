@@ -91,22 +91,6 @@ chmod +x $HOME_DIR/cameras/multiplecam/src/install.sh
 echo "Camera software is set up"
 echo "*************************"
 echo "*************************"
-
-# Set up the analog board
-echo "Setting up the analog board software..."
-rmmod rtd520
-touch /etc/modprobe.d/blacklist.conf
-> /etc/modprobe.d/blacklist.conf 
-echo "blacklist rtd520" >> /etc/modprobe.d/blacklist.conf
-echo "rtd_dm75xx" >> /etc/modules
-make -C $HOME_DIR/analog/driver
-(cd $HOME_DIR/analog/driver && make load)
-mkdir /lib/modules/$(uname -r)/kernel/rtd/
-cp $HOME_DIR/analog/driver/rtd-dm75xx.ko /lib/modules/$(uname -r)/kernel/rtd/
-(cd $HOME_DIR/analog/driver && depmod -a)
-echo "lsmod | grep rtd:"
-lsmod | grep rtd
-echo "analog software is set up"
  
 # Set up the aDIO ports on CPU
 echo "Setting up the aDIO port software..."

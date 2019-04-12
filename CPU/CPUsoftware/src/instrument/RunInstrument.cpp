@@ -155,7 +155,6 @@ int RunInstrument::DebugMode() {
   std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
 
-  /*
   std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
   
@@ -177,31 +176,10 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
-  */
-
-  std::cout << "Testing out the new Analog acquisition using Arduino..." << std::endl;
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->Daq.Analog->AnalogDataCollect();
-  
-  /*
-  this->Daq.Analog->GetLightLevel();
-  auto light_level = this->Daq.Analog->ReadLightLevel();
-  int i = 0;
-  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-    std::cout << "photodiode channel " << i << ": " << light_level->photodiode_data[i] << std::endl;
-  }
-  float avg_sipm = 0;
-  for (i = 0; i < N_CHANNELS_SIPM; i++) {
-    avg_sipm += light_level->sipm_data[i];
-  }
-  avg_sipm = avg_sipm/N_CHANNELS_SIPM;
-  std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
-  std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
-  std::cout << std::endl;
-  */
-
-  /*
+ 
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.Thermistors->PrintTemperature();
@@ -245,7 +223,6 @@ int RunInstrument::DebugMode() {
   std::cout << "Zynq OFF " << std::endl;  
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
-  */
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
       
@@ -801,9 +778,9 @@ int RunInstrument::Acquisition() {
 int RunInstrument::NightOperations() {
 
   /* check scurve not already completed */
-  if (this->Daq.IsScurveDone()) {
+    if (this->Daq.IsScurveDone()) {
     return 0;
-  }
+    }
   
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;
@@ -860,7 +837,9 @@ void RunInstrument::Stop() {
   clog << "info: " << logstream::info << "stopping deatached threads..." << std::endl;
   std::cout << "stopping detached threads..." << std::endl;
   this->Cam.KillCamAcq();
-  this->Usb.KillDataBackup();
+
+  /* USB backup disabled for now, plan to work with 1 USB */
+  //this->Usb.KillDataBackup();
 
   /* turn off all subsystems */
   /* leave zynq on all the time, for now */
@@ -917,7 +896,8 @@ void RunInstrument::Start() {
   }
 
   /* launch data backup in background */
-  this->Usb.RunDataBackup();
+  /* disable for now, planning to work with a single USB system */
+  //this->Usb.RunDataBackup();
   
   /* launch background process to monitor the instrument */
   this->MonitorInstrument();
@@ -927,7 +907,7 @@ void RunInstrument::Start() {
 
   /* enable signal handling */
   signal(SIGINT, SignalHandler);  
-  
+
   /* enter instrument mode */
   while (!CheckStop()) {
     switch(GetInstMode()) {

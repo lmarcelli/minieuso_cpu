@@ -19,13 +19,13 @@ Configuration and logs:
 * ``log/`` :  log files written here
 * ``config/`` : configuration files sotred here
 
-**NB: The data format headers are sotred outside the main code as they need to be accessed by other software** 
+**NB: The data format headers are stored outside the main code as they need to be accessed by other software** 
 The data format headers are stored in the highlest level directory of the GitHub repository
 
-* ``data_format/`` : the header files describing the data format from Zynq and the CPU
+* ``minieuso_data_format/`` : the header files describing the data format from Zynq and the CPU
 
-  * ``data_format.h`` - CPU data files
-  * ``pdmdata.h`` - structures defined in the Zynq board software
+  * ``minieuso_data_format.h`` - CPU data files
+  * ``minieuso_pdmdata.h`` - structures defined in the Zynq board software
 
 
 The code can be compiled using the Makefile by running ``make`` in ``CPUsoftware/``. First, the libraries must be compiled by running ``make`` in ``CPUsoftware/lib``.

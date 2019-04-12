@@ -5,6 +5,7 @@
  */
 OperationMode::OperationMode() {
   this->_switch = false;
+  this->_ftp = false;
 }
 
 
@@ -19,6 +20,12 @@ void OperationMode::Notify() {
     this->_switch = true;
   } /* release mutex */
   this->_cv_switch.notify_all();
+
+  {
+    std::unique_lock<std::mutex> lock(this->_m_ftp);   
+    this->_ftp = true;
+  } /* release mutex */
+  this->_cv_ftp.notify_all();
 
   /* also notify the analog and thermal acquisition */
   this->Analog->Notify();
@@ -36,6 +43,11 @@ void OperationMode::Reset() {
     this->_switch = false;
   } /* release mutex */
 
+  {
+    std::unique_lock<std::mutex> lock(this->_m_ftp);   
+    this->_ftp = false;
+  } /* release mutex */
+  
   /* also reset the analog and thermal switch */
   this->Analog->Reset();
   this->Thermistors->Reset();

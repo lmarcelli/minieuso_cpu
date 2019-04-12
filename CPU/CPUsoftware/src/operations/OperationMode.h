@@ -4,7 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#include "AnalogManager.h"
+#include "ArduinoManager.h"
 #include "ThermManager.h"
 
 /** 
@@ -15,7 +15,7 @@ public:
   /**
    * control of the analog subsystem 
    */
-  AnalogManager * Analog = new AnalogManager();
+  ArduinoManager * Analog = new ArduinoManager();
   /**
    * control of the thermal subsystem
    */

@@ -19,7 +19,7 @@ void DataReduction::Start() {
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
 
   /* launch the analog acquisition */
-  std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
+  std::thread analog (&ArduinoManager::ProcessAnalogData, this->Analog);
   analog.join();
   
   /* wait for thread to exit, when instrument mode switches */

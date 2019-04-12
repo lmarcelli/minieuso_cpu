@@ -7,5 +7,5 @@ The software is designed to cater to a specific hardware setup, with well define
 
    hardware/ethernet_ports
    hardware/aDIO_ports
-   hardware/dm75xx_ports
+   hardware/analog_ports
    hardware/thermistors

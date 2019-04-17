@@ -23,7 +23,7 @@
 #define MAX_STR_LENGTH 2000
 
 /**
- * class to provide useful funcions to other parts of the software 
+ * class to provide useful functions to other parts of the software 
  */
 class CpuTools {
 

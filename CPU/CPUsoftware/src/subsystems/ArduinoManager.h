@@ -1,24 +1,25 @@
-#ifndef _ANALOG_MANAGER_H
-#define _ANALOG_MANAGER_H
-
-#ifndef __APPLE__
-#include "dm75xx_library.h"
-#endif /* __APPLE__ */
+#ifndef _ARDUINO_MANAGER_H
+#define _ARDUINO_MANAGER_H
 
 #include <mutex>
 #include <memory>
 #include <thread>
+#include <cstring>
 #include <unistd.h>
 #include <condition_variable>
+#include <termios.h>
+#include <fcntl.h> 
+#include <stdlib.h>
 
 #include "log.h"
 #include "minieuso_data_format.h"
 
-/* for use with analog readout functions */
-#define CHANNELS 16
+/* for use with arduino readout functions */
+#define DUINO "/dev/ttyACM0"
+#define BAUDRATE B9600
+#define BUF_SIZE 14
 #define FIFO_DEPTH 64
-#define BURST_RATE 1000000
-#define PACER_RATE 100000
+#define CHANNELS 16
 
 /* light threshold for photodiodes */
 /* used to determine instrument mode via CompareLightLevel */
@@ -52,16 +53,18 @@ typedef struct {
 
 /**
  * class to handle the analog data acquisition (photodiodes and SiPMs) 
- * uses the dm75xx library
+ * uses a simple Arduino to replace the AnalogManager module due to 
+ * issues with power comsumption.
  */
-class AnalogManager {
+class ArduinoManager {
 public:
 
-  AnalogManager();
+  ArduinoManager();
   std::shared_ptr<LightLevel> ReadLightLevel();
   bool CompareLightLevel();
   int ProcessAnalogData();  
   int GetLightLevel();
+  int AnalogDataCollect();
 
   /* handle instrument mode switching */
   int Notify();
@@ -96,8 +99,10 @@ private:
   std::condition_variable cv_mode_switch;
 
   
-  int AnalogDataCollect();
+  int SetInterfaceAttribs(int fd, int speed);
+  void SerialReadOut(int fd);
+  
 };
 
 #endif
-/* _ANALOG_MANAGER_H */
+/* _ARDUINO_MANAGER_H */

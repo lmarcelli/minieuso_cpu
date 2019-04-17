@@ -10,6 +10,8 @@
 #include "OperationMode.h"
 #include "ArduinoManager.h"
 #include "ThermManager.h"
+#include "ConfigManager.h"
+
 
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
@@ -26,7 +28,13 @@ public:
   
   DataReduction();
   void Start();
-  
+
+  /**
+  * output of the configuration parsing is stored here
+  */
+  std::shared_ptr<Config> ConfigOut;
+
+
 private:
 
   int RunDataReduction();

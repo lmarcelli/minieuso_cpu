@@ -164,6 +164,7 @@ int RunInstrument::DebugMode() {
   this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
 
+#if ARDUINO_DEBUG == 0
   std::cout << "LVPS" << std::endl;
   std::cout << "switching on all subsystems... " << std::endl;  
   std::cout << "cameras ON " << std::endl;  
@@ -176,6 +177,8 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
+  
+  
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
   this->Daq.Analog->AnalogDataCollect();
@@ -223,6 +226,7 @@ int RunInstrument::DebugMode() {
   std::cout << "Zynq OFF " << std::endl;  
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
+#endif 
   
   std::cout << "debug tests completed, exiting the program" << std::endl;
       
@@ -231,7 +235,7 @@ int RunInstrument::DebugMode() {
 
 
 /**
- * set the instrument mode in a thread-safe way
+ * set the instrument mod in a thread-safe way
  */
 int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
 
@@ -243,7 +247,6 @@ int RunInstrument::SetInstMode(InstrumentMode mode_to_set) {
     this->ConfigOut->instrument_mode = mode_to_set;
 
   } /* release mutex */
-
 
   return 0;
 }
@@ -265,8 +268,8 @@ RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
 
 
 /**
- * initialise the instrument mode using the current light level
- * light level is acquired using the AnalogManager to run an acquisition
+ * initialise the instrument mode using the current light level status
+ * light level is acquired using the ArduinoManager to run an acquisition
  * from the photodiodes
  */
 int RunInstrument::InitInstMode() {
@@ -275,16 +278,29 @@ int RunInstrument::InitInstMode() {
 
   /* get the current light level */
   this->Daq.Analog->GetLightLevel();
-  bool above_light_threshold = this->Daq.Analog->CompareLightLevel();
-
-  /* make a decision */
-  if (above_light_threshold) {
+  //bool above_light_threshold = this->Daq.Analog->CompareLightLevel(ConfigOut);
+  ArduinoManager::LightLevelStatus current_lightlevel_status = this->Daq.Analog->CompareLightLevel(ConfigOut);
+  
+  // /* make a decision */
+  switch(current_lightlevel_status){
+  case ArduinoManager::LIGHT_ABOVE_DAY_THR:
     /* set to day mode */
     this->SetInstMode(RunInstrument::DAY);
-  }
-  else {
+    break;  
+  case ArduinoManager::LIGHT_BELOW_NIGHT_THR:
     /* set to night mode */
-   this->SetInstMode(RunInstrument::NIGHT);
+    this->SetInstMode(RunInstrument::NIGHT);
+     break;
+  case ArduinoManager::LIGHT_UNDEF:
+    // if (GetInstMode()==DAY){
+    // /* set to day mode */
+    // this->SetInstMode(RunInstrument::DAY);
+    // }
+    // else if (GetInstMode()==NIGHT){
+    // /* set to night mode */
+    // this->SetInstMode(RunInstrument::NIGHT);
+    // }
+    break;
   }
   
   return 0;
@@ -365,6 +381,11 @@ int RunInstrument::StartUp() {
   printf("N2 is %d\n", this->ConfigOut->N2);
   printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
   printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
+  printf("DAY_LIGHT_THRESHOLD is %d\n", this->ConfigOut->day_light_threshold);
+  printf("NIGHT_LIGHT_THRESHOLD is %d\n", this->ConfigOut->night_light_threshold);
+  printf("LIGHT_POLL_TIME is %d\n", this->ConfigOut->light_poll_time); 
+  printf("LIGHT_ACQ_TIME is %d\n", this->ConfigOut->light_acq_time);
+
   std::cout << std::endl;
   
   return 0;
@@ -393,7 +414,7 @@ int RunInstrument::CheckSystems() {
   
 
   std::cout << "STARTING INSTRUMENT" << std::endl;
-
+#if ARDUINO_DEBUG ==0
   /* first power off all systems, for a clean start */
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   this->Lvps.SwitchOff(LvpsManager::HK);
@@ -412,14 +433,18 @@ int RunInstrument::CheckSystems() {
 
   /* wait for boot */
   std::cout << "waiting for boot..." << std::endl;
-  
+
+
   this->CheckStatus();
+#endif
   
   /* check the number storage Usbs connected */
   std::cout << "there are " << (int)this->Usb.LookupUsbStorage() << " USB storage devices connected " << std::endl;
   this->Daq.usb_num_storage_dev = this->Usb.num_storage_dev;
   this->Cam.usb_num_storage_dev = this->Usb.num_storage_dev;
 
+
+  
   /* initialise the instrument mode */
   InitInstMode();
   
@@ -561,21 +586,24 @@ int RunInstrument::PollInstrument() {
   while (!signal_shutdown.load()) {
     
     switch(GetInstMode()) {
+printf("\n Pollinstrument ");
     case NIGHT:
-      /* check the output of the analog acquisition is below threshold */
-      sleep(LIGHT_POLL_TIME);
-      if (this->Daq.Analog->CompareLightLevel()) {
-	/* switch mode to DAY */
+      sleep(ConfigOut->light_poll_time);
+      /* check if the output of the analog acquisition is above day threshold */
+      if (this->Daq.Analog->CompareLightLevel(ConfigOut)==ArduinoManager::LIGHT_ABOVE_DAY_THR) {
+        /* switch mode to DAY */
+	printf("PollInst: from night to day\n");
 	this->Daq.Notify();
 	this->SetInstMode(DAY);
       }
       break;
       
     case DAY:
-      /* check the output of analog acquisition is above threshold */
-      sleep(LIGHT_POLL_TIME);
-      if (!this->Data.Analog->CompareLightLevel()) {
+      sleep(ConfigOut->light_poll_time);
+      /* check the output of analog acquisition is below night threshold */
+      if (this->Daq.Analog->CompareLightLevel(ConfigOut)==ArduinoManager::LIGHT_BELOW_NIGHT_THR) {
 	/* switch mode to NIGHT */
+	printf("\nPollInst: from day to night\n");
 	this->Data.Notify();
 	this->SetInstMode(NIGHT);
       }
@@ -682,7 +710,8 @@ int RunInstrument::RunningStatusCheck() {
     std::cout << std::endl;
     std::cout << std::endl;
     std::cout << "STATUS UPDATE" << std::endl;
-   
+
+ #if ARDUINO_DEBUG ==0
     /* telnet connection and HV */
     {
       std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
@@ -711,7 +740,8 @@ int RunInstrument::RunningStatusCheck() {
     std::cout << "No. of files written: " << n_files_written << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
-
+#endif
+    
     /* wait until next status check */
     sleep(STATUS_PERIOD);
     
@@ -729,6 +759,8 @@ int RunInstrument::Acquisition() {
   std::cout << "starting acquisition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
+#if ARDUINO_DEBUG == 0
+  
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
   
@@ -767,6 +799,8 @@ int RunInstrument::Acquisition() {
   if (this->CmdLine->cam_on) {
     this->Cam.KillCamAcq();
   }
+
+  #endif
   return 0;
 }
 
@@ -858,22 +892,26 @@ void RunInstrument::Stop() {
  */
 void RunInstrument::Start() {
 
+  #if ARDUINO_DEBUG ==0
   /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
     return;
-  }
-  if (this->CmdLine->check_status) {
+  }  
+  if (this->CmdLine->check_status) {   //Zynq check
     CheckStatus();
     return;
   }
-
+#endif
+  
   /* run start-up  */
   int check = this->StartUp();
   if (check !=0 ){
     return;
   }
+
   
+  #if ARDUINO_DEBUG ==0
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();
@@ -883,10 +921,12 @@ void RunInstrument::Start() {
     DebugMode();
     return;
   }
- 
+#endif
+  
   /* check systems and operational mode */
   this->CheckSystems();
 
+  #if ARDUINO_DEBUG ==0
   {
     std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
     if (!this->Zynq.telnet_connected) {
@@ -894,7 +934,8 @@ void RunInstrument::Start() {
       return;
     }
   }
-
+#endif
+  
   /* launch data backup in background */
   /* disable for now, planning to work with a single USB system */
   //this->Usb.RunDataBackup();

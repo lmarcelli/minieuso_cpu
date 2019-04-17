@@ -8,8 +8,9 @@
 
 #include "OperationMode.h"
 #include "ThermManager.h"
-#include "AnalogManager.h"
+#include "ArduinoManager.h"
 #include "InputParser.h"
+#include "ConfigManager.h"
 
 #define DATA_DIR "/home/minieusouser/DATA"
 #define DONE_DIR "/home/minieusouser/DONE"
@@ -49,6 +50,11 @@ public:
    * synchronised file access
    */
   Access * RunAccess;
+  /**
+  * output of the configuration parsing is stored here
+  */
+  std::shared_ptr<Config> ConfigOut;
+
 
   /**
    * enum to define the CPU file type

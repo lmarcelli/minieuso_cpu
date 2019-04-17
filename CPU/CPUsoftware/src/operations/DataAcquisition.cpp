@@ -87,8 +87,7 @@ std::string DataAcquisition::CreateCpuRunName(RunType run_type, std::shared_ptr<
  * @param ConfigOut the configuration file parameters and settings from RunInstrument
  * @param CmdLine the command line parameters
  */
-std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut,
-						      CmdLineInputs * CmdLine) {
+std::string DataAcquisition::BuildCpuFileInfo(std::shared_ptr<Config> ConfigOut, CmdLineInputs * CmdLine) {
   /* for info string */
   std::string run_info_string;
   std::stringstream conv;
@@ -1040,6 +1039,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   long unsigned int main_thread = pthread_self();
 
+ #if ARDUINO_DEBUG ==0 
   /* FTP polling */
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
   
@@ -1067,19 +1067,26 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
     std::unique_lock<std::mutex> lock(Zynq->m_zynq);  
     Zynq->SetZynqMode();
   }
+#endif
+
   
   /* add acquisition with the analog board */
-  std::thread analog (&AnalogManager::ProcessAnalogData, this->Analog);
- 
+  std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut);
+
+#if ARDUINO_DEBUG ==0  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->Thermistors->Init();
     std::thread collect_therm_data (&ThermManager::ProcessThermData, this->Thermistors);
     collect_therm_data.join();
   }
-
+#endif
+  
   /* wait for other acquisition threads to join */
   analog.join();
+  printf("fattoooo analog join\n");
+
+#if ARDUINO_DEBUG ==0
   collect_main_data.join();
   ftp_poll.join();
   
@@ -1097,6 +1104,8 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   /* read out HV file */
   GetHvInfo(ConfigOut, CmdLine);
 
+#endif
+  
 #endif /* __APPLE__ */
   return 0;
 }

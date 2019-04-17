@@ -154,9 +154,10 @@ int RunInstrument::DebugMode() {
   std::cout << "-----------------------------" << std::endl; 
   std::cout << "https://github.com/cescalara/minieuso_cpu" << std::endl;
   std::cout << std::endl;
+
   std::cout << "running checks of all subsystems..." <<std::endl; 
   std::cout << std::endl;
-
+  
   std::cout << "USB" << std::endl;
   int num_usb_storage = this->Usb.LookupUsbStorage();
   std::cout << "there are " << num_usb_storage << " USB storage devices connected" << std::endl;
@@ -177,25 +178,11 @@ int RunInstrument::DebugMode() {
   sleep(1);
   std::cout << std::endl;
   
-  /*
+  
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;  
-  this->Daq.Analog->GetLightLevel();
-  auto light_level = this->Daq.Analog->ReadLightLevel();
-  int i = 0;
-  for (i = 0; i < N_CHANNELS_PHOTODIODE; i++) {
-    std::cout << "photodiode channel " << i << ": " << light_level->photodiode_data[i] << std::endl;
-  }
-  float avg_sipm = 0;
-  for (i = 0; i < N_CHANNELS_SIPM; i++) {
-    avg_sipm += light_level->sipm_data[i];
-  }
-  avg_sipm = avg_sipm/N_CHANNELS_SIPM;
-  std::cout << "SIPM 64 channel average: " << avg_sipm << std::endl;
-  std::cout << "SIPM single channel: " << light_level->sipm_single << std::endl;
-  std::cout << std::endl;
-  */
-  
+  this->Daq.Analog->AnalogDataCollect();
+ 
   std::cout << "THERMISTORS" << std::endl;
   std::cout << "running an acquisition (takes ~10 s)..." << std::endl;  
   this->Daq.Thermistors->PrintTemperature();

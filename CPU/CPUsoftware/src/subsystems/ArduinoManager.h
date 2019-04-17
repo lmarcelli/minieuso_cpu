@@ -10,15 +10,13 @@
 // COMMENT no debug
 // ANY NUMBER print all
 
-#ifndef __APPLE__
-#include "dm75xx_library.h"
-#endif /* __APPLE__ */
-
 #include <mutex>
 #include <memory>
 #include <thread>
 #include <cstring>
+#include <unistd.h>
 #include <condition_variable>
+#include <termios.h>
 #include <fcntl.h> 
 #include <stdlib.h>
 
@@ -30,7 +28,6 @@
 
 #include "minieuso_data_format.h"
 #include "ConfigManager.h"
-
 
 // coming from the .h of arduino 
 
@@ -54,12 +51,11 @@
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
 
-
 /**
  * acquisition structure to store analog readout 
  */
 typedef struct {
-  unsigned int val [FIFO_DEPTH][CHANNELS];
+  float val [FIFO_DEPTH][CHANNELS];
 } AnalogAcq;
 
 /**
@@ -78,9 +74,6 @@ typedef struct {
  */
 class ArduinoManager {
 public:
-
-  ArduinoManager();
-  std::shared_ptr<LightLevel> ReadLightLevel();
   /**
    * enum to specify the current light level status of the instrument
    */
@@ -91,11 +84,12 @@ public:
   };
 
   LightLevelStatus current_lightlevel_status;
-
   std::shared_ptr<Config> ConfigOut;
+
+  ArduinoManager();
+  std::shared_ptr<LightLevel> ReadLightLevel();
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
-  //bool CompareLightLevel();
-  int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
+  int ProcessAnalogData();  
   int GetLightLevel();
   int AnalogDataCollect();
 
@@ -133,7 +127,7 @@ private:
 
   
   int SetInterfaceAttribs(int fd, int speed);
-  int SerialReadOut(int fd);
+  void SerialReadOut(int fd);
   
 };
 

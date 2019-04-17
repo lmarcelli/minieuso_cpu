@@ -30,7 +30,6 @@ int ArduinoManager::AnalogDataCollect() {
  // int fd;
   
  /* fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
-
   if (fd < 0) {
     printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
     return -1;
@@ -64,7 +63,8 @@ int ArduinoManager::AnalogDataCollect() {
 
 	SerialReadOut(fd);
 
-#endif  
+#endif
+	
   return 0;
 }
 
@@ -86,101 +86,100 @@ int ArduinoManager::SerialReadOut(int fd) {
 	unsigned int buffer_checksum = 0;
 	int checksum_passed = -1;
 
-
-
-
 	std::string needle(a, a + 4);
   
-//	char buf[40*BUF_SIZE];
+	//	char buf[40*BUF_SIZE];
 	unsigned int total_lenght = 0;
-unsigned   int len=50;
-//   char * p;
-//   char * err;
- unsigned  int i;
- unsigned   int ijk;
-//   double val;
- unsigned int start_search = 0; // ofsset to look of 0xaa55aa55
- unsigned int header_not_found = 0;
-
+	unsigned   int len=50;
+	//   char * p;
+	//   char * err;
+	unsigned  int i;
+	unsigned   int ijk;
+	//   double val;
+	unsigned int start_search = 0; // ofsset to look of 0xaa55aa55
+	unsigned int header_not_found = 0;
+	
 #if ARDUINO_DEBUG ==1
- simulated_buf[0] = 0xAA;
- simulated_buf[1] = 0x55;
- simulated_buf[2] = 0xAA;
- simulated_buf[3] = 0x55;
- for (i = 4; i < sizeof(simulated_buf); i++)
-   {
-     simulated_buf[i] = i;
-   }
- simulated_buf[10] = 0xAA;
- simulated_buf[11] = 0x55;
- simulated_buf[12] = 0xAA;
- simulated_buf[13] = 0x55;
+	simulated_buf[0] = 0xAA;
+	simulated_buf[1] = 0x55;
+	simulated_buf[2] = 0xAA;
+	simulated_buf[3] = 0x55;
+	for (i = 4; i < sizeof(simulated_buf); i++)
+	  {
+	    simulated_buf[i] = i;
+	  }
+	simulated_buf[10] = 0xAA;
+	simulated_buf[11] = 0x55;
+	simulated_buf[12] = 0xAA;
+	simulated_buf[13] = 0x55;
+	
  
- 
- // calculate checksum
- temp_checksum = 0;
- for (ijk = 0; ijk < (X_TOTAL_BUF_SIZE / 2); ijk++)
-   {
-     temp_checksum += (simulated_buf[16 + ijk * 2 ] << 8) + simulated_buf[17 + ijk * 2 ];
-   }
- temp_checksum = temp_checksum & 0xFFFF;
- simulated_buf[16 + X_TOTAL_BUF_SIZE] = (temp_checksum >> 8) & 0xFF;
- simulated_buf[17 + X_TOTAL_BUF_SIZE] = (temp_checksum) & 0xFF;
+	// calculate checksum
+	temp_checksum = 0;
+	for (ijk = 0; ijk < (X_TOTAL_BUF_SIZE / 2); ijk++)
+	  {
+	    temp_checksum += (simulated_buf[16 + ijk * 2 ] << 8) + simulated_buf[17 + ijk * 2 ];
+	  }
+	temp_checksum = temp_checksum & 0xFFFF;
+	simulated_buf[16 + X_TOTAL_BUF_SIZE] = (temp_checksum >> 8) & 0xFF;
+	simulated_buf[17 + X_TOTAL_BUF_SIZE] = (temp_checksum) & 0xFF;
 #ifdef PRINT_DEBUG_INFO
- printf ("temp_checksum in fake buffer %x %x ", temp_checksum, simulated_buf[16 + X_TOTAL_BUF_SIZE]);
+	printf ("temp_checksum in fake buffer %x %x ", temp_checksum, simulated_buf[16 + X_TOTAL_BUF_SIZE]);
 #endif
- temp_checksum = 0;
+	temp_checksum = 0;
 #endif
- 
- /* repeat read to get full message */
- //for (i = 0; i < FIFO_DEPTH + 1; i++) 
- 
- unsigned int Time_Elapsed = 0; // should be in ms, now is in attempts
- 
- /* repeat until full data has arrived. at least two buffer size */
- /* should get time to put timeout */
- unsigned int MAX_Lenght = (X_TOTAL_BUF_SIZE_HEADER+ X_TOTAL_BUF_SIZE_HEADER);
+	
+	/* repeat read to get full message */
+	//for (i = 0; i < FIFO_DEPTH + 1; i++) 
+	
+	unsigned int Time_Elapsed = 0; // should be in ms, now is in attempts
+	
+	/* repeat until full data has arrived. at least two buffer size */
+	/* should get time to put timeout */
+	unsigned int MAX_Lenght = (X_TOTAL_BUF_SIZE_HEADER+ X_TOTAL_BUF_SIZE_HEADER);
 #ifdef PRINT_DEBUG_INFO
- printf("\n sizeof(temp_buf) %d, sizeof(buf) %d \n", int(sizeof(temp_buf)), int(sizeof(buf)));
+	printf("\n sizeof(temp_buf) %d, sizeof(buf) %d \n", int(sizeof(temp_buf)), int(sizeof(buf)));
 #endif
- while ((total_lenght < MAX_Lenght) && (Time_Elapsed < READ_ARDUINO_TIMEOUT) )
-   {
-     // clean temp_buf
-     for (ijk = 0; ijk < sizeof(temp_buf); ijk++)
-       {
-	 temp_buf[ijk] = 0;
-       }
-     /* get number of bytes read */
+	while ((total_lenght < MAX_Lenght) && (Time_Elapsed < READ_ARDUINO_TIMEOUT) )
+	  {
+	    // clean temp_buf
+	    for (ijk = 0; ijk < sizeof(temp_buf); ijk++)
+	      {
+		temp_buf[ijk] = 0;
+	      }
+	    
+	    /* get number of bytes read */
 #ifdef PRINT_DEBUG_INFO
-     printf("X_TOTAL_BUF_SIZE_HEADER %d (2 * X_TOTAL_BUF_SIZE_HEADER)  %d Time_Elapsed %d len %d total_lenght %d ", X_TOTAL_BUF_SIZE_HEADER, (MAX_Lenght), Time_Elapsed,len, total_lenght);
+	    printf("X_TOTAL_BUF_SIZE_HEADER %d (2 * X_TOTAL_BUF_SIZE_HEADER)  %d Time_Elapsed %d len %d total_lenght %d ", X_TOTAL_BUF_SIZE_HEADER, (MAX_Lenght), Time_Elapsed,len, total_lenght);
 #endif
+	    
 #if ARDUINO_DEBUG ==1
-     for (ijk = 0; ijk < 50; ijk++)
-       {
-	 temp_buf[ijk] = simulated_buf[ijk+ total_lenght];
-       }
-     len = 50;
+	    for (ijk = 0; ijk < 50; ijk++)
+	      {
+		temp_buf[ijk] = simulated_buf[ijk+ total_lenght];
+	      }
+	    len = 50;
 #else
-     len = read(fd, &temp_buf, sizeof(temp_buf)); // -1);
+	    len = read(fd, &temp_buf, sizeof(temp_buf)); // -1);
 #endif
-     Time_Elapsed++;
-     for (ijk = 0; ijk<len; ijk++)
-       {
-	 buf[ijk + total_lenght] = temp_buf[ijk];
-       }
+	    Time_Elapsed++;
+	    for (ijk = 0; ijk<len; ijk++)
+	      {
+		buf[ijk + total_lenght] = temp_buf[ijk];
+	      }
      total_lenght += len;
      
-   }
+	  }
 #ifdef PRINT_DEBUG_INFO
- printf("totallenght %d lenght %d", total_lenght, len);
+	printf("totallenght %d lenght %d", total_lenght, len);
 #endif
- 
- if (total_lenght < 0)
-   {
-     printf("Error from read: %d: %s\n", len, std::strerror(errno));
+	
+	if (total_lenght < 0)
+	  {
+	    printf("Error from read: %d: %s\n", len, std::strerror(errno));
      return(0);
-   }
- else
+	  }
+	else
    {
 #ifdef PRINT_DEBUG_INFO
      /* print the serial output (debug) */
@@ -204,7 +203,6 @@ unsigned   int len=50;
 	 //len = 250;
 	 if (total_lenght > 0)
 	   {
-	     
 	     
 	     // Look for AA55AA55
 	     std::string haystack(buf, buf + sizeof(buf));  // or "+ sizeof Buffer"
@@ -243,8 +241,6 @@ unsigned   int len=50;
 		   }
 		 
 		 
-		 
-		 
 		 // calculate checksum
 		 buffer_checksum = (buf[(n+X_TOTAL_BUF_SIZE + 6)] << 8) + buf[(n + X_TOTAL_BUF_SIZE + 7)];
 		 temp_checksum = 0;
@@ -274,14 +270,10 @@ unsigned   int len=50;
 	       }
 	   }
 	 
-	 
-	 
-	 
        } while (((checksum_passed == 0) && ((start_search + X_TOTAL_BUF_SIZE_HEADER) < total_lenght)) && (header_not_found==0));
    }
  if (checksum_passed == 1) return (1);
- else return (0);
- 
+ else return (0); 
  
 }
 
@@ -454,7 +446,6 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
 }
 
 
-
 int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
 
 
@@ -519,7 +510,7 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
 
   cfsetospeed(&tty, (speed_t)speed);
   cfsetispeed(&tty, (speed_t)speed);
-  
+
   tty.c_cflag |= (CLOCAL | CREAD);    /* ignore modem controls */
   tty.c_cflag &= ~CSIZE;
   tty.c_cflag |= CS8;         /* 8-bit characters */
@@ -540,7 +531,9 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
     printf("Error from tcsetattr: %s\n", std::strerror(errno));
     return -1;
   }
+
 #endif  
+
   return 0;
 }
 

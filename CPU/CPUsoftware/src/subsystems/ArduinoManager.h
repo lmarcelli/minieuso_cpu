@@ -89,7 +89,7 @@ public:
   ArduinoManager();
   std::shared_ptr<LightLevel> ReadLightLevel();
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
-  int ProcessAnalogData();  
+  int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
   int GetLightLevel();
   int AnalogDataCollect();
 
@@ -127,7 +127,7 @@ private:
 
   
   int SetInterfaceAttribs(int fd, int speed);
-  void SerialReadOut(int fd);
+  int SerialReadOut(int fd);
   
 };
 

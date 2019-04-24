@@ -1,7 +1,7 @@
-DM75xx ports
+Analog ports
 ============
 
-The DM75xx series board is used in addition to the main CPU board to handle the analog acquisition. An external 68 pin I/O connector (CN3) is used to interface to the analog signals, but only the utlised channels are shown here. These channels collect data from the SiPMs and the photodiodes. The table is laid out on the same way as the pins so the left and right halves are independent.
+An arduino is used in addition to the main CPU board to handle the analog acquisition. This documentation will be updated with more information once the readout is finalised.
 
 +----------+----------------+-----------+----------+----------------+-----------+
 | Pin      | Analog channel | Function  | Pin      | Analog channel | Function  | 

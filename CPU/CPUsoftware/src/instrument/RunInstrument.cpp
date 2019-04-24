@@ -305,14 +305,14 @@ int RunInstrument::InitInstMode() {
     this->SetInstMode(RunInstrument::NIGHT);
      break;
   case ArduinoManager::LIGHT_UNDEF:
-    // if (GetInstMode()==DAY){
-    // /* set to day mode */
-    // this->SetInstMode(RunInstrument::DAY);
-    // }
-    // else if (GetInstMode()==NIGHT){
-    // /* set to night mode */
-    // this->SetInstMode(RunInstrument::NIGHT);
-    // }
+    if (GetInstMode()==INST_UNDEF){
+      /* set to day mode */
+      this->SetInstMode(RunInstrument::DAY);
+    }
+    //else if (GetInstMode()==NIGHT){
+      /* set to night mode */
+      //this->SetInstMode(RunInstrument::NIGHT);
+    //}
     break;
   }
   
@@ -347,9 +347,10 @@ int RunInstrument::StartUp() {
 
   /* reload and parse the configuration file */
   std::string config_dir(CONFIG_DIR);
-  std::string config_file = config_dir + "/dummy.conf";
-  std::string config_file_local = config_dir + "/dummy_local.conf";
-  ConfigManager CfManager(config_file, config_file_local);
+  std::string conf_file_usb0 = config_dir + "/dummy_usb0.conf";
+  std::string conf_file_usb1 = config_dir + "/dummy_usb1.conf";
+  std::string conf_file_local = config_dir + "/dummy_local.conf";
+  ConfigManager CfManager(conf_file_local, conf_file_usb0, conf_file_usb1);
   CfManager.Configure();
 
   /* check the configuration file has been parsed */
@@ -394,6 +395,7 @@ int RunInstrument::StartUp() {
   printf("N2 is %d\n", this->ConfigOut->N2);
   printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
   printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
+  printf("ANA_SENSOR_NUM is %d\n", this->ConfigOut->ana_sensor_num);
   printf("DAY_LIGHT_THRESHOLD is %d\n", this->ConfigOut->day_light_threshold);
   printf("NIGHT_LIGHT_THRESHOLD is %d\n", this->ConfigOut->night_light_threshold);
   printf("LIGHT_POLL_TIME is %d\n", this->ConfigOut->light_poll_time); 
@@ -996,4 +998,3 @@ void RunInstrument::Start() {
   std::cout << "exiting the program..." << std::endl;
   return;
 }
-

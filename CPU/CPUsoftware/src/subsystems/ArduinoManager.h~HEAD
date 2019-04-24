@@ -10,6 +10,10 @@
 // COMMENT no debug
 // ANY NUMBER print all
 
+#ifndef __APPLE__
+#include "dm75xx_library.h"
+#endif /* __APPLE__ */
+
 #include <mutex>
 #include <memory>
 #include <thread>
@@ -38,7 +42,7 @@
 #define X_DELAY 100 // ms
 #define READ_ARDUINO_TIMEOUT  100 // it should be in ms now is in attempts to read the buffer
 
-#define AVERAGE_DEPTH 3 // number of acquisitions to be averaged
+#define AVERAGE_DEPTH 1 // number of acquisitions to be averaged
 
 /* for use with arduino readout functions */
 #define DUINO "/dev/ttyUSB0"
@@ -49,6 +53,7 @@
 
 /* for use with conditional variable */
 #define WAIT_PERIOD 1 /* milliseconds */
+
 
 /**
  * acquisition structure to store analog readout 
@@ -86,6 +91,7 @@ public:
   };
 
   LightLevelStatus current_lightlevel_status;
+
   std::shared_ptr<Config> ConfigOut;
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
   //bool CompareLightLevel();

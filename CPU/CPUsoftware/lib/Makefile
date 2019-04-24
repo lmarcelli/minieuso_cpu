@@ -3,10 +3,6 @@
 #
 #	FILE DESCRIPTION: Make description file for building user library
 #
-#	PROJECT NAME: Linux Software (DM75xx) & Linux Software ADIO 
-#
-#	PROJECT VERSION: (Defined in README.TXT)
-#
 #	This file and its contents are copyright (C) RTD Embedded Technologies,
 #	Inc.  All Rights Reserved.
 #
@@ -23,14 +19,7 @@ OPTIMIZE_FLAGS=-O6
 WARNING_FLAGS=-Wall
 CFLAGS:=$(DEBUG_FLAGS) $(INCLUDE_FLAGS) $(OPTIMIZE_FLAGS) $(WARNING_FLAGS)
 
-all:	librtd-dm75xx.a \
-	librtd-aDIO.a \
-
-librtd-dm75xx.a:	librtd-dm75xx.o
-	ar -cru librtd-dm75xx.a librtd-dm75xx.o
-
-librtd-dm75xx.o:	librtd-dm75xx.c
-	$(CC) $(CFLAGS) -c librtd-dm75xx.c
+all:	librtd-aDIO.a \
 
 librtd-aDIO.a:	librtd-aDIO.o
 	ar -cru librtd-aDIO.a librtd-aDIO.o

@@ -1071,6 +1071,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   
   /* add acquisition with the analog board */
+
   std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut);
 
 #if ARDUINO_DEBUG ==0  
@@ -1084,7 +1085,6 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   
   /* wait for other acquisition threads to join */
   analog.join();
-  printf("fattoooo analog join\n");
 
 #if ARDUINO_DEBUG ==0
   collect_main_data.join();

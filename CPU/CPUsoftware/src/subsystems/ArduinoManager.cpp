@@ -30,7 +30,6 @@ int ArduinoManager::AnalogDataCollect() {
  // int fd;
   
  /* fd = open(DUINO, O_RDWR | O_NOCTTY | O_SYNC);
-
   if (fd < 0) {
     printf("Error opening %s: %s\n", DUINO, std::strerror(errno));
     return -1;
@@ -74,8 +73,6 @@ int ArduinoManager::AnalogDataCollect() {
 // returns 0 if failed
 int ArduinoManager::SerialReadOut(int fd) {
 
-
- 
 	unsigned char a[] = { 0xAA, 0x55, 0xAA, 0x55 };
 	unsigned char buf[(unsigned int)(X_TOTAL_BUF_SIZE_HEADER*4)];
 	unsigned char temp_buf[(unsigned int)(X_TOTAL_BUF_SIZE_HEADER * 4)];
@@ -85,9 +82,6 @@ int ArduinoManager::SerialReadOut(int fd) {
 	unsigned int temp_checksum = 0;
 	unsigned int buffer_checksum = 0;
 	int checksum_passed = -1;
-
-
-
 
 	std::string needle(a, a + 4);
   
@@ -241,10 +235,7 @@ unsigned   int len=50;
 		   {
 		     this->analog_acq->val[0][ijk + 4] = (buf[n + 14 + ijk] << 8) + buf[n + 15 + ijk];
 		   }
-		 
-		 
-		 
-		 
+		 		 
 		 // calculate checksum
 		 buffer_checksum = (buf[(n+X_TOTAL_BUF_SIZE + 6)] << 8) + buf[(n + X_TOTAL_BUF_SIZE + 7)];
 		 temp_checksum = 0;
@@ -310,8 +301,8 @@ int ArduinoManager::GetLightLevel()
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
   for(i = 0; i < AVERAGE_DEPTH; i++) 
   {
-	  /* read out the data */
-	  AnalogDataCollect();
+    /* read out the data */
+    AnalogDataCollect();
 
     /* sum the four photodiode channels */
     sum_ph[0] += (float)(this->analog_acq->val[0][0]); // fixed at 0
@@ -385,9 +376,9 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   printf("comparing light level to day and night thresholds \n"); 
 #endif   
 
-  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   this->GetLightLevel();
-  printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
     auto light_level = this->light_level;
@@ -406,16 +397,15 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
 
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
-    ph_avg = light_level->photodiode_data[0];   ////mettere current_sensor_number nel configout
+    ph_avg = light_level->photodiode_data[ConfigOut->ana_sensor_num];
   }
   
   /* debug */
  #if ARDUINO_DEBUG == 0
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
 #else
-  //printf("average photodiode reading is: %f, %f", ph_avg,light_level->photodiode_data[0]);
+  printf("light photodiode reading is: %f \n", light_level->photodiode_data[ConfigOut->ana_sensor_num]);
 #endif
-  
   
   /* compare the result to day and night thresholds */
   if (ph_avg >= ConfigOut->day_light_threshold) {
@@ -465,7 +455,6 @@ int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
 				       [this] { return this->inst_mode_switch; })) { 
 
     this->GetLightLevel();
-    //printf("\n Processs: photodiode_data: %f", this->light_level->photodiode_data[0]);
     //#if ARDUINO_DEBUG == 0
     sleep(ConfigOut->light_acq_time);
     //#endif
@@ -543,7 +532,6 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
 #endif  
   return 0;
 }
-
 
 
 

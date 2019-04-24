@@ -16,10 +16,10 @@
  * Define the commands needed to launch the cameras, used by CamManager::DefineLaunchCmd()
  * NB: trailing "/" in directories is important for multiplecam software to work
  */
-#define CAMERA_SOFTWARE_DIR "/home/software/CPU/cameras/multiplecam/"
+#define CAMERA_SOFTWARE_DIR "/home/minieuso_cpu/CPU/cameras/multiplecam/"
 #define CAMERA_EXEC "./multiplecam.sh"
 #define USB_WRITE_DIR "/media/usb0/"
-#define OTHER_WRITE_DIR "/home/software/CPU/cameras/multiplecam/"
+#define OTHER_WRITE_DIR "/home/minieuso_cpu/CPU/cameras/multiplecam/"
 #define N_TRY_RELAUNCH 2
 
 /*
@@ -30,7 +30,7 @@
 /*
  * Define the name of the file containing the camera serial numbers
  */
-#define SERIAL_NUM_FILE "/home/software/CPU/cameras/multiplecam/parfiles/cameras.ini"
+#define SERIAL_NUM_FILE "/home/minieuso_cpu/CPU/cameras/multiplecam/parfiles/cameras.ini"
 
 /**
  * interface to the multiplecam camera software to allow for parallel acquisition with the two 

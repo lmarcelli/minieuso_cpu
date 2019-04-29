@@ -22,6 +22,7 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
   this->ConfigOut->ana_sensor_num = -1;
+  this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
@@ -63,6 +64,7 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf0, std::string cf1)
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
   this->ConfigOut->ana_sensor_num = -1;
+  this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
@@ -167,6 +169,9 @@ void ConfigManager::Parse(std::string config_file_name){
       }
       else if (type == "ANA_SENSOR_NUM") {
 	in >> this->ConfigOut->ana_sensor_num;
+      }
+      else if (type == "AVERAGE_DEPTH") {
+	in >> this->ConfigOut->average_depth;
       }
       else if (type == "DAY_LIGHT_THRESHOLD") {
 	in >> this->ConfigOut->day_light_threshold;
@@ -310,6 +315,7 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->L2_N_BG != -1 &&
       this->ConfigOut->L2_LOW_THRESH != -1 &&
       this->ConfigOut->ana_sensor_num != -1 &&
+      this->ConfigOut->average_depth != -1 &&
       this->ConfigOut->day_light_threshold != -1 &&
       this->ConfigOut->night_light_threshold != -1 &&
       this->ConfigOut->light_poll_time != -1 &&

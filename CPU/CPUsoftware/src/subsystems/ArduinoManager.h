@@ -38,7 +38,7 @@
 #define X_DELAY 100 // ms
 #define READ_ARDUINO_TIMEOUT  100 // it should be in ms now is in attempts to read the buffer
 
-#define AVERAGE_DEPTH 3 // number of acquisitions to be averaged
+//#define AVERAGE_DEPTH 3 // number of acquisitions to be averaged
 
 /* for use with arduino readout functions */
 #define DUINO "/dev/ttyUSB0"
@@ -88,9 +88,8 @@ public:
   LightLevelStatus current_lightlevel_status;
   std::shared_ptr<Config> ConfigOut;
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
-  //bool CompareLightLevel();
   int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
-  int GetLightLevel();
+  int GetLightLevel(std::shared_ptr<Config> ConfigOut);
   int AnalogDataCollect();
 
   /* handle instrument mode switching */

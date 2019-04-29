@@ -288,10 +288,9 @@ RunInstrument::InstrumentMode RunInstrument::GetInstMode() {
 int RunInstrument::InitInstMode() {
 
   clog << "info: " << logstream::info << "setting the instrument mode" << std::endl;
-
+  printf("info: setting the instrument mode \n");
   /* get the current light level */
-  this->Daq.Analog->GetLightLevel();
-  //bool above_light_threshold = this->Daq.Analog->CompareLightLevel(ConfigOut);
+  this->Daq.Analog->GetLightLevel(ConfigOut);
   ArduinoManager::LightLevelStatus current_lightlevel_status = this->Daq.Analog->CompareLightLevel(ConfigOut);
   
   // /* make a decision */
@@ -396,6 +395,7 @@ int RunInstrument::StartUp() {
   printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
   printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
   printf("ANA_SENSOR_NUM is %d\n", this->ConfigOut->ana_sensor_num);
+  printf("AVERAGE_DEPTH is %d\n", this->ConfigOut->average_depth);
   printf("DAY_LIGHT_THRESHOLD is %d\n", this->ConfigOut->day_light_threshold);
   printf("NIGHT_LIGHT_THRESHOLD is %d\n", this->ConfigOut->night_light_threshold);
   printf("LIGHT_POLL_TIME is %d\n", this->ConfigOut->light_poll_time); 
@@ -596,7 +596,7 @@ bool RunInstrument::CheckStop() {
  * instrument monitoring by checking the light level and shutdown signal
  */
 int RunInstrument::PollInstrument() {
-
+  
   /* different procedure for day and night */
   while (!signal_shutdown.load()) {
     

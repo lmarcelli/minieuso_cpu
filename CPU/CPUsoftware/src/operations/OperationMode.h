@@ -6,6 +6,7 @@
 
 #include "ArduinoManager.h"
 #include "ThermManager.h"
+#include "ConfigManager.h"
 
 /** 
  * base class for an operational mode 

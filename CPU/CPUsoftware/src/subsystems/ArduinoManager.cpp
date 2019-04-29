@@ -281,9 +281,8 @@ unsigned   int len=50;
  * preforms an analog acquisition using ArduinoManager::AnalogDataCollect()
  * and converts the output to the easily readable LightLevel format
  */
-int ArduinoManager::GetLightLevel() 
+int ArduinoManager::GetLightLevel(std::shared_ptr<Config> ConfigOut) 
 {
-
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
   float sum_sipm[N_CHANNELS_SIPM];
@@ -298,9 +297,10 @@ int ArduinoManager::GetLightLevel()
 	  sum_sipm[k] = 0;
   }
 
+  
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
-  for(i = 0; i < AVERAGE_DEPTH; i++) 
-  {
+  for(i = 0; i<ConfigOut->average_depth; i++) 
+    {
     /* read out the data */
     AnalogDataCollect();
 
@@ -323,24 +323,24 @@ int ArduinoManager::GetLightLevel()
  }
 
   /* average the photodiode values */
-	  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
-	  {
-		  {
-			  std::unique_lock<std::mutex> lock(this->m_light_level);
-			  this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
-		  } /* release mutex */
-
-	  }
-	  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
-	  /* average the one channel SiPM values */
-	 for (k = 0; k < N_CHANNELS_SIPM; k++)
-	 {
-		 {
-			 std::unique_lock<std::mutex> lock(this->m_light_level);
-			 this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
-		 } /* release mutex */
-	 }
-   return 0;
+  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->photodiode_data[k] = sum_ph[k] / ConfigOut->average_depth;
+      } /* release mutex */
+      
+    }
+  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
+  /* average the one channel SiPM values */
+  for (k = 0; k < N_CHANNELS_SIPM; k++)
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->sipm_data[k] = sum_sipm[k] / ConfigOut->average_depth;
+      } /* release mutex */
+    }
+  return 0;
 }
 
 /* 
@@ -377,7 +377,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
 #endif   
 
   //  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
-  this->GetLightLevel();
+  this->GetLightLevel(ConfigOut);
   //printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
@@ -439,7 +439,6 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   /* set the config to allow info to be passed around */
   // this->ConfigOut->lightlevel_status = current_lightlevel_status;
   
-  //return above_light_threshold;
   return current_lightlevel_status;
 }
 
@@ -447,14 +446,12 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
 
 int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
 
-
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
 				       std::chrono::milliseconds(WAIT_PERIOD),
 				       [this] { return this->inst_mode_switch; })) { 
-
-    this->GetLightLevel();
+    this->GetLightLevel(ConfigOut);
     //#if ARDUINO_DEBUG == 0
     sleep(ConfigOut->light_acq_time);
     //#endif
@@ -468,15 +465,15 @@ int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
  * used by OperationMode::Reset() 
  */
 int ArduinoManager::Reset() {
-
+  
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
     this->inst_mode_switch = false;
   } /* release mutex */
 
   /* update measurement */
-  this->GetLightLevel();
-  
+  // this->GetLightLevel(ConfigOut);
+
   return 0;
 }
 

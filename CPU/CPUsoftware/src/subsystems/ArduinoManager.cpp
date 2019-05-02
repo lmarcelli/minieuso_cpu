@@ -449,7 +449,7 @@ int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
-				       std::chrono::milliseconds(WAIT_PERIOD),
+				       std::chrono::milliseconds(ConfigOut->arduino_wait_period),
 				       [this] { return this->inst_mode_switch; })) { 
     this->GetLightLevel(ConfigOut);
     //#if ARDUINO_DEBUG == 0
@@ -472,7 +472,7 @@ int ArduinoManager::Reset() {
   } /* release mutex */
 
   /* update measurement */
-  // this->GetLightLevel(ConfigOut);
+  //  this->GetLightLevel(ConfigOut);
 
   return 0;
 }

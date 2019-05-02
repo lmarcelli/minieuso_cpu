@@ -394,12 +394,15 @@ int RunInstrument::StartUp() {
   printf("N2 is %d\n", this->ConfigOut->N2);
   printf("L2_N_BG is %d\n", this->ConfigOut->L2_N_BG);
   printf("L2_LOW_THRESH is %d\n", this->ConfigOut->L2_LOW_THRESH);
+  printf("ARDUINO_WAIT_PERIOD is %d\n", this->ConfigOut->arduino_wait_period);
   printf("ANA_SENSOR_NUM is %d\n", this->ConfigOut->ana_sensor_num);
   printf("AVERAGE_DEPTH is %d\n", this->ConfigOut->average_depth);
   printf("DAY_LIGHT_THRESHOLD is %d\n", this->ConfigOut->day_light_threshold);
   printf("NIGHT_LIGHT_THRESHOLD is %d\n", this->ConfigOut->night_light_threshold);
   printf("LIGHT_POLL_TIME is %d\n", this->ConfigOut->light_poll_time); 
   printf("LIGHT_ACQ_TIME is %d\n", this->ConfigOut->light_acq_time);
+  printf("STATUS_PERIOD is %d\n", this->ConfigOut->status_period);
+  printf("POWER_ON_DELAY is %d\n", this->ConfigOut->pwr_on_delay);
 
   std::cout << std::endl;
   
@@ -443,7 +446,7 @@ int RunInstrument::CheckSystems() {
     this->Lvps.SwitchOn(LvpsManager::CAMERAS);
   }
   this->Lvps.SwitchOn(LvpsManager::HK);
-  sleep(PWR_ON_DELAY);
+  sleep(ConfigOut->pwr_on_delay);
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
 
   /* wait for boot */
@@ -758,7 +761,7 @@ int RunInstrument::RunningStatusCheck() {
 #endif
     
     /* wait until next status check */
-    sleep(STATUS_PERIOD);
+    sleep(ConfigOut->status_period);
     
   }
   

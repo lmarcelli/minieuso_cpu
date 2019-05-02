@@ -21,12 +21,15 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->arduino_wait_period =-1;
   this->ConfigOut->ana_sensor_num = -1;
   this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
   this->ConfigOut->light_acq_time = -1;
+  this->ConfigOut->status_period = -1;
+  this->ConfigOut->pwr_on_delay =-1;
   
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -63,12 +66,15 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf0, std::string cf1)
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->arduino_wait_period =-1;
   this->ConfigOut->ana_sensor_num = -1;
   this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
   this->ConfigOut->light_acq_time = -1;
+  this->ConfigOut->status_period = -1;
+  this->ConfigOut->pwr_on_delay =-1;
   
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -167,6 +173,9 @@ void ConfigManager::Parse(std::string config_file_name){
       else if (type == "L2_LOW_THRESH") {
 	in >> this->ConfigOut->L2_LOW_THRESH;
       }
+      else if (type == "ARDUINO_WAIT_PERIOD") {
+	in >> this->ConfigOut->arduino_wait_period;
+      }      
       else if (type == "ANA_SENSOR_NUM") {
 	in >> this->ConfigOut->ana_sensor_num;
       }
@@ -185,7 +194,13 @@ void ConfigManager::Parse(std::string config_file_name){
       else if (type == "LIGHT_ACQ_TIME") {
 	in >> this->ConfigOut->light_acq_time;
       }
-  
+      else if (type == "STATUS_PERIOD") {
+	in >> this->ConfigOut->status_period;
+      }
+      else if (type == "PWR_ON_DELAY") {
+	in >> this->ConfigOut->pwr_on_delay;
+      }
+      
     }
     cfg_file.close();
     	
@@ -314,12 +329,15 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->N2 != -1 &&
       this->ConfigOut->L2_N_BG != -1 &&
       this->ConfigOut->L2_LOW_THRESH != -1 &&
+      this->ConfigOut->arduino_wait_period != -1 &&
       this->ConfigOut->ana_sensor_num != -1 &&
       this->ConfigOut->average_depth != -1 &&
       this->ConfigOut->day_light_threshold != -1 &&
       this->ConfigOut->night_light_threshold != -1 &&
       this->ConfigOut->light_poll_time != -1 &&
-      this->ConfigOut->light_acq_time != -1) {
+      this->ConfigOut->light_acq_time != -1 &&
+      this->ConfigOut->status_period != -1 &&
+      this->ConfigOut->pwr_on_delay != -1) {
     
     return true;
   }

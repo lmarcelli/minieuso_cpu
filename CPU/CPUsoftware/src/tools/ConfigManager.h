@@ -12,13 +12,13 @@
 #include "log.h"
 
 #ifndef __APPLE__
-#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
 #else
 #define CONFIG_DIR "config_dir"
 #endif /* __APPLE__ */
-#define CONFIG_FILE_USB0 "/home/software/CPU/CPUsoftware/config/dummy_usb0.conf"
-#define CONFIG_FILE_USB1 "/home/software/CPU/CPUsoftware/config/dummy_usb1.conf"
-#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/dummy_local.conf"
+#define CONFIG_FILE_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb0.conf"
+#define CONFIG_FILE_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb1.conf"
+#define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_local.conf"
 //#define CONFIG_FILE_USB1 "/media/usb1/main_cpu.conf"
 
 
@@ -39,13 +39,15 @@ struct Config {
   int N2;
   int L2_N_BG;
   int L2_LOW_THRESH;
+  int arduino_wait_period;
   int ana_sensor_num;
   int average_depth;
   int day_light_threshold;
   int night_light_threshold;
   int light_poll_time;
   int light_acq_time;
-  
+  int status_period;
+  int pwr_on_delay;
 
   /* set by RunInstrument and InputParser at runtime */
   bool hv_on;

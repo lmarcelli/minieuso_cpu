@@ -38,8 +38,6 @@
 #define X_DELAY 100 // ms
 #define READ_ARDUINO_TIMEOUT  100 // it should be in ms now is in attempts to read the buffer
 
-//#define AVERAGE_DEPTH 3 // number of acquisitions to be averaged
-
 /* for use with arduino readout functions */
 #define DUINO "/dev/ttyUSB0"
 #define BAUDRATE B9600
@@ -48,7 +46,7 @@
 #define CHANNELS (X_OTHER_SENSORS+X_SIPM_BUF_SIZE)
 
 /* for use with conditional variable */
-#define WAIT_PERIOD 1 /* milliseconds */
+//#define WAIT_PERIOD 1 /* milliseconds */
 
 /**
  * acquisition structure to store analog readout 

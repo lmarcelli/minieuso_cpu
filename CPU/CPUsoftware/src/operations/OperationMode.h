@@ -22,6 +22,8 @@ public:
    */
   ThermManager * Thermistors = new ThermManager();
 
+  std::shared_ptr<Config> ConfigOut;
+
   OperationMode();
 
   /* operation control functions */

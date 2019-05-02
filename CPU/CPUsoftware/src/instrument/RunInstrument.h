@@ -15,10 +15,10 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* wait time between status checks in seconds */
-#define STATUS_PERIOD 30
+//#define STATUS_PERIOD 30
 
 /* wait between switching on HV and Zynq in seconds */
-#define PWR_ON_DELAY 2
+//#define PWR_ON_DELAY 2
 
 /**
  * class to handle different instrument operational modes 

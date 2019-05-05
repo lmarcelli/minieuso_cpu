@@ -16,10 +16,16 @@
 #else
 #define CONFIG_DIR "config_dir"
 #endif /* __APPLE__ */
+
+#if ARDUINO_DEBUG ==1
 #define CONFIG_FILE_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb0.conf"
 #define CONFIG_FILE_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb1.conf"
+#else
+#define CONFIG_FILE_USB0 "/media/usb0/dummy_usb.conf"
+#define CONFIG_FILE_USB1 "/media/usb1/dummy_usb.conf"
+#endif
+
 #define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_local.conf"
-//#define CONFIG_FILE_USB1 "/media/usb1/main_cpu.conf"
 
 
 /**

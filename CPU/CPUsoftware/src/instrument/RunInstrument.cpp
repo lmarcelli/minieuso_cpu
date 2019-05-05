@@ -346,8 +346,13 @@ int RunInstrument::StartUp() {
 
   /* reload and parse the configuration file */
   std::string config_dir(CONFIG_DIR);
+  #if ARDUINO_DEBUG ==1
   std::string conf_file_usb0 = config_dir + "/dummy_usb0.conf";
   std::string conf_file_usb1 = config_dir + "/dummy_usb1.conf";
+  #else
+  std::string conf_file_usb0 = "/media/usb0/dummy_usb.conf";
+  std::string conf_file_usb1 = "/media/usb1/dummy_usb.conf";
+  #endif
   std::string conf_file_local = config_dir + "/dummy_local.conf";
   ConfigManager CfManager(conf_file_local, conf_file_usb0, conf_file_usb1);
   CfManager.Configure();

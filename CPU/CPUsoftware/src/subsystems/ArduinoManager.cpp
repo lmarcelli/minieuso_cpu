@@ -387,9 +387,9 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   printf("comparing light level to day and night thresholds \n"); 
 #endif   
 
-  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   this->GetLightLevel();
-  printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
     auto light_level = this->light_level;

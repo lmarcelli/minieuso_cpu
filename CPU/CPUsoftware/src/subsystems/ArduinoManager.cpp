@@ -381,7 +381,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   float ph_avg = 0;
   int i;
   
-#if ARDUINO_DEBUG == 0 
+#if ARDUINO_DEBUG != 1 
   clog << "info: " << logstream::info << "comparing light level to day and night thresholds" << std::endl;
 #else
   printf("comparing light level to day and night thresholds \n"); 
@@ -412,7 +412,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   }
   
   /* debug */
- #if ARDUINO_DEBUG == 0
+ #if ARDUINO_DEBUG != 1
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
 #else
   //printf("average photodiode reading is: %f, %f", ph_avg,light_level->photodiode_data[0]);
@@ -423,7 +423,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   if (ph_avg >= ConfigOut->day_light_threshold) {
     //printf("\n CompareLightLevel: photodiode_data: %f , %d", this->light_level->photodiode_data[0], ConfigOut->day_light_threshold);
     current_lightlevel_status = ArduinoManager::LIGHT_ABOVE_DAY_THR;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is ABOVE day_light_threshold" << std::endl;
 #else		
     printf("light level is ABOVE day_light_threshold \n"); 
@@ -432,7 +432,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   
   else if (ph_avg <= ConfigOut->night_light_threshold) {
     current_lightlevel_status = ArduinoManager::LIGHT_BELOW_NIGHT_THR;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is BELOW night_light_threshold" << std::endl;
 #else		
     printf("light level is BELOW night_light_threshold \n");
@@ -441,7 +441,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   
   else if (ph_avg > ConfigOut->night_light_threshold && ph_avg < ConfigOut->day_light_threshold) {
     current_lightlevel_status = ArduinoManager::LIGHT_UNDEF;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is BETWEEN  night_light_threshold and day_light_threshold" << std::endl;
 #else		
     printf("light level is BETWEEN night_light_threshold and day_light_threshold \n");

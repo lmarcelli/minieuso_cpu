@@ -1039,7 +1039,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   long unsigned int main_thread = pthread_self();
 
- #if ARDUINO_DEBUG ==0 
+ #if ARDUINO_DEBUG !=1 
   /* FTP polling */
   std::thread ftp_poll (&DataAcquisition::FtpPoll, this, true);
   
@@ -1073,7 +1073,7 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   /* add acquisition with the analog board */
   std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut);
 
-#if ARDUINO_DEBUG ==0  
+#if ARDUINO_DEBUG !=1  
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->Thermistors->Init();
@@ -1084,9 +1084,8 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
   
   /* wait for other acquisition threads to join */
   analog.join();
-  printf("fattoooo analog join\n");
 
-#if ARDUINO_DEBUG ==0
+#if ARDUINO_DEBUG !=1
   collect_main_data.join();
   ftp_poll.join();
   

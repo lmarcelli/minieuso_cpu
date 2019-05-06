@@ -3,8 +3,8 @@
 
 // 0 REAL HW
 // 1 simulator
-#define ARDUINO_DEBUG 1
-
+// 2 use with Arduino connected (ie. automatically in night mode)
+#define ARDUINO_DEBUG 2
 
 //#define PRINT_DEBUG_INFO 1
 // COMMENT no debug

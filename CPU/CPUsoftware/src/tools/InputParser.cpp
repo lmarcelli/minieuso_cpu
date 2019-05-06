@@ -275,6 +275,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
+      else if (mode == "ta_trigger") {
+	this->CmdLine->zynq_mode = ZynqManager::TA_TRIGGER;
+      }
       else {
 	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
 	return NULL;
@@ -512,7 +515,7 @@ int InputParser::PrintHelpMsg() {
   std::cout << "ACQUISITION" << std::endl;
   std::cout << std::endl;
   std::cout << "-short <N>:          run a short acquisition of N CPU_PACKETs"<< std::endl;
-  std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external trigger, default = periodic)" << std::endl;
+  std::cout << "-zynq <MODE>:        use the Zynq acquisition mode (<MODE> = none, periodic, self, immediate, external, trigger, ta_trigger, default = periodic)" << std::endl;
   std::cout << "-test_zynq <MODE>:   use the Zynq test mode (<MODE> = none, ecasic, pmt, pdm, l1, l2, l3, default = pdm)" << std::endl;
   std::cout << "-keep_zynq_pkt:      keep the Zynq packets on FTP" << std::endl;
   std::cout << "-zynq_reboot:      reboot the Zynq for this acquisition" << std::endl;

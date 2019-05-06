@@ -55,6 +55,8 @@ public:
     SELF = 4,
     IMMEDIATE = 8,
     EXTERNAL = 16,
+    TA_TRIGGER = 32, /* EUSO-TA TRIGGER, cannot be used in compound modes */
+ 
     /**
      * compound modes 
      */

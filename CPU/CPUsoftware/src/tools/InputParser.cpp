@@ -275,6 +275,9 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
+      else if (mode == "ta_trigger") {
+	this->CmdLine->zynq_mode = ZynqManager::TA_TRIGGER;
+      }
       else {
 	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
 	return NULL;

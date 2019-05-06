@@ -164,7 +164,7 @@ int RunInstrument::DebugMode() {
   this->Cam.usb_num_storage_dev = num_usb_storage;
   std::cout << std::endl;
 
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG !=1
   std::cout << "LVPS" << std::endl;
   std::cout << "switching on all subsystems... " << std::endl;  
   std::cout << "cameras ON " << std::endl;  
@@ -414,7 +414,7 @@ int RunInstrument::CheckSystems() {
   
 
   std::cout << "STARTING INSTRUMENT" << std::endl;
-#if ARDUINO_DEBUG ==0
+#if ARDUINO_DEBUG !=1
   /* first power off all systems, for a clean start */
   this->Lvps.SwitchOff(LvpsManager::CAMERAS);
   this->Lvps.SwitchOff(LvpsManager::HK);
@@ -711,7 +711,7 @@ int RunInstrument::RunningStatusCheck() {
     std::cout << std::endl;
     std::cout << "STATUS UPDATE" << std::endl;
 
- #if ARDUINO_DEBUG ==0
+ #if ARDUINO_DEBUG !=1
     /* telnet connection and HV */
     {
       std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
@@ -759,7 +759,7 @@ int RunInstrument::Acquisition() {
   std::cout << "starting acquisition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG !=1
   
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
@@ -812,9 +812,9 @@ int RunInstrument::Acquisition() {
 int RunInstrument::NightOperations() {
 
   /* check scurve not already completed */
-    if (this->Daq.IsScurveDone()) {
+  if (this->Daq.IsScurveDone()) {
     return 0;
-    }
+  }
   
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;
@@ -892,7 +892,7 @@ void RunInstrument::Stop() {
  */
 void RunInstrument::Start() {
 
-  #if ARDUINO_DEBUG ==0
+  #if ARDUINO_DEBUG !=1
   /* check for execute-and-exit commands */
   if (this->CmdLine->lvps_on) {
     LvpsSwitch();
@@ -911,7 +911,7 @@ void RunInstrument::Start() {
   }
 
   
-  #if ARDUINO_DEBUG ==0
+  #if ARDUINO_DEBUG !=1
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();
@@ -926,7 +926,7 @@ void RunInstrument::Start() {
   /* check systems and operational mode */
   this->CheckSystems();
 
-  #if ARDUINO_DEBUG ==0
+  #if ARDUINO_DEBUG !=1
   {
     std::unique_lock<std::mutex> lock(this->Zynq.m_zynq);     
     if (!this->Zynq.telnet_connected) {

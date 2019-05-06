@@ -43,6 +43,17 @@ int ArduinoManager::AnalogDataCollect() {
   //printf("Will now run ArduinoManager::SerialReadOut() once...\n");
 
   SerialReadOut(0x00);
+#elif ARDUINO_DEBUG ==2
+
+  int i, j;
+  
+  /* Just fill AnalogAcq with zeros */
+  for (i = 0; i < FIFO_DEPTH; i++) {
+    for (j = 0; j < CHANNELS; j++) {
+      this->analog_acq->val[i][j] = 0;      
+    }
+  } 
+  
 #else
 	/* test implementation for now, just prints output to screen */
 	int fd;
@@ -300,8 +311,7 @@ int ArduinoManager::GetLightLevel()
   }
 
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
-  for(i = 0; i < AVERAGE_DEPTH; i++) 
-  {
+  for(i = 0; i < AVERAGE_DEPTH; i++) {
 	  /* read out the data */
 	  AnalogDataCollect();
 
@@ -312,36 +322,36 @@ int ArduinoManager::GetLightLevel()
     sum_ph[3] += (float)(this->analog_acq->val[0][3]);
 
     /* sum the one channel SiPM values */
-	for (k = 0; k < N_CHANNELS_SIPM; k++) {
-		sum_sipm[k] += (float)(this->analog_acq->val[0][4+k]);
-	}
+    for (k = 0; k < N_CHANNELS_SIPM; k++) {
+      sum_sipm[k] += (float)(this->analog_acq->val[0][4+k]);
+    }
     
     /* read out the multiplexed 64 channel SiPM values */
    // {
    //std::unique_lock<std::mutex> lock(this->m_light_level);
    //   this->light_level->sipm_data[i] = this->analog_acq->val[i][5];
    // } /* release mutex */
- }
+  }
 
   /* average the photodiode values */
-	  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
-	  {
-		  {
-			  std::unique_lock<std::mutex> lock(this->m_light_level);
-			  this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
-		  } /* release mutex */
-
-	  }
-	  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
-	  /* average the one channel SiPM values */
-	 for (k = 0; k < N_CHANNELS_SIPM; k++)
-	 {
-		 {
-			 std::unique_lock<std::mutex> lock(this->m_light_level);
-			 this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
-		 } /* release mutex */
-	 }
-   return 0;
+  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
+      } /* release mutex */
+      
+    }
+  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
+  /* average the one channel SiPM values */
+  for (k = 0; k < N_CHANNELS_SIPM; k++)
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
+      } /* release mutex */
+    }
+  return 0;
 }
 
 /* 
@@ -371,15 +381,15 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   float ph_avg = 0;
   int i;
   
-#if ARDUINO_DEBUG == 0 
+#if ARDUINO_DEBUG != 1 
   clog << "info: " << logstream::info << "comparing light level to day and night thresholds" << std::endl;
 #else
   printf("comparing light level to day and night thresholds \n"); 
 #endif   
 
-  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   this->GetLightLevel();
-  printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  //printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
     auto light_level = this->light_level;
@@ -402,7 +412,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   }
   
   /* debug */
- #if ARDUINO_DEBUG == 0
+ #if ARDUINO_DEBUG != 1
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
 #else
   //printf("average photodiode reading is: %f, %f", ph_avg,light_level->photodiode_data[0]);
@@ -413,7 +423,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   if (ph_avg >= ConfigOut->day_light_threshold) {
     //printf("\n CompareLightLevel: photodiode_data: %f , %d", this->light_level->photodiode_data[0], ConfigOut->day_light_threshold);
     current_lightlevel_status = ArduinoManager::LIGHT_ABOVE_DAY_THR;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is ABOVE day_light_threshold" << std::endl;
 #else		
     printf("light level is ABOVE day_light_threshold \n"); 
@@ -422,7 +432,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   
   else if (ph_avg <= ConfigOut->night_light_threshold) {
     current_lightlevel_status = ArduinoManager::LIGHT_BELOW_NIGHT_THR;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is BELOW night_light_threshold" << std::endl;
 #else		
     printf("light level is BELOW night_light_threshold \n");
@@ -431,7 +441,7 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   
   else if (ph_avg > ConfigOut->night_light_threshold && ph_avg < ConfigOut->day_light_threshold) {
     current_lightlevel_status = ArduinoManager::LIGHT_UNDEF;
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
     clog << "info: " << logstream::info << "light level is BETWEEN  night_light_threshold and day_light_threshold" << std::endl;
 #else		
     printf("light level is BETWEEN night_light_threshold and day_light_threshold \n");

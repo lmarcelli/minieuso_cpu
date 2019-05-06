@@ -108,7 +108,7 @@ The Zynq handles the collection of data from the PMTs via the SPACIROC3 ASICs. T
 
 **Main acquisiton modes**
 
-There are five basic acquisition modes, as defined here:
+There are five basic acquisition modes, as defined here (for ``TA_TRIGGER`` see EUSO-TA trigger section below):
 
 .. doxygenenum:: ZynqMode
 		 
@@ -131,7 +131,10 @@ Will start an acquisition using both ``periodic`` and ``self`` modes. This means
 
 The multi-level trigger is described in detail in A. Belov et al., *The integration and testing of the Mini-EUSO multi-level trigger system*. Advances in Space Reasearch (2017).
 
-  
+**EUSO-TA trigger mode**
+
+* ``ta_trigger``: This sets the EUSO-TA trigger mode for testing. At the moment, it is not possible to use this in combination with any of the other trigger modes described above.
+
 **Test acquisition modes**
 
 The Zynq also has built in test modes for debugging, where data is provided by the software instead of  collected from the ASICs. These modes are defined in ZynqManager::TestMode and are descibed here. 

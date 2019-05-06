@@ -43,6 +43,17 @@ int ArduinoManager::AnalogDataCollect() {
   //printf("Will now run ArduinoManager::SerialReadOut() once...\n");
 
   SerialReadOut(0x00);
+#elif ARDUINO_DEBUG ==2
+
+  int i, j;
+  
+  /* Just fill AnalogAcq with zeros */
+  for (i = 0; i < FIFO_DEPTH; i++) {
+    for (j = 0; j < CHANNELS; j++) {
+      this->analog_acq->val[i][j] = 0;      
+    }
+  } 
+  
 #else
 	/* test implementation for now, just prints output to screen */
 	int fd;

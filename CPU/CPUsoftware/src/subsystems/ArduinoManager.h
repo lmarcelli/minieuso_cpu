@@ -3,7 +3,7 @@
 
 // 0 REAL HW
 // 1 simulator
-#define ARDUINO_DEBUG 1
+#define ARDUINO_DEBUG 0
 
 
 //#define PRINT_DEBUG_INFO 1

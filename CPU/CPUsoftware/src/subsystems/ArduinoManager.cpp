@@ -300,8 +300,7 @@ int ArduinoManager::GetLightLevel()
   }
 
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
-  for(i = 0; i < AVERAGE_DEPTH; i++) 
-  {
+  for(i = 0; i < AVERAGE_DEPTH; i++) {
 	  /* read out the data */
 	  AnalogDataCollect();
 
@@ -312,36 +311,36 @@ int ArduinoManager::GetLightLevel()
     sum_ph[3] += (float)(this->analog_acq->val[0][3]);
 
     /* sum the one channel SiPM values */
-	for (k = 0; k < N_CHANNELS_SIPM; k++) {
-		sum_sipm[k] += (float)(this->analog_acq->val[0][4+k]);
-	}
+    for (k = 0; k < N_CHANNELS_SIPM; k++) {
+      sum_sipm[k] += (float)(this->analog_acq->val[0][4+k]);
+    }
     
     /* read out the multiplexed 64 channel SiPM values */
    // {
    //std::unique_lock<std::mutex> lock(this->m_light_level);
    //   this->light_level->sipm_data[i] = this->analog_acq->val[i][5];
    // } /* release mutex */
- }
+  }
 
   /* average the photodiode values */
-	  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
-	  {
-		  {
-			  std::unique_lock<std::mutex> lock(this->m_light_level);
-			  this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
-		  } /* release mutex */
-
-	  }
-	  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
-	  /* average the one channel SiPM values */
-	 for (k = 0; k < N_CHANNELS_SIPM; k++)
-	 {
-		 {
-			 std::unique_lock<std::mutex> lock(this->m_light_level);
-			 this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
-		 } /* release mutex */
-	 }
-   return 0;
+  for (k = 0; k < N_CHANNELS_PHOTODIODE; k++) 
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
+      } /* release mutex */
+      
+    }
+  //printf("\n GetLightLevel: photodiode_data: %f", this->light_level->photodiode_data[0]);
+  /* average the one channel SiPM values */
+  for (k = 0; k < N_CHANNELS_SIPM; k++)
+    {
+      {
+	std::unique_lock<std::mutex> lock(this->m_light_level);
+	this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
+      } /* release mutex */
+    }
+  return 0;
 }
 
 /* 

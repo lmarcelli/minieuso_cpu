@@ -759,7 +759,7 @@ int RunInstrument::Acquisition() {
   std::cout << "starting acquisition run..." <<std::endl; 
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
-#if ARDUINO_DEBUG == 0
+#if ARDUINO_DEBUG != 1
   
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
@@ -812,9 +812,9 @@ int RunInstrument::Acquisition() {
 int RunInstrument::NightOperations() {
 
   /* check scurve not already completed */
-    if (this->Daq.IsScurveDone()) {
+  if (this->Daq.IsScurveDone()) {
     return 0;
-    }
+  }
   
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;

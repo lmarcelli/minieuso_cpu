@@ -18,7 +18,8 @@
 
 #include "log.h"
 #include "CpuTools.h"
-
+/*Giammanco include the pxel mask*/
+#include "DeadPixelRead.h"
 /* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
 #define TELNET_PORT 23
@@ -35,7 +36,7 @@
 #define SLEEP_TIME 500000
 
 /**
- * class to handle the Zynq interface. 
+ * class to handle the Zynq interface.
  * commands and information are sent and received over telnet
  * using socket programming.
  * data from the Zynq board is placed on the FTP directory
@@ -48,7 +49,7 @@ public:
    */
   enum ZynqMode : uint8_t {
     /**
-     * basic modes 
+     * basic modes
      */
     NONE = 0,
     PERIODIC = 2,
@@ -56,7 +57,7 @@ public:
     IMMEDIATE = 8,
     EXTERNAL = 16,
     /**
-     * compound modes 
+     * compound modes
      */
     TRIGGER = 6, /* usual data taking mode: PERIODIC + SELF */
     PERIODIC_IMMEDIATE = 10, /* PERIODIC + IMMEDIATE */
@@ -65,7 +66,7 @@ public:
     PERIODIC_EXTERNAL = 18, /* PERIODIC + EXTERNAL */
     SELF_EXTERNAL = 20, /* SELF + EXTERNAL */
     PERIODIC_SELF_EXTERNAL = 22, /* PERIODIC + SELF + EXTERNAL */
-    IMMEDIATE_EXTERNAL = 24, /* IMMEDIATE + EXTERNAL */ 
+    IMMEDIATE_EXTERNAL = 24, /* IMMEDIATE + EXTERNAL */
     PERIODIC_IMMEDIATE_EXTERNAL = 26, /* PERIODIC + IMMEDIATE + EXTERNAL */
     SELF_IMMEDIATE_EXTERNAL = 28, /* SELF + IMMEDIATE + EXTERNAL */
     ALL_TRIGGER = 30, /* PERIODIC + SELF + IMMEDIATE + EXTERNAL */
@@ -106,7 +107,7 @@ public:
   HvpsStatus hvps_status;
 
   /**
-   * set to true if the telnet connection is successful 
+   * set to true if the telnet connection is successful
    */
   bool telnet_connected;
   /**
@@ -118,7 +119,7 @@ public:
    * to handle Zynq access in a thread safe way
    */
   std::mutex m_zynq;
-  
+
   ZynqManager();
   int CheckConnect();
   static int ConnectTelnet();
@@ -126,6 +127,7 @@ public:
   int GetHvpsStatus();
   int HvpsTurnOn(int cv, int dv, std::string hvps_ec_string);
   int HvpsTurnOff();
+  int HidePixels(); /*added by Giammanco*/
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();
@@ -133,16 +135,16 @@ public:
   TestMode SetTestMode();
   static int StopAcquisition();
   int SetNPkts(int N1, int N2);
-  int SetL2TrigParams(int n_bg, int low_thresh); 
+  int SetL2TrigParams(int n_bg, int low_thresh);
   bool CheckScurve(int sockfd);
   static std::string GetZynqVer();
-  
+
 private:
-  
+
   static std::string SendRecvTelnet(std::string send_msg, int sockfd);
   static std::string Telnet(std::string send_msg, int sockfd, bool print);
   int InstStatusTest(std::string send_msg);
-  bool CheckTelnet();  
+  bool CheckTelnet();
 
 };
 

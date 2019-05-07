@@ -346,7 +346,7 @@ int RunInstrument::StartUp() {
 
   /* reload and parse the configuration file */
   std::string config_dir(CONFIG_DIR);
-  #if ARDUINO_DEBUG ==1
+  #if ARDUINO_DEBUG==1
   std::string conf_file_usb0 = config_dir + "/dummy_usb0.conf";
   std::string conf_file_usb1 = config_dir + "/dummy_usb1.conf";
   #else
@@ -386,6 +386,9 @@ int RunInstrument::StartUp() {
     this->ConfigOut->scurve_acc = this->CmdLine->sc_acc;
   }
 
+  //By Giammanco to switchoff the broken pixels
+  this->Zynq.HidePixels();
+  
   /* print configuration parameters */
   printf("CONFIGURATION PARAMETERS\n"); 
   printf("CATHODE_VOLTAGE is %d\n", this->ConfigOut->cathode_voltage);

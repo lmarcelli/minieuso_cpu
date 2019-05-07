@@ -303,12 +303,8 @@ void ConfigManager::Configure() {
       clog << "error: " << logstream::error << "Usb1 configuration file " << config_file_usb1 << " does not exist: local configuration file parsed" << std::endl;
       std::cout << "ERROR: Usb1 configuration file " << config_file_usb1 << " does not exist: local configuration file parsed" << std::endl;    
     }
-  }
-  
+  } 
 
-
-  
-  
   
   return;
 }

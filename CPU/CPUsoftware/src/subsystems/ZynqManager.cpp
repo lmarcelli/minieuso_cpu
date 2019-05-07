@@ -2,11 +2,11 @@
 #include "ZynqManager.h"
 
 /**
- * constructor 
+ * constructor
  * initialises public members
  * hvps_status, instrument_mode, test_mode and telnet_connected
  */
-ZynqManager::ZynqManager () {   
+ZynqManager::ZynqManager () {
   this->hvps_status = ZynqManager::UNDEF;
   this->zynq_mode = ZynqManager::NONE;
   this->test_mode = ZynqManager::T_NONE;
@@ -27,7 +27,7 @@ bool ZynqManager::CheckTelnet() {
   bool connected = false;
   int sockfd;
   std::string status_string = "";
-  
+
   /* set up the telnet connection */
   sockfd = ConnectTelnet();
 
@@ -41,8 +41,8 @@ bool ZynqManager::CheckTelnet() {
   if (found != std::string::npos) {
     connected = true;
   }
-  
-  return connected;  
+
+  return connected;
 }
 
 /**
@@ -51,13 +51,13 @@ bool ZynqManager::CheckTelnet() {
  * has a timeout implemented of length CONNECT_TIMEOUT_SEC (defined in ZynqManager.h)
  */
 int ZynqManager::CheckConnect() {
- 
+
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
 
   /* initilaise timeout timer */
   time_t start = time(0);
   int time_left = CONNECT_TIMEOUT_SEC;
-  
+
   /* wait for FTP to be up */
   while (!CpuTools::CheckFtp()) {
 
@@ -65,7 +65,7 @@ int ZynqManager::CheckConnect() {
     time_t end = time(0);
     time_t time_taken = end - start;
     time_left = CONNECT_TIMEOUT_SEC - time_taken;
-    
+
   }
   /* catch FTP timeout */
   if (!CpuTools::CheckFtp()) {
@@ -74,42 +74,42 @@ int ZynqManager::CheckConnect() {
     std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
     clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
     this->telnet_connected = false;
-    
+
     return -1;
   }
-  
+
   /* reinitialise timout timer */
   start = time(0);
   time_left = CONNECT_TIMEOUT_SEC;
-  
+
   /* wait for answer on telnet */
   while (!CheckTelnet() && time_left > 0) {
-    
+
     sleep(2);
 
     /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
     time_t end = time(0);
     time_t time_taken = end - start;
     time_left = CONNECT_TIMEOUT_SEC - time_taken;
-  
+
   }
   /* catch connection timeout */
   if (!CheckTelnet()) {
 
     std::cout << "ERROR: Connection timeout to the Zynq board" << std::endl;
     clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
-    
+
     this->telnet_connected = false;
     return 1;
   }
 
   this->telnet_connected = true;
-  return 0;  
+  return 0;
 }
 
 /**
  * send and recieve commands over the telnet connection
- * to be used inside a function which opens the telnet connection 
+ * to be used inside a function which opens the telnet connection
  * @param send_msg the message to be sent
  * @param sockfd the socket field descriptor
  */
@@ -120,13 +120,13 @@ std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
   std::string recv_msg;
   std::string err_msg = "error";
   int n;
-  
+
   /* prepare the message to send */
   bzero(buffer, 256);
   strncpy(buffer, kSendMsg, sizeof(buffer));
   send_msg.erase(std::remove(send_msg.begin(), send_msg.end(), '\n'), send_msg.end());
   clog << "info: " << logstream::info << "sending via telnet: " << send_msg << std::endl;
- 
+
   n = write(sockfd, buffer, strlen(buffer));
   if (n < 0) {
     clog << "error: " << logstream::error << "error writing to socket" << std::endl;
@@ -155,7 +155,7 @@ std::string ZynqManager::SendRecvTelnet(std::string send_msg, int sockfd) {
 std::string ZynqManager::Telnet(std::string send_msg, int sockfd, bool print) {
 
   std::string status_string = "";
-  
+
   if (sockfd > 0) {
     status_string = SendRecvTelnet(send_msg, sockfd);
     if (print) {
@@ -171,7 +171,7 @@ std::string ZynqManager::Telnet(std::string send_msg, int sockfd, bool print) {
 
 /**
  * connect via telnet to ZYNQ_IP.
- * NB: leaves telnet open to be closed with a separate function 
+ * NB: leaves telnet open to be closed with a separate function
  */
 int ZynqManager::ConnectTelnet() {
 
@@ -182,25 +182,25 @@ int ZynqManager::ConnectTelnet() {
   const char * ip = ZYNQ_IP;
   struct timeval tv;
   fd_set fdset;
-  
+
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
- 
+
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) { 
+  if (sockfd < 0) {
     clog << "error: " << logstream::error << "error opening socket" << std::endl;
     return 1;
   }
- 
+
   server = gethostbyname(ip);
   if (server == NULL) {
-    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
+    clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;
     return 1;
   }
-  
+
   bzero((char *) &serv_addr, sizeof(serv_addr));
   serv_addr.sin_family = AF_INET;
-  bcopy((char *)server->h_addr, 
+  bcopy((char *)server->h_addr,
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
@@ -213,35 +213,35 @@ int ZynqManager::ConnectTelnet() {
   FD_SET(sockfd, &fdset);
 
   /* add timeout */
-  tv.tv_sec = SHORT_TIMEOUT_SEC; 
+  tv.tv_sec = SHORT_TIMEOUT_SEC;
   tv.tv_usec = 0;
-  
+
   if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
       int so_error;
       socklen_t len = sizeof so_error;
-      
+
       getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_error, &len);
-      
+
       if (so_error == 0) {
 	clog << "info: " << logstream::info << "connected to " << ZYNQ_IP << " on port " << TELNET_PORT  << std::endl;
 
 	/* clear non-blocking */
 	opts = opts & (~O_NONBLOCK);
-	fcntl(sockfd, F_SETFL, opts);   
+	fcntl(sockfd, F_SETFL, opts);
       }
       else {
 
 	clog << "error: " << logstream::error << "error connecting to " << ZYNQ_IP << " on port " << TELNET_PORT << std::endl;
 	return -1;
       }
-      
+
     }
-  
-  return sockfd;   
+
+  return sockfd;
 }
 
 /**
- * check the instrument status 
+ * check the instrument status
  */
 int ZynqManager::GetInstStatus() {
 
@@ -268,13 +268,13 @@ int ZynqManager::GetInstStatus() {
   if (reported_zynq_mode != this->zynq_mode) {
     clog << "error: " << logstream::error << "zynq_mode is: " << reported_zynq_mode << std::endl;
   }
-  
+
   return 0;
 }
 
 
 /**
- * check the HV status 
+ * check the HV status
  */
 int ZynqManager::GetHvpsStatus() {
 
@@ -296,8 +296,8 @@ int ZynqManager::GetHvpsStatus() {
   std::vector<int> ec_status = CpuTools::DelimStrToVec(status, ' ', N_EC, false);
   for (uint8_t i = 0; i < ec_status.size(); i++) {
     if (this->ec_values[i] != ec_status[i]) {
-      
-      std::cout << "ERROR: unexpected EC status" << std::endl; 
+
+      std::cout << "ERROR: unexpected EC status" << std::endl;
       clog << "error: " << logstream::error << "unexpected EC HVPS status" << std::endl;
     }
   }
@@ -308,7 +308,7 @@ int ZynqManager::GetHvpsStatus() {
 
 /**
  * turn on the HV.
- * ramps up the dynode voltage in steps of 500 HV DAC <=> ~140 V 
+ * ramps up the dynode voltage in steps of 500 HV DAC <=> ~140 V
  * @param cv the cathode voltage (int from 1-3)
  * @param dv the dynode voltage (HV DAC from 0 to 4096).
  * @param hvps_ec_string string of 9 (each EC unit) comma-separated values, 1 <=> on, 0 <=> off
@@ -318,30 +318,30 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
 
   int sockfd;
   std::string cmd;
- 
+
   clog << "info: " << logstream::info << "turning on the HVPS" << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
+
   /* set the cathode voltage */
   /* make the command string from config file values */
   cmd = CpuTools::BuildStr("hvps cathode", " ", 3, N_EC);
-  std::cout << "Set HVPS cathode to " << cv << ": "; 
+  std::cout << "Set HVPS cathode to " << cv << ": ";
   Telnet(cmd, sockfd, true);
-  
+
   /* set the dynode voltage to 0 */
   cmd = CpuTools::BuildStr("hvps setdac", " ", 0, N_EC);
-  std::cout << "Set HVPS DAC to " << 0 << ": "; 
+  std::cout << "Set HVPS DAC to " << 0 << ": ";
   Telnet(cmd, sockfd, true);
-  
+
   /* turn on */
   /* make the command string from hvps_ec_string */
   this->ec_values = CpuTools::DelimStrToVec(hvps_ec_string, ',', N_EC, true);
-  cmd = CpuTools::BuildStrFromVec("hvps turnon", " ", this->ec_values); 
+  cmd = CpuTools::BuildStrFromVec("hvps turnon", " ", this->ec_values);
   std::cout << "Turn on HVPS: ";
   Telnet(cmd, sockfd, true);
-  
+
   /* ramp up in steps of 500 DAC */
   int ramp_dac[8];
   int ramp_step = 500;
@@ -351,10 +351,10 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
     dac += ramp_step;
     ramp_dac[i] = dac;
   }
-  
+
   i = 0;
   bool ramp_done = false;
-  while (!ramp_done && i < 8) {  
+  while (!ramp_done && i < 8) {
     if (dv > ramp_dac[i]) {
       cmd = CpuTools::BuildStr("hvps setdac", " ", ramp_dac[i], N_EC);
       std::cout << "Set HVPS DAC to " << ramp_dac[i] << ": ";
@@ -366,26 +366,26 @@ int ZynqManager::HvpsTurnOn(int cv, int dv, std::string hvps_ec_string) {
       ramp_done = true;
     }
   }
-      
+
   /* set the final DAC */
   cmd = CpuTools::BuildStr("hvps setdac", " ", dv, N_EC);
   std::cout << "Set HVPS DAC to " << dv << ": ";
   Telnet(cmd, sockfd, true);
-  
+
   /* check the status */
   std::cout << "HVPS status: ";
   Telnet("hvps status gpio\n", sockfd, true);
-  
+
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::ON;
-  
+
   close(sockfd);
   return 0;
 }
 
 
 /**
- * turn off the HV 
+ * turn off the HV
  */
 int ZynqManager::HvpsTurnOff() {
 
@@ -405,7 +405,7 @@ int ZynqManager::HvpsTurnOff() {
   /* check the status */
   std::cout << "HVPS status: ";
   Telnet("hvps status gpio\n", sockfd, true);
-  close(sockfd); 
+  close(sockfd);
 
   /* update the HvpsStatus */
   this->hvps_status = ZynqManager::OFF;
@@ -414,38 +414,38 @@ int ZynqManager::HvpsTurnOff() {
   for (uint8_t i = 0; i < ec_values.size(); i++) {
     this->ec_values[i] = 0;
   }
-  
+
   return 0;
 }
 
 
 /**
- * take an scurve 
+ * take an scurve
  */
 int ZynqManager::Scurve(int start, int step, int stop, int acc) {
-  
+
   int sockfd;
   std::string cmd;
   std::stringstream conv;
   std::string status_string;
-  
+
   clog << "info: " << logstream::info << "taking an S-curve" << std::endl;
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
+
   /* take an s-curve */
   std::cout << "S-Curve acquisition starting" << std::endl;
   conv << "acq scurve " << start << " " << step << " " << stop << " " << acc << std::endl;
   cmd = conv.str();
   std::cout << cmd;
-  
+
   status_string = SendRecvTelnet(cmd, sockfd);
 
   while(!this->CheckScurve(sockfd)) {
     sleep(1);
   }
-  
+
   close(sockfd);
   return 0;
 }
@@ -458,7 +458,7 @@ bool ZynqManager::CheckScurve(int sockfd) {
 
   bool scurve_status = false;
   std::string status_string;
-  
+
   status_string = SendRecvTelnet("acq scurve status\n", sockfd);
   std::cout << "acq scurve status: " << status_string << std::endl;
 
@@ -470,14 +470,14 @@ bool ZynqManager::CheckScurve(int sockfd) {
   }
   else {
     clog << "error: " << logstream::error << "bad socket in ZynqManager::CheckScurve()" << std::endl;
-    
+
   }
-  
+
   return scurve_status;
 }
 
 /**
- * set the ASIC DAC on the SPACIROCs 
+ * set the ASIC DAC on the SPACIROCs
  * @param dac_level (0 - 1000)
  */
 int ZynqManager::SetDac(int dac_level) {
@@ -492,12 +492,12 @@ int ZynqManager::SetDac(int dac_level) {
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
+
   /* set the dac level */
   conv << "slowctrl all dac " << dac_level << std::endl;
   cmd = conv.str();
   std::cout << cmd;
-  
+
   Telnet(cmd, sockfd, false);
 
   close(sockfd);
@@ -506,7 +506,7 @@ int ZynqManager::SetDac(int dac_level) {
 
 
 /**
- * acquire one GTU frame from the SPACIROCs 
+ * acquire one GTU frame from the SPACIROCs
  */
 int ZynqManager::AcqShot() {
 
@@ -520,7 +520,7 @@ int ZynqManager::AcqShot() {
 
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
-  
+
   /* take a single frame */
   conv << "acq shot" << std::endl;
   cmd = conv.str();
@@ -533,7 +533,7 @@ int ZynqManager::AcqShot() {
 }
 
 /**
- * set the acquisition mode 
+ * set the acquisition mode
  * @param input_mode the desired mode to set
  */
 uint8_t ZynqManager::SetZynqMode() {
@@ -555,7 +555,7 @@ uint8_t ZynqManager::SetZynqMode() {
   uint32_t timestamp = time(NULL);
   conv << "instrument mode " << (int)this->zynq_mode << " " << timestamp << std::endl;
   cmd = conv.str();
-  Telnet(cmd, sockfd, false);  
+  Telnet(cmd, sockfd, false);
 
   /* check the status */
   std::string status = Telnet("instrument status\n", sockfd, false);
@@ -564,7 +564,7 @@ uint8_t ZynqManager::SetZynqMode() {
     int reported_zynq_mode = std::stoi(status.substr(2,5));
     if (reported_zynq_mode != (int)this->zynq_mode) {
 
-      std::cout << "ERROR: zynq mode set incorrectly" << std::endl; 
+      std::cout << "ERROR: zynq mode set incorrectly" << std::endl;
       clog << "error: " << logstream::error
 	   << "reported zynq mode is: " << reported_zynq_mode
 	   << "ZynqManager zynq mode is: " << (int)this->zynq_mode
@@ -575,13 +575,13 @@ uint8_t ZynqManager::SetZynqMode() {
     std::cout << "ERROR: problem reading instrument status" << std::endl;
   }
 
-  close(sockfd); 
+  close(sockfd);
   return this->zynq_mode;
 }
 
 
 /**
- * set the test acquisition mode 
+ * set the test acquisition mode
  * @param input_mode the desired mode to be set
  */
 ZynqManager::TestMode ZynqManager::SetTestMode() {
@@ -593,7 +593,7 @@ ZynqManager::TestMode ZynqManager::SetTestMode() {
   std::stringstream conv;
 
   ZynqManager::TestMode input_mode = this->test_mode;
-  
+
   clog << "info: " << logstream::info << "switching to zynq test mode " << input_mode << std::endl;
 
   /* setup the telnet connection */
@@ -602,16 +602,16 @@ ZynqManager::TestMode ZynqManager::SetTestMode() {
   /* define the command to send over telnet */
   conv << "acq test " << (int)this->test_mode << std::endl;
   cmd = conv.str();
-  
+
   Telnet(cmd, sockfd, false);
-  
+
   close(sockfd);
   return this->test_mode;
 }
 
 
 /**
- * static function to stop acquisition by setting the instrument to NONE 
+ * static function to stop acquisition by setting the instrument to NONE
  */
 int ZynqManager::StopAcquisition() {
 
@@ -624,7 +624,7 @@ int ZynqManager::StopAcquisition() {
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
   Telnet("instrument mode 0\n", sockfd, false);
-  
+
   close(sockfd);
   return 0;
 }
@@ -655,7 +655,7 @@ int ZynqManager::SetNPkts(int N1, int N2) {
   sockfd = ConnectTelnet();
   Telnet(cmd1, sockfd, false);
   Telnet(cmd2, sockfd, false);
- 
+
   close(sockfd);
   return 0;
 }
@@ -686,7 +686,7 @@ int ZynqManager::SetL2TrigParams(int n_bg, int low_thresh) {
   sockfd = ConnectTelnet();
   Telnet(cmd1, sockfd, false);
   Telnet(cmd2, sockfd, false);
- 
+
   close(sockfd);
   return 0;
 }
@@ -700,15 +700,56 @@ std::string ZynqManager::GetZynqVer() {
   std::string zynq_ver = "";
   std::string cmd = "instrument ver\n";
   int sockfd;
-  
+
   /* setup the telnet connection */
   sockfd = ConnectTelnet();
 
   /* ask for the version */
   zynq_ver = SendRecvTelnet(cmd, sockfd);
-  
+
   close(sockfd);
   return zynq_ver;
-} 
+}
+
+
+
+/**
+* Hide the corrupted Pixels give in DeadPixelMask.txt
+*/
+
+
+int ZynqManager::HidePixels() {
+
+  int sockfd;
+
+  clog << "info: " << logstream::info << "Hiding corrupted pixels" << std::endl;
+  
+  //object containing the command list to send by telnet
+    DeadPixelMask mask;
+  // Controllare che DIR_USB0 etc siano definiti nel posto giusto
+    int n_max=mask.c2send.size();
+  
+  if(n_max>0){
+    
+    sockfd = ConnectTelnet();
+    
+    for(int i=0;i<n_max;i++){
+
+      Telnet(mask.c2send[i].line,sockfd,true);
+      Telnet(mask.c2send[i].asic,sockfd,true);
+      Telnet(mask.c2send[i].pixel,sockfd,true);
+      Telnet("slowctrl mask 1",sockfd,true);
+    }
+    
+    close(sockfd);
+    
+  }
+  else{
+    //*it is possible to print mask.readed_file*//
+      clog << "info: " << logstream::info << "No DeadPixelMask.txt found or the file is incorrect" << std::endl;
+    
+  }
+  return 0;
+}
 
 

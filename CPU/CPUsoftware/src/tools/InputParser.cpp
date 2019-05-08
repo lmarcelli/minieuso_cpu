@@ -305,6 +305,8 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	    mode_to_set += ZynqManager::EXTERNAL;
 	  }
 	  else {
+	    /* debug */
+	    std::cout << "Inside compound modes" << std::endl;
 	    std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
 	    return NULL;
 	  }

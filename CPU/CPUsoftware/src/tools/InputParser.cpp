@@ -282,39 +282,34 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	this->CmdLine->zynq_mode = ZynqManager::TA_TRIGGER;
       }
       else {
-	std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
-	return NULL;
-      }
+	
+	/* compound modes */
+	uint8_t mode_to_set = 0;
+	size_t found = mode.find(",");
 
-      /* compound modes */
-      uint8_t mode_to_set = 0;
-      size_t found = mode.find(",");
-
-      /* debug */
-      std::cout << "parsed mode with comma : " << mode << std::endl;
-      
-      if (found != std::string::npos) {
-	found = mode.find("periodic");
 	if (found != std::string::npos) {
-	  mode_to_set += ZynqManager::PERIODIC;
+	  found = mode.find("periodic");
+	  if (found != std::string::npos) {
+	    mode_to_set += ZynqManager::PERIODIC;
+	  }
+	  found = mode.find("self");
+	  if (found != std::string::npos) {
+	    mode_to_set += ZynqManager::SELF;
+	  }
+	  found = mode.find("immediate");
+	  if (found != std::string::npos) {
+	    mode_to_set += ZynqManager::IMMEDIATE;
+	  }
+	  found = mode.find("external");
+	  if (found != std::string::npos) {
+	    mode_to_set += ZynqManager::EXTERNAL;
+	  }
+	  else {
+	    std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	    return NULL;
+	  }
+	  this->CmdLine->zynq_mode = mode_to_set;
 	}
-	found = mode.find("self");
-	if (found != std::string::npos) {
-	  mode_to_set += ZynqManager::SELF;
-	}
-	found = mode.find("immediate");
-	if (found != std::string::npos) {
-	  mode_to_set += ZynqManager::IMMEDIATE;
-	}
-	found = mode.find("external");
-	if (found != std::string::npos) {
-	  mode_to_set += ZynqManager::EXTERNAL;
-	}
-	else {
-	  std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
-	  return NULL;
-	}
-	this->CmdLine->zynq_mode = mode_to_set;
       }
 
       /* set zynq_mode_string */

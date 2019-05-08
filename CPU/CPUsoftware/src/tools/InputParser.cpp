@@ -256,26 +256,29 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     const std::string &mode = getCmdOption("-zynq");
     if (!mode.empty()){
 
+      /* debug */
+      std::cout << "parsed mode: " << mode << std::endl;
+      
       /* basic modes */
       if (mode == "none") {
 	this->CmdLine->zynq_mode = ZynqManager::NONE;
       }
-      else if (mode == "periodic") {
+      if (mode == "periodic") {
 	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       }
-      else if (mode == "self") {
+      if (mode == "self") {
 	this->CmdLine->zynq_mode = ZynqManager::SELF;
       }
-      else if (mode == "immediate") {
+      if (mode == "immediate") {
 	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE;
       }
-      else if (mode == "external") {
+      if (mode == "external") {
 	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL;
       }
-      else if (mode == "trigger") {
+      if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
-      else if (mode == "ta_trigger") {
+      if (mode == "ta_trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TA_TRIGGER;
       }
       else {
@@ -286,6 +289,10 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       /* compound modes */
       uint8_t mode_to_set = 0;
       size_t found = mode.find(",");
+
+      /* debug */
+      std::cout << "parsed mode with comma : " << mode << std::endl;
+      
       if (found != std::string::npos) {
 	found = mode.find("periodic");
 	if (found != std::string::npos) {

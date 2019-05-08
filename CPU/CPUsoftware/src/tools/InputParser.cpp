@@ -256,9 +256,6 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     const std::string &mode = getCmdOption("-zynq");
     if (!mode.empty()){
 
-      /* debug */
-      std::cout << "parsed mode: " << mode << std::endl;
-      
       /* basic modes */
       if (mode == "none") {
 	this->CmdLine->zynq_mode = ZynqManager::NONE;
@@ -306,9 +303,7 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	  }
 	}
 	else {
-	  /* debug */
-	  std::cout << "Inside compound modes" << std::endl;
-	  std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+          std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
 	  return NULL;
 	}
 	this->CmdLine->zynq_mode = mode_to_set;

@@ -263,22 +263,22 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
       if (mode == "none") {
 	this->CmdLine->zynq_mode = ZynqManager::NONE;
       }
-      if (mode == "periodic") {
+      else if (mode == "periodic") {
 	this->CmdLine->zynq_mode = ZynqManager::PERIODIC;
       }
-      if (mode == "self") {
+      else if (mode == "self") {
 	this->CmdLine->zynq_mode = ZynqManager::SELF;
       }
-      if (mode == "immediate") {
+      else if (mode == "immediate") {
 	this->CmdLine->zynq_mode = ZynqManager::IMMEDIATE;
       }
-      if (mode == "external") {
+      else if (mode == "external") {
 	this->CmdLine->zynq_mode = ZynqManager::EXTERNAL;
       }
-      if (mode == "trigger") {
+      else if (mode == "trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TRIGGER;
       }
-      if (mode == "ta_trigger") {
+      else if (mode == "ta_trigger") {
 	this->CmdLine->zynq_mode = ZynqManager::TA_TRIGGER;
       }
       else {
@@ -304,16 +304,17 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
 	  if (found != std::string::npos) {
 	    mode_to_set += ZynqManager::EXTERNAL;
 	  }
-	  else {
-	    /* debug */
-	    std::cout << "Inside compound modes" << std::endl;
-	    std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
-	    return NULL;
-	  }
-	  this->CmdLine->zynq_mode = mode_to_set;
 	}
+	else {
+	  /* debug */
+	  std::cout << "Inside compound modes" << std::endl;
+	  std::cout << "Error: for -zynq option the mode could not be identified, use mecontrol -help to check the available modes" << std::endl;
+	  return NULL;
+	}
+	this->CmdLine->zynq_mode = mode_to_set;
+	
       }
-
+      
       /* set zynq_mode_string */
       this->CmdLine->zynq_mode_string = mode;
       

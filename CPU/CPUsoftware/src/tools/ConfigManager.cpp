@@ -220,34 +220,6 @@ void ConfigManager::Parse(std::string config_file_name){
  */
 void ConfigManager::Configure() {
 
-  /* definitions */
-  //const char * kCfg = this->config_file.c_str();
-  //const char * kCfgLocal = this->config_file_local.c_str();
-  //const char * kCfgUsb0 = this->config_file_usb0.c_str();
-  //const char * kCfgUsb1 = this->config_file_usb1.c_str();
-
-  //clog << "info: " << logstream::info << "running configuration" << std::endl;
-  
-  //if (FILE *file = fopen(kCfg, "r")) {
-
-  //   /* copy the file locally */ 
-  //   if (CopyFile(kCfg, kCfgLocal)) {
-  //     clog << "info: " << logstream::info << "configuration file sucessfully copied over" << std::endl;     
-  //   }
-  //   else {
-  //     clog << "warning: " << logstream::warning << "unable to copy the configuration file" << std::endl;
-  //   }
-
-  //   /* parse the file */
-  //   this->Parse();
-
-  //   fclose(file);    
-  // }
-  // else {
-  //   clog << "error: " << logstream::error << "configuration file " << config_file << " does not exist" << std::endl;
-  //   std::cout << "ERROR: configuration file " << config_file << " does not exist" << std::endl;
-  //  }
-
   clog << "info: " << logstream::info << "running configuration" << std::endl;
 
   std::stringstream cflocal;

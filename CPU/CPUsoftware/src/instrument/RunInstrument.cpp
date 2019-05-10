@@ -387,7 +387,10 @@ int RunInstrument::StartUp() {
   }
 
   //By Giammanco to switchoff the broken pixels
-  this->Zynq.HidePixels();
+  if (this->CmdLine->hide_pixel == true) {
+    this->Zynq.HidePixels();
+  }
+
   
   /* print configuration parameters */
   printf("CONFIGURATION PARAMETERS\n"); 

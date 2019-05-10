@@ -39,7 +39,7 @@
 #define READ_ARDUINO_TIMEOUT  100 // it should be in ms now is in attempts to read the buffer
 
 /* for use with arduino readout functions */
-#define DUINO "/dev/ttyUSB0"
+#define DUINO "/dev/ttyACM0"
 #define BAUDRATE B9600
 #define BUF_SIZE 14
 #define FIFO_DEPTH 1

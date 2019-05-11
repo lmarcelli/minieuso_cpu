@@ -57,30 +57,30 @@ int ZynqManager::CheckConnect() {
   /* initilaise timeout timer */
   time_t start = time(0);
   int time_left = CONNECT_TIMEOUT_SEC;
-  
-  /* wait for FTP to be up */
-  while (!CpuTools::CheckFtp()) {
 
-    /* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
-    time_t end = time(0);
-    time_t time_taken = end - start;
-    time_left = CONNECT_TIMEOUT_SEC - time_taken;
+  /* wait for FTP to be up */  
+  //while (!CpuTools::CheckFtp()) {
+
+    ///* timeout if no activity after CONNECT_TIMEOUT_SEC reached */
+    //time_t end = time(0);
+    //time_t time_taken = end - start;
+    //time_left = CONNECT_TIMEOUT_SEC - time_taken;
     
-  }
+  //}
   /* catch FTP timeout */
-  if (!CpuTools::CheckFtp()) {
+  //if (!CpuTools::CheckFtp()) {
 
-    std::cout << "ERROR: FTP server timeout" << std::endl;
-    std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
-    clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
-    this->telnet_connected = false;
+  //std::cout << "ERROR: FTP server timeout" << std::endl;
+  //std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
+  //clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
+  //this->telnet_connected = false;
     
-    return -1;
-  }
+  //return -1;
+  //}
   
   /* reinitialise timout timer */
-  start = time(0);
-  time_left = CONNECT_TIMEOUT_SEC;
+  //start = time(0);
+  //time_left = CONNECT_TIMEOUT_SEC;
   
   /* wait for answer on telnet */
   while (!CheckTelnet() && time_left > 0) {

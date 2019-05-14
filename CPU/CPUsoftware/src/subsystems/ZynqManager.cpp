@@ -73,7 +73,7 @@ int ZynqManager::CheckConnect() {
   //std::cout << "ERROR: FTP server timeout" << std::endl;
   //std::cout << "Try: /etc/init.d/vsftpd start" << std::endl;
   //clog << "error: " << logstream::error << "timing out on setup of FTP server" << std::endl;
-  //this->telnet_connected = false;
+  //this->telnet_ed = false;
     
   //return -1;
   //}

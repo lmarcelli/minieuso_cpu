@@ -464,9 +464,10 @@ int InputParser::PrintHelpMsg() {
   std::cout << "-ver:                print the version info then exit" << std::endl;
   std::cout << "-lvps <MODE>:        switch a subsystem using the LVPS (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
   std::cout << "-subsystem <SUBSYS>: select subsystem to switch (<SUBSYS> = \"zynq\", \"cam\" or \"hk\"), \"zynq\" by default" << std::endl;
-  std::cout << "-hvswitch <MODE>:        switch the high voltage (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
+  std::cout << "-hvswitch <MODE>:    switch the high voltage (<MODE> = \"on\" or \"off\") then exit the program" << std::endl;
+  std::cout << "NB: If switching on, you must also specify which ECs using -hv <EC_STRING>" << std::endl;
   std::cout << "-dv <X>:             provide the dynode voltage in DAC (<X> = 0 - 4096)" << std::endl;
-  std::cout << "-dvr <X>:             provide the dynode voltage in VOLTS (<X> = 0 - 1100)" << std::endl;
+  std::cout << "-dvr <X>:            provide the dynode voltage in VOLTS (<X> = 0 - 1100)" << std::endl;
   std::cout << "-asicdac <X>:        provide the HV DAC (<X> = 0 - 1000)" << std::endl;
   std::cout << "-check_status:       check the Zynq telnet connection, instrument status and HV status" << std::endl;
   std::cout << std::endl;
@@ -492,9 +493,9 @@ int InputParser::PrintHelpMsg() {
   std::cout << std::endl;
   std::cout << "HIGH VOLTAGE" << std::endl;
   std::cout << std::endl;
-  std::cout << "-hv:                 run an automated acquisition with the HV on" << std::endl;
+  std::cout << "-hv <EC_STRING>:     run an automated acquisition with the HV on" << std::endl;
   std::cout << "-dv <X>:             provide the dynode voltage (<X> = 0 - 4096), default in ../config/dummy.conf" << std::endl;
-  std::cout << "-dvr <X>:             provide the dynode voltage in VOLTS (<X> = 0 - 1100)" << std::endl;
+  std::cout << "-dvr <X>:            provide the dynode voltage in VOLTS (<X> = 0 - 1100)" << std::endl;
   std::cout << "-asicdac <X>:        provide the HV DAC (<X> = 0 - 1000), default in ../config/dummy.conf" << std::endl;
   std::cout << "-check_status:       check the Zynq telnet connection, instrument status and HV status" << std::endl;
   std::cout << std::endl;

@@ -21,7 +21,7 @@
 //#define PWR_ON_DELAY 2
 
 /**
- * class to handle different instrument operational modes 
+ * class to handle different instrument operational modes
  */
 class RunInstrument {
 public:
@@ -46,7 +46,7 @@ public:
     ACQ_UNDEF = 2,
   };
   AcquisitionMode current_acq_mode;
-  
+
   std::shared_ptr<Config> ConfigOut;
   ZynqManager Zynq;
   LvpsManager Lvps;
@@ -57,24 +57,31 @@ public:
   ArduinoManager Analog;
 
   ArduinoManager::LightLevelStatus current_lightlevel_status;
-  
+
   RunInstrument(CmdLineInputs * CmdLine);
   void Start();
   void Stop();
-  
+
   int SetInstMode(InstrumentMode mode_to_set);
   InstrumentMode GetInstMode();
-  
+
 private:
   /**
-   * to handle stopping 
+  * to write is_day.txt
+  * Giammanco 05/2019
+  **/
+
+  ofstream isDay;
+
+  /**
+   * to handle stopping
    */
   std::mutex _m_stop;
   std::condition_variable _cv_stop;
   bool _stop;
 
   /**
-   * start-up procedure 
+   * start-up procedure
    */
   int StartUp();
 
@@ -85,7 +92,7 @@ private:
   int HvpsSwitch();
   int DebugMode();
   int CheckStatus();
-  
+
   /**
    * initialisation
    */
@@ -94,7 +101,7 @@ private:
   int SelectAcqOption();
 
   /**
-   * used in operations 
+   * used in operations
    */
   static void SignalHandler(int signum);
   int LaunchCam();
@@ -105,9 +112,9 @@ private:
   int RunningStatusCheck();
   int SetStop();
   bool CheckStop();
-  
+
   /**
-   * define main operational procedures 
+   * define main operational procedures
    */
   int NightOperations();
   int DayOperations();

@@ -74,8 +74,12 @@ int ArduinoManager::AnalogDataCollect() {
 
 	SerialReadOut(fd);
 
+<<<<<<< HEAD
 #endif
 	
+=======
+#endif  
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   return 0;
 }
 
@@ -85,8 +89,6 @@ int ArduinoManager::AnalogDataCollect() {
 // returns 0 if failed
 int ArduinoManager::SerialReadOut(int fd) {
 
-
- 
 	unsigned char a[] = { 0xAA, 0x55, 0xAA, 0x55 };
 	unsigned char buf[(unsigned int)(X_TOTAL_BUF_SIZE_HEADER*4)];
 	unsigned char temp_buf[(unsigned int)(X_TOTAL_BUF_SIZE_HEADER * 4)];
@@ -250,8 +252,12 @@ int ArduinoManager::SerialReadOut(int fd) {
 		   {
 		     this->analog_acq->val[0][ijk + 4] = (buf[n + 14 + ijk] << 8) + buf[n + 15 + ijk];
 		   }
+<<<<<<< HEAD
 		 
 		 
+=======
+		 		 
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 		 // calculate checksum
 		 buffer_checksum = (buf[(n+X_TOTAL_BUF_SIZE + 6)] << 8) + buf[(n + X_TOTAL_BUF_SIZE + 7)];
 		 temp_checksum = 0;
@@ -293,9 +299,12 @@ int ArduinoManager::SerialReadOut(int fd) {
  * preforms an analog acquisition using ArduinoManager::AnalogDataCollect()
  * and converts the output to the easily readable LightLevel format
  */
+<<<<<<< HEAD
 int ArduinoManager::GetLightLevel() 
+=======
+int ArduinoManager::GetLightLevel(std::shared_ptr<Config> ConfigOut) 
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 {
-
   int i, k;
   float sum_ph[N_CHANNELS_PHOTODIODE];
   float sum_sipm[N_CHANNELS_SIPM];
@@ -310,10 +319,18 @@ int ArduinoManager::GetLightLevel()
 	  sum_sipm[k] = 0;
   }
 
+  
   /* read out multiplexed sipm 64 values and averages of sipm 1 and photodiodes */
+<<<<<<< HEAD
   for(i = 0; i < AVERAGE_DEPTH; i++) {
 	  /* read out the data */
 	  AnalogDataCollect();
+=======
+  for(i = 0; i<ConfigOut->average_depth; i++) 
+    {
+    /* read out the data */
+    AnalogDataCollect();
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 
     /* sum the four photodiode channels */
     sum_ph[0] += (float)(this->analog_acq->val[0][0]); // fixed at 0
@@ -338,7 +355,11 @@ int ArduinoManager::GetLightLevel()
     {
       {
 	std::unique_lock<std::mutex> lock(this->m_light_level);
+<<<<<<< HEAD
 	this->light_level->photodiode_data[k] = sum_ph[k] / AVERAGE_DEPTH;
+=======
+	this->light_level->photodiode_data[k] = sum_ph[k] / ConfigOut->average_depth;
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
       } /* release mutex */
       
     }
@@ -348,7 +369,11 @@ int ArduinoManager::GetLightLevel()
     {
       {
 	std::unique_lock<std::mutex> lock(this->m_light_level);
+<<<<<<< HEAD
 	this->light_level->sipm_data[k] = sum_sipm[k] / AVERAGE_DEPTH;
+=======
+	this->light_level->sipm_data[k] = sum_sipm[k] / ConfigOut->average_depth;
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
       } /* release mutex */
     }
   return 0;
@@ -387,8 +412,13 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   printf("comparing light level to day and night thresholds \n"); 
 #endif   
 
+<<<<<<< HEAD
   //printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   this->GetLightLevel();
+=======
+  //  printf("CompareLightLevel: light level before GetLightLevel %f \n", this->light_level->photodiode_data[0]);
+  this->GetLightLevel(ConfigOut);
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   //printf("CompareLightLevel: light level after GetLightLevel %f \n", this->light_level->photodiode_data[0]);
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
@@ -408,16 +438,15 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
 
   {
     std::unique_lock<std::mutex> lock(this->m_light_level);
-    ph_avg = light_level->photodiode_data[0];   ////mettere current_sensor_number nel configout
+    ph_avg = light_level->photodiode_data[ConfigOut->ana_sensor_num];
   }
   
   /* debug */
  #if ARDUINO_DEBUG != 1
   clog << "info: " << logstream::info << "average photodiode reading is: " << ph_avg << std::endl;
 #else
-  //printf("average photodiode reading is: %f, %f", ph_avg,light_level->photodiode_data[0]);
+  printf("light photodiode reading is: %f \n", light_level->photodiode_data[ConfigOut->ana_sensor_num]);
 #endif
-  
   
   /* compare the result to day and night thresholds */
   if (ph_avg >= ConfigOut->day_light_threshold) {
@@ -451,22 +480,28 @@ ArduinoManager::LightLevelStatus ArduinoManager::CompareLightLevel(std::shared_p
   /* set the config to allow info to be passed around */
   // this->ConfigOut->lightlevel_status = current_lightlevel_status;
   
-  //return above_light_threshold;
   return current_lightlevel_status;
 }
 
 
 int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 
   std::unique_lock<std::mutex> lock(this->m_mode_switch);
   /* enter loop while instrument mode switching not requested */
   while(!this->cv_mode_switch.wait_for(lock,
-				       std::chrono::milliseconds(WAIT_PERIOD),
+				       std::chrono::milliseconds(ConfigOut->arduino_wait_period),
 				       [this] { return this->inst_mode_switch; })) { 
+<<<<<<< HEAD
 
     this->GetLightLevel();
     //printf("\n Processs: photodiode_data: %f", this->light_level->photodiode_data[0]);
+=======
+    this->GetLightLevel(ConfigOut);
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
     //#if ARDUINO_DEBUG == 0
     sleep(ConfigOut->light_acq_time);
     //#endif
@@ -480,15 +515,15 @@ int ArduinoManager::ProcessAnalogData(std::shared_ptr<Config> ConfigOut) {
  * used by OperationMode::Reset() 
  */
 int ArduinoManager::Reset() {
-
+  
   {
     std::unique_lock<std::mutex> lock(this->m_mode_switch);   
     this->inst_mode_switch = false;
   } /* release mutex */
 
   /* update measurement */
-  this->GetLightLevel();
-  
+  //  this->GetLightLevel(ConfigOut);
+
   return 0;
 }
 
@@ -520,7 +555,11 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
 
   cfsetospeed(&tty, (speed_t)speed);
   cfsetispeed(&tty, (speed_t)speed);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   tty.c_cflag |= (CLOCAL | CREAD);    /* ignore modem controls */
   tty.c_cflag &= ~CSIZE;
   tty.c_cflag |= CS8;         /* 8-bit characters */
@@ -541,12 +580,15 @@ int ArduinoManager::SetInterfaceAttribs(int fd, int speed) {
     printf("Error from tcsetattr: %s\n", std::strerror(errno));
     return -1;
   }
+<<<<<<< HEAD
 
 #endif  
 
+=======
+#endif  
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   return 0;
 }
-
 
 
 

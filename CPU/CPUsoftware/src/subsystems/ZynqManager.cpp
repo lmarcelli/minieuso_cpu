@@ -1,4 +1,3 @@
-
 #include "ZynqManager.h"
 
 /**
@@ -711,4 +710,43 @@ std::string ZynqManager::GetZynqVer() {
   return zynq_ver;
 } 
 
+
+/**
+ * Hide the corrupted Pixels give in DeadPixelMask.txt
+ */
+int ZynqManager::HidePixels() {
+
+  int sockfd;
+  
+  clog << "info: " << logstream::info << "Hiding corrupted pixels" << std::endl;
+  
+  // Object containing the command list to send by telnet
+  DeadPixelMask mask;
+  
+  // Check that DI R_USB0 etc are defined in the right place
+  int n_max=mask.c2send.size();
+  
+  if(n_max>0){
+    
+    sockfd = ConnectTelnet();
+    
+    for(int i=0;i<n_max;i++){
+
+      Telnet(mask.c2send[i].line,sockfd,true);
+      Telnet(mask.c2send[i].asic,sockfd,true);
+      Telnet(mask.c2send[i].pixel,sockfd,true);
+      Telnet("slowctrl mask 1",sockfd,true);
+    }
+    
+    close(sockfd);
+    
+  }
+  else{
+
+    //*it is possible to print mask.readed_file*//
+    clog << "info: " << logstream::info << "No DeadPixelMask.txt found or the file is incorrect" << std::endl;
+    
+  }
+  return 0
+}
 

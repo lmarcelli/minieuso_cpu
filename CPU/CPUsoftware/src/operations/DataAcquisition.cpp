@@ -1071,9 +1071,16 @@ int DataAcquisition::CollectData(ZynqManager * Zynq, std::shared_ptr<Config> Con
 
   
   /* add acquisition with the analog board */
+<<<<<<< HEAD
   std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut);
 
 #if ARDUINO_DEBUG !=1  
+=======
+
+  std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut);
+
+#if ARDUINO_DEBUG ==0  
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   /* add acquisition with thermistors if required */
   if (CmdLine->therm_on) {
     this->Thermistors->Init();

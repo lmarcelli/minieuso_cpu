@@ -6,7 +6,7 @@
 #include "CamManager.h"
 #include "DataAcquisition.h"
 #include "DataReduction.h"
-#include "ArduinoManager.h"
+#include "AnalogManager.h"
 #include "ConfigManager.h"
 
 /* location of data files */
@@ -15,13 +15,13 @@
 #define DATA_DIR "/home/minieusouser/DATA"
 
 /* wait time between status checks in seconds */
-//#define STATUS_PERIOD 30
+#define STATUS_PERIOD 30
 
 /* wait between switching on HV and Zynq in seconds */
-//#define PWR_ON_DELAY 2
+#define PWR_ON_DELAY 2
 
 /**
- * class to handle different instrument operational modes
+ * class to handle different instrument operational modes 
  */
 class RunInstrument {
 public:
@@ -34,6 +34,8 @@ public:
     DAY = 1,
     INST_UNDEF = 2,
   };
+
+
   InstrumentMode current_inst_mode;
   std::mutex m_inst_mode;
 
@@ -54,34 +56,26 @@ public:
   CamManager Cam;
   DataAcquisition Daq;
   DataReduction Data;
-  ArduinoManager Analog;
+  AnalogManager Analog;
 
-  ArduinoManager::LightLevelStatus current_lightlevel_status;
 
   RunInstrument(CmdLineInputs * CmdLine);
   void Start();
   void Stop();
-
+  
   int SetInstMode(InstrumentMode mode_to_set);
   InstrumentMode GetInstMode();
-
+  
 private:
   /**
-  * to write is_day.txt
-  * Giammanco 05/2019
-  **/
-
-  ofstream isDay;
-
-  /**
-   * to handle stopping
+   * to handle stopping 
    */
   std::mutex _m_stop;
   std::condition_variable _cv_stop;
   bool _stop;
 
   /**
-   * start-up procedure
+   * start-up procedure 
    */
   int StartUp();
 
@@ -92,7 +86,7 @@ private:
   int HvpsSwitch();
   int DebugMode();
   int CheckStatus();
-
+  
   /**
    * initialisation
    */
@@ -101,7 +95,7 @@ private:
   int SelectAcqOption();
 
   /**
-   * used in operations
+   * used in operations 
    */
   static void SignalHandler(int signum);
   int LaunchCam();
@@ -112,9 +106,9 @@ private:
   int RunningStatusCheck();
   int SetStop();
   bool CheckStop();
-
+  
   /**
-   * define main operational procedures
+   * define main operational procedures 
    */
   int NightOperations();
   int DayOperations();

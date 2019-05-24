@@ -11,13 +11,33 @@
 
 #include "log.h"
 
+<<<<<<< HEAD
 #define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
 #ifndef __APPLE__
 #define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+=======
+//#ifndef __APPLE__
+//#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
+//#else
+//#define CONFIG_DIR "config_dir"
+//#endif /* __APPLE__ */
+
+#if ARDUINO_DEBUG==1
+#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
+#define CONFIG_FILE_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb0.conf"
+#define CONFIG_FILE_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb1.conf"
+#define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_local.conf"
+>>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 #else
-#define CONFIG_DIR "config"
-#endif /* __APPLE__ */
+#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
+#define CONFIG_FILE_USB0 "media/usb0/dummy_usb.conf"
+#define CONFIG_FILE_USB1 "media/usb1/dummy_usb.conf"
+#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/dummy_local.conf"
+#endif
+
+//#define DIR_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config"
+//#define DIR_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config"
 
 /**
  * struct for output of the configuration file 
@@ -36,19 +56,21 @@ struct Config {
   int N2;
   int L2_N_BG;
   int L2_LOW_THRESH;
+  int arduino_wait_period;
+  int ana_sensor_num;
+  int average_depth;
   int day_light_threshold;
   int night_light_threshold;
   int light_poll_time;
   int light_acq_time;
-  
+  int status_period;
+  int pwr_on_delay;
 
   /* set by RunInstrument and InputParser at runtime */
   bool hv_on;
   uint8_t instrument_mode;
   uint8_t acquisition_mode;
   uint32_t hvps_log_len;
-
-  //uint8_t lightlevel_status;
   
 };
 
@@ -61,23 +83,31 @@ public:
    * path to the local configuration file
    */
   std::string config_file_local;
-  /**
-   * path to configuration file to be copied
+   /**
+   * path to configuration file on USB0
    */
-  std::string config_file;
+  std::string config_file_usb0;
+   /**
+   * path to configuration file on USB1
+   */
+  std::string config_file_usb1;
+  /* /\** */
+  /*  * path to configuration file to be copied */
+  /*  *\/ */
+  /* std::string config_file; */
   /**
    * output of the configuration parsing is stored here
    */
   std::shared_ptr<Config> ConfigOut;
 
   ConfigManager();
-  ConfigManager(std::string, std::string);
+  ConfigManager(std::string, std::string, std::string);
   void Configure();
   bool IsParsed();
 
 private:
   bool CopyFile(const char * SRC, const char * DEST);
-  void Parse();
+  void Parse(std::string);
 
 };
 

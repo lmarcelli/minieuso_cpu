@@ -26,6 +26,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->CmdLine->keep_zynq_pkt = false;
   this->CmdLine->check_status = false;
   this->CmdLine->zynq_reboot = false;
+  this->CmdLine->hide_pixel = false;
   
   this->CmdLine->dv = -1;
   this->CmdLine->asic_dac = -1;
@@ -50,7 +51,7 @@ InputParser::InputParser(int &argc, char **argv) {
   this->allowed_tokens = {"-db", "-log", "-comment", "-ver", "-lvps", "-hvswitch", "-help",
 			  "-dv", "-dvr", "-asicdac", "-check_status", "-cam", "-v", "-therm",
 			  "-hv", "-scurve", "-start", "-stop", "-step", "-acc", "-short",
-			  "-test_zynq", "-keep_zynq_pkt", "-zynq", "-subsystem", "-zynq_reboot"};
+			  "-test_zynq", "-keep_zynq_pkt", "-zynq", "-subsystem", "-zynq_reboot", "-hide_pixel"};
 
   /* get command line input */
   std::string space = " ";
@@ -102,7 +103,11 @@ CmdLineInputs * InputParser::ParseCmdLineInputs() {
     this->CmdLine->zynq_reboot = true;
     PrintVersionInfo();
   }
-  
+
+  /* check for hide_pixel option */
+  if(cmdOptionExists("-hide_pixel")){
+    this->CmdLine->hide_pixel = true;
+  }  
   
   /* check what comand line options exist */
   if(cmdOptionExists("-hv")){

@@ -40,7 +40,7 @@ struct CmdLineInputs {
   bool keep_zynq_pkt;
   bool check_status;
   bool zynq_reboot;
-  
+  bool hide_pixel;
   /* command line arguments */
   int dv;
   int asic_dac;

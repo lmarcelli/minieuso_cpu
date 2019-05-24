@@ -18,6 +18,8 @@
 
 #include "log.h"
 #include "CpuTools.h"
+/*Giammanco include the pxel mask*/
+#include "DeadPixelRead.h"
 
 /* interface to Zynq board */
 #define ZYNQ_IP "192.168.7.10"
@@ -128,6 +130,7 @@ public:
   int GetHvpsStatus();
   int HvpsTurnOn(int cv, int dv, std::string hvps_ec_string);
   int HvpsTurnOff();
+  int HidePixels(); /*added by Giammanco*/
   int Scurve(int start, int step, int stop, int acc);
   int SetDac(int dac_level);
   int AcqShot();

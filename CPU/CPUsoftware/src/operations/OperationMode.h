@@ -6,6 +6,7 @@
 
 #include "ArduinoManager.h"
 #include "ThermManager.h"
+#include "ConfigManager.h"
 
 /** 
  * base class for an operational mode 
@@ -20,6 +21,8 @@ public:
    * control of the thermal subsystem
    */
   ThermManager * Thermistors = new ThermManager();
+
+  std::shared_ptr<Config> ConfigOut;
 
   OperationMode();
 

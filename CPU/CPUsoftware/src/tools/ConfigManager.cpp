@@ -5,7 +5,8 @@
  */
 ConfigManager::ConfigManager () {
   this->config_file_local = CONFIG_FILE_LOCAL;
-  this->config_file = CONFIG_FILE_USB;
+  this->config_file_usb0 = CONFIG_FILE_USB0;
+  this->config_file_usb1 = CONFIG_FILE_USB1;
   this->ConfigOut = std::make_shared<Config>();
   
   /* initialise struct members to -1 */
@@ -20,13 +21,16 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->arduino_wait_period =-1;
+  this->ConfigOut->ana_sensor_num = -1;
+  this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
   this->ConfigOut->light_acq_time = -1;
+  this->ConfigOut->status_period = -1;
+  this->ConfigOut->pwr_on_delay =-1;
   
-  
-
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
   this->ConfigOut->hv_on = false;
@@ -36,9 +40,7 @@ ConfigManager::ConfigManager () {
   this->ConfigOut->instrument_mode = 0;
   this->ConfigOut->acquisition_mode = 0;
   this->ConfigOut->hvps_log_len = 0;
-
-  //this->ConfigOut->lightlevel_status = 0;
-    
+  
 }
 
 /**
@@ -46,9 +48,10 @@ ConfigManager::ConfigManager () {
  * @param cfl path to the local configuration file
  * @param cf path to the configuration file to be copied over 
  */
-ConfigManager::ConfigManager (std::string cfl, std::string cf) {
+ConfigManager::ConfigManager (std::string cfl, std::string cf0, std::string cf1) {
   this->config_file_local = cfl;
-  this->config_file = cf;
+  this->config_file_usb0 = cf0;
+  this->config_file_usb1 = cf1;
   this->ConfigOut = std::make_shared<Config>();
   
   /* initialise struct members to -1 */
@@ -63,10 +66,15 @@ ConfigManager::ConfigManager (std::string cfl, std::string cf) {
   this->ConfigOut->N2 = -1;
   this->ConfigOut->L2_N_BG = -1;
   this->ConfigOut->L2_LOW_THRESH = -1;
+  this->ConfigOut->arduino_wait_period =-1;
+  this->ConfigOut->ana_sensor_num = -1;
+  this->ConfigOut->average_depth = -1;
   this->ConfigOut->day_light_threshold = -1;
   this->ConfigOut->night_light_threshold = -1;
   this->ConfigOut->light_poll_time = -1;
   this->ConfigOut->light_acq_time = -1;
+  this->ConfigOut->status_period = -1;
+  this->ConfigOut->pwr_on_delay =-1;
   
   /* initialise HV switch to be set by InputParser */
   /* stored here to be easily passed around the DataAcquisition */
@@ -113,15 +121,15 @@ bool ConfigManager::CopyFile(const char * SRC, const char * DEST) {
 /**
  * parse the configuration file 
  */
-void ConfigManager::Parse() {
+void ConfigManager::Parse(std::string config_file_name){
 
   std::string line;
-  std::string config_file_name;
+  //std::string config_file_name;
   
   std::ifstream cfg_file;
-  std::stringstream cf;
-  cf << this->config_file_local;
-  config_file_name = cf.str();
+  //std::stringstream cf;
+  //cf << this->config_file_local;
+  //config_file_name = cf.str();
 
   cfg_file.open(config_file_name.c_str());
 
@@ -165,6 +173,15 @@ void ConfigManager::Parse() {
       else if (type == "L2_LOW_THRESH") {
 	in >> this->ConfigOut->L2_LOW_THRESH;
       }
+      else if (type == "ARDUINO_WAIT_PERIOD") {
+	in >> this->ConfigOut->arduino_wait_period;
+      }      
+      else if (type == "ANA_SENSOR_NUM") {
+	in >> this->ConfigOut->ana_sensor_num;
+      }
+      else if (type == "AVERAGE_DEPTH") {
+	in >> this->ConfigOut->average_depth;
+      }
       else if (type == "DAY_LIGHT_THRESHOLD") {
 	in >> this->ConfigOut->day_light_threshold;
       }
@@ -177,16 +194,22 @@ void ConfigManager::Parse() {
       else if (type == "LIGHT_ACQ_TIME") {
 	in >> this->ConfigOut->light_acq_time;
       }
-  
+      else if (type == "STATUS_PERIOD") {
+	in >> this->ConfigOut->status_period;
+      }
+      else if (type == "PWR_ON_DELAY") {
+	in >> this->ConfigOut->pwr_on_delay;
+      }
+      
     }
     cfg_file.close();
     	
   }
-  else {
-    clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
-    std::cout << "ERROR: unable to open configuration file" << std::endl;
-    std::cout << "configuration is not set" << std::endl;
- }
+    //else {
+    //clog << "error: " << logstream::error << "unable to open configuration file" << std::endl;   
+    //std::cout << "ERROR: unable to open configuration file" << std::endl;
+    //std::cout << "configuration is not set" << std::endl;
+    //}
   printf("\n");
      
 }
@@ -197,32 +220,64 @@ void ConfigManager::Parse() {
  */
 void ConfigManager::Configure() {
 
-  /* definitions */
-  const char * kCfg = this->config_file.c_str();
-  const char * kCfgLocal = this->config_file_local.c_str();
-
   clog << "info: " << logstream::info << "running configuration" << std::endl;
+
+  std::stringstream cflocal;
+  std::string config_file_local_name;
+  std::ifstream cfg_file_local;
+  cflocal << this->config_file_local;
+  config_file_local_name = cflocal.str();
+ 
+  std::stringstream cfusb0;
+  std::string config_file_usb0_name;
+  std::ifstream cfg_file_usb0;
+  cfusb0 << this->config_file_usb0;
+  config_file_usb0_name = cfusb0.str();
+
+  std::stringstream cfusb1;
+  std::string config_file_usb1_name;
+  std::ifstream cfg_file_usb1;
+  cfusb1 << this->config_file_usb1;
+  config_file_usb1_name = cfusb1.str();
+
+
+  cfg_file_local.open(config_file_local_name.c_str());
+  if (cfg_file_local.is_open()) {
+    Parse(config_file_local_name);
+    cfg_file_local.close();
+    clog << "info: " << logstream::info << "Local configuration file parsed" << config_file_local << std::endl;
+    std::cout << "Local configuration file parsed: " << this->config_file_local << std::endl;
+  }
+  else {  
+    clog << "error: " << logstream::error << "Local configuration file " << config_file_local << " does not exist: start configuration from usb" << std::endl;
+    std::cout << "ERROR: local configuration file " << config_file_local << " does not exist: start configuration from usb" << std::endl;
+  }
   
-  if (FILE *file = fopen(kCfg, "r")) {
-
-    /* copy the file locally */ 
-    if (CopyFile(kCfg, kCfgLocal)) {
-      clog << "info: " << logstream::info << "configuration file sucessfully copied over" << std::endl;     
-    }
-    else {
-      clog << "warning: " << logstream::warning << "unable to copy the configuration file" << std::endl;
-    }
-
-    /* parse the file */
-    this->Parse();
-
-    fclose(file);    
+  
+  cfg_file_usb0.open(config_file_usb0_name.c_str());
+  if (cfg_file_usb0.is_open()) {
+    Parse(config_file_usb0_name);
+    cfg_file_usb0.close();
+    clog << "info: " << logstream::info << "Usb0 configuration file parsed: " << this->config_file_usb0 << std::endl;
+    std::cout << "Usb0 configuration file parsed: " << this->config_file_usb0 << std::endl;
   }
-  else {
-    clog << "error: " << logstream::error << "configuration file " << config_file << " does not exist" << std::endl;
-    std::cout << "ERROR: configuration file " << config_file << " does not exist" << std::endl;
-  }
+  else { 
+    clog << "error: " << logstream::error << "Usb0 configuration file " << config_file_usb0 << " does not exist: try configuration from usb1" << std::endl;
+    std::cout << "ERROR: Usb0 configuration file " << config_file_usb0 << " does not exist: trying configuration from usb1" << std::endl;
+    cfg_file_usb1.open(config_file_usb1_name.c_str());
+    if (cfg_file_usb1.is_open()) {
+      Parse(config_file_usb1_name);
+      cfg_file_usb1.close();
+      clog << "info: " << logstream::info << "Usb1 configuration file parsed: " << this->config_file_usb1 << std::endl;
+      std::cout << "Usb1 configuration file parsed: " << this->config_file_usb1 << std::endl;
+    }
+    else { 
+      clog << "error: " << logstream::error << "Usb1 configuration file " << config_file_usb1 << " does not exist: local configuration file parsed" << std::endl;
+      std::cout << "ERROR: Usb1 configuration file " << config_file_usb1 << " does not exist: local configuration file parsed" << std::endl;    
+    }
+  } 
 
+  
   return;
 }
 
@@ -242,10 +297,15 @@ bool ConfigManager::IsParsed() {
       this->ConfigOut->N2 != -1 &&
       this->ConfigOut->L2_N_BG != -1 &&
       this->ConfigOut->L2_LOW_THRESH != -1 &&
+      this->ConfigOut->arduino_wait_period != -1 &&
+      this->ConfigOut->ana_sensor_num != -1 &&
+      this->ConfigOut->average_depth != -1 &&
       this->ConfigOut->day_light_threshold != -1 &&
       this->ConfigOut->night_light_threshold != -1 &&
       this->ConfigOut->light_poll_time != -1 &&
-      this->ConfigOut->light_acq_time != -1) {
+      this->ConfigOut->light_acq_time != -1 &&
+      this->ConfigOut->status_period != -1 &&
+      this->ConfigOut->pwr_on_delay != -1) {
     
     return true;
   }

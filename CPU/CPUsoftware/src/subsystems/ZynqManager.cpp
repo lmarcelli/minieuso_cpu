@@ -183,26 +183,38 @@ int ZynqManager::ConnectTelnet() {
   fd_set fdset;
   
   clog << "info: " << logstream::info << "checking connection to IP " << ZYNQ_IP  << std::endl;
- 
+
+  /* debug */
+  clog << "info: " << logstream::info << "setting up telnet connection" << std::endl;  
+   
   /* set up the telnet connection */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) { 
     clog << "error: " << logstream::error << "error opening socket" << std::endl;
     return 1;
   }
- 
+
+  /* debug */
+  clog << "info: " << logstream::info << "retrieving server" << std::endl;  
+   
   server = gethostbyname(ip);
   if (server == NULL) {
     clog << "error: " << logstream::error << "no host found for " << ZYNQ_IP << std::endl;  
     return 1;
   }
   
+  /* debug */
+  clog << "info: " << logstream::info << "setting server address" << std::endl;  
+
   bzero((char *) &serv_addr, sizeof(serv_addr));
   serv_addr.sin_family = AF_INET;
   bcopy((char *)server->h_addr, 
 	(char *)&serv_addr.sin_addr.s_addr,
 	server->h_length);
   serv_addr.sin_port = htons(TELNET_PORT);
+
+  /* debug */
+  clog << "info: " << logstream::info << "set port to non-blocking" << std::endl;  
 
   /* set non-blocking */
   int opts = fcntl(sockfd, F_SETFL, O_NONBLOCK);
@@ -214,6 +226,9 @@ int ZynqManager::ConnectTelnet() {
   /* add timeout */
   tv.tv_sec = SHORT_TIMEOUT_SEC; 
   tv.tv_usec = 0;
+
+  /* debug */
+  clog << "info: " << logstream::info << "connect to socket" << std::endl;  
   
   if (select(sockfd + 1, NULL, &fdset, NULL, &tv) == 1) {
       int so_error;

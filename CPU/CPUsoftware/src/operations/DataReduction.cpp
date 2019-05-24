@@ -21,10 +21,6 @@ void DataReduction::Start() {
   std::thread data_reduction (&DataReduction::RunDataReduction, this);
 
   /* launch the analog acquisition */
-<<<<<<< HEAD
-=======
-
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   std::thread analog(&ArduinoManager::ProcessAnalogData, this->Analog, ConfigOut); 
   analog.join();
 

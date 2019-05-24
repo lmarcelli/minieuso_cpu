@@ -3,13 +3,8 @@
 
 // 0 REAL HW
 // 1 simulator
-<<<<<<< HEAD
-// 2 use with Arduino connected (ie. automatically in night mode)
+// 2 use without Arduino connected (ie. automatically in night mode)
 #define ARDUINO_DEBUG 2
-=======
-#define ARDUINO_DEBUG 0
-
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 
 //#define PRINT_DEBUG_INFO 1
 // COMMENT no debug
@@ -19,10 +14,6 @@
 #include <memory>
 #include <thread>
 #include <cstring>
-<<<<<<< HEAD
-#include <unistd.h>
-=======
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 #include <condition_variable>
 #include <termios.h>
 #include <fcntl.h> 
@@ -55,21 +46,13 @@
 #define CHANNELS (X_OTHER_SENSORS+X_SIPM_BUF_SIZE)
 
 /* for use with conditional variable */
-<<<<<<< HEAD
-#define WAIT_PERIOD 1 /* milliseconds */
-=======
 //#define WAIT_PERIOD 1 /* milliseconds */
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 
 /**
  * acquisition structure to store analog readout 
  */
 typedef struct {
-<<<<<<< HEAD
-  float val [FIFO_DEPTH][CHANNELS];
-=======
   unsigned int val [FIFO_DEPTH][CHANNELS];
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 } AnalogAcq;
 
 /**
@@ -88,13 +71,10 @@ typedef struct {
  */
 class ArduinoManager {
 public:
-<<<<<<< HEAD
-=======
 
   ArduinoManager();
   std::shared_ptr<LightLevel> ReadLightLevel();
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
-  /**
+ /**
    * enum to specify the current light level status of the instrument
    */
   enum LightLevelStatus : uint8_t {
@@ -110,11 +90,7 @@ public:
   std::shared_ptr<LightLevel> ReadLightLevel();
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
   int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
-<<<<<<< HEAD
-  int GetLightLevel();
-=======
   int GetLightLevel(std::shared_ptr<Config> ConfigOut);
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   int AnalogDataCollect();
 
   /* handle instrument mode switching */

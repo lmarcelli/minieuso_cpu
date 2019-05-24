@@ -176,13 +176,8 @@ int RunInstrument::DebugMode() {
   this->Lvps.SwitchOn(LvpsManager::ZYNQ);
   sleep(1);
   std::cout << std::endl;
-<<<<<<< HEAD
-  
-  
-=======
 
   /*
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   std::cout << "ANALOG" << std::endl;
   std::cout << "running an acquisition..." << std::endl;
   this->Daq.Analog->GetLightLevel();
@@ -244,13 +239,9 @@ int RunInstrument::DebugMode() {
   std::cout << "Zynq OFF " << std::endl;
   this->Lvps.SwitchOff(LvpsManager::ZYNQ);
   std::cout << "done!" << std::endl;
-<<<<<<< HEAD
+
 #endif 
   
-=======
-#endif
-
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   std::cout << "debug tests completed, exiting the program" << std::endl;
 
   return 0;
@@ -814,13 +805,8 @@ int RunInstrument::Acquisition() {
   std::cout << "starting acquisition run..." <<std::endl;
   clog << "info: " << logstream::info << "starting acquisition run" << std::endl;
 
-<<<<<<< HEAD
 #if ARDUINO_DEBUG !=1
   
-=======
-#if ARDUINO_DEBUG == 0
-
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   /* clear the FTP server */
   CpuTools::ClearFolder(DATA_DIR);
 
@@ -874,13 +860,8 @@ int RunInstrument::NightOperations() {
   /* check scurve not already completed */
   if (this->Daq.IsScurveDone()) {
     return 0;
-<<<<<<< HEAD
   }
   
-=======
-    }
-
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   clog << "info: " << logstream::info << "entering NIGHT mode" << std::endl;
   std::cout << "entering NIGHT mode..." << std::endl;
 
@@ -975,13 +956,9 @@ void RunInstrument::Start() {
     return;
   }
 
-<<<<<<< HEAD
   
-  #if ARDUINO_DEBUG !=1
-=======
+#if ARDUINO_DEBUG !=1
 
-  #if ARDUINO_DEBUG ==0
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
   /* check for execute-and-exit commands which require config */
   if (this->CmdLine->hvps_switch) {
     HvpsSwitch();

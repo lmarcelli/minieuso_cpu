@@ -86,8 +86,6 @@ public:
   LightLevelStatus current_lightlevel_status;
   std::shared_ptr<Config> ConfigOut;
 
-  ArduinoManager();
-  std::shared_ptr<LightLevel> ReadLightLevel();
   LightLevelStatus CompareLightLevel(std::shared_ptr<Config> ConfigOut);
   int ProcessAnalogData(std::shared_ptr<Config> ConfigOut);  
   int GetLightLevel(std::shared_ptr<Config> ConfigOut);

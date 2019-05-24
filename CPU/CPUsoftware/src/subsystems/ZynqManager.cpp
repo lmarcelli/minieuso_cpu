@@ -747,6 +747,6 @@ int ZynqManager::HidePixels() {
     clog << "info: " << logstream::info << "No DeadPixelMask.txt found or the file is incorrect" << std::endl;
     
   }
-  return 0
+  return 0;
 }
 

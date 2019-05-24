@@ -70,8 +70,7 @@ private:
   * to write is_day.txt
   * Giammanco 05/2019
   **/
-
-  ofstream isDay;
+  std::ofstream isDay;
 
   /**
    * to handle stopping

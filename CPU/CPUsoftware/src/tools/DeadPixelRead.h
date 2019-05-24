@@ -1,11 +1,11 @@
 /* by Corrado Giammanco 30/04/2019*/
 #ifndef _DEAD_PIXEL_H
-#define _DEAD_PIXEl_H
+#define _DEAD_PIXEL_H
 
 #include <iostream>
 #include <fstream>
 
-/* to remoove white space from matrix */
+/* to remove white space from matrix */
 #include <string>
 #include <cctype>
 #include <algorithm>
@@ -18,36 +18,32 @@
 #define DIR_USB0  "/media/usb0"
 #define DIR_USB1 "/media/usb1"
 
-/*************************************/
-/* It reads the file DeadPixelMask.txt which contains the pixels to be swithced-off. A list of the string command to send trought telnet connection i provided
-in  .c2send. This vector has the attribute .line, .ascic and, .pixel  */
 
-//using namespace std ;
-
-
+/**
+ * It reads the file DeadPixelMask.txt which contains the pixels to be switched-off. 
+ * A list of the string command to send trought telnet connection i provided
+ * in  .c2send. This vector has the attribute .line, .asic and, .pixel 
+ */
 class DeadPixelMask{
 
-    struct deadpixel { int BOARD; int ASIC; int Number; int ECU; } pixel; //
+    struct deadpixel { int BOARD; int ASIC; int Number; int ECU; } pixel; 
     struct str2mask  {std::string line; std::string asic; std::string pixel;} cmaskline;
 
     public:
-    std::vector <deadpixel> Dead;  /*vector containing the coordinate of the pixel to mask, just for check*/
+    std::vector <deadpixel> Dead;  /* vector containing the coordinate of the pixel to mask, just to check */
 
-    std::vector <str2mask>  c2send; /*vector containing the command to send in order to mask pixels,
-                                if empty it means that no file is provided or it is wromg*/
+    std::vector <str2mask>  c2send; /* vector containing the command to send in order to mask pixels,
+				      if empty it means that no file is provided or it is wrong */
     std::string directory = CONFIG_DIR_M;
-    std::string direc_usb0= DIR_USB0;
-    std::string direc_usb1= DIR_USB1;
+    std::string direc_usb0 = DIR_USB0;
+    std::string direc_usb1 = DIR_USB1;
     std::string readed_file;
-
 
     DeadPixelMask();
 
     private:
     void Pick_File();
     int ReadDead();
-
-
 
 };
 

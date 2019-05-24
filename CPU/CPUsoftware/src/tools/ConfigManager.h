@@ -11,30 +11,28 @@
 
 #include "log.h"
 
-<<<<<<< HEAD
-#define CONFIG_FILE_USB "/media/usb/main_cpu.conf"
-#define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/main_cpu.conf"
 #ifndef __APPLE__
-#define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
-=======
-//#ifndef __APPLE__
-//#define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
-//#else
-//#define CONFIG_DIR "config_dir"
-//#endif /* __APPLE__ */
 
 #if ARDUINO_DEBUG==1
 #define CONFIG_DIR "/home/minieuso_cpu/CPU/CPUsoftware/config"
 #define CONFIG_FILE_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb0.conf"
 #define CONFIG_FILE_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_usb1.conf"
 #define CONFIG_FILE_LOCAL "/home/minieuso_cpu/CPU/CPUsoftware/config/dummy_local.conf"
->>>>>>> 95bb6edb28b1deab4b4137bb190b3009377d28de
 #else
 #define CONFIG_DIR "/home/software/CPU/CPUsoftware/config"
 #define CONFIG_FILE_USB0 "media/usb0/dummy_usb.conf"
 #define CONFIG_FILE_USB1 "media/usb1/dummy_usb.conf"
 #define CONFIG_FILE_LOCAL "/home/software/CPU/CPUsoftware/config/dummy_local.conf"
-#endif
+#endif /* ARDUINO_DEBUG==1 */ 
+
+#else
+
+#define CONFIG_DIR "config_dir"
+#define CONFIG_FILE_USB0 "dummy_usb.conf"
+#define CONFIG_FILE_USB1 "dummy_usb.conf"
+#define CONFIG_FILE_LOCAL "dummy_local.conf"
+
+#endif /* __APPLE__ */
 
 //#define DIR_USB0 "/home/minieuso_cpu/CPU/CPUsoftware/config"
 //#define DIR_USB1 "/home/minieuso_cpu/CPU/CPUsoftware/config"

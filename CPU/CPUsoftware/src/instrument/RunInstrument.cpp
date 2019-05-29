@@ -625,9 +625,9 @@ printf("\n Pollinstrument ");
 	/* To notifie isDay to an external program for zip purpose*/
 	this->Daq.Notify();
 	this->SetInstMode(DAY);
-    this->isDay.open ("is_day.txt");
-    this->isDay<< "1";
-    this->isDay.close();
+	//this->isDay.open ("is_day.txt");
+	//this->isDay<< "1";
+	//this->isDay.close();
       }
       break;
 
@@ -639,23 +639,23 @@ printf("\n Pollinstrument ");
 	printf("\nPollInst: from day to night\n");
 	this->Data.Notify();
 	this->SetInstMode(NIGHT);
-	/* To notifie isDay to an external program for zip purpose*/
-	this->Daq.Notify();
-	this->SetInstMode(DAY);
-    this->isDay.open ("is_day.txt");
-    this->isDay<< "0";
-    this->isDay.close();
+	///* To notifie isDay to an external program for zip purpose*/
+	//this->Daq.Notify();
+	//this->SetInstMode(DAY);
+	//this->isDay.open ("is_day.txt");
+	//this->isDay<< "0";
+	//this->isDay.close();
       }
       break;
 
     case INST_UNDEF:
       std::cout << "ERROR: instrument mode is undefined" << std::endl;
       /* To notifie isDay to an external program for zip purpose*/
-     this->Daq.Notify();
-	 this->SetInstMode(DAY);
-     this->isDay.open ("is_day.txt");
-     this->isDay<< "3";
-     this->isDay.close();
+      this->Daq.Notify();
+      this->SetInstMode(DAY);
+      //this->isDay.open ("is_day.txt");
+      //this->isDay<< "3";
+      //this->isDay.close();
     break;
     }
 
